@@ -1,13 +1,3 @@
-/**
-@license
-Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
 export const UPDATE_PAGE = "UPDATE_PAGE";
 export const UPDATE_OFFLINE = "UPDATE_OFFLINE";
 export const OPEN_SNACKBAR = "OPEN_SNACKBAR";
@@ -22,7 +12,13 @@ export const navigate = (path) => (dispatch) => {
 	dispatch(loadPage(page));
 };
 
-const loadPage = (page) => (dispatch) => {
+const loadPage = (location) => (dispatch) => {
+
+	const pieces = location.split('/');
+
+	let page = pieces[0];
+	let pageExtra = pieces.length < 2 ? '' : pieces.slice(1).join('/');
+
 	switch(page) {
 	case "main":
 		import("../components/main-view.js");
@@ -32,13 +28,14 @@ const loadPage = (page) => (dispatch) => {
 		import("../components/my-view404.js");
 	}
 
-	dispatch(updatePage(page));
+	dispatch(updatePage(page, pageExtra));
 };
 
-const updatePage = (page) => {
+const updatePage = (page, pageExtra) => {
 	return {
 		type: UPDATE_PAGE,
-		page
+		page,
+		pageExtra,
 	};
 };
 
