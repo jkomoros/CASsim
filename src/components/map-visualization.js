@@ -30,6 +30,7 @@ class MapVisualization extends LitElement {
 			css`
 				:host {
 					--effective-cell-size: var(--cell-size, 1.0em);
+					--total-cell-width: calc(var(--effective-cell-size) * 1.5);
 				}
 
 				.container {
@@ -53,8 +54,7 @@ class MapVisualization extends LitElement {
 		return html`
 			<style>
 				:host {
-					--container-size: ${this._cleanData.cols * 1.5}em;
-					--cell-size: 1.0em;
+					--container-size: calc(${this._cleanData.cols} * var(--total-cell-width));
 				}
 			</style>
 			<div class='container'>
