@@ -36,7 +36,7 @@ const defaultMapForSize = (rows, cols) => {
 	const result = [];
 	for (let r = 0; r < rows; r++) {
 		for (let c = 0; c < cols; c++) {
-			result.push(defaultCellData(row, col));
+			result.push(defaultCellData(r, c));
 		}
 	}
 	return result;
