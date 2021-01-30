@@ -3,6 +3,12 @@ export const UPDATE_OFFLINE = "UPDATE_OFFLINE";
 export const OPEN_SNACKBAR = "OPEN_SNACKBAR";
 export const CLOSE_SNACKBAR = "CLOSE_SNACKBAR";
 
+import {
+	selectPage,
+	selectPageExtra,
+	selectRawCurrentDataIndex,
+} from '../selectors.js';
+
 //if silent is true, then just passively updates the URL to reflect what it should be.
 export const navigatePathTo = (path, silent) => (dispatch) => {
 	//If we're already pointed there, no need to navigate
@@ -13,6 +19,23 @@ export const navigatePathTo = (path, silent) => (dispatch) => {
 	}
 	window.history.pushState({}, '', path);
 	dispatch(navigate(path));
+};
+
+export const canonicalizePath = () => (dispatch ,getState) => {
+	const state = getState();
+	const page = selectPage(state);
+	const pageExtra = selectPageExtra(state);
+	const index = selectRawCurrentDataIndex(state);
+
+	let path = page + '/';
+	
+	if (page == 'main') {
+		if (index >= 0) path += index;
+	} else {
+		path += pageExtra;
+	}
+
+	dispatch(navigatePathTo(path, true));
 };
 
 export const navigate = (path) => (dispatch) => {
