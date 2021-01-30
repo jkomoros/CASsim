@@ -33,8 +33,9 @@ class MyApp extends connect(store)(LitElement) {
 			css`
 				:host {
 					display: block;
-					padding: 24px;
-					max-width: 600px;
+					position: relative;
+					width: 100%;
+					height: 100%;
 				}
 
 				header {

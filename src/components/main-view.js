@@ -1,4 +1,4 @@
-import { html } from "lit-element";
+import { html, css} from "lit-element";
 import { PageViewElement } from "./page-view-element.js";
 import { connect } from "pwa-helpers/connect-mixin.js";
 
@@ -42,7 +42,25 @@ class MainView extends connect(store)(PageViewElement) {
 
 	static get styles() {
 		return [
-			SharedStyles
+			SharedStyles,
+			css`
+				:host {
+					--app-background-color: #356F9E;
+					position:relative;
+					height: 100%;
+					width: 100%;
+				}
+
+				.container {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					height: 100%;
+					width: 100%;
+					background-color: var(--app-background-color);
+				}
+
+			`
 		];
 	}
 
@@ -52,7 +70,9 @@ class MainView extends connect(store)(PageViewElement) {
 
 	render() {
 		return html`
-			<map-visualization .data=${this._expandedMapData}></map-visualization>
+			<div class='container'>
+				<map-visualization .data=${this._expandedMapData}></map-visualization>
+			</div>
 		`;
 	}
 
