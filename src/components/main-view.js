@@ -16,6 +16,10 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
 
 import {
+	fetchData
+} from '../actions/data.js';
+
+import {
 	selectExpandedCurrentMapData
 } from '../selectors.js';
 
@@ -44,6 +48,10 @@ class MainView extends connect(store)(PageViewElement) {
 		];
 	}
 
+	firstUpdated() {
+		store.dispatch(fetchData());
+	}
+
 	render() {
 		return html`
 			<map-visualization .data=${this._expandedMapData}></map-visualization>
@@ -52,7 +60,7 @@ class MainView extends connect(store)(PageViewElement) {
 
 	// This is called every time something is updated in the store.
 	stateChanged(state) {
-		this._expandedMapData = selectExpandedCurrentMapData(data);
+		this._expandedMapData = selectExpandedCurrentMapData(state);
 	}
 }
 
