@@ -8,15 +8,25 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-const INITIAL_STATE = {
-	data: [],
-};
+import { LitElement, html, css } from 'lit-element';
 
-const counter = (state = INITIAL_STATE, action) => {
-	switch (action.type) {
-		default:
-			return state;
+// This is a reusable element. It is not connected to the store. You can
+// imagine that it could just as well be a third-party element that you
+// got from someone else.
+class MapVisualization extends LitElement {
+	static get properties() {
+		return {
+			data: { type: Object },
+		}
 	}
-};
 
-export default counter;
+	render() {
+		return html`
+			<div>
+				<pre>${this.data}</pre>
+			</div>
+		`;
+	}
+}
+
+window.customElements.define('map-visualization', MapVisualization);
