@@ -1,4 +1,24 @@
 
+/*
+expandedMapData has the following shape:
+[
+	{//cell data}
+]
+
+where cell data looks like:
+
+{
+	row: 0,
+	col: 1,
+	value: 0.0,
+	highlighted: true,
+	selected: true,
+	opacity: 0.5;
+}
+
+*/
+
+
 class visualizationMap {
 	constructor(collection, index, data) {
 		this._collection = collection;
