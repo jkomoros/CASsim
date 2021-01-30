@@ -1,9 +1,9 @@
 
 /*
 expandedMapData has the following shape:
-[
-	{//cell data}
-]
+{
+	cells: [//cellData]
+}
 
 where cell data looks like:
 
@@ -55,7 +55,11 @@ class visualizationMap {
 		if (!size) throw new Error("First item did not have a set size");
 		if (!Array.isArray(size)) throw new Error("size command not an array");
 		if (size.length != 2) throw new Error("Size command expects array of lenght 2");
-		const result = defaultMapForSize(...size);
+		const cells = defaultMapForSize(...size);
+
+		const result = {
+			cells,
+		};
 
 		//TODO: compute the final data model here.
 		this._cachedData = result;
