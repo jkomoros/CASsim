@@ -2,10 +2,17 @@
 
 const puppeteer = require("puppeteer");
 const fs = require('fs');
+const path = require('path');
 
 const SCREENSHOT_DIR = 'screenshots';
 
 (async() => {
+
+	const files = fs.readdirSync(SCREENSHOT_DIR);
+	for (const file of files) {
+		fs.unlinkSync(path.join(SCREENSHOT_DIR, file));
+	}
+	
 	if (!fs.existsSync(SCREENSHOT_DIR)) {
 		fs.mkdirSync(SCREENSHOT_DIR);
 	}
