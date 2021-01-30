@@ -21,6 +21,7 @@ const SCREENSHOT_DIR = 'screenshots';
 	const page = await browser.newPage();
 	await page.goto('http://localhost:8081', {waitUntil: 'networkidle2'});
 	await page.evaluate('document.querySelector("body").style.setProperty("--app-background-color", "transparent")');
-	await page.screenshot({path: SCREENSHOT_DIR + '/screenshot.png', omitBackground:true});
+	const ele =await page.evaluateHandle('document.querySelector("my-app").shadowRoot.querySelector("main-view").shadowRoot.querySelector("map-visualization")');
+	await ele.screenshot({path: SCREENSHOT_DIR + '/screenshot.png', omitBackground:true});
 	await browser.close();
 })();
