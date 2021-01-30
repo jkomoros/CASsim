@@ -126,9 +126,12 @@ class visualizationMap {
 			}
 		}
 
-		//TODO: freeze result
+		//Catch bugs easier if we later try to modify this, which should be immutable
+		Object.freeze(result);
+		for (let cell of result.cells) {
+			Object.freeze(cell);
+		}
 
-		//TODO: compute the final data model here.
 		this._cachedData = result;
 	}
 
