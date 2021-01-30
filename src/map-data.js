@@ -58,7 +58,7 @@ class visualizationMap {
 		const result = defaultMapForSize(...size);
 
 		//TODO: compute the final data model here.
-		this._cachedData = {};
+		this._cachedData = result;
 	}
 
 	get expandedData() {
