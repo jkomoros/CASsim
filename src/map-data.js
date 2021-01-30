@@ -50,6 +50,20 @@ export const defaultCellsForSize = (rows, cols) => {
 	return result;
 };
 
+export const defaultVisualizationMapExpandedForCells = (cells) => {
+	let rows = 0;
+	let cols = 0;
+	if (cells.length) {
+		rows = cells.map(cell => cell.row).reduce((prev, curr) => curr > prev ? curr : prev) + 1;
+		cols = cells.map(cell => cell.col).reduce((prev, curr) => curr > prev ? curr : prev) + 1;
+	}
+	return {
+		rows,
+		cols,
+		cells
+	};
+};
+
 class visualizationMap {
 	constructor(collection, index, rawData) {
 		this._collection = collection;
@@ -63,13 +77,8 @@ class visualizationMap {
 		if (!size) throw new Error("First item did not have a set size");
 		if (!Array.isArray(size)) throw new Error("size command not an array");
 		if (size.length != 2) throw new Error("Size command expects array of lenght 2");
-		const cells = defaultCellsForSize(...size);
 
-		const result = {
-			rows: size[0],
-			cols: size[1],
-			cells,
-		};
+		const result = defaultVisualizationMapExpandedForCells(defaultCellsForSize(...size));
 
 		//TODO: compute the final data model here.
 		this._cachedData = result;

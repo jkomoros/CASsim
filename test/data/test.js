@@ -3,6 +3,7 @@
 import {
 	VisualizationMapCollection,
 	defaultCellsForSize,
+	defaultVisualizationMapExpandedForCells,
 	SET_SIZE_COMMAND,
 } from "../../src/map-data.js";
 
@@ -15,11 +16,7 @@ describe("data parsing", () => {
 				[SET_SIZE_COMMAND]: [2,3],
 			}
 		];
-		const golden = {
-			rows: 2,
-			cols: 3,
-			cells: defaultCellsForSize(2,3)
-		};
+		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
