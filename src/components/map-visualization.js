@@ -28,6 +28,10 @@ class MapVisualization extends LitElement {
 	static get styles() {
 		return [
 			css`
+				:host {
+					--effective-cell-size: var(--cell-size, 1.0em);
+				}
+
 				.container {
 					display: flex;
 					flex-wrap: wrap;
@@ -35,11 +39,11 @@ class MapVisualization extends LitElement {
 				}
 
 				.cell {
-					height: 1em;
-					width: 1em;
+					height: var(--effective-cell-size);
+					width: var(--effective-cell-size);
 					background-color:black;
-					margin: 0.25em;
-					border-radius: 0.5em;
+					margin: calc(var(--effective-cell-size) / 4);
+					border-radius: calc(var(--effective-cell-size) / 2);
 				}
 			`
 		];
@@ -50,6 +54,7 @@ class MapVisualization extends LitElement {
 			<style>
 				:host {
 					--container-size: ${this._cleanData.cols * 1.5}em;
+					--cell-size: 1.0em;
 				}
 			</style>
 			<div class='container'>
