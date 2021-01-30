@@ -4,6 +4,19 @@ class visualizationMap {
 		this._collection = collection;
 		this._index = index;
 		this._data = data;
+		this._cachedData = null;
+	}
+
+	_computeData() {
+		//TODO: compute the final data model here.
+		this._cachedData = null;
+	}
+
+	get expandedData() {
+		if (!this._cachedData) {
+			this._computeData();
+		}
+		return this._cachedData;
 	}
 }
 
