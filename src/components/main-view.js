@@ -14,6 +14,7 @@ import {
 import {
 	selectExpandedCurrentMapData,
 	selectPageExtra,
+	selectCurrentDataIndex,
 } from "../selectors.js";
 
 // We are lazy loading its reducer.
@@ -21,6 +22,20 @@ import data from "../reducers/data.js";
 store.addReducers({
 	data
 });
+
+//rendevous point with screenshot service
+const CURRENT_INDEX_VARIABLE = 'current_index';
+const PREVIOUS_MAP_VARIABLE = 'previous_map';
+const RENDER_COMPLETE_VARIABLE = 'render_complete';
+
+window[RENDER_COMPLETE_VARIABLE] = false;
+
+window[PREVIOUS_MAP_VARIABLE] = () => {
+	//The main-view will set this high when update is done
+	window[RENDER_COMPLETE_VARIABLE] = false;
+	store.dispatch(prevIndex());
+};
+
 
 import "./map-visualization.js";
 
@@ -42,6 +57,7 @@ class MainView extends connect(store)(PageViewElement) {
 			// This is the data from the store.
 			_expandedMapData: { type: Object },
 			_pageExtra: { type: String },
+			_currentIndex: { type: Number },
 		};
 	}
 
@@ -98,12 +114,20 @@ class MainView extends connect(store)(PageViewElement) {
 	stateChanged(state) {
 		this._expandedMapData = selectExpandedCurrentMapData(state);
 		this._pageExtra = selectPageExtra(state);
+		this._currentIndex = selectCurrentDataIndex(state);
+
+		this.updateComplete.then(() => {
+			window[RENDER_COMPLETE_VARIABLE] = true;
+		});
 	}
 
 	updated(changedProps) {
 		if (changedProps.has('_pageExtra')) {
 			const index = this._pageExtra ? parseInt(this._pageExtra) : -1;
 			store.dispatch(updateIndex(index));
+		}
+		if (changedProps.has('_currentIndex')) {
+			window[CURRENT_INDEX_VARIABLE] = this._currentIndex;
 		}
 	}
 }
