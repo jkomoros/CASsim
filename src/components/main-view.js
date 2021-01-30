@@ -10,7 +10,8 @@ import {
 } from "../actions/data.js";
 
 import {
-	selectExpandedCurrentMapData
+	selectExpandedCurrentMapData,
+	selectPageExtra,
 } from "../selectors.js";
 
 // We are lazy loading its reducer.
@@ -23,6 +24,7 @@ import "./map-visualization.js";
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from "./shared-styles.js";
+import { updateIndex } from '../actions/data.js';
 
 const fetchData = async() => {
 	const res = await fetch("/map_data.json");
@@ -37,6 +39,7 @@ class MainView extends connect(store)(PageViewElement) {
 		return {
 			// This is the data from the store.
 			_expandedMapData: { type: Object },
+			_pageExtra: { type: String },
 		};
 	}
 
@@ -78,6 +81,14 @@ class MainView extends connect(store)(PageViewElement) {
 	// This is called every time something is updated in the store.
 	stateChanged(state) {
 		this._expandedMapData = selectExpandedCurrentMapData(state);
+		this._pageExtra = selectPageExtra(state);
+	}
+
+	updated(changedProps) {
+		if (changedProps.has('_pageExtra')) {
+			const index = this._pageExtra ? parseInt(this._pageExtra) : -1;
+			store.dispatch(updateIndex(index));
+		}
 	}
 }
 

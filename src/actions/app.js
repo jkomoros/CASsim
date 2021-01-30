@@ -3,6 +3,18 @@ export const UPDATE_OFFLINE = "UPDATE_OFFLINE";
 export const OPEN_SNACKBAR = "OPEN_SNACKBAR";
 export const CLOSE_SNACKBAR = "CLOSE_SNACKBAR";
 
+//if silent is true, then just passively updates the URL to reflect what it should be.
+export const navigatePathTo = (path, silent) => (dispatch) => {
+	//If we're already pointed there, no need to navigate
+	if ('/' + path === window.location.pathname) return;
+	if (silent) {
+		window.history.replaceState({}, '', path);
+		return;
+	}
+	window.history.pushState({}, '', path);
+	dispatch(navigate(path));
+};
+
 export const navigate = (path) => (dispatch) => {
 	// Extract the page name from path.
 	const page = path === "/" ? "main" : path.slice(1);
