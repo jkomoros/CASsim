@@ -61,7 +61,11 @@ class MapVisualization extends LitElement {
 				}
 
 				.cell.highlighted {
-					border: 0.25em solid var(--selected-cell-color, white);
+					border: 0.25em solid var(--highlighted-cell-color, white);
+				}
+
+				.cell.captured {
+					border: 0.25em solid var(--captured-cell-color, black);
 				}
 			`
 		];
@@ -81,7 +85,7 @@ class MapVisualization extends LitElement {
 	}
 
 	_htmlForCell(cell) {
-		return html`<div class='cell ${cell.highlighted ? "highlighted" : ""}'><div class='${cell.value < 0.0 ? "negative" : ""}' style='opacity:${Math.abs(cell.value)}'></div></div>`;
+		return html`<div class='cell ${cell.highlighted ? "highlighted" : ""} ${cell.captured ? 'captured' : ''}'><div class='${cell.value < 0.0 ? "negative" : ""}' style='opacity:${Math.abs(cell.value)}'></div></div>`;
 	}
 
 	get _cleanData() {

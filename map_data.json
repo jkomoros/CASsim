@@ -2,6 +2,7 @@
 	{
 		"set_size": [8,15],
 		"set_highlighted": [[true, [0, 0]]],
+		"set_captured": [[true, [1, 0]]],
 		"set_value": [
 			[1.0, [0,1]],
 			[0.2, [0,2]],

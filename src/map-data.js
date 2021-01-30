@@ -38,7 +38,15 @@ export const SET_SIZE_COMMAND = "set_size";
 //Expects a cellValueCommand (see above)
 export const SET_HIGHLIGHTED_COMMAND = "set_highlighted";
 //Expects a cellValueCommand (see above)
+export const SET_CAPTURED_COMMAND = "set_captured";
+//Expects a cellValueCommand (see above)
 export const SET_VALUE_COMMAND = "set_value";
+
+const SET_COMMANDS = {
+	[SET_HIGHLIGHTED_COMMAND]: 'highlighted',
+	[SET_CAPTURED_COMMAND]: 'captured',
+	[SET_VALUE_COMMAND]: 'value',
+};
 
 const defaultCellData = (row, col) => {
 	return {
@@ -108,22 +116,15 @@ class visualizationMap {
 		//Copy cells so we can modify them
 		result.cells = result.cells.map(cell => ({...cell}));
 
-		const selectedCommand = this._rawData[SET_HIGHLIGHTED_COMMAND];
-		if (selectedCommand) {
-			for (const command of selectedCommand) {
-				const valueToSet = command[0];
-				const cellReference = command[1];
-				setPropertiesOnMap(result, "highlighted", valueToSet, cellReference);
-			}
-		}
-
-		const valueCommand = this._rawData[SET_VALUE_COMMAND];
-		if (valueCommand) {
-			for (const command of valueCommand) {
-				const valueToSet = command[0];
-				const cellReference = command[1];
-				setPropertiesOnMap(result, "value", valueToSet, cellReference);
-			}
+		for (const [commandType, propertyName] of Object.entries(SET_COMMANDS)) {
+			const commands = this._rawData[commandType];
+			if (commands) {
+				for (const command of commands) {
+					const valueToSet = command[0];
+					const cellReference = command[1];
+					setPropertiesOnMap(result, propertyName, valueToSet, cellReference);
+				}
+			}	
 		}
 
 		//Catch bugs easier if we later try to modify this, which should be immutable

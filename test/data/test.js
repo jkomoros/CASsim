@@ -7,7 +7,8 @@ import {
 	getCellFromMap,
 	SET_SIZE_COMMAND,
 	SET_HIGHLIGHTED_COMMAND,
-	SET_VALUE_COMMAND
+	SET_VALUE_COMMAND,
+	SET_CAPTURED_COMMAND,
 } from "../../src/map-data.js";
 
 import assert from "assert";
@@ -97,6 +98,23 @@ describe("data parsing", () => {
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).value = 1.0;
 		getCellFromMap(golden, 0, 1).value = -1.0;
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
+	});
+
+	it("supports capturing multiple cells", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_CAPTURED_COMMAND]: [[true, [0,0]], [true, [0,1]]],
+			}
+		];
+		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		getCellFromMap(golden, 0, 0).captured = true;
+		getCellFromMap(golden, 0, 1).captured = true;
+
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
