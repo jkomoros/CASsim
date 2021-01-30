@@ -5,6 +5,7 @@ import {
 
 const INITIAL_STATE = {
 	data: [],
+	//-1 signals it should be the default value, either 0 or the last state
 	index: -1,
 };
 
@@ -14,7 +15,6 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			data: action.data,
-			index: state.index == -1 ? action.data.length - 1 : state.index,
 		};
 	case UPDATE_INDEX:
 		return {

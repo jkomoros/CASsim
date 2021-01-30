@@ -6,12 +6,17 @@ import {
 
 const selectRawMapData = state => state.data ? state.data.data : [];
 export const selectRawCurrentDataIndex = state => state.data ? state.data.index : 0;
-export const selectCurrentDataIndex = state => {
-	if (!state.data) return 0;
-	const result = selectRawCurrentDataIndex(state);
-	if (result < 0) return 0;
-	return result;
-};
+
+export const selectCurrentDataIndex = createSelector(
+	selectRawCurrentDataIndex,
+	selectRawMapData,
+	(rawIndex, mapData) => {
+		if (rawIndex >= 0) return rawIndex;
+		if (mapData.length == 0) return 0;
+		return mapData.length - 1;
+	}
+);
+
 export const selectPage = state => state.app ? state.app.page : '';
 export const selectPageExtra = state => state.app ? state.app.pageExtra : '';
 
