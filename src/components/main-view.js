@@ -45,7 +45,6 @@ class MainView extends connect(store)(PageViewElement) {
 			SharedStyles,
 			css`
 				:host {
-					--app-background-color: #356F9E;
 					position:relative;
 					height:100vh;
 					width: 100vw;
@@ -57,7 +56,7 @@ class MainView extends connect(store)(PageViewElement) {
 					align-items: center;
 					height: 100%;
 					width: 100%;
-					background-color: var(--app-background-color);
+					background-color: var(--app-background-color, #356F9E);
 				}
 
 			`
