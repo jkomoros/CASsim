@@ -29,7 +29,7 @@ export const EMPTY_EXPANDED_MAP_DATA = {
 //Expects an array of [rows, cols] for size of map.
 export const SET_SIZE_COMMAND = "set_size";
 
-export const defaultCellData = (row, col) => {
+const defaultCellData = (row, col) => {
 	return {
 		row,
 		col,
@@ -40,7 +40,7 @@ export const defaultCellData = (row, col) => {
 	};
 };
 
-const defaultMapForSize = (rows, cols) => {
+export const defaultCellsForSize = (rows, cols) => {
 	const result = [];
 	for (let r = 0; r < rows; r++) {
 		for (let c = 0; c < cols; c++) {
@@ -63,7 +63,7 @@ class visualizationMap {
 		if (!size) throw new Error("First item did not have a set size");
 		if (!Array.isArray(size)) throw new Error("size command not an array");
 		if (size.length != 2) throw new Error("Size command expects array of lenght 2");
-		const cells = defaultMapForSize(...size);
+		const cells = defaultCellsForSize(...size);
 
 		const result = {
 			rows: size[0],
