@@ -21,7 +21,7 @@ import { increment, decrement } from '../actions/data.js';
 // We are lazy loading its reducer.
 import data from '../reducers/data.js';
 store.addReducers({
-  data
+	data
 });
 
 // These are the elements needed by this element.
@@ -31,59 +31,59 @@ import './counter-element.js';
 import { SharedStyles } from './shared-styles.js';
 
 class MainView extends connect(store)(PageViewElement) {
-  static get properties() {
-    return {
-      // This is the data from the store.
-      _clicks: { type: Number },
-      _value: { type: Number }
-    };
-  }
+	static get properties() {
+		return {
+			// This is the data from the store.
+			_clicks: { type: Number },
+			_value: { type: Number }
+		};
+	}
 
-  static get styles() {
-    return [
-      SharedStyles
-    ];
-  }
+	static get styles() {
+		return [
+			SharedStyles
+		];
+	}
 
-  render() {
-    return html`
-      <section>
-        <h2>Redux example: simple counter</h2>
-        <div>Number of clicks: <b>${this._value}</b></div>
-        <p>This page contains a reusable <code>&lt;counter-element&gt;</code>. The
-        element is not built in a Redux-y way (you can think of it as being a
-        third-party element you got from someone else), but this page is connected to the
-        Redux store. When the element updates its counter, this page updates the values
-        in the Redux store, and you can see the current value of the counter reflected in
-        the bubble above.</p>
-        <br>
-      </section>
-      <section>
-        <p>
-          <counter-element
-              value="${this._value}"
-              clicks="${this._clicks}"
-              @counter-incremented="${this._counterIncremented}"
-              @counter-decremented="${this._counterDecremented}">
-          </counter-element>
-        </p>
-      </section>
-    `;
-  }
+	render() {
+		return html`
+			<section>
+				<h2>Redux example: simple counter</h2>
+				<div>Number of clicks: <b>${this._value}</b></div>
+				<p>This page contains a reusable <code>&lt;counter-element&gt;</code>. The
+				element is not built in a Redux-y way (you can think of it as being a
+				third-party element you got from someone else), but this page is connected to the
+				Redux store. When the element updates its counter, this page updates the values
+				in the Redux store, and you can see the current value of the counter reflected in
+				the bubble above.</p>
+				<br>
+			</section>
+			<section>
+				<p>
+					<counter-element
+							value="${this._value}"
+							clicks="${this._clicks}"
+							@counter-incremented="${this._counterIncremented}"
+							@counter-decremented="${this._counterDecremented}">
+					</counter-element>
+				</p>
+			</section>
+		`;
+	}
 
-  _counterIncremented() {
-    store.dispatch(increment());
-  }
+	_counterIncremented() {
+		store.dispatch(increment());
+	}
 
-  _counterDecremented() {
-    store.dispatch(decrement());
-  }
+	_counterDecremented() {
+		store.dispatch(decrement());
+	}
 
-  // This is called every time something is updated in the store.
-  stateChanged(state) {
-    this._clicks = state.data.clicks;
-    this._value = state.data.value;
-  }
+	// This is called every time something is updated in the store.
+	stateChanged(state) {
+		this._clicks = state.data.clicks;
+		this._value = state.data.value;
+	}
 }
 
 window.customElements.define('main-view', MainView);
