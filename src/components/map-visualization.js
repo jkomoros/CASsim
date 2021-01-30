@@ -43,10 +43,21 @@ class MapVisualization extends LitElement {
 				.cell {
 					height: var(--effective-cell-size);
 					width: var(--effective-cell-size);
-					background-color:black;
+					background-color: white;
 					margin: var(--cell-margin);
 					border-radius: calc(var(--effective-cell-size) / 2);
 					box-sizing: border-box;
+					overflow: hidden;
+				}
+
+				.cell div {
+					height: 100%;
+					width: 100%;
+					background-color: var(--positive-cell-color, #38761D);
+				}
+
+				.cell div.negative {
+					background-color: var(--negative-cell-color, #CC0000);
 				}
 
 				.cell.selected {
@@ -70,7 +81,7 @@ class MapVisualization extends LitElement {
 	}
 
 	_htmlForCell(cell) {
-		return html`<div class='cell ${cell.selected ? "selected" : ""}'></div>`;
+		return html`<div class='cell ${cell.selected ? "selected" : ""}'><div class='${cell.value < 0.0 ? "negative" : ""}' style='opacity:${Math.abs(cell.value)}'></div></div>`;
 	}
 
 	get _cleanData() {
