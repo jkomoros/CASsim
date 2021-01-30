@@ -15,7 +15,7 @@ export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
 
 export const navigate = (path) => (dispatch) => {
   // Extract the page name from path.
-  const page = path === '/' ? 'view2' : path.slice(1);
+  const page = path === '/' ? 'main' : path.slice(1);
 
   // Any other info you might want to extract from the path (like page type),
   // you can do here
@@ -24,8 +24,8 @@ export const navigate = (path) => (dispatch) => {
 
 const loadPage = (page) => (dispatch) => {
   switch(page) {
-    case 'view2':
-      import('../components/my-view2.js');
+    case 'main':
+      import('../components/main-view.js');
       break;
     default:
       page = 'view404';

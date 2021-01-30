@@ -97,14 +97,9 @@ class MyApp extends connect(store)(LitElement) {
     return html`
       <!-- Main content -->
       <main role="main" class="main-content">
-        <my-view2 class="page" ?active="${this._page === 'view2'}"></my-view2>
+        <main-view class="page" ?active="${this._page === 'main'}"></main-view>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>
-
-      <footer>
-        <p>Made with &hearts; by the Polymer team.</p>
-      </footer>
-
       <snack-bar ?active="${this._snackbarOpened}">
         You are now ${this._offline ? 'offline' : 'online'}.
       </snack-bar>
