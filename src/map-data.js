@@ -14,7 +14,7 @@ where cell data looks like:
 	col: 1,
 	value: 0.0,
 	highlighted: true,
-	selected: true,
+	captured: true,
 	opacity: 0.5;
 }
 
@@ -36,7 +36,7 @@ export const EMPTY_EXPANDED_MAP_DATA = {
 //Expects an array of [rows, cols] for size of map.
 export const SET_SIZE_COMMAND = "set_size";
 //Expects a cellValueCommand (see above)
-export const SET_SELECTED_COMMAND = "set_selected";
+export const SET_HIGHLIGHTED_COMMAND = "set_highlighted";
 //Expects a cellValueCommand (see above)
 export const SET_VALUE_COMMAND = "set_value";
 
@@ -46,7 +46,7 @@ const defaultCellData = (row, col) => {
 		col,
 		value: 0.0,
 		highlighted: false,
-		selected: false,
+		captured: false,
 		opacity: 1.0,
 	};
 };
@@ -108,12 +108,12 @@ class visualizationMap {
 		//Copy cells so we can modify them
 		result.cells = result.cells.map(cell => ({...cell}));
 
-		const selectedCommand = this._rawData[SET_SELECTED_COMMAND];
+		const selectedCommand = this._rawData[SET_HIGHLIGHTED_COMMAND];
 		if (selectedCommand) {
 			for (const command of selectedCommand) {
 				const valueToSet = command[0];
 				const cellReference = command[1];
-				setPropertiesOnMap(result, "selected", valueToSet, cellReference);
+				setPropertiesOnMap(result, "highlighted", valueToSet, cellReference);
 			}
 		}
 

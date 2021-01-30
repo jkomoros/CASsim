@@ -1,7 +1,7 @@
 [
 	{
 		"set_size": [8,15],
-		"set_selected": [[true, [0, 0]]],
+		"set_highlighted": [[true, [0, 0]]],
 		"set_value": [
 			[1.0, [0,1]],
 			[0.2, [0,2]],

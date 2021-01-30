@@ -6,7 +6,7 @@ import {
 	defaultVisualizationMapExpandedForCells,
 	getCellFromMap,
 	SET_SIZE_COMMAND,
-	SET_SELECTED_COMMAND,
+	SET_HIGHLIGHTED_COMMAND,
 	SET_VALUE_COMMAND
 } from "../../src/map-data.js";
 
@@ -41,12 +41,12 @@ describe("data parsing", () => {
 		const input = [
 			{
 				[SET_SIZE_COMMAND]: [2,3],
-				[SET_SELECTED_COMMAND]: [[true, [0,0]]],
+				[SET_HIGHLIGHTED_COMMAND]: [[true, [0,0]]],
 			}
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		const cell = getCellFromMap(golden, 0, 0);
-		cell.selected = true;
+		cell.highlighted = true;
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
@@ -57,12 +57,12 @@ describe("data parsing", () => {
 		const input = [
 			{
 				[SET_SIZE_COMMAND]: [2,3],
-				[SET_SELECTED_COMMAND]: [[true, [0,0]], [true, [0,1]]],
+				[SET_HIGHLIGHTED_COMMAND]: [[true, [0,0]], [true, [0,1]]],
 			}
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
-		getCellFromMap(golden, 0, 0).selected = true;
-		getCellFromMap(golden, 0, 1).selected = true;
+		getCellFromMap(golden, 0, 0).highlighted = true;
+		getCellFromMap(golden, 0, 1).highlighted = true;
 
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
@@ -74,10 +74,10 @@ describe("data parsing", () => {
 		const input = [
 			{
 				[SET_SIZE_COMMAND]: [2,3],
-				[SET_SELECTED_COMMAND]: [[true, [0,0]]],
+				[SET_HIGHLIGHTED_COMMAND]: [[true, [0,0]]],
 			},
 			{
-				[SET_SELECTED_COMMAND]: [[false, [0,0]]],
+				[SET_HIGHLIGHTED_COMMAND]: [[false, [0,0]]],
 			}
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));

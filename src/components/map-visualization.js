@@ -60,7 +60,7 @@ class MapVisualization extends LitElement {
 					background-color: var(--negative-cell-color, #CC0000);
 				}
 
-				.cell.selected {
+				.cell.highlighted {
 					border: 0.25em solid var(--selected-cell-color, white);
 				}
 			`
@@ -81,7 +81,7 @@ class MapVisualization extends LitElement {
 	}
 
 	_htmlForCell(cell) {
-		return html`<div class='cell ${cell.selected ? "selected" : ""}'><div class='${cell.value < 0.0 ? "negative" : ""}' style='opacity:${Math.abs(cell.value)}'></div></div>`;
+		return html`<div class='cell ${cell.highlighted ? "highlighted" : ""}'><div class='${cell.value < 0.0 ? "negative" : ""}' style='opacity:${Math.abs(cell.value)}'></div></div>`;
 	}
 
 	get _cleanData() {
