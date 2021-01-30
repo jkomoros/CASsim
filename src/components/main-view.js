@@ -16,12 +16,12 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
 
 // These are the actions needed by this element.
-import { increment, decrement } from '../actions/counter.js';
+import { increment, decrement } from '../actions/data.js';
 
 // We are lazy loading its reducer.
-import counter from '../reducers/counter.js';
+import data from '../reducers/data.js';
 store.addReducers({
-  counter
+  data
 });
 
 // These are the elements needed by this element.
@@ -81,8 +81,8 @@ class MainView extends connect(store)(PageViewElement) {
 
   // This is called every time something is updated in the store.
   stateChanged(state) {
-    this._clicks = state.counter.clicks;
-    this._value = state.counter.value;
+    this._clicks = state.data.clicks;
+    this._value = state.data.value;
   }
 }
 
