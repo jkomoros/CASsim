@@ -12,11 +12,8 @@
     "build:static": "polymer build",
     "serve": "prpl-server --root server/build",
     "serve:static": "polymer serve --port 5000 build/es5-bundled",
-    "test": "npm run test:unit && npm run test:integration",
-    "test:integration": "mocha test/integration --timeout=10000",
-    "test:unit": "polymer test --module-resolution=node --npm",
-    "test:sauce": "polymer test --module-resolution=node --npm -s 'windows 10/microsoftedge@17' -s 'macos 10.13/safari@11'",
-    "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=15000"
+    "test": "npm run test:data",
+    "test:data": "mocha -r esm test/data --timeout=10000"
   },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.4",
@@ -32,6 +29,7 @@
     "chai": "^4.1.2",
     "del": "^3.0.0",
     "eslint": "^7.18.0",
+    "esm": "^3.2.25",
     "gulp": "^4.0.0",
     "gulp-rename": "^1.3.0",
     "gulp-replace": "^1.0.0",

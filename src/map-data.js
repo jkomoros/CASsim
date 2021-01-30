@@ -27,9 +27,9 @@ export const EMPTY_EXPANDED_MAP_DATA = {
 };
 
 //Expects an array of [rows, cols] for size of map.
-const SET_SIZE_COMMAND = "set_size";
+export const SET_SIZE_COMMAND = "set_size";
 
-const defaultCellData = (row, col) => {
+export const defaultCellData = (row, col) => {
 	return {
 		row,
 		col,
