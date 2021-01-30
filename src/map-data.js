@@ -26,8 +26,17 @@ export const EMPTY_EXPANDED_MAP_DATA = {
 	cells: [],
 };
 
+/*
+	cellValueCommands are arrays, where each element is of the shape [valueToSet, CellReference]
+
+	where cellReference is one of:
+	* [row, col] for a single cell
+*/
+
 //Expects an array of [rows, cols] for size of map.
 export const SET_SIZE_COMMAND = "set_size";
+//Expects a cellValueCommand (see above)
+export const SET_SELECTED_COMMAND = "set_selected";
 
 const defaultCellData = (row, col) => {
 	return {
@@ -73,12 +82,18 @@ class visualizationMap {
 	}
 
 	_computeData() {
+		const previous = this._index > 0 ? this._collection.dataForIndex(this._index - 1).expandedData : defaultVisualizationMapExpandedForCells([]);
 		const size = this._rawData[SET_SIZE_COMMAND];
 		if (!size) throw new Error("First item did not have a set size");
 		if (!Array.isArray(size)) throw new Error("size command not an array");
 		if (size.length != 2) throw new Error("Size command expects array of lenght 2");
 
-		const result = defaultVisualizationMapExpandedForCells(defaultCellsForSize(...size));
+		const result = {
+			...previous,
+			cells: defaultCellsForSize(...size),
+			rows: size[0],
+			cols: size[1],
+		};
 
 		//TODO: compute the final data model here.
 		this._cachedData = result;
