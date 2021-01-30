@@ -5,7 +5,7 @@ import {
 } from "./map-data.js";
 
 const selectRawMapData = state => state.data ? state.data.data : [];
-const selectCurrentDataIndex = () => 0;
+const selectCurrentDataIndex = state => state.data ? state.data.index : 0;
 
 const selectVisualizationMapCollection = createSelector(
 	selectRawMapData,

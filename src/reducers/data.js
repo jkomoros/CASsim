@@ -4,6 +4,7 @@ import {
 
 const INITIAL_STATE = {
 	data: [],
+	index: 0,
 };
 
 const data = (state = INITIAL_STATE, action) => {
@@ -12,6 +13,7 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			data: action.data,
+			index: action.data.length - 1,
 		};
 	default:
 		return state;
