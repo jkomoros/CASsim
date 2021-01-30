@@ -37,6 +37,8 @@ export const EMPTY_EXPANDED_MAP_DATA = {
 export const SET_SIZE_COMMAND = "set_size";
 //Expects a cellValueCommand (see above)
 export const SET_SELECTED_COMMAND = "set_selected";
+//Expects a cellValueCommand (see above)
+export const SET_VALUE_COMMAND = "set_value";
 
 const defaultCellData = (row, col) => {
 	return {
@@ -112,6 +114,15 @@ class visualizationMap {
 				const valueToSet = command[0];
 				const cellReference = command[1];
 				setPropertiesOnMap(result, "selected", valueToSet, cellReference);
+			}
+		}
+
+		const valueCommand = this._rawData[SET_VALUE_COMMAND];
+		if (valueCommand) {
+			for (const command of valueCommand) {
+				const valueToSet = command[0];
+				const cellReference = command[1];
+				setPropertiesOnMap(result, "value", valueToSet, cellReference);
 			}
 		}
 
