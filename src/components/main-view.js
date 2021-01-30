@@ -6,7 +6,9 @@ import { connect } from "pwa-helpers/connect-mixin.js";
 import { store } from "../store.js";
 
 import {
-	loadData
+	loadData,
+	nextIndex,
+	prevIndex,
 } from "../actions/data.js";
 
 import {
@@ -68,6 +70,20 @@ class MainView extends connect(store)(PageViewElement) {
 
 	firstUpdated() {
 		fetchData();
+		document.addEventListener('keydown', e => this._handleKeyDown(e));
+	}
+
+	_handleKeyDown(e) {
+		//We have to hook this to issue content editable commands when we're
+		//active. But most of the time we don't want to do anything.
+		if (!this.active) return;
+
+		if (e.key == 'ArrowRight') {
+			store.dispatch(nextIndex());
+		} else if (e.key == 'ArrowLeft') {
+			store.dispatch(prevIndex());
+		}
+
 	}
 
 	render() {
