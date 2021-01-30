@@ -39,6 +39,7 @@ class MapVisualization extends LitElement {
 					width: 1em;
 					background-color:black;
 					margin: 0.25em;
+					border-radius: 0.5em;
 				}
 			`
 		];
