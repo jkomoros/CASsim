@@ -35,6 +35,7 @@ describe("data parsing", () => {
 		const map = collection.dataForIndex(0);
 		assert.throws(() => map.expandedData);
 	});
+
 	it("supports selecting a single cell", async () => {
 		const input = [
 			{
@@ -45,6 +46,40 @@ describe("data parsing", () => {
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		const cell = getCellFromMap(golden, 0, 0);
 		cell.selected = true;
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
+	});
+
+	it("supports selecting multiple cells", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_SELECTED_COMMAND]: [[true, [0,0]], [true, [0,1]]],
+			}
+		];
+		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		getCellFromMap(golden, 0, 0).selected = true;
+		getCellFromMap(golden, 0, 1).selected = true;
+
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
+	});
+
+	it("supports unselecting a cell", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_SELECTED_COMMAND]: [[true, [0,0]]],
+			},
+			{
+				[SET_SELECTED_COMMAND]: [[false, [0,0]]],
+			}
+		];
+		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
