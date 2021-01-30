@@ -17,6 +17,6 @@ export const selectExpandedCurrentMapData = createSelector(
 	selectCurrentDataIndex,
 	(visualizationCollection, currentIndex) => {
 		const data = visualizationCollection.dataForIndex(currentIndex);
-		return data ? data.expandedData : {};
+		return data ? data.expandedData : null;
 	}
 );

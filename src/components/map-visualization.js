@@ -11,6 +11,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { LitElement, html, css } from "lit-element";
 import { repeat } from "lit-html/directives/repeat";
 
+import {
+	EMPTY_EXPANDED_MAP_DATA
+} from "../map-data.js";
+
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
@@ -27,6 +31,7 @@ class MapVisualization extends LitElement {
 				.container {
 					display: flex;
 					flex-wrap: wrap;
+					width: var(--container-size);
 				}
 
 				.cell {
@@ -41,14 +46,23 @@ class MapVisualization extends LitElement {
 
 	render() {
 		return html`
+			<style>
+				.container {
+					--container-size: ${this._cleanData.cols * 1.25 - 0.25}em;
+				}
+			</style>
 			<div class='container'>
-				${repeat(this.data.cells,item => "" + item.row + "-" + item.col, item => this._htmlForCell(item))}
+				${repeat(this._cleanData.cells,item => "" + item.row + "-" + item.col, item => this._htmlForCell(item))}
 			</div>
 		`;
 	}
 
 	_htmlForCell() {
 		return html`<div class='cell'></div>`;
+	}
+
+	get _cleanData() {
+		return this.data || EMPTY_EXPANDED_MAP_DATA;
 	}
 }
 

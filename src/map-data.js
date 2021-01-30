@@ -2,6 +2,8 @@
 /*
 expandedMapData has the following shape:
 {
+	rows: 5,
+	cols: 5,
 	cells: [//cellData]
 }
 
@@ -17,6 +19,12 @@ where cell data looks like:
 }
 
 */
+
+export const EMPTY_EXPANDED_MAP_DATA = {
+	rows:0,
+	cols:0,
+	cells: [],
+};
 
 //Expects an array of [rows, cols] for size of map.
 const SET_SIZE_COMMAND = "set_size";
@@ -58,6 +66,8 @@ class visualizationMap {
 		const cells = defaultMapForSize(...size);
 
 		const result = {
+			rows: size[0],
+			cols: size[1],
 			cells,
 		};
 
