@@ -1,5 +1,6 @@
 [
 	{
-		"set_size": [8,15]
+		"set_size": [8,15],
+		"set_selected": [[true, [0, 0]]]
 	}
 ]

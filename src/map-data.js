@@ -73,6 +73,15 @@ export const defaultVisualizationMapExpandedForCells = (cells) => {
 	};
 };
 
+export const getCellFromMap = (map, row, col) => {
+	return map.cells[row * map.cols + col];
+};
+
+const setPropertiesOnMap = (map, propertyName, valueToSet, cellReferences) => {
+	const cell = getCellFromMap(map, cellReferences[0], cellReferences[1]);
+	cell[propertyName] = valueToSet;
+};
+
 class visualizationMap {
 	constructor(collection, index, rawData) {
 		this._collection = collection;
@@ -93,6 +102,20 @@ class visualizationMap {
 			result.rows = sizeCommand[0];
 			result.cols = sizeCommand[1];
 		}
+
+		//Copy cells so we can modify them
+		result.cells = result.cells.map(cell => ({...cell}));
+
+		const selectedCommand = this._rawData[SET_SELECTED_COMMAND];
+		if (selectedCommand) {
+			for (const command of selectedCommand) {
+				const valueToSet = command[0];
+				const cellReference = command[1];
+				setPropertiesOnMap(result, "selected", valueToSet, cellReference);
+			}
+		}
+
+		//TODO: freeze result
 
 		//TODO: compute the final data model here.
 		this._cachedData = result;
