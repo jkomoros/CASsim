@@ -19,7 +19,7 @@ where cell data looks like:
 */
 
 //Expects an array of [rows, cols] for size of map.
-const SET_SIZE_COMMAND = 'set_size';
+const SET_SIZE_COMMAND = "set_size";
 
 const defaultCellData = (row, col) => {
 	return {
@@ -29,8 +29,8 @@ const defaultCellData = (row, col) => {
 		highlighted: false,
 		selected: false,
 		opacity: 1.0,
-	}
-}
+	};
+};
 
 const defaultMapForSize = (rows, cols) => {
 	const result = [];
@@ -40,7 +40,7 @@ const defaultMapForSize = (rows, cols) => {
 		}
 	}
 	return result;
-}
+};
 
 class visualizationMap {
 	constructor(collection, index, rawData) {
@@ -52,9 +52,9 @@ class visualizationMap {
 
 	_computeData() {
 		const size = this._rawData[SET_SIZE_COMMAND];
-		if (!size) throw new Error('First item did not have a set size');
-		if (!Array.isArray(size)) throw new Error('size command not an array');
-		if (size.length != 2) throw new Error('Size command expects array of lenght 2');
+		if (!size) throw new Error("First item did not have a set size");
+		if (!Array.isArray(size)) throw new Error("size command not an array");
+		if (size.length != 2) throw new Error("Size command expects array of lenght 2");
 		const result = defaultMapForSize(...size);
 
 		//TODO: compute the final data model here.
