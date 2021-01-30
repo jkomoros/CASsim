@@ -46,6 +46,11 @@ class MapVisualization extends LitElement {
 					background-color:black;
 					margin: var(--cell-margin);
 					border-radius: calc(var(--effective-cell-size) / 2);
+					box-sizing: border-box;
+				}
+
+				.cell.selected {
+					border: 0.25em solid var(--selected-cell-color, white);
 				}
 			`
 		];
@@ -64,8 +69,8 @@ class MapVisualization extends LitElement {
 		`;
 	}
 
-	_htmlForCell() {
-		return html`<div class='cell'></div>`;
+	_htmlForCell(cell) {
+		return html`<div class='cell ${cell.selected ? "selected" : ""}'></div>`;
 	}
 
 	get _cleanData() {
