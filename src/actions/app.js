@@ -7,6 +7,7 @@ import {
 	selectPage,
 	selectPageExtra,
 	selectRawCurrentDataIndex,
+	selectMaxLegalIndex,
 } from '../selectors.js';
 
 //if silent is true, then just passively updates the URL to reflect what it should be.
@@ -26,11 +27,13 @@ export const canonicalizePath = () => (dispatch ,getState) => {
 	const page = selectPage(state);
 	const pageExtra = selectPageExtra(state);
 	const index = selectRawCurrentDataIndex(state);
+	const maxIndex = selectMaxLegalIndex(state);
 
 	let path = page + '/';
 	
 	if (page == 'main') {
-		if (index >= 0) path += index;
+		//If we're max index, then leave it off the URL, so we'll just naturally be whatever the highest state is
+		if (index >= 0 && index != maxIndex) path += index;
 	} else {
 		path += pageExtra;
 	}
