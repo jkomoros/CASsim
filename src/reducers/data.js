@@ -1,6 +1,6 @@
 import {
 	LOAD_DATA
-} from '../actions/data.js';
+} from "../actions/data.js";
 
 const INITIAL_STATE = {
 	data: [],
@@ -8,13 +8,13 @@ const INITIAL_STATE = {
 
 const data = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case LOAD_DATA:
-			return {
-				...state,
-				data: action.data,
-			};
-		default:
-			return state;
+	case LOAD_DATA:
+		return {
+			...state,
+			data: action.data,
+		};
+	default:
+		return state;
 	}
 };
 
