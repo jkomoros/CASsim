@@ -29,8 +29,9 @@ class MapVisualization extends LitElement {
 		return [
 			css`
 				:host {
-					--effective-cell-size: var(--cell-size, 1.0em);
-					--total-cell-width: calc(var(--effective-cell-size) * 1.5);
+					--cell-margin: 0.2em;
+					--effective-cell-size: var(--cell-size, 3.0em);
+					--total-cell-width: calc(var(--effective-cell-size) + (2 * var(--cell-margin)));
 				}
 
 				.container {
@@ -43,7 +44,7 @@ class MapVisualization extends LitElement {
 					height: var(--effective-cell-size);
 					width: var(--effective-cell-size);
 					background-color:black;
-					margin: calc(var(--effective-cell-size) / 4);
+					margin: var(--cell-margin);
 					border-radius: calc(var(--effective-cell-size) / 2);
 				}
 			`
