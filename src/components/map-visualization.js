@@ -47,8 +47,8 @@ class MapVisualization extends LitElement {
 	render() {
 		return html`
 			<style>
-				.container {
-					--container-size: ${this._cleanData.cols * 1.25 - 0.25}em;
+				:host {
+					--container-size: ${this._cleanData.cols * 1.5}em;
 				}
 			</style>
 			<div class='container'>
