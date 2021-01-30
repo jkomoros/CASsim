@@ -15,6 +15,10 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 // This element is connected to the Redux store.
 import { store } from '../store.js';
 
+import {
+	selectExpandedCurrentMapData
+} from '../selectors.js';
+
 // We are lazy loading its reducer.
 import data from '../reducers/data.js';
 store.addReducers({
@@ -30,7 +34,7 @@ class MainView extends connect(store)(PageViewElement) {
 	static get properties() {
 		return {
 			// This is the data from the store.
-			_data: { type: Object },
+			_expandedMapData: { type: Object },
 		};
 	}
 
@@ -42,13 +46,13 @@ class MainView extends connect(store)(PageViewElement) {
 
 	render() {
 		return html`
-			<map-visualization .data=${this._data}></map-visualization>
+			<map-visualization .data=${this._expandedMapData}></map-visualization>
 		`;
 	}
 
 	// This is called every time something is updated in the store.
 	stateChanged(state) {
-		this._data = state.data.data;
+		this._expandedMapData = selectExpandedCurrentMapData(data);
 	}
 }
 

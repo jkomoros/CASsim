@@ -9,7 +9,7 @@ class visualizationMap {
 
 	_computeData() {
 		//TODO: compute the final data model here.
-		this._cachedData = null;
+		this._cachedData = {};
 	}
 
 	get expandedData() {
@@ -20,7 +20,7 @@ class visualizationMap {
 	}
 }
 
-class VisualizationMapCollection {
+export class VisualizationMapCollection {
 	constructor(data) {
 		this._data = data || [];
 	}
