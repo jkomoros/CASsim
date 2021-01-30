@@ -46,7 +46,7 @@ class visualizationMap {
 	constructor(collection, index, rawData) {
 		this._collection = collection;
 		this._index = index;
-		this._rawData = data;
+		this._rawData = rawData;
 		this._cachedData = null;
 	}
 
