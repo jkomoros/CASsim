@@ -83,17 +83,16 @@ class visualizationMap {
 
 	_computeData() {
 		const previous = this._index > 0 ? this._collection.dataForIndex(this._index - 1).expandedData : defaultVisualizationMapExpandedForCells([]);
-		const size = this._rawData[SET_SIZE_COMMAND];
-		if (!size) throw new Error("First item did not have a set size");
-		if (!Array.isArray(size)) throw new Error("size command not an array");
-		if (size.length != 2) throw new Error("Size command expects array of lenght 2");
-
-		const result = {
-			...previous,
-			cells: defaultCellsForSize(...size),
-			rows: size[0],
-			cols: size[1],
-		};
+		const result = {...previous};
+		const sizeCommand = this._rawData[SET_SIZE_COMMAND];
+		if (this._index == 0 && !sizeCommand) throw new Error("First item did not have a set size");
+		if (sizeCommand) {
+			if (!Array.isArray(sizeCommand)) throw new Error("size command not an array");
+			if (sizeCommand.length != 2) throw new Error("Size command expects array of lenght 2");
+			result.cells = defaultCellsForSize(...sizeCommand);
+			result.rows = sizeCommand[0];
+			result.cols = sizeCommand[1];
+		}
 
 		//TODO: compute the final data model here.
 		this._cachedData = result;
