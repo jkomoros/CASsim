@@ -16,7 +16,7 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
 
 import {
-	fetchData
+	loadData
 } from '../actions/data.js';
 
 import {
@@ -34,6 +34,14 @@ import './map-visualization.js';
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
 
+const fetchData = async() => {
+	const res = await fetch('/map_data.json');
+
+	const data = await res.json();
+
+	store.dispatch(loadData(data));
+}
+
 class MainView extends connect(store)(PageViewElement) {
 	static get properties() {
 		return {
@@ -49,7 +57,7 @@ class MainView extends connect(store)(PageViewElement) {
 	}
 
 	firstUpdated() {
-		store.dispatch(fetchData());
+		fetchData();
 	}
 
 	render() {

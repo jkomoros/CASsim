@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 	data: [],
 };
 
-const counter = (state = INITIAL_STATE, action) => {
+const data = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case LOAD_DATA:
 			return {
@@ -18,4 +18,4 @@ const counter = (state = INITIAL_STATE, action) => {
 	}
 };
 
-export default counter;
+export default data;
