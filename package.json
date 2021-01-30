@@ -13,7 +13,8 @@
     "serve": "prpl-server --root server/build",
     "serve:static": "polymer serve --port 5000 build/es5-bundled",
     "test": "npm run test:data",
-    "test:data": "mocha -r esm test/data --timeout=10000"
+    "test:data": "mocha -r esm test/data --timeout=10000",
+    "screenshot": "node screenshot.js"
   },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.4",
@@ -38,7 +39,7 @@
     "polymer-cli": "^1.9.3",
     "polyserve": "^0.27.0",
     "prpl-server": "^1.4.0",
-    "puppeteer": "^1.5.0",
+    "puppeteer": "^1.20.0",
     "wct-mocha": "^1.0.0"
   }
 }
