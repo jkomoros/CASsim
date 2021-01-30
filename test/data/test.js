@@ -23,4 +23,15 @@ describe("data parsing", () => {
 		assert.deepStrictEqual(data, golden);
 	});
 
+	it("errors if no set_size in first command", async () => {
+		const input = [
+			{
+				foo: [2,3],
+			}
+		];
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(0);
+		assert.throws(() => map.expandedData);
+	});
+
 });
