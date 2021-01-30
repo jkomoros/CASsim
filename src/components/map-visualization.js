@@ -8,7 +8,8 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html } from "lit-element";
+import { LitElement, html, css } from "lit-element";
+import { repeat } from "lit-html/directives/repeat";
 
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you
@@ -20,12 +21,34 @@ class MapVisualization extends LitElement {
 		};
 	}
 
+	static get styles() {
+		return [
+			css`
+				.container {
+					display: flex;
+					flex-wrap: wrap;
+				}
+
+				.cell {
+					height: 1em;
+					width: 1em;
+					background-color:black;
+					margin: 0.25em;
+				}
+			`
+		];
+	}
+
 	render() {
 		return html`
-			<div>
-				<pre>${this.data}</pre>
+			<div class='container'>
+				${repeat(this.data.cells,item => "" + item.row + "-" + item.col, item => this._htmlForCell(item))}
 			</div>
 		`;
+	}
+
+	_htmlForCell() {
+		return html`<div class='cell'></div>`;
 	}
 }
 
