@@ -270,4 +270,52 @@ describe("data parsing", () => {
 		assert.deepStrictEqual(data, golden);
 	});
 
+	it("doesnt support a reference that is too low row", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_HIGHLIGHTED_COMMAND]: [[true, [-1,0]]],
+			}
+		];
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		assert.throws(() => map.expandedData);
+	});
+
+	it("doesnt support a reference that is too high row", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_HIGHLIGHTED_COMMAND]: [[true, [2,0]]],
+			}
+		];
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		assert.throws(() => map.expandedData);
+	});
+
+	it("doesnt support a reference that is too low col", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_HIGHLIGHTED_COMMAND]: [[true, [0,-1]]],
+			}
+		];
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		assert.throws(() => map.expandedData);
+	});
+
+	it("doesnt support a reference that is too high col", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_HIGHLIGHTED_COMMAND]: [[true, [0,3]]],
+			}
+		];
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		assert.throws(() => map.expandedData);
+	});
+
 });

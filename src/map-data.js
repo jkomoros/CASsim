@@ -102,6 +102,10 @@ const cellsFromReferences = (map, cellReferences) => {
 	if (cellReferences.length != 4) throw new Error("Unknown cell reference shape: " + cellReferences);
 	const result = [];
 	const [startRow, startCol, endRow, endCol] = cellReferences;
+	if (startRow < 0 || startRow >= map.rows) throw new Error('Invalid cell reference: row ' + startRow + ' is out of bounds');
+	if (endRow < 0 || endRow >= map.rows) throw new Error('Invalid cell reference: row ' + endRow + ' is out of bounds');
+	if (startCol < 0 || startCol >= map.cols) throw new Error('Invalid cell reference: col ' + startCol + ' is out of bounds');
+	if (endCol < 0 || endCol >= map.cols) throw new Error('Invalid cell reference: col ' + endCol + ' is out of bounds');
 	if (endRow < startRow) throw new Error("Cell reference invalid: endRow must be larger: " + cellReferences);
 	if (endCol < startCol) throw new Error("Cell reference invalid: endCol must be larger: " + cellReferences);
 	for (let r = startRow; r <= endRow; r++) {
