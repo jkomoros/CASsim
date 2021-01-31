@@ -368,11 +368,6 @@ const growMap = (map, config) => {
 
 		const npvMap = netPresentValueMap(map, cell, config);
 
-		const valueMap = new Map();
-		for (const neighbor of neighbors) {
-			valueMap.set(neighbor, npvMap.get(neighbor) || 0.0);
-		}
-
 		const valueSelectionStrength = (1.0 - config.randomness) * 1000;
 
 		const neighborsUrn = new Urn(rnd);
@@ -385,7 +380,7 @@ const growMap = (map, config) => {
 		neighbors.map((neighbor) => {
 			//scale based on goodness and randomness strength
 			//Ensure nothing gets a value of 0.
-			const multiplier = (Math.pow(valueMap.get(neighbor), 2) * valueSelectionStrength) + 1;
+			const multiplier = (Math.pow(npvMap.get(neighbor), 2) * valueSelectionStrength) + 1;
 			neighborsUrn.add(neighbor, multiplier);
 		});
 
@@ -394,7 +389,7 @@ const growMap = (map, config) => {
 		possibilities.push({
 			neighbor,
 			cell,
-			value: valueMap[neighbor],
+			value: npvMap[neighbor],
 		});
 	}
 
