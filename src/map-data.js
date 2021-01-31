@@ -270,7 +270,7 @@ export const outerNeighbors = (map, cell, centerCell) => {
 };
 
 //TODO: increase once we know it's working
-const NET_PRESENT_VALUE_PLY = 2;
+const NET_PRESENT_VALUE_PLY = 8;
 //How much the value from the outer tier should drop off when going inward
 const NET_PRESENT_VALUE_DROPOFF = 0.75;
 
