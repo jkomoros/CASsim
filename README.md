@@ -24,6 +24,7 @@ Each state is an object with commands that apply.
 *setScale*: `<positive float>` - Override the scale of the rendered output. 1.0 is default scale.
 *name*: `<string` - A name for the state, to refer to later with resetTo.
 *resetTo*: `<string>` - Resets the state to the state at the named previous state. The named state must exist, and must be BEFORE this one.
+*grow*: `<non-falsey-value>` - Grows all of the active cells into a legal neighbor.
 
 The next groups are cell commands. They select a property to modify, a value to set, and then a range of cells to affect, like this:
 `<property-name> : [[<value>, <cell-reference>], [<value>, <cell-reference>]]`.

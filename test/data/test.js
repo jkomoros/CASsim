@@ -497,4 +497,6 @@ describe("data parsing", () => {
 		assert.deepStrictEqual(data, golden);
 	});
 
+	//TODO: test grow once it's deterministic
+
 });

@@ -70,6 +70,8 @@ export const SET_CELL_SCALE_COMMAND = "scale";
 export const RESET_TO_COMMAND = 'resetTo';
 //The name to set for reset_to to refer to
 export const NAME_COMMAND = 'name';
+//Grow by one step. Any non-falsely value is fine.
+export const GROW_COMMAND = 'grow';
 
 const SET_CELL_COMMANDS = {
 	[SET_HIGHLIGHTED_COMMAND]: [SET_HIGHLIGHTED_COMMAND],
@@ -196,6 +198,34 @@ const setAutoOpacity = (map) => {
 	}
 };
 
+const growMap = (map, config) => {
+	if (!config) return;
+	const activeCells = map.cells.filter(cell => cell.active);
+	for (const cell of activeCells) {
+		let neighbors = [];
+		const offsets = [-1, 0, 1];
+		for (const rOffset of offsets) {
+			for (const cOffset of offsets) {
+				if (rOffset == 0 && cOffset == 0) continue;
+				const neighbor = getCellFromMap(map, cell.row + rOffset, cell.col + cOffset);
+				if (!neighbor) continue;
+				if (neighbor.value < 0.0) continue;
+				if (neighbor.value === null || neighbor.value === undefined) continue;
+				neighbors.push(neighbor);
+			}
+		}
+		if (neighbors.length == 0) {
+			//Don't try this one in the future, there are no neighbors
+			cell.active = false;
+		}
+		//TODO: use deterministic rand
+		const neighbor = neighbors[Math.floor(Math.random() * neighbors.length)];
+		neighbor.active = true;
+		neighbor.captured = true;
+		cell.active = false;
+	}
+};
+
 class visualizationMap {
 	constructor(collection, index, rawData) {
 		this._collection = collection;
@@ -260,6 +290,11 @@ class visualizationMap {
 					}
 				}
 			}	
+		}
+
+		let growCommand = this._rawData[GROW_COMMAND];
+		if (growCommand) {
+			growMap(result, growCommand);
 		}
 
 		setAutoOpacity(result);
