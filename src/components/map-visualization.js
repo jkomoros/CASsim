@@ -85,7 +85,8 @@ class MapVisualization extends LitElement {
 	}
 
 	_htmlForCell(cell) {
-		return html`<div class='cell ${cell.highlighted ? "highlighted" : ""} ${cell.captured ? 'captured' : ''}'><div class='${cell.value < 0.0 ? "negative" : ""}' style='opacity:${Math.abs(cell.value)}'></div></div>`;
+		const opacity = cell.opacity === undefined ? cell.autoOpacity : cell.opacity;
+		return html`<div class='cell ${cell.highlighted ? "highlighted" : ""} ${cell.captured ? 'captured' : ''}' style='opacity:${opacity}'><div class='${cell.value < 0.0 ? "negative" : ""}' style='opacity:${Math.abs(cell.value)}'></div></div>`;
 	}
 
 	get _cleanData() {

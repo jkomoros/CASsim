@@ -15,7 +15,9 @@ where cell data looks like:
 	value: 0.0,
 	highlighted: true,
 	captured: true,
+	//Manually set opacity. If not undefined, will be used, otherwise autoOpacity will be used.
 	opacity: 0.5;
+	autoOpacity: 1.0,
 }
 
 */
@@ -43,6 +45,8 @@ export const SET_HIGHLIGHTED_COMMAND = "set_highlighted";
 export const SET_CAPTURED_COMMAND = "set_captured";
 //Expects a cellValueCommand (see above)
 export const SET_VALUE_COMMAND = "set_value";
+//Expects a cellValueCommand (see above)
+export const SET_OPACITY_COMMAND = "set_opacity";
 //Expects a name that was a PREVIOUS state, with a 'name' property, and uses
 //that, instead of the previous state, to base its modifications off of.
 export const RESET_TO_COMMAND = 'reset_to';
@@ -53,6 +57,7 @@ const SET_COMMANDS = {
 	[SET_HIGHLIGHTED_COMMAND]: 'highlighted',
 	[SET_CAPTURED_COMMAND]: 'captured',
 	[SET_VALUE_COMMAND]: 'value',
+	[SET_OPACITY_COMMAND]: 'opacity',
 };
 
 const defaultCellData = (row, col) => {
@@ -62,7 +67,9 @@ const defaultCellData = (row, col) => {
 		value: 0.0,
 		highlighted: false,
 		captured: false,
-		opacity: 1.0,
+		//undefined says it should use autoOpacity instead
+		opacity: undefined,
+		autoOpacity: 1.0,
 	};
 };
 
