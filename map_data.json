@@ -1,19 +1,19 @@
 [
 	{
 		"set_size": [8,15],
-		"set_highlighted": [[true, [0, 0]]],
-		"set_captured": [[true, [1, 0]]],
-		"set_value": [
+		"highlighted": [[true, [0, 0]]],
+		"captured": [[true, [1, 0]]],
+		"value": [
 			[1.0, [0,1]],
 			[0.2, [0,2]],
 			[-0.5, [0,3]]
 		]
 	},
 	{
-		"set_value": [
+		"value": [
 			[1.0, [3,4]]
 		],
-		"set_opacity": [
+		"opacity": [
 			[0.5, [2,3]]
 		]
 	}

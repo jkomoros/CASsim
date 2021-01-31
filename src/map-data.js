@@ -40,25 +40,25 @@ export const EMPTY_EXPANDED_MAP_DATA = {
 //Expects an array of [rows, cols] for size of map.
 export const SET_SIZE_COMMAND = "set_size";
 //Expects a cellValueCommand (see above)
-export const SET_HIGHLIGHTED_COMMAND = "set_highlighted";
+export const SET_HIGHLIGHTED_COMMAND = "highlighted";
 //Expects a cellValueCommand (see above)
-export const SET_CAPTURED_COMMAND = "set_captured";
+export const SET_CAPTURED_COMMAND = "captured";
 //Expects a cellValueCommand (see above)
-export const SET_VALUE_COMMAND = "set_value";
+export const SET_VALUE_COMMAND = "value";
 //Expects a cellValueCommand (see above)
-export const SET_OPACITY_COMMAND = "set_opacity";
+export const SET_OPACITY_COMMAND = "opacity";
 //Expects a name that was a PREVIOUS state, with a 'name' property, and uses
 //that, instead of the previous state, to base its modifications off of.
 export const RESET_TO_COMMAND = 'reset_to';
 //The name to set for reset_to to refer to
 export const NAME_COMMAND = 'name';
 
-const SET_COMMANDS = {
-	[SET_HIGHLIGHTED_COMMAND]: 'highlighted',
-	[SET_CAPTURED_COMMAND]: 'captured',
-	[SET_VALUE_COMMAND]: 'value',
-	[SET_OPACITY_COMMAND]: 'opacity',
-};
+const SET_CELL_COMMANDS = [
+	SET_HIGHLIGHTED_COMMAND,
+	SET_CAPTURED_COMMAND,
+	SET_VALUE_COMMAND,
+	SET_OPACITY_COMMAND,
+];
 
 const defaultCellData = (row, col) => {
 	return {
@@ -168,8 +168,8 @@ class visualizationMap {
 		//Copy cells so we can modify them
 		result.cells = result.cells.map(cell => ({...cell}));
 
-		for (const [commandType, propertyName] of Object.entries(SET_COMMANDS)) {
-			const commands = this._rawData[commandType];
+		for (const propertyName of SET_CELL_COMMANDS) {
+			const commands = this._rawData[propertyName];
 			if (commands) {
 				for (const command of commands) {
 					const valueToSet = command[0];
