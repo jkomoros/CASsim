@@ -244,10 +244,15 @@
 	{
 		"active": [
 			[true, [7,7]]
+		],
+		"opacity": [
+			[null, []]
 		]
 	},
 	{
-		"grow": true,
+		"grow": {
+			"seed": true
+		},
 		"repeat": 10
 	}
 ]

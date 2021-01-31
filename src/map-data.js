@@ -209,7 +209,7 @@ const setAutoOpacity = (map) => {
 const defaultGrowConfig = () => {
 	return {
 		seed: 'seed',
-		randomness: 0.2,
+		randomness: 0.1,
 		proportion: 1.0,
 	};
 };
@@ -297,6 +297,30 @@ const netPresentValueMap = (map, centerCell) => {
 	return result;
 };
 
+class Urn {
+	constructor(rnd) {
+		this._rnd = rnd;
+		this._sum = 0.0;
+		this._items = new Map();
+	}
+
+	add(item, count = 1) {
+		this._sum += count;
+		this._items.set(item, count);
+	}
+
+	pick() {
+		const val = Math.floor(this._rnd.quick() * this._sum);
+		let sum = 0.0;
+		const entries = this._items.entries();
+		for (let [item, count] of entries) {
+			sum += count;
+			if (sum > val) return item;
+		}
+		return entries[entries.length][0];
+	}
+}
+
 const growMap = (map, config) => {
 	if (typeof config != 'object') config = {};
 	config = {...defaultGrowConfig(), ...config};
@@ -336,15 +360,17 @@ const growMap = (map, config) => {
 
 		const valueSelectionStrength = (1.0 - config.randomness) * 1000;
 
+		const neighborsUrn = new Urn(rnd);
+
 		//Best neighbors are first. Put them into the urn with much higher probability.
-		const neighborsUrn = neighbors.map((neighbor) => {
+		neighbors.map((neighbor) => {
 			//scale based on goodness and randomness strength
 			//Ensure nothing gets a value of 0.
 			const multiplier = (Math.pow(valueMap.get(neighbor), 2) * valueSelectionStrength) + 1;
-			return Array(Math.ceil(multiplier)).fill(neighbor);
-		}).flat();
+			neighborsUrn.add(neighbor, multiplier);
+		});
 
-		const neighbor = neighborsUrn[Math.floor(rnd.quick() * neighborsUrn.length)];
+		const neighbor = neighborsUrn.pick();
 		neighbor.active = true;
 		neighbor.captured = true;
 		cell.active = false;
