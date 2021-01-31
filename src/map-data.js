@@ -225,30 +225,30 @@ const localValueForCell = (cell) => {
 
 //Returns a list of the cells that ring the centerCell. 0 plys is the center
 //cell itself, 1 is immediate neighbors, 2 is the ring outside of that, etc.
-const ringCells = (map, centerCell, ply) => {
+export const ringCells = (map, centerCell, ply) => {
 	if (ply == 0) return [centerCell];
 	const result = [];
 	//Top row
 	let r = centerCell.row - ply;
-	for (let c = centerCell.col - ply; c < centerCell.col + ply; c++) {
+	for (let c = centerCell.col - ply; c <= centerCell.col + ply; c++) {
 		const neighbor = getCellFromMap(map, r, c);
 		if (neighbor) result.push(neighbor);
 	}
 	//Right side
 	let c = centerCell.col + ply;
-	for (let r = centerCell.row - ply + 1; r < centerCell.row + ply - 1; r++) {
+	for (let r = centerCell.row - ply + 1; r <= centerCell.row + ply - 1; r++) {
 		const neighbor = getCellFromMap(map, r, c);
 		if (neighbor) result.push(neighbor);
 	}
 	//Bottom row
 	r = centerCell.row + ply;
-	for (let c = centerCell.col + ply - 1; c >= centerCell.col - ply; c--) {
+	for (let c = centerCell.col + ply; c >= centerCell.col - ply; c--) {
 		const neighbor = getCellFromMap(map, r, c);
 		if (neighbor) result.push(neighbor);
 	}
 	//left side
 	c = centerCell.col - ply;
-	for (let r = centerCell.row + ply -1; r >= centerCell.row - ply -1; r--) {
+	for (let r = centerCell.row + ply -1; r > centerCell.row - ply; r--) {
 		const neighbor = getCellFromMap(map, r, c);
 		if (neighbor) result.push(neighbor);
 	}

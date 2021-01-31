@@ -20,7 +20,8 @@ import {
 	GROW_COMMAND,
 	SET_ADJACENT_POSSIBLE_STEPS_COMMAND,
 	REPEAT_COMMAND,
-	ringPly
+	ringPly,
+	ringCells,
 } from "../../src/map-data.js";
 
 import assert from "assert";
@@ -601,5 +602,62 @@ describe("ring ply", () => {
 		const other = getCellFromMap(map, 4, 4);
 		const result = ringPly(other, center);
 		assert.deepStrictEqual(result, 2);
+	});
+});
+
+describe("ring cells", () => {
+	it("zero ply", async () => {
+		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const center = getCellFromMap(map, 2, 2);
+		const ply = 0;
+		const result = ringCells(map, center, ply);
+		const golden = [
+			[2,2]
+		].map(pair => getCellFromMap(map, pair[0], pair[1]));
+		assert.deepStrictEqual(result, golden);
+	});
+
+	it("one ply center", async () => {
+		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const center = getCellFromMap(map, 2, 2);
+		const ply = 1;
+		const result = ringCells(map, center, ply);
+		const golden = [
+			[1,1],
+			[1,2],
+			[1,3],
+			[2,3],
+			[3,3],
+			[3,2],
+			[3,1],
+			[2,1]
+		].map(pair => getCellFromMap(map, pair[0], pair[1]));
+		assert.deepStrictEqual(result, golden);
+	});
+
+	it("two ply center", async () => {
+		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const center = getCellFromMap(map, 2, 2);
+		const ply = 2;
+		const result = ringCells(map, center, ply);
+		const golden = [
+			[0,0],
+			[0,1],
+			[0,2],
+			[0,3],
+			[0,4],
+			[1,4],
+			[2,4],
+			[3,4],
+			[4,4],
+			[4,3],
+			[4,2],
+			[4,1],
+			[4,0],
+			[3,0],
+			[2,0],
+			[1,0]
+		].map(pair => getCellFromMap(map, pair[0], pair[1]));
+		assert.deepStrictEqual(result, golden);
 	});
 });
