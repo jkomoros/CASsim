@@ -31,6 +31,7 @@ export const EMPTY_EXPANDED_MAP_DATA = {
 
 	where cellReference is one of:
 	* [row, col] for a single cell
+	* [startRow, startCol, endRow, endCol] to select a rectangle
 */
 
 //Expects an array of [rows, cols] for size of map.
@@ -92,9 +93,16 @@ export const getCellFromMap = (map, row, col) => {
 	return map.cells[row * map.cols + col];
 };
 
-const setPropertiesOnMap = (map, propertyName, valueToSet, cellReferences) => {
+const cellsFromReferences = (map, cellReferences) => {
 	const cell = getCellFromMap(map, cellReferences[0], cellReferences[1]);
-	cell[propertyName] = valueToSet;
+	return [cell];
+};
+
+const setPropertiesOnMap = (map, propertyName, valueToSet, cellReferences) => {
+	const cells = cellsFromReferences(map, cellReferences);
+	for (const cell of cells) {
+		cell[propertyName] = valueToSet;
+	}
 };
 
 class visualizationMap {
