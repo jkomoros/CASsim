@@ -208,6 +208,16 @@ const defaultGrowConfig = () => {
 	};
 };
 
+const opacityForCell = (cell) => {
+	return cell.fillOpacity === undefined || cell.fillOpacity === null ? cell.autoOpacity : cell.fillOpacity;
+};
+
+const netPresentValueForCell = (map, cell) => {
+	//TODO: memoize
+	//TODO: multiple ply outwards
+	return opacityForCell(cell) * cell.value;
+};
+
 const growMap = (map, config) => {
 	if (typeof config != 'object') config = {};
 	config = {...defaultGrowConfig(), ...config};
@@ -233,7 +243,21 @@ const growMap = (map, config) => {
 			cell.active = false;
 			continue;
 		}
-		const neighbor = neighbors[Math.floor(rnd.quick() * neighbors.length)];
+
+		const valueMap = new Map();
+		for (const neighbor of neighbors) {
+			valueMap.set(neighbor, netPresentValueForCell(map, neighbor));
+		}
+		neighbors.sort((a, b) => valueMap.get(b) - valueMap.get(a));
+
+		//Best neighbors are first. Put them into the urn with much higher probability.
+		const neighborsUrn = neighbors.map((neighbor, index) => {
+			//TODO: allow this to be scaled based on a config value. Ensure nothing gets a value of 0.
+			const multiplier = neighbors.length - index + 1;
+			return Array(multiplier).fill(neighbor);
+		}).flat();
+
+		const neighbor = neighborsUrn[Math.floor(rnd.quick() * neighborsUrn.length)];
 		neighbor.active = true;
 		neighbor.captured = true;
 		cell.active = false;
