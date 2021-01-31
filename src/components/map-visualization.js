@@ -86,14 +86,19 @@ class MapVisualization extends LitElement {
 	_htmlForCell(cell) {
 		const fillOpacity = cell.fillOpacity === undefined ? cell.autoOpacity : cell.fillOpacity;
 		const strokeOpacity = cell.strokeOpacity === undefined ? cell.autoOpacity : cell.strokeOpacity;
-		const baseColor = [255,255,255];
-		//CC0000, and #38761D
-		const maxColor = cell.value < 0.0 ? [204, 0, 0] : [56, 118, 29];
-		const interpolated = maxColor.map((maxComponent, index) => {
-			const baseComponent = baseColor[index];
-			return Math.round(baseComponent + Math.abs(cell.value) * (maxComponent - baseComponent));
-		});
-		const colorString = 'rgba(' + interpolated.join(', ') + ', ' + fillOpacity + ')';
+		//Gray color for empty
+		let color = [102, 102, 102];
+		if (cell.value != null) {
+			const baseColor = [255,255,255];
+			//CC0000, and #38761D
+			const maxColor = cell.value < 0.0 ? [204, 0, 0] : [56, 118, 29];
+			const interpolated = maxColor.map((maxComponent, index) => {
+				const baseComponent = baseColor[index];
+				return Math.round(baseComponent + Math.abs(cell.value) * (maxComponent - baseComponent));
+			});
+			color = interpolated;
+		}
+		const colorString = 'rgba(' + color.join(', ') + ', ' + fillOpacity + ')';
 
 		return html`<div class='cell ${cell.highlighted ? "highlighted" : ""} ${cell.captured ? 'captured' : ''}'><div class='fill' style='background-color:${colorString};'></div><div class='stroke' style='opacity:${strokeOpacity}'></div></div>`;
 	}
