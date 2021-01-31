@@ -518,4 +518,26 @@ describe("data parsing", () => {
 		assert.deepStrictEqual(data, golden);
 	});
 
+	it("supports grow with seed", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_ACTIVE_COMMAND]: [[true, [0,0]]],
+				[SET_ADJACENT_POSSIBLE_STEPS_COMMAND]: 0,
+				[GROW_COMMAND]: {
+					seed: 'foo',
+				},
+			}
+		];
+		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		golden.adjacentPossibleSteps = 0;
+		getCellFromMap(golden, 0, 2).active = true;
+		getCellFromMap(golden, 0, 2).captured = true;
+		getCellFromMap(golden, 0, 2).autoOpacity = 1.0;
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
+	});
+
 });

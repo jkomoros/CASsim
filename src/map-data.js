@@ -202,10 +202,17 @@ const setAutoOpacity = (map) => {
 	}
 };
 
+const defaultGrowConfig = () => {
+	return {
+		seed: 'seed',
+	};
+};
+
 const growMap = (map, config) => {
-	if (!config) return;
+	if (typeof config != 'object') config = {};
+	config = {...defaultGrowConfig(), ...config};
 	//TODO: use seed passed in config or something like JSON serialization of map
-	const rnd = prng_alea("seed");
+	const rnd = prng_alea(config.seed);
 	const activeCells = map.cells.filter(cell => cell.active);
 	for (const cell of activeCells) {
 		let neighbors = [];
@@ -224,7 +231,6 @@ const growMap = (map, config) => {
 			//Don't try this one in the future, there are no neighbors
 			cell.active = false;
 		}
-		//TODO: use deterministic rand
 		const neighbor = neighbors[Math.floor(rnd.quick() * neighbors.length)];
 		neighbor.active = true;
 		neighbor.captured = true;
