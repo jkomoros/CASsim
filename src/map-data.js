@@ -206,6 +206,7 @@ const defaultGrowConfig = () => {
 	return {
 		seed: 'seed',
 		randomness: 0.2,
+		proportion: 1.0,
 	};
 };
 
@@ -227,6 +228,8 @@ const growMap = (map, config) => {
 	const rnd = prng_alea(seed);
 	const activeCells = map.cells.filter(cell => cell.active);
 	for (const cell of activeCells) {
+		//Skip some cells based on proportion
+		if (rnd.quick() > config.proportion) continue;
 		let neighbors = [];
 		const offsets = [-1, 0, 1];
 		for (const rOffset of offsets) {
