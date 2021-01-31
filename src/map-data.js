@@ -32,6 +32,7 @@ export const EMPTY_EXPANDED_MAP_DATA = {
 	where cellReference is one of:
 	* [row, col] for a single cell
 	* [startRow, startCol, endRow, endCol] to select a rectangle (INCLUSIVE)
+	* [] to select all cells
 */
 
 //Expects an array of [rows, cols] for size of map.
@@ -94,7 +95,10 @@ export const getCellFromMap = (map, row, col) => {
 };
 
 const cellsFromReferences = (map, cellReferences) => {
-	if (cellReferences.length == 2) return [getCellFromMap(map, cellReferences[0], cellReferences[1])];
+	//Convert a reference of length 0 to the whole map
+	if (cellReferences.length == 0) cellReferences = [0,0,map.rows -1, map.cols -1];
+	//convert a single reference to a rectangualr of size one
+	if (cellReferences.length == 2) cellReferences = [cellReferences[0], cellReferences[1], cellReferences[0], cellReferences[1]];
 	if (cellReferences.length != 4) throw new Error("Unknown cell reference shape: " + cellReferences);
 	const result = [];
 	const [startRow, startCol, endRow, endCol] = cellReferences;
