@@ -9,6 +9,8 @@ import {
 	SET_HIGHLIGHTED_COMMAND,
 	SET_VALUE_COMMAND,
 	SET_OPACITY_COMMAND,
+	SET_FILL_OPACITY_COMMAND,
+	SET_STROKE_OPACITY_COMMAND,
 	SET_CAPTURED_COMMAND,
 	RESET_TO_COMMAND,
 	NAME_COMMAND,
@@ -116,6 +118,36 @@ describe("data parsing", () => {
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).fillOpacity = 0.5;
+		getCellFromMap(golden, 0, 0).strokeOpacity = 0.5;
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
+	});
+
+	it("supports setting cell's fill opacity", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_FILL_OPACITY_COMMAND]: [[0.5, [0,0]]],
+			}
+		];
+		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		getCellFromMap(golden, 0, 0).fillOpacity = 0.5;
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
+	});
+
+	it("supports setting cell's stroke opacity", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_STROKE_OPACITY_COMMAND]: [[0.5, [0,0]]],
+			}
+		];
+		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).strokeOpacity = 0.5;
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);

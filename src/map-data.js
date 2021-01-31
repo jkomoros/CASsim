@@ -46,8 +46,10 @@ export const SET_HIGHLIGHTED_COMMAND = "highlighted";
 export const SET_CAPTURED_COMMAND = "captured";
 //Expects a cellValueCommand (see above)
 export const SET_VALUE_COMMAND = "value";
-//Expects a cellValueCommand (see above). This is semantically equivalent to setting fill_opacity and stroke_opacity at the same time.
+//Expects a cellValueCommand (see above). This is semantically equivalent to setting fillOpacity and strokeOpacity at the same time.
 export const SET_OPACITY_COMMAND = "opacity";
+export const SET_FILL_OPACITY_COMMAND = "fillOpacity";
+export const SET_STROKE_OPACITY_COMMAND = "strokeOpacity";
 //Expects a name that was a PREVIOUS state, with a 'name' property, and uses
 //that, instead of the previous state, to base its modifications off of.
 export const RESET_TO_COMMAND = 'resetTo';
@@ -59,6 +61,8 @@ const SET_CELL_COMMANDS = {
 	[SET_CAPTURED_COMMAND]: [SET_CAPTURED_COMMAND],
 	[SET_VALUE_COMMAND]: [SET_VALUE_COMMAND],
 	[SET_OPACITY_COMMAND]: ['fillOpacity', 'strokeOpacity'],
+	[SET_FILL_OPACITY_COMMAND]: [SET_FILL_OPACITY_COMMAND],
+	[SET_STROKE_OPACITY_COMMAND]: [SET_STROKE_OPACITY_COMMAND],
 };
 
 const defaultCellData = (row, col) => {

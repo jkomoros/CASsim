@@ -16,6 +16,12 @@
 		],
 		"opacity": [
 			[0.5, [2,3]]
+		],
+		"highlighted": [
+			[true, [5,5]]
+		],
+		"fillOpacity": [
+			[0.0, [5,5]]
 		]
 	}
 ]
