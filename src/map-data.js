@@ -53,12 +53,12 @@ export const RESET_TO_COMMAND = 'reset_to';
 //The name to set for reset_to to refer to
 export const NAME_COMMAND = 'name';
 
-const SET_CELL_COMMANDS = [
-	SET_HIGHLIGHTED_COMMAND,
-	SET_CAPTURED_COMMAND,
-	SET_VALUE_COMMAND,
-	SET_OPACITY_COMMAND,
-];
+const SET_CELL_COMMANDS = {
+	[SET_HIGHLIGHTED_COMMAND]: SET_HIGHLIGHTED_COMMAND,
+	[SET_CAPTURED_COMMAND]: SET_CAPTURED_COMMAND,
+	[SET_VALUE_COMMAND]: SET_VALUE_COMMAND,
+	[SET_OPACITY_COMMAND]: SET_OPACITY_COMMAND,
+};
 
 const defaultCellData = (row, col) => {
 	return {
@@ -168,8 +168,8 @@ class visualizationMap {
 		//Copy cells so we can modify them
 		result.cells = result.cells.map(cell => ({...cell}));
 
-		for (const propertyName of SET_CELL_COMMANDS) {
-			const commands = this._rawData[propertyName];
+		for (const [commandName, propertyName] of Object.entries(SET_CELL_COMMANDS)) {
+			const commands = this._rawData[commandName];
 			if (commands) {
 				for (const command of commands) {
 					const valueToSet = command[0];
