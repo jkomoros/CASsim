@@ -20,14 +20,14 @@ export const selectCurrentDataIndex = createSelector(
 export const selectPage = state => state.app ? state.app.page : '';
 export const selectPageExtra = state => state.app ? state.app.pageExtra : '';
 
-export const selectMaxLegalIndex = createSelector(
-	selectRawMapData,
-	(rawMapData) => rawMapData.length - 1
-);
-
 const selectVisualizationMapCollection = createSelector(
 	selectRawMapData,
 	(rawMapData) => new VisualizationMapCollection(rawMapData)
+);
+
+export const selectMaxLegalIndex = createSelector(
+	selectVisualizationMapCollection,
+	(collection) => collection.length - 1
 );
 
 export const selectExpandedCurrentMapData = createSelector(

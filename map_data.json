@@ -247,6 +247,7 @@
 		]
 	},
 	{
-		"grow": true
+		"grow": true,
+		"repeat": 10
 	}
 ]
