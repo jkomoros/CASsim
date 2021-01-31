@@ -76,6 +76,8 @@ export const RESET_TO_COMMAND = 'resetTo';
 export const NAME_COMMAND = 'name';
 //Grow by one step. Any non-falsely value is fine.
 export const GROW_COMMAND = 'grow';
+//A number of how many times to repeat this block in place.
+export const REPEAT_COMMAND = 'repeat';
 
 const SET_CELL_COMMANDS = {
 	[SET_HIGHLIGHTED_COMMAND]: [SET_HIGHLIGHTED_COMMAND],
@@ -362,10 +364,26 @@ class visualizationMap {
 	}
 }
 
+const expandRepeatBlocks = (data) => {
+	const result = [];
+	for (const item of data) {
+		const repeatCount = item[REPEAT_COMMAND] || 1;
+		for (let i = 0; i < repeatCount; i++) {
+			result.push(item);
+		}
+	}
+	return result;
+};
+
 export class VisualizationMapCollection {
 	constructor(data) {
+		data = expandRepeatBlocks(data);
 		this._data = data || [];
 		this._memoizedMaps = {};
+	}
+
+	get length() {
+		return this._data.length;
 	}
 
 	dataForName(name) {

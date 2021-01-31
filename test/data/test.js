@@ -19,6 +19,7 @@ import {
 	NAME_COMMAND,
 	GROW_COMMAND,
 	SET_ADJACENT_POSSIBLE_STEPS_COMMAND,
+	REPEAT_COMMAND,
 } from "../../src/map-data.js";
 
 import assert from "assert";
@@ -536,6 +537,24 @@ describe("data parsing", () => {
 		getCellFromMap(golden, 0, 1).autoOpacity = 1.0;
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
+	});
+
+	it("supports repeat block", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+			},
+			{
+				[REPEAT_COMMAND]: 3,
+				[GROW_COMMAND]: true
+			}
+		];
+		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const collection = new VisualizationMapCollection(input);
+		assert.deepStrictEqual(collection.length, 4);
+		const map = collection.dataForIndex(collection.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});

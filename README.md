@@ -24,6 +24,7 @@ Each state is an object with commands that apply.
 *setScale*: `<positive float>` - Override the scale of the rendered output. 1.0 is default scale.
 *name*: `<string` - A name for the state, to refer to later with resetTo.
 *resetTo*: `<string>` - Resets the state to the state at the named previous state. The named state must exist, and must be BEFORE this one.
+*repeat*: `<integer>` - If set, will repeat this block in place that many times to save you from having to type it a lot. Useful for lots of grow blocks.
 *grow*: `<non-falsey-value>` - Grows all of the active cells into a legal neighbor. If passed an object, its values can be:
 
 Configuration for grow command
