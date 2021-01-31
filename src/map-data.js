@@ -257,7 +257,7 @@ const ringCells = (map, centerCell, ply) => {
 
 //returns the number of ply outward from the centerCell this cell is. That is,
 //if you called ringCells(centerCell), what value of ply would have this cell in it?
-const ringPly = (cell, centerCell) => {
+export const ringPly = (cell, centerCell) => {
 	const rowDiff = Math.abs(cell.row - centerCell.row);
 	const colDiff = Math.abs(cell.col - centerCell.col);
 	return Math.max(rowDiff, colDiff);

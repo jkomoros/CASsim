@@ -20,6 +20,7 @@ import {
 	GROW_COMMAND,
 	SET_ADJACENT_POSSIBLE_STEPS_COMMAND,
 	REPEAT_COMMAND,
+	ringPly
 } from "../../src/map-data.js";
 
 import assert from "assert";
@@ -559,4 +560,46 @@ describe("data parsing", () => {
 		assert.deepStrictEqual(data, golden);
 	});
 
+});
+
+describe("ring ply", () => {
+	it("same cell", async () => {
+		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const center = getCellFromMap(map, 2, 2);
+		const other = getCellFromMap(map, 2, 2);
+		const result = ringPly(other, center);
+		assert.deepStrictEqual(result, 0);
+	});
+
+	it("one ply left", async () => {
+		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const center = getCellFromMap(map, 2, 2);
+		const other = getCellFromMap(map, 2, 1);
+		const result = ringPly(other, center);
+		assert.deepStrictEqual(result, 1);
+	});
+
+	it("one ply left top corner", async () => {
+		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const center = getCellFromMap(map, 2, 2);
+		const other = getCellFromMap(map, 1, 1);
+		const result = ringPly(other, center);
+		assert.deepStrictEqual(result, 1);
+	});
+
+	it("two ply right diagonal", async () => {
+		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const center = getCellFromMap(map, 2, 2);
+		const other = getCellFromMap(map, 3, 4);
+		const result = ringPly(other, center);
+		assert.deepStrictEqual(result, 2);
+	});
+
+	it("two ply right bottom corner", async () => {
+		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const center = getCellFromMap(map, 2, 2);
+		const other = getCellFromMap(map, 4, 4);
+		const result = ringPly(other, center);
+		assert.deepStrictEqual(result, 2);
+	});
 });
