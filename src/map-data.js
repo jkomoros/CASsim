@@ -16,7 +16,8 @@ where cell data looks like:
 	highlighted: true,
 	captured: true,
 	//Manually set opacity. If not undefined, will be used, otherwise autoOpacity will be used.
-	opacity: 0.5;
+	fillOpacity: 0.5,
+	strokeOpacity: 0.5,
 	autoOpacity: 1.0,
 }
 
@@ -45,7 +46,7 @@ export const SET_HIGHLIGHTED_COMMAND = "highlighted";
 export const SET_CAPTURED_COMMAND = "captured";
 //Expects a cellValueCommand (see above)
 export const SET_VALUE_COMMAND = "value";
-//Expects a cellValueCommand (see above)
+//Expects a cellValueCommand (see above). This is semantically equivalent to setting fill_opacity and stroke_opacity at the same time.
 export const SET_OPACITY_COMMAND = "opacity";
 //Expects a name that was a PREVIOUS state, with a 'name' property, and uses
 //that, instead of the previous state, to base its modifications off of.
@@ -54,10 +55,10 @@ export const RESET_TO_COMMAND = 'reset_to';
 export const NAME_COMMAND = 'name';
 
 const SET_CELL_COMMANDS = {
-	[SET_HIGHLIGHTED_COMMAND]: SET_HIGHLIGHTED_COMMAND,
-	[SET_CAPTURED_COMMAND]: SET_CAPTURED_COMMAND,
-	[SET_VALUE_COMMAND]: SET_VALUE_COMMAND,
-	[SET_OPACITY_COMMAND]: SET_OPACITY_COMMAND,
+	[SET_HIGHLIGHTED_COMMAND]: [SET_HIGHLIGHTED_COMMAND],
+	[SET_CAPTURED_COMMAND]: [SET_CAPTURED_COMMAND],
+	[SET_VALUE_COMMAND]: [SET_VALUE_COMMAND],
+	[SET_OPACITY_COMMAND]: ['fillOpacity', 'strokeOpacity'],
 };
 
 const defaultCellData = (row, col) => {
@@ -168,13 +169,15 @@ class visualizationMap {
 		//Copy cells so we can modify them
 		result.cells = result.cells.map(cell => ({...cell}));
 
-		for (const [commandName, propertyName] of Object.entries(SET_CELL_COMMANDS)) {
+		for (const [commandName, propertyNames] of Object.entries(SET_CELL_COMMANDS)) {
 			const commands = this._rawData[commandName];
 			if (commands) {
 				for (const command of commands) {
 					const valueToSet = command[0];
 					const cellReference = command[1];
-					setPropertiesOnMap(result, propertyName, valueToSet, cellReference);
+					for (const propertyName of propertyNames) {
+						setPropertiesOnMap(result, propertyName, valueToSet, cellReference);
+					}
 				}
 			}	
 		}

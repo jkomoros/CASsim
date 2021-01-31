@@ -43,16 +43,27 @@ class MapVisualization extends LitElement {
 				.cell {
 					height: var(--effective-cell-size);
 					width: var(--effective-cell-size);
-					background-color: white;
+					
 					margin: var(--cell-margin);
 					border-radius: calc(var(--effective-cell-size) / 2);
 					box-sizing: border-box;
 					overflow: hidden;
+					position:relative;
+				}
+
+				.cell div.inner {
+					background-color: white;
 				}
 
 				.cell div {
+					position: absolute;
+					top: 0;
+					left: 0;
 					height: 100%;
 					width: 100%;
+				}
+
+				.cell div.color {
 					background-color: var(--positive-cell-color, #38761D);
 				}
 
@@ -85,8 +96,9 @@ class MapVisualization extends LitElement {
 	}
 
 	_htmlForCell(cell) {
-		const opacity = cell.opacity === undefined ? cell.autoOpacity : cell.opacity;
-		return html`<div class='cell ${cell.highlighted ? "highlighted" : ""} ${cell.captured ? 'captured' : ''}' style='opacity:${opacity}'><div class='${cell.value < 0.0 ? "negative" : ""}' style='opacity:${Math.abs(cell.value)}'></div></div>`;
+		const fillOpacity = cell.fillOpacity === undefined ? cell.autoOpacity : cell.fillOpacity;
+		const strokeOpacity = cell.strokeOpacity === undefined ? cell.autoOpacity : cell.strokeOpacity;
+		return html`<div class='cell ${cell.highlighted ? "highlighted" : ""} ${cell.captured ? 'captured' : ''}' style='opacity:${strokeOpacity}'><div class='inner' style='opacity:${fillOpacity}'><div class='color ${cell.value < 0.0 ? "negative" : ""}' style='opacity:${Math.abs(cell.value)}'></div></div></div>`;
 	}
 
 	get _cleanData() {

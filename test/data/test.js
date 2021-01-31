@@ -115,7 +115,8 @@ describe("data parsing", () => {
 			}
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
-		getCellFromMap(golden, 0, 0).opacity = 0.5;
+		getCellFromMap(golden, 0, 0).fillOpacity = 0.5;
+		getCellFromMap(golden, 0, 0).strokeOpacity = 0.5;
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
