@@ -169,7 +169,7 @@ const setAutoOpacity = (map) => {
 	//bump it up so that 0.0 opacity is just past the end of the last highlighted step
 	const farthestDistance = Math.sqrt(Math.pow(map.adjacentPossibleSteps + 1, 2) + Math.pow(map.adjacentPossibleSteps + 1, 2));
 	for (const cell of map.cells) {
-		if (!cell.highlighted && !cell.captured) continue;
+		if (!cell.highlighted && !cell.captured && !cell.active) continue;
 		cell.autoOpacity = 1.0;
 		if (!cell.captured) continue;
 		let cellReference = trimCellReferenceToMap(map, [cell.row - map.adjacentPossibleSteps, cell.col - map.adjacentPossibleSteps, cell.row + map.adjacentPossibleSteps, cell.col + map.adjacentPossibleSteps]);
