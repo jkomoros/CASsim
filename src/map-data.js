@@ -42,6 +42,8 @@ export const EMPTY_EXPANDED_MAP_DATA = {
 
 //Expects an array of [rows, cols] for size of map.
 export const SET_SIZE_COMMAND = "setSize";
+//Expects an array of [rows, cols] for size of map.
+export const SET_ADJACENT_POSSIBLE_STEPS_COMMAND = "setAdjacentPossibleSteps";
 //Expects a cellValueCommand (see above)
 export const SET_HIGHLIGHTED_COMMAND = "highlighted";
 //Expects a cellValueCommand (see above)
@@ -207,6 +209,14 @@ class visualizationMap {
 			result.cells = defaultCellsForSize(...sizeCommand);
 			result.rows = sizeCommand[0];
 			result.cols = sizeCommand[1];
+		}
+
+		let setAdjacentPossibleStepsCommand = this._rawData[SET_ADJACENT_POSSIBLE_STEPS_COMMAND];
+		if (setAdjacentPossibleStepsCommand !== undefined) {
+			if (typeof setAdjacentPossibleStepsCommand != 'number') throw new Error("Adjacent possible steps expects a number");
+			if (setAdjacentPossibleStepsCommand < 0.0) setAdjacentPossibleStepsCommand = 0.0;
+			setAdjacentPossibleStepsCommand = Math.round(setAdjacentPossibleStepsCommand);
+			result.adjacentPossibleSteps = setAdjacentPossibleStepsCommand;
 		}
 
 		//Copy cells so we can modify them

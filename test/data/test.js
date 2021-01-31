@@ -14,6 +14,7 @@ import {
 	SET_CAPTURED_COMMAND,
 	RESET_TO_COMMAND,
 	NAME_COMMAND,
+	SET_ADJACENT_POSSIBLE_STEPS_COMMAND,
 } from "../../src/map-data.js";
 
 import assert from "assert";
@@ -373,6 +374,55 @@ describe("data parsing", () => {
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		assert.throws(() => map.expandedData);
+	});
+
+	it("supports changing set adjacent possible to a normal number", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				//Check that it rounds it
+				[SET_ADJACENT_POSSIBLE_STEPS_COMMAND]: 2.2,
+			}
+		];
+		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		golden.adjacentPossibleSteps = 2.0;
+
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
+	});
+
+	it("supports settig a 0.0 value for adjacnet possible steps", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_ADJACENT_POSSIBLE_STEPS_COMMAND]: 0,
+			}
+		];
+		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		golden.adjacentPossibleSteps = 0.0;
+
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
+	});
+
+	it("supports clips setting a negative value for adjacent steps", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_ADJACENT_POSSIBLE_STEPS_COMMAND]: -1,
+			}
+		];
+		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		golden.adjacentPossibleSteps = 0.0;
+
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
 	});
 
 });
