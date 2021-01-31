@@ -17,6 +17,7 @@ where cell data looks like:
 	value: 0.0,
 	highlighted: true,
 	captured: true,
+	scale: 1.0,
 	//Manually set opacity. If not undefined, will be used, otherwise autoOpacity will be used.
 	fillOpacity: 0.5,
 	strokeOpacity: 0.5,
@@ -62,6 +63,8 @@ export const SET_VALUE_COMMAND = "value";
 export const SET_OPACITY_COMMAND = "opacity";
 export const SET_FILL_OPACITY_COMMAND = "fillOpacity";
 export const SET_STROKE_OPACITY_COMMAND = "strokeOpacity";
+//Scale of individual cell, in place. 0.0 ... 10.0
+export const SET_CELL_SCALE_COMMAND = "scale";
 //Expects a name that was a PREVIOUS state, with a 'name' property, and uses
 //that, instead of the previous state, to base its modifications off of.
 export const RESET_TO_COMMAND = 'resetTo';
@@ -76,6 +79,7 @@ const SET_CELL_COMMANDS = {
 	[SET_OPACITY_COMMAND]: ['fillOpacity', 'strokeOpacity'],
 	[SET_FILL_OPACITY_COMMAND]: [SET_FILL_OPACITY_COMMAND],
 	[SET_STROKE_OPACITY_COMMAND]: [SET_STROKE_OPACITY_COMMAND],
+	[SET_CELL_SCALE_COMMAND]: [SET_CELL_SCALE_COMMAND],
 };
 
 const defaultCellData = (row, col) => {
@@ -86,6 +90,7 @@ const defaultCellData = (row, col) => {
 		highlighted: false,
 		captured: false,
 		active: false,
+		scale: 1.0,
 		//undefined says it should use autoOpacity instead
 		fillOpacity: undefined,
 		strokeOpacity: undefined,

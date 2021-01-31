@@ -100,8 +100,9 @@ class MapVisualization extends LitElement {
 			color = interpolated;
 		}
 		const colorString = 'rgba(' + color.join(', ') + ', ' + fillOpacity + ')';
+		const styleString = cell.scale != 1.0 ? 'transform:scale(' + cell.scale + ');z-index:1' : '';
 
-		return html`<div class='cell ${cell.highlighted ? "highlighted" : ""} ${cell.captured ? 'captured' : ''} ${cell.active ? 'active' : ''}'><div class='fill' style='background-color:${colorString};'></div><div class='stroke' style='opacity:${strokeOpacity}'></div></div>`;
+		return html`<div class='cell ${cell.highlighted ? "highlighted" : ""} ${cell.captured ? 'captured' : ''} ${cell.active ? 'active' : ''}' style='${styleString}'><div class='fill' style='background-color:${colorString};'></div><div class='stroke' style='opacity:${strokeOpacity}'></div></div>`;
 	}
 
 	get _cleanData() {

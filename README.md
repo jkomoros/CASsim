@@ -41,3 +41,4 @@ The cell properties that can be set are:
 * `opacity` [0.0 ... 1.0] - Overrides the default opacity for a cell. Equivalent to setting fillOpacity and strokeOpacity at the same time.
 * `fillOpacity` [0.0 ... 1.0] - Overrides the default opacity for a cell, affecting only the fill color.
 * `strokeOpacity` [0.0 ... 1.0] - Overides the default opacity for a cell, affecting only the stroke color. 
+* `scale` [0.0 ... 10.0] - Scale of individual cells (as opposed to all cells, like setScale)
