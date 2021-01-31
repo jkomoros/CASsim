@@ -84,8 +84,8 @@ class MapVisualization extends LitElement {
 	}
 
 	_htmlForCell(cell) {
-		const fillOpacity = cell.fillOpacity === undefined ? cell.autoOpacity : cell.fillOpacity;
-		const strokeOpacity = cell.strokeOpacity === undefined ? cell.autoOpacity : cell.strokeOpacity;
+		const fillOpacity = cell.fillOpacity === undefined || cell.fillOpacity === null ? cell.autoOpacity : cell.fillOpacity;
+		const strokeOpacity = cell.strokeOpacity === undefined || cell.strokeOpacity === null? cell.autoOpacity : cell.strokeOpacity;
 		//Gray color for empty
 		let color = [102, 102, 102];
 		if (cell.value != null) {
