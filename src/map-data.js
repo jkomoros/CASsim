@@ -218,10 +218,80 @@ const opacityForCell = (cell) => {
 	return cell.fillOpacity === undefined || cell.fillOpacity === null ? cell.autoOpacity : cell.fillOpacity;
 };
 
-const netPresentValueForCell = (map, cell) => {
-	//TODO: memoize
-	//TODO: multiple ply outwards
+const localValueForCell = (cell) => {
+	if (typeof cell.value != 'number') return 0.0;
 	return opacityForCell(cell) * cell.value;
+};
+
+//Returns a list of the cells that ring the centerCell. 0 plys is the center
+//cell itself, 1 is immediate neighbors, 2 is the ring outside of that, etc.
+const ringCells = (map, centerCell, ply) => {
+	if (ply == 0) return [centerCell];
+	const result = [];
+	//Top row
+	let r = centerCell.row - ply;
+	for (let c = centerCell.col - ply; c < centerCell.col + ply; c++) {
+		const neighbor = getCellFromMap(map, r, c);
+		if (neighbor) result.push(neighbor);
+	}
+	//Right side
+	let c = centerCell.col + ply;
+	for (let r = centerCell.row - ply + 1; r < centerCell.row + ply - 1; r++) {
+		const neighbor = getCellFromMap(map, r, c);
+		if (neighbor) result.push(neighbor);
+	}
+	//Bottom row
+	r = centerCell.row + ply;
+	for (let c = centerCell.col + ply - 1; c >= centerCell.col - ply; c--) {
+		const neighbor = getCellFromMap(map, r, c);
+		if (neighbor) result.push(neighbor);
+	}
+	//left side
+	c = centerCell.col - ply;
+	for (let r = centerCell.row + ply -1; r >= centerCell.row - ply -1; r--) {
+		const neighbor = getCellFromMap(map, r, c);
+		if (neighbor) result.push(neighbor);
+	}
+	return result;
+};
+
+//returns the number of ply outward from the centerCell this cell is. That is,
+//if you called ringCells(centerCell), what value of ply would have this cell in it?
+const ringPly = (cell, centerCell) => {
+	const rowDiff = Math.abs(cell.row - centerCell.row);
+	const colDiff = Math.abs(cell.col - centerCell.col);
+	return Math.max(rowDiff, colDiff);
+};
+
+//Returns the neighbors of the given cell that are in the ring immediately outward of itself from the center cell.
+const outerNeighbors = (map, cell, centerCell) => {
+	const ourPly = ringPly(cell, centerCell);
+	return ringCells(map, cell,1).filter(neighbor => ringPly(neighbor, centerCell) > ourPly);
+};
+
+//TODO: increase once we know it's working
+const NET_PRESENT_VALUE_PLY = 2;
+//How much the value from the outer tier should drop off when going inward
+const NET_PRESENT_VALUE_DROPOFF = 0.75;
+
+const netPresentValueMap = (map, centerCell) => {
+	const result = new Map();
+	const maxPly = NET_PRESENT_VALUE_PLY;
+	for (let ply = maxPly; ply > 0; ply--) {
+		const ring = ringCells(map, centerCell, ply);
+		for (const cell of ring) {
+			let cellValue = localValueForCell(cell);
+			//Skip the outward neighbors for the outermost ring, and also cells that are walls.
+			if (ply != maxPly && typeof cell.value == 'number') {
+				//TODO: consider ignoring any negative values, since we could skip them... unless there are only negative values?
+				//By only looking at OUTER neighbors we can ensure we only visit cells have that have already been visited before
+				const outerValue = outerNeighbors(map, cell, centerCell).map(neighbor => result.get(neighbor) || 0.0).reduce((prev, curr) => prev + curr, 0);
+				cellValue += outerValue * NET_PRESENT_VALUE_DROPOFF;
+			}
+			result.set(cell, cellValue);
+		}
+	}
+	return result;
 };
 
 const growMap = (map, config) => {
@@ -253,9 +323,11 @@ const growMap = (map, config) => {
 			continue;
 		}
 
+		const npvMap = netPresentValueMap(map, cell);
+
 		const valueMap = new Map();
 		for (const neighbor of neighbors) {
-			valueMap.set(neighbor, netPresentValueForCell(map, neighbor));
+			valueMap.set(neighbor, npvMap.get(neighbor) || 0.0);
 		}
 		neighbors.sort((a, b) => valueMap.get(b) - valueMap.get(a));
 
@@ -344,6 +416,9 @@ class visualizationMap {
 
 		let growCommand = this._rawData[GROW_COMMAND];
 		if (growCommand) {
+			//do auto opacity before doing the growMap calculation, we'll have
+			//to do it again later after growMap is done.
+			setAutoOpacity(result);
 			growMap(result, growCommand);
 		}
 
