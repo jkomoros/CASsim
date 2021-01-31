@@ -660,4 +660,21 @@ describe("ring cells", () => {
 		].map(pair => getCellFromMap(map, pair[0], pair[1]));
 		assert.deepStrictEqual(result, golden);
 	});
+
+	it("two ply off-center", async () => {
+		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const center = getCellFromMap(map, 1, 1);
+		const ply = 2;
+		const result = ringCells(map, center, ply);
+		const golden = [
+			[0,3],
+			[1,3],
+			[2,3],
+			[3,3],
+			[3,2],
+			[3,1],
+			[3,0]
+		].map(pair => getCellFromMap(map, pair[0], pair[1]));
+		assert.deepStrictEqual(result, golden);
+	});
 });
