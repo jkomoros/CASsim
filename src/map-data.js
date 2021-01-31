@@ -74,7 +74,7 @@ const defaultCellData = (row, col) => {
 		captured: false,
 		//undefined says it should use autoOpacity instead
 		opacity: undefined,
-		autoOpacity: 1.0,
+		autoOpacity: 0.0,
 	};
 };
 
@@ -135,6 +135,12 @@ const setPropertiesOnMap = (map, propertyName, valueToSet, cellReferences) => {
 	}
 };
 
+const setAutoOpacity = (map) => {
+	for (const cell of map.cells) {
+		cell.autoOpacity = (cell.highlighted || cell.captured) ? 1.0 : 0.0;
+	}
+};
+
 class visualizationMap {
 	constructor(collection, index, rawData) {
 		this._collection = collection;
@@ -185,6 +191,8 @@ class visualizationMap {
 				}
 			}	
 		}
+
+		setAutoOpacity(result);
 
 		//Catch bugs easier if we later try to modify this, which should be immutable
 		Object.freeze(result);
