@@ -39,7 +39,7 @@ export const EMPTY_EXPANDED_MAP_DATA = {
 */
 
 //Expects an array of [rows, cols] for size of map.
-export const SET_SIZE_COMMAND = "set_size";
+export const SET_SIZE_COMMAND = "setSize";
 //Expects a cellValueCommand (see above)
 export const SET_HIGHLIGHTED_COMMAND = "highlighted";
 //Expects a cellValueCommand (see above)
@@ -50,7 +50,7 @@ export const SET_VALUE_COMMAND = "value";
 export const SET_OPACITY_COMMAND = "opacity";
 //Expects a name that was a PREVIOUS state, with a 'name' property, and uses
 //that, instead of the previous state, to base its modifications off of.
-export const RESET_TO_COMMAND = 'reset_to';
+export const RESET_TO_COMMAND = 'resetTo';
 //The name to set for reset_to to refer to
 export const NAME_COMMAND = 'name';
 

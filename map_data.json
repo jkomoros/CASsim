@@ -1,6 +1,6 @@
 [
 	{
-		"set_size": [8,15],
+		"setSize": [8,15],
 		"highlighted": [[true, [0, 0]]],
 		"captured": [[true, [1, 0]]],
 		"value": [
