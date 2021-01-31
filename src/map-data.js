@@ -76,6 +76,8 @@ export const RESET_TO_COMMAND = 'resetTo';
 export const NAME_COMMAND = 'name';
 //Grow by one step. Any non-falsely value is fine.
 export const GROW_COMMAND = 'grow';
+//Grow by one step. Any non-falsely value is fine.
+export const GENERATE_COMMAND = 'generate';
 //A number of how many times to repeat this block in place.
 export const REPEAT_COMMAND = 'repeat';
 
@@ -395,6 +397,34 @@ const growMap = (map, config) => {
 	}
 };
 
+const defaultGenerateConfig = () => {
+	return {
+		seed: 'seed',
+	};
+};
+
+const generateMap = (map, config) => {
+	if (typeof config != 'object') config = {};
+	config = {...defaultGenerateConfig(), ...config};
+	const seed = config.seed === true ? undefined : config.seed;
+	const rnd = prng_alea(seed);
+	const urn = new Urn(rnd);
+	urn.add(1.0, 20);
+	urn.add(0.8, 20);
+	urn.add(0.6, 20);
+	urn.add(0.4, 20);
+	urn.add(0.2, 20);
+	urn.add(0.0, 20);
+	urn.add(-0.2, 1);
+	urn.add(-0.4, 1);
+	urn.add(-0.6, 1);
+	urn.add(-0.8, 1);
+	urn.add(-1.0, 3);
+	for (const cell of map.cells) {
+		cell.value = urn.pick();
+	}
+};
+
 class visualizationMap {
 	constructor(collection, index, rawData) {
 		this._collection = collection;
@@ -447,6 +477,11 @@ class visualizationMap {
 
 		//Copy cells so we can modify them
 		result.cells = result.cells.map(cell => ({...cell}));
+
+		let generateCommand = this._rawData[GENERATE_COMMAND];
+		if (generateCommand) {
+			generateMap(result, generateCommand);
+		}
 
 		for (const [commandName, propertyNames] of Object.entries(SET_CELL_COMMANDS)) {
 			const commands = this._rawData[commandName];

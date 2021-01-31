@@ -25,9 +25,10 @@ Each state is an object with commands that apply.
 *name*: `<string` - A name for the state, to refer to later with resetTo.
 *resetTo*: `<string>` - Resets the state to the state at the named previous state. The named state must exist, and must be BEFORE this one.
 *repeat*: `<integer>` - If set, will repeat this block in place that many times to save you from having to type it a lot. Useful for lots of grow blocks.
-*grow*: `<non-falsey-value>` - Grows all of the active cells into a legal neighbor. If passed an object, its values can be:
+*grow*: `<non-falsey-value>` - Grows all of the active cells into a legal neighbor. See growParameters below for more values that can be passed in an object.
+*generate*: `<non-falsey-value>` - Generates a new map of values in the map. See generateParameters below for more values that can be passed in an object.
 
-Configuration for grow command
+growParameters:
 *seed*: `string` - A string to use as seed. If you don't like the result you're getting at a step, provide a different seed. If the boolean true is provided, it will operate non deterministically.
 *randomness*: `[0.0 ... 1.0]` - A value for how random the neighbor pick should be. 1.0 is totally random pick of any nearby legal neighbor. 0.0 is deterministic of best valued thing
 *proportion*: `[0.0 ... 1.0]` - What percentage of active cells should be grown in a given step. 1.0 is all cells, 0.0 is none. This is the relative version of numCellsToGrow
@@ -35,6 +36,9 @@ Configuration for grow command
 *valuePly* `[integer]` - How many concentric rings away from a cell to consider when looking at which neighbor to grow into. Defaults to 8.
 *valueDropoff* `[0.0 - 1.0]` - How much of the value of neighbors to discount when adding to a cell's own value. Larger numbers put more emphasis on the cell itself, not its neighbors. Defaults to 0.75.
 *branchLikelihood* `[0.0 -1.0]` - How likely a given active cell when growing is to branch--to both grow and leave the old one active, too. Defaults to 0.0.
+
+generateParameters:
+*seed*: `string` - A string to use as seed. If you don't like the result you're getting, provide a different seed. If the boolean true is provided, it will operate non deterministically.
 
 The next groups are cell commands. They select a property to modify, a value to set, and then a range of cells to affect, like this:
 `<property-name> : [[<value>, <cell-reference>], [<value>, <cell-reference>]]`.
