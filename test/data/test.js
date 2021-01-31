@@ -55,9 +55,6 @@ describe("data parsing", () => {
 		const cell = getCellFromMap(golden, 0, 0);
 		cell.highlighted = true;
 		cell.autoOpacity = 1.0;
-		getCellFromMap(golden, 1, 0).autoOpacity = 0.5;
-		getCellFromMap(golden, 1, 1).autoOpacity = 0.5;
-		getCellFromMap(golden, 0, 1).autoOpacity = 0.5;
 
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);

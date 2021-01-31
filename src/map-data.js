@@ -162,6 +162,7 @@ const setAutoOpacity = (map) => {
 	for (const cell of map.cells) {
 		if (!cell.highlighted && !cell.captured) continue;
 		cell.autoOpacity = 1.0;
+		if (!cell.captured) continue;
 		let cellReference = trimCellReferenceToMap(map, [cell.row - map.adjacentPossibleSteps, cell.col - map.adjacentPossibleSteps, cell.row + map.adjacentPossibleSteps, cell.col + map.adjacentPossibleSteps]);
 		const cells = cellsFromReferences(map, cellReference);
 		for (const innerCell of cells) {
