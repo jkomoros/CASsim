@@ -362,7 +362,6 @@ const growMap = (map, config) => {
 		for (const neighbor of neighbors) {
 			valueMap.set(neighbor, npvMap.get(neighbor) || 0.0);
 		}
-		neighbors.sort((a, b) => valueMap.get(b) - valueMap.get(a));
 
 		const valueSelectionStrength = (1.0 - config.randomness) * 1000;
 
