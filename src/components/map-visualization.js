@@ -63,7 +63,7 @@ class MapVisualization extends LitElement {
 					border: 0.25em solid var(--highlighted-cell-color, white);
 				}
 
-				.cell.captured div.stroke {
+				.cell.captured div.stroke, .cell.active div.stroke {
 					border: 0.25em solid var(--captured-cell-color, black);
 				}
 			`
@@ -100,7 +100,7 @@ class MapVisualization extends LitElement {
 		}
 		const colorString = 'rgba(' + color.join(', ') + ', ' + fillOpacity + ')';
 
-		return html`<div class='cell ${cell.highlighted ? "highlighted" : ""} ${cell.captured ? 'captured' : ''}'><div class='fill' style='background-color:${colorString};'></div><div class='stroke' style='opacity:${strokeOpacity}'></div></div>`;
+		return html`<div class='cell ${cell.highlighted ? "highlighted" : ""} ${cell.captured ? 'captured' : ''} ${cell.active ? 'active' : ''}'><div class='fill' style='background-color:${colorString};'></div><div class='stroke' style='opacity:${strokeOpacity}'></div></div>`;
 	}
 
 	get _cleanData() {
