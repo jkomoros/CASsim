@@ -24,6 +24,12 @@ const RENDER_COMPLETE_VARIABLE = 'render_complete';
 
 	const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
 	const page = await browser.newPage();
+	await page.setViewport({
+		//The width and height are required but don't matter that much because we use ele.screenshot
+		width: 1000,
+		height: 1000,
+		deviceScaleFactor: 8.0,
+	});
 	await page.goto('http://localhost:8081', {waitUntil: 'networkidle2'});
 	await page.evaluate('document.querySelector("body").style.setProperty("--app-background-color", "transparent")');
 	let currentIndex = await page.evaluate('window.' + CURRENT_INDEX_VARIABLE);
