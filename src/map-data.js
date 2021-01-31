@@ -289,7 +289,7 @@ const netPresentValueMap = (map, centerCell, growConfig) => {
 			if (ply != maxPly && typeof cell.value == 'number') {
 				//By only looking at OUTER neighbors we can ensure we only visit cells have that have already been visited before
 				const outerValue = outerNeighbors(map, cell, centerCell).map(neighbor => result.get(neighbor) || 0.0).reduce((prev, curr) => prev + curr, 0);
-				cellValue += outerValue * growConfig.valueDropoff;
+				cellValue += outerValue * (1 - growConfig.valueDropoff);
 			}
 			result.set(cell, cellValue);
 		}
