@@ -415,6 +415,7 @@ const generateMap = (map, config) => {
 	urn.add(0.4, 20);
 	urn.add(0.2, 20);
 	urn.add(0.0, 20);
+	urn.add(null, 3);
 	urn.add(-0.2, 1);
 	urn.add(-0.4, 1);
 	urn.add(-0.6, 1);
