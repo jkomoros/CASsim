@@ -288,12 +288,14 @@ const netPresentValueMap = (map, centerCell, growConfig) => {
 		const ring = ringCells(map, centerCell, ply);
 		for (const cell of ring) {
 			let cellValue = localValueForCell(cell);
+			let isWall = typeof cell.value != 'number';
 			//Treat negative values as 0.0, since it's possible to just ignore them and treat them like walls.
-			if (cellValue < 0.0) cellValue = 0.0;
+			if (cellValue < 0.0) isWall = true;
 			//Ignore cells that are already captured
-			if (cell.captured) cellValue = 0.0;
+			if (cell.captured) isWall = true;
+			if (isWall) cellValue = 0.0;
 			//Skip the outward neighbors for the outermost ring, and also cells that are walls.
-			if (ply != maxPly && typeof cell.value == 'number') {
+			if (ply != maxPly && !isWall) {
 				//By only looking at OUTER neighbors we can ensure we only visit cells have that have already been visited before
 				const outerValue = outerNeighbors(map, cell, centerCell).map(neighbor => result.get(neighbor) || 0.0).reduce((prev, curr) => prev + curr, 0);
 				cellValue += outerValue * (1 - growConfig.valueDropoff);
