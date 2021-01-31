@@ -213,6 +213,8 @@ const defaultGrowConfig = () => {
 		proportion: 1.0,
 		//How many rings outward to look at for value
 		valuePly: 8,
+		//How much of the value from neighbors shoud flow inwards
+		valueDropoff: 0.75,
 	};
 };
 
@@ -271,9 +273,6 @@ export const outerNeighbors = (map, cell, centerCell) => {
 	return ringCells(map, cell,1).filter(neighbor => ringPly(neighbor, centerCell) > ourPly);
 };
 
-//How much the value from the outer tier should drop off when going inward
-const NET_PRESENT_VALUE_DROPOFF = 0.75;
-
 const netPresentValueMap = (map, centerCell, growConfig) => {
 	const result = new Map();
 	const maxPly = growConfig.valuePly;
@@ -289,7 +288,7 @@ const netPresentValueMap = (map, centerCell, growConfig) => {
 			if (ply != maxPly && typeof cell.value == 'number') {
 				//By only looking at OUTER neighbors we can ensure we only visit cells have that have already been visited before
 				const outerValue = outerNeighbors(map, cell, centerCell).map(neighbor => result.get(neighbor) || 0.0).reduce((prev, curr) => prev + curr, 0);
-				cellValue += outerValue * NET_PRESENT_VALUE_DROPOFF;
+				cellValue += outerValue * growConfig.valueDropoff;
 			}
 			result.set(cell, cellValue);
 		}

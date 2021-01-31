@@ -32,6 +32,7 @@ Configuration for grow command
 *randomness*: `[0.0 ... 1.0]` - A value for how random the neighbor pick should be. 1.0 is totally random pick of any nearby legal neighbor. 0.0 is deterministic of best valued thing
 *proportion*: `[0.0 ... 1.0]` - What percentage of active cells should be grown in a given step. 1.0 is all cells, 0.0 is none.
 *valuePly* `[integer]` - How many concentric rings away from a cell to consider when looking at which neighbor to grow into. Defaults to 8.
+*valueDropoff* `[0.0 - 1.0]` - How much of the value of neighbors to count when adding up to a cell's own value. Defaults to 0.75.
 
 The next groups are cell commands. They select a property to modify, a value to set, and then a range of cells to affect, like this:
 `<property-name> : [[<value>, <cell-reference>], [<value>, <cell-reference>]]`.
