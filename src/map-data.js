@@ -205,6 +205,7 @@ const setAutoOpacity = (map) => {
 const defaultGrowConfig = () => {
 	return {
 		seed: 'seed',
+		randomness: 0.2,
 	};
 };
 
@@ -250,11 +251,14 @@ const growMap = (map, config) => {
 		}
 		neighbors.sort((a, b) => valueMap.get(b) - valueMap.get(a));
 
+		const valueSelectionStrength = (1.0 - config.randomness) * 1000;
+
 		//Best neighbors are first. Put them into the urn with much higher probability.
-		const neighborsUrn = neighbors.map((neighbor, index) => {
-			//TODO: allow this to be scaled based on a config value. Ensure nothing gets a value of 0.
-			const multiplier = neighbors.length - index + 1;
-			return Array(multiplier).fill(neighbor);
+		const neighborsUrn = neighbors.map((neighbor) => {
+			//scale based on goodness and randomness strength
+			//Ensure nothing gets a value of 0.
+			const multiplier = (valueMap.get(neighbor) * valueSelectionStrength) + 1;
+			return Array(Math.ceil(multiplier)).fill(neighbor);
 		}).flat();
 
 		const neighbor = neighborsUrn[Math.floor(rnd.quick() * neighborsUrn.length)];
