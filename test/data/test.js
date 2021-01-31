@@ -17,6 +17,7 @@ import {
 	SET_CELL_SCALE_COMMAND,
 	RESET_TO_COMMAND,
 	NAME_COMMAND,
+	GROW_COMMAND,
 	SET_ADJACENT_POSSIBLE_STEPS_COMMAND,
 } from "../../src/map-data.js";
 
@@ -497,6 +498,24 @@ describe("data parsing", () => {
 		assert.deepStrictEqual(data, golden);
 	});
 
-	//TODO: test grow once it's deterministic
+	it("supports grow with no parameters", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_ACTIVE_COMMAND]: [[true, [0,0]]],
+				[SET_ADJACENT_POSSIBLE_STEPS_COMMAND]: 0,
+				[GROW_COMMAND]: true,
+			}
+		];
+		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		golden.adjacentPossibleSteps = 0;
+		getCellFromMap(golden, 0, 1).active = true;
+		getCellFromMap(golden, 0, 1).captured = true;
+		getCellFromMap(golden, 0, 1).autoOpacity = 1.0;
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
+	});
 
 });

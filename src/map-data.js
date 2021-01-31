@@ -1,4 +1,8 @@
 
+import {
+	prng_alea
+} from 'esm-seedrandom';
+
 /*
 expandedMapData has the following shape:
 {
@@ -200,6 +204,8 @@ const setAutoOpacity = (map) => {
 
 const growMap = (map, config) => {
 	if (!config) return;
+	//TODO: use seed passed in config or something like JSON serialization of map
+	const rnd = prng_alea("seed");
 	const activeCells = map.cells.filter(cell => cell.active);
 	for (const cell of activeCells) {
 		let neighbors = [];
@@ -219,7 +225,7 @@ const growMap = (map, config) => {
 			cell.active = false;
 		}
 		//TODO: use deterministic rand
-		const neighbor = neighbors[Math.floor(Math.random() * neighbors.length)];
+		const neighbor = neighbors[Math.floor(rnd.quick() * neighbors.length)];
 		neighbor.active = true;
 		neighbor.captured = true;
 		cell.active = false;
