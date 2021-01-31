@@ -23,7 +23,7 @@ store.addReducers({
 	data
 });
 
-//rendevous point with screenshot service
+//rendevous point with screenshot service. Duplicated in screenshot.js
 const CURRENT_INDEX_VARIABLE = 'current_index';
 const PREVIOUS_MAP_VARIABLE = 'previous_map';
 const RENDER_COMPLETE_VARIABLE = 'render_complete';

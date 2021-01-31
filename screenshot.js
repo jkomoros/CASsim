@@ -6,6 +6,11 @@ const path = require('path');
 
 const SCREENSHOT_DIR = 'screenshots';
 
+//rendevous point with screenshot service. Duplicated in main-view.js
+const CURRENT_INDEX_VARIABLE = 'current_index';
+const PREVIOUS_MAP_VARIABLE = 'previous_map';
+const RENDER_COMPLETE_VARIABLE = 'render_complete';
+
 (async() => {
 
 	const files = fs.readdirSync(SCREENSHOT_DIR);
@@ -21,7 +26,19 @@ const SCREENSHOT_DIR = 'screenshots';
 	const page = await browser.newPage();
 	await page.goto('http://localhost:8081', {waitUntil: 'networkidle2'});
 	await page.evaluate('document.querySelector("body").style.setProperty("--app-background-color", "transparent")');
-	const ele =await page.evaluateHandle('document.querySelector("my-app").shadowRoot.querySelector("main-view").shadowRoot.querySelector("map-visualization")');
-	await ele.screenshot({path: SCREENSHOT_DIR + '/screenshot.png', omitBackground:true});
+	let currentIndex = await page.evaluate('window.' + CURRENT_INDEX_VARIABLE);
+	do {
+		console.log('Working on state #' + currentIndex);
+		const ele = await page.evaluateHandle('document.querySelector("my-app").shadowRoot.querySelector("main-view").shadowRoot.querySelector("map-visualization")');
+		await ele.screenshot({path: SCREENSHOT_DIR + '/screenshot_' + currentIndex + '.png', omitBackground:true});
+
+		if (currentIndex == 0) break;
+
+		await page.evaluate('window.' + PREVIOUS_MAP_VARIABLE + '()');
+		//Wait for the flag to be raised high after rendering has happened
+		await page.waitForFunction('window.' + RENDER_COMPLETE_VARIABLE);
+		currentIndex = await page.evaluate('window.' + CURRENT_INDEX_VARIABLE);
+	} while(currentIndex >= 0);
+
 	await browser.close();
 })();
