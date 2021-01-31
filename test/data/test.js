@@ -13,6 +13,7 @@ import {
 	SET_FILL_OPACITY_COMMAND,
 	SET_STROKE_OPACITY_COMMAND,
 	SET_CAPTURED_COMMAND,
+	SET_SCALE_COMMAND,
 	RESET_TO_COMMAND,
 	NAME_COMMAND,
 	SET_ADJACENT_POSSIBLE_STEPS_COMMAND,
@@ -457,6 +458,22 @@ describe("data parsing", () => {
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		golden.adjacentPossibleSteps = 0.0;
+
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
+	});
+
+	it("supports changing scale", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_SCALE_COMMAND]: 2.2,
+			}
+		];
+		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		golden.scale = 2.2;
 
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);

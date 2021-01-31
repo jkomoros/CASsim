@@ -75,6 +75,7 @@ class MapVisualization extends LitElement {
 			<style>
 				:host {
 					--container-size: calc(${this._cleanData.cols} * var(--total-cell-width));
+					font-size: ${this._cleanData.scale}em;
 				}
 			</style>
 			<div class='container'>

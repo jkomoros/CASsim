@@ -5,6 +5,7 @@ expandedMapData has the following shape:
 	rows: 5,
 	cols: 5,
 	adjacentPossibleSteps: 1,
+	scale: 1.0,
 	cells: [//cellData]
 }
 
@@ -30,6 +31,7 @@ export const EMPTY_EXPANDED_MAP_DATA = {
 	rows:0,
 	cols:0,
 	adjacentPossibleSteps: 0,
+	scale: 1.0,
 	cells: [],
 };
 
@@ -46,6 +48,8 @@ export const EMPTY_EXPANDED_MAP_DATA = {
 export const SET_SIZE_COMMAND = "setSize";
 //Expects an array of [rows, cols] for size of map.
 export const SET_ADJACENT_POSSIBLE_STEPS_COMMAND = "setAdjacentPossibleSteps";
+//0.0 ... 10.0
+export const SET_SCALE_COMMAND = "setScale";
 //Expects a cellValueCommand (see above)
 export const SET_HIGHLIGHTED_COMMAND = "highlighted";
 //Expects a cellValueCommand (see above)
@@ -110,6 +114,7 @@ export const defaultVisualizationMapExpandedForCells = (cells) => {
 		rows,
 		cols,
 		adjacentPossibleSteps: DEFAULT_ADJACENT_POSSIBLE_STEPS,
+		scale: 1.0,
 		cells
 	};
 };
@@ -227,6 +232,13 @@ class visualizationMap {
 			if (setAdjacentPossibleStepsCommand < 0.0) setAdjacentPossibleStepsCommand = 0.0;
 			setAdjacentPossibleStepsCommand = Math.round(setAdjacentPossibleStepsCommand);
 			result.adjacentPossibleSteps = setAdjacentPossibleStepsCommand;
+		}
+
+		let scaleCommand = this._rawData[SET_SCALE_COMMAND];
+		if (scaleCommand !== undefined) {
+			if (typeof scaleCommand != 'number') throw new Error("Scale must be a number");
+			if (scaleCommand < 0.0) scaleCommand = 0.0;
+			result.scale = scaleCommand;
 		}
 
 		//Copy cells so we can modify them
