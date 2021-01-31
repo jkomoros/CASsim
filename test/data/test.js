@@ -188,4 +188,65 @@ describe("data parsing", () => {
 		assert.throws(() => map.expandedData);
 	});
 
+	it("supports a rectangular region", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_HIGHLIGHTED_COMMAND]: [[true, [0,0,1,2]]],
+			}
+		];
+		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		getCellFromMap(golden, 0, 0).highlighted = true;
+		getCellFromMap(golden, 0, 1).highlighted = true;
+		getCellFromMap(golden, 0, 2).highlighted = true;
+		getCellFromMap(golden, 1, 0).highlighted = true;
+		getCellFromMap(golden, 1, 1).highlighted = true;
+		getCellFromMap(golden, 1, 2).highlighted = true;
+
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
+	});
+
+	it("supports a rectangular region of size 1", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_HIGHLIGHTED_COMMAND]: [[true, [0,0,0,0]]],
+			}
+		];
+		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		getCellFromMap(golden, 0, 0).highlighted = true;
+
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
+	});
+
+	it("doesnt support a rectangular region that starts row after it begins", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_HIGHLIGHTED_COMMAND]: [[true, [1,0,0,0]]],
+			}
+		];
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		assert.throws(() => map.expandedData);
+	});
+
+	it("doesnt support a rectangular region that starts col after it begins", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_HIGHLIGHTED_COMMAND]: [[true, [0,1,0,0]]],
+			}
+		];
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		assert.throws(() => map.expandedData);
+	});
+
 });

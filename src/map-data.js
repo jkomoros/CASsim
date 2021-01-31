@@ -31,7 +31,7 @@ export const EMPTY_EXPANDED_MAP_DATA = {
 
 	where cellReference is one of:
 	* [row, col] for a single cell
-	* [startRow, startCol, endRow, endCol] to select a rectangle
+	* [startRow, startCol, endRow, endCol] to select a rectangle (INCLUSIVE)
 */
 
 //Expects an array of [rows, cols] for size of map.
@@ -94,8 +94,18 @@ export const getCellFromMap = (map, row, col) => {
 };
 
 const cellsFromReferences = (map, cellReferences) => {
-	const cell = getCellFromMap(map, cellReferences[0], cellReferences[1]);
-	return [cell];
+	if (cellReferences.length == 2) return [getCellFromMap(map, cellReferences[0], cellReferences[1])];
+	if (cellReferences.length != 4) throw new Error("Unknown cell reference shape: " + cellReferences);
+	const result = [];
+	const [startRow, startCol, endRow, endCol] = cellReferences;
+	if (endRow < startRow) throw new Error("Cell reference invalid: endRow must be larger: " + cellReferences);
+	if (endCol < startCol) throw new Error("Cell reference invalid: endCol must be larger: " + cellReferences);
+	for (let r = startRow; r <= endRow; r++) {
+		for (let c = startCol; c <= endCol; c++) {
+			result.push(getCellFromMap(map, r, c));
+		}
+	}
+	return result;
 };
 
 const setPropertiesOnMap = (map, propertyName, valueToSet, cellReferences) => {
