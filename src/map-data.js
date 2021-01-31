@@ -230,6 +230,7 @@ const growMap = (map, config) => {
 		if (neighbors.length == 0) {
 			//Don't try this one in the future, there are no neighbors
 			cell.active = false;
+			continue;
 		}
 		const neighbor = neighbors[Math.floor(rnd.quick() * neighbors.length)];
 		neighbor.active = true;
