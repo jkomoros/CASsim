@@ -176,5 +176,26 @@
 			[0.0, [3, 1, 5, 3]],
 			[null, [4, 2]]
 		]
+	},
+	{
+		"resetTo": "single_adjacent_possible",
+		"captured": [
+			[true, [3, 1, 5, 3]]
+		]
+	},
+	{
+		"captured": [
+			[true, [2,2]],
+			[true, [3,0]],
+			[true, [4,0]],
+			[true, [6,2]]
+		]
+	},
+	{
+		"resetTo": "single_adjacent_possible",
+		"active": [
+			[true, [5,5]],
+			[true, [5,9]]
+		]
 	}
 ]
