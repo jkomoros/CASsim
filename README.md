@@ -20,7 +20,7 @@ The JSON file is an array of states that build on each other, shadowing and over
 Each state is an object with commands that apply.
 
 *setSize*: `[rows, cols]` - Must be in the first state, and may be in later ones. Resets the map to that size.
-*setAdjacentPossibleSteps*: `<positive integer>` - Override how many steps of adjacent possible around captured cells to show. 0 disables adjacent possible highlighting.
+*setAdjacentPossibleSteps*: `<positive integer>` - Override how many steps of adjacent possible around captured cells to show. 0 disables adjacent possible highlighting. Defaults to 3.
 *name*: `<string` - A name for the state, to refer to later with resetTo.
 *resetTo*: `<string>` - Resets the state to the state at the named previous state. The named state must exist, and must be BEFORE this one.
 

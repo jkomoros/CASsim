@@ -24,6 +24,8 @@ where cell data looks like:
 
 */
 
+const DEFAULT_ADJACENT_POSSIBLE_STEPS = 3;
+
 export const EMPTY_EXPANDED_MAP_DATA = {
 	rows:0,
 	cols:0,
@@ -102,7 +104,7 @@ export const defaultVisualizationMapExpandedForCells = (cells) => {
 	return {
 		rows,
 		cols,
-		adjacentPossibleSteps: 1,
+		adjacentPossibleSteps: DEFAULT_ADJACENT_POSSIBLE_STEPS,
 		cells
 	};
 };
@@ -159,6 +161,8 @@ const setAutoOpacity = (map) => {
 	for (const cell of map.cells) {
 		cell.autoOpacity = 0.0;
 	}
+	//bump it up so that 0.0 opacity is just past the end of the last highlighted step
+	const farthestDistance = Math.sqrt(Math.pow(map.adjacentPossibleSteps + 1, 2) + Math.pow(map.adjacentPossibleSteps + 1, 2));
 	for (const cell of map.cells) {
 		if (!cell.highlighted && !cell.captured) continue;
 		cell.autoOpacity = 1.0;
@@ -168,8 +172,8 @@ const setAutoOpacity = (map) => {
 		for (const innerCell of cells) {
 			//Skip ourselves
 			if (innerCell == cell) continue;
-			//TODO scale based on how far away from the main cell
-			const opacityToSet = 0.5;
+			const distance = Math.sqrt(Math.pow(innerCell.row - cell.row, 2) + Math.pow(innerCell.col - cell.col, 2));
+			const opacityToSet = 1.0 - (distance / farthestDistance);
 			//It could be a cell that is captured or closer to another cell.
 			if (innerCell.autoOpacity > opacityToSet) continue;
 			innerCell.autoOpacity = opacityToSet;

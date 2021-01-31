@@ -163,15 +163,40 @@ describe("data parsing", () => {
 			{
 				[SET_SIZE_COMMAND]: [2,3],
 				[SET_CAPTURED_COMMAND]: [[true, [0,0]]],
+				[SET_ADJACENT_POSSIBLE_STEPS_COMMAND]: 1,
 			}
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		golden.adjacentPossibleSteps = 1;
 		getCellFromMap(golden, 0, 0).captured = true;
 		getCellFromMap(golden, 0, 0).autoOpacity = 1.0;
-		getCellFromMap(golden, 1, 0).autoOpacity = 0.5;
+		getCellFromMap(golden, 1, 0).autoOpacity = 1.0 - (1.0 / Math.sqrt(8));
 		getCellFromMap(golden, 1, 1).autoOpacity = 0.5;
-		getCellFromMap(golden, 0, 1).autoOpacity = 0.5;
+		getCellFromMap(golden, 0, 1).autoOpacity = 1.0 - (1.0 / Math.sqrt(8));
 
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
+	});
+
+	it("supports adjacent possible fading cells", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_CAPTURED_COMMAND]: [[true, [0,0]]],
+				[SET_ADJACENT_POSSIBLE_STEPS_COMMAND]: 2,
+			}
+		];
+		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		golden.adjacentPossibleSteps = 2;
+		getCellFromMap(golden, 0, 0).captured = true;
+		getCellFromMap(golden, 0, 0).autoOpacity = 1.0;
+		getCellFromMap(golden, 1, 0).autoOpacity = 1.0 - (1.0 / Math.sqrt(18));
+		getCellFromMap(golden, 1, 1).autoOpacity = 1.0 - (Math.sqrt(2) / Math.sqrt(18));
+		getCellFromMap(golden, 0, 1).autoOpacity = 1.0 - (1.0 / Math.sqrt(18));
+		getCellFromMap(golden, 0, 2).autoOpacity = 1.0 - (2.0 / Math.sqrt(18));
+		getCellFromMap(golden, 1, 2).autoOpacity = 1.0 - (Math.sqrt(5) / Math.sqrt(18));
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
