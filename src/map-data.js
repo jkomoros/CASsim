@@ -211,6 +211,8 @@ const defaultGrowConfig = () => {
 		seed: 'seed',
 		randomness: 0.1,
 		proportion: 1.0,
+		//How many rings outward to look at for value
+		valuePly: 8,
 	};
 };
 
@@ -269,14 +271,12 @@ export const outerNeighbors = (map, cell, centerCell) => {
 	return ringCells(map, cell,1).filter(neighbor => ringPly(neighbor, centerCell) > ourPly);
 };
 
-//TODO: increase once we know it's working
-const NET_PRESENT_VALUE_PLY = 8;
 //How much the value from the outer tier should drop off when going inward
 const NET_PRESENT_VALUE_DROPOFF = 0.75;
 
-const netPresentValueMap = (map, centerCell) => {
+const netPresentValueMap = (map, centerCell, growConfig) => {
 	const result = new Map();
-	const maxPly = NET_PRESENT_VALUE_PLY;
+	const maxPly = growConfig.valuePly;
 	for (let ply = maxPly; ply > 0; ply--) {
 		const ring = ringCells(map, centerCell, ply);
 		for (const cell of ring) {
@@ -350,7 +350,7 @@ const growMap = (map, config) => {
 			continue;
 		}
 
-		const npvMap = netPresentValueMap(map, cell);
+		const npvMap = netPresentValueMap(map, cell, config);
 
 		const valueMap = new Map();
 		for (const neighbor of neighbors) {
