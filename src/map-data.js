@@ -340,7 +340,7 @@ const growMap = (map, config) => {
 		const neighborsUrn = neighbors.map((neighbor) => {
 			//scale based on goodness and randomness strength
 			//Ensure nothing gets a value of 0.
-			const multiplier = (valueMap.get(neighbor) * valueSelectionStrength) + 1;
+			const multiplier = (Math.pow(valueMap.get(neighbor), 2) * valueSelectionStrength) + 1;
 			return Array(Math.ceil(multiplier)).fill(neighbor);
 		}).flat();
 
