@@ -4,6 +4,7 @@ expandedMapData has the following shape:
 {
 	rows: 5,
 	cols: 5,
+	adjacentPossibleSteps: 1,
 	cells: [//cellData]
 }
 
@@ -26,6 +27,7 @@ where cell data looks like:
 export const EMPTY_EXPANDED_MAP_DATA = {
 	rows:0,
 	cols:0,
+	adjacentPossibleSteps: 0,
 	cells: [],
 };
 
@@ -98,6 +100,7 @@ export const defaultVisualizationMapExpandedForCells = (cells) => {
 	return {
 		rows,
 		cols,
+		adjacentPossibleSteps: 1,
 		cells
 	};
 };
@@ -106,11 +109,16 @@ export const getCellFromMap = (map, row, col) => {
 	return map.cells[row * map.cols + col];
 };
 
-const cellsFromReferences = (map, cellReferences) => {
+const expandCellReference = (map, cellReferences) => {
 	//Convert a reference of length 0 to the whole map
-	if (cellReferences.length == 0) cellReferences = [0,0,map.rows -1, map.cols -1];
+	if (cellReferences.length == 0) return [0,0,map.rows -1, map.cols -1];
 	//convert a single reference to a rectangualr of size one
-	if (cellReferences.length == 2) cellReferences = [cellReferences[0], cellReferences[1], cellReferences[0], cellReferences[1]];
+	if (cellReferences.length == 2) return [cellReferences[0], cellReferences[1], cellReferences[0], cellReferences[1]];
+	return cellReferences;
+};
+
+const cellsFromReferences = (map, cellReferences) => {
+	cellReferences = expandCellReference(map, cellReferences);
 	if (cellReferences.length != 4) throw new Error("Unknown cell reference shape: " + cellReferences);
 	const result = [];
 	const [startRow, startCol, endRow, endCol] = cellReferences;
@@ -128,6 +136,16 @@ const cellsFromReferences = (map, cellReferences) => {
 	return result;
 };
 
+//Returns a new reference that is like reference, but legal and within bounds of map
+const trimCellReferenceToMap = (map, reference) => {
+	reference = [...expandCellReference(map, reference)];
+	if (reference[0] < 0) reference[0] = 0;
+	if (reference[1] < 0) reference[1] = 0;
+	if (reference[2] >= map.rows) reference[2] = map.rows - 1;
+	if (reference[3] >= map.cols) reference[3] = map.cols - 1;
+	return reference;
+};
+
 const setPropertiesOnMap = (map, propertyName, valueToSet, cellReferences) => {
 	const cells = cellsFromReferences(map, cellReferences);
 	for (const cell of cells) {
@@ -137,7 +155,22 @@ const setPropertiesOnMap = (map, propertyName, valueToSet, cellReferences) => {
 
 const setAutoOpacity = (map) => {
 	for (const cell of map.cells) {
-		cell.autoOpacity = (cell.highlighted || cell.captured) ? 1.0 : 0.0;
+		cell.autoOpacity = 0.0;
+	}
+	for (const cell of map.cells) {
+		if (!cell.highlighted && !cell.captured) continue;
+		cell.autoOpacity = 1.0;
+		let cellReference = trimCellReferenceToMap(map, [cell.row - map.adjacentPossibleSteps, cell.col - map.adjacentPossibleSteps, cell.row + map.adjacentPossibleSteps, cell.col + map.adjacentPossibleSteps]);
+		const cells = cellsFromReferences(map, cellReference);
+		for (const innerCell of cells) {
+			//Skip ourselves
+			if (innerCell == cell) continue;
+			//TODO scale based on how far away from the main cell
+			const opacityToSet = 0.5;
+			//It could be a cell that is captured or closer to another cell.
+			if (innerCell.autoOpacity > opacityToSet) continue;
+			innerCell.autoOpacity = opacityToSet;
+		}
 	}
 };
 
