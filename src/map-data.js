@@ -79,7 +79,8 @@ const defaultCellData = (row, col) => {
 		highlighted: false,
 		captured: false,
 		//undefined says it should use autoOpacity instead
-		opacity: undefined,
+		fillOpacity: undefined,
+		strokeOpacity: undefined,
 		autoOpacity: 0.0,
 	};
 };
