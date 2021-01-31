@@ -133,6 +133,8 @@ export const defaultVisualizationMapExpandedForCells = (cells) => {
 };
 
 export const getCellFromMap = (map, row, col) => {
+	if (row < 0 || row >= map.rows) return null;
+	if (col < 0 || col >= map.cols) return null;
 	return map.cells[row * map.cols + col];
 };
 
