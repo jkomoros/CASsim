@@ -51,6 +51,8 @@ export const SET_HIGHLIGHTED_COMMAND = "highlighted";
 //Expects a cellValueCommand (see above)
 export const SET_CAPTURED_COMMAND = "captured";
 //Expects a cellValueCommand (see above)
+export const SET_ACTIVE_COMMAND = "active";
+//Expects a cellValueCommand (see above)
 export const SET_VALUE_COMMAND = "value";
 //Expects a cellValueCommand (see above). This is semantically equivalent to setting fillOpacity and strokeOpacity at the same time.
 export const SET_OPACITY_COMMAND = "opacity";
@@ -65,6 +67,7 @@ export const NAME_COMMAND = 'name';
 const SET_CELL_COMMANDS = {
 	[SET_HIGHLIGHTED_COMMAND]: [SET_HIGHLIGHTED_COMMAND],
 	[SET_CAPTURED_COMMAND]: [SET_CAPTURED_COMMAND],
+	[SET_ACTIVE_COMMAND]: [SET_ACTIVE_COMMAND],
 	[SET_VALUE_COMMAND]: [SET_VALUE_COMMAND],
 	[SET_OPACITY_COMMAND]: ['fillOpacity', 'strokeOpacity'],
 	[SET_FILL_OPACITY_COMMAND]: [SET_FILL_OPACITY_COMMAND],
@@ -78,6 +81,7 @@ const defaultCellData = (row, col) => {
 		value: 0.0,
 		highlighted: false,
 		captured: false,
+		active: false,
 		//undefined says it should use autoOpacity instead
 		fillOpacity: undefined,
 		strokeOpacity: undefined,

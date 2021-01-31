@@ -8,6 +8,7 @@ import {
 	SET_SIZE_COMMAND,
 	SET_HIGHLIGHTED_COMMAND,
 	SET_VALUE_COMMAND,
+	SET_ACTIVE_COMMAND,
 	SET_OPACITY_COMMAND,
 	SET_FILL_OPACITY_COMMAND,
 	SET_STROKE_OPACITY_COMMAND,
@@ -106,6 +107,21 @@ describe("data parsing", () => {
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).value = 1.0;
 		getCellFromMap(golden, 0, 1).value = -1.0;
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
+	});
+
+	it("supports setting cell to active", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_ACTIVE_COMMAND]: [[true, [0,0]]],
+			}
+		];
+		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		getCellFromMap(golden, 0, 0).active = true;
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
