@@ -152,6 +152,20 @@
 	},
 	{
 		"resetTo": "hero_use_cases",
+		"name": "single_adjacent_possible",
 		"setAdjacentPossibleSteps": 2
+	},
+	{
+		"captured": [
+			[true, [5,5]]
+		]
+	},
+	{
+		"resetTo": "single_adjacent_possible"
+	},
+	{
+		"active": [
+			[true, [4,2]]
+		]
 	}
 ]
