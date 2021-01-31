@@ -211,6 +211,8 @@ const defaultGrowConfig = () => {
 		seed: 'seed',
 		randomness: 0.1,
 		proportion: 1.0,
+		//0 is inactive
+		numCellsToGrow: 0,
 		//How many rings outward to look at for value
 		valuePly: 8,
 		//How much of the value from neighbors shoud flow inwards
@@ -321,6 +323,14 @@ class Urn {
 	}
 }
 
+const shuffleArray = (array, rnd) => {
+	//based on the answer at https://stackoverflow.com/a/12646864
+	for (let i = array.length - 1; i > 0; i--) {
+		const j = Math.floor(rnd.quick() * (i + 1));
+		[array[i], array[j]] = [array[j], array[i]];
+	}
+};
+
 const growMap = (map, config) => {
 	if (typeof config != 'object') config = {};
 	config = {...defaultGrowConfig(), ...config};
@@ -328,9 +338,15 @@ const growMap = (map, config) => {
 	const seed = config.seed === true ? undefined : config.seed;
 	const rnd = prng_alea(seed);
 	const activeCells = map.cells.filter(cell => cell.active);
-	for (const cell of activeCells) {
-		//Skip some cells based on proportion
-		if (rnd.quick() > config.proportion) continue;
+	//Skip some cells based on proportion
+	let filteredCells = activeCells.filter(() => rnd.quick() < config.proportion);
+	//a config.numCellsToGrow of 0 is inactive
+	if (config.numCellsToGrow && filteredCells.length > config.numCellsToGrow) {
+		//Make sure we don't just default to the ones in the upper part of the map
+		shuffleArray(filteredCells, rnd);
+		filteredCells = filteredCells.slice(0,config.numCellsToGrow);
+	}
+	for (const cell of filteredCells) {
 		let neighbors = [];
 		const offsets = [-1, 0, 1];
 		for (const rOffset of offsets) {
