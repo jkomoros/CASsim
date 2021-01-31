@@ -328,6 +328,14 @@ class Urn {
 	}
 }
 
+const shuffleArray = (array, rnd) => {
+	//based on the answer at https://stackoverflow.com/a/12646864
+	for (let i = array.length - 1; i > 0; i--) {
+		const j = Math.floor(rnd.quick() * (i + 1));
+		[array[i], array[j]] = [array[j], array[i]];
+	}
+};
+
 const growMap = (map, config) => {
 	if (typeof config != 'object') config = {};
 	config = {...defaultGrowConfig(), ...config};
@@ -366,6 +374,10 @@ const growMap = (map, config) => {
 		const valueSelectionStrength = (1.0 - config.randomness) * 1000;
 
 		const neighborsUrn = new Urn(rnd);
+
+		//Shuffle so that when everything's the same value we don't just always
+		//pick the upper left.
+		shuffleArray(neighbors, rnd);
 
 		//Best neighbors are first. Put them into the urn with much higher probability.
 		neighbors.map((neighbor) => {
