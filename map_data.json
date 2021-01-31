@@ -242,17 +242,29 @@
 		]
 	},
 	{
+		"setSize": [8, 15],
+		"setAdjacentPossibleSteps": 0,
 		"active": [
-			[true, [7,7]]
+			[true, [7, 4]],
+			[true, [7, 11]]
 		],
-		"opacity": [
-			[null, []]
+		"name": "zig_zag"
+	},
+	{
+		"grow": true,
+		"repeat": 10
+	},
+	{
+		"resetTo": "zig_zag",
+		"value": [
+			[1.0, [0,7]]
+		],
+		"highlighted": [
+			[true, [0,7]]
 		]
 	},
 	{
-		"grow": {
-			"seed": true
-		},
+		"grow": true,
 		"repeat": 10
 	}
 ]
