@@ -223,7 +223,8 @@ const growMap = (map, config) => {
 	if (typeof config != 'object') config = {};
 	config = {...defaultGrowConfig(), ...config};
 	//TODO: use seed passed in config or something like JSON serialization of map
-	const rnd = prng_alea(config.seed);
+	const seed = config.seed === true ? undefined : config.seed;
+	const rnd = prng_alea(seed);
 	const activeCells = map.cells.filter(cell => cell.active);
 	for (const cell of activeCells) {
 		let neighbors = [];
