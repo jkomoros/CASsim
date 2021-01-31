@@ -224,6 +224,7 @@ const growMap = (map, config) => {
 				if (!neighbor) continue;
 				if (neighbor.value < 0.0) continue;
 				if (neighbor.value === null || neighbor.value === undefined) continue;
+				if (neighbor.captured) continue;
 				neighbors.push(neighbor);
 			}
 		}
