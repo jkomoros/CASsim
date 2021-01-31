@@ -9,6 +9,7 @@ import {
 	SET_HIGHLIGHTED_COMMAND,
 	SET_VALUE_COMMAND,
 	SET_ACTIVE_COMMAND,
+	SET_ACTIVE_ONLY_COMMAND,
 	SET_OPACITY_COMMAND,
 	SET_FILL_OPACITY_COMMAND,
 	SET_STROKE_OPACITY_COMMAND,
@@ -125,10 +126,13 @@ describe("data parsing", () => {
 			{
 				[SET_SIZE_COMMAND]: [2,3],
 				[SET_ACTIVE_COMMAND]: [[true, [0,0]]],
+				[SET_ADJACENT_POSSIBLE_STEPS_COMMAND]: 0,
 			}
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		golden.adjacentPossibleSteps = 0;
 		getCellFromMap(golden, 0, 0).active = true;
+		getCellFromMap(golden, 0, 0).captured = true;
 		getCellFromMap(golden, 0, 0).autoOpacity = 1.0;
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
@@ -506,7 +510,7 @@ describe("data parsing", () => {
 		const input = [
 			{
 				[SET_SIZE_COMMAND]: [2,3],
-				[SET_ACTIVE_COMMAND]: [[true, [0,0]]],
+				[SET_ACTIVE_ONLY_COMMAND]: [[true, [0,0]]],
 				[SET_ADJACENT_POSSIBLE_STEPS_COMMAND]: 0,
 				[GROW_COMMAND]: true,
 			}
@@ -526,7 +530,7 @@ describe("data parsing", () => {
 		const input = [
 			{
 				[SET_SIZE_COMMAND]: [2,3],
-				[SET_ACTIVE_COMMAND]: [[true, [0,0]]],
+				[SET_ACTIVE_ONLY_COMMAND]: [[true, [0,0]]],
 				[SET_ADJACENT_POSSIBLE_STEPS_COMMAND]: 0,
 				[GROW_COMMAND]: {
 					seed: 'foo',

@@ -61,6 +61,8 @@ export const SET_HIGHLIGHTED_COMMAND = "highlighted";
 export const SET_CAPTURED_COMMAND = "captured";
 //Expects a cellValueCommand (see above)
 export const SET_ACTIVE_COMMAND = "active";
+//Expects a cellValueCommand.
+export const SET_ACTIVE_ONLY_COMMAND = "activeOnly";
 //Expects a cellValueCommand (see above)
 export const SET_VALUE_COMMAND = "value";
 //Expects a cellValueCommand (see above). This is semantically equivalent to setting fillOpacity and strokeOpacity at the same time.
@@ -84,7 +86,8 @@ export const REPEAT_COMMAND = 'repeat';
 const SET_CELL_COMMANDS = {
 	[SET_HIGHLIGHTED_COMMAND]: [SET_HIGHLIGHTED_COMMAND],
 	[SET_CAPTURED_COMMAND]: [SET_CAPTURED_COMMAND],
-	[SET_ACTIVE_COMMAND]: [SET_ACTIVE_COMMAND],
+	[SET_ACTIVE_ONLY_COMMAND]: [SET_ACTIVE_COMMAND],
+	[SET_ACTIVE_COMMAND]: [SET_ACTIVE_COMMAND, SET_CAPTURED_COMMAND],
 	[SET_VALUE_COMMAND]: [SET_VALUE_COMMAND],
 	[SET_OPACITY_COMMAND]: ['fillOpacity', 'strokeOpacity'],
 	[SET_FILL_OPACITY_COMMAND]: [SET_FILL_OPACITY_COMMAND],
