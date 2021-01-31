@@ -281,9 +281,12 @@ const netPresentValueMap = (map, centerCell) => {
 		const ring = ringCells(map, centerCell, ply);
 		for (const cell of ring) {
 			let cellValue = localValueForCell(cell);
+			//Treat negative values as 0.0, since it's possible to just ignore them and treat them like walls.
+			if (cellValue < 0.0) cellValue = 0.0;
+			//Ignore cells that are already captured
+			if (cell.captured) cellValue = 0.0;
 			//Skip the outward neighbors for the outermost ring, and also cells that are walls.
 			if (ply != maxPly && typeof cell.value == 'number') {
-				//TODO: consider ignoring any negative values, since we could skip them... unless there are only negative values?
 				//By only looking at OUTER neighbors we can ensure we only visit cells have that have already been visited before
 				const outerValue = outerNeighbors(map, cell, centerCell).map(neighbor => result.get(neighbor) || 0.0).reduce((prev, curr) => prev + curr, 0);
 				cellValue += outerValue * NET_PRESENT_VALUE_DROPOFF;
