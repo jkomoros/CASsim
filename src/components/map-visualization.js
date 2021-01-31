@@ -43,39 +43,27 @@ class MapVisualization extends LitElement {
 				.cell {
 					height: var(--effective-cell-size);
 					width: var(--effective-cell-size);
-					
 					margin: var(--cell-margin);
-					border-radius: calc(var(--effective-cell-size) / 2);
 					box-sizing: border-box;
 					overflow: hidden;
 					position:relative;
 				}
 
-				.cell div.inner {
-					background-color: white;
-				}
-
 				.cell div {
+					border-radius: calc(var(--effective-cell-size) / 2);
 					position: absolute;
+					box-sizing: border-box;
 					top: 0;
 					left: 0;
 					height: 100%;
 					width: 100%;
 				}
 
-				.cell div.color {
-					background-color: var(--positive-cell-color, #38761D);
-				}
-
-				.cell div.negative {
-					background-color: var(--negative-cell-color, #CC0000);
-				}
-
-				.cell.highlighted {
+				.cell.highlighted div.stroke {
 					border: 0.25em solid var(--highlighted-cell-color, white);
 				}
 
-				.cell.captured {
+				.cell.captured div.stroke {
 					border: 0.25em solid var(--captured-cell-color, black);
 				}
 			`
@@ -98,7 +86,16 @@ class MapVisualization extends LitElement {
 	_htmlForCell(cell) {
 		const fillOpacity = cell.fillOpacity === undefined ? cell.autoOpacity : cell.fillOpacity;
 		const strokeOpacity = cell.strokeOpacity === undefined ? cell.autoOpacity : cell.strokeOpacity;
-		return html`<div class='cell ${cell.highlighted ? "highlighted" : ""} ${cell.captured ? 'captured' : ''}' style='opacity:${strokeOpacity}'><div class='inner' style='opacity:${fillOpacity}'><div class='color ${cell.value < 0.0 ? "negative" : ""}' style='opacity:${Math.abs(cell.value)}'></div></div></div>`;
+		const baseColor = [255,255,255];
+		//CC0000, and #38761D
+		const maxColor = cell.value < 0.0 ? [204, 0, 0] : [56, 118, 29];
+		const interpolated = maxColor.map((maxComponent, index) => {
+			const baseComponent = baseColor[index];
+			return Math.round(baseComponent + Math.abs(cell.value) * (maxComponent - baseComponent));
+		});
+		const colorString = 'rgba(' + interpolated.join(', ') + ', ' + fillOpacity + ')';
+
+		return html`<div class='cell ${cell.highlighted ? "highlighted" : ""} ${cell.captured ? 'captured' : ''}'><div class='fill' style='background-color:${colorString};'></div><div class='stroke' style='opacity:${strokeOpacity}'></div></div>`;
 	}
 
 	get _cleanData() {
