@@ -22,6 +22,7 @@ import {
 	REPEAT_COMMAND,
 	ringPly,
 	ringCells,
+	outerNeighbors,
 } from "../../src/map-data.js";
 
 import assert from "assert";
@@ -674,6 +675,36 @@ describe("ring cells", () => {
 			[3,2],
 			[3,1],
 			[3,0]
+		].map(pair => getCellFromMap(map, pair[0], pair[1]));
+		assert.deepStrictEqual(result, golden);
+	});
+});
+
+describe("outer neighbors", () => {
+	it("basic operation left", async () => {
+		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const center = getCellFromMap(map, 2, 2);
+		const cell = getCellFromMap(map, 2, 1);
+		const result = outerNeighbors(map, cell, center);
+		const golden = [
+			[1,0],
+			[3,0],
+			[2,0],
+		].map(pair => getCellFromMap(map, pair[0], pair[1]));
+		assert.deepStrictEqual(result, golden);
+	});
+
+	it("basic operation upper left corner", async () => {
+		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const center = getCellFromMap(map, 2, 2);
+		const cell = getCellFromMap(map, 1, 1);
+		const result = outerNeighbors(map, cell, center);
+		const golden = [
+			[0,0],
+			[0,1],
+			[0,2],
+			[2,0],
+			[1,0]
 		].map(pair => getCellFromMap(map, pair[0], pair[1]));
 		assert.deepStrictEqual(result, golden);
 	});

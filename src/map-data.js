@@ -264,7 +264,7 @@ export const ringPly = (cell, centerCell) => {
 };
 
 //Returns the neighbors of the given cell that are in the ring immediately outward of itself from the center cell.
-const outerNeighbors = (map, cell, centerCell) => {
+export const outerNeighbors = (map, cell, centerCell) => {
 	const ourPly = ringPly(cell, centerCell);
 	return ringCells(map, cell,1).filter(neighbor => ringPly(neighbor, centerCell) > ourPly);
 };
