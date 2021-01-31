@@ -215,6 +215,7 @@ const defaultGrowConfig = () => {
 		valuePly: 8,
 		//How much of the value from neighbors shoud flow inwards
 		valueDropoff: 0.75,
+		branchLikelihood: 0.0,
 	};
 };
 
@@ -372,7 +373,9 @@ const growMap = (map, config) => {
 		const neighbor = neighborsUrn.pick();
 		neighbor.active = true;
 		neighbor.captured = true;
-		cell.active = false;
+
+		//If we don't kill the original active cell, then we branch.
+		if (rnd.quick() > config.branchLikelihood) cell.active = false;
 	}
 };
 
