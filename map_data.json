@@ -245,13 +245,15 @@
 		"setSize": [8, 15],
 		"setAdjacentPossibleSteps": 0,
 		"active": [
-			[true, [7, 4]],
-			[true, [7, 11]]
+			[true, [7, 3]],
+			[true, [7, 12]]
 		],
 		"name": "zig_zag"
 	},
 	{
-		"grow": true,
+		"grow": {
+			"seed": "baz"
+		},
 		"repeat": 10
 	},
 	{
@@ -264,7 +266,25 @@
 		]
 	},
 	{
-		"grow": true,
+		"grow": {
+			"seed": "foo",
+			"valuePly": 10,
+			"valueDropoff": 0.5
+		},
 		"repeat": 10
+	},
+	{
+		"setSize": [36, 64],
+		"setScale": 0.35,
+		"setAdjacentPossibleSteps": 2,
+		"generate": true,
+		"active": [
+			[true, [10, 15]],
+			[true, [23, 38]]
+		]
+	},
+	{
+		"grow": true,
+		"repeat": 100
 	}
 ]
