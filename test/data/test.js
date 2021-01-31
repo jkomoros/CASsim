@@ -64,14 +64,12 @@ describe("data parsing", () => {
 		const input = [
 			{
 				[SET_SIZE_COMMAND]: [2,3],
-				[SET_HIGHLIGHTED_COMMAND]: [[true, [0,0]], [true, [0,1]]],
+				[SET_VALUE_COMMAND]: [[1.0, [0,0]], [1.0, [0,1]]],
 			}
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
-		getCellFromMap(golden, 0, 0).highlighted = true;
-		getCellFromMap(golden, 0, 0).autoOpacity = 1.0;
-		getCellFromMap(golden, 0, 1).highlighted = true;
-		getCellFromMap(golden, 0, 1).autoOpacity = 1.0;
+		getCellFromMap(golden, 0, 0).value = 1.0;
+		getCellFromMap(golden, 0, 1).value = 1.0;
 
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
@@ -158,18 +156,16 @@ describe("data parsing", () => {
 		assert.deepStrictEqual(data, golden);
 	});
 
-	it("supports capturing multiple cells", async () => {
+	it("supports capturing cells", async () => {
 		const input = [
 			{
 				[SET_SIZE_COMMAND]: [2,3],
-				[SET_CAPTURED_COMMAND]: [[true, [0,0]], [true, [0,1]]],
+				[SET_CAPTURED_COMMAND]: [[true, [0,0]]],
 			}
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).captured = true;
 		getCellFromMap(golden, 0, 0).autoOpacity = 1.0;
-		getCellFromMap(golden, 0, 1).captured = true;
-		getCellFromMap(golden, 0, 1).autoOpacity = 1.0;
 
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
@@ -246,22 +242,16 @@ describe("data parsing", () => {
 		const input = [
 			{
 				[SET_SIZE_COMMAND]: [2,3],
-				[SET_HIGHLIGHTED_COMMAND]: [[true, [0,0,1,2]]],
+				[SET_VALUE_COMMAND]: [[1.0, [0,0,1,2]]],
 			}
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
-		getCellFromMap(golden, 0, 0).highlighted = true;
-		getCellFromMap(golden, 0, 0).autoOpacity = 1.0;
-		getCellFromMap(golden, 0, 1).highlighted = true;
-		getCellFromMap(golden, 0, 1).autoOpacity = 1.0;
-		getCellFromMap(golden, 0, 2).highlighted = true;
-		getCellFromMap(golden, 0, 2).autoOpacity = 1.0;
-		getCellFromMap(golden, 1, 0).highlighted = true;
-		getCellFromMap(golden, 1, 0).autoOpacity = 1.0;
-		getCellFromMap(golden, 1, 1).highlighted = true;
-		getCellFromMap(golden, 1, 1).autoOpacity = 1.0;
-		getCellFromMap(golden, 1, 2).highlighted = true;
-		getCellFromMap(golden, 1, 2).autoOpacity = 1.0;
+		getCellFromMap(golden, 0, 0).value = 1.0;
+		getCellFromMap(golden, 0, 1).value = 1.0;
+		getCellFromMap(golden, 0, 2).value = 1.0;
+		getCellFromMap(golden, 1, 0).value = 1.0;
+		getCellFromMap(golden, 1, 1).value = 1.0;
+		getCellFromMap(golden, 1, 2).value = 1.0;
 
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
@@ -273,12 +263,11 @@ describe("data parsing", () => {
 		const input = [
 			{
 				[SET_SIZE_COMMAND]: [2,3],
-				[SET_HIGHLIGHTED_COMMAND]: [[true, [0,0,0,0]]],
+				[SET_VALUE_COMMAND]: [[1.0, [0,0,0,0]]],
 			}
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
-		getCellFromMap(golden, 0, 0).highlighted = true;
-		getCellFromMap(golden, 0, 0).autoOpacity = 1.0;
+		getCellFromMap(golden, 0, 0).value = 1.0;
 
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
@@ -314,22 +303,16 @@ describe("data parsing", () => {
 		const input = [
 			{
 				[SET_SIZE_COMMAND]: [2,3],
-				[SET_HIGHLIGHTED_COMMAND]: [[true, []]],
+				[SET_VALUE_COMMAND]: [[1.0, []]],
 			}
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
-		getCellFromMap(golden, 0, 0).highlighted = true;
-		getCellFromMap(golden, 0, 0).autoOpacity = 1.0;
-		getCellFromMap(golden, 0, 1).highlighted = true;
-		getCellFromMap(golden, 0, 1).autoOpacity = 1.0;
-		getCellFromMap(golden, 0, 2).highlighted = true;
-		getCellFromMap(golden, 0, 2).autoOpacity = 1.0;
-		getCellFromMap(golden, 1, 0).highlighted = true;
-		getCellFromMap(golden, 1, 0).autoOpacity = 1.0;
-		getCellFromMap(golden, 1, 1).highlighted = true;
-		getCellFromMap(golden, 1, 1).autoOpacity = 1.0;
-		getCellFromMap(golden, 1, 2).highlighted = true;
-		getCellFromMap(golden, 1, 2).autoOpacity = 1.0;
+		getCellFromMap(golden, 0, 0).value = 1.0;
+		getCellFromMap(golden, 0, 1).value = 1.0;
+		getCellFromMap(golden, 0, 2).value = 1.0;
+		getCellFromMap(golden, 1, 0).value = 1.0;
+		getCellFromMap(golden, 1, 1).value = 1.0;
+		getCellFromMap(golden, 1, 2).value = 1.0;
 
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
