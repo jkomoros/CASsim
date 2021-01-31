@@ -513,9 +513,9 @@ describe("data parsing", () => {
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		golden.adjacentPossibleSteps = 0;
-		getCellFromMap(golden, 1, 0).active = true;
-		getCellFromMap(golden, 1, 0).captured = true;
-		getCellFromMap(golden, 1, 0).autoOpacity = 1.0;
+		getCellFromMap(golden, 0, 1).active = true;
+		getCellFromMap(golden, 0, 1).captured = true;
+		getCellFromMap(golden, 0, 1).autoOpacity = 1.0;
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
@@ -535,9 +535,9 @@ describe("data parsing", () => {
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		golden.adjacentPossibleSteps = 0;
-		getCellFromMap(golden, 0, 1).active = true;
-		getCellFromMap(golden, 0, 1).captured = true;
-		getCellFromMap(golden, 0, 1).autoOpacity = 1.0;
+		getCellFromMap(golden, 1, 0).active = true;
+		getCellFromMap(golden, 1, 0).captured = true;
+		getCellFromMap(golden, 1, 0).autoOpacity = 1.0;
 		const collection = new VisualizationMapCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;

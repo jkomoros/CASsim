@@ -325,30 +325,15 @@ class Urn {
 	}
 }
 
-const shuffleArray = (array, rnd) => {
-	//based on the answer at https://stackoverflow.com/a/12646864
-	for (let i = array.length - 1; i > 0; i--) {
-		const j = Math.floor(rnd.quick() * (i + 1));
-		[array[i], array[j]] = [array[j], array[i]];
-	}
-};
-
 const growMap = (map, config) => {
 	if (typeof config != 'object') config = {};
 	config = {...defaultGrowConfig(), ...config};
 	//TODO: use seed passed in config or something like JSON serialization of map
 	const seed = config.seed === true ? undefined : config.seed;
 	const rnd = prng_alea(seed);
+	const possibilities = [];
 	const activeCells = map.cells.filter(cell => cell.active);
-	//Skip some cells based on proportion
-	let filteredCells = activeCells.filter(() => rnd.quick() < config.proportion);
-	//a config.numCellsToGrow of 0 is inactive
-	if (config.numCellsToGrow && filteredCells.length > config.numCellsToGrow) {
-		//Make sure we don't just default to the ones in the upper part of the map
-		shuffleArray(filteredCells, rnd);
-		filteredCells = filteredCells.slice(0,config.numCellsToGrow);
-	}
-	for (const cell of filteredCells) {
+	for (const cell of activeCells) {
 		let neighbors = [];
 		const offsets = [-1, 0, 1];
 		for (const rOffset of offsets) {
@@ -389,12 +374,28 @@ const growMap = (map, config) => {
 		});
 
 		const neighbor = neighborsUrn.pick();
-		neighbor.active = true;
-		neighbor.captured = true;
 
-		//If we don't kill the original active cell, then we branch.
-		if (rnd.quick() > config.branchLikelihood) cell.active = false;
+		possibilities.push({
+			neighbor,
+			cell,
+			value: valueMap[neighbor],
+		});
 	}
+
+	//ascending values
+	possibilities.sort((a, b) => a.value - b.value);
+	//We should take the smalle rof config.proportion and config.numCellsToGrow. config.numCellsToGrow of 0.0 means no limit
+	let numToSelect = Math.min(activeCells.length * config.proportion, config.numCellsToGrow || Number.MAX_SAFE_INTEGER);
+	while (possibilities.length && numToSelect) {
+		//TODO: allow configuring this to not take the best but every so often take a random one.
+		const item = possibilities.pop();
+		item.neighbor.active = true;
+		item.neighbor.captured = true;
+		//If we don't kill the original active cell, then we branch.
+		if (rnd.quick() > config.branchLikelihood) item.cell.active = false;
+		numToSelect--;
+	}
+
 };
 
 const defaultGenerateConfig = () => {
