@@ -41,6 +41,9 @@ export const SET_HIGHLIGHTED_COMMAND = "set_highlighted";
 export const SET_CAPTURED_COMMAND = "set_captured";
 //Expects a cellValueCommand (see above)
 export const SET_VALUE_COMMAND = "set_value";
+//Expects a name that was a previous state, with a 'name' property, and uses
+//that, instead of the previous state, to base its modifications off of.
+export const RESET_TO_COMMAND = 'reset_to';
 
 const SET_COMMANDS = {
 	[SET_HIGHLIGHTED_COMMAND]: 'highlighted',
@@ -147,10 +150,14 @@ class visualizationMap {
 export class VisualizationMapCollection {
 	constructor(data) {
 		this._data = data || [];
+		this._memoizedMaps = {};
 	}
 
 	dataForIndex(index) {
 		if (index < 0 || index >= this._data.length) return null;
-		return new visualizationMap(this, index, this._data[index]);
+		if (!this._memoizedMaps[index]) {
+			this._memoizedMaps[index] = new visualizationMap(this, index, this._data[index]);
+		}
+		return this._memoizedMaps[index];
 	}
 }
