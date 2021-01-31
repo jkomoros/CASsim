@@ -41,9 +41,11 @@ export const SET_HIGHLIGHTED_COMMAND = "set_highlighted";
 export const SET_CAPTURED_COMMAND = "set_captured";
 //Expects a cellValueCommand (see above)
 export const SET_VALUE_COMMAND = "set_value";
-//Expects a name that was a previous state, with a 'name' property, and uses
+//Expects a name that was a PREVIOUS state, with a 'name' property, and uses
 //that, instead of the previous state, to base its modifications off of.
 export const RESET_TO_COMMAND = 'reset_to';
+//The name to set for reset_to to refer to
+export const NAME_COMMAND = 'name';
 
 const SET_COMMANDS = {
 	[SET_HIGHLIGHTED_COMMAND]: 'highlighted',
@@ -103,8 +105,22 @@ class visualizationMap {
 		this._cachedData = null;
 	}
 
+	get index() {
+		return this._index;
+	}
+
 	_computeData() {
-		const previous = this._index > 0 ? this._collection.dataForIndex(this._index - 1).expandedData : defaultVisualizationMapExpandedForCells([]);
+		let previous;
+		if (this._rawData[RESET_TO_COMMAND]) {
+			const previousMap = this._collection.dataForName(this._rawData[RESET_TO_COMMAND]);
+			if (!previousMap) throw new Error("No such previous with that name");
+			if (previousMap.index > this._index) throw new Error("The named map is after us but must be before");
+			previous = previousMap.expandedData;
+		} else if (this._index > 0) {
+			previous = this._collection.dataForIndex(this._index - 1).expandedData;
+		} else {
+			previous = defaultVisualizationMapExpandedForCells([]);
+		}
 		const result = {...previous};
 		const sizeCommand = this._rawData[SET_SIZE_COMMAND];
 		if (this._index == 0 && !sizeCommand) throw new Error("First item did not have a set size");
@@ -151,6 +167,13 @@ export class VisualizationMapCollection {
 	constructor(data) {
 		this._data = data || [];
 		this._memoizedMaps = {};
+	}
+
+	dataForName(name) {
+		for (let i = 0; i < this._data.length; i++) {
+			if (this._data[i].name == name) return this.dataForIndex(i);
+		}
+		return null;
 	}
 
 	dataForIndex(index) {

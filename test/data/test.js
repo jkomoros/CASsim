@@ -9,6 +9,8 @@ import {
 	SET_HIGHLIGHTED_COMMAND,
 	SET_VALUE_COMMAND,
 	SET_CAPTURED_COMMAND,
+	RESET_TO_COMMAND,
+	NAME_COMMAND,
 } from "../../src/map-data.js";
 
 import assert from "assert";
@@ -119,6 +121,71 @@ describe("data parsing", () => {
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
+	});
+
+	it("supports reset to", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[NAME_COMMAND]: 'foo'
+			},
+			{
+				[SET_CAPTURED_COMMAND]: [
+					[true, [0,0]]
+				]
+			},
+			{
+				[RESET_TO_COMMAND]: 'foo'
+			}
+		];
+		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
+	});
+
+	it("reset to with illegal name errors", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[NAME_COMMAND]: 'bar'
+			},
+			{
+				[SET_CAPTURED_COMMAND]: [
+					[true, [0,0]]
+				]
+			},
+			{
+				[RESET_TO_COMMAND]: 'foo'
+			}
+		];
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		assert.throws(() => map.expandedData);
+	});
+
+	it("reset to with future name errors", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[NAME_COMMAND]: 'bar'
+			},
+			{
+				[SET_CAPTURED_COMMAND]: [
+					[true, [0,0]]
+				]
+			},
+			{
+				[RESET_TO_COMMAND]: 'foo'
+			},
+			{
+				[NAME_COMMAND]: 'foo',
+			}
+		];
+		const collection = new VisualizationMapCollection(input);
+		const map = collection.dataForIndex(input.length - 1);
+		assert.throws(() => map.expandedData);
 	});
 
 });
