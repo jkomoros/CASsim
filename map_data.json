@@ -252,7 +252,7 @@
 	},
 	{
 		"grow": {
-			"seed": "baz"
+			"seed": "7"
 		},
 		"repeat": 10
 	},
@@ -274,17 +274,23 @@
 		"repeat": 10
 	},
 	{
-		"setSize": [36, 64],
-		"setScale": 0.35,
+		"setSize": [63, 112],
+		"setScale": 0.20,
 		"setAdjacentPossibleSteps": 2,
 		"generate": true,
 		"active": [
 			[true, [10, 15]],
-			[true, [23, 38]]
+			[true, [23, 38]],
+			[true, [12, 18]],
+			[true, [5, 32]],
+			[true, [40, 100]],
+			[true, [52, 12]]
 		]
 	},
 	{
-		"grow": true,
+		"grow": {
+			"branchLikelihood": 0.15
+		},
 		"repeat": 100
 	}
 ]
