@@ -91,11 +91,14 @@ class MapVisualization extends LitElement {
 		let color = [102, 102, 102];
 		if (cell.value != null) {
 			const baseColor = [255,255,255];
+			let cellValue = cell.value;
+			if (cellValue > 1.0) cellValue = 1.0;
+			if (cellValue < -1.0) cellValue = -1.0;
 			//CC0000, and #38761D
-			const maxColor = cell.value < 0.0 ? [204, 0, 0] : [56, 118, 29];
+			const maxColor = cellValue < 0.0 ? [204, 0, 0] : [56, 118, 29];
 			const interpolated = maxColor.map((maxComponent, index) => {
 				const baseComponent = baseColor[index];
-				return Math.round(baseComponent + Math.abs(cell.value) * (maxComponent - baseComponent));
+				return Math.round(baseComponent + Math.abs(cellValue) * (maxComponent - baseComponent));
 			});
 			color = interpolated;
 		}
