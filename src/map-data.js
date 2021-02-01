@@ -421,8 +421,11 @@ const growMap = (map, config) => {
 const defaultGenerateConfig = () => {
 	return {
 		seed: 'seed',
+		keyCellProportion: 0.6,
 	};
 };
+
+const SENTINEL_VALUE = Number.MAX_SAFE_INTEGER;
 
 const generateMap = (map, config) => {
 	if (typeof config != 'object') config = {};
@@ -435,7 +438,7 @@ const generateMap = (map, config) => {
 	urn.add(0.6, 20);
 	urn.add(0.4, 20);
 	urn.add(0.2, 20);
-	urn.add(0.0, 20);
+	urn.add(0.0, 5);
 	urn.add(null, 3);
 	urn.add(-0.2, 1);
 	urn.add(-0.4, 1);
@@ -443,7 +446,37 @@ const generateMap = (map, config) => {
 	urn.add(-0.8, 1);
 	urn.add(-1.0, 3);
 	for (const cell of map.cells) {
+		cell.value = SENTINEL_VALUE;
+	}
+	const cellsToVisit = [];
+	for (const cell of map.cells) {
+		if (rnd.quick() > config.keyCellProportion) continue;
 		cell.value = urn.pick();
+		//It's OK if we put in duplicates
+		cellsToVisit.push(...ringCells(map, cell, 1));
+	}
+	while (cellsToVisit.length) {
+		const cell = cellsToVisit.shift();
+		//It's possible it was added it multiple times
+		if (cell.value != SENTINEL_VALUE) continue;
+		const valueNeighbors = ringCells(map, cell, 1).filter(neighbor => neighbor.value != SENTINEL_VALUE);
+
+		//Set the cell to the mode of its set neighbors
+		const counts = {};
+		for (let neighbor of valueNeighbors) {
+			counts[neighbor.value] = (counts[neighbor.value] || 0) + 1;
+		}
+		let maxKey = 0.0;
+		let maxCount = 0;
+		for (const [key, count] of Object.entries(counts)) {
+			if (count < maxCount) continue;
+			maxCount = count;
+			maxKey = key;
+		}
+		//null is a valid key, but will be coerced to the string 'null'
+		cell.value = maxKey == 'null' ? null : maxKey;
+		//Enqueue nearby cells to process
+		cellsToVisit.push(...ringCells(map, cell, 1));
 	}
 };
 
