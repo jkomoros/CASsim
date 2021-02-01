@@ -187,6 +187,10 @@ const setPropertiesOnMap = (map, propertyName, valueToSet, cellReferences) => {
 	}
 };
 
+//The highest opacity for an adjacent possible cell. It's actually smaller than
+//this; this steps down the whole transparency by a bit.
+const MAX_ADJACENT_POSSIBLE_OPACITY = 0.75;
+
 const setAutoOpacity = (map) => {
 	for (const cell of map.cells) {
 		cell.autoOpacity = 0.0;
@@ -203,7 +207,7 @@ const setAutoOpacity = (map) => {
 			//Skip ourselves
 			if (innerCell == cell) continue;
 			const distance = Math.sqrt(Math.pow(innerCell.row - cell.row, 2) + Math.pow(innerCell.col - cell.col, 2));
-			const opacityToSet = 1.0 - (distance / farthestDistance);
+			const opacityToSet = MAX_ADJACENT_POSSIBLE_OPACITY - (distance / farthestDistance);
 			//It could be a cell that is captured or closer to another cell.
 			if (innerCell.autoOpacity > opacityToSet) continue;
 			innerCell.autoOpacity = opacityToSet;
