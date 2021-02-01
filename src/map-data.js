@@ -346,6 +346,11 @@ const growMap = (map, config) => {
 	const rnd = prng_alea(seed);
 	const possibilities = [];
 	const activeCells = map.cells.filter(cell => cell.active);
+	//We shuffle the order we visit activeCells, otherwise it's possible to get
+	//in a state where the first item in a blank field always goes diagonally to
+	//the right (for example) because it's the first item each time. Shuffling
+	//them helps make sure the order changes enough to get more randomness.
+	shuffleArray(activeCells, rnd);
 	for (const cell of activeCells) {
 		let neighbors = [];
 		const offsets = [-1, 0, 1];
