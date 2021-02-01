@@ -280,16 +280,34 @@
 		"generate": true,
 		"active": [
 			[true, [10, 15]],
+			[true, [11, 18]],
+			[true, [10, 13]],
+			[true, [15, 14]],
+			[true, [18, 12]],
+			[true, [20, 10]],
 			[true, [23, 38]],
+			[true, [25, 36]],
+			[true, [24, 39]],
+			[true, [26, 36]],
 			[true, [12, 18]],
+			[true, [13, 17]],
+			[true, [12, 15]],
 			[true, [5, 32]],
 			[true, [40, 100]],
-			[true, [52, 12]]
+			[true, [41, 98]],
+			[true, [38, 103]],
+			[true, [39, 103]],
+			[true, [37, 98]],
+			[true, [32, 90, 35, 94]],
+			[true, [52, 12]],
+			[true, [55, 14]],
+			[true, [51, 13]],
+			[true, [50, 60, 53, 64]]
 		]
 	},
 	{
 		"grow": {
-			"branchLikelihood": 0.15
+			"branchLikelihood": 0.1
 		},
 		"repeat": 100
 	}
