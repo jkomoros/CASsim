@@ -67,7 +67,7 @@ const gifNameForFile = (fileName) => {
 	if (!fileName.includes('gif')) return '';
 	const name = fileName.split('.')[0];
 	const pieces = name.split('_');
-	return pieces[2];
+	return pieces[3];
 };
 
 //Returns an object with gifNames, and the dimensions of the pngs for each gif collection.
