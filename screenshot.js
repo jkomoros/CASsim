@@ -11,8 +11,7 @@ const CURRENT_INDEX_VARIABLE = 'current_index';
 const PREVIOUS_MAP_VARIABLE = 'previous_map';
 const RENDER_COMPLETE_VARIABLE = 'render_complete';
 
-(async() => {
-
+const clearScreenshotsDir = () => {
 	if (fs.existsSync(SCREENSHOT_DIR)) {
 		const files = fs.readdirSync(SCREENSHOT_DIR);
 		for (const file of files) {
@@ -21,6 +20,9 @@ const RENDER_COMPLETE_VARIABLE = 'render_complete';
 	} else {
 		fs.mkdirSync(SCREENSHOT_DIR);
 	}
+};
+
+const generateScreenshots = async () => {
 
 	const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
 	const page = await browser.newPage();
@@ -47,4 +49,9 @@ const RENDER_COMPLETE_VARIABLE = 'render_complete';
 	} while(currentIndex >= 0);
 
 	await browser.close();
+};
+
+(async() => {
+	clearScreenshotsDir();
+	generateScreenshots();
 })();
