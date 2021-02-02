@@ -25,7 +25,7 @@ Each state is an object with commands that apply.
 *name*: `<string` - A name for the state, to refer to later with resetTo.
 *resetTo*: `<string>` - Resets the state to the state at the named previous state. The named state must exist, and must be BEFORE this one.
 *repeat*: `<integer>` - If set, will repeat this block in place that many times to save you from having to type it a lot. Useful for lots of grow blocks.
-*gif* `<string> or true` - If set, this frame will be marked to be rolled up into the gif. Must be set explicitly on each frame. Doesn't yet do anything.
+*gif* `<string> or true` - If set, this frame will be marked to be rolled up into the gif. Each unique string will denote a different named gif. true defaults to 'default'. All frames for a given gif must be the same size (scale and setSize) or the gif won't be saved. Frames tagged to be included in a gif will not have a transparent background (otherwise the variable alpha looks weird).
 *grow*: `<non-falsey-value>` - Grows all of the active cells into a legal neighbor. See growParameters below for more values that can be passed in an object.
 *generate*: `<non-falsey-value>` - Generates a new map of values in the map. See generateParameters below for more values that can be passed in an object.
 
