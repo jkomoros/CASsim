@@ -82,6 +82,8 @@ export const GROW_COMMAND = 'grow';
 export const GENERATE_COMMAND = 'generate';
 //A number of how many times to repeat this block in place.
 export const REPEAT_COMMAND = 'repeat';
+//A string or "" to request gif output include this frame. Only frames that explicitly include this will be outputed.
+export const GIF_COMMAND = 'gif';
 
 const SET_CELL_COMMANDS = {
 	[SET_HIGHLIGHTED_COMMAND]: [SET_HIGHLIGHTED_COMMAND],
@@ -505,6 +507,14 @@ class visualizationMap {
 			previous = defaultVisualizationMapExpandedForCells([]);
 		}
 		const result = {...previous};
+
+		//Unset it if set from previous, as it should only affect this frame.
+		delete result.gif;
+		const gifCommand = this._rawData[GIF_COMMAND];
+		if (gifCommand !== undefined) {
+			result.gif = gifCommand === true ? '' : gifCommand;
+		}
+
 		const sizeCommand = this._rawData[SET_SIZE_COMMAND];
 		if (this._index == 0 && !sizeCommand) throw new Error("First item did not have a set size");
 		if (sizeCommand) {

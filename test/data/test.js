@@ -24,6 +24,7 @@ import {
 	ringPly,
 	ringCells,
 	outerNeighbors,
+	GIF_COMMAND,
 } from "../../src/map-data.js";
 
 import assert from "assert";
@@ -564,6 +565,32 @@ describe("data parsing", () => {
 		const map = collection.dataForIndex(collection.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
+	});
+
+	it("supports gif block", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[GIF_COMMAND]: true,
+				[REPEAT_COMMAND]: 2,
+			},
+			{
+				[SET_ADJACENT_POSSIBLE_STEPS_COMMAND]: 0
+			}
+		];
+		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		golden.adjacentPossibleSteps = 0;
+		//gif should only be set on frames that specifically request it
+		const collection = new VisualizationMapCollection(input);
+		assert.deepStrictEqual(collection.length, 3);
+		const map = collection.dataForIndex(collection.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
+		//Verify that the earlier two have a gif of "" (true)
+		const goldenGif = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		goldenGif.gif = '';
+		assert.deepStrictEqual(collection.dataForIndex(0).expandedData, goldenGif);
+		assert.deepStrictEqual(collection.dataForIndex(1).expandedData, goldenGif);
 	});
 
 });
