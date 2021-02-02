@@ -113,6 +113,7 @@ const GIF_FRAME_DELAY = 150;
 
 const generateGifs = async (dimensions) => {
 	for (const [gifName, dim] of Object.entries(dimensions)) {
+		console.log("Generating gif " + gifName + " (this could take awhile)");
 		const encoder = new GIFEncoder(dim.width, dim.height);
 		encoder.setDelay(GIF_FRAME_DELAY);
 		encoder.setRepeat(0);
