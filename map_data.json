@@ -164,7 +164,7 @@
 		"resetTo": "single_adjacent_possible"
 	},
 	{
-		"active": [
+		"activeOnly": [
 			[true, [4,2]]
 		]
 	},
@@ -193,7 +193,7 @@
 	},
 	{
 		"resetTo": "single_adjacent_possible",
-		"active": [
+		"activeOnly": [
 			[true, [5,5]],
 			[true, [5,9]]
 		]
@@ -258,7 +258,9 @@
 	{
 		"captured": [
 			[true, [4,10]]
-		],
+		]
+	},
+	{
 		"value": [
 			[-0.8, [5, 5, 7, 6]],
 			[-0.6, [5, 6]],
