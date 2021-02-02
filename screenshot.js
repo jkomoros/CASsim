@@ -5,6 +5,8 @@ const fs = require('fs');
 const path = require('path');
 const { promisify } = require('util');
 const sizeOf = promisify(require('image-size'));
+const GIFEncoder = require('gifencoder');
+const pngFileStream = require('png-file-stream');
 
 const SCREENSHOT_DIR = 'screenshots';
 
@@ -94,10 +96,24 @@ const gifDimensions = async () => {
 	return result;
 };
 
+const generateGifs = async (dimensions) => {
+	for (const [gifName, dim] of Object.entries(dimensions)) {
+		const encoder = new GIFEncoder(dim.width, dim.height);
+		const stream = pngFileStream(path.join(SCREENSHOT_DIR, 'screenshot_*_gif_' + gifName + '.png'))
+			.pipe(encoder.createWriteStream({ repeat: -1, delay: 500, quality: 10 }))
+			.pipe(fs.createWriteStream(path.join(SCREENSHOT_DIR, gifName + '.gif')));
+ 
+		await new Promise((resolve, reject) => {
+			stream.on('finish', resolve);
+			stream.on('error', reject);
+		});
+	}
+};
+
 (async() => {
 	clearScreenshotsDir();
 	await generateScreenshots();
 
 	const dim = await gifDimensions();
-	console.log(dim);
+	await generateGifs(dim);
 })();
