@@ -3,6 +3,8 @@
 const puppeteer = require("puppeteer");
 const fs = require('fs');
 const path = require('path');
+const { promisify } = require('util');
+const sizeOf = promisify(require('image-size'));
 
 const SCREENSHOT_DIR = 'screenshots';
 
@@ -40,6 +42,7 @@ const generateScreenshots = async () => {
 	do {
 		console.log('Working on state #' + currentIndex);
 		const ele = await page.evaluateHandle('document.querySelector("my-app").shadowRoot.querySelector("main-view").shadowRoot.querySelector("map-visualization")');
+		//When this logic is updated, also change gifNameForFile
 		let path = SCREENSHOT_DIR + '/screenshot_' + currentIndex;
 		if (gifName !== undefined) {
 			path += '_gif_' + (gifName || 'default');
@@ -59,7 +62,42 @@ const generateScreenshots = async () => {
 	await browser.close();
 };
 
+const gifNameForFile = (fileName) => {
+	//Needs to be updated every time the logic for filename saving is changed.
+	if (!fileName.includes('gif')) return '';
+	const name = fileName.split('.')[0];
+	const pieces = name.split('_');
+	return pieces[2];
+};
+
+//Returns an object with gifNames, and the dimensions of the pngs for each gif collection.
+const gifDimensions = async () => {
+	const result = {};
+	const illegalGifs = {};
+	const files = fs.readdirSync(SCREENSHOT_DIR);
+	for (const file of files) {
+		const gifName = gifNameForFile(file);
+		if (!gifName) continue;
+		if (illegalGifs[gifName]) continue;
+		const dim = await sizeOf(path.join(SCREENSHOT_DIR,file));
+		const previousDim = result[gifName];
+		if (previousDim && (previousDim.height != dim.height || previousDim.width != dim.width)) {
+			console.warn(gifName + ' had previous dimensions of [' + previousDim.height + ',' + previousDim.width + '] but dim of [' + dim.height + ',' + dim.width + '] for file ' + file);
+			illegalGifs[gifName] = true;
+			continue;
+		}
+		result[gifName] = dim;
+	}
+	for (const name of Object.keys(illegalGifs)) {
+		delete result[name];
+	}
+	return result;
+};
+
 (async() => {
 	clearScreenshotsDir();
-	generateScreenshots();
+	await generateScreenshots();
+
+	const dim = await gifDimensions();
+	console.log(dim);
 })();
