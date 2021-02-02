@@ -28,7 +28,7 @@ const RENDER_COMPLETE_VARIABLE = 'render_complete';
 		//The width and height are required but don't matter that much because we use ele.screenshot
 		width: 1000,
 		height: 1000,
-		deviceScaleFactor: 5.0,
+		deviceScaleFactor: 2.0,
 	});
 	await page.goto('http://localhost:8081', {waitUntil: 'networkidle2'});
 	await page.evaluate('document.querySelector("body").style.setProperty("--app-background-color", "transparent")');
