@@ -99,6 +99,9 @@ const gifDimensions = async () => {
 const generateGifs = async (dimensions) => {
 	for (const [gifName, dim] of Object.entries(dimensions)) {
 		const encoder = new GIFEncoder(dim.width, dim.height);
+		//1 is the best quality, but considerably slower.
+		encoder.setQuality(1);
+		encoder.setTransparent(0x000000);
 		const stream = pngFileStream(path.join(SCREENSHOT_DIR, 'screenshot_*_gif_' + gifName + '.png'))
 			.pipe(encoder.createWriteStream({ repeat: -1, delay: 500, quality: 10 }))
 			.pipe(fs.createWriteStream(path.join(SCREENSHOT_DIR, gifName + '.gif')));
