@@ -13,12 +13,12 @@ const RENDER_COMPLETE_VARIABLE = 'render_complete';
 
 (async() => {
 
-	const files = fs.readdirSync(SCREENSHOT_DIR);
-	for (const file of files) {
-		fs.unlinkSync(path.join(SCREENSHOT_DIR, file));
-	}
-	
-	if (!fs.existsSync(SCREENSHOT_DIR)) {
+	if (fs.existsSync(SCREENSHOT_DIR)) {
+		const files = fs.readdirSync(SCREENSHOT_DIR);
+		for (const file of files) {
+			fs.unlinkSync(path.join(SCREENSHOT_DIR, file));
+		}
+	} else {
 		fs.mkdirSync(SCREENSHOT_DIR);
 	}
 
