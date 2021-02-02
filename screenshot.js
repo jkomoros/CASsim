@@ -38,7 +38,9 @@ const generateScreenshots = async () => {
 		deviceScaleFactor: 2.0,
 	});
 	await page.goto('http://localhost:8081', {waitUntil: 'networkidle2'});
+	let isTransparent = true;
 	await page.evaluate('document.querySelector("body").style.setProperty("--app-background-color", "transparent")');
+
 	let currentIndex = await page.evaluate('window.' + CURRENT_INDEX_VARIABLE);
 	let gifName = await page.evaluate('window.' + GIF_NAME_VARIABLE);
 	do {
@@ -48,6 +50,16 @@ const generateScreenshots = async () => {
 		let path = SCREENSHOT_DIR + '/screenshot_' + currentIndex;
 		if (gifName !== undefined) {
 			path += '_gif_' + (gifName || 'default');
+			//for gif frames, include the background color, otherwise the variable alpha looks really bad
+			if (isTransparent) {
+				isTransparent = false;
+				await page.evaluate('document.querySelector("body").style.removeProperty("--app-background-color")');
+			}
+		} else {
+			if (!isTransparent) {
+				isTransparent = true;
+				await page.evaluate('document.querySelector("body").style.setProperty("--app-background-color", "transparent")');
+			}
 		}
 		path += '.png';
 		await ele.screenshot({path, omitBackground:true});
@@ -101,7 +113,6 @@ const generateGifs = async (dimensions) => {
 		const encoder = new GIFEncoder(dim.width, dim.height);
 		//1 is the best quality, but considerably slower.
 		encoder.setQuality(1);
-		encoder.setTransparent(0x000000);
 		const stream = pngFileStream(path.join(SCREENSHOT_DIR, 'screenshot_*_gif_' + gifName + '.png'))
 			.pipe(encoder.createWriteStream({ repeat: -1, delay: 500, quality: 10 }))
 			.pipe(fs.createWriteStream(path.join(SCREENSHOT_DIR, gifName + '.gif')));
