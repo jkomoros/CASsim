@@ -335,6 +335,7 @@
 		"grow": {
 			"branchLikelihood": 0.1
 		},
-		"repeat": 100
+		"repeat": 100,
+		"gif": true
 	}
 ]

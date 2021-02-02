@@ -10,6 +10,7 @@ const SCREENSHOT_DIR = 'screenshots';
 const CURRENT_INDEX_VARIABLE = 'current_index';
 const PREVIOUS_MAP_VARIABLE = 'previous_map';
 const RENDER_COMPLETE_VARIABLE = 'render_complete';
+const GIF_NAME_VARIABLE = 'gif_name';
 
 const clearScreenshotsDir = () => {
 	if (fs.existsSync(SCREENSHOT_DIR)) {
@@ -35,10 +36,16 @@ const generateScreenshots = async () => {
 	await page.goto('http://localhost:8081', {waitUntil: 'networkidle2'});
 	await page.evaluate('document.querySelector("body").style.setProperty("--app-background-color", "transparent")');
 	let currentIndex = await page.evaluate('window.' + CURRENT_INDEX_VARIABLE);
+	let gifName = await page.evaluate('window.' + GIF_NAME_VARIABLE);
 	do {
 		console.log('Working on state #' + currentIndex);
 		const ele = await page.evaluateHandle('document.querySelector("my-app").shadowRoot.querySelector("main-view").shadowRoot.querySelector("map-visualization")');
-		await ele.screenshot({path: SCREENSHOT_DIR + '/screenshot_' + currentIndex + '.png', omitBackground:true});
+		let path = SCREENSHOT_DIR + '/screenshot_' + currentIndex;
+		if (gifName !== undefined) {
+			path += '_gif_' + (gifName || 'default');
+		}
+		path += '.png';
+		await ele.screenshot({path, omitBackground:true});
 
 		if (currentIndex == 0) break;
 
@@ -46,6 +53,7 @@ const generateScreenshots = async () => {
 		//Wait for the flag to be raised high after rendering has happened
 		await page.waitForFunction('window.' + RENDER_COMPLETE_VARIABLE);
 		currentIndex = await page.evaluate('window.' + CURRENT_INDEX_VARIABLE);
+		gifName = await page.evaluate('window.' + GIF_NAME_VARIABLE);
 	} while(currentIndex >= 0);
 
 	await browser.close();

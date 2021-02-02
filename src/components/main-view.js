@@ -17,6 +17,10 @@ import {
 	selectCurrentDataIndex,
 } from "../selectors.js";
 
+import {
+	GIF_COMMAND
+} from "../map-data.js";
+
 // We are lazy loading its reducer.
 import data from "../reducers/data.js";
 store.addReducers({
@@ -27,6 +31,7 @@ store.addReducers({
 const CURRENT_INDEX_VARIABLE = 'current_index';
 const PREVIOUS_MAP_VARIABLE = 'previous_map';
 const RENDER_COMPLETE_VARIABLE = 'render_complete';
+const GIF_NAME_VARIABLE = 'gif_name';
 
 window[RENDER_COMPLETE_VARIABLE] = false;
 
@@ -128,6 +133,10 @@ class MainView extends connect(store)(PageViewElement) {
 		}
 		if (changedProps.has('_currentIndex')) {
 			window[CURRENT_INDEX_VARIABLE] = this._currentIndex;
+		}
+		if (changedProps.has('_expandedMapData')) {
+			const data = this._expandedMapData || {};
+			window[GIF_NAME_VARIABLE] = data[GIF_COMMAND];
 		}
 	}
 }
