@@ -55,6 +55,8 @@ export const SET_SIZE_COMMAND = "setSize";
 export const SET_ADJACENT_POSSIBLE_STEPS_COMMAND = "setAdjacentPossibleSteps";
 //0.0 ... 10.0
 export const SET_SCALE_COMMAND = "setScale";
+//String, css color
+export const SET_BACKGROUND_COMMAND = "setBackground";
 //Expects a cellValueCommand (see above)
 export const SET_HIGHLIGHTED_COMMAND = "highlighted";
 //Expects a cellValueCommand (see above)
@@ -538,6 +540,12 @@ class visualizationMap {
 			if (typeof scaleCommand != 'number') throw new Error("Scale must be a number");
 			if (scaleCommand < 0.0) scaleCommand = 0.0;
 			result.scale = scaleCommand;
+		}
+
+		let backgroundCommand = this._rawData[SET_BACKGROUND_COMMAND];
+		if (backgroundCommand !== undefined) {
+			if (typeof backgroundCommand != 'string') throw new Error("Background must be a string");
+			result.background = backgroundCommand;
 		}
 
 		//Copy cells so we can modify them

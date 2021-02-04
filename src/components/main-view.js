@@ -109,6 +109,12 @@ class MainView extends connect(store)(PageViewElement) {
 
 	render() {
 		return html`
+			${this._expandedMapData && this._expandedMapData.background ? html`
+			<style>
+				:host {
+					--app-background-color: ${this._expandedMapData.background}
+				}
+			</style>` : ''}
 			<div class='container'>
 				<map-visualization .data=${this._expandedMapData}></map-visualization>
 			</div>
