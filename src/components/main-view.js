@@ -82,7 +82,7 @@ class MainView extends connect(store)(PageViewElement) {
 					align-items: center;
 					height: 100%;
 					width: 100%;
-					background-color: var(--app-background-color, #356F9E);
+					background-color: var(--override-app-background-color, var(--app-background-color, #356F9E));
 				}
 
 			`

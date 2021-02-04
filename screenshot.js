@@ -39,7 +39,7 @@ const generateScreenshots = async () => {
 	});
 	await page.goto('http://localhost:8081', {waitUntil: 'networkidle2'});
 	let isTransparent = true;
-	await page.evaluate('document.querySelector("body").style.setProperty("--app-background-color", "transparent")');
+	await page.evaluate('document.querySelector("body").style.setProperty("--override-app-background-color", "transparent")');
 
 	let currentIndex = await page.evaluate('window.' + CURRENT_INDEX_VARIABLE);
 	let gifName = await page.evaluate('window.' + GIF_NAME_VARIABLE);
@@ -53,12 +53,12 @@ const generateScreenshots = async () => {
 			//for gif frames, include the background color, otherwise the variable alpha looks really bad
 			if (isTransparent) {
 				isTransparent = false;
-				await page.evaluate('document.querySelector("body").style.removeProperty("--app-background-color")');
+				await page.evaluate('document.querySelector("body").style.removeProperty("--override-app-background-color")');
 			}
 		} else {
 			if (!isTransparent) {
 				isTransparent = true;
-				await page.evaluate('document.querySelector("body").style.setProperty("--app-background-color", "transparent")');
+				await page.evaluate('document.querySelector("body").style.setProperty("--override-app-background-color", "transparent")');
 			}
 		}
 		path += '.png';
