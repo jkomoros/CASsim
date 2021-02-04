@@ -156,9 +156,16 @@
 		"setAdjacentPossibleSteps": 2
 	},
 	{
-		"captured": [
-			[true, [5,5]]
-		]
+		"active": [
+			[true, [7,7]]
+		],
+		"repeat": 6,
+		"gif": "accumulate",
+		"grow": {
+			"seed": "c",
+			"branchLikelihood": 1.0,
+			"numCellsToGrow": 1
+		}
 	},
 	{
 		"resetTo": "single_adjacent_possible"
@@ -184,10 +191,29 @@
 		]
 	},
 	{
+		"gif": "no-brainer"
+	},
+	{
+		"gif": "no-brainer",
 		"captured": [
-			[true, [2,2]],
-			[true, [3,0]],
-			[true, [4,0]],
+			[true, [2,2]]
+		]
+	},
+	{
+		"gif": "no-brainer",
+		"captured": [
+			[true, [3,0]]
+		]
+	},
+	{
+		"gif": "no-brainer",
+		"captured": [
+			[true, [4,0]]
+		]
+	},
+	{
+		"gif": "no-brainer",
+		"captured": [
 			[true, [6,2]]
 		]
 	},
@@ -205,9 +231,33 @@
 		]
 	},
 	{
+		"gif": "archeology",
 		"captured": [
-			[true, [2,5,5,5]],
+			[true, [2,5]]
+		]
+	},
+	{
+		"gif": "archeology",
+		"captured": [
 			[true, [6,6]]
+		]
+	},
+	{
+		"gif": "archeology",
+		"captured": [
+			[true, [3,5]]
+		]
+	},
+	{
+		"gif": "archeology",
+		"captured": [
+			[true, [5,5]]
+		]
+	},
+	{
+		"gif": "archeology",
+		"captured": [
+			[true, [4,5]]
 		]
 	},
 	{
@@ -280,7 +330,8 @@
 		"grow": {
 			"seed": "9"
 		},
-		"repeat": 10
+		"repeat": 10,
+		"gif": "diverge"
 	},
 	{
 		"resetTo": "zig_zag",
@@ -297,7 +348,8 @@
 			"valuePly": 10,
 			"valueDropoff": 0.6
 		},
-		"repeat": 8
+		"repeat": 8,
+		"gif": "converge"
 	},
 	{
 		"setSize": [63, 112],
@@ -335,7 +387,13 @@
 		"grow": {
 			"branchLikelihood": 0.1
 		},
-		"repeat": 100,
-		"gif": true
+		"repeat": 30
+	},
+	{
+		"grow": {
+			"branchLikelihood": 0.1
+		},
+		"repeat": 30,
+		"gif": "slime"
 	}
 ]
