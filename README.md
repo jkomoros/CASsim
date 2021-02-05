@@ -3,6 +3,8 @@ Simple visualization library for creating schematic adjacent possible visualizat
 
 Still in a kind of messy state. If you use it, reach out to alex@komoroske.com and I'll invest in cleaning it up!
 
+![Animated Example](/examples/accumulate.gif?raw=true)
+
 # Installing
 
 Install npm.
@@ -72,3 +74,9 @@ The cell properties that can be set are:
 - `fillOpacity` [0.0 ... 1.0] - Overrides the default opacity for a cell, affecting only the fill color.
 - `strokeOpacity` [0.0 ... 1.0] - Overides the default opacity for a cell, affecting only the stroke color. 
 - `scale` [0.0 ... 10.0] - Scale of individual cells (as opposed to all cells, like setScale)
+
+## More Examples
+
+![Static transparent](/examples/screenshot_13.png?raw=true)
+![Converging example](/examples/converge.gif?raw=true)
+![Slime animated](/examples/slime.gif?raw=true)
