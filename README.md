@@ -1,7 +1,7 @@
 # adjacent-possible-viz
 Simple visualization library for creating schematic adjacent possible visualizations.
 
-Still in a kind of messy state. If you use it, reach out to alex@komoroske.com and I'll invest in cleaning it up!
+Still in a kind of messy state. If you use it, reach out to alex@komoroske.com and I'll invest in cleaning it up! Alternatively, file a new issue with a feature suggestion or question!
 
 ![Animated Example](/examples/accumulate.gif?raw=true)
 
