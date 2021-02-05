@@ -1,7 +1,7 @@
 /*eslint-env node*/
 
 import {
-	VisualizationMapCollection,
+	FrameCollection,
 	defaultCellsForSize,
 	defaultVisualizationMapExpandedForCells,
 	getCellFromMap,
@@ -37,7 +37,7 @@ describe("data parsing", () => {
 			}
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -49,7 +49,7 @@ describe("data parsing", () => {
 				foo: [2,3],
 			}
 		];
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(0);
 		assert.throws(() => map.expandedData);
 	});
@@ -66,7 +66,7 @@ describe("data parsing", () => {
 		cell.highlighted = true;
 		cell.autoOpacity = 1.0;
 
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -83,7 +83,7 @@ describe("data parsing", () => {
 		getCellFromMap(golden, 0, 0).value = 1.0;
 		getCellFromMap(golden, 0, 1).value = 1.0;
 
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -100,7 +100,7 @@ describe("data parsing", () => {
 			}
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -116,7 +116,7 @@ describe("data parsing", () => {
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).value = 1.0;
 		getCellFromMap(golden, 0, 1).value = -1.0;
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -135,7 +135,7 @@ describe("data parsing", () => {
 		getCellFromMap(golden, 0, 0).active = true;
 		getCellFromMap(golden, 0, 0).captured = true;
 		getCellFromMap(golden, 0, 0).autoOpacity = 1.0;
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -151,7 +151,7 @@ describe("data parsing", () => {
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).fillOpacity = 0.5;
 		getCellFromMap(golden, 0, 0).strokeOpacity = 0.5;
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -166,7 +166,7 @@ describe("data parsing", () => {
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).fillOpacity = 0.5;
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -181,7 +181,7 @@ describe("data parsing", () => {
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).strokeOpacity = 0.5;
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -203,7 +203,7 @@ describe("data parsing", () => {
 		getCellFromMap(golden, 1, 1).autoOpacity = 0.25;
 		getCellFromMap(golden, 0, 1).autoOpacity = 0.75 - (1.0 / Math.sqrt(8));
 
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -226,7 +226,7 @@ describe("data parsing", () => {
 		getCellFromMap(golden, 0, 1).autoOpacity = 0.75 - (1.0 / Math.sqrt(18));
 		getCellFromMap(golden, 0, 2).autoOpacity = 0.75 - (2.0 / Math.sqrt(18));
 		getCellFromMap(golden, 1, 2).autoOpacity = 0.75 - (Math.sqrt(5) / Math.sqrt(18));
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -248,7 +248,7 @@ describe("data parsing", () => {
 			}
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -269,7 +269,7 @@ describe("data parsing", () => {
 				[RESET_TO_COMMAND]: 'foo'
 			}
 		];
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		assert.throws(() => map.expandedData);
 	});
@@ -292,7 +292,7 @@ describe("data parsing", () => {
 				[NAME_COMMAND]: 'foo',
 			}
 		];
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		assert.throws(() => map.expandedData);
 	});
@@ -312,7 +312,7 @@ describe("data parsing", () => {
 		getCellFromMap(golden, 1, 1).value = 1.0;
 		getCellFromMap(golden, 1, 2).value = 1.0;
 
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -328,7 +328,7 @@ describe("data parsing", () => {
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).value = 1.0;
 
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -341,7 +341,7 @@ describe("data parsing", () => {
 				[SET_HIGHLIGHTED_COMMAND]: [[true, [1,0,0,0]]],
 			}
 		];
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		assert.throws(() => map.expandedData);
 	});
@@ -353,7 +353,7 @@ describe("data parsing", () => {
 				[SET_HIGHLIGHTED_COMMAND]: [[true, [0,1,0,0]]],
 			}
 		];
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		assert.throws(() => map.expandedData);
 	});
@@ -373,7 +373,7 @@ describe("data parsing", () => {
 		getCellFromMap(golden, 1, 1).value = 1.0;
 		getCellFromMap(golden, 1, 2).value = 1.0;
 
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -386,7 +386,7 @@ describe("data parsing", () => {
 				[SET_HIGHLIGHTED_COMMAND]: [[true, [-1,0]]],
 			}
 		];
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		assert.throws(() => map.expandedData);
 	});
@@ -398,7 +398,7 @@ describe("data parsing", () => {
 				[SET_HIGHLIGHTED_COMMAND]: [[true, [2,0]]],
 			}
 		];
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		assert.throws(() => map.expandedData);
 	});
@@ -410,7 +410,7 @@ describe("data parsing", () => {
 				[SET_HIGHLIGHTED_COMMAND]: [[true, [0,-1]]],
 			}
 		];
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		assert.throws(() => map.expandedData);
 	});
@@ -422,7 +422,7 @@ describe("data parsing", () => {
 				[SET_HIGHLIGHTED_COMMAND]: [[true, [0,3]]],
 			}
 		];
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		assert.throws(() => map.expandedData);
 	});
@@ -438,7 +438,7 @@ describe("data parsing", () => {
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		golden.adjacentPossibleSteps = 2.0;
 
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -454,7 +454,7 @@ describe("data parsing", () => {
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		golden.adjacentPossibleSteps = 0.0;
 
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -470,7 +470,7 @@ describe("data parsing", () => {
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		golden.adjacentPossibleSteps = 0.0;
 
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -486,7 +486,7 @@ describe("data parsing", () => {
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		golden.scale = 2.2;
 
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -501,7 +501,7 @@ describe("data parsing", () => {
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).scale = 0.5;
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -521,7 +521,7 @@ describe("data parsing", () => {
 		getCellFromMap(golden, 1, 0).active = true;
 		getCellFromMap(golden, 1, 0).captured = true;
 		getCellFromMap(golden, 1, 0).autoOpacity = 1.0;
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -543,7 +543,7 @@ describe("data parsing", () => {
 		getCellFromMap(golden, 0, 1).active = true;
 		getCellFromMap(golden, 0, 1).captured = true;
 		getCellFromMap(golden, 0, 1).autoOpacity = 1.0;
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		const map = collection.dataForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
@@ -560,7 +560,7 @@ describe("data parsing", () => {
 			}
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		assert.deepStrictEqual(collection.length, 4);
 		const map = collection.dataForIndex(collection.length - 1);
 		const data = map ? map.expandedData : null;
@@ -581,7 +581,7 @@ describe("data parsing", () => {
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		golden.adjacentPossibleSteps = 0;
 		//gif should only be set on frames that specifically request it
-		const collection = new VisualizationMapCollection(input);
+		const collection = new FrameCollection(input);
 		assert.deepStrictEqual(collection.length, 3);
 		const map = collection.dataForIndex(collection.length - 1);
 		const data = map ? map.expandedData : null;

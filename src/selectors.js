@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
 import {
-	VisualizationMapCollection
+	FrameCollection
 } from "./map-data.js";
 
 const selectRawMapData = state => state.data ? state.data.data : [];
@@ -10,14 +10,14 @@ export const selectRawCurrentDataIndex = state => state.data ? state.data.index 
 export const selectPage = state => state.app ? state.app.page : '';
 export const selectPageExtra = state => state.app ? state.app.pageExtra : '';
 
-const selectVisualizationMapCollection = createSelector(
+const selectFrameCollection = createSelector(
 	selectRawMapData,
-	(rawMapData) => new VisualizationMapCollection(rawMapData)
+	(rawMapData) => new FrameCollection(rawMapData)
 );
 
 export const selectCurrentDataIndex = createSelector(
 	selectRawCurrentDataIndex,
-	selectVisualizationMapCollection,
+	selectFrameCollection,
 	(rawIndex, collection) => {
 		if (rawIndex >= 0) return rawIndex;
 		if (collection.length == 0) return 0;
@@ -26,12 +26,12 @@ export const selectCurrentDataIndex = createSelector(
 );
 
 export const selectMaxLegalIndex = createSelector(
-	selectVisualizationMapCollection,
+	selectFrameCollection,
 	(collection) => collection.length - 1
 );
 
 export const selectExpandedCurrentMapData = createSelector(
-	selectVisualizationMapCollection,
+	selectFrameCollection,
 	selectCurrentDataIndex,
 	(visualizationCollection, currentIndex) => {
 		const data = visualizationCollection.dataForIndex(currentIndex);

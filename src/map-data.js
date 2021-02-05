@@ -607,7 +607,7 @@ const expandRepeatBlocks = (data) => {
 	return result;
 };
 
-export class VisualizationMapCollection {
+export class FrameCollection {
 	constructor(data) {
 		data = expandRepeatBlocks(data);
 		this._data = data || [];
