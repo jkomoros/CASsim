@@ -84,8 +84,10 @@ const gifNameForFile = (fileName) => {
 	return pieces[3];
 };
 
-//Returns an object with gifNames, and the dimensions of the pngs for each gif collection.
-const gifDimensions = async () => {
+//Returns an object with gifNames and the information on each, including: 
+// - width
+// - height
+const gifInfos = async () => {
 	const result = {};
 	const illegalGifs = {};
 	const files = fs.readdirSync(SCREENSHOT_DIR);
@@ -111,10 +113,10 @@ const gifDimensions = async () => {
 //in ms
 const GIF_FRAME_DELAY = 150;
 
-const generateGifs = async (dimensions) => {
-	for (const [gifName, dim] of Object.entries(dimensions)) {
+const generateGifs = async (infos) => {
+	for (const [gifName, info] of Object.entries(infos)) {
 		console.log("Generating gif " + gifName + " (this could take awhile)");
-		const encoder = new GIFEncoder(dim.width, dim.height);
+		const encoder = new GIFEncoder(info.width, info.height);
 		encoder.setDelay(GIF_FRAME_DELAY);
 		encoder.setRepeat(0);
 		const stream = pngFileStream(path.join(SCREENSHOT_DIR, 'screenshot_*_gif_' + gifName + '.png'))
@@ -132,6 +134,6 @@ const generateGifs = async (dimensions) => {
 	clearScreenshotsDir();
 	await generateScreenshots();
 
-	const dim = await gifDimensions();
-	await generateGifs(dim);
+	const infos = await gifInfos();
+	await generateGifs(infos);
 })();
