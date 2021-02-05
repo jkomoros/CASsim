@@ -49,7 +49,7 @@ import { SharedStyles } from "./shared-styles.js";
 import { updateIndex } from '../actions/data.js';
 
 const fetchData = async() => {
-	const res = await fetch("/map_data.json");
+	const res = await fetch("/frame_data.json");
 
 	const data = await res.json();
 

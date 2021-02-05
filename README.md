@@ -15,7 +15,7 @@ Run `npm install` to install dependencies.
 
 # Running
 
-Modify map_data.json.
+Modify `frame_data.json`.
 
 Run `polymer serve` from command line.
 
@@ -23,7 +23,7 @@ Visit http://localhost:8081
 
 Arrow keys left or right to move forward or backward in state.
 
-Run `npm run screenshot` to generate screenshots, one for each state in your map_data.json, blowing away whatever was in the screenshots/ directory.
+Run `npm run screenshot` to generate screenshots, one for each state in your `frame_data.json`, blowing away whatever was in the screenshots/ directory.
 
 # JSON format
 
