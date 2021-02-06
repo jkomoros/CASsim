@@ -3,7 +3,7 @@
 import {
 	FrameCollection,
 	defaultCellsForSize,
-	defaultVisualizationMapExpandedForCells,
+	defaultExpandedFrameForCells,
 	getCellFromMap,
 	SET_SIZE_COMMAND,
 	SET_HIGHLIGHTED_COMMAND,
@@ -36,7 +36,7 @@ describe("data parsing", () => {
 				[SET_SIZE_COMMAND]: [2,3],
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		const collection = new FrameCollection(input);
 		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
@@ -61,7 +61,7 @@ describe("data parsing", () => {
 				[SET_HIGHLIGHTED_COMMAND]: [[true, [0,0]]],
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		const cell = getCellFromMap(golden, 0, 0);
 		cell.highlighted = true;
 		cell.autoOpacity = 1.0;
@@ -79,7 +79,7 @@ describe("data parsing", () => {
 				[SET_VALUE_COMMAND]: [[1.0, [0,0]], [1.0, [0,1]]],
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).value = 1.0;
 		getCellFromMap(golden, 0, 1).value = 1.0;
 
@@ -99,7 +99,7 @@ describe("data parsing", () => {
 				[SET_HIGHLIGHTED_COMMAND]: [[false, [0,0]]],
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		const collection = new FrameCollection(input);
 		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
@@ -113,7 +113,7 @@ describe("data parsing", () => {
 				[SET_VALUE_COMMAND]: [[1.0, [0,0]], [-1.0, [0,1]]],
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).value = 1.0;
 		getCellFromMap(golden, 0, 1).value = -1.0;
 		const collection = new FrameCollection(input);
@@ -130,7 +130,7 @@ describe("data parsing", () => {
 				[SET_ADJACENT_POSSIBLE_STEPS_COMMAND]: 0,
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		golden.adjacentPossibleSteps = 0;
 		getCellFromMap(golden, 0, 0).active = true;
 		getCellFromMap(golden, 0, 0).captured = true;
@@ -148,7 +148,7 @@ describe("data parsing", () => {
 				[SET_OPACITY_COMMAND]: [[0.5, [0,0]]],
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).fillOpacity = 0.5;
 		getCellFromMap(golden, 0, 0).strokeOpacity = 0.5;
 		const collection = new FrameCollection(input);
@@ -164,7 +164,7 @@ describe("data parsing", () => {
 				[SET_FILL_OPACITY_COMMAND]: [[0.5, [0,0]]],
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).fillOpacity = 0.5;
 		const collection = new FrameCollection(input);
 		const map = collection.frameForIndex(input.length - 1);
@@ -179,7 +179,7 @@ describe("data parsing", () => {
 				[SET_STROKE_OPACITY_COMMAND]: [[0.5, [0,0]]],
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).strokeOpacity = 0.5;
 		const collection = new FrameCollection(input);
 		const map = collection.frameForIndex(input.length - 1);
@@ -195,7 +195,7 @@ describe("data parsing", () => {
 				[SET_ADJACENT_POSSIBLE_STEPS_COMMAND]: 1,
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		golden.adjacentPossibleSteps = 1;
 		getCellFromMap(golden, 0, 0).captured = true;
 		getCellFromMap(golden, 0, 0).autoOpacity = 1.0;
@@ -217,7 +217,7 @@ describe("data parsing", () => {
 				[SET_ADJACENT_POSSIBLE_STEPS_COMMAND]: 2,
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		golden.adjacentPossibleSteps = 2;
 		getCellFromMap(golden, 0, 0).captured = true;
 		getCellFromMap(golden, 0, 0).autoOpacity = 1.0;
@@ -247,7 +247,7 @@ describe("data parsing", () => {
 				[RESET_TO_COMMAND]: 'foo'
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		const collection = new FrameCollection(input);
 		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
@@ -304,7 +304,7 @@ describe("data parsing", () => {
 				[SET_VALUE_COMMAND]: [[1.0, [0,0,1,2]]],
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).value = 1.0;
 		getCellFromMap(golden, 0, 1).value = 1.0;
 		getCellFromMap(golden, 0, 2).value = 1.0;
@@ -325,7 +325,7 @@ describe("data parsing", () => {
 				[SET_VALUE_COMMAND]: [[1.0, [0,0,0,0]]],
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).value = 1.0;
 
 		const collection = new FrameCollection(input);
@@ -365,7 +365,7 @@ describe("data parsing", () => {
 				[SET_VALUE_COMMAND]: [[1.0, []]],
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).value = 1.0;
 		getCellFromMap(golden, 0, 1).value = 1.0;
 		getCellFromMap(golden, 0, 2).value = 1.0;
@@ -435,7 +435,7 @@ describe("data parsing", () => {
 				[SET_ADJACENT_POSSIBLE_STEPS_COMMAND]: 2.2,
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		golden.adjacentPossibleSteps = 2.0;
 
 		const collection = new FrameCollection(input);
@@ -451,7 +451,7 @@ describe("data parsing", () => {
 				[SET_ADJACENT_POSSIBLE_STEPS_COMMAND]: 0,
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		golden.adjacentPossibleSteps = 0.0;
 
 		const collection = new FrameCollection(input);
@@ -467,7 +467,7 @@ describe("data parsing", () => {
 				[SET_ADJACENT_POSSIBLE_STEPS_COMMAND]: -1,
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		golden.adjacentPossibleSteps = 0.0;
 
 		const collection = new FrameCollection(input);
@@ -483,7 +483,7 @@ describe("data parsing", () => {
 				[SET_SCALE_COMMAND]: 2.2,
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		golden.scale = 2.2;
 
 		const collection = new FrameCollection(input);
@@ -499,7 +499,7 @@ describe("data parsing", () => {
 				[SET_CELL_SCALE_COMMAND]: [[0.5, [0,0]]],
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).scale = 0.5;
 		const collection = new FrameCollection(input);
 		const map = collection.frameForIndex(input.length - 1);
@@ -516,7 +516,7 @@ describe("data parsing", () => {
 				[GROW_COMMAND]: true,
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		golden.adjacentPossibleSteps = 0;
 		getCellFromMap(golden, 1, 0).active = true;
 		getCellFromMap(golden, 1, 0).captured = true;
@@ -538,7 +538,7 @@ describe("data parsing", () => {
 				},
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		golden.adjacentPossibleSteps = 0;
 		getCellFromMap(golden, 0, 1).active = true;
 		getCellFromMap(golden, 0, 1).captured = true;
@@ -559,7 +559,7 @@ describe("data parsing", () => {
 				[GROW_COMMAND]: true
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		const collection = new FrameCollection(input);
 		assert.deepStrictEqual(collection.length, 4);
 		const map = collection.frameForIndex(collection.length - 1);
@@ -578,7 +578,7 @@ describe("data parsing", () => {
 				[SET_ADJACENT_POSSIBLE_STEPS_COMMAND]: 0
 			}
 		];
-		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		golden.adjacentPossibleSteps = 0;
 		//gif should only be set on frames that specifically request it
 		const collection = new FrameCollection(input);
@@ -587,7 +587,7 @@ describe("data parsing", () => {
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 		//Verify that the earlier two have a gif of "" (true)
-		const goldenGif = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
+		const goldenGif = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		goldenGif.gif = '';
 		assert.deepStrictEqual(collection.frameForIndex(0).expandedData, goldenGif);
 		assert.deepStrictEqual(collection.frameForIndex(1).expandedData, goldenGif);
@@ -597,7 +597,7 @@ describe("data parsing", () => {
 
 describe("ring ply", () => {
 	it("same cell", async () => {
-		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const map = defaultExpandedFrameForCells(defaultCellsForSize(5,5));
 		const center = getCellFromMap(map, 2, 2);
 		const other = getCellFromMap(map, 2, 2);
 		const result = ringPly(other, center);
@@ -605,7 +605,7 @@ describe("ring ply", () => {
 	});
 
 	it("one ply left", async () => {
-		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const map = defaultExpandedFrameForCells(defaultCellsForSize(5,5));
 		const center = getCellFromMap(map, 2, 2);
 		const other = getCellFromMap(map, 2, 1);
 		const result = ringPly(other, center);
@@ -613,7 +613,7 @@ describe("ring ply", () => {
 	});
 
 	it("one ply left top corner", async () => {
-		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const map = defaultExpandedFrameForCells(defaultCellsForSize(5,5));
 		const center = getCellFromMap(map, 2, 2);
 		const other = getCellFromMap(map, 1, 1);
 		const result = ringPly(other, center);
@@ -621,7 +621,7 @@ describe("ring ply", () => {
 	});
 
 	it("two ply right diagonal", async () => {
-		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const map = defaultExpandedFrameForCells(defaultCellsForSize(5,5));
 		const center = getCellFromMap(map, 2, 2);
 		const other = getCellFromMap(map, 3, 4);
 		const result = ringPly(other, center);
@@ -629,7 +629,7 @@ describe("ring ply", () => {
 	});
 
 	it("two ply right bottom corner", async () => {
-		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const map = defaultExpandedFrameForCells(defaultCellsForSize(5,5));
 		const center = getCellFromMap(map, 2, 2);
 		const other = getCellFromMap(map, 4, 4);
 		const result = ringPly(other, center);
@@ -639,7 +639,7 @@ describe("ring ply", () => {
 
 describe("ring cells", () => {
 	it("zero ply", async () => {
-		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const map = defaultExpandedFrameForCells(defaultCellsForSize(5,5));
 		const center = getCellFromMap(map, 2, 2);
 		const ply = 0;
 		const result = ringCells(map, center, ply);
@@ -650,7 +650,7 @@ describe("ring cells", () => {
 	});
 
 	it("one ply center", async () => {
-		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const map = defaultExpandedFrameForCells(defaultCellsForSize(5,5));
 		const center = getCellFromMap(map, 2, 2);
 		const ply = 1;
 		const result = ringCells(map, center, ply);
@@ -668,7 +668,7 @@ describe("ring cells", () => {
 	});
 
 	it("two ply center", async () => {
-		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const map = defaultExpandedFrameForCells(defaultCellsForSize(5,5));
 		const center = getCellFromMap(map, 2, 2);
 		const ply = 2;
 		const result = ringCells(map, center, ply);
@@ -694,7 +694,7 @@ describe("ring cells", () => {
 	});
 
 	it("two ply off-center", async () => {
-		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const map = defaultExpandedFrameForCells(defaultCellsForSize(5,5));
 		const center = getCellFromMap(map, 1, 1);
 		const ply = 2;
 		const result = ringCells(map, center, ply);
@@ -713,7 +713,7 @@ describe("ring cells", () => {
 
 describe("outer neighbors", () => {
 	it("basic operation left", async () => {
-		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const map = defaultExpandedFrameForCells(defaultCellsForSize(5,5));
 		const center = getCellFromMap(map, 2, 2);
 		const cell = getCellFromMap(map, 2, 1);
 		const result = outerNeighbors(map, cell, center);
@@ -726,7 +726,7 @@ describe("outer neighbors", () => {
 	});
 
 	it("basic operation upper left corner", async () => {
-		const map = defaultVisualizationMapExpandedForCells(defaultCellsForSize(5,5));
+		const map = defaultExpandedFrameForCells(defaultCellsForSize(5,5));
 		const center = getCellFromMap(map, 2, 2);
 		const cell = getCellFromMap(map, 1, 1);
 		const result = outerNeighbors(map, cell, center);

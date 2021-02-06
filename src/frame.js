@@ -126,7 +126,7 @@ export const defaultCellsForSize = (rows, cols) => {
 	return result;
 };
 
-export const defaultVisualizationMapExpandedForCells = (cells) => {
+export const defaultExpandedFrameForCells = (cells) => {
 	let rows = 0;
 	let cols = 0;
 	if (cells.length) {
@@ -507,7 +507,7 @@ class visualizationMap {
 		} else if (this._index > 0) {
 			previous = this._collection.frameForIndex(this._index - 1).expandedData;
 		} else {
-			previous = defaultVisualizationMapExpandedForCells([]);
+			previous = defaultExpandedFrameForCells([]);
 		}
 		const result = {...previous};
 
