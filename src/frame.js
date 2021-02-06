@@ -485,7 +485,7 @@ const generateMap = (map, config) => {
 	}
 };
 
-class visualizationMap {
+class Frame {
 	constructor(collection, index, rawData) {
 		this._collection = collection;
 		this._index = index;
@@ -632,7 +632,7 @@ export class FrameCollection {
 	frameForIndex(index) {
 		if (index < 0 || index >= this._data.length) return null;
 		if (!this._memoizedMaps[index]) {
-			this._memoizedMaps[index] = new visualizationMap(this, index, this._data[index]);
+			this._memoizedMaps[index] = new Frame(this, index, this._data[index]);
 		}
 		return this._memoizedMaps[index];
 	}
