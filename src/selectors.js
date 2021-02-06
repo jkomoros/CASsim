@@ -34,7 +34,7 @@ export const selectExpandedCurrentMapData = createSelector(
 	selectFrameCollection,
 	selectCurrentDataIndex,
 	(visualizationCollection, currentIndex) => {
-		const data = visualizationCollection.dataForIndex(currentIndex);
+		const data = visualizationCollection.frameForIndex(currentIndex);
 		return data ? data.expandedData : null;
 	}
 );

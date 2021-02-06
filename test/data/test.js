@@ -38,7 +38,7 @@ describe("data parsing", () => {
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -50,7 +50,7 @@ describe("data parsing", () => {
 			}
 		];
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(0);
+		const map = collection.frameForIndex(0);
 		assert.throws(() => map.expandedData);
 	});
 
@@ -67,7 +67,7 @@ describe("data parsing", () => {
 		cell.autoOpacity = 1.0;
 
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -84,7 +84,7 @@ describe("data parsing", () => {
 		getCellFromMap(golden, 0, 1).value = 1.0;
 
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -101,7 +101,7 @@ describe("data parsing", () => {
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -117,7 +117,7 @@ describe("data parsing", () => {
 		getCellFromMap(golden, 0, 0).value = 1.0;
 		getCellFromMap(golden, 0, 1).value = -1.0;
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -136,7 +136,7 @@ describe("data parsing", () => {
 		getCellFromMap(golden, 0, 0).captured = true;
 		getCellFromMap(golden, 0, 0).autoOpacity = 1.0;
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -152,7 +152,7 @@ describe("data parsing", () => {
 		getCellFromMap(golden, 0, 0).fillOpacity = 0.5;
 		getCellFromMap(golden, 0, 0).strokeOpacity = 0.5;
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -167,7 +167,7 @@ describe("data parsing", () => {
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).fillOpacity = 0.5;
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -182,7 +182,7 @@ describe("data parsing", () => {
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).strokeOpacity = 0.5;
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -204,7 +204,7 @@ describe("data parsing", () => {
 		getCellFromMap(golden, 0, 1).autoOpacity = 0.75 - (1.0 / Math.sqrt(8));
 
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -227,7 +227,7 @@ describe("data parsing", () => {
 		getCellFromMap(golden, 0, 2).autoOpacity = 0.75 - (2.0 / Math.sqrt(18));
 		getCellFromMap(golden, 1, 2).autoOpacity = 0.75 - (Math.sqrt(5) / Math.sqrt(18));
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -249,7 +249,7 @@ describe("data parsing", () => {
 		];
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -270,7 +270,7 @@ describe("data parsing", () => {
 			}
 		];
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		assert.throws(() => map.expandedData);
 	});
 
@@ -293,7 +293,7 @@ describe("data parsing", () => {
 			}
 		];
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		assert.throws(() => map.expandedData);
 	});
 
@@ -313,7 +313,7 @@ describe("data parsing", () => {
 		getCellFromMap(golden, 1, 2).value = 1.0;
 
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -329,7 +329,7 @@ describe("data parsing", () => {
 		getCellFromMap(golden, 0, 0).value = 1.0;
 
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -342,7 +342,7 @@ describe("data parsing", () => {
 			}
 		];
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		assert.throws(() => map.expandedData);
 	});
 
@@ -354,7 +354,7 @@ describe("data parsing", () => {
 			}
 		];
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		assert.throws(() => map.expandedData);
 	});
 
@@ -374,7 +374,7 @@ describe("data parsing", () => {
 		getCellFromMap(golden, 1, 2).value = 1.0;
 
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -387,7 +387,7 @@ describe("data parsing", () => {
 			}
 		];
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		assert.throws(() => map.expandedData);
 	});
 
@@ -399,7 +399,7 @@ describe("data parsing", () => {
 			}
 		];
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		assert.throws(() => map.expandedData);
 	});
 
@@ -411,7 +411,7 @@ describe("data parsing", () => {
 			}
 		];
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		assert.throws(() => map.expandedData);
 	});
 
@@ -423,7 +423,7 @@ describe("data parsing", () => {
 			}
 		];
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		assert.throws(() => map.expandedData);
 	});
 
@@ -439,7 +439,7 @@ describe("data parsing", () => {
 		golden.adjacentPossibleSteps = 2.0;
 
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -455,7 +455,7 @@ describe("data parsing", () => {
 		golden.adjacentPossibleSteps = 0.0;
 
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -471,7 +471,7 @@ describe("data parsing", () => {
 		golden.adjacentPossibleSteps = 0.0;
 
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -487,7 +487,7 @@ describe("data parsing", () => {
 		golden.scale = 2.2;
 
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -502,7 +502,7 @@ describe("data parsing", () => {
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).scale = 0.5;
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -522,7 +522,7 @@ describe("data parsing", () => {
 		getCellFromMap(golden, 1, 0).captured = true;
 		getCellFromMap(golden, 1, 0).autoOpacity = 1.0;
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -544,7 +544,7 @@ describe("data parsing", () => {
 		getCellFromMap(golden, 0, 1).captured = true;
 		getCellFromMap(golden, 0, 1).autoOpacity = 1.0;
 		const collection = new FrameCollection(input);
-		const map = collection.dataForIndex(input.length - 1);
+		const map = collection.frameForIndex(input.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -562,7 +562,7 @@ describe("data parsing", () => {
 		const golden = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		const collection = new FrameCollection(input);
 		assert.deepStrictEqual(collection.length, 4);
-		const map = collection.dataForIndex(collection.length - 1);
+		const map = collection.frameForIndex(collection.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 	});
@@ -583,14 +583,14 @@ describe("data parsing", () => {
 		//gif should only be set on frames that specifically request it
 		const collection = new FrameCollection(input);
 		assert.deepStrictEqual(collection.length, 3);
-		const map = collection.dataForIndex(collection.length - 1);
+		const map = collection.frameForIndex(collection.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);
 		//Verify that the earlier two have a gif of "" (true)
 		const goldenGif = defaultVisualizationMapExpandedForCells(defaultCellsForSize(2,3));
 		goldenGif.gif = '';
-		assert.deepStrictEqual(collection.dataForIndex(0).expandedData, goldenGif);
-		assert.deepStrictEqual(collection.dataForIndex(1).expandedData, goldenGif);
+		assert.deepStrictEqual(collection.frameForIndex(0).expandedData, goldenGif);
+		assert.deepStrictEqual(collection.frameForIndex(1).expandedData, goldenGif);
 	});
 
 });

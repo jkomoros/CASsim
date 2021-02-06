@@ -500,12 +500,12 @@ class visualizationMap {
 	_computeData() {
 		let previous;
 		if (this._rawData[RESET_TO_COMMAND]) {
-			const previousMap = this._collection.dataForName(this._rawData[RESET_TO_COMMAND]);
+			const previousMap = this._collection.frameForName(this._rawData[RESET_TO_COMMAND]);
 			if (!previousMap) throw new Error("No such previous with that name");
 			if (previousMap.index > this._index) throw new Error("The named map is after us but must be before");
 			previous = previousMap.expandedData;
 		} else if (this._index > 0) {
-			previous = this._collection.dataForIndex(this._index - 1).expandedData;
+			previous = this._collection.frameForIndex(this._index - 1).expandedData;
 		} else {
 			previous = defaultVisualizationMapExpandedForCells([]);
 		}
@@ -622,14 +622,14 @@ export class FrameCollection {
 		return this._data.length;
 	}
 
-	dataForName(name) {
+	frameForName(name) {
 		for (let i = 0; i < this._data.length; i++) {
-			if (this._data[i].name == name) return this.dataForIndex(i);
+			if (this._data[i].name == name) return this.frameForIndex(i);
 		}
 		return null;
 	}
 
-	dataForIndex(index) {
+	frameForIndex(index) {
 		if (index < 0 || index >= this._data.length) return null;
 		if (!this._memoizedMaps[index]) {
 			this._memoizedMaps[index] = new visualizationMap(this, index, this._data[index]);
