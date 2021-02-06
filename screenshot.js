@@ -84,9 +84,33 @@ const gifNameForFile = (fileName) => {
 	return pieces[3];
 };
 
+const DEFAULT_GIF_CONFIG = {
+	//in ms
+	delay: 150,
+	repeat: 0,
+};
+
+//Duplicated from map-data.js;
+const GIF_COMMAND = 'gif';
+
+const FRAME_DATA_FILE = 'frame_data.json';
+
+const configForGif = (frameData, gifName) => {
+	for (const frame of frameData) {
+		const gifInfo = frame[GIF_COMMAND];
+		if (!gifInfo) continue;
+		if (typeof gifInfo != 'object') continue;
+		if (gifInfo.name != gifName) continue;
+		return {...DEFAULT_GIF_CONFIG, ...gifInfo};
+	}
+	return {...DEFAULT_GIF_CONFIG};
+};
+
 //Returns an object with gifNames and the information on each, including: 
 // - width
 // - height
+// - delay
+// - repeat
 const gifInfos = async () => {
 	const result = {};
 	const illegalGifs = {};
@@ -107,18 +131,20 @@ const gifInfos = async () => {
 	for (const name of Object.keys(illegalGifs)) {
 		delete result[name];
 	}
+	const rawFrameData = fs.readFileSync(FRAME_DATA_FILE);
+	const frameData = JSON.parse(rawFrameData);
+	for (const name of Object.keys(result)) {
+		result[name] = {...result[name], ...configForGif(frameData, name)};
+	}
 	return result;
 };
-
-//in ms
-const GIF_FRAME_DELAY = 150;
 
 const generateGifs = async (infos) => {
 	for (const [gifName, info] of Object.entries(infos)) {
 		console.log("Generating gif " + gifName + " (this could take awhile)");
 		const encoder = new GIFEncoder(info.width, info.height);
-		encoder.setDelay(GIF_FRAME_DELAY);
-		encoder.setRepeat(0);
+		encoder.setDelay(info.delay);
+		encoder.setRepeat(info.repeat);
 		const stream = pngFileStream(path.join(SCREENSHOT_DIR, 'screenshot_*_gif_' + gifName + '.png'))
 			.pipe(encoder.createWriteStream())
 			.pipe(fs.createWriteStream(path.join(SCREENSHOT_DIR, gifName + '.gif')));

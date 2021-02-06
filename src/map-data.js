@@ -85,6 +85,7 @@ export const GENERATE_COMMAND = 'generate';
 //A number of how many times to repeat this block in place.
 export const REPEAT_COMMAND = 'repeat';
 //A string or "" to request gif output include this frame. Only frames that explicitly include this will be outputed.
+//Duplicated in screenshot.js
 export const GIF_COMMAND = 'gif';
 
 const SET_CELL_COMMANDS = {
@@ -512,8 +513,11 @@ class visualizationMap {
 
 		//Unset it if set from previous, as it should only affect this frame.
 		delete result.gif;
-		const gifCommand = this._rawData[GIF_COMMAND];
+		let gifCommand = this._rawData[GIF_COMMAND];
 		if (gifCommand !== undefined) {
+			if (typeof gifCommand == 'object') {
+				gifCommand = gifCommand.name || '';
+			}
 			result.gif = gifCommand === true ? '' : gifCommand;
 		}
 

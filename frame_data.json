@@ -231,7 +231,11 @@
 		]
 	},
 	{
-		"gif": "archeology",
+		"gif": {
+			"name": "archeology",
+			"delay": "500",
+			"repeat": 0
+		},
 		"captured": [
 			[true, [2,5]]
 		]
