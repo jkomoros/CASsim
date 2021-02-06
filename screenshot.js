@@ -45,7 +45,7 @@ const generateScreenshots = async () => {
 	let gifName = await page.evaluate('window.' + GIF_NAME_VARIABLE);
 	do {
 		console.log('Working on state #' + currentIndex);
-		const ele = await page.evaluateHandle('document.querySelector("my-app").shadowRoot.querySelector("main-view").shadowRoot.querySelector("map-visualization")');
+		const ele = await page.evaluateHandle('document.querySelector("my-app").shadowRoot.querySelector("main-view").shadowRoot.querySelector("frame-visualization")');
 		//When this logic is updated, also change gifNameForFile
 		let path = SCREENSHOT_DIR + '/screenshot_' + currentIndex;
 		if (gifName !== undefined) {

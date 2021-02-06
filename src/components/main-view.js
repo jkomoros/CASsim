@@ -42,7 +42,7 @@ window[PREVIOUS_MAP_VARIABLE] = () => {
 };
 
 
-import "./map-visualization.js";
+import "./frame-visualization.js";
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from "./shared-styles.js";
@@ -116,7 +116,7 @@ class MainView extends connect(store)(PageViewElement) {
 				}
 			</style>` : ''}
 			<div class='container'>
-				<map-visualization .data=${this._expandedMapData}></map-visualization>
+				<frame-visualization .data=${this._expandedMapData}></frame-visualization>
 			</div>
 		`;
 	}

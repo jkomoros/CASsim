@@ -18,7 +18,7 @@ import {
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
-class MapVisualization extends LitElement {
+class FrameVisualization extends LitElement {
 	static get properties() {
 		return {
 			data: { type: Object },
@@ -113,4 +113,4 @@ class MapVisualization extends LitElement {
 	}
 }
 
-window.customElements.define("map-visualization", MapVisualization);
+window.customElements.define("frame-visualization", FrameVisualization);
