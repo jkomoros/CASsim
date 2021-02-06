@@ -12,7 +12,7 @@ import { LitElement, html, css } from "lit-element";
 import { repeat } from "lit-html/directives/repeat";
 
 import {
-	EMPTY_EXPANDED_MAP_DATA
+	EMPTY_EXPANDED_FRAME_DATA
 } from "../frame.js";
 
 // This is a reusable element. It is not connected to the store. You can
@@ -109,7 +109,7 @@ class MapVisualization extends LitElement {
 	}
 
 	get _cleanData() {
-		return this.data || EMPTY_EXPANDED_MAP_DATA;
+		return this.data || EMPTY_EXPANDED_FRAME_DATA;
 	}
 }
 

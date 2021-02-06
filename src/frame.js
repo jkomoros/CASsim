@@ -32,7 +32,7 @@ where cell data looks like:
 
 const DEFAULT_ADJACENT_POSSIBLE_STEPS = 3;
 
-export const EMPTY_EXPANDED_MAP_DATA = {
+export const EMPTY_EXPANDED_FRAME_DATA = {
 	rows:0,
 	cols:0,
 	adjacentPossibleSteps: 0,
