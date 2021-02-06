@@ -23,7 +23,9 @@ Visit http://localhost:8081
 
 Arrow keys left or right to move forward or backward in state.
 
-Run `npm run screenshot` to generate screenshots, one for each state in your `frame_data.json`, blowing away whatever was in the screenshots/ directory.
+Run `npm run generate` to generate screenshots, one for each state in your `frame_data.json`, blowing away whatever was in the screenshots/ directory.
+
+If you only want to generate the screenshots, not the gifs, run `npm run generate:screenshot`. If you only want to generate the gifs based on already-generated screenshots, run `npm run generate:gif`.
 
 # JSON format
 

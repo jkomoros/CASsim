@@ -14,7 +14,9 @@
     "serve:static": "polymer serve --port 5000 build/es5-bundled",
     "test": "npm run test:data",
     "test:data": "mocha -r esm test/data --timeout=10000",
-    "screenshot": "node screenshot.js"
+    "generate": "node screenshot.js",
+    "generate:screenshot": "node screenshot.js screenshot",
+    "generate:gif": "node screenshot.js gif"
   },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.4",

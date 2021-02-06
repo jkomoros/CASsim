@@ -156,10 +156,30 @@ const generateGifs = async (infos) => {
 	}
 };
 
-(async() => {
-	clearScreenshotsDir();
-	await generateScreenshots();
+const COMMAND_SCREENSHOT = 'screenshot';
+const COMMAND_GIF = 'gif';
+const COMMAND_ALL = 'all';
 
-	const infos = await gifInfos();
-	await generateGifs(infos);
+const DEFAULT_ARGS = {
+	[COMMAND_SCREENSHOT]: true,
+	[COMMAND_GIF]: true
+};
+
+(async() => {
+
+	let args = Object.fromEntries(process.argv.slice(2).map(item => [item, true]));
+
+	if (Object.keys(args).length == 0 || args[COMMAND_ALL]) {
+		args = DEFAULT_ARGS;
+	}
+
+	if (args[COMMAND_SCREENSHOT]) {
+		clearScreenshotsDir();
+		await generateScreenshots();
+	}
+
+	if (args[COMMAND_GIF]) {
+		const infos = await gifInfos();
+		await generateGifs(infos);
+	}
 })();
