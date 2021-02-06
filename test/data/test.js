@@ -25,6 +25,7 @@ import {
 	ringCells,
 	outerNeighbors,
 	GIF_COMMAND,
+	DISABLE_COMMAND
 } from "../../src/frame.js";
 
 import assert from "assert";
@@ -562,6 +563,29 @@ describe("data parsing", () => {
 		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		const collection = new FrameCollection(input);
 		assert.deepStrictEqual(collection.length, 4);
+		const map = collection.frameForIndex(collection.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
+	});
+
+	it("supports disable block", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+			},
+			{
+				[DISABLE_COMMAND]: true
+			},
+			{
+				[SET_VALUE_COMMAND]: [
+					[1.0, [0, 0]]
+				]
+			}
+		];
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
+		getCellFromMap(golden, 0, 0).value = 1.0;
+		const collection = new FrameCollection(input);
+		assert.deepStrictEqual(collection.length, 2);
 		const map = collection.frameForIndex(collection.length - 1);
 		const data = map ? map.expandedData : null;
 		assert.deepStrictEqual(data, golden);

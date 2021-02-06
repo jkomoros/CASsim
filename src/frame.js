@@ -87,6 +87,7 @@ export const REPEAT_COMMAND = 'repeat';
 //A string or "" to request gif output include this frame. Only frames that explicitly include this will be outputed.
 //Duplicated in screenshot.js
 export const GIF_COMMAND = 'gif';
+export const DISABLE_COMMAND = 'disable';
 
 const SET_CELL_COMMANDS = {
 	[SET_HIGHLIGHTED_COMMAND]: [SET_HIGHLIGHTED_COMMAND],
@@ -600,9 +601,10 @@ class Frame {
 	}
 }
 
-const expandRepeatBlocks = (data) => {
+const expandRawBlocks = (data) => {
 	const result = [];
 	for (const item of data) {
+		if (item[DISABLE_COMMAND]) continue;
 		const repeatCount = item[REPEAT_COMMAND] || 1;
 		for (let i = 0; i < repeatCount; i++) {
 			result.push(item);
@@ -613,7 +615,7 @@ const expandRepeatBlocks = (data) => {
 
 export class FrameCollection {
 	constructor(data) {
-		data = expandRepeatBlocks(data);
+		data = expandRawBlocks(data);
 		this._data = data || [];
 		this._memoizedMaps = {};
 	}
