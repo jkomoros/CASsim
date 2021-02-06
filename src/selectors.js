@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import {
 	FrameCollection
-} from "./map-data.js";
+} from "./frame.js";
 
 const selectRawMapData = state => state.data ? state.data.data : [];
 export const selectRawCurrentDataIndex = state => state.data ? state.data.index : 0;

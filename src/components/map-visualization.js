@@ -13,7 +13,7 @@ import { repeat } from "lit-html/directives/repeat";
 
 import {
 	EMPTY_EXPANDED_MAP_DATA
-} from "../map-data.js";
+} from "../frame.js";
 
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you

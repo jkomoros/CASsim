@@ -25,7 +25,7 @@ import {
 	ringCells,
 	outerNeighbors,
 	GIF_COMMAND,
-} from "../../src/map-data.js";
+} from "../../src/frame.js";
 
 import assert from "assert";
 

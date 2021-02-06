@@ -90,7 +90,7 @@ const DEFAULT_GIF_CONFIG = {
 	repeat: 0,
 };
 
-//Duplicated from map-data.js;
+//Duplicated from frame.js;
 const GIF_COMMAND = 'gif';
 
 const FRAME_DATA_FILE = 'frame_data.json';

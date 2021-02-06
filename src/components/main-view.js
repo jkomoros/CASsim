@@ -19,7 +19,7 @@ import {
 
 import {
 	GIF_COMMAND
-} from "../map-data.js";
+} from "../frame.js";
 
 // We are lazy loading its reducer.
 import data from "../reducers/data.js";
