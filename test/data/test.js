@@ -777,8 +777,10 @@ describe("color parsing", () => {
 			g: 6,
 			b: 252,
 			a: 1.0,
-			rgb: 'rgb(198,6,252)',
-			rgba: 'rgba(198,6,252,1)',
+			rgb: [198, 6, 252],
+			rgba: [198, 6, 252, 1.0],
+			rgbStr: 'rgb(198,6,252)',
+			rgbaStr: 'rgba(198,6,252,1)',
 			hex: '#C606FCFF'
 		};
 		const result = color(input);
@@ -792,8 +794,10 @@ describe("color parsing", () => {
 			g: 6,
 			b: 252,
 			a: 0.0,
-			rgb: 'rgb(198,6,252)',
-			rgba: 'rgba(198,6,252,0)',
+			rgb: [198, 6, 252],
+			rgba: [198, 6, 252, 0.0],
+			rgbStr: 'rgb(198,6,252)',
+			rgbaStr: 'rgba(198,6,252,0)',
 			hex: '#C606FC00'
 		};
 		const result = color(input);
@@ -807,8 +811,10 @@ describe("color parsing", () => {
 			g: 102,
 			b: 255,
 			a: 1.0,
-			rgb: 'rgb(204,102,255)',
-			rgba: 'rgba(204,102,255,1)',
+			rgb: [204, 102, 255],
+			rgba: [204, 102, 255, 1.0],
+			rgbStr: 'rgb(204,102,255)',
+			rgbaStr: 'rgba(204,102,255,1)',
 			hex: '#CC66FFFF'
 		};
 		const result = color(input);
@@ -822,8 +828,10 @@ describe("color parsing", () => {
 			g: 102,
 			b: 255,
 			a: 0.0,
-			rgb: 'rgb(204,102,255)',
-			rgba: 'rgba(204,102,255,0)',
+			rgb: [204, 102, 255],
+			rgba: [204, 102, 255, 0.0],
+			rgbStr: 'rgb(204,102,255)',
+			rgbaStr: 'rgba(204,102,255,0)',
 			hex: '#CC66FF00'
 		};
 		const result = color(input);

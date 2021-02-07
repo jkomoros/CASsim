@@ -31,10 +31,12 @@ export const color = (arg) => {
 		}
 		[r,g,b,a] = arg;
 	}
+	const rgb = [r, g, b];
+	const rgba = [r, g, b, a];
 	const hexInner = [r.toString(16), g.toString(16), b.toString(16), Math.floor(a * 255).toString(16)].map(str => str.length == 1 ? '0' + str : str);
 	const hex = ('#' + hexInner.join('')).toUpperCase();
-	const rgb = 'rgb(' + r  + ',' + g + ',' + b + ')';
-	const rgba = 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+	const rgbStr = 'rgb(' + r  + ',' + g + ',' + b + ')';
+	const rgbaStr = 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
 	return {
 		r,
 		g,
@@ -42,6 +44,8 @@ export const color = (arg) => {
 		a,
 		hex,
 		rgb,
-		rgba
+		rgba,
+		rgbStr,
+		rgbaStr,
 	};
 };
