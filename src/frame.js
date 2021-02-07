@@ -626,7 +626,7 @@ class Frame {
 			const unknownColorKeys = Object.keys(colorsCommand).filter(key => DEFAULT_COLORS[key] === undefined);
 
 			if (unknownColorKeys.length) throw new Error("Unknown color keys: " + unknownColorKeys.join(','));
-			const keysToSetToDefault = Object.entries(colorsCommand).filter(entry => entry[1] === undefined).map(entry => entry[0]);
+			const keysToSetToDefault = Object.entries(colorsCommand).filter(entry => entry[1] === null || entry[1] === undefined).map(entry => entry[0]);
 
 			//undefined (the sentinel to reset to default) won't throw
 			let convertedColors;

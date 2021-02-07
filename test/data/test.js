@@ -688,7 +688,7 @@ describe("data parsing", () => {
 			},
 			{
 				[SET_COLORS_COMMAND]: {
-					'zero': undefined,
+					'zero': null,
 				}
 			}
 		];
