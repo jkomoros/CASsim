@@ -907,6 +907,23 @@ describe("color parsing", () => {
 		assert.deepStrictEqual(result, golden);
 	});
 
+	it("undefined treated as black", async () => {
+		const input = undefined;
+		const golden = {
+			r: 0,
+			g: 0,
+			b: 0,
+			a: 1.0,
+			rgb: [0, 0 , 0],
+			rgba: [0, 0 ,0, 1],
+			rgbStr: 'rgb(0,0,0)',
+			rgbaStr: 'rgba(0,0,0,1)',
+			hex: '#000000FF'
+		};
+		const result = color(input);
+		assert.deepStrictEqual(result, golden);
+	});
+
 	it("throws for illegal string", async () => {
 		const input = 'whatever';
 		assert.throws(() => color(input));

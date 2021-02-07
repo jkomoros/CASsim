@@ -156,6 +156,7 @@ export const color = (arg) => {
 	let g = 0;
 	let b = 0;
 	let a = 1.0;
+	if (arg === undefined) arg = '#000000';
 	if (typeof arg == 'string') {
 		arg = NAMED_COLORS[arg] || arg;
 		if (arg.startsWith('#')) {
