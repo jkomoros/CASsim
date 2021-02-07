@@ -467,18 +467,18 @@ const generateMap = (map, config) => {
 	const seed = config.seed === true ? undefined : config.seed;
 	const rnd = prng_alea(seed);
 	const urn = new Urn(rnd);
-	urn.add(1.0, 20);
-	urn.add(0.8, 20);
-	urn.add(0.6, 20);
-	urn.add(0.4, 20);
-	urn.add(0.2, 20);
-	urn.add(0.0, 5);
-	urn.add(null, 3);
-	urn.add(-0.2, 1);
-	urn.add(-0.4, 1);
-	urn.add(-0.6, 1);
-	urn.add(-0.8, 1);
-	urn.add(-1.0, 3);
+	urn.add(1.0, 100);
+	urn.add(0.8, 100);
+	urn.add(0.6, 100);
+	urn.add(0.4, 100);
+	urn.add(0.2, 100);
+	urn.add(0.0, 25);
+	urn.add(-0.2, 5);
+	urn.add(-0.4, 5);
+	urn.add(-0.6, 5);
+	urn.add(-0.8, 5);
+	urn.add(-1.0, 15);
+	urn.add(null, 15);
 	for (const cell of map.cells) {
 		cell.value = SENTINEL_VALUE;
 	}
