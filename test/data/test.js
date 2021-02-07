@@ -770,6 +770,41 @@ describe("outer neighbors", () => {
 });
 
 describe("color parsing", () => {
+
+	it("3 tuple", async () => {
+		const input = [198, 6, 252];
+		const golden = {
+			r: 198,
+			g: 6,
+			b: 252,
+			a: 1.0,
+			rgb: [198, 6, 252],
+			rgba: [198, 6, 252, 1.0],
+			rgbStr: 'rgb(198,6,252)',
+			rgbaStr: 'rgba(198,6,252,1)',
+			hex: '#C606FCFF'
+		};
+		const result = color(input);
+		assert.deepStrictEqual(result, golden);
+	});
+
+	it("4 tuple", async () => {
+		const input = [198, 6, 252, 0.0];
+		const golden = {
+			r: 198,
+			g: 6,
+			b: 252,
+			a: 0.0,
+			rgb: [198, 6, 252],
+			rgba: [198, 6, 252, 0.0],
+			rgbStr: 'rgb(198,6,252)',
+			rgbaStr: 'rgba(198,6,252,0)',
+			hex: '#C606FC00'
+		};
+		const result = color(input);
+		assert.deepStrictEqual(result, golden);
+	});
+
 	it("6 char hex", async () => {
 		const input = '#C606FC';
 		const golden = {
