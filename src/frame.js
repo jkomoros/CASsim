@@ -65,8 +65,6 @@ export const SET_ADJACENT_POSSIBLE_STEPS_COMMAND = "setAdjacentPossibleSteps";
 //0.0 ... 10.0
 export const SET_SCALE_COMMAND = "setScale";
 export const SET_COLORS_COMMAND = "setColors";
-//String, css color
-export const SET_BACKGROUND_COMMAND = "setBackground";
 //Expects a cellValueCommand (see above)
 export const SET_HIGHLIGHTED_COMMAND = "highlighted";
 //Expects a cellValueCommand (see above)
@@ -141,12 +139,14 @@ export const ZERO_COLOR_NAME = 'zero';
 export const POSITIVE_COLOR_NAME = 'positive';
 export const NEGATIVE_COLOR_NAME = 'negative';
 export const EMPTY_COLOR_NAME = 'empty';
+export const BACKGROUND_COLOR_NAME = 'background';
 
 export const DEFAULT_COLORS = {
 	[ZERO_COLOR_NAME]: color('#FFF'),
 	[POSITIVE_COLOR_NAME]: color('#38761D'),
 	[NEGATIVE_COLOR_NAME]: color('#C00'),
-	[EMPTY_COLOR_NAME]: color('#666')
+	[EMPTY_COLOR_NAME]: color('#666'),
+	[BACKGROUND_COLOR_NAME]: color('#356F9E'),
 };
 
 export const defaultExpandedFrameForCells = (cells) => {
@@ -568,12 +568,6 @@ class Frame {
 			if (typeof scaleCommand != 'number') throw new Error("Scale must be a number");
 			if (scaleCommand < 0.0) scaleCommand = 0.0;
 			result.scale = scaleCommand;
-		}
-
-		let backgroundCommand = this._rawData[SET_BACKGROUND_COMMAND];
-		if (backgroundCommand !== undefined) {
-			if (typeof backgroundCommand != 'string') throw new Error("Background must be a string");
-			result.background = backgroundCommand;
 		}
 
 		let colorsCommand = this._rawData[SET_COLORS_COMMAND];

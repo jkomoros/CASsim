@@ -37,7 +37,6 @@ Each frame is an object with commands that apply:
 - `setAdjacentPossibleSteps`: `<positive integer>` - Override how many steps of adjacent possible around captured cells to show. 0 disables adjacent possible highlighting. Defaults to 3.
 - `setScale`: `<positive float>` - Override the scale of the rendered output. 1.0 is default scale.
 - `setColors`: `<object>` - Set colors of the given names to the given values. See `colorsParameters` for information on the meaning of each color name. See `colorDefinition` for legal value of the keys of the object. Colors that are not named will not be modified from the state before. Setting a color to `undefined` will set the color back to the default value.
-- `setBackground`: `<string css value>` - Set the background color. The string should be a CSS color value, like `#CCFFCC`. Setting to '' sets back to default. The background will not be in png screenshots by default (it will be transparent), but for GIF frames the background will be included (since GIFs don't handle variable transparency).
 - `description`: `<string>` - A string describing what that frame. The description doesn't do anything, it's more to help orient you in your frame description.
 - `name`: `<string` - A name for the state, to refer to later with resetTo.
 - `resetTo`: `<string>` - Resets the state to the state at the named previous state. The named state must exist, and must be BEFORE this one.
@@ -58,6 +57,7 @@ Color defintions in the `setColors` command block can be:
 - `positive` - The color for cells with a value of 1.0
 - `negative` - The color for cells with a value of 0.0
 - `empty` - The color for cells that are set to null
+- `background` - The color of the background of the diagram. The background will not be in png screenshots by default (it will be transparent), but for GIF frames the background will be included (since GIFs don't handle variable transparency).
 
 **gifParameters**:
 - `name` - `string` If providing an object, name is required. This will be the name of the gif output, and also how other frames can denote they are part of the same gif by providing `gif: <string>`.

@@ -109,16 +109,21 @@ class MainView extends connect(store)(PageViewElement) {
 
 	render() {
 		return html`
-			${this._expandedMapData && this._expandedMapData.background ? html`
 			<style>
 				:host {
-					--app-background-color: ${this._expandedMapData.background}
+					--app-background-color: ${this._backgroundColor}
 				}
-			</style>` : ''}
+			</style>
 			<div class='container'>
 				<frame-visualization .data=${this._expandedMapData}></frame-visualization>
 			</div>
 		`;
+	}
+
+	get _backgroundColor() {
+		if (!this._expandedMapData) return 'transparent';
+		if (!this._expandedMapData.colors) return 'transparent';
+		return this._expandedMapData.colors.background.hex;
 	}
 
 	// This is called every time something is updated in the store.
