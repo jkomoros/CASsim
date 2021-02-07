@@ -3,6 +3,10 @@ import {
 	prng_alea
 } from 'esm-seedrandom';
 
+import {
+	color
+} from './color.js';
+
 /*
 expandedMapData has the following shape:
 {
@@ -10,6 +14,11 @@ expandedMapData has the following shape:
 	cols: 5,
 	adjacentPossibleSteps: 1,
 	scale: 1.0,
+	colors {
+		'zero': color(),
+		'negative': color(),
+		'positive': color(),
+	}
 	cells: [//cellData]
 }
 
@@ -127,6 +136,18 @@ export const defaultCellsForSize = (rows, cols) => {
 	return result;
 };
 
+export const ZERO_COLOR_NAME = 'zero';
+export const POSITIVE_COLOR_NAME = 'positive';
+export const NEGATIVE_COLOR_NAME = 'negative';
+export const EMPTY_COLOR_NAME = 'empty';
+
+export const DEFAULT_COLORS = {
+	[ZERO_COLOR_NAME]: color('#FFF'),
+	[POSITIVE_COLOR_NAME]: color('#38761D'),
+	[NEGATIVE_COLOR_NAME]: color('#C00'),
+	[EMPTY_COLOR_NAME]: color('#666')
+};
+
 export const defaultExpandedFrameForCells = (cells) => {
 	let rows = 0;
 	let cols = 0;
@@ -138,6 +159,7 @@ export const defaultExpandedFrameForCells = (cells) => {
 		rows,
 		cols,
 		adjacentPossibleSteps: DEFAULT_ADJACENT_POSSIBLE_STEPS,
+		colors: {...DEFAULT_COLORS},
 		scale: 1.0,
 		cells
 	};

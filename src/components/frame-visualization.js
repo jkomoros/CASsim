@@ -12,7 +12,11 @@ import { LitElement, html, css } from "lit-element";
 import { repeat } from "lit-html/directives/repeat";
 
 import {
-	EMPTY_EXPANDED_FRAME_DATA
+	EMPTY_EXPANDED_FRAME_DATA,
+	POSITIVE_COLOR_NAME,
+	NEGATIVE_COLOR_NAME,
+	ZERO_COLOR_NAME,
+	EMPTY_COLOR_NAME,
 } from "../frame.js";
 
 // This is a reusable element. It is not connected to the store. You can
@@ -79,23 +83,23 @@ class FrameVisualization extends LitElement {
 				}
 			</style>
 			<div class='container'>
-				${repeat(this._cleanData.cells,item => "" + item.row + "-" + item.col, item => this._htmlForCell(item))}
+				${repeat(this._cleanData.cells,item => "" + item.row + "-" + item.col, item => this._htmlForCell(item, this._cleanData))}
 			</div>
 		`;
 	}
 
-	_htmlForCell(cell) {
+	_htmlForCell(cell, frame) {
 		const fillOpacity = cell.fillOpacity === undefined || cell.fillOpacity === null ? cell.autoOpacity : cell.fillOpacity;
 		const strokeOpacity = cell.strokeOpacity === undefined || cell.strokeOpacity === null? cell.autoOpacity : cell.strokeOpacity;
 		//Gray color for empty
-		let color = [102, 102, 102];
+		let color = frame.colors[EMPTY_COLOR_NAME].rgb;
 		if (cell.value != null) {
-			const baseColor = [255,255,255];
+			const baseColor = frame.colors[ZERO_COLOR_NAME].rgb;
 			let cellValue = cell.value;
 			if (cellValue > 1.0) cellValue = 1.0;
 			if (cellValue < -1.0) cellValue = -1.0;
 			//CC0000, and #38761D
-			const maxColor = cellValue < 0.0 ? [204, 0, 0] : [56, 118, 29];
+			const maxColor = cellValue < 0.0 ? frame.colors[NEGATIVE_COLOR_NAME].rgb : frame.colors[POSITIVE_COLOR_NAME].rgb;
 			const interpolated = maxColor.map((maxComponent, index) => {
 				const baseComponent = baseColor[index];
 				return Math.round(baseComponent + Math.abs(cellValue) * (maxComponent - baseComponent));
