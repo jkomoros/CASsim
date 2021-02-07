@@ -855,6 +855,23 @@ describe("color parsing", () => {
 		assert.deepStrictEqual(result, golden);
 	});
 
+	it("named color transparent", async () => {
+		const input = 'transparent';
+		const golden = {
+			r: 0,
+			g: 0,
+			b: 0,
+			a: 0.0,
+			rgb: [0, 0 , 0],
+			rgba: [0, 0 ,0, 0],
+			rgbStr: 'rgb(0,0,0)',
+			rgbaStr: 'rgba(0,0,0,0)',
+			hex: '#00000000'
+		};
+		const result = color(input);
+		assert.deepStrictEqual(result, golden);
+	});
+
 	it("throws for illegal string", async () => {
 		const input = 'whatever';
 		assert.throws(() => color(input));
