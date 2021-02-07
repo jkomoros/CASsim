@@ -26,7 +26,8 @@ import {
 	outerNeighbors,
 	GIF_COMMAND,
 	DISABLE_COMMAND,
-	SET_COLORS_COMMAND
+	SET_COLORS_COMMAND,
+	urnFromGenerateConfig
 } from "../../src/frame.js";
 
 import {
@@ -1041,4 +1042,102 @@ describe("color parsing", () => {
 		assert.throws(() => color(input));
 	});
 
+});
+
+describe("generation urn parameters", () => {
+	it("default proportions", async () => {
+		const input = {};
+		const golden = [
+			[1.0, 100],
+			[0.8, 100],
+			[0.6, 100],
+			[0.4, 100],
+			[0.2, 100],
+			[0.0, 25],
+			[-0.2, 5],
+			[-0.4, 5],
+			[-0.6, 5],
+			[-0.8, 5],
+			[-1.0, 15],
+			[null, 15]
+		];
+		const result = urnFromGenerateConfig(null, input);
+		const entries = [...result._items.entries()];
+		assert.deepStrictEqual(entries, golden);
+	});
+
+	it("override specific max", async () => {
+		const input = {
+			proportions: {
+				max: 90,
+			}
+		};
+		const golden = [
+			[1.0, 90],
+			[0.8, 100],
+			[0.6, 100],
+			[0.4, 100],
+			[0.2, 100],
+			[0.0, 25],
+			[-0.2, 5],
+			[-0.4, 5],
+			[-0.6, 5],
+			[-0.8, 5],
+			[-1.0, 15],
+			[null, 15]
+		];
+		const result = urnFromGenerateConfig(null, input);
+		const entries = [...result._items.entries()];
+		assert.deepStrictEqual(entries, golden);
+	});
+
+	it("override specific null", async () => {
+		const input = {
+			proportions: {
+				null: 12,
+			}
+		};
+		const golden = [
+			[1.0, 100],
+			[0.8, 100],
+			[0.6, 100],
+			[0.4, 100],
+			[0.2, 100],
+			[0.0, 25],
+			[-0.2, 5],
+			[-0.4, 5],
+			[-0.6, 5],
+			[-0.8, 5],
+			[-1.0, 15],
+			[null, 12]
+		];
+		const result = urnFromGenerateConfig(null, input);
+		const entries = [...result._items.entries()];
+		assert.deepStrictEqual(entries, golden);
+	});
+
+	it("override specific 0.4", async () => {
+		const input = {
+			proportions: {
+				'0.4': 10,
+			}
+		};
+		const golden = [
+			[1.0, 100],
+			[0.8, 100],
+			[0.6, 100],
+			[0.4, 10],
+			[0.2, 100],
+			[0.0, 25],
+			[-0.2, 5],
+			[-0.4, 5],
+			[-0.6, 5],
+			[-0.8, 5],
+			[-1.0, 15],
+			[null, 15]
+		];
+		const result = urnFromGenerateConfig(null, input);
+		const entries = [...result._items.entries()];
+		assert.deepStrictEqual(entries, golden);
+	});
 });

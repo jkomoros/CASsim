@@ -79,6 +79,17 @@ Color defintions in the `setColors` command block can be:
 **generateParameters**:
 - `seed`: `string` - A string to use as seed. If you don't like the result you're getting, provide a different seed. If the boolean true is provided, it will operate non deterministically.
 - `keyCellProportion`: `[0.0 - 1.0]` A float of what percentage of all cells in the map should be explicitly set. Smaller numbers produce larger contiguous regions of color. Defaults to 0.6.s
+- `proportions`: `<map of key to value>` A map of value to proportion, to override how often a given value shows up in genration. Values that are not provided will use their default. The key is things like `1.0`, `0.0`. The value should be between 0 and 100 saying how common it is. Special keys are 'max', 'min', 'zero', 'null', 'negative', and 'positive', which will be used for those special values if specific numeric keys that are more specific aren't provided. The default values are:
+```
+ {
+	max: 100,
+	min: 15,
+	positive: 100,
+	negative: 5,
+	zero: 25,
+	null: 15
+};
+```
 
 The next groups are cell commands. They select a property to modify, a value to set, and then a range of cells to affect, like this:
 `<property-name> : [[<value>, <cell-reference>], [<value>, <cell-reference>]]`.

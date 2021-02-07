@@ -452,11 +452,68 @@ const growMap = (map, config) => {
 
 };
 
+const MAX_VALUE_NAME = 'max';
+const MIN_VALUE_NAME = 'min';
+const POSITIVE_VALUE_NAME = 'positive';
+const NEGATIVE_VALUE_NAME = 'negative';
+const EMPTY_VALUE_NAME = 'null';
+const ZERO_VALUE_NAME = 'zero';
+
+const DEFAULT_PROPORTIONS = {
+	[MAX_VALUE_NAME]: 100,
+	[MIN_VALUE_NAME]: 15,
+	[POSITIVE_VALUE_NAME]: 100,
+	[NEGATIVE_VALUE_NAME]: 5,
+	[ZERO_VALUE_NAME]: 25,
+	[EMPTY_VALUE_NAME]: 15
+};
+
 const defaultGenerateConfig = () => {
 	return {
 		seed: 'seed',
 		keyCellProportion: 0.6,
+		proportions: {...DEFAULT_PROPORTIONS},
 	};
+};
+
+//Values are binned in what's generated, into this many bins.
+const VALUE_BIN_COUNT = 5;
+
+const proportionForUrnKey = (config, key) => {
+	const configProportions = config.proportions || {};
+	const proportions = {...DEFAULT_PROPORTIONS, ...configProportions};
+	let specialKey = key < 0.0 ? NEGATIVE_VALUE_NAME : POSITIVE_VALUE_NAME;
+	switch (key) {
+	case -1.0:
+		specialKey = MIN_VALUE_NAME;
+		break;
+	case 1.0:
+		specialKey = MAX_VALUE_NAME;
+		break;
+	case 0.0:
+		specialKey = ZERO_VALUE_NAME;
+		break;
+	case null:
+		specialKey = EMPTY_VALUE_NAME;
+		break;
+	}
+	const specificProportion = proportions[key];
+	if (specificProportion !== undefined) return specificProportion;
+	return proportions[specialKey];
+};
+
+export const urnFromGenerateConfig = (rnd, config) => {
+	const urn = new Urn(rnd);
+	const stepSize = 1 / VALUE_BIN_COUNT;
+	for (let i = 0; i <= VALUE_BIN_COUNT * 2; i++) {
+		const rawKey = 1.0 - (i * stepSize);
+		const roundedKey = parseFloat(rawKey.toPrecision(3));
+		const proportion = proportionForUrnKey(config, roundedKey);
+		urn.add(roundedKey, proportion);
+	}
+	const emptyProportion = proportionForUrnKey(config, null);
+	urn.add(null, emptyProportion);
+	return urn;
 };
 
 const SENTINEL_VALUE = Number.MAX_SAFE_INTEGER;
@@ -466,19 +523,7 @@ const generateMap = (map, config) => {
 	config = {...defaultGenerateConfig(), ...config};
 	const seed = config.seed === true ? undefined : config.seed;
 	const rnd = prng_alea(seed);
-	const urn = new Urn(rnd);
-	urn.add(1.0, 100);
-	urn.add(0.8, 100);
-	urn.add(0.6, 100);
-	urn.add(0.4, 100);
-	urn.add(0.2, 100);
-	urn.add(0.0, 25);
-	urn.add(-0.2, 5);
-	urn.add(-0.4, 5);
-	urn.add(-0.6, 5);
-	urn.add(-0.8, 5);
-	urn.add(-1.0, 15);
-	urn.add(null, 15);
+	const urn = urnFromGenerateConfig(rnd, config);
 	for (const cell of map.cells) {
 		cell.value = SENTINEL_VALUE;
 	}
