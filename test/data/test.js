@@ -25,7 +25,8 @@ import {
 	ringCells,
 	outerNeighbors,
 	GIF_COMMAND,
-	DISABLE_COMMAND
+	DISABLE_COMMAND,
+	SET_COLORS_COMMAND
 } from "../../src/frame.js";
 
 import {
@@ -619,6 +620,83 @@ describe("data parsing", () => {
 		goldenGif.gif = '';
 		assert.deepStrictEqual(collection.frameForIndex(0).expandedData, goldenGif);
 		assert.deepStrictEqual(collection.frameForIndex(1).expandedData, goldenGif);
+	});
+
+	it("supports colors", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+			},
+			{
+				[SET_COLORS_COMMAND]: {
+					'zero': 'green',
+				}
+			}
+		];
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
+		golden.colors.zero = color('green');
+		const collection = new FrameCollection(input);
+		assert.deepStrictEqual(collection.length, 2);
+		const map = collection.frameForIndex(collection.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
+	});
+
+	it("throws if illegal color given", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+			},
+			{
+				[SET_COLORS_COMMAND]: {
+					'zero': 'whatever',
+				}
+			}
+		];
+		const collection = new FrameCollection(input);
+		assert.throws(() => collection.frameForIndex(collection.length - 1).expandedData);
+	});
+
+	it("throws if illegal color name given", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+			},
+			{
+				[SET_COLORS_COMMAND]: {
+					'foo': 'green',
+				}
+			}
+		];
+
+		//noocmmit doesn't pass
+		const collection = new FrameCollection(input);
+
+		assert.throws(() => collection.frameForIndex(collection.length - 1).expandedData);
+	});
+
+	it("supports unsetting a color", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+			},
+			{
+				[SET_COLORS_COMMAND]: {
+					'zero': 'green',
+				}
+			},
+			{
+				[SET_COLORS_COMMAND]: {
+					'zero': undefined,
+				}
+			}
+		];
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
+		const collection = new FrameCollection(input);
+		assert.deepStrictEqual(collection.length, 3);
+		const map = collection.frameForIndex(collection.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
 	});
 
 });

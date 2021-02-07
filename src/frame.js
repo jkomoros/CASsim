@@ -64,6 +64,7 @@ export const SET_SIZE_COMMAND = "setSize";
 export const SET_ADJACENT_POSSIBLE_STEPS_COMMAND = "setAdjacentPossibleSteps";
 //0.0 ... 10.0
 export const SET_SCALE_COMMAND = "setScale";
+export const SET_COLORS_COMMAND = "setColors";
 //String, css color
 export const SET_BACKGROUND_COMMAND = "setBackground";
 //Expects a cellValueCommand (see above)
@@ -573,6 +574,34 @@ class Frame {
 		if (backgroundCommand !== undefined) {
 			if (typeof backgroundCommand != 'string') throw new Error("Background must be a string");
 			result.background = backgroundCommand;
+		}
+
+		let colorsCommand = this._rawData[SET_COLORS_COMMAND];
+		if (colorsCommand !== undefined) {
+			if (typeof colorsCommand != 'object') throw new Error('Colors must be provided an object');
+			const unknownColorKeys = Object.keys(colorsCommand).filter(key => DEFAULT_COLORS[key] === undefined);
+
+			if (unknownColorKeys.length) throw new Error("Unknown color keys: " + unknownColorKeys.join(','));
+			const keysToSetToDefault = Object.entries(colorsCommand).filter(entry => entry[1] === undefined).map(entry => entry[0]);
+
+			//undefined (the sentinel to reset to default) won't throw
+			let convertedColors;
+			try {
+				convertedColors = Object.fromEntries(Object.entries(colorsCommand).map(entry => [entry[0], color(entry[1])]));
+			} catch(err) {
+				throw new Error("Invalid color value: " + err);
+			}
+
+			//We'll copy over the colors from previous and then overlay new colors
+			const effectiveColors = {...previous.colors, ...convertedColors};
+			//Now we'll go throw and delete any that were set to undefined (the signal to reset to default)
+			for (const keyToSetToDefault of keysToSetToDefault) {
+				delete effectiveColors[keyToSetToDefault];
+			}
+			//And finally overlay the effective colors over the default ones, so
+			//that any holes created by undefined are filled, and all colors are
+			//set.
+			result.colors = {...DEFAULT_COLORS, ...effectiveColors};
 		}
 
 		//Copy cells so we can modify them

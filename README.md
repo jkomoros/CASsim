@@ -36,6 +36,7 @@ Each frame is an object with commands that apply:
 - `setSize`: `[rows, cols]` - Must be in the first state, and may be in later ones. Resets the map to that size.
 - `setAdjacentPossibleSteps`: `<positive integer>` - Override how many steps of adjacent possible around captured cells to show. 0 disables adjacent possible highlighting. Defaults to 3.
 - `setScale`: `<positive float>` - Override the scale of the rendered output. 1.0 is default scale.
+- `setColors`: `<object>` - Set colors of the given names to the given values. See `colorsParameters` for information on the meaning of each color name. See `colorDefinition` for legal value of the keys of the object. Colors that are not named will not be modified from the state before. Setting a color to `undefined` will set the color back to the default value.
 - `setBackground`: `<string css value>` - Set the background color. The string should be a CSS color value, like `#CCFFCC`. Setting to '' sets back to default. The background will not be in png screenshots by default (it will be transparent), but for GIF frames the background will be included (since GIFs don't handle variable transparency).
 - `description`: `<string>` - A string describing what that frame. The description doesn't do anything, it's more to help orient you in your frame description.
 - `name`: `<string` - A name for the state, to refer to later with resetTo.
@@ -45,6 +46,18 @@ Each frame is an object with commands that apply:
 - `gif`: `<object> or <string> or true` - If set, this frame will be marked to be rolled up into the gif. Each unique string will denote a different named gif. true defaults to 'default'. If an object, it should have the shape of gifParameters below. Only one gifParameters per gif needs to be set; the rest can just use a string of the same name. All frames for a given gif must be the same size (scale and setSize) or the gif won't be saved. Frames tagged to be included in a gif will not have a transparent background (otherwise the variable alpha looks weird).
 - `grow`: `<non-falsey-value>` - Grows all of the active cells into a legal neighbor. See growParameters below for more values that can be passed in an object.
 - `generate`: `<non-falsey-value>` - Generates a new map of values in the map. See generateParameters below for more values that can be passed in an object.
+
+**colorDefinition**:
+Color defintions in the `setColors` command block can be:
+- A string like '#FFCC00', or '#FC0' or '#FFCC00FF' or '#FC0F'
+- A css named string like `aliceblue` or `transparent`
+- A tuple of [r, g, b] or [r, g, b, a] values
+
+**colorParameters**:
+- `zero` - The color for cells with a value 0.0
+- `positive` - The color for cells with a value of 1.0
+- `negative` - The color for cells with a value of 0.0
+- `empty` - The color for cells that are set to null
 
 **gifParameters**:
 - `name` - `string` If providing an object, name is required. This will be the name of the gif output, and also how other frames can denote they are part of the same gif by providing `gif: <string>`.
