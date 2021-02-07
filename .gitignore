@@ -2,6 +2,8 @@ node_modules/
 bower_components/
 *.log
 
+frame_data.json
+
 build/
 dist/
 screenshots/

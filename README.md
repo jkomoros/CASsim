@@ -15,7 +15,7 @@ Run `npm install` to install dependencies.
 
 # Running
 
-Modify `frame_data.json`.
+If you want to do your own frames, create a `frame_data.json` in the root of the repo. If not provided, `frame_data.SAMPLE.json` will be used.
 
 Run `polymer serve` from command line.
 
