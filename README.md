@@ -49,6 +49,7 @@ Each frame is an object with commands that apply:
 **colorDefinition**:
 Color defintions in the `setColors` command block can be:
 - A string like '#FFCC00', or '#FC0' or '#FFCC00FF' or '#FC0F'
+- A string like 'rgb(255, 106, 0)' or 'rgba(255, 106, 0, 1.0)'
 - A css named string like `aliceblue` or `transparent`
 - A tuple of [r, g, b] or [r, g, b, a] values
 

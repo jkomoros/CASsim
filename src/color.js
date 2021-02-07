@@ -158,6 +158,7 @@ export const color = (arg) => {
 	let a = 1.0;
 	if (arg === undefined) arg = '#000000';
 	if (typeof arg == 'string') {
+		arg = arg.toLowerCase();
 		arg = NAMED_COLORS[arg] || arg;
 		if (arg.startsWith('#')) {
 			arg = arg.slice(1);
@@ -174,6 +175,20 @@ export const color = (arg) => {
 			g = parseInt(arg.slice(2,4), 16);
 			b = parseInt(arg.slice(4,6), 16);
 			a = parseInt(arg.slice(6), 16) / 255;
+		} else if (arg.startsWith('rgb(')) {
+			arg = arg.slice('rgb('.length);
+			if (!arg.endsWith(')')) throw new Error('rgb( without closing )');
+			arg = arg.slice(0,-1);
+			const numbers = arg.split(',').map(str => parseInt(str));
+			if (numbers.length != 3) throw new Error('rgb function expects 3 items');
+			[r, g, b] = numbers;
+		} else if (arg.startsWith('rgba(')) {
+			arg = arg.slice('rgba('.length);
+			if (!arg.endsWith(')')) throw new Error('rgba( without closing )');
+			arg = arg.slice(0,-1);
+			const numbers = arg.split(',').map(str => parseInt(str));
+			if (numbers.length != 4) throw new Error('rgba function expects 4 items');
+			[r, g, b, a] = numbers;
 		} else {
 			throw new Error("Unknown color type of string: " + arg);
 		}
