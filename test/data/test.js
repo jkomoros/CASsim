@@ -28,6 +28,10 @@ import {
 	DISABLE_COMMAND
 } from "../../src/frame.js";
 
+import {
+	color
+} from '../../src/color.js';
+
 import assert from "assert";
 
 describe("data parsing", () => {
@@ -763,4 +767,72 @@ describe("outer neighbors", () => {
 		].map(pair => getCellFromMap(map, pair[0], pair[1]));
 		assert.deepStrictEqual(result, golden);
 	});
+});
+
+describe("color parsing", () => {
+	it("6 char hex", async () => {
+		const input = '#C606FC';
+		const golden = {
+			r: 198,
+			g: 6,
+			b: 252,
+			a: 1.0,
+			rgb: 'rgb(198,6,252)',
+			rgba: 'rgba(198,6,252,1)',
+			hex: '#C606FCFF'
+		};
+		const result = color(input);
+		assert.deepStrictEqual(result, golden);
+	});
+
+	it("8 char hex", async () => {
+		const input = '#C606FC00';
+		const golden = {
+			r: 198,
+			g: 6,
+			b: 252,
+			a: 0.0,
+			rgb: 'rgb(198,6,252)',
+			rgba: 'rgba(198,6,252,0)',
+			hex: '#C606FC00'
+		};
+		const result = color(input);
+		assert.deepStrictEqual(result, golden);
+	});
+
+	it("3 char hex", async () => {
+		const input = '#C6F';
+		const golden = {
+			r: 204,
+			g: 102,
+			b: 255,
+			a: 1.0,
+			rgb: 'rgb(204,102,255)',
+			rgba: 'rgba(204,102,255,1)',
+			hex: '#CC66FFFF'
+		};
+		const result = color(input);
+		assert.deepStrictEqual(result, golden);
+	});
+
+	it("4 char hex", async () => {
+		const input = '#C6F0';
+		const golden = {
+			r: 204,
+			g: 102,
+			b: 255,
+			a: 0.0,
+			rgb: 'rgb(204,102,255)',
+			rgba: 'rgba(204,102,255,0)',
+			hex: '#CC66FF00'
+		};
+		const result = color(input);
+		assert.deepStrictEqual(result, golden);
+	});
+
+	it("throws for illegal string", async () => {
+		const input = 'whatever';
+		assert.throws(() => color(input));
+	});
+
 });
