@@ -41,12 +41,31 @@ where cell data looks like:
 
 const DEFAULT_ADJACENT_POSSIBLE_STEPS = 3;
 
+export const ZERO_COLOR_NAME = 'zero';
+export const POSITIVE_COLOR_NAME = 'positive';
+export const NEGATIVE_COLOR_NAME = 'negative';
+export const EMPTY_COLOR_NAME = 'empty';
+export const BACKGROUND_COLOR_NAME = 'background';
+export const HIGHLIGHTED_COLOR_NAME = 'highlighted';
+export const CAPTURED_COLOR_NAME = 'captured';
+
+export const DEFAULT_COLORS = {
+	[ZERO_COLOR_NAME]: color('#FFF'),
+	[POSITIVE_COLOR_NAME]: color('#38761D'),
+	[NEGATIVE_COLOR_NAME]: color('#C00'),
+	[EMPTY_COLOR_NAME]: color('#666'),
+	[BACKGROUND_COLOR_NAME]: color('#356F9E'),
+	[HIGHLIGHTED_COLOR_NAME]: color('white'),
+	[CAPTURED_COLOR_NAME]: color('black')
+};
+
 export const EMPTY_EXPANDED_FRAME_DATA = {
 	rows:0,
 	cols:0,
 	adjacentPossibleSteps: 0,
 	scale: 1.0,
 	cells: [],
+	colors: {...DEFAULT_COLORS}
 };
 
 /*
@@ -133,20 +152,6 @@ export const defaultCellsForSize = (rows, cols) => {
 		}
 	}
 	return result;
-};
-
-export const ZERO_COLOR_NAME = 'zero';
-export const POSITIVE_COLOR_NAME = 'positive';
-export const NEGATIVE_COLOR_NAME = 'negative';
-export const EMPTY_COLOR_NAME = 'empty';
-export const BACKGROUND_COLOR_NAME = 'background';
-
-export const DEFAULT_COLORS = {
-	[ZERO_COLOR_NAME]: color('#FFF'),
-	[POSITIVE_COLOR_NAME]: color('#38761D'),
-	[NEGATIVE_COLOR_NAME]: color('#C00'),
-	[EMPTY_COLOR_NAME]: color('#666'),
-	[BACKGROUND_COLOR_NAME]: color('#356F9E'),
 };
 
 export const defaultExpandedFrameForCells = (cells) => {

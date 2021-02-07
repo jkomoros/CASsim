@@ -57,6 +57,8 @@ Color defintions in the `setColors` command block can be:
 - `positive` - The color for cells with a value of 1.0
 - `negative` - The color for cells with a value of 0.0
 - `empty` - The color for cells that are set to null
+- `captured` - The color for the stroke for captured cells
+- `highlighted` - The color for the stroke for highlighted cells
 - `background` - The color of the background of the diagram. The background will not be in png screenshots by default (it will be transparent), but for GIF frames the background will be included (since GIFs don't handle variable transparency).
 
 **gifParameters**:

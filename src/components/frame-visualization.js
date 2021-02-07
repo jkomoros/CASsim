@@ -17,6 +17,8 @@ import {
 	NEGATIVE_COLOR_NAME,
 	ZERO_COLOR_NAME,
 	EMPTY_COLOR_NAME,
+	HIGHLIGHTED_COLOR_NAME,
+	CAPTURED_COLOR_NAME,
 } from "../frame.js";
 
 // This is a reusable element. It is not connected to the store. You can
@@ -79,6 +81,8 @@ class FrameVisualization extends LitElement {
 			<style>
 				:host {
 					--container-size: calc(${this._cleanData.cols} * var(--total-cell-width));
+					--highlighted-cell-color: ${this._cleanData.colors[HIGHLIGHTED_COLOR_NAME].hex};
+					--captured-cell-color: ${this._cleanData.colors[CAPTURED_COLOR_NAME].hex};
 					font-size: ${this._cleanData.scale}em;
 				}
 			</style>
