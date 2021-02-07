@@ -838,6 +838,23 @@ describe("color parsing", () => {
 		assert.deepStrictEqual(result, golden);
 	});
 
+	it("named color", async () => {
+		const input = 'aliceblue';
+		const golden = {
+			r: 240,
+			g: 248,
+			b: 255,
+			a: 1.0,
+			rgb: [240, 248, 255],
+			rgba: [240, 248, 255, 1.0],
+			rgbStr: 'rgb(240,248,255)',
+			rgbaStr: 'rgba(240,248,255,1)',
+			hex: '#F0F8FFFF'
+		};
+		const result = color(input);
+		assert.deepStrictEqual(result, golden);
+	});
+
 	it("throws for illegal string", async () => {
 		const input = 'whatever';
 		assert.throws(() => color(input));
