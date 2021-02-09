@@ -46,6 +46,27 @@ Each frame is an object with commands that apply:
 - `grow`: `<non-falsey-value>` - Grows all of the active cells into a legal neighbor. See growParameters below for more values that can be passed in an object.
 - `generate`: `<non-falsey-value>` - Generates a new map of values in the map. See generateParameters below for more values that can be passed in an object.
 
+The next groups are cell commands. They select a property to modify, a value to set, and then a range of cells to affect, like this:
+`<property-name> : [[<value>, <cell-reference>], [<value>, <cell-reference>]]`.
+
+Cell-reference can be any of:
+- a `[row, col]` tuple to select a single cell
+- a `[startRow, startCol, endRow, endCol]` tuple to define a rectangle, where the start and end are inclusive
+- a `[]` empty tuple to select all cells in the map.
+
+The cell properties that can be set are:
+- `value` [-1.0 ... 1.0] or null: The value for the cell. 1.0 renders green, -1.0 renders red, and 0.0 renders white, with smooth gradations. A value of null will render a gray.
+- `highlighted` (boolean): cells that are highlighted have an outline, and by default full opacity.
+- `captured` (boolean): cells that are captured have a different colored outline, are full opacity, and also have adjacent possible partial opacity emanating from them.
+- `active` (boolean): cells that are 'active' and will be expanded via the 'grow' command. Automatically sets captured to true to if not already set.
+- `activeOnly` (boolean): If you want to set a cell to active without also capturing it.
+- `opacity` [0.0 ... 1.0] - Overrides the default opacity for a cell. Equivalent to setting fillOpacity and strokeOpacity at the same time.
+- `fillOpacity` [0.0 ... 1.0] - Overrides the default opacity for a cell, affecting only the fill color.
+- `strokeOpacity` [0.0 ... 1.0] - Overides the default opacity for a cell, affecting only the stroke color. 
+- `scale` [0.0 ... 10.0] - Scale of individual cells (as opposed to all cells, like setScale)
+
+You can check out `frame_data.SAMPLE.json` and the tests in test/data for examples of nearly all of these commands in use.
+
 **colorDefinition**:
 Color defintions in the `setColors` command block can be:
 - A string like '#FFCC00', or '#FC0' or '#FFCC00FF' or '#FC0F'
@@ -68,7 +89,7 @@ Color defintions in the `setColors` command block can be:
 - `delay` - `<integer>` Defaults to 150. How many ms to wait between frames in the gif.
 
 **growParameters**:
-- `seed`: `string` - A string to use as seed. If you don't like the result you're getting at a step, provide a different seed. If the boolean true is provided, it will operate non deterministically.
+- `seed`: `string` - A string to use as seed. The results are deterministic. If you don't like the result you're getting at a step, provide a different seed. If the boolean true is provided, it will operate non deterministically, effectively using a fresh seed every time.
 - `randomness`: `[0.0 ... 1.0]` - A value for how random the neighbor pick should be. 1.0 is totally random pick of any nearby legal neighbor. 0.0 is deterministic of best valued thing
 - `proportion`: `[0.0 ... 1.0]` - What percentage of active cells should be grown in a given step. 1.0 is all cells, 0.0 is none. This is the relative version of numCellsToGrow
 - `numCellsToGrow`: `[integer]` - The highest number of cells to grow in a step, an absolute number. If more than 0, then this will put in place a cap. See also proportion, which is a proportion of active cells.
@@ -77,9 +98,9 @@ Color defintions in the `setColors` command block can be:
 - `branchLikelihood` `[0.0 -1.0]` - How likely a given active cell when growing is to branch--to both grow and leave the old one active, too. Defaults to 0.0.
 
 **generateParameters**:
-- `seed`: `string` - A string to use as seed. If you don't like the result you're getting, provide a different seed. If the boolean true is provided, it will operate non deterministically.
-- `keyCellProportion`: `[0.0 - 1.0]` A float of what percentage of all cells in the map should be explicitly set. Smaller numbers produce larger contiguous regions of color. Defaults to 0.6.s
-- `proportions`: `<map of key to value>` A map of value to proportion, to override how often a given value shows up in genration. Values that are not provided will use their default. The key is things like `1.0`, `0.0`. The value should be between 0 and 100 saying how common it is. Special keys are 'max', 'min', 'zero', 'null', 'negative', and 'positive', which will be used for those special values if specific numeric keys that are more specific aren't provided. The default values are:
+- `seed`: `string` - A string to use as seed. The results are deterministic. If you don't like the result you're getting, provide a different seed. If the boolean true is provided, it will operate non deterministically, effectively using a fresh seed every time.
+- `keyCellProportion`: `[0.0 - 1.0]` A float of what percentage of all cells in the map should be explicitly set. Smaller numbers produce larger contiguous regions of color. Defaults to 0.6.
+- `proportions`: `<map of key to value>` A map of value to proportion, to override how often a given value shows up in generation. Values that are not provided will use their default. The key is things like `1.0`, `0.0`. The value should be between 0 and 100 saying how common it is. Special keys are 'max', 'min', 'zero', 'null', 'negative', and 'positive', which will be used for those special values if specific numeric keys that are more specific aren't provided. The default values are:
 ```
  {
 	max: 100,
@@ -90,25 +111,6 @@ Color defintions in the `setColors` command block can be:
 	null: 15
 };
 ```
-
-The next groups are cell commands. They select a property to modify, a value to set, and then a range of cells to affect, like this:
-`<property-name> : [[<value>, <cell-reference>], [<value>, <cell-reference>]]`.
-
-Cell-reference can be any of:
-- a `[row, col]` tuple to select a single cell
-- a `[startRow, startCol, endRow, endCol]` tuple to define a rectangle, where the start and end are inclusive
-- a `[]` empty tuple to select all cells in the map.
-
-The cell properties that can be set are:
-- `value` [-1.0 ... 1.0] or null: The value for the cell. 1.0 renders green, -1.0 renders red, and 0.0 renders white, with smooth gradations. A value of null will render a gray.
-- `highlighted` (boolean): cells that are highlighted have an outline, and by default full opacity.
-- `captured` (boolean): cells that are captured have a different colored outline, are full opacity, and also have adjacent possible partial opacity emanating from them.
-- `active` (boolean): cells that are 'active' and growing. Automatically sets captured to true to if not already set.
-- `activeOnly` (boolean): If you want to set a cell to active without also capturing it.
-- `opacity` [0.0 ... 1.0] - Overrides the default opacity for a cell. Equivalent to setting fillOpacity and strokeOpacity at the same time.
-- `fillOpacity` [0.0 ... 1.0] - Overrides the default opacity for a cell, affecting only the fill color.
-- `strokeOpacity` [0.0 ... 1.0] - Overides the default opacity for a cell, affecting only the stroke color. 
-- `scale` [0.0 ... 10.0] - Scale of individual cells (as opposed to all cells, like setScale)
 
 ## More Examples
 
