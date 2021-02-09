@@ -47,7 +47,7 @@ Each frame is an object with commands that apply:
 - `generate`: `<non-falsey-value>` - Generates a new map of values in the map. See generateParameters below for more values that can be passed in an object.
 
 The next groups are cell commands. They select a property to modify, a value to set, and then a range of cells to affect, like this:
-`<property-name> : [[<value>, <cell-reference>], [<value>, <cell-reference>]]`.
+`<property-name> : [[<value>, <cell-reference>], [<value2>, <cell-reference2>], ...]`. You can have a single value/cell-reference pair or as many as you want.
 
 Cell-reference can be any of:
 - a `[row, col]` tuple to select a single cell
