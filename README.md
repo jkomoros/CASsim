@@ -65,6 +65,10 @@ The cell properties that can be set are:
 - `strokeOpacity` [0.0 ... 1.0] - Overides the default opacity for a cell, affecting only the stroke color. 
 - `scale` [0.0 ... 10.0] - Scale of individual cells (as opposed to all cells, like setScale)
 
+There is also one special cell command, `reset`. It doesn't require a property
+value, so it just takes an array of cellReferences. It resets each affected cell
+to its default values.
+
 You can check out `frame_data.SAMPLE.json` and the tests in test/data for examples of nearly all of these commands in use.
 
 **colorDefinition**:

@@ -21,6 +21,7 @@ import {
 	GROW_COMMAND,
 	SET_ADJACENT_POSSIBLE_STEPS_COMMAND,
 	REPEAT_COMMAND,
+	RESET_CELLS_COMMAND,
 	ringPly,
 	ringCells,
 	outerNeighbors,
@@ -590,6 +591,40 @@ describe("data parsing", () => {
 		];
 		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		getCellFromMap(golden, 0, 0).value = 1.0;
+		const collection = new FrameCollection(input);
+		assert.deepStrictEqual(collection.length, 2);
+		const map = collection.frameForIndex(collection.length - 1);
+		const data = map ? map.expandedData : null;
+		assert.deepStrictEqual(data, golden);
+	});
+
+	it("supports reset block", async () => {
+		const input = [
+			{
+				[SET_SIZE_COMMAND]: [2,3],
+				[SET_VALUE_COMMAND]: [
+					[1.0, [0,1]],
+				],
+				[SET_HIGHLIGHTED_COMMAND]: [
+					[true, [1,1]],
+				],
+				[SET_CAPTURED_COMMAND]: [
+					[true, [0,0]],
+				],
+				[SET_OPACITY_COMMAND]: [
+					[1.0, [1,2]],
+				],
+				[SET_CELL_SCALE_COMMAND]: [
+					[2.0, [1,2]],
+				]
+			},
+			{
+				[RESET_CELLS_COMMAND]: [
+					[],
+				]
+			},
+		];
+		const golden = defaultExpandedFrameForCells(defaultCellsForSize(2,3));
 		const collection = new FrameCollection(input);
 		assert.deepStrictEqual(collection.length, 2);
 		const map = collection.frameForIndex(collection.length - 1);

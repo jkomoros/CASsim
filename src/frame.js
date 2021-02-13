@@ -84,6 +84,7 @@ export const SET_ADJACENT_POSSIBLE_STEPS_COMMAND = "setAdjacentPossibleSteps";
 //0.0 ... 10.0
 export const SET_SCALE_COMMAND = "setScale";
 export const SET_COLORS_COMMAND = "setColors";
+export const RESET_CELLS_COMMAND = "reset";
 //Expects a cellValueCommand (see above)
 export const SET_HIGHLIGHTED_COMMAND = "highlighted";
 //Expects a cellValueCommand (see above)
@@ -128,20 +129,25 @@ const SET_CELL_COMMANDS = {
 	[SET_CELL_SCALE_COMMAND]: [SET_CELL_SCALE_COMMAND],
 };
 
+const setDefaultsOnCell = (cell) => {
+	cell.value = 0.0;
+	cell.highlighted = false;
+	cell.captured = false;
+	cell.active = false;
+	cell.scale = 1.0;
+	//undefined says it should use autoOpacity instead
+	cell.fillOpacity = undefined;
+	cell.strokeOpacity = undefined;
+	cell.autoOpacity = 0.0;
+};
+
 const defaultCellData = (row, col) => {
-	return {
+	const cell = {
 		row,
-		col,
-		value: 0.0,
-		highlighted: false,
-		captured: false,
-		active: false,
-		scale: 1.0,
-		//undefined says it should use autoOpacity instead
-		fillOpacity: undefined,
-		strokeOpacity: undefined,
-		autoOpacity: 0.0,
+		col
 	};
+	setDefaultsOnCell(cell);
+	return cell;
 };
 
 export const defaultCellsForSize = (rows, cols) => {
@@ -212,6 +218,13 @@ const trimCellReferenceToMap = (map, reference) => {
 	if (reference[2] >= map.rows) reference[2] = map.rows - 1;
 	if (reference[3] >= map.cols) reference[3] = map.cols - 1;
 	return reference;
+};
+
+const resetCellsOnMap = (map, cellReference) => {
+	const cells = cellsFromReferences(map, cellReference);
+	for (const cell of cells) {
+		setDefaultsOnCell(cell);
+	}
 };
 
 const setPropertiesOnMap = (map, propertyName, valueToSet, cellReferences) => {
@@ -650,6 +663,13 @@ class Frame {
 
 		//Copy cells so we can modify them
 		result.cells = result.cells.map(cell => ({...cell}));
+
+		let resetCommands = this._rawData[RESET_CELLS_COMMAND];
+		if (resetCommands) {
+			for (const resetCommand of resetCommands) {
+				resetCellsOnMap(result, resetCommand);
+			}
+		}
 
 		let generateCommand = this._rawData[GENERATE_COMMAND];
 		if (generateCommand) {
