@@ -10,6 +10,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { LitElement, html, css } from "lit-element";
 
+//schelling-org-renderer will already be loaded by simulation.js 
+
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
@@ -28,9 +30,7 @@ class FrameVisualization extends LitElement {
 
 	render() {
 		return html`
-			<pre>
-				${JSON.stringify(this.frame, '', 2)}
-			</pre>
+			<schelling-org-renderer .frame=${this.frame}></schelling-org-renderer>
 		`;
 	}
 }

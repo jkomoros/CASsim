@@ -23,3 +23,25 @@ const SchellingOrgSimulator = class {
 };
 
 export default SchellingOrgSimulator;
+
+import { LitElement, html} from "lit-element";
+
+// This is a reusable element. It is not connected to the store. You can
+// imagine that it could just as well be a third-party element that you
+// got from someone else.
+class SchellingOrgRenderer extends LitElement {
+	static get properties() {
+		return {
+			frame: { type: Object },
+		};
+	} 
+	render() {
+		return html`
+			<pre>
+				${JSON.stringify(this.frame, '', 2)}
+			</pre>
+		`;
+	}
+}
+
+window.customElements.define("schelling-org-renderer", SchellingOrgRenderer);
