@@ -65,6 +65,20 @@ export const SimulationCollection = class {
 	}
 };
 
+const SimulationRun = class {
+	constructor(simulator, index) {
+		this._simulator = simulator;
+		this._index = index;
+		this._frames = [
+			{}
+		];
+	}
+
+	get frames() {
+		return this._frames;
+	}
+};
+
 const Simulation = class {
 	constructor(config) {
 
@@ -72,21 +86,20 @@ const Simulation = class {
 		if (problems.length > 0) {
 			throw new Error('Invalid config: ' + problems.join(', '));
 		}
-
-		const arr = [];
-		for (let i = 0; i < config.runs; i++) {
-			arr.push({
-				frames: [
-					{},
-				],
-			});
-		}
 		this._simulator = SIMULATORS[config.sim];
 		this._config = config;
-		this._runs = arr;
+		this._runs = new Array(config.runs);
 	}
 
-	get runs() {
-		return this._runs;
+	get config() {
+		return this._config;
+	}
+
+	run(index) {
+		if (index < 0 || index >= this._runs.length) return null;
+		if (!this._runs[index]) {
+			this._runs[index] = new SimulationRun(this, index);
+		}
+		return this._runs[index];
 	}
 };
