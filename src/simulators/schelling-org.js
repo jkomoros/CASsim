@@ -1,6 +1,8 @@
 const SchellingOrgSimulator = class {
-	static generator() {
-		return {};
+	static generator(previousFrames) {
+		return {
+			value: previousFrames.length
+		};
 	}
 
 	static optionsValidator(simOptions) {
