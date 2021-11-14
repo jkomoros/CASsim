@@ -65,7 +65,7 @@ export const SimulationCollection = class {
 	}
 };
 
-export const Simulation = class {
+const Simulation = class {
 	constructor(config) {
 
 		const problems = simulatorConfigValid(config);
