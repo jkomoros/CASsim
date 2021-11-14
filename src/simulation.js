@@ -1,9 +1,15 @@
 
+import SchellingOrgSimulator from "./simulators/schelling-org.js";
+
 //A string or "" to request gif output include this frame. Only frames that explicitly include this will be outputed.
 //Duplicated in screenshot.js
 export const GIF_COMMAND = 'gif';
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
+
+const SIMULATORS = {
+	[SCHELLING_ORG_SIMULATION_NAME]: SchellingOrgSimulator,
+};
 
 //Returns an array of strings describing problems, or [] if everything is OK.
 const simulatorConfigValid = (config) => {
@@ -59,6 +65,8 @@ export const Simulation = class {
 				],
 			});
 		}
+		this._simulator = SIMULATORS[config.sim];
+		this._config = config;
 		this._runs = arr;
 	}
 
