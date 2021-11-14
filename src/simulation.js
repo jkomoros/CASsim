@@ -21,6 +21,28 @@ const simulatorConfigValid = (config) => {
 	return problems;
 };
 
+export const SimulationCollection = class {
+	constructor(configs) {
+		if (!configs) configs = [];
+		const arr = [];
+		for (let i = 0; i < configs.length; i++) {
+			let sim;
+			const config = configs[i];
+			try {
+				sim = new Simulation(config);
+			} catch(err) {
+				throw new Error('Config #' + i + ' errored: ' + err);
+			}
+			arr.push(sim);
+		}
+		this._simulations = arr;
+	}
+
+	get simulations() {
+		return this._simulations;
+	}
+};
+
 export const Simulation = class {
 	constructor(config) {
 

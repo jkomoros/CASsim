@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
 import {
-	Simulation
+	SimulationCollection
 } from "./simulation.js";
 
 const selectRawConfigData = state => state.data ? state.data.data : [];
@@ -10,31 +10,32 @@ export const selectRawCurrentDataIndex = state => state.data ? state.data.index 
 export const selectPage = state => state.app ? state.app.page : '';
 export const selectPageExtra = state => state.app ? state.app.pageExtra : '';
 
-const selectSimulation = createSelector(
+const selectSimulationCollection = createSelector(
 	selectRawConfigData,
-	(rawConfig) => new Simulation(rawConfig)
+	(rawConfig) => new SimulationCollection(rawConfig)
 );
 
 export const selectCurrentDataIndex = createSelector(
 	selectRawCurrentDataIndex,
-	selectSimulation,
-	(rawIndex, simulation) => {
+	selectSimulationCollection,
+	(rawIndex, collection) => {
 		if (rawIndex >= 0) return rawIndex;
-		if (simulation.runs.length == 0) return 0;
-		return simulation.runs.length - 1;
+		if (collection.simulations.length == 0) return 0;
+		return collection.simulations.length - 1;
 	}
 );
 
 export const selectMaxLegalIndex = createSelector(
-	selectSimulation,
-	(simulation) => simulation.runs.length - 1
+	selectSimulationCollection,
+	(collection) => collection.simulations.length - 1
 );
 
 export const selectExpandedCurrentMapData = createSelector(
-	selectSimulation,
+	selectSimulationCollection,
 	selectCurrentDataIndex,
-	(simulation, currentIndex) => {
-		const data = simulation.runs[currentIndex];
-		return data ? data.frames[0] : null;
+	(collection, currentIndex) => {
+		const sim = collection.simulations[currentIndex];
+		if (!sim) return null;
+		return sim.runs[0].frames[0];
 	}
 );
