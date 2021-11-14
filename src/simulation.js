@@ -23,6 +23,8 @@ const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 	frameScorer(frame) => an array of numbers between 0.0 and 1.0
 
 	successScorer(frameScore) => 0.0 if failure, 1.0 if full success, negative numbers to say indeterminate
+
+	frameValidator(frame) => array of strings defining problems, or [] if OK
 */
 const SIMULATORS = {
 	[SCHELLING_ORG_SIMULATION_NAME]: SchellingOrgSimulator,
@@ -103,8 +105,12 @@ const SimulationRun = class {
 		while(frameIndex > this._frames.length - 1) {
 			//TODO: validate the frame is legal
 			const result = this._calculateFrameAt(this._frames.length);
-			//TODO: keep track of when we hit this and never try to generate it again
+			//TODO: keep track of when we hit this end-of-simulation and never try to generate it again
 			if (!result) return null;
+			const problems = this._simulation.simulator.frameValidator(result);
+			if (problems.length) {
+				throw new Error('Couldn\'t generate frame at index ' + this.frameIndex + ' problem: ' + problems.join(', '));
+			}
 			this._frames.push(result);
 			const frameScores = this._simulation.simulator.frameScorer(result);
 			this._frameScores.push(frameScores);
