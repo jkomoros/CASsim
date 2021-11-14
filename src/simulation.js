@@ -3,8 +3,32 @@
 //Duplicated in screenshot.js
 export const GIF_COMMAND = 'gif';
 
+const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
+
+//Returns an array of strings describing problems, or [] if everything is OK.
+const simulatorConfigValid = (config) => {
+	if (!config) return ['Not an object'];
+	const problems = [];
+	if (config.runs == undefined) problems.push('Required property runs is not provided');
+	if (typeof config.runs != 'number' || config.runs < 1.0) problems.push('Runs must be a number greater than 1');
+
+	if (config.sim != SCHELLING_ORG_SIMULATION_NAME) problems.push('Only ' + SCHELLING_ORG_SIMULATION_NAME + ' is supported as a sim');
+
+	//TODO: verify other properties
+
+	//TODO: verify the simulator properties
+
+	return problems;
+};
+
 export const Simulation = class {
 	constructor(config) {
+
+		const problems = simulatorConfigValid(config);
+		if (problems.length > 0) {
+			throw new Error('Invalid config:', ...problems);
+		}
+
 		const arr = [];
 		for (let i = 0; i < config.runs; i++) {
 			arr.push({
