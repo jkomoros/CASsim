@@ -8,6 +8,10 @@ const SchellingOrgSimulator = class {
 		if (Object.keys(simOptions).length) problems.push('Doesn\'t currently expect any properties');
 		return problems;
 	}
+
+	static frameScorer() {
+		return [1.0];
+	}
 };
 
 export default SchellingOrgSimulator;

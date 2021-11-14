@@ -19,6 +19,8 @@ const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 	generator(previousFrames, simOptions, randomGenerator, runIndex) => nextFrameData, or null if the simulation run is terminated
 
 	optionsValidator(simOptions) => array of problem strings, or [] if OK
+
+	frameScorer(frame) => an array of numbers between 0.0 and 1.0
 */
 const SIMULATORS = {
 	[SCHELLING_ORG_SIMULATION_NAME]: SchellingOrgSimulator,
@@ -76,17 +78,29 @@ const SimulationRun = class {
 		this._simulation = simulation;
 		this._index = index;
 		this._frames = [];
+		this._frameScores = [];
 	}
 
 	frame(frameIndex) {
+		this._ensureFrameDataUpTo(frameIndex);
+		return this._frames[frameIndex];
+	}
+
+	frameScore(frameIndex) {
+		this._ensureFrameDataUpTo(frameIndex);
+		return this._frameScores[frameIndex];
+	}
+
+	_ensureFrameDataUpTo(frameIndex) {
 		while(frameIndex > this._frames.length - 1) {
 			//TODO: validate the frame is legal
 			const result = this._calculateFrameAt(this._frames.length);
 			//TODO: keep track of when we hit this and never try to generate it again
 			if (!result) return null;
 			this._frames.push(result);
+			const frameScores = this._simulation.simulator.frameScorer(result);
+			this._frameScores.push(frameScores);
 		}
-		return this._frames[frameIndex];
 	}
 
 	//Will only be called when all lower frames exist
