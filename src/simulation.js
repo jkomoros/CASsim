@@ -48,7 +48,7 @@ export const Simulation = class {
 
 		const problems = simulatorConfigValid(config);
 		if (problems.length > 0) {
-			throw new Error('Invalid config:', ...problems);
+			throw new Error('Invalid config: ' + problems.join(', '));
 		}
 
 		const arr = [];
