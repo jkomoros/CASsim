@@ -25,17 +25,12 @@ export const selectCurrentDataIndex = createSelector(
 	}
 );
 
-export const selectMaxLegalIndex = createSelector(
-	selectSimulationCollection,
-	(collection) => collection.simulations.length - 1
-);
-
 export const selectExpandedCurrentMapData = createSelector(
 	selectSimulationCollection,
 	selectCurrentDataIndex,
 	(collection, currentIndex) => {
-		const sim = collection.simulations[currentIndex];
+		const sim = collection.simulations[0];
 		if (!sim) return null;
-		return sim.run(0).frame(0);
+		return sim.run(0).frame(currentIndex);
 	}
 );

@@ -7,7 +7,6 @@ import {
 
 import {
 	selectCurrentDataIndex,
-	selectMaxLegalIndex
 } from '../selectors.js';
 
 export const loadData = (data) => {
@@ -20,7 +19,6 @@ export const loadData = (data) => {
 export const nextIndex = () => (dispatch, getState) => {
 	let currentIndex = selectCurrentDataIndex(getState());
 	currentIndex++;
-	if (currentIndex > selectMaxLegalIndex(getState())) return;
 	dispatch(updateIndex(currentIndex));
 };
 

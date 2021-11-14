@@ -86,12 +86,6 @@ const SimulationRun = class {
 		this._successScores = [];
 	}
 
-	numFrames() {
-		//TODO: actually set this up number of frames until it ends
-		this._ensureFrameDataUpTo(100000);
-		return this._frames.length;
-	}
-
 	frame(frameIndex) {
 		this._ensureFrameDataUpTo(frameIndex);
 		if (frameIndex >= this._frames.length) return null;
