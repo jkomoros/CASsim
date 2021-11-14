@@ -93,7 +93,7 @@ const DEFAULT_GIF_CONFIG = {
 //Duplicated from frame.js;
 const GIF_COMMAND = 'gif';
 
-const FRAME_DATA_FILE = 'frame_data.json';
+const FRAME_DATA_FILE = 'config.json';
 
 const configForGif = (frameData, gifName) => {
 	for (const frame of frameData) {
