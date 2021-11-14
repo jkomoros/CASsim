@@ -10,6 +10,8 @@ export const GIF_COMMAND = 'gif';
 
 const SIM_PROPERTY = 'sim';
 const SIM_OPTIONS_PROPERTY = 'simOptions';
+const RUNS_PROPERTY = 'runs';
+const SEED_PROPERTY = 'seed';
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
@@ -139,8 +141,8 @@ const Simulation = class {
 		}
 		this._simulator = SIMULATORS[config.sim];
 		this._config = config;
-		this._seed = this._config.seed || '' + Date.now();
-		this._runs = new Array(config.runs);
+		this._seed = this._config[SEED_PROPERTY] || '' + Date.now();
+		this._runs = new Array(config[RUNS_PROPERTY]);
 	}
 
 	get simulator() {
