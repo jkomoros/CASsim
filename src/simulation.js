@@ -21,6 +21,8 @@ const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 	optionsValidator(simOptions) => array of problem strings, or [] if OK
 
 	frameScorer(frame) => an array of numbers between 0.0 and 1.0
+
+	successScorer(frameScore) => 0.0 if failure, 1.0 if full success, negative numbers to say indeterminate
 */
 const SIMULATORS = {
 	[SCHELLING_ORG_SIMULATION_NAME]: SchellingOrgSimulator,
@@ -79,6 +81,7 @@ const SimulationRun = class {
 		this._index = index;
 		this._frames = [];
 		this._frameScores = [];
+		this._successScores = [];
 	}
 
 	frame(frameIndex) {
@@ -91,6 +94,11 @@ const SimulationRun = class {
 		return this._frameScores[frameIndex];
 	}
 
+	successScore(frameIndex) {
+		this._ensureFrameDataUpTo(frameIndex);
+		return this._successScores[frameIndex];
+	}
+
 	_ensureFrameDataUpTo(frameIndex) {
 		while(frameIndex > this._frames.length - 1) {
 			//TODO: validate the frame is legal
@@ -100,6 +108,8 @@ const SimulationRun = class {
 			this._frames.push(result);
 			const frameScores = this._simulation.simulator.frameScorer(result);
 			this._frameScores.push(frameScores);
+			const successScore = this._simulation.simulator.successScorer(frameScores);
+			this._successScores.push(successScore);
 		}
 	}
 

@@ -12,6 +12,10 @@ const SchellingOrgSimulator = class {
 	static frameScorer() {
 		return [1.0];
 	}
+
+	static successScorer() {
+		return -1.0;
+	}
 };
 
 export default SchellingOrgSimulator;
