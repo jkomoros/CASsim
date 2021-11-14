@@ -11,6 +11,8 @@ const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 	Simulators are classes that have the following static methods:
 
 	generator(previousFrames, simOptions, seedValue, runIndex) => nextFrameData
+
+	optionsValidator(simOptions) => array of problem strings, or [] if OK
 */
 const SIMULATORS = {
 	[SCHELLING_ORG_SIMULATION_NAME]: SchellingOrgSimulator,
@@ -27,7 +29,16 @@ const simulatorConfigValid = (config) => {
 
 	//TODO: verify other properties
 
-	//TODO: verify the simulator properties
+	const sim = SIMULATORS[config.sim];
+	if (!sim) {
+		problems.push('Unknown sim');
+		return problems;
+	}
+
+	const simProblems = sim.optionsValidator(config.simOptions || {});
+	if (simProblems.length) {
+		problems.push('Sim problems: ' + simProblems.join(', '));
+	}
 
 	return problems;
 };
