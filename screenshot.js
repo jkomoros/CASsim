@@ -90,7 +90,7 @@ const DEFAULT_GIF_CONFIG = {
 	repeat: 0,
 };
 
-//Duplicated from frame.js;
+//Duplicated from simulation.js;
 const GIF_COMMAND = 'gif';
 
 const FRAME_DATA_FILE = 'config.json';

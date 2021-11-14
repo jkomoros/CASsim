@@ -19,7 +19,7 @@ import {
 
 import {
 	GIF_COMMAND
-} from "../frame.js";
+} from "../simulation.js";
 
 // We are lazy loading its reducer.
 import data from "../reducers/data.js";

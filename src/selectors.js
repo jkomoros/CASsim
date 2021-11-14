@@ -1,40 +1,40 @@
 import { createSelector } from "reselect";
 
 import {
-	FrameCollection
-} from "./frame.js";
+	Simulation
+} from "./simulation.js";
 
-const selectRawMapData = state => state.data ? state.data.data : [];
+const selectRawConfigData = state => state.data ? state.data.data : [];
 export const selectRawCurrentDataIndex = state => state.data ? state.data.index : 0;
 
 export const selectPage = state => state.app ? state.app.page : '';
 export const selectPageExtra = state => state.app ? state.app.pageExtra : '';
 
-const selectFrameCollection = createSelector(
-	selectRawMapData,
-	(rawMapData) => new FrameCollection(rawMapData)
+const selectSimulation = createSelector(
+	selectRawConfigData,
+	(rawConfig) => new Simulation(rawConfig)
 );
 
 export const selectCurrentDataIndex = createSelector(
 	selectRawCurrentDataIndex,
-	selectFrameCollection,
-	(rawIndex, collection) => {
+	selectSimulation,
+	(rawIndex, simulation) => {
 		if (rawIndex >= 0) return rawIndex;
-		if (collection.length == 0) return 0;
-		return collection.length - 1;
+		if (simulation.runs.length == 0) return 0;
+		return simulation.runs.length - 1;
 	}
 );
 
 export const selectMaxLegalIndex = createSelector(
-	selectFrameCollection,
-	(collection) => collection.length - 1
+	selectSimulation,
+	(simulation) => simulation.runs.length - 1
 );
 
 export const selectExpandedCurrentMapData = createSelector(
-	selectFrameCollection,
+	selectSimulation,
 	selectCurrentDataIndex,
-	(visualizationCollection, currentIndex) => {
-		const data = visualizationCollection.frameForIndex(currentIndex);
-		return data ? data.expandedData : null;
+	(simulation, currentIndex) => {
+		const data = simulation.runs[currentIndex];
+		return data ? data.frames[0] : null;
 	}
 );

@@ -11,15 +11,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { LitElement, html, css } from "lit-element";
 import { repeat } from "lit-html/directives/repeat";
 
-import {
-	EMPTY_EXPANDED_FRAME_DATA,
-	POSITIVE_COLOR_NAME,
-	NEGATIVE_COLOR_NAME,
-	ZERO_COLOR_NAME,
-	EMPTY_COLOR_NAME,
-	HIGHLIGHTED_COLOR_NAME,
-	CAPTURED_COLOR_NAME,
-} from "../frame.js";
+const EMPTY_EXPANDED_FRAME_DATA = {};
+const POSITIVE_COLOR_NAME = "green";
+const NEGATIVE_COLOR_NAME = "red";
+const ZERO_COLOR_NAME = "black";
+const EMPTY_COLOR_NAME = "white";
+const HIGHLIGHTED_COLOR_NAME = "blue";
+const CAPTURED_COLOR_NAME = "orange";
 
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you
