@@ -1,5 +1,5 @@
 const SchellingOrgSimulator = class {
-	static generator(previousFrames, simOptions, seedValue, runIndex) {
+	static generator() {
 		return {};
 	}
 };

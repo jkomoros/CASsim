@@ -7,6 +7,11 @@ export const GIF_COMMAND = 'gif';
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
+/*
+	Simulators are classes that have the following static methods:
+
+	generator(previousFrames, simOptions, seedValue, runIndex) => nextFrameData
+*/
 const SIMULATORS = {
 	[SCHELLING_ORG_SIMULATION_NAME]: SchellingOrgSimulator,
 };
