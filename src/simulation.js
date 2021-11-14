@@ -103,7 +103,6 @@ const SimulationRun = class {
 
 	_ensureFrameDataUpTo(frameIndex) {
 		while(frameIndex > this._frames.length - 1) {
-			//TODO: validate the frame is legal
 			const result = this._calculateFrameAt(this._frames.length);
 			//TODO: keep track of when we hit this end-of-simulation and never try to generate it again
 			if (!result) return null;
