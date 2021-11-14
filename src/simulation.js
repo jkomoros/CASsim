@@ -88,16 +88,19 @@ const SimulationRun = class {
 
 	frame(frameIndex) {
 		this._ensureFrameDataUpTo(frameIndex);
+		if (frameIndex >= this._frames.length) return null;
 		return this._frames[frameIndex];
 	}
 
 	frameScore(frameIndex) {
 		this._ensureFrameDataUpTo(frameIndex);
+		if (frameIndex >= this._frames.length) return null;
 		return this._frameScores[frameIndex];
 	}
 
 	successScore(frameIndex) {
 		this._ensureFrameDataUpTo(frameIndex);
+		if (frameIndex >= this._frames.length) return -1;
 		return this._successScores[frameIndex];
 	}
 
