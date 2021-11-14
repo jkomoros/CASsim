@@ -1,12 +1,15 @@
 import {
 	LOAD_DATA,
-	UPDATE_INDEX
+	UPDATE_SIMULATION_INDEX,
+	UPDATE_RUN_INDEX,
+	UPDATE_FRAME_INDEX
 } from "../actions/data.js";
 
 const INITIAL_STATE = {
 	data: [],
-	//-1 signals it should be the default value, either 0 or the last state
-	index: -1,
+	simulationIndex: 0,
+	runIndex: 0,
+	frameIndex: 0,
 };
 
 const data = (state = INITIAL_STATE, action) => {
@@ -16,10 +19,20 @@ const data = (state = INITIAL_STATE, action) => {
 			...state,
 			data: action.data,
 		};
-	case UPDATE_INDEX:
+	case UPDATE_SIMULATION_INDEX:
 		return {
 			...state,
-			index: action.index,
+			simulationIndex: action.index,
+		};
+	case UPDATE_RUN_INDEX:
+		return {
+			...state,
+			runIndex: action.index,
+		};
+	case UPDATE_FRAME_INDEX:
+		return {
+			...state,
+			frameIndex: action.index,
 		};
 	default:
 		return state;

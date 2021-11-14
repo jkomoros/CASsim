@@ -1,5 +1,7 @@
 export const LOAD_DATA = "LOAD_DATA";
-export const UPDATE_INDEX = 'UPDATE_INDEX';
+export const UPDATE_SIMULATION_INDEX = 'UPDATE_SIMULATION_INDEX';
+export const UPDATE_RUN_INDEX = 'UPDATE_RUN_INDEX';
+export const UPDATE_FRAME_INDEX = 'UPDATE_FRAME_INDEX';
 
 import {
 	canonicalizePath
@@ -19,19 +21,19 @@ export const loadData = (data) => {
 export const nextIndex = () => (dispatch, getState) => {
 	let currentIndex = selectCurrentDataIndex(getState());
 	currentIndex++;
-	dispatch(updateIndex(currentIndex));
+	dispatch(updateFrameIndex(currentIndex));
 };
 
 export const prevIndex = () => (dispatch, getState) => {
 	let currentIndex = selectCurrentDataIndex(getState());
 	currentIndex--;
 	if (currentIndex < 0) return;
-	dispatch(updateIndex(currentIndex));
+	dispatch(updateFrameIndex(currentIndex));
 };
 
-export const updateIndex = (index) => (dispatch) => {
+export const updateFrameIndex = (index) => (dispatch) => {
 	dispatch({
-		type: UPDATE_INDEX,
+		type: UPDATE_FRAME_INDEX,
 		index,
 	});
 	dispatch(canonicalizePath());

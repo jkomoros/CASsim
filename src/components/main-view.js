@@ -46,7 +46,7 @@ import "./frame-visualization.js";
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from "./shared-styles.js";
-import { updateIndex } from '../actions/data.js';
+import { updateFrameIndex } from '../actions/data.js';
 
 const CONFIG_FILE_NAME = 'config.json';
 const SAMPLE_CONFIG_FILE_NAME = 'config.SAMPLE.json';
@@ -154,7 +154,7 @@ class MainView extends connect(store)(PageViewElement) {
 	updated(changedProps) {
 		if (changedProps.has('_pageExtra')) {
 			const index = this._pageExtra ? parseInt(this._pageExtra) : -1;
-			store.dispatch(updateIndex(index));
+			store.dispatch(updateFrameIndex(index));
 		}
 		if (changedProps.has('_currentIndex')) {
 			window[CURRENT_INDEX_VARIABLE] = this._currentIndex;
