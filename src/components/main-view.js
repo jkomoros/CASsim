@@ -48,21 +48,21 @@ import "./frame-visualization.js";
 import { SharedStyles } from "./shared-styles.js";
 import { updateIndex } from '../actions/data.js';
 
-const FRAME_DATA_FILE_NAME = 'frame_data.json';
-const SAMPLE_FRAME_DATA_FILE_NAME = 'frame_data.SAMPLE.json';
+const CONFIG_FILE_NAME = 'config.json';
+const SAMPLE_CONFIG_FILE_NAME = 'config.SAMPLE.json';
 
 const fetchData = async() => {
 	let res;
 	let fetchErrored = false;
 	try {
-		res = await fetch("/" + FRAME_DATA_FILE_NAME);
+		res = await fetch("/" + CONFIG_FILE_NAME);
 	} catch (err) {
 		fetchErrored = err;
 	}
 
 	if (fetchErrored || !res.ok) {
-		console.warn(FRAME_DATA_FILE_NAME + ' not found. Using ' + SAMPLE_FRAME_DATA_FILE_NAME + ' instead.');
-		res = await fetch("/" + SAMPLE_FRAME_DATA_FILE_NAME);
+		console.warn(CONFIG_FILE_NAME + ' not found. Using ' + SAMPLE_CONFIG_FILE_NAME + ' instead.');
+		res = await fetch("/" + SAMPLE_CONFIG_FILE_NAME);
 	}
 
 	const data = await res.json();
