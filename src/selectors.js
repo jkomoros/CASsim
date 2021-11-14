@@ -36,6 +36,6 @@ export const selectExpandedCurrentMapData = createSelector(
 	(collection, currentIndex) => {
 		const sim = collection.simulations[currentIndex];
 		if (!sim) return null;
-		return sim.run(0).frames[0];
+		return sim.run(0).frame(0);
 	}
 );

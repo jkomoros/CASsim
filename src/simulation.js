@@ -1,3 +1,6 @@
+import {
+	prng_alea
+} from 'esm-seedrandom';
 
 import SchellingOrgSimulator from "./simulators/schelling-org.js";
 
@@ -5,12 +8,15 @@ import SchellingOrgSimulator from "./simulators/schelling-org.js";
 //Duplicated in screenshot.js
 export const GIF_COMMAND = 'gif';
 
+const SIM_PROPERTY = 'sim';
+const SIM_OPTIONS_PROPERTY = 'simOptions';
+
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 /*
 	Simulators are classes that have the following static methods:
 
-	generator(previousFrames, simOptions, seedValue, runIndex) => nextFrameData
+	generator(previousFrames, simOptions, randomGenerator, runIndex) => nextFrameData, or null if the simulation run is terminated
 
 	optionsValidator(simOptions) => array of problem strings, or [] if OK
 */
@@ -29,13 +35,13 @@ const simulatorConfigValid = (config) => {
 
 	//TODO: verify other properties
 
-	const sim = SIMULATORS[config.sim];
+	const sim = SIMULATORS[config[SIM_PROPERTY]];
 	if (!sim) {
 		problems.push('Unknown sim');
 		return problems;
 	}
 
-	const simProblems = sim.optionsValidator(config.simOptions || {});
+	const simProblems = sim.optionsValidator(config[SIM_OPTIONS_PROPERTY] || {});
 	if (simProblems.length) {
 		problems.push('Sim problems: ' + simProblems.join(', '));
 	}
@@ -66,16 +72,29 @@ export const SimulationCollection = class {
 };
 
 const SimulationRun = class {
-	constructor(simulator, index) {
-		this._simulator = simulator;
+	constructor(simulation, index) {
+		this._simulation = simulation;
 		this._index = index;
-		this._frames = [
-			{}
-		];
+		this._frames = [];
 	}
 
-	get frames() {
-		return this._frames;
+	frame(frameIndex) {
+		while(frameIndex > this._frames.length - 1) {
+			//TODO: validate the frame is legal
+			const result = this._calculateFrameAt(this._frames.length);
+			//TODO: keep track of when we hit this and never try to generate it again
+			if (!result) return null;
+			this._frames.push(result);
+		}
+		return this._frames[frameIndex];
+	}
+
+	//Will only be called when all lower frames exist
+	_calculateFrameAt(frameIndex) {
+		const previousFrames = frameIndex == 0 ? [] : this._frames.slice(0, frameIndex);
+		const rnd = prng_alea('' + this._simulation.seed + this._index + frameIndex);
+		const sim = this._simulation.simulator;
+		return sim.generator(previousFrames, this._simulation.simOptions, rnd, this._index);
 	}
 };
 
@@ -88,11 +107,24 @@ const Simulation = class {
 		}
 		this._simulator = SIMULATORS[config.sim];
 		this._config = config;
+		this._seed = this._config.seed || '' + Date.now();
 		this._runs = new Array(config.runs);
+	}
+
+	get simulator() {
+		return this._simulator;
 	}
 
 	get config() {
 		return this._config;
+	}
+
+	get simOptions() {
+		return this.config[SIM_OPTIONS_PROPERTY];
+	}
+
+	get seed() {
+		return this._seed;
 	}
 
 	run(index) {
