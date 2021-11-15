@@ -128,7 +128,7 @@ class SchellingOrgRenderer extends LitElement {
 
 	get _projects() {
 		if (!this.frame) return [];
-		return this.frame[PROJECTS_PROPERTY_NAME] || [];		
+		return this.frame[PROJECTS_PROPERTY_NAME] || [];
 	}
 
 	get _collaborators() {
