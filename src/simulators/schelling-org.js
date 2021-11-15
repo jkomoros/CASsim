@@ -113,6 +113,12 @@ class SchellingOrgRenderer extends LitElement {
 				fill: var(--primary-color);
 			}
 
+			.selected-project {
+				stroke: var(--secondary-color);
+				stroke-width: 3px;
+				stroke-dasharray: 5,5;
+			}
+
 			`
 		];
 	}
@@ -154,7 +160,11 @@ class SchellingOrgRenderer extends LitElement {
 		const x = position[0];
 		const y = position[1] - width / 2;
 
-		return svg`<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='40'>${collaborator.emoji}</text>`;
+		const projectPosition = this._projectPosition(collaborator.project);
+
+		return svg`
+		${projectPosition ? svg`<path class='selected-project' d='M ${projectPosition[0]},${projectPosition[1]} L ${x}, ${y}'></path>` : ''}
+		<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='40'>${collaborator.emoji}</text>`;
 	}
 
 	_projectWidth() {
@@ -162,6 +172,7 @@ class SchellingOrgRenderer extends LitElement {
 	}
 
 	_projectPosition(index) {
+		if (index == undefined) return null;
 		const width = this._projectWidth();
 		const x = index * (width * 2) + (width / 2);
 		const y = this.height / 3;
