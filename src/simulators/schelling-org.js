@@ -1,11 +1,29 @@
 const COLLABORATORS_PROPERTY_NAME = 'collaborators';
 const PROJECTS_PROPERTY_NAME = 'projects';
 
+const DEFAULT_EMOJIS = [
+	'🧑‍⚕️',
+	'🧑‍🎓',
+	'🧑‍🏫',
+	'🧑‍⚖️',
+	'🧑‍🌾',
+	'🧑‍🍳',
+	'🧑‍🔧',
+	'🧑‍🔬',
+	'🧑‍🎨',
+	'🧑‍✈️',
+	'🧑‍🚒',
+	'👮'
+];
+
 const SchellingOrgSimulator = class {
 	static generator(previousFrames, simOptions) {
 		const collaborators = [];
 		for (let i = 0; i < simOptions[COLLABORATORS_PROPERTY_NAME].count; i++) {
-			collaborators.push({index: i});
+			collaborators.push({
+				index: i,
+				emoji: DEFAULT_EMOJIS[i % DEFAULT_EMOJIS.length]
+			});
 		}
 		const projects = [];
 		for (let i = 0; i < simOptions[PROJECTS_PROPERTY_NAME].count; i++) {
