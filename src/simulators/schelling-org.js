@@ -1,4 +1,5 @@
 const COLLABORATORS_PROPERTY_NAME = 'collaborators';
+const PROJECT_PROPERTY_NAME = 'project';
 
 const SchellingOrgSimulator = class {
 	static generator(previousFrames) {
@@ -13,11 +14,20 @@ const SchellingOrgSimulator = class {
 		return [];
 	}
 
+	static _projectOptionsValidator(projectOptions) {
+		if (!projectOptions || typeof projectOptions !== 'object') return ['If projects is provided it must be an object'];
+		if (!projectOptions.count || typeof projectOptions.count != 'number' || projectOptions.count < 1) return ['projectOptions.count must exist and be a positive number'];
+		return [];
+	}
+
 	static optionsValidator(simOptions) {
 		let problems = [];
 		for (const [key, value] of Object.entries(simOptions)) {
 			if (key == COLLABORATORS_PROPERTY_NAME) {
 				problems = [...problems, ...SchellingOrgSimulator._collaboratorOptionsValidator(value)];
+			}
+			if (key == PROJECT_PROPERTY_NAME) {
+				problems = [...problems, ...SchellingOrgSimulator._projectOptionsValidator(value)];
 			}
 		}
 		return problems;

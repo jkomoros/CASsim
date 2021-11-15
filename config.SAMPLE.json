@@ -13,6 +13,9 @@
 		"simOptions": {
 			"collaborators": {
 				"count": 5
+			},
+			"projects": {
+				"count": 4
 			}
 		}
 	}	
