@@ -19,17 +19,24 @@ const DEFAULT_EMOJIS = [
 const SchellingOrgSimulator = class {
 	static generator(previousFrames, simOptions, rnd) {
 		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
+		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
+		const selectedProjects = {};
 		const collaborators = [];
-		for (let i = 0; i < simOptions[COLLABORATORS_PROPERTY_NAME].count; i++) {
+		for (let i = 0; i < collaboratorsCount; i++) {
+			const selectedProject = Math.floor(rnd.quick() * projectsCount);
+			selectedProjects[selectedProject] = (selectedProjects[selectedProject] || 0) + 1;
 			collaborators.push({
 				index: i,
 				emoji: DEFAULT_EMOJIS[i % DEFAULT_EMOJIS.length],
-				project: Math.floor(rnd.quick() * projectsCount),
+				project: selectedProject,
 			});
 		}
 		const projects = [];
 		for (let i = 0; i < projectsCount; i++) {
-			projects.push({index: i});
+			projects.push({
+				index: i,
+				selected: selectedProjects[i] == collaboratorsCount,
+			});
 		}
 		return {
 			index: previousFrames.length,
@@ -119,6 +126,10 @@ class SchellingOrgRenderer extends LitElement {
 				stroke-dasharray: 5,5;
 			}
 
+			.project.not-selected {
+				filter: saturate(30%) brightness(1.3);
+			}
+
 			`
 		];
 	}
@@ -187,7 +198,7 @@ class SchellingOrgRenderer extends LitElement {
 		const x = position[0] - (width / 2);
 		const y = position[1] - (width / 2);
 
-		return svg`<rect class='project' x=${x} y=${y} width=${width} height=${width}></rect>`;
+		return svg`<rect class='project ${project.selected ? 'selected' : 'not-selected'}' x=${x} y=${y} width=${width} height=${width}></rect>`;
 	}
 
 
