@@ -133,7 +133,7 @@ class MainView extends connect(store)(PageViewElement) {
 				}
 			</style>
 			<div class='container'>
-				<frame-visualization .frame=${this._expandedMapData} style='width: ${this._width}px; height: ${this._height}px;'></frame-visualization>
+				<frame-visualization .frame=${this._expandedMapData} .width=${this._width} .height=${this._height}></frame-visualization>
 			</div>
 		`;
 	}

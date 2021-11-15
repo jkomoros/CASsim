@@ -85,6 +85,8 @@ class SchellingOrgRenderer extends LitElement {
 	static get properties() {
 		return {
 			frame: { type: Object },
+			width: {type:Number},
+			height: {type:Number},
 		};
 	} 
 
@@ -111,7 +113,7 @@ class SchellingOrgRenderer extends LitElement {
 
 	render() {
 		return html`
-			<svg>
+			<svg width=${this.width} height=${this.height}>
 				<rect x='0' y='0' width='100' height='100' fill='purple'></rect>
 			</svg>
 		`;

@@ -19,6 +19,8 @@ class FrameVisualization extends LitElement {
 	static get properties() {
 		return {
 			frame: { type: Object },
+			width: {type:Number},
+			height: {type:Number},
 		};
 	}
 
@@ -30,7 +32,7 @@ class FrameVisualization extends LitElement {
 
 	render() {
 		return html`
-			<schelling-org-renderer .frame=${this.frame}></schelling-org-renderer>
+			<schelling-org-renderer .frame=${this.frame} .width=${this.width} .height=${this.height}></schelling-org-renderer>
 		`;
 	}
 }
