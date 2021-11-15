@@ -8,6 +8,10 @@ import {
 	selectFrameIndex,
 } from "../selectors.js";
 
+import {
+	updateFrameIndex
+} from '../actions/data.js';
+
 // These are the shared styles needed by this element.
 import { SharedStyles } from "./shared-styles.js";
 
@@ -30,7 +34,7 @@ class SimulationControls extends connect(store)(LitElement) {
 		return html`
 			<div class='container'>
 				<label for='frameIndex'>Frame</label>
-				<input id='frameIndex' .value=${this._frameIndex}>
+				<input id='frameIndex' .value=${this._frameIndex} type='number' min='0' @change=${this._handleFrameIndexChanged}>
 			</div>
 		`;
 	}
@@ -38,6 +42,11 @@ class SimulationControls extends connect(store)(LitElement) {
 	// This is called every time something is updated in the store.
 	stateChanged(state) {
 		this._frameIndex = selectFrameIndex(state);
+	}
+
+	_handleFrameIndexChanged(e) {
+		const ele = e.composedPath()[0];
+		store.dispatch(updateFrameIndex(ele.value));
 	}
 }
 
