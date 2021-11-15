@@ -128,10 +128,10 @@ class SchellingOrgRenderer extends LitElement {
 		const numCollaborators = this.frame[COLLABORATORS_PROPERTY_NAME].length;
 		const width = this.width / (numCollaborators * 2 - 1);
 
-		const x = collaborator.index * (width * 2);
-		const y = (this.height / 3) - (width / 2);
+		const x = collaborator.index * (width * 2) + (width / 2);
+		const y = ((this.height / 3) * 2) - (width / 2);
 
-		return svg`<rect x=${x} y=${y} width=${width} height=${width} fill='purple'></rect>`;
+		return svg`<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='40'>${collaborator.emoji}</text>`;
 	}
 
 
