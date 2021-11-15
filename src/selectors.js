@@ -26,11 +26,15 @@ export const selectCurrentDataIndex = createSelector(
 	}
 );
 
-export const selectExpandedCurrentMapData = createSelector(
+const selectCurrentSimulation = createSelector(
 	selectSimulationCollection,
+	(collection) => collection.simulations[0]
+);
+
+export const selectExpandedCurrentMapData = createSelector(
+	selectCurrentSimulation,
 	selectCurrentDataIndex,
-	(collection, currentIndex) => {
-		const sim = collection.simulations[0];
+	(sim, currentIndex) => {
 		if (!sim) return null;
 		return sim.run(0).frame(currentIndex);
 	}
