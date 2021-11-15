@@ -9,6 +9,7 @@ import SchellingOrgSimulator from "./simulators/schelling-org.js";
 export const GIF_COMMAND = 'gif';
 
 const SIM_PROPERTY = 'sim';
+const SIZE_PROPERTY = 'size';
 const SIM_OPTIONS_PROPERTY = 'simOptions';
 const RUNS_PROPERTY = 'runs';
 const SEED_PROPERTY = 'seed';
@@ -38,6 +39,12 @@ const simulatorConfigValid = (config) => {
 	const problems = [];
 	if (config.runs == undefined) problems.push('Required property runs is not provided');
 	if (typeof config.runs != 'number' || config.runs < 1.0) problems.push('Runs must be a number greater than 1');
+
+	if (!config[SIZE_PROPERTY]) {
+		problems.push('size is required');
+		return problems;
+	}
+	if (typeof config[SIZE_PROPERTY] != 'object' || !Array.isArray(config[SIZE_PROPERTY]) || config[SIZE_PROPERTY].length != 2 || typeof config[SIZE_PROPERTY][0] != 'number' || typeof config[SIZE_PROPERTY][1] != 'number') problems.push('size property must be a two-number array');
 
 	if (config.sim != SCHELLING_ORG_SIMULATION_NAME) problems.push('Only ' + SCHELLING_ORG_SIMULATION_NAME + ' is supported as a sim');
 
