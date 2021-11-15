@@ -79,7 +79,7 @@ class MainView extends connect(store)(PageViewElement) {
 			// This is the data from the store.
 			_currentFrame: { type: Object },
 			_pageExtra: { type: String },
-			_currentIndex: { type: Number },
+			_frameIndex: { type: Number },
 			_height: {type: Number},
 			_width: {type: Number},
 		};
@@ -153,8 +153,7 @@ class MainView extends connect(store)(PageViewElement) {
 	stateChanged(state) {
 		this._currentFrame = selectCurrentFrame(state);
 		this._pageExtra = selectPageExtra(state);
-		//TODO: rename this property
-		this._currentIndex = selectFrameIndex(state);
+		this._frameIndex = selectFrameIndex(state);
 		this._height = selectCurrentSimulationHeight(state);
 		this._width = selectCurrentSimulationWidth(state);
 
@@ -168,8 +167,8 @@ class MainView extends connect(store)(PageViewElement) {
 			const index = this._pageExtra ? parseInt(this._pageExtra) : 0;
 			store.dispatch(updateFrameIndex(index));
 		}
-		if (changedProps.has('_currentIndex')) {
-			window[CURRENT_INDEX_VARIABLE] = this._currentIndex;
+		if (changedProps.has('_frameIndex')) {
+			window[CURRENT_INDEX_VARIABLE] = this._frameIndex;
 		}
 		if (changedProps.has('_currentFrame')) {
 			const data = this._currentFrame || {};
