@@ -157,12 +157,24 @@ class SchellingOrgRenderer extends LitElement {
 		return svg`<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='40'>${collaborator.emoji}</text>`;
 	}
 
-	_projectSVG(project) {
-		const numProjects = this.frame[PROJECTS_PROPERTY_NAME].length;
-		const width = this.width / (numProjects * 2 - 1);
+	_projectWidth() {
+		return this.width / (this.frame[PROJECTS_PROPERTY_NAME].length * 2 - 1);
+	}
 
-		const x = project.index * (width * 2);
-		const y = (this.height / 3) - (width / 2);
+	_projectPosition(index) {
+		const width = this._projectWidth();
+		const x = index * (width * 2) + (width / 2);
+		const y = this.height / 3;
+		return [x, y];
+	}
+
+	_projectSVG(project) {
+
+		const width = this._projectWidth();
+		const position = this._projectPosition(project.index);
+
+		const x = position[0] - (width / 2);
+		const y = position[1] - (width / 2);
 
 		return svg`<rect class='project' x=${x} y=${y} width=${width} height=${width}></rect>`;
 	}
