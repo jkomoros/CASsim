@@ -38,3 +38,11 @@ export const updateFrameIndex = (index) => (dispatch) => {
 	});
 	dispatch(canonicalizePath());
 };
+
+export const updateRunIndex = (index) => (dispatch) => {
+	dispatch({
+		type: UPDATE_RUN_INDEX,
+		index,
+	});
+	dispatch(canonicalizePath());
+};
