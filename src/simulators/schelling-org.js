@@ -1,5 +1,5 @@
 const COLLABORATORS_PROPERTY_NAME = 'collaborators';
-const PROJECT_PROPERTY_NAME = 'project';
+const PROJECTS_PROPERTY_NAME = 'projects';
 
 const SchellingOrgSimulator = class {
 	static generator(previousFrames) {
@@ -26,7 +26,7 @@ const SchellingOrgSimulator = class {
 			if (key == COLLABORATORS_PROPERTY_NAME) {
 				problems = [...problems, ...SchellingOrgSimulator._collaboratorOptionsValidator(value)];
 			}
-			if (key == PROJECT_PROPERTY_NAME) {
+			if (key == PROJECTS_PROPERTY_NAME) {
 				problems = [...problems, ...SchellingOrgSimulator._projectOptionsValidator(value)];
 			}
 		}
