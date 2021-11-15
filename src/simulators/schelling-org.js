@@ -104,7 +104,11 @@ class SchellingOrgRenderer extends LitElement {
 				position: relative;
 				width: 100%;
 				height: 100%;
-				background-color: blue;
+				background-color: #EEEEEE;
+			}
+
+			.project {
+				fill: purple;
 			}
 
 			`
@@ -147,7 +151,7 @@ class SchellingOrgRenderer extends LitElement {
 		const x = project.index * (width * 2);
 		const y = (this.height / 3) - (width / 2);
 
-		return svg`<rect x=${x} y=${y} width=${width} height=${width} fill='purple'></rect>`;
+		return svg`<rect class='project' x=${x} y=${y} width=${width} height=${width}></rect>`;
 	}
 
 
