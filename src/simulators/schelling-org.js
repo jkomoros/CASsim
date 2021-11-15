@@ -108,7 +108,7 @@ class SchellingOrgRenderer extends LitElement {
 			}
 
 			.project {
-				fill: purple;
+				fill: var(--primary-color);
 			}
 
 			`

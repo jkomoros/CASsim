@@ -101,6 +101,9 @@ class MainView extends connect(store)(PageViewElement) {
 					height: 100%;
 					width: 100%;
 					background-color: var(--override-app-background-color, var(--app-background-color, #356F9E));
+					/* TODO: set these based on the simulation config */
+					--primary-color: #fb8c00;
+					--secondary-color: #51b9a3;
 				}
 
 			`
