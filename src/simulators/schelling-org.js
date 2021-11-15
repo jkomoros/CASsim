@@ -18,6 +18,8 @@ const DEFAULT_EMOJIS = [
 
 const SchellingOrgSimulator = class {
 	static generator(previousFrames, simOptions, rnd) {
+		//There should only be a single frame
+		if (previousFrames.length) return null;
 		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
 		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
 		const selectedProjects = {};
