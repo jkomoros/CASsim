@@ -115,8 +115,14 @@ class SchellingOrgRenderer extends LitElement {
 		return html`
 			<svg width=${this.width} height=${this.height}>
 				${this._collaborators.map(item => this._collaboratorSVG(item))}
+				${this._projects.map(item => this._projectSVG(item))}
 			</svg>
 		`;
+	}
+
+	get _projects() {
+		if (!this.frame) return [];
+		return this.frame[PROJECTS_PROPERTY_NAME] || [];		
 	}
 
 	get _collaborators() {
@@ -132,6 +138,16 @@ class SchellingOrgRenderer extends LitElement {
 		const y = ((this.height / 3) * 2) - (width / 2);
 
 		return svg`<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='40'>${collaborator.emoji}</text>`;
+	}
+
+	_projectSVG(project) {
+		const numProjects = this.frame[PROJECTS_PROPERTY_NAME].length;
+		const width = this.width / (numProjects * 2 - 1);
+
+		const x = project.index * (width * 2);
+		const y = (this.height / 3) - (width / 2);
+
+		return svg`<rect x=${x} y=${y} width=${width} height=${width} fill='purple'></rect>`;
 	}
 
 
