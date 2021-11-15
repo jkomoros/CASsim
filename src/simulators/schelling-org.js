@@ -17,16 +17,18 @@ const DEFAULT_EMOJIS = [
 ];
 
 const SchellingOrgSimulator = class {
-	static generator(previousFrames, simOptions) {
+	static generator(previousFrames, simOptions, rnd) {
+		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
 		const collaborators = [];
 		for (let i = 0; i < simOptions[COLLABORATORS_PROPERTY_NAME].count; i++) {
 			collaborators.push({
 				index: i,
-				emoji: DEFAULT_EMOJIS[i % DEFAULT_EMOJIS.length]
+				emoji: DEFAULT_EMOJIS[i % DEFAULT_EMOJIS.length],
+				project: Math.floor(rnd.quick() * projectsCount),
 			});
 		}
 		const projects = [];
-		for (let i = 0; i < simOptions[PROJECTS_PROPERTY_NAME].count; i++) {
+		for (let i = 0; i < projectsCount; i++) {
 			projects.push({index: i});
 		}
 		return {
