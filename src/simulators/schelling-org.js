@@ -166,10 +166,9 @@ class SchellingOrgRenderer extends LitElement {
 
 	_collaboratorSVG(collaborator) {
 
-		const width = this._collaboratorWidth();
 		const position = this._collaboratorPosition(collaborator.index);
 		const x = position[0];
-		const y = position[1] - width / 2;
+		const y = position[1];
 
 		const projectPosition = this._projectPosition(collaborator.project);
 
