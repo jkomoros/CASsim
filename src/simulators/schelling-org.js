@@ -142,7 +142,7 @@ class SchellingOrgRenderer extends LitElement {
 
 	_collaboratorPosition(index) {
 		const width = this._collaboratorWidth();
-		const x = index * (width * 2);
+		const x = index * (width * 2) + (width / 2);
 		const y = ((this.height / 3) * 2);
 		return [x,y];
 	}
@@ -151,7 +151,7 @@ class SchellingOrgRenderer extends LitElement {
 
 		const width = this._collaboratorWidth();
 		const position = this._collaboratorPosition(collaborator.index);
-		const x = position[0] + width / 2;
+		const x = position[0];
 		const y = position[1] - width / 2;
 
 		return svg`<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='40'>${collaborator.emoji}</text>`;
