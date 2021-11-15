@@ -76,7 +76,7 @@ const SchellingOrgSimulator = class {
 
 export default SchellingOrgSimulator;
 
-import { LitElement, html, css} from "lit-element";
+import { LitElement, html, css, svg} from "lit-element";
 
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you
@@ -114,10 +114,27 @@ class SchellingOrgRenderer extends LitElement {
 	render() {
 		return html`
 			<svg width=${this.width} height=${this.height}>
-				<rect x='0' y='0' width='100' height='100' fill='purple'></rect>
+				${this._collaborators.map(item => this._collaboratorSVG(item))}
 			</svg>
 		`;
 	}
+
+	get _collaborators() {
+		if (!this.frame) return [];
+		return this.frame[COLLABORATORS_PROPERTY_NAME] || [];
+	}
+
+	_collaboratorSVG(collaborator) {
+		const numCollaborators = this.frame[COLLABORATORS_PROPERTY_NAME].length;
+		const width = this.width / (numCollaborators * 2 - 1);
+
+		const x = collaborator.index * (width * 2);
+		const y = (this.height / 3) - (width / 2);
+
+		return svg`<rect x=${x} y=${y} width=${width} height=${width} fill='purple'></rect>`;
+	}
+
+
 }
 
 window.customElements.define("schelling-org-renderer", SchellingOrgRenderer);
