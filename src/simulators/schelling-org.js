@@ -1,3 +1,5 @@
+const COLLABORATORS_PROPERTY_NAME = 'collaborators';
+
 const SchellingOrgSimulator = class {
 	static generator(previousFrames) {
 		return {
@@ -5,9 +7,19 @@ const SchellingOrgSimulator = class {
 		};
 	}
 
+	static _collaboratorOptionsValidator(collaboratorOptions) {
+		if (!collaboratorOptions || typeof collaboratorOptions !== 'object') return ['If collaborators is provided it must be an object'];
+		if (!collaboratorOptions.count || typeof collaboratorOptions.count != 'number' || collaboratorOptions.count < 1) return ['collaborators.count must exist and be a positive number'];
+		return [];
+	}
+
 	static optionsValidator(simOptions) {
-		const problems = [];
-		if (Object.keys(simOptions).length) problems.push('Doesn\'t currently expect any properties');
+		let problems = [];
+		for (const [key, value] of Object.entries(simOptions)) {
+			if (key == COLLABORATORS_PROPERTY_NAME) {
+				problems = [...problems, ...SchellingOrgSimulator._collaboratorOptionsValidator(value)];
+			}
+		}
 		return problems;
 	}
 
