@@ -31,6 +31,16 @@ const selectCurrentSimulation = createSelector(
 	(collection) => collection.simulations[0]
 );
 
+export const selectCurrentSimulationWidth = createSelector(
+	selectCurrentSimulation,
+	(sim) => sim ? sim.width : 0
+);
+
+export const selectCurrentSimulationHeight = createSelector(
+	selectCurrentSimulation,
+	(sim) => sim ? sim.height : 0
+);
+
 export const selectExpandedCurrentMapData = createSelector(
 	selectCurrentSimulation,
 	selectCurrentDataIndex,

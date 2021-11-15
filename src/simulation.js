@@ -160,6 +160,14 @@ const Simulation = class {
 		return this._config;
 	}
 
+	get width() {
+		return this._config[SIZE_PROPERTY][0];
+	}
+
+	get height() {
+		return this._config[SIZE_PROPERTY][1];
+	}
+
 	get simOptions() {
 		return this.config[SIM_OPTIONS_PROPERTY];
 	}

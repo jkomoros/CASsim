@@ -15,6 +15,8 @@ import {
 	selectExpandedCurrentMapData,
 	selectPageExtra,
 	selectCurrentDataIndex,
+	selectCurrentSimulationHeight,
+	selectCurrentSimulationWidth
 } from "../selectors.js";
 
 import {
@@ -77,6 +79,8 @@ class MainView extends connect(store)(PageViewElement) {
 			_expandedMapData: { type: Object },
 			_pageExtra: { type: String },
 			_currentIndex: { type: Number },
+			_height: {type: Number},
+			_width: {type: Number},
 		};
 	}
 
@@ -145,6 +149,8 @@ class MainView extends connect(store)(PageViewElement) {
 		this._expandedMapData = selectExpandedCurrentMapData(state);
 		this._pageExtra = selectPageExtra(state);
 		this._currentIndex = selectCurrentDataIndex(state);
+		this._height = selectCurrentSimulationHeight(state);
+		this._width = selectCurrentSimulationWidth(state);
 
 		this.updateComplete.then(() => {
 			window[RENDER_COMPLETE_VARIABLE] = true;
