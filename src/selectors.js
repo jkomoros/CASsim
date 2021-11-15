@@ -31,8 +31,7 @@ export const selectCurrentSimulationHeight = createSelector(
 	(sim) => sim ? sim.height : 0
 );
 
-//TODO: rename this
-export const selectExpandedCurrentMapData = createSelector(
+export const selectCurrentFrame = createSelector(
 	selectCurrentSimulation,
 	selectRunIndex,
 	selectFrameIndex,

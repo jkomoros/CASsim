@@ -12,7 +12,7 @@ import {
 } from "../actions/data.js";
 
 import {
-	selectExpandedCurrentMapData,
+	selectCurrentFrame,
 	selectPageExtra,
 	selectFrameIndex,
 	selectCurrentSimulationHeight,
@@ -151,7 +151,7 @@ class MainView extends connect(store)(PageViewElement) {
 
 	// This is called every time something is updated in the store.
 	stateChanged(state) {
-		this._expandedMapData = selectExpandedCurrentMapData(state);
+		this._expandedMapData = selectCurrentFrame(state);
 		this._pageExtra = selectPageExtra(state);
 		//TODO: rename this property
 		this._currentIndex = selectFrameIndex(state);
