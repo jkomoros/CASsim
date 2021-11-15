@@ -2,9 +2,19 @@ const COLLABORATORS_PROPERTY_NAME = 'collaborators';
 const PROJECTS_PROPERTY_NAME = 'projects';
 
 const SchellingOrgSimulator = class {
-	static generator(previousFrames) {
+	static generator(previousFrames, simOptions) {
+		const collaborators = [];
+		for (let i = 0; i < simOptions[COLLABORATORS_PROPERTY_NAME].count; i++) {
+			collaborators.push({index: i});
+		}
+		const projects = [];
+		for (let i = 0; i < simOptions[PROJECTS_PROPERTY_NAME].count; i++) {
+			projects.push({index: i});
+		}
 		return {
-			value: previousFrames.length
+			index: previousFrames.length,
+			collaborators,
+			projects
 		};
 	}
 
