@@ -8,7 +8,7 @@ import {
 } from './app.js';
 
 import {
-	selectCurrentDataIndex,
+	selectFrameIndex,
 } from '../selectors.js';
 
 export const loadData = (data) => {
@@ -19,13 +19,13 @@ export const loadData = (data) => {
 };
 
 export const nextIndex = () => (dispatch, getState) => {
-	let currentIndex = selectCurrentDataIndex(getState());
+	let currentIndex = selectFrameIndex(getState());
 	currentIndex++;
 	dispatch(updateFrameIndex(currentIndex));
 };
 
 export const prevIndex = () => (dispatch, getState) => {
-	let currentIndex = selectCurrentDataIndex(getState());
+	let currentIndex = selectFrameIndex(getState());
 	currentIndex--;
 	if (currentIndex < 0) return;
 	dispatch(updateFrameIndex(currentIndex));
