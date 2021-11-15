@@ -165,7 +165,7 @@ class MainView extends connect(store)(PageViewElement) {
 
 	updated(changedProps) {
 		if (changedProps.has('_pageExtra')) {
-			const index = this._pageExtra ? parseInt(this._pageExtra) : -1;
+			const index = this._pageExtra ? parseInt(this._pageExtra) : 0;
 			store.dispatch(updateFrameIndex(index));
 		}
 		if (changedProps.has('_currentIndex')) {

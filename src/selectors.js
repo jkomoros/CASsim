@@ -5,7 +5,7 @@ import {
 } from "./simulation.js";
 
 const selectRawConfigData = state => state.data ? state.data.data : [];
-export const selectRawFrameIndex = state => state.data ? state.data.frameIndex : 0;
+export const selectFrameIndex = state => state.data ? state.data.frameIndex : 0;
 
 export const selectPage = state => state.app ? state.app.page : '';
 export const selectPageExtra = state => state.app ? state.app.pageExtra : '';
@@ -13,16 +13,6 @@ export const selectPageExtra = state => state.app ? state.app.pageExtra : '';
 const selectSimulationCollection = createSelector(
 	selectRawConfigData,
 	(rawConfig) => new SimulationCollection(rawConfig)
-);
-
-export const selectFrameIndex = createSelector(
-	selectRawFrameIndex,
-	selectSimulationCollection,
-	(rawIndex, collection) => {
-		if (rawIndex >= 0) return rawIndex;
-		if (collection.simulations.length == 0) return 0;
-		return collection.simulations.length - 1;
-	}
 );
 
 const selectCurrentSimulation = createSelector(
