@@ -77,7 +77,7 @@ class MainView extends connect(store)(PageViewElement) {
 	static get properties() {
 		return {
 			// This is the data from the store.
-			_expandedMapData: { type: Object },
+			_currentFrame: { type: Object },
 			_pageExtra: { type: String },
 			_currentIndex: { type: Number },
 			_height: {type: Number},
@@ -138,20 +138,20 @@ class MainView extends connect(store)(PageViewElement) {
 			</style>
 			<div class='container'>
 				<simulation-controls></simulation-controls>
-				<frame-visualization .frame=${this._expandedMapData} .width=${this._width} .height=${this._height}></frame-visualization>
+				<frame-visualization .frame=${this._currentFrame} .width=${this._width} .height=${this._height}></frame-visualization>
 			</div>
 		`;
 	}
 
 	get _backgroundColor() {
-		if (!this._expandedMapData) return 'transparent';
-		if (!this._expandedMapData.colors) return 'transparent';
-		return this._expandedMapData.colors.background.hex;
+		if (!this._currentFrame) return 'transparent';
+		if (!this._currentFrame.colors) return 'transparent';
+		return this._currentFrame.colors.background.hex;
 	}
 
 	// This is called every time something is updated in the store.
 	stateChanged(state) {
-		this._expandedMapData = selectCurrentFrame(state);
+		this._currentFrame = selectCurrentFrame(state);
 		this._pageExtra = selectPageExtra(state);
 		//TODO: rename this property
 		this._currentIndex = selectFrameIndex(state);
@@ -171,8 +171,8 @@ class MainView extends connect(store)(PageViewElement) {
 		if (changedProps.has('_currentIndex')) {
 			window[CURRENT_INDEX_VARIABLE] = this._currentIndex;
 		}
-		if (changedProps.has('_expandedMapData')) {
-			const data = this._expandedMapData || {};
+		if (changedProps.has('_currentFrame')) {
+			const data = this._currentFrame || {};
 			window[GIF_NAME_VARIABLE] = data[GIF_COMMAND];
 		}
 	}
