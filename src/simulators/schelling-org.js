@@ -168,6 +168,7 @@ class SchellingOrgRenderer extends LitElement {
 
 	_collaboratorSVG(collaborator) {
 
+		const width = this._collaboratorWidth();
 		const position = this._collaboratorPosition(collaborator.index);
 		const x = position[0];
 		const y = position[1];
@@ -176,7 +177,7 @@ class SchellingOrgRenderer extends LitElement {
 
 		return svg`
 		${projectPosition ? svg`<path class='selected-project' d='M ${projectPosition[0]},${projectPosition[1]} L ${x}, ${y}'></path>` : ''}
-		<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='40'>${collaborator.emoji}</text>`;
+		<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width * 0.8}'>${collaborator.emoji}</text>`;
 	}
 
 	_projectWidth() {
