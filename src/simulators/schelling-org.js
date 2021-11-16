@@ -224,7 +224,6 @@ class SchellingOrgRenderer extends LitElement {
 			}
 
 			.wall {
-				stroke-width: 8px;
 				stroke: black;
 			}
 
@@ -279,7 +278,7 @@ class SchellingOrgRenderer extends LitElement {
 		return svg`
 		${projectPosition ? svg`<path class='selected-project' d='M ${projectPosition[0]},${projectPosition[1]} L ${x}, ${y}'></path>` : ''}
 		<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width * 0.8}'>${collaborator.emoji}</text>
-		${this._communication ? '' : svg`<path class='wall' d='M ${x + width},${y - width / 2} L ${x + width},${y + width /2}'></path>`}`;
+		${this._communication ? '' : svg`<path class='wall' d='M ${x + width},${y - width / 2} L ${x + width},${y + width /2}' stroke-width='${width / 10}'></path>`}`;
 	}
 
 	_projectWidth() {
