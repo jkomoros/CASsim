@@ -38,7 +38,22 @@ const SchellingOrgSimulator = class {
 		const selectedProjects = {};
 		const collaborators = [];
 		for (let i = 0; i < collaboratorsCount; i++) {
-			const selectedProject = Math.floor(rnd.quick() * projectsCount);
+
+			//Collect all of the projects of max height/
+			//We do this within the loop because later each collaborator will have their own beliefs.
+			let maxProjectValue = 0.0;
+			let maxProjects = [];
+			for (const project of projects) {
+				if (project.height < maxProjectValue) continue;
+				if (project.height > maxProjectValue) {
+					maxProjects = [project];
+					maxProjectValue = project.height;
+					continue;
+				}
+				maxProjects.push(project);
+			}
+
+			const selectedProject = maxProjects[Math.floor(rnd.quick() * maxProjects.length)].index;
 			selectedProjects[selectedProject] = (selectedProjects[selectedProject] || 0) + 1;
 			collaborators.push({
 				index: i,
