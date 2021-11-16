@@ -12,7 +12,8 @@
 		"sim": "schelling-org",
 		"simOptions": {
 			"collaborators": {
-				"count": 5
+				"count": 5,
+				"epsilon": 0.05
 			},
 			"projects": {
 				"count": 4,

@@ -3,6 +3,7 @@ const PROJECTS_PROPERTY_NAME = 'projects';
 const MAX_EXTRA_VALUE_PROPERTY_NAME = 'maxExtraValue';
 const INDIVIDUALS_PROPERTY_NAME = 'individuals';
 const MARKED_PROPERTY_NAME = 'marked';
+const EPSILON_PROPERTY_NAME = 'epsilon';
 
 const DEFAULT_EMOJIS = [
 	'🧑‍⚕️',
@@ -25,7 +26,9 @@ Sim options shape:
 {
 	"collaborators": {
 		//How many collaborators there should be
-		"count": 5
+		"count": 5,
+		//Project values within this amount of each other will be considered to be the same
+		"epsilon": 0.05,
 	},
 	"projects": {
 		//How many projects there should be
@@ -52,7 +55,7 @@ const SchellingOrgSimulator = class {
 		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
 		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
 		const projectExtraValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_EXTRA_VALUE_PROPERTY_NAME] || 0.0;
-
+		const collaboratorEpsilonValue = simOptions[COLLABORATORS_PROPERTY_NAME][EPSILON_PROPERTY_NAME] || 0.0;
 		const individualProjectOverrides = simOptions[PROJECTS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME] || [];
 
 		//Assign basic values to projects.
@@ -73,6 +76,7 @@ const SchellingOrgSimulator = class {
 			collaborators.push({
 				index: i,
 				emoji: DEFAULT_EMOJIS[i % DEFAULT_EMOJIS.length],
+				epsilon: collaboratorEpsilonValue,
 			});
 		}
 
@@ -85,13 +89,15 @@ const SchellingOrgSimulator = class {
 			let maxProjectValue = 0.0;
 			let maxProjects = [];
 			for (const project of projects) {
-				if (project.value < maxProjectValue) continue;
-				if (project.value > maxProjectValue) {
-					maxProjects = [project];
-					maxProjectValue = project.value;
+				if (Math.abs(project.value - maxProjectValue) < collaborators[i].epsilon) {
+					//Effectively equal
+					maxProjects.push(project);
 					continue;
 				}
-				maxProjects.push(project);
+				if (project.value < maxProjectValue) continue;
+				//This is a new max value
+				maxProjects = [project];
+				maxProjectValue = project.value;
 			}
 
 			//If any of the projects that are max value are marked, only selected from them.
