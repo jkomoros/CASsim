@@ -2,6 +2,7 @@ const COLLABORATORS_PROPERTY_NAME = 'collaborators';
 const PROJECTS_PROPERTY_NAME = 'projects';
 const MAX_EXTRA_VALUE_PROPERTY_NAME = 'maxExtraValue';
 const INDIVIDUALS_PROPERTY_NAME = 'individuals';
+const MARKED_PROPERTY_NAME = 'marked';
 
 const DEFAULT_EMOJIS = [
 	'🧑‍⚕️',
@@ -265,7 +266,7 @@ class SchellingOrgRenderer extends LitElement {
 		const x = position[0] - (width / 2);
 		const y = position[1] - (height);
 
-		return svg`<rect class='project ${project.selected ? 'selected' : 'not-selected'} ${project.marked ? 'marked' : ''}' x=${x} y=${y} width=${width} height=${height}></rect>`;
+		return svg`<rect class='project ${project.selected ? 'selected' : 'not-selected'} ${project[MARKED_PROPERTY_NAME] ? 'marked' : ''}' x=${x} y=${y} width=${width} height=${height}></rect>`;
 	}
 
 
