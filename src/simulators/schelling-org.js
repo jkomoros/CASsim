@@ -23,7 +23,7 @@ const SchellingOrgSimulator = class {
 		if (previousFrames.length) return null;
 		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
 		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
-		const projectExtraHeight = simOptions[PROJECTS_PROPERTY_NAME][MAX_EXTRA_VALUE_PROPERTY_NAME] || 0.0;
+		const projectExtraValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_EXTRA_VALUE_PROPERTY_NAME] || 0.0;
 
 		const projects = [];
 		for (let i = 0; i < projectsCount; i++) {
@@ -31,7 +31,7 @@ const SchellingOrgSimulator = class {
 				index: i,
 				//We'll select this later based on which ones were actually selected.
 				selected: false,
-				height: 1.0 + (rnd.quick() * projectExtraHeight),
+				value: 1.0 + (rnd.quick() * projectExtraValue),
 			});
 		}
 
@@ -44,10 +44,10 @@ const SchellingOrgSimulator = class {
 			let maxProjectValue = 0.0;
 			let maxProjects = [];
 			for (const project of projects) {
-				if (project.height < maxProjectValue) continue;
-				if (project.height > maxProjectValue) {
+				if (project.value < maxProjectValue) continue;
+				if (project.value > maxProjectValue) {
 					maxProjects = [project];
-					maxProjectValue = project.height;
+					maxProjectValue = project.value;
 					continue;
 				}
 				maxProjects.push(project);
@@ -224,7 +224,7 @@ class SchellingOrgRenderer extends LitElement {
 	_projectSVG(project) {
 
 		const width = this._projectWidth();
-		const height = width * project.height;
+		const height = width * project.value;
 		const position = this._projectPosition(project.index);
 
 		const x = position[0] - (width / 2);
