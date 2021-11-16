@@ -15,7 +15,8 @@
 				"count": 5
 			},
 			"projects": {
-				"count": 4
+				"count": 4,
+				"maxExtraValue": 1.0
 			}
 		}
 	}	

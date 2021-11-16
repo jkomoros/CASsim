@@ -1,5 +1,6 @@
 const COLLABORATORS_PROPERTY_NAME = 'collaborators';
 const PROJECTS_PROPERTY_NAME = 'projects';
+const MAX_EXTRA_VALUE_PROPERTY_NAME = 'maxExtraValue';
 
 const DEFAULT_EMOJIS = [
 	'🧑‍⚕️',
@@ -22,6 +23,7 @@ const SchellingOrgSimulator = class {
 		if (previousFrames.length) return null;
 		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
 		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
+		const projectExtraHeight = simOptions[PROJECTS_PROPERTY_NAME][MAX_EXTRA_VALUE_PROPERTY_NAME] || 0.0;
 		const selectedProjects = {};
 		const collaborators = [];
 		for (let i = 0; i < collaboratorsCount; i++) {
@@ -38,7 +40,7 @@ const SchellingOrgSimulator = class {
 			projects.push({
 				index: i,
 				selected: selectedProjects[i] == collaboratorsCount,
-				height: 1.0 + (rnd.quick() * 1.0),
+				height: 1.0 + (rnd.quick() * projectExtraHeight),
 			});
 		}
 		return {
@@ -57,6 +59,7 @@ const SchellingOrgSimulator = class {
 	static _projectOptionsValidator(projectOptions) {
 		if (!projectOptions || typeof projectOptions !== 'object') return ['If projects is provided it must be an object'];
 		if (!projectOptions.count || typeof projectOptions.count != 'number' || projectOptions.count < 1) return ['projectOptions.count must exist and be a positive number'];
+		if (projectOptions[MAX_EXTRA_VALUE_PROPERTY_NAME] && typeof projectOptions[MAX_EXTRA_VALUE_PROPERTY_NAME] != 'number') return ['projectOptions.' + MAX_EXTRA_VALUE_PROPERTY_NAME + ' must be a number'];
 		return [];
 	}
 
