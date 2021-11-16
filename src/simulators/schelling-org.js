@@ -162,7 +162,7 @@ class SchellingOrgRenderer extends LitElement {
 	_collaboratorPosition(index) {
 		const width = this._collaboratorWidth();
 		const x = index * (width * 2) + (width / 2);
-		const y = ((this.height / 3) * 2);
+		const y = ((this.height / 4) * 3);
 		return [x,y];
 	}
 
@@ -188,7 +188,7 @@ class SchellingOrgRenderer extends LitElement {
 		if (index == undefined) return null;
 		const width = this._projectWidth();
 		const x = index * (width * 2) + (width / 2);
-		const y = this.height / 3;
+		const y = this.height / 4;
 		return [x, y];
 	}
 
