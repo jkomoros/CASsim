@@ -1,5 +1,6 @@
 const COLLABORATORS_PROPERTY_NAME = 'collaborators';
 const PROJECTS_PROPERTY_NAME = 'projects';
+const COMMUNICATION_PROPERTY_NAME = 'communication';
 const MAX_EXTRA_VALUE_PROPERTY_NAME = 'maxExtraValue';
 const INDIVIDUALS_PROPERTY_NAME = 'individuals';
 const MARKED_PROPERTY_NAME = 'marked';
@@ -24,6 +25,8 @@ const DEFAULT_EMOJIS = [
 Sim options shape:
 
 {
+	//How many rounds of communication should be allowed between agents before they decide. 0 is no communication.
+	"communication": 0,
 	"collaborators": {
 		//How many collaborators there should be
 		"count": 5,
@@ -57,6 +60,7 @@ const SchellingOrgSimulator = class {
 		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
 		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
 		const projectExtraValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_EXTRA_VALUE_PROPERTY_NAME] || 0.0;
+		const communicationValue = simOptions[COMMUNICATION_PROPERTY_NAME] || 0.0;
 		const collaboratorEpsilonValue = simOptions[COLLABORATORS_PROPERTY_NAME][EPSILON_PROPERTY_NAME] || 0.0;
 		const individualProjectOverrides = simOptions[PROJECTS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME] || [];
 
@@ -119,6 +123,7 @@ const SchellingOrgSimulator = class {
 
 		return {
 			index: previousFrames.length,
+			communication: communicationValue,
 			collaborators,
 			projects
 		};
@@ -145,6 +150,9 @@ const SchellingOrgSimulator = class {
 			}
 			if (key == PROJECTS_PROPERTY_NAME) {
 				problems = [...problems, ...SchellingOrgSimulator._projectOptionsValidator(value)];
+			}
+			if (key == COMMUNICATION_PROPERTY_NAME) {
+				if (typeof value != 'number' || value < 0) problems.push(COMMUNICATION_PROPERTY_NAME + ' must be a non-negative number');
 			}
 		}
 		return problems;
@@ -215,6 +223,11 @@ class SchellingOrgRenderer extends LitElement {
 				stroke: var(--secondary-color);
 			}
 
+			.wall {
+				stroke-width: 8px;
+				stroke: black;
+			}
+
 			`
 		];
 	}
@@ -236,6 +249,11 @@ class SchellingOrgRenderer extends LitElement {
 	get _collaborators() {
 		if (!this.frame) return [];
 		return this.frame[COLLABORATORS_PROPERTY_NAME] || [];
+	}
+
+	get _communication() {
+		if (!this.frame) return false;
+		return this.frame[COMMUNICATION_PROPERTY_NAME];
 	}
 
 	_collaboratorWidth() {
@@ -260,7 +278,8 @@ class SchellingOrgRenderer extends LitElement {
 
 		return svg`
 		${projectPosition ? svg`<path class='selected-project' d='M ${projectPosition[0]},${projectPosition[1]} L ${x}, ${y}'></path>` : ''}
-		<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width * 0.8}'>${collaborator.emoji}</text>`;
+		<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width * 0.8}'>${collaborator.emoji}</text>
+		${this._communication ? '' : svg`<path class='wall' d='M ${x + width},${y - width / 2} L ${x + width},${y + width /2}'></path>`}`;
 	}
 
 	_projectWidth() {
