@@ -24,6 +24,17 @@ const SchellingOrgSimulator = class {
 		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
 		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
 		const projectExtraHeight = simOptions[PROJECTS_PROPERTY_NAME][MAX_EXTRA_VALUE_PROPERTY_NAME] || 0.0;
+
+		const projects = [];
+		for (let i = 0; i < projectsCount; i++) {
+			projects.push({
+				index: i,
+				//We'll select this later based on which ones were actually selected.
+				selected: false,
+				height: 1.0 + (rnd.quick() * projectExtraHeight),
+			});
+		}
+
 		const selectedProjects = {};
 		const collaborators = [];
 		for (let i = 0; i < collaboratorsCount; i++) {
@@ -35,14 +46,13 @@ const SchellingOrgSimulator = class {
 				project: selectedProject,
 			});
 		}
-		const projects = [];
+
 		for (let i = 0; i < projectsCount; i++) {
-			projects.push({
-				index: i,
-				selected: selectedProjects[i] == collaboratorsCount,
-				height: 1.0 + (rnd.quick() * projectExtraHeight),
-			});
+			if (selectedProjects[i] == collaboratorsCount) {
+				projects[i].selected = true;
+			}
 		}
+
 		return {
 			index: previousFrames.length,
 			collaborators,
