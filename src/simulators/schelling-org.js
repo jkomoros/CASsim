@@ -84,6 +84,9 @@ const SchellingOrgSimulator = class {
 				maxProjects.push(project);
 			}
 
+			//If any of the projects that are max value are marked, only selected from them.
+			if (maxProjects.some(project => project[MARKED_PROPERTY_NAME])) maxProjects = maxProjects.filter(project => project[MARKED_PROPERTY_NAME]);
+
 			const selectedProject = maxProjects[Math.floor(rnd.quick() * maxProjects.length)].index;
 			selectedProjects[selectedProject] = (selectedProjects[selectedProject] || 0) + 1;
 			collaborators.push({
