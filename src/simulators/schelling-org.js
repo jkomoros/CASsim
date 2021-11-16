@@ -55,6 +55,7 @@ const SchellingOrgSimulator = class {
 
 		const individualProjectOverrides = simOptions[PROJECTS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME] || [];
 
+		//Assign basic values to projects.
 		let projects = [];
 		for (let i = 0; i < projectsCount; i++) {
 			projects.push({
@@ -66,8 +67,17 @@ const SchellingOrgSimulator = class {
 		}
 		projects = projects.map((item, index) => individualProjectOverrides[index] ? {...item, ...individualProjectOverrides[index]} : item);
 
-		const selectedProjects = {};
+		//Assign basic values to collaborators.
 		const collaborators = [];
+		for (let i = 0; i < collaboratorsCount; i++) {
+			collaborators.push({
+				index: i,
+				emoji: DEFAULT_EMOJIS[i % DEFAULT_EMOJIS.length],
+			});
+		}
+
+		//Go through each collaborator and pick a project for them.
+		const selectedProjects = {};
 		for (let i = 0; i < collaboratorsCount; i++) {
 
 			//Collect all of the projects of max height/
@@ -89,13 +99,10 @@ const SchellingOrgSimulator = class {
 
 			const selectedProject = maxProjects[Math.floor(rnd.quick() * maxProjects.length)].index;
 			selectedProjects[selectedProject] = (selectedProjects[selectedProject] || 0) + 1;
-			collaborators.push({
-				index: i,
-				emoji: DEFAULT_EMOJIS[i % DEFAULT_EMOJIS.length],
-				project: selectedProject,
-			});
+			collaborators[i].project = selectedProject;
 		}
 
+		//Mark the project as selected if it was selected by all collaborators.
 		for (let i = 0; i < projectsCount; i++) {
 			if (selectedProjects[i] == collaboratorsCount) {
 				projects[i].selected = true;
