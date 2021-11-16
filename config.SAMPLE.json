@@ -2,7 +2,7 @@
 	{
 		"name": "First config",
 		"seed": "abc",
-		"size": [350,400],
+		"size": [800,450],
 		"runs": 10,
 		"colors": {
 			"primary": "#fb8c00",
