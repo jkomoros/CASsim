@@ -18,6 +18,32 @@ const DEFAULT_EMOJIS = [
 	'👮'
 ];
 
+/*
+Sim options shape:
+
+{
+	"collaborators": {
+		//How many collaborators there should be
+		"count": 5
+	},
+	"projects": {
+		//How many projects there should be
+		"count": 3,
+		//Each project will get between 0.0 and this number randomly set on top of 1.0 for the value
+		"maxExtraValue": 1.0,
+		//individuals is set to override the computed individuals with the given properties. null values will be ignored, and keys not in the override will be left in place.
+		"individuals": [
+			null,
+			{
+				//A marked project shows up distinctively; collaborators, when deciding between two projects that look like the same value, will prefer the marked one.
+				"marked": true
+			}
+		]
+	}
+}
+
+*/
+
 const SchellingOrgSimulator = class {
 	static generator(previousFrames, simOptions, rnd) {
 		//There should only be a single frame
