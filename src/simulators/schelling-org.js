@@ -1,6 +1,7 @@
 const COLLABORATORS_PROPERTY_NAME = 'collaborators';
 const PROJECTS_PROPERTY_NAME = 'projects';
 const MAX_EXTRA_VALUE_PROPERTY_NAME = 'maxExtraValue';
+const INDIVIDUALS_PROPERTY_NAME = 'individuals';
 
 const DEFAULT_EMOJIS = [
 	'🧑‍⚕️',
@@ -25,7 +26,9 @@ const SchellingOrgSimulator = class {
 		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
 		const projectExtraValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_EXTRA_VALUE_PROPERTY_NAME] || 0.0;
 
-		const projects = [];
+		const individualProjectOverrides = simOptions[PROJECTS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME] || [];
+
+		let projects = [];
 		for (let i = 0; i < projectsCount; i++) {
 			projects.push({
 				index: i,
@@ -34,6 +37,7 @@ const SchellingOrgSimulator = class {
 				value: 1.0 + (rnd.quick() * projectExtraValue),
 			});
 		}
+		projects = projects.map((item, index) => individualProjectOverrides[index] ? {...item, ...individualProjectOverrides[index]} : item);
 
 		const selectedProjects = {};
 		const collaborators = [];
@@ -161,6 +165,11 @@ class SchellingOrgRenderer extends LitElement {
 				filter: saturate(30%) brightness(1.3);
 			}
 
+			.project.marked {
+				stroke-width: 2px;
+				stroke: var(--secondary-color);
+			}
+
 			`
 		];
 	}
@@ -230,7 +239,7 @@ class SchellingOrgRenderer extends LitElement {
 		const x = position[0] - (width / 2);
 		const y = position[1] - (height);
 
-		return svg`<rect class='project ${project.selected ? 'selected' : 'not-selected'}' x=${x} y=${y} width=${width} height=${height}></rect>`;
+		return svg`<rect class='project ${project.selected ? 'selected' : 'not-selected'} ${project.marked ? 'marked' : ''}' x=${x} y=${y} width=${width} height=${height}></rect>`;
 	}
 
 

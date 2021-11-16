@@ -16,7 +16,13 @@
 			},
 			"projects": {
 				"count": 4,
-				"maxExtraValue": 1.0
+				"maxExtraValue": 1.0,
+				"individuals": [
+					null,
+					{
+						"marked": true
+					}
+				]
 			}
 		}
 	}	
