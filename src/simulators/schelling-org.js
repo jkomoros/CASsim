@@ -38,6 +38,7 @@ const SchellingOrgSimulator = class {
 			projects.push({
 				index: i,
 				selected: selectedProjects[i] == collaboratorsCount,
+				height: 1.0 + (rnd.quick() * 1.0),
 			});
 		}
 		return {
@@ -188,19 +189,20 @@ class SchellingOrgRenderer extends LitElement {
 		if (index == undefined) return null;
 		const width = this._projectWidth();
 		const x = index * (width * 3) + width;
-		const y = this.height / 4;
+		const y = this.height / 3;
 		return [x, y];
 	}
 
 	_projectSVG(project) {
 
 		const width = this._projectWidth();
+		const height = width * project.height;
 		const position = this._projectPosition(project.index);
 
 		const x = position[0] - (width / 2);
-		const y = position[1] - (width / 2);
+		const y = position[1] - (height);
 
-		return svg`<rect class='project ${project.selected ? 'selected' : 'not-selected'}' x=${x} y=${y} width=${width} height=${width}></rect>`;
+		return svg`<rect class='project ${project.selected ? 'selected' : 'not-selected'}' x=${x} y=${y} width=${width} height=${height}></rect>`;
 	}
 
 
