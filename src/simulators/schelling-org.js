@@ -40,7 +40,9 @@ Sim options shape:
 			null,
 			{
 				//A marked project shows up distinctively; collaborators, when deciding between two projects that look like the same value, will prefer the marked one.
-				"marked": true
+				"marked": true,
+				//Value is the height of the project, in units of 1.0 = width
+				"value": 1.2
 			}
 		]
 	}
