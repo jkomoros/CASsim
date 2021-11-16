@@ -181,13 +181,13 @@ class SchellingOrgRenderer extends LitElement {
 	}
 
 	_projectWidth() {
-		return this.width / (this.frame[PROJECTS_PROPERTY_NAME].length * 2 - 1);
+		return this.width / (this.frame[PROJECTS_PROPERTY_NAME].length * 3 - 1);
 	}
 
 	_projectPosition(index) {
 		if (index == undefined) return null;
 		const width = this._projectWidth();
-		const x = index * (width * 2) + (width / 2);
+		const x = index * (width * 3) + width;
 		const y = this.height / 4;
 		return [x, y];
 	}
