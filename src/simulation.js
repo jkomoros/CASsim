@@ -64,6 +64,15 @@ const simulatorConfigValid = (config) => {
 	return problems;
 };
 
+const deepFreeze = (obj) => {
+	if (!obj) return;
+	if (typeof obj != 'object') return;
+	Object.freeze(obj);
+	for (const val of Object.values(obj)) {
+		deepFreeze(val);
+	}
+};
+
 export const SimulationCollection = class {
 	constructor(configs) {
 		if (!configs) configs = [];
@@ -122,6 +131,9 @@ const SimulationRun = class {
 			if (problems.length) {
 				throw new Error('Couldn\'t generate frame at index ' + this.frameIndex + ' problem: ' + problems.join(', '));
 			}
+			//By freezing this, we'll make sure that others don't accidentally mutate a property in an old frame when creating a later one.
+			//Because modules are `use strict`, trying to modify one will give a descriptive TypeError instead of failing silently.
+			deepFreeze(result);
 			this._frames.push(result);
 			const frameScores = this._simulation.simulator.frameScorer(result);
 			this._frameScores.push(frameScores);
