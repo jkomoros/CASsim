@@ -32,6 +32,7 @@ export const prevIndex = () => (dispatch, getState) => {
 };
 
 export const updateFrameIndex = (index) => (dispatch) => {
+	if (typeof index == 'string') index = parseInt(index);
 	dispatch({
 		type: UPDATE_FRAME_INDEX,
 		index,
@@ -40,6 +41,7 @@ export const updateFrameIndex = (index) => (dispatch) => {
 };
 
 export const updateRunIndex = (index) => (dispatch) => {
+	if (typeof index == 'string') index = parseInt(index);
 	dispatch({
 		type: UPDATE_RUN_INDEX,
 		index,
