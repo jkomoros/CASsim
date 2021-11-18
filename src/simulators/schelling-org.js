@@ -54,9 +54,8 @@ Sim options shape:
 */
 
 const SchellingOrgSimulator = class {
-	static generator(previousFrames, simOptions, rnd) {
-		//There should only be a single frame
-		if (previousFrames.length) return null;
+
+	static _firstFrameGenerator(simOptions, rnd) {
 		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
 		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
 		const projectExtraValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_EXTRA_VALUE_PROPERTY_NAME] || 0.0;
@@ -122,11 +121,17 @@ const SchellingOrgSimulator = class {
 		}
 
 		return {
-			index: previousFrames.length,
+			index: 0,
 			communication: communicationValue,
 			collaborators,
 			projects
 		};
+	}
+
+	static generator(previousFrames, simOptions, rnd) {
+		//There should only be a single frame
+		if (previousFrames.length) return null;
+		return SchellingOrgSimulator._firstFrameGenerator(simOptions, rnd);
 	}
 
 	static _collaboratorOptionsValidator(collaboratorOptions) {
