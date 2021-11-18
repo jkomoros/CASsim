@@ -75,6 +75,9 @@ const SchellingOrgSimulator = class {
 		}
 		projects = projects.map((item, index) => individualProjectOverrides[index] ? {...item, ...individualProjectOverrides[index]} : item);
 
+		//The default beliefs for each individual. TODO: base this off the value plus error bars
+		const baseBeliefs = projects.map(item => item.value);
+
 		//Assign basic values to collaborators.
 		const collaborators = [];
 		for (let i = 0; i < collaboratorsCount; i++) {
@@ -82,6 +85,7 @@ const SchellingOrgSimulator = class {
 				index: i,
 				emoji: DEFAULT_EMOJIS[i % DEFAULT_EMOJIS.length],
 				epsilon: collaboratorEpsilonValue,
+				beliefs: [...baseBeliefs]
 			});
 		}
 
@@ -101,26 +105,28 @@ const SchellingOrgSimulator = class {
 		const selectedProjects = {};
 		for (let i = 0; i < collaboratorsCount; i++) {
 
+			const collaborator = collaborators[i];
+
 			//Collect all of the projects of max height/
 			//We do this within the loop because later each collaborator will have their own beliefs.
 			let maxProjectValue = 0.0;
 			let maxProjects = [];
-			for (const project of projects) {
-				if (Math.abs(project.value - maxProjectValue) < collaborators[i].epsilon) {
+			for (const [projectIndex, projectBelief] of collaborator.beliefs.entries()) {
+				if (Math.abs(projectBelief - maxProjectValue) < collaborators[i].epsilon) {
 					//Effectively equal
-					maxProjects.push(project);
+					maxProjects.push(projectIndex);
 					continue;
 				}
-				if (project.value < maxProjectValue) continue;
+				if (projectBelief < maxProjectValue) continue;
 				//This is a new max value
-				maxProjects = [project];
-				maxProjectValue = project.value;
+				maxProjects = [projectIndex];
+				maxProjectValue = projectBelief;
 			}
 
 			//If any of the projects that are max value are marked, only selected from them.
-			if (maxProjects.some(project => project[MARKED_PROPERTY_NAME])) maxProjects = maxProjects.filter(project => project[MARKED_PROPERTY_NAME]);
+			if (maxProjects.some(projectIndex => projects[projectIndex][MARKED_PROPERTY_NAME])) maxProjects = maxProjects.filter(projectIndex => projects[projectIndex][MARKED_PROPERTY_NAME]);
 
-			const selectedProject = maxProjects[Math.floor(rnd.quick() * maxProjects.length)].index;
+			const selectedProject = maxProjects[Math.floor(rnd.quick() * maxProjects.length)];
 			selectedProjects[selectedProject] = (selectedProjects[selectedProject] || 0) + 1;
 			collaborators[i] = {...collaborators[i], project:selectedProject};
 		}
