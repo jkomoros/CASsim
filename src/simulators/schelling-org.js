@@ -85,6 +85,18 @@ const SchellingOrgSimulator = class {
 			});
 		}
 
+		return {
+			communication: communicationValue,
+			collaborators,
+			projects
+		};
+	}
+
+	static _selectFinalProject(frame, simOptions, rnd) {
+		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
+		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
+		let projects = [...frame.projects];
+		let collaborators = [...frame.collaborators];
 		//Go through each collaborator and pick a project for them.
 		const selectedProjects = {};
 		for (let i = 0; i < collaboratorsCount; i++) {
@@ -121,17 +133,19 @@ const SchellingOrgSimulator = class {
 		}
 
 		return {
-			index: 0,
-			communication: communicationValue,
+			...frame,
+			projects,
 			collaborators,
-			projects
 		};
 	}
 
 	static generator(previousFrames, simOptions, rnd) {
-		//There should only be a single frame
-		if (previousFrames.length) return null;
-		return SchellingOrgSimulator._firstFrameGenerator(simOptions, rnd);
+		const communicationRounds = simOptions[COMMUNICATION_PROPERTY_NAME] || 0.0;
+		if (previousFrames.length > communicationRounds) return null;
+		let frame = previousFrames.length ? previousFrames[previousFrames.length - 1] : SchellingOrgSimulator._firstFrameGenerator(simOptions, rnd);
+		frame = {...frame, index: previousFrames.length};
+		if (frame.index == communicationRounds) frame = SchellingOrgSimulator._selectFinalProject(frame, simOptions, rnd);
+		return frame;
 	}
 
 	static _collaboratorOptionsValidator(collaboratorOptions) {
