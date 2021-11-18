@@ -122,13 +122,13 @@ const SchellingOrgSimulator = class {
 
 			const selectedProject = maxProjects[Math.floor(rnd.quick() * maxProjects.length)].index;
 			selectedProjects[selectedProject] = (selectedProjects[selectedProject] || 0) + 1;
-			collaborators[i].project = selectedProject;
+			collaborators[i] = {...collaborators[i], project:selectedProject};
 		}
 
 		//Mark the project as selected if it was selected by all collaborators.
 		for (let i = 0; i < projectsCount; i++) {
 			if (selectedProjects[i] == collaboratorsCount) {
-				projects[i].selected = true;
+				projects[i] = {...projects[i],selected:true};
 			}
 		}
 
