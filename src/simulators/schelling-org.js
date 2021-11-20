@@ -265,6 +265,10 @@ class SchellingOrgRenderer extends LitElement {
 				stroke: black;
 			}
 
+			.error {
+				stroke: black;
+			}
+
 			`
 		];
 	}
@@ -340,7 +344,12 @@ class SchellingOrgRenderer extends LitElement {
 		const x = position[0] - (width / 2);
 		const y = position[1] - (height);
 
-		return svg`<rect class='project ${project.selected ? 'selected' : 'not-selected'} ${project[MARKED_PROPERTY_NAME] ? 'marked' : ''}' x=${x} y=${y} width=${width} height=${height}></rect>`;
+		const hasError = project.error != 0.0;
+		const errorStartY = y - (project.error * width);
+		const errorEndY = y + (project.error * width);
+
+		return svg`<rect class='project ${project.selected ? 'selected' : 'not-selected'} ${project[MARKED_PROPERTY_NAME] ? 'marked' : ''}' x=${x} y=${y} width=${width} height=${height}></rect>
+					${hasError ? svg`<path class='error' d='M ${position[0]}, ${errorStartY} L ${position[0]},${errorEndY}' stroke-width=${width / 20}></path>` : ''}`;
 	}
 
 
