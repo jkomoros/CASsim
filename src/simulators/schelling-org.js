@@ -344,12 +344,16 @@ class SchellingOrgRenderer extends LitElement {
 		const x = position[0] - (width / 2);
 		const y = position[1] - (height);
 
+		const ERROR_BAR_CAP_WIDTH = 8;
+
 		const hasError = project.error != 0.0;
+		const errorStartX = position[0] - (width / ERROR_BAR_CAP_WIDTH);
+		const errorEndX = position[0] + (width / ERROR_BAR_CAP_WIDTH);
 		const errorStartY = y - (project.error * width);
 		const errorEndY = y + (project.error * width);
 
 		return svg`<rect class='project ${project.selected ? 'selected' : 'not-selected'} ${project[MARKED_PROPERTY_NAME] ? 'marked' : ''}' x=${x} y=${y} width=${width} height=${height}></rect>
-					${hasError ? svg`<path class='error' d='M ${position[0]}, ${errorStartY} L ${position[0]},${errorEndY}' stroke-width=${width / 20}></path>` : ''}`;
+					${hasError ? svg`<path class='error' d='M ${errorStartX}, ${errorStartY} H ${errorEndX} M ${position[0]}, ${errorStartY} V ${errorEndY} M ${errorStartX}, ${errorEndY} H ${errorEndX}' stroke-width=${width / 20}></path>` : ''}`;
 	}
 
 
