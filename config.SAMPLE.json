@@ -18,6 +18,7 @@
 			"projects": {
 				"count": 4,
 				"maxExtraValue": 1.0,
+				"maxErrorValue": 0.5,
 				"individuals": [
 					null,
 					{

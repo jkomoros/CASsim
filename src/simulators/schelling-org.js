@@ -2,9 +2,11 @@ const COLLABORATORS_PROPERTY_NAME = 'collaborators';
 const PROJECTS_PROPERTY_NAME = 'projects';
 const COMMUNICATION_PROPERTY_NAME = 'communication';
 const MAX_EXTRA_VALUE_PROPERTY_NAME = 'maxExtraValue';
+const MAX_ERROR_VALUE_PROPERTY_NAME = 'maxErrorValue';
 const INDIVIDUALS_PROPERTY_NAME = 'individuals';
 const MARKED_PROPERTY_NAME = 'marked';
 const EPSILON_PROPERTY_NAME = 'epsilon';
+
 
 const DEFAULT_EMOJIS = [
 	'🧑‍⚕️',
@@ -38,6 +40,8 @@ Sim options shape:
 		"count": 3,
 		//Each project will get between 0.0 and this number randomly set on top of 1.0 for the value
 		"maxExtraValue": 1.0,
+		//Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.
+		"maxErrorValue": 0.5,
 		//individuals is set to override the computed individuals with the given properties. null values will be ignored, and keys not in the override will be left in place.
 		"individuals": [
 			null,
@@ -45,7 +49,9 @@ Sim options shape:
 				//A marked project shows up distinctively; collaborators, when deciding between two projects that look like the same value, will prefer the marked one.
 				"marked": true,
 				//Value is the height of the project, in units of 1.0 = width
-				"value": 1.2
+				"value": 1.2,
+				//The error bars for this value; collaborators will consider the true value to be somewhere within value +/- this value
+				"error": 0.2,
 			}
 		]
 	}
@@ -59,6 +65,7 @@ const SchellingOrgSimulator = class {
 		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
 		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
 		const projectExtraValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_EXTRA_VALUE_PROPERTY_NAME] || 0.0;
+		const projectErrorValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_ERROR_VALUE_PROPERTY_NAME] || 0.0;
 		const communicationValue = simOptions[COMMUNICATION_PROPERTY_NAME] || 0.0;
 		const collaboratorEpsilonValue = simOptions[COLLABORATORS_PROPERTY_NAME][EPSILON_PROPERTY_NAME] || 0.0;
 		const individualProjectOverrides = simOptions[PROJECTS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME] || [];
@@ -71,21 +78,26 @@ const SchellingOrgSimulator = class {
 				//We'll select this later based on which ones were actually selected.
 				selected: false,
 				value: 1.0 + (rnd.quick() * projectExtraValue),
+				error: 0.0 + (rnd.quick() * projectErrorValue),
 			});
 		}
 		projects = projects.map((item, index) => individualProjectOverrides[index] ? {...item, ...individualProjectOverrides[index]} : item);
 
-		//The default beliefs for each individual. TODO: base this off the value plus error bars
+		//The default beliefs for each individual.
 		const baseBeliefs = projects.map(item => item.value);
 
 		//Assign basic values to collaborators.
 		const collaborators = [];
 		for (let i = 0; i < collaboratorsCount; i++) {
+			const personalBeliefs = [...baseBeliefs];
+			for (let j = 0; j < personalBeliefs.length; j++) {
+				personalBeliefs[j] += (rnd.quick() < 0.5 ? -1 : 1) * (rnd.quick() * projects[j].error);
+			}
 			collaborators.push({
 				index: i,
 				emoji: DEFAULT_EMOJIS[i % DEFAULT_EMOJIS.length],
 				epsilon: collaboratorEpsilonValue,
-				beliefs: [...baseBeliefs]
+				beliefs: personalBeliefs,
 			});
 		}
 
@@ -164,6 +176,7 @@ const SchellingOrgSimulator = class {
 		if (!projectOptions || typeof projectOptions !== 'object') return ['If projects is provided it must be an object'];
 		if (!projectOptions.count || typeof projectOptions.count != 'number' || projectOptions.count < 1) return ['projectOptions.count must exist and be a positive number'];
 		if (projectOptions[MAX_EXTRA_VALUE_PROPERTY_NAME] && typeof projectOptions[MAX_EXTRA_VALUE_PROPERTY_NAME] != 'number') return ['projectOptions.' + MAX_EXTRA_VALUE_PROPERTY_NAME + ' must be a number'];
+		if (projectOptions[MAX_ERROR_VALUE_PROPERTY_NAME] && typeof projectOptions[MAX_ERROR_VALUE_PROPERTY_NAME] != 'number') return ['projectOptions.' + MAX_ERROR_VALUE_PROPERTY_NAME + ' must be a number'];
 		return [];
 	}
 
