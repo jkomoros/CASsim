@@ -262,7 +262,7 @@ class SchellingOrgRenderer extends LitElement {
 			}
 
 			.wall {
-				stroke: black;
+				stroke: var(--disabled-color);
 			}
 
 			.error {
