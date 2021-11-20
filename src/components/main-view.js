@@ -105,6 +105,7 @@ class MainView extends connect(store)(PageViewElement) {
 					/* TODO: set these based on the simulation config */
 					--primary-color: #fb8c00;
 					--secondary-color: #51b9a3;
+					--disabled-color: #cccccc;
 				}
 
 			`
