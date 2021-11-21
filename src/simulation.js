@@ -13,6 +13,8 @@ const SIZE_PROPERTY = 'size';
 const SIM_OPTIONS_PROPERTY = 'simOptions';
 const RUNS_PROPERTY = 'runs';
 const SEED_PROPERTY = 'seed';
+const NAME_PROPERTY = 'name';
+const DESCRIPTION_PROPERTY = 'description';
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
@@ -76,6 +78,7 @@ const deepFreeze = (obj) => {
 export const SimulationCollection = class {
 	constructor(configs) {
 		if (!configs) configs = [];
+		const seenNames = {};
 		const arr = [];
 		for (let i = 0; i < configs.length; i++) {
 			let sim;
@@ -84,6 +87,12 @@ export const SimulationCollection = class {
 				sim = new Simulation(config);
 			} catch(err) {
 				throw new Error('Config #' + i + ' errored: ' + err);
+			}
+			if (sim.name) {
+				if (seenNames[sim.name]) {
+					throw new Error('Config #' + i + ' had the same name as a previous config.');
+				}
+				seenNames[sim.name] = true;
 			}
 			arr.push(sim);
 		}
@@ -178,6 +187,14 @@ const Simulation = class {
 
 	get height() {
 		return this._config[SIZE_PROPERTY][1];
+	}
+
+	get name() {
+		return this._config[NAME_PROPERTY] || '';
+	}
+
+	get description() {
+		return this._config[DESCRIPTION_PROPERTY] || this.name;
 	}
 
 	get simOptions() {
