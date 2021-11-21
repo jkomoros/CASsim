@@ -43,13 +43,21 @@ export const selectCurrentSimulationMaxRunIndex = createSelector(
 	(sim) => sim ? sim.maxRunIndex : 0
 );
 
-export const selectCurrentFrame = createSelector(
+const selectCurrentSimulationRun = createSelector(
 	selectCurrentSimulation,
 	selectRunIndex,
-	selectFrameIndex,
-	(sim, runIndex, frameIndex) => {
+	(sim, runIndex) => {
 		if (!sim) return null;
 		const run = sim.run(runIndex);
+		if (!run) return null;
+		return run;
+	}
+);
+
+export const selectCurrentFrame = createSelector(
+	selectCurrentSimulationRun,
+	selectFrameIndex,
+	(run, frameIndex) => {
 		if (!run) return null;
 		return run.frame(frameIndex);
 	}
