@@ -1,6 +1,7 @@
 [
 	{
-		"name": "First config",
+		"name": "first-config",
+		"description": "First config",
 		"seed": "abc",
 		"size": [800,450],
 		"runs": 10,
