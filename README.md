@@ -19,9 +19,7 @@ Install homebrew if not already installed
 
 Run `arch -arm64 brew install pkg-config cairo pango libpng jpeg giflib librsvg`
 
-Then run `npm install`
-
-(Nope, this still doesn't work. See #19)
+Then run `npm install canvas` and `npm install` (?)
 
 # Running
 
