@@ -5,6 +5,8 @@ const DEBUG_PROPERTY_NAME = 'debug';
 const COMMUNICATION_PROPERTY_NAME = 'communication';
 const MAX_EXTRA_VALUE_PROPERTY_NAME = 'maxExtraValue';
 const MAX_ERROR_VALUE_PROPERTY_NAME = 'maxErrorValue';
+const MIN_CONNECTION_LIKELIHOOD_PROPERTY_NAME = 'minConnectionLikelihood';
+const MAX_CONNECTION_LIKELIHOOD_PROPERTY_NAME = 'maxConnectionLikelihood';
 const INDIVIDUALS_PROPERTY_NAME = 'individuals';
 const MARKED_PROPERTY_NAME = 'marked';
 const EPSILON_PROPERTY_NAME = 'epsilon';
@@ -38,6 +40,10 @@ Sim options shape:
 		"count": 5,
 		//Project values within this amount of each other will be considered to be the same
 		"epsilon": 0.05,
+		//Each connections' strength will be distributed randomly between these two numbers.
+		//Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength.
+		"minConnectionLikelihood": 0.0,
+		"maxConnectionLikelihood": 1.0,
 	},
 	"projects": {
 		//How many projects there should be
@@ -111,12 +117,16 @@ const SchellingOrgSimulator = class {
 		//how strong the connection is (how likely it is to be picked.)
 		const connections = [];
 		if (communicationValue) {
+			const minConnectionLikelihood = simOptions[COLLABORATORS_PROPERTY_NAME][MIN_CONNECTION_LIKELIHOOD_PROPERTY_NAME] || 0.0;
+			const maxConnectionLikelihood = simOptions[COLLABORATORS_PROPERTY_NAME][MAX_CONNECTION_LIKELIHOOD_PROPERTY_NAME] || 1.0;
 			for (let i = 0; i < collaboratorsCount; i++) {
 				for (let j = 0; j < collaboratorsCount; j++) {
 					//Don't connect to self
 					if (i == j) continue;
-					//TODO: vary the strength of connections strongly
-					connections.push([i, j, 1.0]);
+					let strength = (maxConnectionLikelihood - minConnectionLikelihood) * rnd.quick() + minConnectionLikelihood;
+					if (strength < 0.0) strength = 0.0;
+					if (strength > 1.0) strength = 1.0;
+					connections.push([i, j, strength]);
 				}
 			}
 		}

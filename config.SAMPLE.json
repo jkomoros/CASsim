@@ -15,7 +15,9 @@
 			"communication": 1,
 			"collaborators": {
 				"count": 8,
-				"epsilon": 0.05
+				"epsilon": 0.05,
+				"minConnectionLikelihood": 0.0,
+				"maxConnectionLikelihood": 0.5
 			},
 			"projects": {
 				"count": 4,
