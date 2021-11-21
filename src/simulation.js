@@ -121,10 +121,12 @@ export const SimulationCollection = class {
 	}
 
 	simulation(nameOrIndex) {
-		if (typeof nameOrIndex == 'number') {
-			return this._simulations[nameOrIndex];
+		if (this._nameIndex[nameOrIndex]) return this._nameIndex[nameOrIndex];
+		if (typeof nameOrIndex == 'string') {
+			const index = parseInt(nameOrIndex);
+			if (!isNaN(index)) nameOrIndex = index;
 		}
-		return this._nameIndex[nameOrIndex];
+		return this._simulations[nameOrIndex];
 	}
 
 	get simulations() {
