@@ -175,6 +175,11 @@ const Simulation = class {
 		if (problems.length > 0) {
 			throw new Error('Invalid config: ' + problems.join(', '));
 		}
+		const name = config[NAME_PROPERTY];
+		if (name) {
+			if (typeof name != 'string') throw new Error('Name was provided but not a string');
+			if (!name.match(/^[0-9a-zA-Z-_]+$/)) throw new Error('Name had invalid characters in it');
+		}
 		this._simulator = SIMULATORS[config.sim];
 		this._config = config;
 		this._seed = this._config[SEED_PROPERTY] || '' + Date.now();
