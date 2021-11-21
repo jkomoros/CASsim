@@ -35,7 +35,14 @@ class SimulationControls extends connect(store)(LitElement) {
 	static get styles() {
 		return [
 			SharedStyles,
-			css``
+			css`
+				:host {
+					position:absolute;
+					top: 0;
+					left: 0;
+				}
+			
+			`
 		];
 	}
 

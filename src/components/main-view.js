@@ -137,8 +137,8 @@ class MainView extends connect(store)(PageViewElement) {
 					--app-background-color: ${this._backgroundColor}
 				}
 			</style>
+			<simulation-controls></simulation-controls>
 			<div class='container'>
-				<simulation-controls></simulation-controls>
 				<frame-visualization .frame=${this._currentFrame} .width=${this._width} .height=${this._height}></frame-visualization>
 			</div>
 		`;
