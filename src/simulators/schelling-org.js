@@ -188,10 +188,14 @@ const SchellingOrgSimulator = class {
 			}
 		}
 
+		//Make sure anything that was active in the last frame isn't rendered as active now 
+		const newConnections = frame[CONNECTIONS_PROPERTY_NAME].map(connection => ({...connection, active: false}));
+
 		return {
 			...frame,
 			[PROJECTS_PROPERTY_NAME]: projects,
 			[COLLABORATORS_PROPERTY_NAME]: collaborators,
+			[CONNECTIONS_PROPERTY_NAME]: newConnections
 		};
 	}
 
