@@ -109,12 +109,14 @@ const SchellingOrgSimulator = class {
 		//speaker, j is the listener, and strength is between 0.0 to 1.0 about
 		//how strong the connection is (how likely it is to be picked.)
 		const connections = [];
-		for (let i = 0; i < collaboratorsCount; i++) {
-			for (let j = 0; j < collaboratorsCount; j++) {
-				//Don't connect to self
-				if (i == j) continue;
-				//TODO: vary the strength of connections strongly
-				connections.push([i, j, 1.0]);
+		if (communicationValue) {
+			for (let i = 0; i < collaboratorsCount; i++) {
+				for (let j = 0; j < collaboratorsCount; j++) {
+					//Don't connect to self
+					if (i == j) continue;
+					//TODO: vary the strength of connections strongly
+					connections.push([i, j, 1.0]);
+				}
 			}
 		}
 
