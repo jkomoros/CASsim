@@ -112,7 +112,7 @@ const SchellingOrgSimulator = class {
 			});
 		}
 
-		//connections is array of tuples, [i, j, strength], where i is the
+		//connections is array of objs, {i, j, strength}, where i is the
 		//speaker, j is the listener, and strength is between 0.0 to 1.0 about
 		//how strong the connection is (how likely it is to be picked.)
 		const connections = [];
@@ -126,7 +126,7 @@ const SchellingOrgSimulator = class {
 					let strength = (maxConnectionLikelihood - minConnectionLikelihood) * rnd.quick() + minConnectionLikelihood;
 					if (strength < 0.0) strength = 0.0;
 					if (strength > 1.0) strength = 1.0;
-					connections.push([i, j, strength]);
+					connections.push({i, j, strength});
 				}
 			}
 		}
@@ -448,14 +448,11 @@ class SchellingOrgRenderer extends LitElement {
 
 	_connectionSVG(connection) {
 
-		const i = connection[0];
-		const j = connection[1];
-		const strength = connection[2];
-		const iPos = this._collaboratorPosition(i);
-		const jPos = this._collaboratorPosition(j);
+		const iPos = this._collaboratorPosition(connection.i);
+		const jPos = this._collaboratorPosition(connection.j);
 
 		//There will be two connections rendered on top of each other (each way). But because we use opacity, they will naturally blend.
-		return svg`<path class='connection' stroke-opacity='${strength}' stroke-width='1' d='M ${iPos[0]},${iPos[1]} L ${jPos[0]}, ${jPos[1]}' ></path>`;
+		return svg`<path class='connection' stroke-opacity='${connection.strength}' stroke-width='1' d='M ${iPos[0]},${iPos[1]} L ${jPos[0]}, ${jPos[1]}' ></path>`;
 	}
 
 }
