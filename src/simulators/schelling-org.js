@@ -299,6 +299,10 @@ class SchellingOrgRenderer extends LitElement {
 				fill: transparent;
 			}
 
+			.connection {
+				stroke: black;
+			}
+
 			`
 		];
 	}
@@ -307,6 +311,7 @@ class SchellingOrgRenderer extends LitElement {
 		return html`
 			<svg width=${this.width} height=${this.height}>
 				${this._debugRender()}
+				${this._connections.map(item => this._connectionSVG(item))}
 				${this._collaborators.map(item => this._collaboratorSVG(item))}
 				${this._projects.map(item => this._projectSVG(item))}
 			</svg>
@@ -316,6 +321,11 @@ class SchellingOrgRenderer extends LitElement {
 	get _projects() {
 		if (!this.frame) return [];
 		return this.frame[PROJECTS_PROPERTY_NAME] || [];
+	}
+
+	get _connections() {
+		if (!this.frame) return [];
+		return this.frame[CONNECTIONS_PROPERTY_NAME] || [];
 	}
 
 	get _collaborators() {
@@ -426,6 +436,17 @@ class SchellingOrgRenderer extends LitElement {
 					${hasError ? svg`<path class='error' d='M ${errorStartX}, ${errorStartY} H ${errorEndX} M ${position[0]}, ${errorStartY} V ${errorEndY} M ${errorStartX}, ${errorEndY} H ${errorEndX}' stroke-width=${width / 40}></path>` : ''}`;
 	}
 
+	_connectionSVG(connection) {
+
+		const i = connection[0];
+		const j = connection[1];
+		const strength = connection[2];
+		const iPos = this._collaboratorPosition(i);
+		const jPos = this._collaboratorPosition(j);
+
+		//There will be two connections rendered on top of each other (each way). But because we use opacity, they will naturally blend.
+		return svg`<path class='connection' stroke-opacity='${strength}' stroke-width='1' d='M ${iPos[0]},${iPos[1]} L ${jPos[0]}, ${jPos[1]}' ></path>`;
+	}
 
 }
 
