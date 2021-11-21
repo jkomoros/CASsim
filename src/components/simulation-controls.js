@@ -10,7 +10,7 @@ import {
 	selectSimulationIndex,
 	selectSimulationsMap,
 	selectCurrentSimulationMaxRunIndex,
-	selectCurrentSimulationRunMaxFrameIndex
+	selectCurrentSimulationRun
 } from "../selectors.js";
 
 import {
@@ -75,7 +75,10 @@ class SimulationControls extends connect(store)(LitElement) {
 		this._simulationsMap = selectSimulationsMap(state);
 		this._simulationIndex = selectSimulationIndex(state);
 		this._simulationMaxRunIndex = selectCurrentSimulationMaxRunIndex(state);
-		this._maxFrameIndex = selectCurrentSimulationRunMaxFrameIndex(state);
+		//We can't just have a selector for this, because the value will change
+		//even when the inputs don't, so the selector would give an old value.
+		const run = selectCurrentSimulationRun(state);
+		this._maxFrameIndex = run ? run.maxFrameIndex : Number.MAX_SAFE_INTEGER;
 		this._frameIndex = selectFrameIndex(state);
 		this._runIndex = selectRunIndex(state);
 	}
