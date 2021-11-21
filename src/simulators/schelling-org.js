@@ -189,11 +189,52 @@ const SchellingOrgSimulator = class {
 		};
 	}
 
+	static _communicationRound(frame, rnd) {
+
+		//Copy connections
+		let connections = frame[CONNECTIONS_PROPERTY_NAME].map(connection => ({...connection}));
+		//Set all of them to not active
+		connections = connections.map(connection => ({...connection, active: false}));
+
+		//TODO: select this index based on the strength of the connection, not just a random connection
+		const connectionIndex = Math.floor(rnd.quick() * connections.length);
+
+		const connection = connections[connectionIndex];
+		connection.active = true;
+
+		const collaborators = [...frame[COLLABORATORS_PROPERTY_NAME]];
+
+		//Which project to communicate about.
+		//TODO: allow overriding this based on different strategies.
+		const projectIndex = Math.floor(rnd.quick() * frame[PROJECTS_PROPERTY_NAME].length);
+
+		const senderBeliefs = collaborators[connection.i].beliefs;
+		const recieverBeliefs = collaborators[connection.j].beliefs;
+
+		const senderProjectBelief = senderBeliefs[projectIndex];
+		const receiverProjectBelief = recieverBeliefs[projectIndex];
+
+		//The receiver should update their current belief to be halfway between their previous belief and the sender's belief.
+		const updatedBelief = ((senderProjectBelief - receiverProjectBelief) / 2) + receiverProjectBelief;
+
+		const receiverUpdatedBeliefs = [...recieverBeliefs];
+		receiverUpdatedBeliefs[projectIndex] = updatedBelief;
+
+		collaborators[connection.j] = {...collaborators[connection.j], beliefs: receiverUpdatedBeliefs};
+
+		return {
+			...frame,
+			[COLLABORATORS_PROPERTY_NAME]: collaborators,
+			[CONNECTIONS_PROPERTY_NAME]: connections
+		};
+	}
+
 	static generator(previousFrames, simOptions, rnd) {
 		const communicationRounds = simOptions[COMMUNICATION_PROPERTY_NAME] || 0.0;
 		if (previousFrames.length > communicationRounds) return null;
 		let frame = previousFrames.length ? previousFrames[previousFrames.length - 1] : SchellingOrgSimulator._firstFrameGenerator(simOptions, rnd);
 		frame = {...frame, index: previousFrames.length};
+		if (frame.index < communicationRounds) frame = SchellingOrgSimulator._communicationRound(frame, rnd);
 		if (frame.index == communicationRounds) frame = SchellingOrgSimulator._selectFinalProject(frame, simOptions, rnd);
 		return frame;
 	}
@@ -311,6 +352,10 @@ class SchellingOrgRenderer extends LitElement {
 
 			.connection {
 				stroke: black;
+			}
+
+			.connection.active {
+				stroke: var(--secondary-color);
 			}
 
 			`
@@ -452,7 +497,7 @@ class SchellingOrgRenderer extends LitElement {
 		const jPos = this._collaboratorPosition(connection.j);
 
 		//There will be two connections rendered on top of each other (each way). But because we use opacity, they will naturally blend.
-		return svg`<path class='connection' stroke-opacity='${connection.strength}' stroke-width='1' d='M ${iPos[0]},${iPos[1]} L ${jPos[0]}, ${jPos[1]}' ></path>`;
+		return svg`<path class='connection ${connection.active ? 'active' : ''}' stroke-opacity='${connection.active ? 1.0 : connection.strength}' stroke-width='1' d='M ${iPos[0]},${iPos[1]} L ${jPos[0]}, ${jPos[1]}' ></path>`;
 	}
 
 }
