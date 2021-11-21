@@ -322,9 +322,13 @@ class SchellingOrgRenderer extends LitElement {
 		return svg`
 			<path class='debug' d='M 0,${projectPosition[1]} H ${this.width}'></path>
 			${collaboratorsInCircle ? 
-		svg`<circle class='debug' cx='${this.width / 2}' cy='${collaboratorPosition[1]}' r='${this.width / 4}'></circle>` : 
+		svg`<circle class='debug' cx='${this.width / 2}' cy='${this._collaboratorVerticalLine()}' r='${this.width / 6}'></circle>` : 
 		svg`<path class='debug' d='M 0, ${collaboratorPosition[1]} H ${this.width}'></path>`}
 		`;
+	}
+
+	_collaboratorVerticalLine() {
+		return (this.height / 4) * 3;
 	}
 
 	_collaboratorWidth() {
@@ -334,7 +338,7 @@ class SchellingOrgRenderer extends LitElement {
 	_collaboratorPosition(index) {
 		const width = this._collaboratorWidth();
 		const x = index * (width * 2) + (width / 2);
-		const y = ((this.height / 4) * 3);
+		const y = this._collaboratorVerticalLine();
 		return [x,y];
 	}
 
