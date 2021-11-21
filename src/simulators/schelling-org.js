@@ -362,10 +362,12 @@ class SchellingOrgRenderer extends LitElement {
 
 			.connection {
 				stroke: black;
+				stroke-width: 1px;
 			}
 
 			.connection.active {
 				stroke: var(--secondary-color);
+				stroke-width: 3px;
 			}
 
 			`
@@ -507,7 +509,7 @@ class SchellingOrgRenderer extends LitElement {
 		const jPos = this._collaboratorPosition(connection.j);
 
 		//There will be two connections rendered on top of each other (each way). But because we use opacity, they will naturally blend.
-		return svg`<path class='connection ${connection.active ? 'active' : ''}' stroke-opacity='${connection.active ? 1.0 : connection.strength}' stroke-width='1' d='M ${iPos[0]},${iPos[1]} L ${jPos[0]}, ${jPos[1]}' ></path>`;
+		return svg`<path class='connection ${connection.active ? 'active' : ''}' stroke-opacity='${connection.active ? 1.0 : connection.strength}' d='M ${iPos[0]},${iPos[1]} L ${jPos[0]}, ${jPos[1]}' ></path>`;
 	}
 
 }
