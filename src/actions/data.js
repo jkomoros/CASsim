@@ -9,6 +9,8 @@ import {
 
 import {
 	selectFrameIndex,
+	selectRunIndex,
+	selectCurrentSimulationMaxRunIndex
 } from '../selectors.js';
 
 export const loadData = (data) => {
@@ -48,8 +50,17 @@ export const updateFrameIndex = (index) => (dispatch) => {
 	dispatch(canonicalizePath());
 };
 
-export const updateRunIndex = (index) => (dispatch) => {
+export const updateRunIndex = (index) => (dispatch, getState) => {
 	if (typeof index == 'string') index = parseInt(index);
+	const state = getState();
+	if (index < 0) {
+		index = 0;
+	}
+	if (index > selectCurrentSimulationMaxRunIndex(state)) {
+		index = selectCurrentSimulationMaxRunIndex(state);
+	}
+	//No op
+	if (index == selectRunIndex(state)) return;
 	dispatch({
 		type: UPDATE_RUN_INDEX,
 		index,
