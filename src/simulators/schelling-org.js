@@ -291,8 +291,37 @@ const SchellingOrgSimulator = class {
 		return -1.0;
 	}
 
-	static frameValidator() {
-		return [];
+	static frameValidator(frame) {
+		const problems = [];
+		const projects = frame[PROJECTS_PROPERTY_NAME];
+		const collaborators = frame[COLLABORATORS_PROPERTY_NAME];
+		const connections = frame[CONNECTIONS_PROPERTY_NAME];
+		if (projects) {
+			for (const [index, project] of projects.entries()) {
+				if (project.index != index) problems.push('Project ' + index + ' has an invalid index');
+			}
+		} else {
+			problems.push('Projects is not provided');
+		}
+		if (collaborators) {
+			for (const [index, collaborator] of collaborators.entries()) {
+				if (collaborator.index != index) problems.push('Collaborator ' + index + ' has an invalid index');
+				if (typeof collaborator.beliefs != 'object' || !Array.isArray(collaborator.beliefs) || collaborator.beliefs.length != projects.length) problems.push('Collaborator ' + index + ' has an invalid beliefs');
+			}
+		} else {
+			problems.push('Collaborators is not provided');
+		}
+		if (connections) {
+			for (const [index, connection] of connections.entries()) {
+				if (connection.index != index) problems.push('Connection ' + index + ' has an invalid index');
+				if (connection.i < 0 || connection.i >= collaborators.length) problems.push('Connection ' + index + ' has an invalid index for i');
+				if (connection.j < 0 || connection.j >= collaborators.length) problems.push('Connection ' + index + ' has an invalid index for j');
+				if (connection.strength < 0 || connection.strength > 1.0) problems.push('Connection ' + index + ' has an invalid strength');
+			}
+		} else {
+			problems.push('Connections is not provided');
+		}
+		return problems;
 	}
 };
 
