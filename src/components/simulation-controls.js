@@ -8,7 +8,8 @@ import {
 	selectFrameIndex,
 	selectRunIndex,
 	selectSimulationIndex,
-	selectSimulationsMap
+	selectSimulationsMap,
+	selectCurrentSimulationMaxRunIndex
 } from "../selectors.js";
 
 import {
@@ -25,6 +26,7 @@ class SimulationControls extends connect(store)(LitElement) {
 		return {
 			_simulationsMap: { type:Object },
 			_simulationIndex: { type:Number },
+			_simulationMaxRunIndex: { type:Number },
 			_frameIndex: { type: Number },
 			_runIndex: {type: Number},
 		};
@@ -49,7 +51,7 @@ class SimulationControls extends connect(store)(LitElement) {
 				</div>
 				<div>
 					<label for='runIndex'>Run</label>
-					<input id='runIndex' .value=${this._runIndex} type='number' min='0' @change=${this._handleRunIndexChanged}>
+					<input id='runIndex' .value=${this._runIndex} type='number' min='0' max=${this._simulationMaxRunIndex} @change=${this._handleRunIndexChanged}>
 				</div>
 				<div>
 					<label for='frameIndex'>Frame</label>
@@ -63,6 +65,7 @@ class SimulationControls extends connect(store)(LitElement) {
 	stateChanged(state) {
 		this._simulationsMap = selectSimulationsMap(state);
 		this._simulationIndex = selectSimulationIndex(state);
+		this._simulationMaxRunIndex = selectCurrentSimulationMaxRunIndex(state);
 		this._frameIndex = selectFrameIndex(state);
 		this._runIndex = selectRunIndex(state);
 	}
