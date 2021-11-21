@@ -1,3 +1,7 @@
+import {
+	Urn
+} from '../util.js';
+
 const COLLABORATORS_PROPERTY_NAME = 'collaborators';
 const PROJECTS_PROPERTY_NAME = 'projects';
 const CONNECTIONS_PROPERTY_NAME = 'connections';
@@ -119,6 +123,7 @@ const SchellingOrgSimulator = class {
 		if (communicationValue) {
 			const minConnectionLikelihood = simOptions[COLLABORATORS_PROPERTY_NAME][MIN_CONNECTION_LIKELIHOOD_PROPERTY_NAME] || 0.0;
 			const maxConnectionLikelihood = simOptions[COLLABORATORS_PROPERTY_NAME][MAX_CONNECTION_LIKELIHOOD_PROPERTY_NAME] || 1.0;
+			let count = 0;
 			for (let i = 0; i < collaboratorsCount; i++) {
 				for (let j = 0; j < collaboratorsCount; j++) {
 					//Don't connect to self
@@ -126,7 +131,8 @@ const SchellingOrgSimulator = class {
 					let strength = (maxConnectionLikelihood - minConnectionLikelihood) * rnd.quick() + minConnectionLikelihood;
 					if (strength < 0.0) strength = 0.0;
 					if (strength > 1.0) strength = 1.0;
-					connections.push({i, j, strength});
+					connections.push({i, j, strength, index:count});
+					count++;
 				}
 			}
 		}
@@ -196,8 +202,12 @@ const SchellingOrgSimulator = class {
 		//Set all of them to not active
 		connections = connections.map(connection => ({...connection, active: false}));
 
-		//TODO: select this index based on the strength of the connection, not just a random connection
-		const connectionIndex = Math.floor(rnd.quick() * connections.length);
+		//Pick a connection randomly, samping from ones with higher connection weights higher.
+		const urn = new Urn(rnd);
+		for (const connection of connections) {
+			urn.add(connection.index, connection.strength);
+		}
+		const connectionIndex = urn.pick();
 
 		const connection = connections[connectionIndex];
 		connection.active = true;
