@@ -1,5 +1,6 @@
 const COLLABORATORS_PROPERTY_NAME = 'collaborators';
 const PROJECTS_PROPERTY_NAME = 'projects';
+const CONNECTIONS_PROPERTY_NAME = 'connections';
 const DEBUG_PROPERTY_NAME = 'debug';
 const COMMUNICATION_PROPERTY_NAME = 'communication';
 const MAX_EXTRA_VALUE_PROPERTY_NAME = 'maxExtraValue';
@@ -121,19 +122,19 @@ const SchellingOrgSimulator = class {
 		}
 
 		return {
-			debug: debugValue,
-			communication: communicationValue,
-			connections,
-			collaborators,
-			projects
+			[DEBUG_PROPERTY_NAME]: debugValue,
+			[COMMUNICATION_PROPERTY_NAME]: communicationValue,
+			[CONNECTIONS_PROPERTY_NAME]: connections,
+			[COLLABORATORS_PROPERTY_NAME]: collaborators,
+			[PROJECTS_PROPERTY_NAME]: projects
 		};
 	}
 
 	static _selectFinalProject(frame, simOptions, rnd) {
 		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
 		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
-		let projects = [...frame.projects];
-		let collaborators = [...frame.collaborators];
+		let projects = [...frame[PROJECTS_PROPERTY_NAME]];
+		let collaborators = [...frame[COLLABORATORS_PROPERTY_NAME]];
 		//Go through each collaborator and pick a project for them.
 		const selectedProjects = {};
 		for (let i = 0; i < collaboratorsCount; i++) {
@@ -173,8 +174,8 @@ const SchellingOrgSimulator = class {
 
 		return {
 			...frame,
-			projects,
-			collaborators,
+			[PROJECTS_PROPERTY_NAME]: projects,
+			[COLLABORATORS_PROPERTY_NAME]: collaborators,
 		};
 	}
 
