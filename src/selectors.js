@@ -5,6 +5,7 @@ import {
 } from "./simulation.js";
 
 const selectRawConfigData = state => state.data ? state.data.data : [];
+export const selectSimulationIndex = state => state.data ? state.data.simulationIndex : 0;
 export const selectFrameIndex = state => state.data ? state.data.frameIndex : 0;
 export const selectRunIndex = state => state.data ? state.data.runIndex : 0;
 
@@ -18,7 +19,8 @@ const selectSimulationCollection = createSelector(
 
 const selectCurrentSimulation = createSelector(
 	selectSimulationCollection,
-	(collection) => collection.simulations[0]
+	selectSimulationIndex,
+	(collection, simulationIndex) => collection.simulation(simulationIndex)
 );
 
 export const selectCurrentSimulationWidth = createSelector(
