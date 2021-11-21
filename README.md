@@ -21,6 +21,8 @@ Run `arch -arm64 brew install pkg-config cairo pango libpng jpeg giflib librsvg`
 
 Then run `npm install`
 
+(Nope, this still doesn't work. See #19)
+
 # Running
 
 If you want to do your own config, create a `config.json` in the root of the repo. If not provided, `config.SAMPLE.json` will be used.
