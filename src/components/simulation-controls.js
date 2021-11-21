@@ -7,9 +7,12 @@ import { store } from "../store.js";
 import {
 	selectFrameIndex,
 	selectRunIndex,
+	selectSimulationIndex,
+	selectSimulationsMap
 } from "../selectors.js";
 
 import {
+	updateSimulationIndex,
 	updateFrameIndex,
 	updateRunIndex
 } from '../actions/data.js';
@@ -20,6 +23,8 @@ import { SharedStyles } from "./shared-styles.js";
 class SimulationControls extends connect(store)(LitElement) {
 	static get properties() {
 		return {
+			_simulationsMap: { type:Object },
+			_simulationIndex: { type:Number },
 			_frameIndex: { type: Number },
 			_runIndex: {type: Number},
 		};
@@ -37,6 +42,12 @@ class SimulationControls extends connect(store)(LitElement) {
 		return html`
 			<div class='container'>
 				<div>
+					<label for='simulationIndex'>Simulation</label>
+					<select id='simulationIndex' .value=${this._simulationIndex} @change=${this._handleSimulationIndexChanged}>
+						${Object.entries(this._simulationsMap).map(entry => html`<option value=${entry[0]}>${entry[1].description}</option>`)}
+					</select>
+				</div>
+				<div>
 					<label for='runIndex'>Run</label>
 					<input id='runIndex' .value=${this._runIndex} type='number' min='0' @change=${this._handleRunIndexChanged}>
 				</div>
@@ -50,8 +61,15 @@ class SimulationControls extends connect(store)(LitElement) {
 
 	// This is called every time something is updated in the store.
 	stateChanged(state) {
+		this._simulationsMap = selectSimulationsMap(state);
+		this._simulationIndex = selectSimulationIndex(state);
 		this._frameIndex = selectFrameIndex(state);
 		this._runIndex = selectRunIndex(state);
+	}
+
+	_handleSimulationIndexChanged(e) {
+		const ele = e.composedPath()[0];
+		store.dispatch(updateSimulationIndex(ele.value));
 	}
 
 	_handleFrameIndexChanged(e) {

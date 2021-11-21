@@ -31,6 +31,14 @@ export const prevIndex = () => (dispatch, getState) => {
 	dispatch(updateFrameIndex(currentIndex));
 };
 
+export const updateSimulationIndex = (index) => (dispatch) => {
+	dispatch({
+		type: UPDATE_SIMULATION_INDEX,
+		index,
+	});
+	dispatch(canonicalizePath());
+};
+
 export const updateFrameIndex = (index) => (dispatch) => {
 	if (typeof index == 'string') index = parseInt(index);
 	dispatch({
