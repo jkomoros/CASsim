@@ -17,9 +17,9 @@ const selectSimulationCollection = createSelector(
 	(rawConfig) => new SimulationCollection(rawConfig)
 );
 
-export const selectSimulationNames = createSelector(
+export const selectSimulationsMap = createSelector(
 	selectSimulationCollection,
-	(collection) => collection.simulationNames
+	(collection) => collection.simulationsMap
 );
 
 const selectCurrentSimulation = createSelector(

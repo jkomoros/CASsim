@@ -129,8 +129,8 @@ export const SimulationCollection = class {
 		return this._simulations[nameOrIndex];
 	}
 
-	get simulationNames() {
-		return Object.keys(this._nameIndex);
+	get simulationsMap() {
+		return this._nameIndex;
 	}
 
 	get simulations() {
