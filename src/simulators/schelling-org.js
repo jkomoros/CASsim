@@ -218,6 +218,8 @@ export default SchellingOrgSimulator;
 
 import { LitElement, html, css, svg} from "lit-element";
 
+const COLLABORATOR_CIRCLE_FACTOR = 7;
+
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
@@ -322,13 +324,13 @@ class SchellingOrgRenderer extends LitElement {
 		return svg`
 			<path class='debug' d='M 0,${projectPosition[1]} H ${this.width}'></path>
 			${collaboratorsInCircle ? 
-		svg`<circle class='debug' cx='${this.width / 2}' cy='${this._collaboratorVerticalLine()}' r='${this.width / 6}'></circle>` : 
+		svg`<circle class='debug' cx='${this.width / 2}' cy='${this._collaboratorVerticalLine()}' r='${this.width / COLLABORATOR_CIRCLE_FACTOR}'></circle>` : 
 		svg`<path class='debug' d='M 0, ${collaboratorPosition[1]} H ${this.width}'></path>`}
 		`;
 	}
 
 	_collaboratorVerticalLine() {
-		return (this.height / 4) * 3;
+		return this._communication ? (this.height / 10) * COLLABORATOR_CIRCLE_FACTOR : (this.height / 4) * 3;
 	}
 
 	_collaboratorWidth() {
