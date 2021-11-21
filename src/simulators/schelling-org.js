@@ -277,6 +277,7 @@ class SchellingOrgRenderer extends LitElement {
 			.debug {
 				stroke: var(--disabled-color);
 				stroke-width: 1px;
+				fill: transparent;
 			}
 
 			`
@@ -320,7 +321,9 @@ class SchellingOrgRenderer extends LitElement {
 		const collaboratorsInCircle = this._communication;
 		return svg`
 			<path class='debug' d='M 0,${projectPosition[1]} H ${this.width}'></path>
-			${collaboratorsInCircle ? '' : svg`<path class='debug' d='M 0, ${collaboratorPosition[1]} H ${this.width}'></path>`}
+			${collaboratorsInCircle ? 
+		svg`<circle class='debug' cx='${this.width / 2}' cy='${collaboratorPosition[1]}' r='${this.width / 4}'></circle>` : 
+		svg`<path class='debug' d='M 0, ${collaboratorPosition[1]} H ${this.width}'></path>`}
 		`;
 	}
 
