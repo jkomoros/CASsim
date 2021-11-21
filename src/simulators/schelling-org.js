@@ -116,7 +116,7 @@ const SchellingOrgSimulator = class {
 			});
 		}
 
-		//connections is array of objs, {i, j, strength}, where i is the
+		//connections is array of objs, {i, j, strength, index}, where i is the
 		//speaker, j is the listener, and strength is between 0.0 to 1.0 about
 		//how strong the connection is (how likely it is to be picked.)
 		const connections = [];
