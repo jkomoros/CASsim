@@ -413,6 +413,10 @@ class SchellingOrgRenderer extends LitElement {
 				stroke: black;
 			}
 
+			.belief {
+				stroke: black;
+			}
+
 			.debug {
 				stroke: var(--disabled-color);
 				stroke-width: 1px;
@@ -559,8 +563,12 @@ class SchellingOrgRenderer extends LitElement {
 		const errorStartY = y - (project.error * width);
 		const errorEndY = y + (project.error * width);
 
+		const errorStrokeWidth = width / 40;
+
 		return svg`<rect class='project ${project.selected ? 'selected' : 'not-selected'} ${project[MARKED_PROPERTY_NAME] ? 'marked' : ''}' x=${x} y=${y} width=${width} height=${height}></rect>
-					${hasError ? svg`<path class='error' d='M ${errorStartX}, ${errorStartY} H ${errorEndX} M ${position[0]}, ${errorStartY} V ${errorEndY} M ${errorStartX}, ${errorEndY} H ${errorEndX}' stroke-width=${width / 40}></path>` : ''}`;
+					${hasError ? svg`<path class='error' d='M ${errorStartX}, ${errorStartY} H ${errorEndX} M ${position[0]}, ${errorStartY} V ${errorEndY} M ${errorStartX}, ${errorEndY} H ${errorEndX}' stroke-width=${errorStrokeWidth}></path>
+						${this._collaborators.map(collaborator => svg`<path class='belief' d='M ${position[0] - ERROR_BAR_CAP_WIDTH / 2},${position[1] - width * collaborator.beliefs[project.index]} h ${ERROR_BAR_CAP_WIDTH}' stroke-width='${errorStrokeWidth / 2}'></path>`)}
+					` : ''}`;
 	}
 
 	_connectionSVG(connection) {
