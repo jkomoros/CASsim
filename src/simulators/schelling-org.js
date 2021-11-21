@@ -62,6 +62,8 @@ Sim options shape:
 				"epsilon": 0.05,
 				//The specific emoji to use for this individual
 				"emoji": "A",
+				"avgConnectionLikelihood": 0.5,
+				"connectionLikelihoodSpread": 0.25
 			}
 		]
 	},
@@ -101,7 +103,8 @@ const SchellingOrgSimulator = class {
 		const collaboratorEpsilonValue = simOptions[COLLABORATORS_PROPERTY_NAME][EPSILON_PROPERTY_NAME] || 0.0;
 		const individualProjectOverrides = simOptions[PROJECTS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME] || [];
 		const individualCollaboratorOverrides = simOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME] || [];
-
+		const avgConnectionLikelihood = simOptions[COLLABORATORS_PROPERTY_NAME][AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME] || 0.5;
+		const connectionLikelihoodSpread = simOptions[COLLABORATORS_PROPERTY_NAME][CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] || 0.5;
 		//Assign basic values to projects.
 		let projects = [];
 		for (let i = 0; i < projectsCount; i++) {
@@ -130,6 +133,8 @@ const SchellingOrgSimulator = class {
 				emoji: DEFAULT_EMOJIS[i % DEFAULT_EMOJIS.length],
 				epsilon: collaboratorEpsilonValue,
 				beliefs: personalBeliefs,
+				[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: avgConnectionLikelihood,
+				[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: connectionLikelihoodSpread
 			});
 		}
 		collaborators = collaborators.map((item, index) => individualCollaboratorOverrides[index] ? {...item, ...individualCollaboratorOverrides[index]} : item);
@@ -139,15 +144,16 @@ const SchellingOrgSimulator = class {
 		//how strong the connection is (how likely it is to be picked.)
 		const connections = [];
 		if (communicationValue) {
-			const avgConnectionLikelihood = simOptions[COLLABORATORS_PROPERTY_NAME][AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME] || 0.5;
-			const connectionLikelihoodSpread = simOptions[COLLABORATORS_PROPERTY_NAME][CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] || 0.5;
-			const minConnectionLikelihood = avgConnectionLikelihood - connectionLikelihoodSpread;
-			const maxConnectionLikelihood = avgConnectionLikelihood + connectionLikelihoodSpread;
 			let count = 0;
 			for (let i = 0; i < collaboratorsCount; i++) {
 				for (let j = 0; j < collaboratorsCount; j++) {
 					//Don't connect to self
 					if (i == j) continue;
+					const sender = collaborators[i];
+					const senderAvgConnectionLikelihood = sender[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME];
+					const senderConnectionLikelihoodSpread = sender[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME];
+					const minConnectionLikelihood = senderAvgConnectionLikelihood - senderConnectionLikelihoodSpread;
+					const maxConnectionLikelihood = senderAvgConnectionLikelihood + senderConnectionLikelihoodSpread;
 					let strength = (maxConnectionLikelihood - minConnectionLikelihood) * rnd.quick() + minConnectionLikelihood;
 					if (strength < 0.0) strength = 0.0;
 					if (strength > 1.0) strength = 1.0;
