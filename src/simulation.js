@@ -104,7 +104,7 @@ export const SimulationCollection = class {
 			let sim;
 			const config = configs[i];
 			try {
-				sim = new Simulation(config);
+				sim = new Simulation(config, i.toString());
 			} catch(err) {
 				throw new Error('Config #' + i + ' errored: ' + err);
 			}
@@ -191,7 +191,7 @@ const SimulationRun = class {
 };
 
 const Simulation = class {
-	constructor(config) {
+	constructor(config, altName) {
 
 		const problems = simulatorConfigValid(config);
 		if (problems.length > 0) {
@@ -204,6 +204,7 @@ const Simulation = class {
 		}
 		this._simulator = SIMULATORS[config.sim];
 		this._config = config;
+		this._altName = altName;
 		this._seed = this._config[SEED_PROPERTY] || '' + Date.now();
 		this._runs = new Array(config[RUNS_PROPERTY]);
 	}
@@ -225,7 +226,7 @@ const Simulation = class {
 	}
 
 	get name() {
-		return this._config[NAME_PROPERTY] || '';
+		return this._config[NAME_PROPERTY] || this._altName || '';
 	}
 
 	get description() {
