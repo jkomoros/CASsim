@@ -145,6 +145,7 @@ const SimulationRun = class {
 		this._frames = [];
 		this._frameScores = [];
 		this._successScores = [];
+		this._maxFrameIndex = Number.MAX_SAFE_INTEGER;
 	}
 
 	frame(frameIndex) {
@@ -166,10 +167,14 @@ const SimulationRun = class {
 	}
 
 	_ensureFrameDataUpTo(frameIndex) {
+		if (frameIndex > this._maxFrameIndex) return;
 		while(frameIndex > this._frames.length - 1) {
 			const result = this._calculateFrameAt(this._frames.length);
-			//TODO: keep track of when we hit this end-of-simulation and never try to generate it again
-			if (!result) return null;
+			if (!result) {
+				//We foudn the last valid frame, keep track of where it is.
+				this._maxFrameIndex = this._frames.length - 1;
+				return null;
+			}
 			const problems = this._simulation.simulator.frameValidator(result);
 			if (problems.length) {
 				throw new Error('Couldn\'t generate frame at index ' + this.frameIndex + ' problem: ' + problems.join(', '));
