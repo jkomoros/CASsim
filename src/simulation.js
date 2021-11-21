@@ -56,7 +56,7 @@ const simulatorConfigValid = (config) => {
 		return problems;
 	}
 
-	const simProblems = sim.optionsValidator(config[SIM_OPTIONS_PROPERTY] || {});
+	const simProblems = sim.optionsValidator(config[SIM_OPTIONS_PROPERTY] || {}) || [];
 	if (simProblems.length) {
 		problems.push('Sim problems: ' + simProblems.join(', '));
 	}
