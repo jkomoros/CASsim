@@ -12,6 +12,7 @@
 		},
 		"sim": "schelling-org",
 		"simOptions": {
+			"debug" : true,
 			"collaborators": {
 				"count": 5,
 				"epsilon": 0.05

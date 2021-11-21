@@ -1,5 +1,6 @@
 const COLLABORATORS_PROPERTY_NAME = 'collaborators';
 const PROJECTS_PROPERTY_NAME = 'projects';
+const DEBUG_PROPERTY_NAME = 'debug';
 const COMMUNICATION_PROPERTY_NAME = 'communication';
 const MAX_EXTRA_VALUE_PROPERTY_NAME = 'maxExtraValue';
 const MAX_ERROR_VALUE_PROPERTY_NAME = 'maxErrorValue';
@@ -27,6 +28,8 @@ const DEFAULT_EMOJIS = [
 Sim options shape:
 
 {
+	//If true, then the SVG will render debug information
+	"debug": true,
 	//How many rounds of communication should be allowed between agents before they decide. 0 is no communication.
 	"communication": 0,
 	"collaborators": {
@@ -67,6 +70,7 @@ const SchellingOrgSimulator = class {
 		const projectExtraValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_EXTRA_VALUE_PROPERTY_NAME] || 0.0;
 		const projectErrorValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_ERROR_VALUE_PROPERTY_NAME] || 0.0;
 		const communicationValue = simOptions[COMMUNICATION_PROPERTY_NAME] || 0.0;
+		const debugValue = simOptions[DEBUG_PROPERTY_NAME] || false;
 		const collaboratorEpsilonValue = simOptions[COLLABORATORS_PROPERTY_NAME][EPSILON_PROPERTY_NAME] || 0.0;
 		const individualProjectOverrides = simOptions[PROJECTS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME] || [];
 
@@ -102,6 +106,7 @@ const SchellingOrgSimulator = class {
 		}
 
 		return {
+			debug: debugValue,
 			communication: communicationValue,
 			collaborators,
 			projects
@@ -269,6 +274,11 @@ class SchellingOrgRenderer extends LitElement {
 				stroke: black;
 			}
 
+			.debug {
+				stroke: var(--disabled-color);
+				stroke-width: 1px;
+			}
+
 			`
 		];
 	}
@@ -276,6 +286,7 @@ class SchellingOrgRenderer extends LitElement {
 	render() {
 		return html`
 			<svg width=${this.width} height=${this.height}>
+				${this._debugRender()}
 				${this._collaborators.map(item => this._collaboratorSVG(item))}
 				${this._projects.map(item => this._projectSVG(item))}
 			</svg>
@@ -295,6 +306,20 @@ class SchellingOrgRenderer extends LitElement {
 	get _communication() {
 		if (!this.frame) return false;
 		return this.frame[COMMUNICATION_PROPERTY_NAME];
+	}
+
+	get _debug() {
+		if (!this.frame) return false;
+		return this.frame[DEBUG_PROPERTY_NAME];
+	}
+
+	_debugRender() {
+		if (!this._debug) return '';
+		const collaboratorPosition = this._collaboratorPosition(0);
+		const projectPosition = this._projectPosition(0);
+		return svg`
+			<path class='debug' d='M 0,${projectPosition[1]} H ${this.width} M 0, ${collaboratorPosition[1]} H ${this.width}'></path>
+		`;
 	}
 
 	_collaboratorWidth() {
