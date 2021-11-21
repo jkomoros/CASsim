@@ -175,6 +175,11 @@ const SimulationRun = class {
 
 	_ensureFrameDataUpTo(frameIndex) {
 		if (frameIndex > this._maxFrameIndex) return;
+		//We deliberately try to fetch one more frame than requested, so we'll
+		//see the end of the run of frames happening one index before we
+		//actually get there. This prevents a problem where we allow the UI to
+		//select a frameIndex, only later to realize it's past the end.
+		frameIndex++;
 		while(frameIndex > this._frames.length - 1) {
 			const result = this._calculateFrameAt(this._frames.length);
 			if (!result) {
