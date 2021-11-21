@@ -38,6 +38,11 @@ export const selectCurrentSimulationHeight = createSelector(
 	(sim) => sim ? sim.height : 0
 );
 
+export const selectCurrentSimulationMaxRunIndex = createSelector(
+	selectCurrentSimulation,
+	(sim) => sim ? sim.maxRunIndex : 0
+);
+
 export const selectCurrentFrame = createSelector(
 	selectCurrentSimulation,
 	selectRunIndex,

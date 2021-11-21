@@ -245,6 +245,10 @@ const Simulation = class {
 		return this._seed;
 	}
 
+	get maxRunIndex() {
+		return this._runs.length - 1;
+	}
+
 	run(index) {
 		if (index < 0 || index >= this._runs.length) return null;
 		if (!this._runs[index]) {
