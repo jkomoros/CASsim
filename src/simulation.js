@@ -92,11 +92,19 @@ export const SimulationCollection = class {
 				if (seenNames[sim.name]) {
 					throw new Error('Config #' + i + ' had the same name as a previous config.');
 				}
-				seenNames[sim.name] = true;
+				seenNames[sim.name] = sim;
 			}
 			arr.push(sim);
 		}
 		this._simulations = arr;
+		this._nameIndex = seenNames;
+	}
+
+	simulation(nameOrIndex) {
+		if (typeof nameOrIndex == 'number') {
+			return this._simulations[nameOrIndex];
+		}
+		return this._nameIndex[nameOrIndex];
 	}
 
 	get simulations() {
