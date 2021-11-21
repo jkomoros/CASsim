@@ -317,8 +317,10 @@ class SchellingOrgRenderer extends LitElement {
 		if (!this._debug) return '';
 		const collaboratorPosition = this._collaboratorPosition(0);
 		const projectPosition = this._projectPosition(0);
+		const collaboratorsInCircle = this._communication;
 		return svg`
-			<path class='debug' d='M 0,${projectPosition[1]} H ${this.width} M 0, ${collaboratorPosition[1]} H ${this.width}'></path>
+			<path class='debug' d='M 0,${projectPosition[1]} H ${this.width}'></path>
+			${collaboratorsInCircle ? '' : svg`<path class='debug' d='M 0, ${collaboratorPosition[1]} H ${this.width}'></path>`}
 		`;
 	}
 
