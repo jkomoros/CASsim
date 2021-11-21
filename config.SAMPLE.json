@@ -16,8 +16,8 @@
 			"collaborators": {
 				"count": 8,
 				"epsilon": 0.05,
-				"minConnectionLikelihood": 0.0,
-				"maxConnectionLikelihood": 0.5
+				"avgConnectionLikelihood": 0.25,
+				"connectionLikelihoodSpread": 0.25
 			},
 			"projects": {
 				"count": 4,
