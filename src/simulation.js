@@ -166,6 +166,13 @@ const SimulationRun = class {
 		return this._successScores[frameIndex];
 	}
 
+	//This returns the max valid frame index with the tighest known limit. It
+	//starts off effectively infinite, but once we discover the last frame, we
+	//update it to that.
+	get maxFrameIndex() {
+		return this._maxFrameIndex;
+	}
+
 	_ensureFrameDataUpTo(frameIndex) {
 		if (frameIndex > this._maxFrameIndex) return;
 		while(frameIndex > this._frames.length - 1) {
