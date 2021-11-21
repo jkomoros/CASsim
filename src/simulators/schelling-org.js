@@ -342,9 +342,22 @@ class SchellingOrgRenderer extends LitElement {
 	}
 
 	_collaboratorPosition(index) {
-		const width = this._collaboratorWidth();
-		const x = index * (width * 2) + (width / 2);
-		const y = this._collaboratorVerticalLine();
+		if (!this._communication) {
+			//Simple linear positioning
+			const width = this._collaboratorWidth();
+			const x = index * (width * 2) + (width / 2);
+			const y = this._collaboratorVerticalLine();
+			return [x,y];
+		}
+		//Along a circle.
+		const numCollaborators = this.frame[COLLABORATORS_PROPERTY_NAME].length;
+		const r = this._collaboratorCircleRadius();
+		const cx = this.width / 2;
+		const cy = this._collaboratorVerticalLine();
+		//There are 2 Pi radians in a circle. The first item should be at the top, but 0 radian is at the right center.
+		const t = (index * (2 * Math.PI / numCollaborators)) - (Math.PI / 2);
+		const x = r * Math.cos(t) + cx;
+		const y = r * Math.sin(t) + cy;
 		return [x,y];
 	}
 
