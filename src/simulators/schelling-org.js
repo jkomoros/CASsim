@@ -52,6 +52,18 @@ Sim options shape:
 		//Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength.
 		"minConnectionLikelihood": 0.0,
 		"maxConnectionLikelihood": 1.0,
+		//individuals is set to override the computed individuals with the given properties. null values will be ignored, and keys not in the override will be left in place.
+		"individuals": [
+			null,
+			{
+				//The starter beliefs of this individual of the values of projects. Must be an array of the same length as number of projects
+				"beliefs": [0.0, 0.2, 0.3, 0.4],
+				//The epsilon for this specific individual
+				"epsilon": 0.05,
+				//The specific emoji to use for this individual
+				"emoji": "A",
+			}
+		]
 	},
 	"projects": {
 		//How many projects there should be
@@ -88,6 +100,7 @@ const SchellingOrgSimulator = class {
 		const displayValue = simOptions[DISPLAY_PROPERTY_NAME] || {};
 		const collaboratorEpsilonValue = simOptions[COLLABORATORS_PROPERTY_NAME][EPSILON_PROPERTY_NAME] || 0.0;
 		const individualProjectOverrides = simOptions[PROJECTS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME] || [];
+		const individualCollaboratorOverrides = simOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME] || [];
 
 		//Assign basic values to projects.
 		let projects = [];
@@ -106,7 +119,7 @@ const SchellingOrgSimulator = class {
 		const baseBeliefs = projects.map(item => item.value);
 
 		//Assign basic values to collaborators.
-		const collaborators = [];
+		let collaborators = [];
 		for (let i = 0; i < collaboratorsCount; i++) {
 			const personalBeliefs = [...baseBeliefs];
 			for (let j = 0; j < personalBeliefs.length; j++) {
@@ -119,6 +132,7 @@ const SchellingOrgSimulator = class {
 				beliefs: personalBeliefs,
 			});
 		}
+		collaborators = collaborators.map((item, index) => individualCollaboratorOverrides[index] ? {...item, ...individualCollaboratorOverrides[index]} : item);
 
 		//connections is array of objs, {i, j, strength, index}, where i is the
 		//speaker, j is the listener, and strength is between 0.0 to 1.0 about
