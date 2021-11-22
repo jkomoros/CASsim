@@ -45,11 +45,11 @@ const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 	optionsValidator(simOptions) => array of problem strings, or [] if OK
 
-	frameScorer(frame) => an array of numbers between 0.0 and 1.0
+	frameScorer(frame, simOptions) => an array of numbers between 0.0 and 1.0
 
-	successScorer(frameScore) => 0.0 if failure, 1.0 if full success, negative numbers to say indeterminate
+	successScorer(frameScore, simOptions) => 0.0 if failure, 1.0 if full success, negative numbers to say indeterminate
 
-	frameValidator(frame) => array of strings defining problems, or [] if OK
+	frameValidator(frame, simOptions) => array of strings defining problems, or [] if OK
 */
 const SIMULATORS = {
 	[SCHELLING_ORG_SIMULATION_NAME]: SchellingOrgSimulator,
@@ -197,7 +197,7 @@ const SimulationRun = class {
 				this._maxFrameIndex = this._frames.length - 1;
 				return null;
 			}
-			const problems = this._simulation.simulator.frameValidator(result);
+			const problems = this._simulation.simulator.frameValidator(result, this._simulation.simOptions);
 			if (problems.length) {
 				throw new Error('Couldn\'t generate frame at index ' + this.frameIndex + ' problem: ' + problems.join(', '));
 			}
@@ -205,9 +205,9 @@ const SimulationRun = class {
 			//Because modules are `use strict`, trying to modify one will give a descriptive TypeError instead of failing silently.
 			deepFreeze(result);
 			this._frames.push(result);
-			const frameScores = this._simulation.simulator.frameScorer(result);
+			const frameScores = this._simulation.simulator.frameScorer(result, this._simulation.simOptions);
 			this._frameScores.push(frameScores);
-			const successScore = this._simulation.simulator.successScorer(frameScores);
+			const successScore = this._simulation.simulator.successScorer(frameScores, this._simulation.simOptions);
 			this._successScores.push(successScore);
 		}
 	}
