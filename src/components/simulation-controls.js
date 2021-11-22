@@ -60,7 +60,7 @@ class SimulationControls extends connect(store)(LitElement) {
 				}
 
 				.status.failure {
-					background-color: brick;
+					background-color: darkred;
 				}
 
 				.status.success {
