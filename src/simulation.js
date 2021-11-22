@@ -166,6 +166,16 @@ const SimulationRun = class {
 		return this._successScores[frameIndex];
 	}
 
+	//maxFrameIndex only updates to a tighter bound once it's discovered the
+	//end. If you're incremeting up by one each time, we'll notice the end just
+	//before you get to it. But if you try to jump to some index, we won't
+	//notice it's illegal until after you jump to it. This allows you to
+	//explicitly probe.
+	frameIndexLegal(frameIndex) {
+		this._ensureFrameDataUpTo(frameIndex);
+		return frameIndex < this._frames.length;
+	}
+
 	//This returns the max valid frame index with the tighest known limit. It
 	//starts off effectively infinite, but once we discover the last frame, we
 	//update it to that.

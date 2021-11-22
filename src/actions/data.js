@@ -46,8 +46,11 @@ export const updateFrameIndex = (index) => (dispatch, getState) => {
 	if (typeof index == 'string') index = parseInt(index);
 	const state = getState();
 	const run = selectCurrentSimulationRun(state);
-	const maxFrameIndex = run ? run.maxFrameIndex : Number.MAX_SAFE_INTEGER;
-	if (index > maxFrameIndex) index = maxFrameIndex;
+	if (!run) return;
+	//Probe directly for whether this index will be legal BEFORE we set it.
+	if (!run.frameIndexLegal(index)) {
+		index = run.maxFrameIndex;
+	}
 	//no op
 	if (index == selectFrameIndex(state)) return;
 	dispatch({
