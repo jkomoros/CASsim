@@ -176,6 +176,26 @@ const SimulationRun = class {
 		return frameIndex < this._frames.length;
 	}
 
+	//Ensure that we know the state of all frames
+	run() {
+		this._ensureFrameDataUpTo(Number.MAX_SAFE_INTEGER);
+	}
+
+	//Whether this has been run to completion (the state of all frames up to the
+	//null frame is known), either directly via run() or indirectly by having
+	//requested all frames up to and past the end.
+	get complete() {
+		return this._maxFrameIndex != Number.MAX_SAFE_INTEGER;
+	}
+	
+	//Returns 0.0 for complete failure, 1.0 for complete success, inbetween for
+	//inbetween, and negative value if indeterminate (e.g. it is not yet
+	//complete or the simulator doesn't implement a frameScorer)
+	get finalStatus() {
+		if (!this.complete) return -1.0;
+		return this.successScore(this.maxFrameIndex);
+	}
+
 	//This returns the max valid frame index with the tighest known limit. It
 	//starts off effectively infinite, but once we discover the last frame, we
 	//update it to that.
