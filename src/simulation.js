@@ -20,6 +20,8 @@ export const GIF_COMMAND = 'gif';
 	"runs": 12,
 	//If omitted, will use a value derived from current time. The deterministic value to feed to seed.
 	"seed": "abc",
+	//if true, then it will automatically run all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.
+	"autoRun": true,
 	//The simulator type to run. Currently only "schelling-org" is supported.
 	"sim": "schelling-org",
 	//The options to feed to the simulator. These will be different shapes depending on the value of "sim". See each specific simulator's documentation.
@@ -35,6 +37,7 @@ const RUNS_PROPERTY = 'runs';
 const SEED_PROPERTY = 'seed';
 const NAME_PROPERTY = 'name';
 const DESCRIPTION_PROPERTY = 'description';
+const AUTO_RUN_PROPERTY = 'autoRun';
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
@@ -259,7 +262,9 @@ const Simulation = class {
 		this._seed = this._config[SEED_PROPERTY] || '' + Date.now();
 		this._runs = [];
 		for (let i = 0; i < config[RUNS_PROPERTY]; i++) {
-			this._runs.push(new SimulationRun(this, i));
+			const run = new SimulationRun(this, i);
+			if (config[AUTO_RUN_PROPERTY]) run.run();
+			this._runs.push(run);
 		}
 	}
 

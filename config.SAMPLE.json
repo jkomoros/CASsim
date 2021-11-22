@@ -11,6 +11,7 @@
 			"disabled": "#CCCCCC",
 			"background": "transparent"
 		},
+		"autoRun": true,
 		"sim": "schelling-org",
 		"simOptions": {
 			"communication": 15,
