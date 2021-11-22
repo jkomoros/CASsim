@@ -56,6 +56,7 @@ class SimulationControls extends connect(store)(LitElement) {
 					width: 1em;
 					border-radius: 1em;
 					background-color: gray;
+					cursor: pointer;
 				}
 
 				.status.failure {
@@ -88,7 +89,7 @@ class SimulationControls extends connect(store)(LitElement) {
 					<input id='frameIndex' .value=${this._frameIndex} type='number' min='0' max=${this._maxFrameIndex} @change=${this._handleFrameIndexChanged}>
 				</div>
 				<div class='statuses'>
-					${this._runStatuses.map(status => html`<div class='status ${status < 0 ? 'indeterminate' : (status == 1.0 ? 'success' : 'failure')}'></div>`)}
+					${this._runStatuses.map((status, index) => html`<div class='status ${status < 0 ? 'indeterminate' : (status == 1.0 ? 'success' : 'failure')}' @click=${this._handleStatusClicked} .index=${index}></div>`)}
 				</div>
 			</div>
 		`;
@@ -110,6 +111,11 @@ class SimulationControls extends connect(store)(LitElement) {
 		const simulation = selectCurrentSimulation(state);
 		this._runStatuses = simulation ? simulation.runs.map(run => run.finalStatus) : [];
 		
+	}
+
+	_handleStatusClicked(e) {
+		const ele = e.composedPath()[0];
+		store.dispatch(updateRunIndex(ele.index));
 	}
 
 	_handleSimulationIndexChanged(e) {
