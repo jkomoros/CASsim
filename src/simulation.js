@@ -45,7 +45,7 @@ const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 	optionsValidator(simOptions) => array of problem strings, or [] if OK
 
-	frameScorer(frame, simOptions) => an array of numbers between 0.0 and 1.0
+	frameScorer(frame, simOptions) => an array of numbers between 0.0 and 1.0 or below 0 to signal indeterminate
 
 	successScorer(frameScore, simOptions) => 0.0 if failure, 1.0 if full success, negative numbers to say indeterminate
 

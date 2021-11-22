@@ -309,12 +309,19 @@ const SchellingOrgSimulator = class {
 		return problems;
 	}
 
-	static frameScorer() {
-		return [1.0];
+	static frameScorer(frame, simOptions) {
+		const communicationRounds = simOptions[COMMUNICATION_PROPERTY_NAME] || 0;
+		//If we aren't done yet signal indeterminate.
+		if (frame.index < communicationRounds) return [-1];
+		for (const project of frame[PROJECTS_PROPERTY_NAME]) {
+			//If we find a single selected project then we succeeded.
+			if (project.selected) return [1.0];
+		}
+		return [0.0];
 	}
 
-	static successScorer() {
-		return -1.0;
+	static successScorer(frameScore) {
+		return frameScore[0];
 	}
 
 	static frameValidator(frame) {
