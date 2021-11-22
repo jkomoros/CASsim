@@ -22,7 +22,7 @@ export const selectSimulationsMap = createSelector(
 	(collection) => collection.simulationsMap
 );
 
-const selectCurrentSimulation = createSelector(
+export const selectCurrentSimulation = createSelector(
 	selectSimulationCollection,
 	selectSimulationIndex,
 	(collection, simulationIndex) => collection.simulation(simulationIndex)

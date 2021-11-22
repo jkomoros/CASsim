@@ -10,7 +10,8 @@ import {
 	selectSimulationIndex,
 	selectSimulationsMap,
 	selectCurrentSimulationMaxRunIndex,
-	selectCurrentSimulationRun
+	selectCurrentSimulationRun,
+	selectCurrentSimulation,
 } from "../selectors.js";
 
 import {
@@ -31,6 +32,7 @@ class SimulationControls extends connect(store)(LitElement) {
 			_maxFrameIndex: { type: Number },
 			_frameIndex: { type: Number },
 			_runIndex: {type: Number},
+			_runStatuses: { type:Array },
 		};
 	}
 
@@ -43,7 +45,26 @@ class SimulationControls extends connect(store)(LitElement) {
 					top: 0;
 					left: 0;
 				}
+
+				.statuses {
+					display: flex;
+					flex-direction: row;
+				}
 			
+				.status {
+					height: 1em;
+					width: 1em;
+					border-radius: 1em;
+					background-color: gray;
+				}
+
+				.status.failure {
+					background-color: brick;
+				}
+
+				.status.success {
+					background-color: darkgreen;
+				}
 			`
 		];
 	}
@@ -66,6 +87,9 @@ class SimulationControls extends connect(store)(LitElement) {
 					<label for='frameIndex'>Frame</label>
 					<input id='frameIndex' .value=${this._frameIndex} type='number' min='0' max=${this._maxFrameIndex} @change=${this._handleFrameIndexChanged}>
 				</div>
+				<div class='statuses'>
+					${this._runStatuses.map(status => html`<div class='status ${status < 0 ? 'indeterminate' : (status == 1.0 ? 'success' : 'failure')}'></div>`)}
+				</div>
 			</div>
 		`;
 	}
@@ -75,12 +99,17 @@ class SimulationControls extends connect(store)(LitElement) {
 		this._simulationsMap = selectSimulationsMap(state);
 		this._simulationIndex = selectSimulationIndex(state);
 		this._simulationMaxRunIndex = selectCurrentSimulationMaxRunIndex(state);
-		//We can't just have a selector for this, because the value will change
+		this._frameIndex = selectFrameIndex(state);
+		this._runIndex = selectRunIndex(state);
+
+		//We can't just have a selector for these, because the value will change
 		//even when the inputs don't, so the selector would give an old value.
 		const run = selectCurrentSimulationRun(state);
 		this._maxFrameIndex = run ? run.maxFrameIndex : Number.MAX_SAFE_INTEGER;
-		this._frameIndex = selectFrameIndex(state);
-		this._runIndex = selectRunIndex(state);
+
+		const simulation = selectCurrentSimulation(state);
+		this._runStatuses = simulation ? simulation.runs.map(run => run.finalStatus) : [];
+		
 	}
 
 	_handleSimulationIndexChanged(e) {
