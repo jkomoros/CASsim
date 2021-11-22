@@ -59,6 +59,10 @@ class SimulationControls extends connect(store)(LitElement) {
 					cursor: pointer;
 				}
 
+				.status.selected {
+					border: 1px solid black;
+				}
+
 				.status.failure {
 					background-color: darkred;
 				}
@@ -89,7 +93,7 @@ class SimulationControls extends connect(store)(LitElement) {
 					<input id='frameIndex' .value=${this._frameIndex} type='number' min='0' max=${this._maxFrameIndex} @change=${this._handleFrameIndexChanged}>
 				</div>
 				<div class='statuses'>
-					${this._runStatuses.map((status, index) => html`<div class='status ${status < 0 ? 'indeterminate' : (status == 1.0 ? 'success' : 'failure')}' @click=${this._handleStatusClicked} .index=${index}></div>`)}
+					${this._runStatuses.map((status, index) => html`<div class='status ${this._runIndex == index ? 'selected' : ''} ${status < 0 ? 'indeterminate' : (status == 1.0 ? 'success' : 'failure')}' @click=${this._handleStatusClicked} .index=${index}></div>`)}
 				</div>
 			</div>
 		`;
