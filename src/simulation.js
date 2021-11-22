@@ -257,7 +257,10 @@ const Simulation = class {
 		this._config = config;
 		this._altName = altName;
 		this._seed = this._config[SEED_PROPERTY] || '' + Date.now();
-		this._runs = new Array(config[RUNS_PROPERTY]);
+		this._runs = [];
+		for (let i = 0; i < config[RUNS_PROPERTY]; i++) {
+			this._runs.push(new SimulationRun(this, i));
+		}
 	}
 
 	get simulator() {
@@ -296,11 +299,7 @@ const Simulation = class {
 		return this._runs.length - 1;
 	}
 
-	run(index) {
-		if (index < 0 || index >= this._runs.length) return null;
-		if (!this._runs[index]) {
-			this._runs[index] = new SimulationRun(this, index);
-		}
-		return this._runs[index];
+	get runs() {
+		return this._runs;
 	}
 };

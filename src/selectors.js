@@ -48,7 +48,7 @@ export const selectCurrentSimulationRun = createSelector(
 	selectRunIndex,
 	(sim, runIndex) => {
 		if (!sim) return null;
-		const run = sim.run(runIndex);
+		const run = sim.runs[runIndex];
 		if (!run) return null;
 		return run;
 	}
