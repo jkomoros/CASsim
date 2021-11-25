@@ -44,7 +44,7 @@ export const shuffleArrayInPlace = (array, rnd) => {
 	}
 };
 
-//path is a dotted list of accessors in the object, returns a modified object
+//path is a dotted list of accessors in the object, returns a new object with the modifications
 export const setPropertyInObject = (obj, path, value) => {
 	if (path == '') return value;
 	const pathParts = path.split('.');
