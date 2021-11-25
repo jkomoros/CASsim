@@ -7,8 +7,8 @@ import { store } from "../store.js";
 
 import {
 	loadData,
-	nextIndex,
-	prevIndex,
+	nextFrameIndex,
+	prevFrameIndex,
 	updateWithSimPageExtra
 } from "../actions/data.js";
 
@@ -45,7 +45,7 @@ window[RENDER_COMPLETE_VARIABLE] = false;
 window[PREVIOUS_MAP_VARIABLE] = () => {
 	//The sim-view will set this high when update is done
 	window[RENDER_COMPLETE_VARIABLE] = false;
-	store.dispatch(prevIndex());
+	store.dispatch(prevFrameIndex());
 };
 
 
@@ -127,9 +127,9 @@ class SimView extends connect(store)(PageViewElement) {
 		if (!this.active) return;
 
 		if (e.key == 'ArrowRight') {
-			store.dispatch(nextIndex());
+			store.dispatch(nextFrameIndex());
 		} else if (e.key == 'ArrowLeft') {
-			store.dispatch(prevIndex());
+			store.dispatch(prevFrameIndex());
 		}
 
 	}

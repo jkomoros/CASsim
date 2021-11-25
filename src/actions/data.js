@@ -38,13 +38,13 @@ export const updateWithSimPageExtra = (pageExtra) => (dispatch) => {
 	dispatch(updateFrameIndex(frameIndex), true);
 };
 
-export const nextIndex = () => (dispatch, getState) => {
+export const nextFrameIndex = () => (dispatch, getState) => {
 	let currentIndex = selectFrameIndex(getState());
 	currentIndex++;
 	dispatch(updateFrameIndex(currentIndex));
 };
 
-export const prevIndex = () => (dispatch, getState) => {
+export const prevFrameIndex = () => (dispatch, getState) => {
 	let currentIndex = selectFrameIndex(getState());
 	currentIndex--;
 	if (currentIndex < 0) return;
