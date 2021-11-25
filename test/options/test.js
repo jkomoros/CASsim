@@ -819,6 +819,112 @@ describe('maySetPropertyInConfigObject', () => {
 		}
 	});
 
+	it('handles basic single-level object set with array that has an illegal value', async () => {
+		//this is not a valid config on its own, but it is a valid sub-leaf
+		const config = {
+			example: [
+				{
+					example: 3,
+				}
+			],
+		};
+		const path = '';
+		const value = ['a',3,4];
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 1;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
+
+	it('handles basic single-level object set with subobject', async () => {
+		//this is not a valid config on its own, but it is a valid sub-leaf
+		const config = {
+			example: {
+				foo: {
+					example: {
+						bar: {
+							example: 2,
+						}
+					}
+				}
+			}
+		};
+		const path = '';
+		const value = {
+			foo: {
+				bar: 3,
+			}
+		};
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 0;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
+
+	it('handles basic single-level object set with subobject that is invalid', async () => {
+		//this is not a valid config on its own, but it is a valid sub-leaf
+		const config = {
+			example: {
+				foo: {
+					example: {
+						bar: {
+							example: 2,
+						}
+					}
+				}
+			}
+		};
+		const path = '';
+		const value = {
+			foo: {}
+		};
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 1;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
+
+	it('handles basic single-level object set with subobject that is invalid', async () => {
+		//this is not a valid config on its own, but it is a valid sub-leaf
+		const config = {
+			example: {
+				foo: {
+					example: {
+						bar: {
+							example: 2,
+						}
+					}
+				}
+			}
+		};
+		const path = '';
+		const value = {
+			foo: {
+				bar: 'not-a-number'
+			}
+		};
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 1;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
+
 	it('handles basic single-level object that goes against step', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
 		const config = {
