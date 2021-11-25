@@ -23,6 +23,8 @@ import {
 // These are the shared styles needed by this element.
 import { SharedStyles } from "./shared-styles.js";
 
+import './run-summary.js';
+
 class SimulationControls extends connect(store)(LitElement) {
 	static get properties() {
 		return {
@@ -44,31 +46,6 @@ class SimulationControls extends connect(store)(LitElement) {
 					position:absolute;
 					top: 0;
 					left: 0;
-				}
-
-				.statuses {
-					display: flex;
-					flex-direction: row;
-				}
-			
-				.status {
-					height: 1em;
-					width: 1em;
-					border-radius: 1em;
-					background-color: gray;
-					cursor: pointer;
-				}
-
-				.status.selected {
-					border: 1px solid black;
-				}
-
-				.status.failure {
-					background-color: darkred;
-				}
-
-				.status.success {
-					background-color: darkgreen;
 				}
 			`
 		];
@@ -92,8 +69,8 @@ class SimulationControls extends connect(store)(LitElement) {
 					<label for='frameIndex'>Frame</label>
 					<input id='frameIndex' .value=${this._frameIndex} type='number' min='0' max=${this._maxFrameIndex} @change=${this._handleFrameIndexChanged}>
 				</div>
-				<div class='statuses'>
-					${this._runStatuses.map((status, index) => html`<div class='status ${this._runIndex == index ? 'selected' : ''} ${status < 0 ? 'indeterminate' : (status == 1.0 ? 'success' : 'failure')}' @click=${this._handleStatusClicked} .index=${index}></div>`)}
+				<div>
+					<run-summary .statuses=${this._runStatuses} .selectedIndex=${this._runIndex} @run-clicked=${this._handleStatusClicked}></run-summary>
 				</div>
 			</div>
 		`;
@@ -118,8 +95,7 @@ class SimulationControls extends connect(store)(LitElement) {
 	}
 
 	_handleStatusClicked(e) {
-		const ele = e.composedPath()[0];
-		store.dispatch(updateRunIndex(ele.index));
+		store.dispatch(updateRunIndex(e.detail.index));
 	}
 
 	_handleSimulationIndexChanged(e) {
