@@ -214,8 +214,10 @@ export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
 	}
 	//Base case. optionsConfig should be an optionLeaf.
 	if (typeof optionsConfig[EXAMPLE_PROPERTY_NAME] != typeof value) return ['Example was of type ' + typeof optionsConfig[EXAMPLE_PROPERTY_NAME] + ' but value was of type ' + typeof value];
+	if (optionsConfig[OPTIONS_PROPERTY_NAME]) {
+		if (!optionsConfig[OPTIONS_PROPERTY_NAME].some(item => item.value == value)) return [OPTIONS_PROPERTY_NAME + ' was set but the value ' + value + ' was not one of the allowed options'];
+	}
 	//TODO: if it's a number validate between min and max and multiple of step
-	//If options are set, verify that it's one of the options
 	//TODO: if an object, validate the sub sets on all objects
 	//TODO: nullable
 	return [];

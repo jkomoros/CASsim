@@ -588,6 +588,56 @@ describe('maySetPropertyInConfigObject', () => {
 		}
 	});
 
+	it('handles basic single-level object in an allowed option', async () => {
+		//this is not a valid config on its own, but it is a valid sub-leaf
+		const config = {
+			example: 3,
+			options: [
+				{
+					value: 1,
+				},
+				{
+					value: 2,
+				}
+			]	
+		};
+		const path = '';
+		const value = 2;
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 0;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
+
+	it('handles basic single-level object in a not-allowed option', async () => {
+		//this is not a valid config on its own, but it is a valid sub-leaf
+		const config = {
+			example: 3,
+			options: [
+				{
+					value: 1,
+				},
+				{
+					value: 2,
+				}
+			]	
+		};
+		const path = '';
+		const value = 4;
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 1;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
+
 	/* 	
 	it('handles basic single-level object', async () => {
 		const config = {
