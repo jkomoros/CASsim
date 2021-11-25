@@ -15,8 +15,12 @@ const INITIAL_STATE = {
 const data = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 	case LOAD_DATA:
+		//Make it so we swap simulationIndex to name once we know it.
+		//TODO: it feels a bit weird to do this here...
+		const newSimulationIndex = typeof state.simulationIndex == 'number' && action.data && action.data.length > state.simulationIndex && action.data[state.simulationIndex].name ? action.data[state.simulationIndex].name : state.simulationIndex;
 		return {
 			...state,
+			simulationIndex: newSimulationIndex,
 			data: action.data,
 		};
 	case UPDATE_SIMULATION_INDEX:
