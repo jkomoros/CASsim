@@ -225,7 +225,7 @@ export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
 
 		//array
 		if (Array.isArray(example)) {
-			const problems = maySetPropertyInConfigObject(optionsConfig[0], restPath, value);
+			const problems = maySetPropertyInConfigObject(example[0], restPath, value);
 			if (problems.length) {
 				return [firstPart + ' property returned error: ' + problems.join(', ')];
 			}
