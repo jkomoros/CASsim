@@ -43,3 +43,9 @@ export const shuffleArrayInPlace = (array, rnd) => {
 		[array[i], array[j]] = [array[j], array[i]];
 	}
 };
+
+//path is a dotted list of accessors in the object
+export const setPropertyInObject = (obj, path, value) => {
+	if (!obj) return undefined;
+	return obj;
+};

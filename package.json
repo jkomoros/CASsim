@@ -12,8 +12,8 @@
     "build:static": "polymer build",
     "serve": "prpl-server --root server/build",
     "serve:static": "polymer serve --port 5000 build/es5-bundled",
-    "test": "npm run test:data",
-    "test:data": "mocha -r esm test/data --timeout=10000",
+    "test": "npm run test:options",
+    "test:options": "mocha -r esm test/options --timeout=10000",
     "generate": "node screenshot.js",
     "generate:screenshot": "node screenshot.js screenshot",
     "generate:gif": "node screenshot.js gif"
