@@ -9,6 +9,10 @@ const OPTIONS_PROPERTY_NAME = 'options';
 const VALUE_PROPERTY_NAME = 'value';
 const DISPLAY_PROPERTY_NAME = 'display';
 
+import {
+	setPropertyInObject
+} from './util.js';
+
 /*
 
 optionsConfig shape:
@@ -203,41 +207,40 @@ const optionsLeafValidator = (config) => {
 	return [];
 };
 
-//Returns [] if OK, or a list of problems if not
-export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
+//TODO: export and test this
+const configObjectIsValid = (optionsConfig, value) => {
 	if (!optionsConfig) return ['no optionsConfig provided'];
-	const pathParts = path.split('.');
-	const firstPart = pathParts[0];
-	const restPath = pathParts.slice(1).join('.');
 	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
-	if (firstPart != '') {
-		if (typeof optionsConfig !== 'object') return [firstPart + ' still remained in path but no object'];
-		//recurse into sub-objects or array
-		if (!example) {
-			//Basic value recursion
-			const problems = maySetPropertyInConfigObject(optionsConfig[firstPart], restPath, value);
-			if (problems.length) {
-				return [firstPart + ' property returned error: ' + problems.join(', ')];
+	if (typeof value == 'object') {
+		for (const [valueKey, valueValue] of Object.entries(value)) {
+			if (typeof optionsConfig !== 'object') return [valueKey + ' still remained in path but no object'];
+			//recurse into sub-objects or array
+			if (!example) {
+				//Basic value recursion
+				const problems = maySetPropertyInConfigObject(optionsConfig[valueKey], valueValue);
+				if (problems.length) {
+					return [valueKey + ' property returned error: ' + problems.join(', ')];
+				}
+				return [];
 			}
-			return [];
-		}
-		//examples recursion
+			//examples recursion
 
-		//array
-		if (Array.isArray(example)) {
-			const problems = maySetPropertyInConfigObject(example[0], restPath, value);
-			if (problems.length) {
-				return [firstPart + ' property returned error: ' + problems.join(', ')];
+			//array
+			if (Array.isArray(example)) {
+				const problems = maySetPropertyInConfigObject(example[0], valueValue);
+				if (problems.length) {
+					return [valueKey + ' property returned error: ' + problems.join(', ')];
+				}
+				return [];
 			}
-			return [];
-		}
-		//object
-		const problems = maySetPropertyInConfigObject(example[firstPart], restPath, value);
-		if (problems.length) {
-			return [firstPart + ' property within example returned error: ' + problems.join(', ')];
+			//object
+			const problems = maySetPropertyInConfigObject(example[valueKey], valueValue);
+			if (problems.length) {
+				return [valueKey + ' property within example returned error: ' + problems.join(', ')];
+			}
+			
 		}
 		return [];
-		
 	}
 	if (example == undefined) return ['No example provided'];
 	if (value == null && !optionsConfig[NULLABLE_PROPERTY_NAME]) return ['value was null but ' + NULLABLE_PROPERTY_NAME + ' was not set'];
@@ -275,4 +278,10 @@ export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
 	//TODO: make sure that DELETE_SENTINEL works fine
 	//TODO: test very hard objects like the individuals array from schelling-org
 	return [];
+};
+
+//Returns [] if OK, or a list of problems if not
+export const maySetPropertyInConfigObject = (optionsConfig, obj, path, value) => {
+	const updatedObj = setPropertyInObject(obj, path, value);
+	return configObjectIsValid(optionsConfig, updatedObj);
 };
