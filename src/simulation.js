@@ -70,10 +70,64 @@ const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 	frameValidator(frame, normalizedSimOptions) => array of strings defining
 	problems, or [] if OK
 
+	optionsConfig() optionsConfig - Describes the options, their legal values,
+	and what they mean. See optionsConfig shape, below.
+
 */
 const SIMULATORS = {
 	[SCHELLING_ORG_SIMULATION_NAME]: SchellingOrgSimulator,
 };
+
+/*
+
+optionsConfig shape:
+{
+    "communication": {
+        //An example of the type. Can be e.g.:
+        // - a number
+        // - a string
+        // - a boolean
+        // - an array of at least one number, boolean, or string
+        "example": 0.0,
+        //Can be omitted if default and example are the same.
+        "default": 0.0,
+		//Min is used for numbers. 0.0 is default and only needs to be included if overriden
+		"min": 0.0,
+		//Step is used for numbers. 1.0 is default and only needs to be included if overriden
+		"step": 1.0,
+        "description": "How many rounds of communication are allowed before picking. 0 means no communication"
+    },
+    "display": {
+        //@parent is properties for the parent object, for when it's a sub object. This is the way to signal that 
+		//the parent is not a leaf node but a parent.
+        "@parent": {
+            "description": "Options to control rendering"
+        },
+        "debug": {
+            "example": false,
+            "description": "Whether or not to render debug hints in drawing",
+            //If advanced is true, a control will only be rendered if the user toggles an advanced toggle
+            "advanced": true,
+        },
+        "individualBeliefs": {
+            "example": false,
+            "description": "Whether to render dots on each error bar for each individuals' beliefs"
+        }
+    },
+    "projects": {
+        "@parent": {
+            "description": "Information about each project"
+        },
+		"count": {
+			"example": 0.0,
+			"min": 1.0,
+			"default": 5.0,
+			"description": "How many projects there should be",
+		}
+    }
+}
+
+*/
 
 //Returns an array of strings describing problems, or [] if everything is OK.
 const simulatorConfigValid = (config) => {
