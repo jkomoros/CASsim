@@ -267,7 +267,6 @@ const Simulation = class {
 		this._simulator = SIMULATORS[config.sim];
 		const configCopy = deepCopy(config);
 		const rawSimOptions = configCopy[SIM_OPTIONS_PROPERTY];
-		deepFreeze(rawSimOptions);
 		configCopy[SIM_OPTIONS_PROPERTY] = this._simulator.normalizeOptions(rawSimOptions);
 		deepFreeze(configCopy);
 		this._config = configCopy;
