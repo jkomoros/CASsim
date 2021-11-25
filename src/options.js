@@ -202,3 +202,21 @@ const optionsLeafValidator = (config) => {
 
 	return [];
 };
+
+//Returns [] if OK, or a list of problems if not
+export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
+	if (!optionsConfig) return ['no optionsConfig provided'];
+	const pathParts = path.split('.');
+	const firstPart = pathParts[0];
+	if (firstPart != '') {
+		//recurse into sub-objects or array
+		throw new Error('Not yet implemented');
+	}
+	//Base case. optionsConfig should be an optionLeaf.
+	if (typeof optionsConfig[EXAMPLE_PROPERTY_NAME] != typeof value) return ['Example was of type ' + typeof optionsConfig[EXAMPLE_PROPERTY_NAME] + ' but value was of type ' + typeof value];
+	//TODO: if it's a number validate between min and max and multiple of step
+	//If options are set, verify that it's one of the options
+	//TODO: if an object, validate the sub sets on all objects
+	//TODO: nullable
+	return [];
+};

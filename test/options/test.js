@@ -7,6 +7,7 @@ import {
 } from '../../src/util.js';
 
 import {
+	maySetPropertyInConfigObject,
 	optionsConfigValidator
 } from '../../src/options.js';
 
@@ -549,5 +550,49 @@ describe('optionsConfigValidator', () => {
 		const expectedProblemLength = 0;
 		assert.strictEqual(result.length, expectedProblemLength);
 	});
+
+});
+
+describe('maySetPropertyInConfigObject', () => {
+	it('handles basic single-level object', async () => {
+		//this is not a valid config on its own, but it is a valid sub-leaf
+		const config = {
+			example: 3,
+		};
+		const path = '';
+		const value = 4;
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 0;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
+
+	/*
+
+	it('handles basic single-level object', async () => {
+		const config = {
+			foo: {
+				example: 3,
+			}
+		};
+		const validatorResult = optionsConfigValidator(config);
+		try {
+			assert.strictEqual(validatorResult.length, 0);
+		} catch(err) {
+			console.warn('Basic config not valid', validatorResult);
+			throw err;
+		}
+		const path = '';
+		const value = 4;
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 1;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
+	*/
 
 });
