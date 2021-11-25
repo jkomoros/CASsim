@@ -710,6 +710,94 @@ describe('maySetPropertyInConfigObject', () => {
 		}
 	});
 
+	it('handles basic single-level object set with array that is disallowed by max', async () => {
+		//this is not a valid config on its own, but it is a valid sub-leaf
+		const config = {
+			example: [
+				{
+					example: 3,
+				}
+			],
+			max: 2,
+		};
+		const path = '';
+		const value = [2,3,4];
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 1;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
+
+	it('handles basic single-level object set with array that is allowed by max', async () => {
+		//this is not a valid config on its own, but it is a valid sub-leaf
+		const config = {
+			example: [
+				{
+					example: 3,
+				}
+			],
+			max: 4,
+		};
+		const path = '';
+		const value = [2,3,4];
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 0;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
+
+	it('handles basic single-level object set with array that is disallowed by min', async () => {
+		//this is not a valid config on its own, but it is a valid sub-leaf
+		const config = {
+			example: [
+				{
+					example: 3,
+				}
+			],
+			min: 2,
+		};
+		const path = '';
+		const value = [2];
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 1;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
+
+	it('handles basic single-level object set with array that is allowed by min', async () => {
+		//this is not a valid config on its own, but it is a valid sub-leaf
+		const config = {
+			example: [
+				{
+					example: 3,
+				}
+			],
+			min: 2,
+		};
+		const path = '';
+		const value = [2,3,4];
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 0;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
+
 	it('handles basic single-level object that goes against step', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
 		const config = {
