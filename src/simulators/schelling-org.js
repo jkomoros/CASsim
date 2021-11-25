@@ -96,15 +96,15 @@ const SchellingOrgSimulator = class {
 	static _firstFrameGenerator(simOptions, rnd) {
 		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
 		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
-		const projectExtraValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_EXTRA_VALUE_PROPERTY_NAME] || 0.0;
-		const projectErrorValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_ERROR_VALUE_PROPERTY_NAME] || 0.0;
-		const communicationValue = simOptions[COMMUNICATION_PROPERTY_NAME] || 0.0;
-		const displayValue = simOptions[DISPLAY_PROPERTY_NAME] || {};
-		const collaboratorEpsilonValue = simOptions[COLLABORATORS_PROPERTY_NAME][EPSILON_PROPERTY_NAME] || 0.0;
-		const individualProjectOverrides = simOptions[PROJECTS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME] || [];
-		const individualCollaboratorOverrides = simOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME] || [];
-		const avgConnectionLikelihood = simOptions[COLLABORATORS_PROPERTY_NAME][AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME] || 0.5;
-		const connectionLikelihoodSpread = simOptions[COLLABORATORS_PROPERTY_NAME][CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] || 0.5;
+		const projectExtraValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_EXTRA_VALUE_PROPERTY_NAME];
+		const projectErrorValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_ERROR_VALUE_PROPERTY_NAME];
+		const communicationValue = simOptions[COMMUNICATION_PROPERTY_NAME];
+		const displayValue = simOptions[DISPLAY_PROPERTY_NAME];
+		const collaboratorEpsilonValue = simOptions[COLLABORATORS_PROPERTY_NAME][EPSILON_PROPERTY_NAME];
+		const individualProjectOverrides = simOptions[PROJECTS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
+		const individualCollaboratorOverrides = simOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
+		const avgConnectionLikelihood = simOptions[COLLABORATORS_PROPERTY_NAME][AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME];
+		const connectionLikelihoodSpread = simOptions[COLLABORATORS_PROPERTY_NAME][CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME];
 		//Assign basic values to projects.
 		let projects = [];
 		for (let i = 0; i < projectsCount; i++) {
@@ -270,7 +270,7 @@ const SchellingOrgSimulator = class {
 	}
 
 	static generator(previousFrames, simOptions, rnd) {
-		const communicationRounds = simOptions[COMMUNICATION_PROPERTY_NAME] || 0.0;
+		const communicationRounds = simOptions[COMMUNICATION_PROPERTY_NAME];
 		if (previousFrames.length > communicationRounds) return null;
 		let frame = previousFrames.length ? previousFrames[previousFrames.length - 1] : SchellingOrgSimulator._firstFrameGenerator(simOptions, rnd);
 		frame = {...frame, index: previousFrames.length};
@@ -294,6 +294,25 @@ const SchellingOrgSimulator = class {
 	}
 
 	static normalizeOptions(rawSimOptions) {
+		rawSimOptions[COMMUNICATION_PROPERTY_NAME] = rawSimOptions[COMMUNICATION_PROPERTY_NAME] || 0.0;
+		if (!rawSimOptions[COLLABORATORS_PROPERTY_NAME]) {
+			rawSimOptions[COLLABORATORS_PROPERTY_NAME] = {
+				count: 0,
+			};
+		}
+		if (!rawSimOptions[PROJECTS_PROPERTY_NAME]) {
+			rawSimOptions[PROJECTS_PROPERTY_NAME] = {
+				count: 0,
+			};
+		}
+		if (!rawSimOptions[PROJECTS_PROPERTY_NAME][MAX_EXTRA_VALUE_PROPERTY_NAME]) rawSimOptions[PROJECTS_PROPERTY_NAME][MAX_EXTRA_VALUE_PROPERTY_NAME] = 0.0;
+		if (!rawSimOptions[PROJECTS_PROPERTY_NAME][MAX_ERROR_VALUE_PROPERTY_NAME]) rawSimOptions[PROJECTS_PROPERTY_NAME][MAX_ERROR_VALUE_PROPERTY_NAME] = 0.0;
+		if (!rawSimOptions[DISPLAY_PROPERTY_NAME]) rawSimOptions[DISPLAY_PROPERTY_NAME] = {};
+		if (!rawSimOptions[COLLABORATORS_PROPERTY_NAME][EPSILON_PROPERTY_NAME]) rawSimOptions[COLLABORATORS_PROPERTY_NAME][EPSILON_PROPERTY_NAME] = 0.0;
+		if (!rawSimOptions[PROJECTS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME]) rawSimOptions[PROJECTS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME] = [];
+		if (!rawSimOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME]) rawSimOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME] = [];
+		if (!rawSimOptions[COLLABORATORS_PROPERTY_NAME][AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]) rawSimOptions[COLLABORATORS_PROPERTY_NAME][AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME] = 0.5;
+		if (!rawSimOptions[COLLABORATORS_PROPERTY_NAME][CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]) rawSimOptions[COLLABORATORS_PROPERTY_NAME][CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] = 0.5;
 		return rawSimOptions;
 	}
 
@@ -314,7 +333,7 @@ const SchellingOrgSimulator = class {
 	}
 
 	static frameScorer(frame, simOptions) {
-		const communicationRounds = simOptions[COMMUNICATION_PROPERTY_NAME] || 0;
+		const communicationRounds = simOptions[COMMUNICATION_PROPERTY_NAME];
 		//If we aren't done yet signal indeterminate.
 		if (frame.index < communicationRounds) return [-1];
 		for (const project of frame[PROJECTS_PROPERTY_NAME]) {
