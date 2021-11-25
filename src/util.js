@@ -47,12 +47,14 @@ export const shuffleArrayInPlace = (array, rnd) => {
 //path is a dotted list of accessors in the object, returns a modified object
 export const setPropertyInObject = (obj, path, value) => {
 	if (path == '') return value;
-	if (obj === undefined || obj === null) {
-		if (path == '') return undefined; 
-		obj = {};
-	}
 	const pathParts = path.split('.');
 	let firstPart = pathParts[0];
+	if (obj === undefined || obj === null) {
+		if (path == '') return undefined;
+		//Create an array or an object based on if they key is a number
+		obj = isNaN(parseInt(firstPart)) ? {} : [];
+	}
+
 	const restParts = pathParts.slice(1);
 	const innerResult = setPropertyInObject(obj[firstPart], restParts.join('.'), value);
 	if (Array.isArray(obj)){

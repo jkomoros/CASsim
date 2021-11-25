@@ -113,5 +113,20 @@ describe('setPropertyInObject', () => {
 		assert.deepEqual(result, golden);
 	});
 
+	it('can create an implied array in a double-nested object', async () => {
+		const obj = {
+			b: 2,
+		};
+		deepFreeze(obj);
+		const path = 'a.0';
+		const value = 3;
+		const result = setPropertyInObject(obj, path, value);
+		const golden = {
+			a: [3],
+			b: 2,
+		};
+		assert.deepEqual(result, golden);
+	});
+
 
 });
