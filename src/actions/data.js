@@ -8,6 +8,7 @@ import {
 } from './app.js';
 
 import {
+	selectSimulationIndex,
 	selectFrameIndex,
 	selectRunIndex,
 	selectCurrentSimulationMaxRunIndex,
@@ -19,6 +20,20 @@ export const loadData = (data) => {
 		type: LOAD_DATA,
 		data,
 	};
+};
+
+export const updateWithSimPageExtra = (pageExtra) => (dispatch) => {
+	const parts = pageExtra.split('/');
+	//The last piece is the trailing slash
+	//TODO: handle malformed URLs better
+	if (parts.length != 4) return; 
+	const simulationIndex = parts[0];
+	const runIndex = parseInt(parts[1]);
+	const frameIndex = parseInt(parts[2]);
+	//Each of these will return if a no op
+	dispatch(updateSimulationIndex(simulationIndex), true);
+	dispatch(updateRunIndex(runIndex), true);
+	dispatch(updateFrameIndex(frameIndex), true);
 };
 
 export const nextIndex = () => (dispatch, getState) => {
@@ -34,15 +49,17 @@ export const prevIndex = () => (dispatch, getState) => {
 	dispatch(updateFrameIndex(currentIndex));
 };
 
-export const updateSimulationIndex = (index) => (dispatch) => {
+export const updateSimulationIndex = (index, skipCanonicalize) => (dispatch, getState) => {
+	const currentIndex = selectSimulationIndex(getState());
+	if (currentIndex == index) return;
 	dispatch({
 		type: UPDATE_SIMULATION_INDEX,
 		index,
 	});
-	dispatch(canonicalizePath());
+	if (!skipCanonicalize) dispatch(canonicalizePath());
 };
 
-export const updateFrameIndex = (index) => (dispatch, getState) => {
+export const updateFrameIndex = (index, skipCanonicalize) => (dispatch, getState) => {
 	if (typeof index == 'string') index = parseInt(index);
 	const state = getState();
 	const run = selectCurrentSimulationRun(state);
@@ -57,10 +74,10 @@ export const updateFrameIndex = (index) => (dispatch, getState) => {
 		type: UPDATE_FRAME_INDEX,
 		index,
 	});
-	dispatch(canonicalizePath());
+	if (!skipCanonicalize) dispatch(canonicalizePath());
 };
 
-export const updateRunIndex = (index) => (dispatch, getState) => {
+export const updateRunIndex = (index, skipCanonicalize) => (dispatch, getState) => {
 	if (typeof index == 'string') index = parseInt(index);
 	const state = getState();
 	if (index < 0) {
@@ -75,5 +92,5 @@ export const updateRunIndex = (index) => (dispatch, getState) => {
 		type: UPDATE_RUN_INDEX,
 		index,
 	});
-	dispatch(canonicalizePath());
+	if (!skipCanonicalize) dispatch(canonicalizePath());
 };
