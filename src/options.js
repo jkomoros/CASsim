@@ -264,7 +264,8 @@ export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
 			}
 		} else {
 			for (const [key, exampleValue] of Object.entries(example)) {
-				const problems = maySetPropertyInConfigObject(exampleValue, '', value[key]);
+				//Value mihgt be null and that might be OK
+				const problems = maySetPropertyInConfigObject(exampleValue, '', value ? value[key] : value);
 				if (problems.length) {
 					return ['Sub object ' + key + ' failed validation: ' + problems.join(', ')];
 				}
@@ -274,5 +275,6 @@ export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
 	//TODO: make sure sub-sets of objects missing sub-objects that are not nullable fails.
 	//TODO: deleting
 	//TODO: test very hard objects like the individuals array
+	//TODO: enable the commented out test
 	return [];
 };

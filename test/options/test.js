@@ -883,6 +883,95 @@ describe('maySetPropertyInConfigObject', () => {
 		}
 	});
 
+	/*
+	//TODO: enable this test
+	it('handles basic single-level object set with subobject that has a null value that is allowed', async () => {
+		//this is not a valid config on its own, but it is a valid sub-leaf
+		const config = {
+			example: {
+				foo: {
+					example: {
+						bar: {
+							example: 3,
+						}
+					},
+					nullable: true,
+				}
+			},
+		};
+		const path = '';
+		const value = {
+			foo: null,
+		};
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 0;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
+
+
+	//TODO: enable this test 
+	it('handles basic single-level object set with subobject that has a missing property value that is allowed to be nullable', async () => {
+		//this is not a valid config on its own, but it is a valid sub-leaf
+		const config = {
+			example: {
+				foo: {
+					example: {
+						bar: {
+							example: 3,
+						}
+					},
+					nullable: true,
+				}
+			},
+		};
+		const path = '';
+		const value = {
+			foo: null,
+		};
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 0;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
+	*/
+
+	it('handles basic single-level object set with subobject that has a null value that is not allowed', async () => {
+		//this is not a valid config on its own, but it is a valid sub-leaf
+		const config = {
+			example: {
+				foo: {
+					example: {
+						bar: {
+							example: 3,
+						}
+					},
+					nullable: false,
+				}
+			},
+		};
+		const path = '';
+		const value = {
+			foo: null,
+		};
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 1;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
+
 	it('handles basic single-level object set with subobject', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
 		const config = {
