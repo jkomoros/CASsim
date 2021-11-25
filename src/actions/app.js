@@ -6,6 +6,9 @@ export const CLOSE_SNACKBAR = "CLOSE_SNACKBAR";
 import {
 	selectPage,
 	selectPageExtra,
+	selectSimulationIndex,
+	selectRunIndex,
+	selectFrameIndex
 } from '../selectors.js';
 
 //if silent is true, then just passively updates the URL to reflect what it should be.
@@ -25,13 +28,18 @@ export const canonicalizePath = () => (dispatch ,getState) => {
 	const page = selectPage(state);
 	const pageExtra = selectPageExtra(state);
 
-	let path = page + '/';
+	let path = [page];
 	
 	if (page != 'sim') {
-		path += pageExtra;
+		path.push(pageExtra);
+	} else {
+		const simulationIndex = selectSimulationIndex(state);
+		const runIndex = selectRunIndex(state);
+		const frameIndex = selectFrameIndex(state);
+		path.push(simulationIndex, runIndex, frameIndex, '');
 	}
 
-	dispatch(navigatePathTo(path, true));
+	dispatch(navigatePathTo(path.join('/'), true));
 };
 
 export const navigate = (path) => (dispatch) => {
