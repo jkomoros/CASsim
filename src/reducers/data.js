@@ -7,6 +7,7 @@ import {
 
 const INITIAL_STATE = {
 	data: [],
+	//Either a string (preferred) referring to the name of the item in the current collection to select, or an index.
 	simulationIndex: 0,
 	runIndex: 0,
 	frameIndex: 0,
