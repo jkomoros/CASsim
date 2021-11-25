@@ -44,7 +44,11 @@ export const shuffleArrayInPlace = (array, rnd) => {
 	}
 };
 
-//path is a dotted list of accessors in the object, returns a new object with the modifications
+export const DELETE_SENTINEL = {};
+
+//path is a dotted list of accessors in the object, returns a new object with
+//the modifications. If value is DELETE_SENTINEL then it will delete the implied
+//property.
 export const setPropertyInObject = (obj, path, value) => {
 	if (path == '') return value;
 	const pathParts = path.split('.');
@@ -60,7 +64,16 @@ export const setPropertyInObject = (obj, path, value) => {
 	if (Array.isArray(obj)){
 		firstPart = parseInt(firstPart);
 		const result = [...obj];
-		result[firstPart] = innerResult;
+		if (value === DELETE_SENTINEL && restParts == '') {
+			result.splice(firstPart, 1);
+		} else {
+			result[firstPart] = innerResult;
+		}
+		return result;
+	}
+	if (value === DELETE_SENTINEL && restParts == '') {
+		const result = {...obj};
+		delete result[firstPart];
 		return result;
 	}
 	return {...obj, [firstPart]: innerResult};

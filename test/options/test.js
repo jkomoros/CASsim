@@ -2,7 +2,8 @@
 
 import {
 	setPropertyInObject,
-	deepFreeze
+	deepFreeze,
+	DELETE_SENTINEL
 } from '../../src/util.js';
 
 import assert from 'assert';
@@ -123,6 +124,92 @@ describe('setPropertyInObject', () => {
 		const result = setPropertyInObject(obj, path, value);
 		const golden = {
 			a: [3],
+			b: 2,
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('can delete a non-last proeprty in a double-nested object', async () => {
+		const obj = {
+			a: {
+				d: 2,
+				c: 3,
+			},
+			b: 2,
+		};
+		deepFreeze(obj);
+		const path = 'a.c';
+		const value = DELETE_SENTINEL;
+		const result = setPropertyInObject(obj, path, value);
+		const golden = {
+			a: {
+				d:2,
+			},
+			b: 2,
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('can delete a non-last array index in a double-nested object', async () => {
+		const obj = {
+			a: [0, 1, 2],
+			b: 2,
+		};
+		deepFreeze(obj);
+		const path = 'a.1';
+		const value = DELETE_SENTINEL;
+		const result = setPropertyInObject(obj, path, value);
+		const golden = {
+			a: [0, 2],
+			b: 2,
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('can delete the last proeprty in a double-nested object', async () => {
+		const obj = {
+			a: {
+				c: 3,
+			},
+			b: 2,
+		};
+		deepFreeze(obj);
+		const path = 'a.c';
+		const value = DELETE_SENTINEL;
+		const result = setPropertyInObject(obj, path, value);
+		const golden = {
+			a: {},
+			b: 2,
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('can delete a last array index in a double-nested object', async () => {
+		const obj = {
+			a: [0],
+			b: 2,
+		};
+		deepFreeze(obj);
+		const path = 'a.0';
+		const value = DELETE_SENTINEL;
+		const result = setPropertyInObject(obj, path, value);
+		const golden = {
+			a: [],
+			b: 2,
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('can delete a property that is an array', async () => {
+		const obj = {
+			a: [0],
+			b: 2,
+		};
+		deepFreeze(obj);
+		const path = 'a';
+		const value = DELETE_SENTINEL;
+		const result = setPropertyInObject(obj, path, value);
+		const golden = {
 			b: 2,
 		};
 		assert.deepEqual(result, golden);
