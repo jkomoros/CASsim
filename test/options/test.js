@@ -433,6 +433,23 @@ describe('optionsConfigValidator', () => {
 		assert.strictEqual(result.length, expectedProblemLength);
 	});
 
+	it('handles basic object with multi-level-nested object', async () => {
+		const config = {
+			foo: {
+				example: {
+					bar: {
+						baz: {
+							example: 5,
+						}
+					}
+				},
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 0;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
 	it('handles basic object with lots of properties example', async () => {
 		const config = {
 			foo: {

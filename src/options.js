@@ -147,7 +147,16 @@ export const optionsConfigValidator = (config) => {
 const optionsLeafValidator = (config) => {
 	if (!config || typeof config != 'object') return ['Config must be an object'];
 	const example = config[EXAMPLE_PROPERTY_NAME];
-	if (example === undefined) return ['example is a required property'];
+	if (example === undefined) {
+		//It's a multi-level nested object I guess
+		if (Object.keys(config).length == 0) return ['example is a required property'];
+		for (const [key, value] of Object.entries(config)) {
+			const problems = optionsLeafValidator(value);
+			if (problems.length) {
+				return ["sub-object of " + key + " didn't validate: " + problems.join(', ')];
+			}
+		}
+	}
 	if (typeof example == 'object') {
 		if (Array.isArray(example)) {
 			if (!example.length) {
