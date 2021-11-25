@@ -301,6 +301,19 @@ describe('optionsConfigValidator', () => {
 		assert.strictEqual(result.length, expectedProblemLength);
 	});
 
+	it('handles basic object with max less than min', async () => {
+		const config = {
+			foo: {
+				example: 3,
+				max: 5.0,
+				min: 10.0,
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 1;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
 	it('handles basic object with incorrect step', async () => {
 		const config = {
 			foo: {
@@ -320,8 +333,8 @@ describe('optionsConfigValidator', () => {
 				description: '3 is an example',
 				nullable: true,
 				advanced: true,
-				min: 3,
-				max: 2,
+				min: 2,
+				max: 3,
 				step: 1,
 			}
 		};
