@@ -92,8 +92,6 @@ optionsConfig shape:
         // - an array with a single optionLeaf
 		// - an object with 1 or more keyed optionLeafs for sub objects
         "example": 0.0,
-        //Can be omitted if default and example are the same.
-        "default": 0.0,
 		//Min is used for numbers. 0.0 is default and only needs to be included if overriden
 		"min": 0.0,
 		//Step is used for numbers. 1.0 is default and only needs to be included if overriden
@@ -118,9 +116,8 @@ optionsConfig shape:
     "projects": {
 		"example": {
 			"count": {
-				"example": 0.0,
+				"example": 5.0,
 				"min": 1.0,
-				"default": 5.0,
 				"description": "How many projects there should be",
 			},
 			"individuals": {
@@ -163,6 +160,35 @@ optionsConfig shape:
 		}
 		"description": "Information about projects"
     }
+}
+
+//The above is a worked example. Each is an optionsLeaf object. These all have the shape:
+{
+	//Example is the most important property and the only reserved word. If an object in the config has 
+	//a "example" property then all of its other properties are treated like an optionsLeaf.
+	//example may be:
+	// - a number
+	// - a boolean
+	// - a string
+	// - an array containing at least one optionsLeaf object (any others will be ignored)
+	// - an object, where each of its keys points to an optionsLeaf
+	// for numbers, booleans, and strings, this value will also be used as the default
+	"example": 1.0,
+	//A help string to show in the UI to explain what it does
+	"description": "A string to show in the UI"
+	//For numbers, the minimum amount. For arrays, the minimum length
+	//Defaults to 0.0
+	"min": 0.0,
+	//For numbers, the maximum number. For arrays, the maximum length
+	//Defaults to Number.MAX_SAFE_INTEGER
+	"max": 10.0,
+	//For numbers, the smallest allowable increment. Defaults to 1.0 (integer)
+	"step": 1.0,
+	//For array and object types, whether a given item is allowed to be set explicitly to null.
+	//Defaults to false
+	"nullable": false,
+	//Advanced options will only render UI if the user has enabled advanced mode.
+	"advanced": false,
 }
 */
 
