@@ -9,7 +9,12 @@ import {
 	loadData,
 	nextIndex,
 	prevIndex,
+	updateFrameIndex
 } from "../actions/data.js";
+
+import {
+	canonicalizePath
+} from "../actions/app.js";
 
 import {
 	selectCurrentFrame,
@@ -49,7 +54,6 @@ import "./simulation-controls.js";
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from "./shared-styles.js";
-import { updateFrameIndex } from '../actions/data.js';
 
 const CONFIG_FILE_NAME = 'config.json';
 const SAMPLE_CONFIG_FILE_NAME = 'config.SAMPLE.json';
@@ -174,6 +178,7 @@ class SimView extends connect(store)(PageViewElement) {
 		if (changedProps.has('_currentFrame')) {
 			const data = this._currentFrame || {};
 			window[GIF_NAME_VARIABLE] = data[GIF_COMMAND];
+			store.dispatch(canonicalizePath());
 		}
 	}
 }
