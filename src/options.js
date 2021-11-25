@@ -133,13 +133,38 @@ optionsConfig shape:
 export const optionsConfigValidator = (config) => {
 	if (!config) return ['Config must be an object'];
 	//The top-level expectation is basically an object with examples.
-	return innerOptionsConfigValidator({
+	return optionsLeafValidator({
 		[EXAMPLE_PROPERTY_NAME]: config,
 	});
 };
 
-const innerOptionsConfigValidator = (config) => {
+const optionsLeafValidator = (config) => {
 	if (!config || typeof config != 'object') return ['Config must be an object'];
-	if (!config[EXAMPLE_PROPERTY_NAME]) return ['example is a required property'];
+	const example = config[EXAMPLE_PROPERTY_NAME];
+	if (example === undefined) return ['example is a required property'];
+	if (typeof example == 'object') {
+		if (Array.isArray(example)) {
+			if (!example.length) {
+				return ['example is an array but needs at least one property'];
+			}
+			const problems = optionsLeafValidator(example[0]);
+			if (problems.length) {
+				return ["example's array first item didn't validate: " + problems.join(', ')];
+			}
+		}
+		for (const [key, value] of Object.entries(example)) {
+			const problems = optionsLeafValidator(value);
+			if (problems.length) {
+				return ["example's sub-object of " + key + " didn't validate: " + problems.join(', ')];
+			}
+		}
+	}
+
+	//TODO: validate min/max/step are legal numbers
+	//TODO: validate that min/max/step are only provided when it's a number or array
+	//TODO: validate 'options'
+	//TODO: validate types of 'description', 'nullable', 'archive'
+	//TODO: expect description
+
 	return [];
 };

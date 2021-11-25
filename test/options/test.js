@@ -230,4 +230,78 @@ describe('optionsConfigValidator', () => {
 		assert.strictEqual(result.length, expectedProblemLength);
 	});
 
+	it('handles basic object with number example', async () => {
+		const config = {
+			foo: {
+				example: 3,
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 0;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
+	it('handles basic object with string example', async () => {
+		const config = {
+			foo: {
+				example: "foo",
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 0;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
+	it('handles basic object with boolean example', async () => {
+		const config = {
+			foo: {
+				example: false,
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 0;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
+	it('handles basic object with valid array example', async () => {
+		const config = {
+			foo: {
+				example: [
+					{
+						example: false,
+					},
+				]
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 0;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
+	it('handles basic object with invalid array example', async () => {
+		const config = {
+			foo: {
+				example: []
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 1;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
+	it('handles basic object with valid sub-object example', async () => {
+		const config = {
+			foo: {
+				example: {
+					bar: {
+						example: false,
+					},
+				}
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 0;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
 });
