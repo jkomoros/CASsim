@@ -22,6 +22,20 @@ export class Urn {
 	}
 }
 
+export const deepFreeze = (obj) => {
+	if (!obj) return;
+	if (typeof obj != 'object') return;
+	Object.freeze(obj);
+	for (const val of Object.values(obj)) {
+		deepFreeze(val);
+	}
+};
+
+//Only works for POJOs
+export const deepCopy = (obj) => {
+	return JSON.parse(JSON.stringify(obj));
+};
+
 export const shuffleArrayInPlace = (array, rnd) => {
 	//based on the answer at https://stackoverflow.com/a/12646864
 	for (let i = array.length - 1; i > 0; i--) {

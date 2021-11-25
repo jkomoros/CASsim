@@ -2,6 +2,11 @@ import {
 	prng_alea
 } from 'esm-seedrandom';
 
+import {
+	deepFreeze,
+	deepCopy
+} from './util.js';
+
 import SchellingOrgSimulator from "./simulators/schelling-org.js";
 
 //A string or "" to request gif output include this frame. Only frames that explicitly include this will be outputed.
@@ -98,20 +103,6 @@ const simulatorConfigValid = (config) => {
 	}
 
 	return problems;
-};
-
-const deepFreeze = (obj) => {
-	if (!obj) return;
-	if (typeof obj != 'object') return;
-	Object.freeze(obj);
-	for (const val of Object.values(obj)) {
-		deepFreeze(val);
-	}
-};
-
-//Only works for POJOs
-const deepCopy = (obj) => {
-	return JSON.parse(JSON.stringify(obj));
 };
 
 export const SimulationCollection = class {
