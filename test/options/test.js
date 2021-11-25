@@ -83,10 +83,10 @@ describe('setPropertyInObject', () => {
 		};
 		deepFreeze(obj);
 		const path = 'a.1';
-		const value = 3;
+		const value = '3';
 		const result = setPropertyInObject(obj, path, value);
 		const golden = {
-			a: [0, '3', 2],
+			a: [0, 3, 2],
 			b: 2,
 		};
 		assert.deepEqual(result, golden);
