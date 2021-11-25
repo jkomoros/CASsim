@@ -710,6 +710,27 @@ describe('maySetPropertyInConfigObject', () => {
 		}
 	});
 
+	it('handles basic single-level object set with array where value is not an array', async () => {
+		//this is not a valid config on its own, but it is a valid sub-leaf
+		const config = {
+			example: [
+				{
+					example: 3,
+				}
+			],
+		};
+		const path = '';
+		const value = 4;
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 1;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
+
 	it('handles basic single-level object set with array that is disallowed by max', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
 		const config = {

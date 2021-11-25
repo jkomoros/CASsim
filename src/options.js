@@ -242,6 +242,7 @@ export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
 	if (optionsConfig[EXAMPLE_PROPERTY_NAME] == undefined) return ['No example provided'];
 	//Base case. optionsConfig should be an optionLeaf.
 	if (typeof optionsConfig[EXAMPLE_PROPERTY_NAME] != typeof value) return ['Example was of type ' + typeof optionsConfig[EXAMPLE_PROPERTY_NAME] + ' but value was of type ' + typeof value];
+	if (Array.isArray(optionsConfig[EXAMPLE_PROPERTY_NAME]) != Array.isArray(value)) return ['Example was an array but value was not or vice versa'];
 	if (optionsConfig[OPTIONS_PROPERTY_NAME]) {
 		if (!optionsConfig[OPTIONS_PROPERTY_NAME].some(item => item.value == value)) return [OPTIONS_PROPERTY_NAME + ' was set but the value ' + value + ' was not one of the allowed options'];
 	}
