@@ -326,6 +326,75 @@ describe('optionsConfigValidator', () => {
 		assert.strictEqual(result.length, expectedProblemLength);
 	});
 
+	it('handles basic object with step on array ', async () => {
+		const config = {
+			foo: {
+				example: [
+					{
+						example: 3,
+					}
+				],
+				step: 5,
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 1;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
+	it('handles basic object with min not on array or number', async () => {
+		const config = {
+			foo: {
+				example: "foo",
+				min: 5,
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 1;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
+	it('handles basic object with max not on array or number', async () => {
+		const config = {
+			foo: {
+				example: "foo",
+				max: 5,
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 1;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
+	it('handles basic object with min and max on array', async () => {
+		const config = {
+			foo: {
+				example: [
+					{
+						example: 3,
+					}
+				],
+				min: 2,
+				max: 5,
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 0;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
+	it('handles basic object with step not on array or number', async () => {
+		const config = {
+			foo: {
+				example: "foo",
+				max: 5,
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 1;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
 	it('handles basic object with lots of properties example', async () => {
 		const config = {
 			foo: {

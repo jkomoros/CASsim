@@ -175,7 +175,12 @@ const optionsLeafValidator = (config) => {
 	if (config[STEP_PROPERTY_NAME] !== undefined && typeof config[STEP_PROPERTY_NAME] != 'number') return [STEP_PROPERTY_NAME + ' must be a number if provided'];
 
 	if (config[MIN_PROPERTY_NAME] !== undefined && config[MAX_PROPERTY_NAME] !== undefined && config[MIN_PROPERTY_NAME] > config[MAX_PROPERTY_NAME]) return ['max is less than min'];
-	//TODO: validate that min/max/step are only provided when it's a number or array
+	if (typeof config[EXAMPLE_PROPERTY_NAME] !== 'number' && typeof config[EXAMPLE_PROPERTY_NAME] !== 'object' && !Array.isArray(config[EXAMPLE_PROPERTY_NAME])) {
+		if (config[MIN_PROPERTY_NAME] !== undefined) return [MIN_PROPERTY_NAME + ' may only be provided for numbers or array examples'];
+		if (config[MAX_PROPERTY_NAME] !== undefined) return [MAX_PROPERTY_NAME + ' may only be provided for numbers or array examples'];
+		if (config[STEP_PROPERTY_NAME] !== undefined) return [STEP_PROPERTY_NAME + ' may only be provided for numbers examples'];
+	}
+	if (typeof config[EXAMPLE_PROPERTY_NAME] !== 'number' && config[STEP_PROPERTY_NAME]) return [STEP_PROPERTY_NAME + ' may only be provided for number examples'];
 	//TODO: validate 'options'
 
 	return [];
