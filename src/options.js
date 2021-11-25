@@ -245,8 +245,13 @@ export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
 	if (optionsConfig[OPTIONS_PROPERTY_NAME]) {
 		if (!optionsConfig[OPTIONS_PROPERTY_NAME].some(item => item.value == value)) return [OPTIONS_PROPERTY_NAME + ' was set but the value ' + value + ' was not one of the allowed options'];
 	}
-	//TODO: if it's a number validate between min and max and multiple of step
+	if (typeof value == 'number') {
+		if (optionsConfig[MIN_PROPERTY_NAME] !== undefined && optionsConfig[MIN_PROPERTY_NAME] > value) return [MIN_PROPERTY_NAME + ' was set and the value was less than it'];
+		if (optionsConfig[MAX_PROPERTY_NAME] !== undefined && optionsConfig[MAX_PROPERTY_NAME] < value) return [MAX_PROPERTY_NAME + ' was set and the value was more than it'];
+		if (optionsConfig[STEP_PROPERTY_NAME] !== undefined && optionsConfig[STEP_PROPERTY_NAME] % value !== 0) return [STEP_PROPERTY_NAME + ' was set but the value was not a multiple of it'];
+	}
 	//TODO: if an object, validate the sub sets on all objects
+	//TODO: if it's an array, validate min/max too.
 	//TODO: nullable
 	//TODO: deleting
 	return [];
