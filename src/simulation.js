@@ -83,11 +83,14 @@ const SIMULATORS = {
 optionsConfig shape:
 {
     "communication": {
+		//This object is an example of an optionLeaf
+
         //An example of the type. Can be e.g.:
         // - a number
         // - a string
         // - a boolean
-        // - an array of at least one number, boolean, or string
+        // - an array with a single optionLeaf
+		// - an object with 1 or more keyed optionLeafs for sub objects
         "example": 0.0,
         //Can be omitted if default and example are the same.
         "default": 0.0,
@@ -98,32 +101,58 @@ optionsConfig shape:
         "description": "How many rounds of communication are allowed before picking. 0 means no communication"
     },
     "display": {
-        //@parent is properties for the parent object, for when it's a sub object. This is the way to signal that 
-		//the parent is not a leaf node but a parent.
-        "@parent": {
-            "description": "Options to control rendering"
-        },
-        "debug": {
-            "example": false,
-            "description": "Whether or not to render debug hints in drawing",
-            //If advanced is true, a control will only be rendered if the user toggles an advanced toggle
-            "advanced": true,
-        },
-        "individualBeliefs": {
-            "example": false,
-            "description": "Whether to render dots on each error bar for each individuals' beliefs"
-        }
+		"example": {
+			"debug": {
+				"example": false,
+				"description": "Whether or not to render debug hints in drawing",
+				//If advanced is true, a control will only be rendered if the user toggles an advanced toggle
+				"advanced": true,
+			},
+			"individualBeliefs": {
+				"example": false,
+				"description": "Whether to render dots on each error bar for each individuals' beliefs"
+			}
+		},
+		"description": "Boolean flags that control aspects of rendering",
     },
     "projects": {
-        "@parent": {
-            "description": "Information about each project"
-        },
-		"count": {
-			"example": 0.0,
-			"min": 1.0,
-			"default": 5.0,
-			"description": "How many projects there should be",
+		"example": {
+			"count": {
+				"example": 0.0,
+				"min": 1.0,
+				"default": 5.0,
+				"description": "How many projects there should be",
+			},
+			"individuals": {
+				//For array types, you need to provide at least one example type inside (if you use more than one,
+				//the first one will be used). The inner object is an optionsLeaf.
+				"example": [
+					{
+						//an optionLeaf option useful only for array leafs, which says individual items may be null.
+						"nullable": true,
+						"example": {
+							"epsilon": {
+								"example": 0.05,
+								"step": 0.01,
+								"description": "The individuals likelihood",
+								"nullable": true,
+							},
+							"avgLikelihood": {
+								"example": 1.0,
+								"nullable": true,
+								"description": "This individual's specific avg likelihood"
+							}
+							"description": "Options for a single individual"
+						}
+						"description": "A single individual. Leave nulls between if you want",
+					}
+				],
+				"description": "An override point for individual projects"
+				//For array types, min and max are the constraints on the length of the array
+				"min": 1.0
+			}
 		}
+		"description": "Information about projects"
     }
 }
 
