@@ -51,7 +51,7 @@ export const setPropertyInObject = (obj, path, value) => {
 	if (!path) return obj;
 	const pathParts = path.split('.');
 	let firstPart = pathParts[0];
-	if (Array.isArray(obj)) firstPart = parseInt[firstPart];
+	if (Array.isArray(obj)) firstPart = parseInt(firstPart);
 	if (pathParts.length == 1) {
 		if (Array.isArray(obj)) {
 			const result = [...obj];
