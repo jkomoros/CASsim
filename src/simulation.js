@@ -280,6 +280,10 @@ const Simulation = class {
 		}
 	}
 
+	get simulatorName() {
+		return this._config.sim;
+	}
+
 	get simulator() {
 		return this._simulator;
 	}

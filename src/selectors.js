@@ -28,6 +28,11 @@ export const selectCurrentSimulation = createSelector(
 	(collection, simulationIndex) => collection.simulation(simulationIndex)
 );
 
+export const selectCurrentSimulationSimulatorName = createSelector(
+	selectCurrentSimulation,
+	(sim) => sim ? sim.simulatorName : ''
+);
+
 export const selectCurrentSimulationWidth = createSelector(
 	selectCurrentSimulation,
 	(sim) => sim ? sim.width : 0
