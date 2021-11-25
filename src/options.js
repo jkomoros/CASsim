@@ -240,8 +240,9 @@ export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
 		
 	}
 	if (example == undefined) return ['No example provided'];
+	if (value == null && !optionsConfig[NULLABLE_PROPERTY_NAME]) return ['value was null but ' + NULLABLE_PROPERTY_NAME + ' was not set'];
 	//Base case. optionsConfig should be an optionLeaf.
-	if (typeof example != typeof value) return ['Example was of type ' + typeof optionsConfig[EXAMPLE_PROPERTY_NAME] + ' but value was of type ' + typeof value];
+	if (value != null && typeof example != typeof value) return ['Example was of type ' + typeof optionsConfig[EXAMPLE_PROPERTY_NAME] + ' but value was of type ' + typeof value];
 	if (Array.isArray(example) != Array.isArray(value)) return ['Example was an array but value was not or vice versa'];
 	if (optionsConfig[OPTIONS_PROPERTY_NAME]) {
 		if (!optionsConfig[OPTIONS_PROPERTY_NAME].some(item => item.value == value)) return [OPTIONS_PROPERTY_NAME + ' was set but the value ' + value + ' was not one of the allowed options'];
@@ -270,7 +271,6 @@ export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
 			}
 		}
 	}
-	//TODO: nullable
 	//TODO: make sure sub-sets of objects missing sub-objects that are not nullable fails.
 	//TODO: deleting
 	//TODO: test very hard objects like the individuals array

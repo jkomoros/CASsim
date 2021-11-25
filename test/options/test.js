@@ -840,6 +840,49 @@ describe('maySetPropertyInConfigObject', () => {
 		}
 	});
 
+	it('handles basic single-level object set with array that has a null value that is allowed', async () => {
+		//this is not a valid config on its own, but it is a valid sub-leaf
+		const config = {
+			example: [
+				{
+					example: 3,
+					nullable: true,
+				}
+			],
+		};
+		const path = '';
+		const value = [null,3,4];
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 0;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
+
+	it('handles basic single-level object set with array that has a null value that is not allowed', async () => {
+		//this is not a valid config on its own, but it is a valid sub-leaf
+		const config = {
+			example: [
+				{
+					example: 3,
+				}
+			],
+		};
+		const path = '';
+		const value = [null,3,4];
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 1;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
+
 	it('handles basic single-level object set with subobject', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
 		const config = {
