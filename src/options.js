@@ -1,4 +1,4 @@
-const EXAMPLES_PROPERTY_NAME = 'examples';
+const EXAMPLE_PROPERTY_NAME = 'example';
 
 /*
 
@@ -132,7 +132,7 @@ export const optionsConfigValidator = (config) => {
 	if (!config) return ['Config must be an object'];
 	//The top-level expectation is basically an object with examples.
 	return innerOptionsConfigValidator({
-		[EXAMPLES_PROPERTY_NAME]: config,
+		[EXAMPLE_PROPERTY_NAME]: config,
 	});
 };
 
