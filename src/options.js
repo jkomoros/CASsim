@@ -95,6 +95,8 @@ optionsConfig shape:
 	// - an array containing at least one optionsLeaf object (any others will be ignored)
 	// - an object, where each of its keys points to an optionsLeaf
 	// for numbers, booleans, and strings, this value will also be used as the default
+	//If an object has 'example', that is what shows it's a optionsLeaf, not a nested example object
+	// (so it's basically a reserved word)
 	"example": 1.0,
 	//A help string to show in the UI to explain what it does
 	"description": "A string to show in the UI"
