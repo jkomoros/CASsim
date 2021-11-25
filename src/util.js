@@ -44,8 +44,28 @@ export const shuffleArrayInPlace = (array, rnd) => {
 	}
 };
 
-//path is a dotted list of accessors in the object
+//path is a dotted list of accessors in the object, returns a modified object
 export const setPropertyInObject = (obj, path, value) => {
 	if (!obj) return undefined;
-	return obj;
+	if (typeof obj != 'object') return undefined;
+	if (!path) return obj;
+	const pathParts = path.split('.');
+	let firstPart = pathParts[0];
+	if (Array.isArray(obj)) firstPart = parseInt[firstPart];
+	if (pathParts.length == 1) {
+		if (Array.isArray(obj)) {
+			const result = [...obj];
+			result[firstPart] = value;
+			return result;
+		}
+		return {...obj, [firstPart]:value};
+	}
+	const restParts = pathParts.slice(1);
+	const innerResult = setPropertyInObject(obj[firstPart], restParts.join('.'), value);
+	if (Array.isArray(obj)){
+		const result = [...obj];
+		result[firstPart] = innerResult;
+		return result;
+	}
+	return {...obj, [firstPart]: innerResult};
 };
