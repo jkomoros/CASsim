@@ -638,8 +638,8 @@ describe('maySetPropertyInConfigObject', () => {
 		}
 	});
 
-	/* 	
-	it('handles basic single-level object', async () => {
+
+	it('handles basic single-level object on a non-leaf object', async () => {
 		const config = {
 			foo: {
 				example: 3,
@@ -662,7 +662,56 @@ describe('maySetPropertyInConfigObject', () => {
 			console.warn(result);
 			throw err;
 		}
-	}); 
-*/
+	});
+
+	it('handles basic stacked object', async () => {
+		const config = {
+			foo: {
+				example: 3,
+			}
+		};
+		const validatorResult = optionsConfigValidator(config);
+		try {
+			assert.strictEqual(validatorResult.length, 0);
+		} catch(err) {
+			console.warn('Basic config not valid', validatorResult);
+			throw err;
+		}
+		const path = 'foo';
+		const value = 4;
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 0;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
+
+	it('handles basic stacked object with wrong type', async () => {
+		const config = {
+			foo: {
+				example: 3,
+			}
+		};
+		const validatorResult = optionsConfigValidator(config);
+		try {
+			assert.strictEqual(validatorResult.length, 0);
+		} catch(err) {
+			console.warn('Basic config not valid', validatorResult);
+			throw err;
+		}
+		const path = 'foo';
+		const value = 'foo';
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 1;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
 
 });

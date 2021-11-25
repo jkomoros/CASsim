@@ -208,10 +208,38 @@ export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
 	if (!optionsConfig) return ['no optionsConfig provided'];
 	const pathParts = path.split('.');
 	const firstPart = pathParts[0];
+	const restPath = pathParts.slice(1).join('.');
 	if (firstPart != '') {
+		if (typeof optionsConfig !== 'object') return [firstPart + ' still remained in path but no object'];
+		const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
 		//recurse into sub-objects or array
-		throw new Error('Not yet implemented');
+		if (!example) {
+			//Basic value recursion
+			const problems = maySetPropertyInConfigObject(optionsConfig[firstPart], restPath, value);
+			if (problems.length) {
+				return [firstPart + ' property returned error: ' + problems.join(', ')];
+			}
+			return [];
+		}
+		//examples recursion
+
+		//array
+		if (Array.isArray(example)) {
+			const problems = maySetPropertyInConfigObject(optionsConfig[0], restPath, value);
+			if (problems.length) {
+				return [firstPart + ' property returned error: ' + problems.join(', ')];
+			}
+			return [];
+		}
+		//object
+		const problems = maySetPropertyInConfigObject(example[firstPart], restPath, value);
+		if (problems.length) {
+			return [firstPart + ' property within example returned error: ' + problems.join(', ')];
+		}
+		return [];
+		
 	}
+	if (optionsConfig[EXAMPLE_PROPERTY_NAME] == undefined) return ['No example provided'];
 	//Base case. optionsConfig should be an optionLeaf.
 	if (typeof optionsConfig[EXAMPLE_PROPERTY_NAME] != typeof value) return ['Example was of type ' + typeof optionsConfig[EXAMPLE_PROPERTY_NAME] + ' but value was of type ' + typeof value];
 	if (optionsConfig[OPTIONS_PROPERTY_NAME]) {
