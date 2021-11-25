@@ -148,14 +148,22 @@ optionsConfig shape:
 					}
 				],
 				"description": "An override point for individual projects"
-				//For array types, min and max are the constraints on the length of the array
-				"min": 1.0
+			},
+			"position": {
+				"example": [
+					{
+						"example": 0.0,
+					}
+				],
+				"description": "X and y coordinates"
+				//For arrays, min and max are bounds on length of array.
+				"min": 2.0,
+				"max": 2.0,
 			}
 		}
 		"description": "Information about projects"
     }
 }
-
 */
 
 //Returns an array of strings describing problems, or [] if everything is OK.
