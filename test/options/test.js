@@ -6,6 +6,10 @@ import {
 	DELETE_SENTINEL
 } from '../../src/util.js';
 
+import {
+	optionsConfigValidator
+} from '../../src/options.js';
+
 import assert from 'assert';
 
 describe('setPropertyInObject', () => {
@@ -215,5 +219,15 @@ describe('setPropertyInObject', () => {
 		assert.deepEqual(result, golden);
 	});
 
+
+});
+
+describe('optionsConfigValidator', () => {
+	it('handles null object', async () => {
+		const config = null;
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 1;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
 
 });
