@@ -44,15 +44,26 @@ const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 /*
 	Simulators are classes that have the following static methods:
 
-	generator(previousFrames, simOptions, randomGenerator, runIndex) => nextFrameData, or null if the simulation run is terminated
+	optionsValidator(rawSimOptions) => array of problem strings, or [] if OK
 
-	optionsValidator(simOptions) => array of problem strings, or [] if OK
+	normalizeOptions(rawSimOptions) => normalized options. An opportunity for
+	the simulator to take a raw sim options and return a fully normalized
+	options, e.g. with all defaults set, so that all other methods can assume
+	that all relevant properties are set. All other methods that receive
+	simOptions will receive the normalized result of this.
 
-	frameScorer(frame, simOptions) => an array of numbers between 0.0 and 1.0 or below 0 to signal indeterminate
+	generator(previousFrames, normalizedSimOptions, randomGenerator, runIndex) =>
+	nextFrameData, or null if the simulation run is terminated
 
-	successScorer(frameScore, simOptions) => 0.0 if failure, 1.0 if full success, negative numbers to say indeterminate
+	frameScorer(frame, normalizedSimOptions) => an array of numbers between 0.0 and 1.0 or
+	below 0 to signal indeterminate
 
-	frameValidator(frame, simOptions) => array of strings defining problems, or [] if OK
+	successScorer(frameScore, normalizedSimOptions) => 0.0 if failure, 1.0 if full
+	success, negative numbers to say indeterminate
+
+	frameValidator(frame, normalizedSimOptions) => array of strings defining problems, or
+	[] if OK
+
 */
 const SIMULATORS = {
 	[SCHELLING_ORG_SIMULATION_NAME]: SchellingOrgSimulator,
@@ -96,6 +107,11 @@ const deepFreeze = (obj) => {
 	for (const val of Object.values(obj)) {
 		deepFreeze(val);
 	}
+};
+
+//Only works for POJOs
+const deepCopy = (obj) => {
+	return JSON.parse(JSON.stringify(obj));
 };
 
 export const SimulationCollection = class {
@@ -257,7 +273,9 @@ const Simulation = class {
 			if (!name.match(/^[0-9a-zA-Z-_]+$/)) throw new Error('Name had invalid characters in it');
 		}
 		this._simulator = SIMULATORS[config.sim];
-		this._config = config;
+		const configCopy = deepCopy(config);
+		configCopy[SIM_OPTIONS_PROPERTY] = this._simulator.normalizeOptions(configCopy[SIM_OPTIONS_PROPERTY]);
+		this._config = configCopy;
 		this._altName = altName;
 		this._seed = this._config[SEED_PROPERTY] || '' + Date.now();
 		this._runs = [];

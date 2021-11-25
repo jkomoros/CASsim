@@ -293,9 +293,13 @@ const SchellingOrgSimulator = class {
 		return [];
 	}
 
-	static optionsValidator(simOptions) {
+	static normalizeOptions(rawSimOptions) {
+		return rawSimOptions;
+	}
+
+	static optionsValidator(rawSimOptions) {
 		let problems = [];
-		for (const [key, value] of Object.entries(simOptions)) {
+		for (const [key, value] of Object.entries(rawSimOptions)) {
 			if (key == COLLABORATORS_PROPERTY_NAME) {
 				problems = [...problems, ...SchellingOrgSimulator._collaboratorOptionsValidator(value)];
 			}
