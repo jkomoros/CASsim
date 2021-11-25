@@ -252,7 +252,8 @@ export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
 		if (optionsConfig[MAX_PROPERTY_NAME] !== undefined && optionsConfig[MAX_PROPERTY_NAME] < value) return [MAX_PROPERTY_NAME + ' was set and the value was more than it'];
 		if (optionsConfig[STEP_PROPERTY_NAME] !== undefined && optionsConfig[STEP_PROPERTY_NAME] % value !== 0) return [STEP_PROPERTY_NAME + ' was set but the value was not a multiple of it'];
 	}
-	if (typeof value == 'object') {
+	//Skip null values, we already checked above if it was OK they were null.
+	if (typeof value == 'object' && value) {
 		if (Array.isArray(value)) {
 			if (optionsConfig[MIN_PROPERTY_NAME] !== undefined && optionsConfig[MIN_PROPERTY_NAME] > value.length) return [MIN_PROPERTY_NAME + ' was set and the array value had a length less than it'];
 			if (optionsConfig[MAX_PROPERTY_NAME] !== undefined && optionsConfig[MAX_PROPERTY_NAME] < value.length) return [MAX_PROPERTY_NAME + ' was set and the array value had a length more than it'];
@@ -264,8 +265,7 @@ export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
 			}
 		} else {
 			for (const [key, exampleValue] of Object.entries(example)) {
-				//Value mihgt be null and that might be OK
-				const problems = maySetPropertyInConfigObject(exampleValue, '', value ? value[key] : value);
+				const problems = maySetPropertyInConfigObject(exampleValue, '', value[key]);
 				if (problems.length) {
 					return ['Sub object ' + key + ' failed validation: ' + problems.join(', ')];
 				}
@@ -275,6 +275,5 @@ export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
 	//TODO: make sure sub-sets of objects missing sub-objects that are not nullable fails.
 	//TODO: deleting
 	//TODO: test very hard objects like the individuals array
-	//TODO: enable the commented out test
 	return [];
 };
