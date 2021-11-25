@@ -272,7 +272,7 @@ export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
 			}
 		}
 	}
-	//TODO: deleting
-	//TODO: test very hard objects like the individuals array
+	//TODO: make sure that DELETE_SENTINEL works fine
+	//TODO: test very hard objects like the individuals array from schelling-org
 	return [];
 };
