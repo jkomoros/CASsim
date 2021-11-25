@@ -184,6 +184,19 @@ optionsConfig shape:
 	"max": 10.0,
 	//For numbers, the smallest allowable increment. Defaults to 1.0 (integer)
 	"step": 1.0,
+	//If options is provided, then a select will be rendered, allowing only those options.
+	"options": [
+		{
+			"value": "a",
+			//Defaults to value
+			"display": "A"
+			//Defaults to display
+			"description": "This option is a"
+		},
+		//If value == display == description, you can just have a raw value. This is equivalent to 
+		//{value:"b"}
+		"b"
+	],
 	//For array and object types, whether a given item is allowed to be set explicitly to null.
 	//Defaults to false
 	"nullable": false,
