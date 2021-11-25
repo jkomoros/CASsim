@@ -17,7 +17,7 @@ describe('setPropertyInObject', () => {
 		assert.strictEqual(result, golden);
 	});
 
-	it('handles a single-nexted object', async () => {
+	it('handles a single-nested object', async () => {
 		const obj = {
 			a: 1,
 			b: 2,
@@ -29,6 +29,28 @@ describe('setPropertyInObject', () => {
 		const golden = {
 			a: 3,
 			b: 2
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles a double-nested object', async () => {
+		const obj = {
+			a: {
+				c: 1,
+				d: 2
+			},
+			b: 2,
+		};
+		deepFreeze(obj);
+		const path = 'a.c';
+		const value = '3';
+		const result = setPropertyInObject(obj, path, value);
+		const golden = {
+			a: {
+				c: 3,
+				d: 2
+			},
+			b: 2,
 		};
 		assert.deepEqual(result, golden);
 	});
