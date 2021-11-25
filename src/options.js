@@ -257,5 +257,6 @@ export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
 	//TODO: if an object or array, validate the sub sets on all objects
 	//TODO: nullable
 	//TODO: deleting
+	//TODO: test very hard objects like the individuals array
 	return [];
 };
