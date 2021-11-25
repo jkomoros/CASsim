@@ -2,6 +2,9 @@ const EXAMPLE_PROPERTY_NAME = 'example';
 const DESCRIPTION_PROPERTY_NAME = 'description';
 const ADVANCED_PROPERTY_NAME = 'advanced';
 const NULLABLE_PROPERTY_NAME = 'nullable';
+const MIN_PROPERTY_NAME = 'min';
+const MAX_PROPERTY_NAME = 'max';
+const STEP_PROPERTY_NAME = 'step';
 
 /*
 
@@ -167,7 +170,9 @@ const optionsLeafValidator = (config) => {
 	if (config[NULLABLE_PROPERTY_NAME] !== undefined && typeof config[NULLABLE_PROPERTY_NAME] != 'boolean') return [NULLABLE_PROPERTY_NAME + ' must be a boolean if provided'];
 	if (config[ADVANCED_PROPERTY_NAME] !== undefined && typeof config[ADVANCED_PROPERTY_NAME] != 'boolean') return [ADVANCED_PROPERTY_NAME + ' must be a boolean if provided'];
 
-	//TODO: validate min/max/step are legal numbers
+	if (config[MIN_PROPERTY_NAME] !== undefined && typeof config[MIN_PROPERTY_NAME] != 'number') return [MIN_PROPERTY_NAME + ' must be a number if provided'];
+	if (config[MAX_PROPERTY_NAME] !== undefined && typeof config[MAX_PROPERTY_NAME] != 'number') return [MAX_PROPERTY_NAME + ' must be a number if provided'];
+	if (config[STEP_PROPERTY_NAME] !== undefined && typeof config[STEP_PROPERTY_NAME] != 'number') return [STEP_PROPERTY_NAME + ' must be a number if provided'];
 	//TODO: validate that min/max/step are only provided when it's a number or array
 	//TODO: validate 'options'
 

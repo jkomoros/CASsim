@@ -277,6 +277,42 @@ describe('optionsConfigValidator', () => {
 		assert.strictEqual(result.length, expectedProblemLength);
 	});
 
+	it('handles basic object with incorrect min', async () => {
+		const config = {
+			foo: {
+				example: 3,
+				min: false,
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 1;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
+	it('handles basic object with incorrect max', async () => {
+		const config = {
+			foo: {
+				example: 3,
+				max: false,
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 1;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
+	it('handles basic object with incorrect step', async () => {
+		const config = {
+			foo: {
+				example: 3,
+				step: false,
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 1;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
 	it('handles basic object with lots of properties example', async () => {
 		const config = {
 			foo: {
@@ -284,6 +320,9 @@ describe('optionsConfigValidator', () => {
 				description: '3 is an example',
 				nullable: true,
 				advanced: true,
+				min: 3,
+				max: 2,
+				step: 1,
 			}
 		};
 		const result = optionsConfigValidator(config);
