@@ -209,9 +209,9 @@ export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
 	const pathParts = path.split('.');
 	const firstPart = pathParts[0];
 	const restPath = pathParts.slice(1).join('.');
+	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
 	if (firstPart != '') {
 		if (typeof optionsConfig !== 'object') return [firstPart + ' still remained in path but no object'];
-		const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
 		//recurse into sub-objects or array
 		if (!example) {
 			//Basic value recursion
@@ -239,10 +239,10 @@ export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
 		return [];
 		
 	}
-	if (optionsConfig[EXAMPLE_PROPERTY_NAME] == undefined) return ['No example provided'];
+	if (example == undefined) return ['No example provided'];
 	//Base case. optionsConfig should be an optionLeaf.
-	if (typeof optionsConfig[EXAMPLE_PROPERTY_NAME] != typeof value) return ['Example was of type ' + typeof optionsConfig[EXAMPLE_PROPERTY_NAME] + ' but value was of type ' + typeof value];
-	if (Array.isArray(optionsConfig[EXAMPLE_PROPERTY_NAME]) != Array.isArray(value)) return ['Example was an array but value was not or vice versa'];
+	if (typeof example != typeof value) return ['Example was of type ' + typeof optionsConfig[EXAMPLE_PROPERTY_NAME] + ' but value was of type ' + typeof value];
+	if (Array.isArray(example) != Array.isArray(value)) return ['Example was an array but value was not or vice versa'];
 	if (optionsConfig[OPTIONS_PROPERTY_NAME]) {
 		if (!optionsConfig[OPTIONS_PROPERTY_NAME].some(item => item.value == value)) return [OPTIONS_PROPERTY_NAME + ' was set but the value ' + value + ' was not one of the allowed options'];
 	}
