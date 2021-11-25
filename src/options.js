@@ -1,4 +1,5 @@
 const EXAMPLE_PROPERTY_NAME = 'example';
+const DESCRIPTION_PROPERTY_NAME = 'description';
 
 /*
 
@@ -160,11 +161,12 @@ const optionsLeafValidator = (config) => {
 		}
 	}
 
+	if (config[DESCRIPTION_PROPERTY_NAME] && typeof config[DESCRIPTION_PROPERTY_NAME] != 'string') return ['description must be a string if provided'];
+
 	//TODO: validate min/max/step are legal numbers
 	//TODO: validate that min/max/step are only provided when it's a number or array
 	//TODO: validate 'options'
 	//TODO: validate types of 'description', 'nullable', 'archive'
-	//TODO: expect description
 
 	return [];
 };

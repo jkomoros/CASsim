@@ -230,6 +230,29 @@ describe('optionsConfigValidator', () => {
 		assert.strictEqual(result.length, expectedProblemLength);
 	});
 
+	it('handles basic object missing example property', async () => {
+		const config = {
+			foo: {
+				exampleTYPO: 3,
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 1;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
+	it('handles basic object with incorrect description', async () => {
+		const config = {
+			foo: {
+				example: 3,
+				description: 5,
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 1;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
 	it('handles basic object with number example', async () => {
 		const config = {
 			foo: {
