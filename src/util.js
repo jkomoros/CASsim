@@ -46,12 +46,11 @@ export const shuffleArrayInPlace = (array, rnd) => {
 
 //path is a dotted list of accessors in the object, returns a modified object
 export const setPropertyInObject = (obj, path, value) => {
-	if (typeof obj != 'object') {
-		if (path == '') return value;
-		return obj;
+	if (path == '') return value;
+	if (obj === undefined || obj === null) {
+		if (path == '') return undefined; 
+		obj = {};
 	}
-	if (!obj) return undefined;
-	if (!path) return obj;
 	const pathParts = path.split('.');
 	let firstPart = pathParts[0];
 	const restParts = pathParts.slice(1);

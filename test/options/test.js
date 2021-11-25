@@ -11,10 +11,14 @@ describe('setPropertyInObject', () => {
 	it('handles null object', async () => {
 		const obj = null;
 		const path = 'a.b';
-		const value = '3';
+		const value = 3;
 		const result = setPropertyInObject(obj, path, value);
-		const golden = undefined;
-		assert.strictEqual(result, golden);
+		const golden = {
+			'a': {
+				'b': 3,
+			}
+		};
+		assert.deepEqual(result, golden);
 	});
 
 	it('handles a single-nested object', async () => {
@@ -43,7 +47,7 @@ describe('setPropertyInObject', () => {
 		};
 		deepFreeze(obj);
 		const path = 'a.c';
-		const value = '3';
+		const value = 3;
 		const result = setPropertyInObject(obj, path, value);
 		const golden = {
 			a: {
@@ -87,6 +91,23 @@ describe('setPropertyInObject', () => {
 		const result = setPropertyInObject(obj, path, value);
 		const golden = {
 			a: [0, 3, 2],
+			b: 2,
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('can create an implied object in a double-nested object', async () => {
+		const obj = {
+			b: 2,
+		};
+		deepFreeze(obj);
+		const path = 'a.c';
+		const value = '3';
+		const result = setPropertyInObject(obj, path, value);
+		const golden = {
+			a: {
+				c: '3',
+			},
 			b: 2,
 		};
 		assert.deepEqual(result, golden);
