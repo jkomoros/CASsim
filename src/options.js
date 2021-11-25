@@ -272,7 +272,6 @@ export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
 			}
 		}
 	}
-	//TODO: make sure sub-sets of objects missing sub-objects that are not nullable fails.
 	//TODO: deleting
 	//TODO: test very hard objects like the individuals array
 	return [];
