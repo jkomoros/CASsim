@@ -220,5 +220,6 @@ export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
 	//TODO: if it's a number validate between min and max and multiple of step
 	//TODO: if an object, validate the sub sets on all objects
 	//TODO: nullable
+	//TODO: deleting
 	return [];
 };
