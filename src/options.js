@@ -5,6 +5,9 @@ const NULLABLE_PROPERTY_NAME = 'nullable';
 const MIN_PROPERTY_NAME = 'min';
 const MAX_PROPERTY_NAME = 'max';
 const STEP_PROPERTY_NAME = 'step';
+const OPTIONS_PROPERTY_NAME = 'options';
+const VALUE_PROPERTY_NAME = 'value';
+const DISPLAY_PROPERTY_NAME = 'display';
 
 /*
 
@@ -123,9 +126,6 @@ optionsConfig shape:
 			//Defaults to display
 			"description": "This option is a"
 		},
-		//If value == display == description, you can just have a raw value. This is equivalent to 
-		//{value:"b"}
-		"b"
 	],
 	//For array and object types, whether a given item is allowed to be set explicitly to null.
 	//Defaults to false
@@ -181,7 +181,15 @@ const optionsLeafValidator = (config) => {
 		if (config[STEP_PROPERTY_NAME] !== undefined) return [STEP_PROPERTY_NAME + ' may only be provided for numbers examples'];
 	}
 	if (typeof config[EXAMPLE_PROPERTY_NAME] !== 'number' && config[STEP_PROPERTY_NAME]) return [STEP_PROPERTY_NAME + ' may only be provided for number examples'];
-	//TODO: validate 'options'
+	if (config[OPTIONS_PROPERTY_NAME] !== undefined) {
+		if (typeof config[OPTIONS_PROPERTY_NAME] !== 'object' || !Array.isArray(config[OPTIONS_PROPERTY_NAME])) return [OPTIONS_PROPERTY_NAME + ' must be an array if provided'];
+		if (!config[OPTIONS_PROPERTY_NAME].length) return [OPTIONS_PROPERTY_NAME + ' was an array without any options'];
+		for (const [i, value] of config[OPTIONS_PROPERTY_NAME].entries()) {
+			if (value[VALUE_PROPERTY_NAME] === undefined) return ['option ' + i + ' did not have ' + VALUE_PROPERTY_NAME + ' provided'];
+			if (value[DISPLAY_PROPERTY_NAME] !== undefined && typeof value[DISPLAY_PROPERTY_NAME] !== 'string') return ['option ' + i + ' had a non string ' + DISPLAY_PROPERTY_NAME + ' provided'];
+			if (value[DESCRIPTION_PROPERTY_NAME] !== undefined && typeof value[DESCRIPTION_PROPERTY_NAME] !== 'string') return ['option ' + i + ' had a non string ' + DESCRIPTION_PROPERTY_NAME + ' provided'];
+		}
+	}
 
 	return [];
 };

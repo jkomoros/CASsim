@@ -395,6 +395,44 @@ describe('optionsConfigValidator', () => {
 		assert.strictEqual(result.length, expectedProblemLength);
 	});
 
+	it('handles basic object with invalid options', async () => {
+		const config = {
+			foo: {
+				example: "foo",
+				options: 5,
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 1;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
+	it('handles basic object with invalid zero option', async () => {
+		const config = {
+			foo: {
+				example: "foo",
+				options: [],
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 1;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
+	it('handles basic object with invalid first option', async () => {
+		const config = {
+			foo: {
+				example: "foo",
+				options: [{
+					description: 'missing value'
+				}],
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 1;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
 	it('handles basic object with lots of properties example', async () => {
 		const config = {
 			foo: {
@@ -405,6 +443,15 @@ describe('optionsConfigValidator', () => {
 				min: 2,
 				max: 3,
 				step: 1,
+				options: [
+					{
+						value: 3,
+					},
+					{
+						value: 4,
+						display: "four",
+					}
+				]
 			}
 		};
 		const result = optionsConfigValidator(config);
