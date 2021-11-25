@@ -28,8 +28,10 @@ export const updateWithSimPageExtra = (pageExtra) => (dispatch) => {
 	//TODO: handle malformed URLs better
 	if (parts.length != 4) return; 
 	const simulationIndex = parts[0];
-	const runIndex = parseInt(parts[1]);
-	const frameIndex = parseInt(parts[2]);
+	let runIndex = parseInt(parts[1]);
+	if (isNaN(runIndex)) runIndex = 0;
+	let frameIndex = parseInt(parts[2]);
+	if (isNaN(frameIndex)) frameIndex = 0;
 	//Each of these will return if a no op
 	dispatch(updateSimulationIndex(simulationIndex), true);
 	dispatch(updateRunIndex(runIndex), true);
