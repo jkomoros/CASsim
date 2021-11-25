@@ -253,6 +253,44 @@ describe('optionsConfigValidator', () => {
 		assert.strictEqual(result.length, expectedProblemLength);
 	});
 
+	it('handles basic object with incorrect advanced', async () => {
+		const config = {
+			foo: {
+				example: 3,
+				advanced: 5,
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 1;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
+	it('handles basic object with incorrect nullable', async () => {
+		const config = {
+			foo: {
+				example: 3,
+				nullable: 5,
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 1;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
+	it('handles basic object with lots of properties example', async () => {
+		const config = {
+			foo: {
+				example: 3,
+				description: '3 is an example',
+				nullable: true,
+				advanced: true,
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 0;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
 	it('handles basic object with number example', async () => {
 		const config = {
 			foo: {

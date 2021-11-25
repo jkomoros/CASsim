@@ -1,5 +1,7 @@
 const EXAMPLE_PROPERTY_NAME = 'example';
 const DESCRIPTION_PROPERTY_NAME = 'description';
+const ADVANCED_PROPERTY_NAME = 'advanced';
+const NULLABLE_PROPERTY_NAME = 'nullable';
 
 /*
 
@@ -161,12 +163,13 @@ const optionsLeafValidator = (config) => {
 		}
 	}
 
-	if (config[DESCRIPTION_PROPERTY_NAME] && typeof config[DESCRIPTION_PROPERTY_NAME] != 'string') return ['description must be a string if provided'];
+	if (config[DESCRIPTION_PROPERTY_NAME] !== undefined && typeof config[DESCRIPTION_PROPERTY_NAME] != 'string') return [DESCRIPTION_PROPERTY_NAME + ' must be a string if provided'];
+	if (config[NULLABLE_PROPERTY_NAME] !== undefined && typeof config[NULLABLE_PROPERTY_NAME] != 'boolean') return [NULLABLE_PROPERTY_NAME + ' must be a boolean if provided'];
+	if (config[ADVANCED_PROPERTY_NAME] !== undefined && typeof config[ADVANCED_PROPERTY_NAME] != 'boolean') return [ADVANCED_PROPERTY_NAME + ' must be a boolean if provided'];
 
 	//TODO: validate min/max/step are legal numbers
 	//TODO: validate that min/max/step are only provided when it's a number or array
 	//TODO: validate 'options'
-	//TODO: validate types of 'description', 'nullable', 'archive'
 
 	return [];
 };
