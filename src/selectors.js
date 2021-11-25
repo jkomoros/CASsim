@@ -45,7 +45,7 @@ export const selectCurrentSimulationHeight = createSelector(
 
 export const selectCurrentSimulationMaxRunIndex = createSelector(
 	selectCurrentSimulation,
-	(sim) => sim ? sim.maxRunIndex : 0
+	(sim) => sim ? sim.maxRunIndex : Number.MAX_SAFE_INTEGER
 );
 
 export const selectCurrentSimulationRun = createSelector(

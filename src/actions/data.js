@@ -63,10 +63,12 @@ export const updateFrameIndex = (index, skipCanonicalize) => (dispatch, getState
 	if (typeof index == 'string') index = parseInt(index);
 	const state = getState();
 	const run = selectCurrentSimulationRun(state);
-	if (!run) return;
-	//Probe directly for whether this index will be legal BEFORE we set it.
-	if (!run.frameIndexLegal(index)) {
-		index = run.maxFrameIndex;
+	//run won't exist yet in the case that the URL is being parsed before the data exists
+	if (run) {
+		//Probe directly for whether this index will be legal BEFORE we set it.
+		if (!run.frameIndexLegal(index)) {
+			index = run.maxFrameIndex;
+		}
 	}
 	//no op
 	if (index == selectFrameIndex(state)) return;
