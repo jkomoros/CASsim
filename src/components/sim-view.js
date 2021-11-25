@@ -38,7 +38,7 @@ const GIF_NAME_VARIABLE = 'gif_name';
 window[RENDER_COMPLETE_VARIABLE] = false;
 
 window[PREVIOUS_MAP_VARIABLE] = () => {
-	//The main-view will set this high when update is done
+	//The sim-view will set this high when update is done
 	window[RENDER_COMPLETE_VARIABLE] = false;
 	store.dispatch(prevIndex());
 };
@@ -73,7 +73,7 @@ const fetchData = async() => {
 	store.dispatch(loadData(data));
 };
 
-class MainView extends connect(store)(PageViewElement) {
+class SimView extends connect(store)(PageViewElement) {
 	static get properties() {
 		return {
 			// This is the data from the store.
@@ -178,4 +178,4 @@ class MainView extends connect(store)(PageViewElement) {
 	}
 }
 
-window.customElements.define("main-view", MainView);
+window.customElements.define("sim-view", SimView);

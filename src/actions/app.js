@@ -27,7 +27,7 @@ export const canonicalizePath = () => (dispatch ,getState) => {
 
 	let path = page + '/';
 	
-	if (page != 'main') {
+	if (page != 'sim') {
 		path += pageExtra;
 	}
 
@@ -36,7 +36,7 @@ export const canonicalizePath = () => (dispatch ,getState) => {
 
 export const navigate = (path) => (dispatch) => {
 	// Extract the page name from path.
-	const page = path === "/" ? "main" : path.slice(1);
+	const page = path === "/" ? "sim" : path.slice(1);
 
 	// Any other info you might want to extract from the path (like page type),
 	// you can do here
@@ -51,8 +51,8 @@ const loadPage = (location) => (dispatch) => {
 	let pageExtra = pieces.length < 2 ? '' : pieces.slice(1).join('/');
 
 	switch(page) {
-	case "main":
-		import("../components/main-view.js");
+	case "sim":
+		import("../components/sim-view.js");
 		break;
 	default:
 		page = "view404";

@@ -10,7 +10,7 @@ const pngFileStream = require('png-file-stream');
 
 const SCREENSHOT_DIR = 'screenshots';
 
-//rendevous point with screenshot service. Duplicated in main-view.js
+//rendevous point with screenshot service. Duplicated in sim-view.js
 const CURRENT_INDEX_VARIABLE = 'current_index';
 const PREVIOUS_MAP_VARIABLE = 'previous_map';
 const RENDER_COMPLETE_VARIABLE = 'render_complete';
@@ -45,7 +45,7 @@ const generateScreenshots = async () => {
 	let gifName = await page.evaluate('window.' + GIF_NAME_VARIABLE);
 	do {
 		console.log('Working on state #' + currentIndex);
-		const ele = await page.evaluateHandle('document.querySelector("my-app").shadowRoot.querySelector("main-view").shadowRoot.querySelector("frame-visualization")');
+		const ele = await page.evaluateHandle('document.querySelector("my-app").shadowRoot.querySelector("sim-view").shadowRoot.querySelector("frame-visualization")');
 		//When this logic is updated, also change gifNameForFile
 		let path = SCREENSHOT_DIR + '/screenshot_' + currentIndex;
 		if (gifName !== undefined) {

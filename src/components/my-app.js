@@ -88,7 +88,7 @@ class MyApp extends connect(store)(LitElement) {
 		return html`
 			<!-- Main content -->
 			<main role="main" class="main-content">
-				<main-view class="page" ?active="${this._page === "main"}"></main-view>
+				<sim-view class="page" ?active="${this._page === "sim"}"></sim-view>
 				<my-view404 class="page" ?active="${this._page === "view404"}"></my-view404>
 			</main>
 			<snack-bar ?active="${this._snackbarOpened}">
