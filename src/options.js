@@ -254,7 +254,7 @@ export const maySetPropertyInConfigObject = (optionsConfig, path, value) => {
 		if (optionsConfig[MIN_PROPERTY_NAME] !== undefined && optionsConfig[MIN_PROPERTY_NAME] > value.length) return [MIN_PROPERTY_NAME + ' was set and the array value had a length less than it'];
 		if (optionsConfig[MAX_PROPERTY_NAME] !== undefined && optionsConfig[MAX_PROPERTY_NAME] < value.length) return [MAX_PROPERTY_NAME + ' was set and the array value had a length more than it'];
 	}
-	//TODO: if an object, validate the sub sets on all objects
+	//TODO: if an object or array, validate the sub sets on all objects
 	//TODO: nullable
 	//TODO: deleting
 	return [];
