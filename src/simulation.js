@@ -51,23 +51,24 @@ const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 	optionsValidator(rawSimOptions) => array of problem strings, or [] if OK
 
-	normalizeOptions(rawSimOptions) => normalized options. An opportunity for
+	normalizeOptions(rawSimOptions) => normalizedSimOptions. An opportunity for
 	the simulator to take a raw sim options and return a fully normalized
 	options, e.g. with all defaults set, so that all other methods can assume
 	that all relevant properties are set. All other methods that receive
-	simOptions will receive the normalized result of this.
+	simOptions will receive the normalized result of this. normalizeOptions may
+	mutate the rawSimOptions and also return it.
 
-	generator(previousFrames, normalizedSimOptions, randomGenerator, runIndex) =>
-	nextFrameData, or null if the simulation run is terminated
+	generator(previousFrames, normalizedSimOptions, randomGenerator, runIndex)
+	=> nextFrameData, or null if the simulation run is terminated
 
-	frameScorer(frame, normalizedSimOptions) => an array of numbers between 0.0 and 1.0 or
-	below 0 to signal indeterminate
+	frameScorer(frame, normalizedSimOptions) => an array of numbers between 0.0
+	and 1.0 or below 0 to signal indeterminate
 
-	successScorer(frameScore, normalizedSimOptions) => 0.0 if failure, 1.0 if full
-	success, negative numbers to say indeterminate
+	successScorer(frameScore, normalizedSimOptions) => 0.0 if failure, 1.0 if
+	full success, negative numbers to say indeterminate
 
-	frameValidator(frame, normalizedSimOptions) => array of strings defining problems, or
-	[] if OK
+	frameValidator(frame, normalizedSimOptions) => array of strings defining
+	problems, or [] if OK
 
 */
 const SIMULATORS = {
