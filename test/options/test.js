@@ -571,8 +571,24 @@ describe('maySetPropertyInConfigObject', () => {
 		}
 	});
 
-	/*
+	it('handles basic single-level object of different type', async () => {
+		//this is not a valid config on its own, but it is a valid sub-leaf
+		const config = {
+			example: 3,
+		};
+		const path = '';
+		const value = 'not-a-number';
+		const result = maySetPropertyInConfigObject(config, path, value);
+		const expectedProblemLength = 1;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
 
+	/* 	
 	it('handles basic single-level object', async () => {
 		const config = {
 			foo: {
@@ -590,9 +606,13 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = 4;
 		const result = maySetPropertyInConfigObject(config, path, value);
 		const expectedProblemLength = 1;
-		assert.strictEqual(result.length, expectedProblemLength);
-	});
-
-	*/
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	}); 
+*/
 
 });
