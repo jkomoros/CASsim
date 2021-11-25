@@ -139,5 +139,7 @@ export const optionsConfigValidator = (config) => {
 };
 
 const innerOptionsConfigValidator = (config) => {
+	if (!config || typeof config != 'object') return ['Config must be an object'];
+	if (!config[EXAMPLE_PROPERTY_NAME]) return ['example is a required property'];
 	return [];
 };
