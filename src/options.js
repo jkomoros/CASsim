@@ -211,42 +211,60 @@ const optionsLeafValidator = (config) => {
 const configObjectIsValid = (optionsConfig, value) => {
 	if (!optionsConfig) return ['no optionsConfig provided'];
 	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
-	if (typeof value == 'object') {
+	if (typeof value == 'object' && !example) {
+		//This happens if it's a naked object. Verify each sub-property matches
+		const seenKeys = {};
 		for (const [valueKey, valueValue] of Object.entries(value)) {
+			seenKeys[valueKey] = true;
 			if (typeof optionsConfig !== 'object') return [valueKey + ' still remained in path but no object'];
 			//recurse into sub-objects or array
-			if (!example) {
-				//Basic value recursion
-				const problems = configObjectIsValid(optionsConfig[valueKey], valueValue);
-				if (problems.length) {
-					return [valueKey + ' property returned error: ' + problems.join(', ')];
-				}
-				return [];
-			}
-			//examples recursion
-
-			//array
-			if (Array.isArray(example)) {
-				const problems = configObjectIsValid(example[0], valueValue);
-				if (problems.length) {
-					return [valueKey + ' property returned error: ' + problems.join(', ')];
-				}
-				return [];
-			}
-			//object
-			const problems = configObjectIsValid(example[valueKey], valueValue);
+			//Basic value recursion
+			const problems = configObjectIsValid(optionsConfig[valueKey], valueValue);
 			if (problems.length) {
-				return [valueKey + ' property within example returned error: ' + problems.join(', ')];
+				return [valueKey + ' property returned error: ' + problems.join(', ')];
 			}
-			
+		}
+		//Verify that if there were more keys expected to be there they are valid (i.e. they might be nullable)
+		for (const configKey of Object.keys(optionsConfig)) {
+			if (seenKeys[configKey]) continue;
+			const problems = configObjectIsValid(optionsConfig[configKey], value[configKey]);
+			if (problems.length) {
+				return [configKey + ' property returned error: ' + problems.join(', ')];
+			} 
 		}
 		return [];
 	}
+
 	if (example == undefined) return ['No example provided'];
 	if (value == null && !optionsConfig[NULLABLE_PROPERTY_NAME]) return ['value was null but ' + NULLABLE_PROPERTY_NAME + ' was not set'];
 	//Base case. optionsConfig should be an optionLeaf.
 	if (value != null && typeof example != typeof value) return ['Example was of type ' + typeof optionsConfig[EXAMPLE_PROPERTY_NAME] + ' but value was of type ' + typeof value];
 	if (Array.isArray(example) != Array.isArray(value)) return ['Example was an array but value was not or vice versa'];
+
+	if (typeof example == 'object') {
+		if (Array.isArray(example)) {
+			for (const [valueKey, valueValue] of value.entries()) {
+				const problems = configObjectIsValid(example[0], valueValue);
+				if (problems.length) {
+					return [valueKey + ' property returned error: ' + problems.join(', ')];
+				}
+			}
+		} else {
+			const seenKeys = {};
+			for (const [exampleKey, exampleValue] of Object.entries(example)) {
+				seenKeys[exampleKey] = true;
+				const problems = configObjectIsValid(exampleValue, value[exampleKey]);
+				if (problems.length) {
+					return [exampleKey + ' property within example returned error: ' + problems.join(', ')];
+				}	
+			}
+			//Make sure we also check for any illegal keys not expected
+			for (const valueKey of Object.keys(value)) {
+				if (seenKeys[valueKey]) continue;
+				return [valueKey + ' existed but was not expected to be there in example'];
+			}
+		}
+	}
 	if (optionsConfig[OPTIONS_PROPERTY_NAME]) {
 		if (!optionsConfig[OPTIONS_PROPERTY_NAME].some(item => item.value == value)) return [OPTIONS_PROPERTY_NAME + ' was set but the value ' + value + ' was not one of the allowed options'];
 	}
