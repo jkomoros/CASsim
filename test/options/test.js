@@ -1318,4 +1318,60 @@ describe('maySetPropertyInConfigObject', () => {
 		}
 	});
 
+	it('handles complex schelling-org example', async () => {
+		const config = {
+			projects: {
+				example: {
+					count: {
+						example: 4
+					},
+					individuals: {
+						example: [
+							{
+								example: {
+									value: {
+										example: 2,
+									}
+								},
+								nullable: true
+							}
+						]
+					}
+				}
+			},
+			communication: {
+				example: 2,
+			}
+		};
+		const validatorResult = optionsConfigValidator(config);
+		try {
+			assert.strictEqual(validatorResult.length, 0);
+		} catch(err) {
+			console.warn('Basic config not valid', validatorResult);
+			throw err;
+		}
+		const path = 'projects.individuals.1';
+		const value = null;
+		const obj = {
+			projects: {
+				count: 4,
+				individuals: [
+					null,
+					{
+						value: 3
+					}
+				]
+			},
+			communication: 2
+		};
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblemLength = 0;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
+
 });

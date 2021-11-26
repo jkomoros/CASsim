@@ -279,7 +279,7 @@ const configObjectIsValid = (optionsConfig, value) => {
 		if (optionsConfig[MAX_PROPERTY_NAME] !== undefined && optionsConfig[MAX_PROPERTY_NAME] < value.length) return [MAX_PROPERTY_NAME + ' was set and the array value had a length more than it'];
 	}
 	//TODO: make sure that DELETE_SENTINEL works fine
-	//TODO: test very hard objects like the individuals array from schelling-org
+	//TODO: test very hard objects like the individuals array from schelling-org (including setting a property ona null object)
 	return [];
 };
 
