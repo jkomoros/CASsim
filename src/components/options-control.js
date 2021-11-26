@@ -128,8 +128,13 @@ class OptionsControl extends LitElement {
 			}
 			const nonAdvancedEntries = Object.entries(this.value).filter(entry => !example[entry[0]].advanced);
 			const advancedEntries = Object.entries(this.value).filter(entry => example[entry[0]].advanced);
+			const nulledEntries = Object.entries(example).filter(entry => entry[1].nullable && !this.value[entry[0]]);
 			return html`
 				${nonAdvancedEntries.map(entry => html`<options-control .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}
+				${nulledEntries.length ? html`<select @input=${this._handleAddNulled}>
+					<option .selected=${true}><em>Add a missing field...</em></option>
+					${nulledEntries.map(entry => html`<option .value=${entry[0]}>${entry[0]}</option>`)}
+				</select>` : ''}
 				${advancedEntries.length ? html`<details>
 					<summary><label>Advanced</label></summary>
 					${advancedEntries.map(entry => html`<options-control .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}
@@ -155,6 +160,17 @@ class OptionsControl extends LitElement {
 		let value = ele.type == 'checkbox' ? ele.checked : ele.value;
 		if (typeof this.config.example == 'number') value = parseFloat(value);
 		this.dispatchEvent(new CustomEvent('option-changed', {composed: true, detail: {path: this.path, value:value}}));
+	}
+
+	_handleAddNulled(e) {
+		const ele = e.composedPath()[0];
+		const subPath = this.path ? this.path + '.' + ele.value : ele.value;
+		const subExample = this.config.example[ele.value].example;
+		let value = subExample;
+		//TODO: handle objects and arrays better
+		this.dispatchEvent(new CustomEvent('option-changed', {composed: true, detail: {path: subPath, value: value}}));
+		//Flip it back to unselected
+		ele.selectedIndex = 0;
 	}
 
 }
