@@ -3,7 +3,8 @@
 		"name": "first-config",
 		"description": "First config",
 		"seed": "abc",
-		"size": [800,450],
+		"width": 800,
+		"height": 450,
 		"runs": 10,
 		"colors": {
 			"primary": "#fb8c00",

@@ -19,8 +19,8 @@ export const GIF_COMMAND = 'gif';
 	"name": "this-is-a-name",
 	//The human-readable description of the config. Optional. Will use name if not provided.
 	"description": "This is a description",
-	//A tuple of width, height
-	"size": [16, 9],
+	"width": 16,
+	"height": 9,
 	//How many runs to generate in the set
 	"runs": 12,
 	//If omitted, will use a value derived from current time. The deterministic value to feed to seed.
@@ -36,7 +36,8 @@ export const GIF_COMMAND = 'gif';
 */
 
 const SIM_PROPERTY = 'sim';
-const SIZE_PROPERTY = 'size';
+const HEIGHT_PROPERTY = 'height';
+const WIDTH_PROPERTY = 'width';
 const SIM_OPTIONS_PROPERTY = 'simOptions';
 const RUNS_PROPERTY = 'runs';
 const SEED_PROPERTY = 'seed';
@@ -85,11 +86,8 @@ const simulatorConfigValid = (config) => {
 	if (config.runs == undefined) problems.push('Required property runs is not provided');
 	if (typeof config.runs != 'number' || config.runs < 1.0) problems.push('Runs must be a number greater than 1');
 
-	if (!config[SIZE_PROPERTY]) {
-		problems.push('size is required');
-		return problems;
-	}
-	if (typeof config[SIZE_PROPERTY] != 'object' || !Array.isArray(config[SIZE_PROPERTY]) || config[SIZE_PROPERTY].length != 2 || typeof config[SIZE_PROPERTY][0] != 'number' || typeof config[SIZE_PROPERTY][1] != 'number') problems.push('size property must be a two-number array');
+	if (typeof config[HEIGHT_PROPERTY] != 'number' || config[HEIGHT_PROPERTY] < 0) problems.push(HEIGHT_PROPERTY + ' property must be a positive number');
+	if (typeof config[WIDTH_PROPERTY] != 'number' || config[WIDTH_PROPERTY] < 0) problems.push(WIDTH_PROPERTY + ' property must be a positive number');
 
 	if (config.sim != SCHELLING_ORG_SIMULATION_NAME) problems.push('Only ' + SCHELLING_ORG_SIMULATION_NAME + ' is supported as a sim');
 
@@ -296,11 +294,11 @@ const Simulation = class {
 	}
 
 	get width() {
-		return this._config[SIZE_PROPERTY][0];
+		return this._config[WIDTH_PROPERTY];
 	}
 
 	get height() {
-		return this._config[SIZE_PROPERTY][1];
+		return this._config[HEIGHT_PROPERTY];
 	}
 
 	get name() {
