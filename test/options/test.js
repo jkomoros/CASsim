@@ -741,7 +741,6 @@ describe('maySetPropertyInConfigObject', () => {
 	});
 
 	/*
-
 	it('handles basic single-level object set with array that is disallowed by max', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
 		const config = {
@@ -777,7 +776,8 @@ describe('maySetPropertyInConfigObject', () => {
 		};
 		const path = '';
 		const value = [2,3,4];
-		const result = maySetPropertyInConfigObject(config, path, value);
+		const obj = [2,2,2];
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
 		const expectedProblemLength = 0;
 		try {
 			assert.strictEqual(result.length, expectedProblemLength);
@@ -799,7 +799,8 @@ describe('maySetPropertyInConfigObject', () => {
 		};
 		const path = '';
 		const value = [2];
-		const result = maySetPropertyInConfigObject(config, path, value);
+		const obj = [2,2];
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
 		const expectedProblemLength = 1;
 		try {
 			assert.strictEqual(result.length, expectedProblemLength);
@@ -821,7 +822,8 @@ describe('maySetPropertyInConfigObject', () => {
 		};
 		const path = '';
 		const value = [2,3,4];
-		const result = maySetPropertyInConfigObject(config, path, value);
+		const obj = [2,2];
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
 		const expectedProblemLength = 0;
 		try {
 			assert.strictEqual(result.length, expectedProblemLength);
@@ -842,7 +844,8 @@ describe('maySetPropertyInConfigObject', () => {
 		};
 		const path = '';
 		const value = ['a',3,4];
-		const result = maySetPropertyInConfigObject(config, path, value);
+		const obj = [2,2];
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
 		const expectedProblemLength = 1;
 		try {
 			assert.strictEqual(result.length, expectedProblemLength);
@@ -864,7 +867,8 @@ describe('maySetPropertyInConfigObject', () => {
 		};
 		const path = '';
 		const value = [null,3,4];
-		const result = maySetPropertyInConfigObject(config, path, value);
+		const obj = [2, 2];
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
 		const expectedProblemLength = 0;
 		try {
 			assert.strictEqual(result.length, expectedProblemLength);
@@ -885,7 +889,8 @@ describe('maySetPropertyInConfigObject', () => {
 		};
 		const path = '';
 		const value = [null,3,4];
-		const result = maySetPropertyInConfigObject(config, path, value);
+		const obj = [2, 2];
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
 		const expectedProblemLength = 1;
 		try {
 			assert.strictEqual(result.length, expectedProblemLength);
@@ -913,7 +918,12 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = {
 			foo: null,
 		};
-		const result = maySetPropertyInConfigObject(config, path, value);
+		const obj = {
+			foo: {
+				bar: 3
+			}
+		};
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
 		const expectedProblemLength = 0;
 		try {
 			assert.strictEqual(result.length, expectedProblemLength);
@@ -941,7 +951,12 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = {
 			foo: null,
 		};
-		const result = maySetPropertyInConfigObject(config, path, value);
+		const obj = {
+			foo: {
+				bar: 3
+			}
+		};
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
 		const expectedProblemLength = 0;
 		try {
 			assert.strictEqual(result.length, expectedProblemLength);
@@ -969,7 +984,12 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = {
 			foo: null,
 		};
-		const result = maySetPropertyInConfigObject(config, path, value);
+		const obj = {
+			foo: {
+				bar: 3
+			}
+		};
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
 		const expectedProblemLength = 1;
 		try {
 			assert.strictEqual(result.length, expectedProblemLength);
@@ -998,7 +1018,12 @@ describe('maySetPropertyInConfigObject', () => {
 				bar: 3,
 			}
 		};
-		const result = maySetPropertyInConfigObject(config, path, value);
+		const obj = {
+			foo: {
+				bar: 3
+			}
+		};
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
 		const expectedProblemLength = 0;
 		try {
 			assert.strictEqual(result.length, expectedProblemLength);
@@ -1025,7 +1050,12 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = {
 			foo: {}
 		};
-		const result = maySetPropertyInConfigObject(config, path, value);
+		const obj = {
+			foo: {
+				bar: 3
+			}
+		};
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
 		const expectedProblemLength = 1;
 		try {
 			assert.strictEqual(result.length, expectedProblemLength);
@@ -1054,7 +1084,12 @@ describe('maySetPropertyInConfigObject', () => {
 				bar: 'not-a-number'
 			}
 		};
-		const result = maySetPropertyInConfigObject(config, path, value);
+		const obj = {
+			foo: {
+				bar: 3
+			}
+		};
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
 		const expectedProblemLength = 1;
 		try {
 			assert.strictEqual(result.length, expectedProblemLength);
@@ -1072,7 +1107,8 @@ describe('maySetPropertyInConfigObject', () => {
 		};
 		const path = '';
 		const value = 1;
-		const result = maySetPropertyInConfigObject(config, path, value);
+		const obj = 3;
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
 		const expectedProblemLength = 1;
 		try {
 			assert.strictEqual(result.length, expectedProblemLength);
@@ -1090,7 +1126,8 @@ describe('maySetPropertyInConfigObject', () => {
 		};
 		const path = '';
 		const value = 4.5;
-		const result = maySetPropertyInConfigObject(config, path, value);
+		const obj = 3;
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
 		const expectedProblemLength = 0;
 		try {
 			assert.strictEqual(result.length, expectedProblemLength);
@@ -1115,7 +1152,8 @@ describe('maySetPropertyInConfigObject', () => {
 		}
 		const path = '';
 		const value = 4;
-		const result = maySetPropertyInConfigObject(config, path, value);
+		const obj = 3;
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
 		const expectedProblemLength = 1;
 		try {
 			assert.strictEqual(result.length, expectedProblemLength);
@@ -1140,7 +1178,8 @@ describe('maySetPropertyInConfigObject', () => {
 		}
 		const path = 'foo';
 		const value = 4;
-		const result = maySetPropertyInConfigObject(config, path, value);
+		const obj = 3;
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
 		const expectedProblemLength = 0;
 		try {
 			assert.strictEqual(result.length, expectedProblemLength);
@@ -1165,7 +1204,10 @@ describe('maySetPropertyInConfigObject', () => {
 		}
 		const path = 'foo';
 		const value = 'foo';
-		const result = maySetPropertyInConfigObject(config, path, value);
+		const obj = {
+			foo: 3
+		};
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
 		const expectedProblemLength = 1;
 		try {
 			assert.strictEqual(result.length, expectedProblemLength);
@@ -1194,7 +1236,10 @@ describe('maySetPropertyInConfigObject', () => {
 		}
 		const path = 'foo.2';
 		const value = 3;
-		const result = maySetPropertyInConfigObject(config, path, value);
+		const obj = {
+			foo: [2]
+		};
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
 		const expectedProblemLength = 0;
 		try {
 			assert.strictEqual(result.length, expectedProblemLength);
@@ -1223,7 +1268,12 @@ describe('maySetPropertyInConfigObject', () => {
 		}
 		const path = 'foo.bar';
 		const value = 3;
-		const result = maySetPropertyInConfigObject(config, path, value);
+		const obj = {
+			foo: {
+				bar: 4
+			}
+		};
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
 		const expectedProblemLength = 0;
 		try {
 			assert.strictEqual(result.length, expectedProblemLength);
