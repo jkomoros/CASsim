@@ -75,7 +75,7 @@ class SimulationControls extends connect(store)(LitElement) {
 					<run-summary .statuses=${this._runStatuses} .selectedIndex=${this._runIndex} @run-clicked=${this._handleStatusClicked}></run-summary>
 				</div>
 				<div>
-					<options-control .config=${this._simulation.optionsConfig} .value=${this._simulation.config}></options-control>
+					<options-control @option-changed=${this._handleOptionChanged} .config=${this._simulation.optionsConfig} .value=${this._simulation.config}></options-control>
 				</div>
 			</div>
 		`;
@@ -116,6 +116,11 @@ class SimulationControls extends connect(store)(LitElement) {
 	_handleRunIndexChanged(e) {
 		const ele = e.composedPath()[0];
 		store.dispatch(updateRunIndex(ele.value));
+	}
+
+	_handleOptionChanged(e) {
+		//TODO: actualy dispatch to change it
+		console.log('Option changed: ' + e.detail.path + ': ' + e.detail.value);
 	}
 }
 
