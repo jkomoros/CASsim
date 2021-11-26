@@ -56,7 +56,14 @@ class OptionsControl extends LitElement {
 	_inner() {
 		const example = this.config.example;
 		if (example == undefined) {
-			return html`${Object.entries(this.config).map(entry => html`<options-control .value=${this.value[entry[0]]} .config=${entry[1]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}`;
+			const nonAdvancedEntries = Object.entries(this.config).filter(entry => !entry[1].advanced);
+			const advancedEntries = Object.entries(this.config).filter(entry => entry[1].advanced);
+			return html`
+			${nonAdvancedEntries.map(entry => html`<options-control .value=${this.value[entry[0]]} .config=${entry[1]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}
+			${advancedEntries.length ? html`<details>
+				<summary><label>Advanced</label></summary>
+				${advancedEntries.map(entry => html`<options-control .value=${this.value[entry[0]]} .config=${entry[1]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}
+			</details>` : ''}`;
 		}
 		return html`
 			<label>${this.name} ${help(this.config.description)}</label>
@@ -73,7 +80,14 @@ class OptionsControl extends LitElement {
 			if (this.value == null) {
 				return html`<em>null</em>`;
 			}
-			return html`${Object.entries(this.value).map(entry => html`<options-control .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}`;
+			const nonAdvancedEntries = Object.entries(this.value).filter(entry => !example[entry[0]].advanced);
+			const advancedEntries = Object.entries(this.value).filter(entry => example[entry[0]].advanced);
+			return html`
+				${nonAdvancedEntries.map(entry => html`<options-control .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}
+				${advancedEntries.length ? html`<details>
+					<summary><label>Advanced</label></summary>
+					${advancedEntries.map(entry => html`<options-control .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}
+				</details>` : ''}`;
 		}
 		if (this.config.options) {
 			return html`<select @change=${this._handleInputChanged} .value=${this.value}>${this.config.options.map(opt => html`<option .value=${opt.value} .selected=${opt.value == this.value} .title=${opt.description || opt.display || opt.value}>${opt.display || opt.value}</option>`)}</select>`;
