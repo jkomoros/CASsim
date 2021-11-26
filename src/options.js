@@ -207,8 +207,8 @@ const optionsLeafValidator = (config) => {
 	return [];
 };
 
-//TODO: export and test this
-const configObjectIsValid = (optionsConfig, value) => {
+export const configObjectIsValid = (optionsConfig, value) => {
+	//Note: this is tested implicitly via tests for maySetPropertyInConfigObject 
 	if (!optionsConfig) return ['no optionsConfig provided'];
 	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
 	if (typeof value == 'object' && !example) {
