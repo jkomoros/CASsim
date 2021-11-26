@@ -345,10 +345,12 @@ const Simulation = class {
 			[WIDTH_PROPERTY]: {
 				example: 800,
 				description: 'The width of the canvas in pixels',
+				advanced: true
 			},
 			[HEIGHT_PROPERTY]: {
 				example: 450,
 				description: 'The height of the canvas in pixels',
+				advanced: true
 			},
 			[RUNS_PROPERTY]: {
 				example: 10,
@@ -356,11 +358,13 @@ const Simulation = class {
 			},
 			[SEED_PROPERTY]: {
 				example: '',
-				description: 'If omitted, will use a value derived from current time. The deterministic value to feed to seed.'
+				description: 'If omitted, will use a value derived from current time. The deterministic value to feed to seed.',
+				advanced: true
 			},
 			[AUTO_RUN_PROPERTY]: {
 				example: false,
-				description: 'if true, then it will automatically run all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.'
+				description: 'if true, then it will automatically run all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.',
+				advanced: true
 			},
 			[COLORS_PROPERTY]: {
 				example: {
@@ -389,6 +393,7 @@ const Simulation = class {
 						nullable: true
 					}
 				},
+				advanced: true,
 				description: "Colors",
 				nullable: true,
 			},
