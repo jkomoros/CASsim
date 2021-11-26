@@ -6,8 +6,15 @@ const MIN_PROPERTY_NAME = 'min';
 const MAX_PROPERTY_NAME = 'max';
 const STEP_PROPERTY_NAME = 'step';
 const OPTIONS_PROPERTY_NAME = 'options';
+const BEHAVIOR_PROPERTY_NAME = 'behavior';
 const VALUE_PROPERTY_NAME = 'value';
 const DISPLAY_PROPERTY_NAME = 'display';
+
+const COLOR_BEHAVIOR_NAME = 'color';
+
+const ALLOWED_BEHAVIOR_NAMES = {
+	[COLOR_BEHAVIOR_NAME]: true,
+};
 
 import {
 	setPropertyInObject
@@ -121,6 +128,8 @@ optionsConfig shape:
 	"max": 10.0,
 	//For numbers, the smallest allowable increment. Defaults to 1.0 (integer)
 	"step": 1.0,
+	//Can be color, or seed. For color, will render an input type = color.
+	"behavior": "color",
 	//If options is provided, then a select will be rendered, allowing only those options.
 	"options": [
 		{
@@ -186,6 +195,8 @@ const optionsLeafValidator = (config) => {
 	if (config[MIN_PROPERTY_NAME] !== undefined && typeof config[MIN_PROPERTY_NAME] != 'number') return [MIN_PROPERTY_NAME + ' must be a number if provided'];
 	if (config[MAX_PROPERTY_NAME] !== undefined && typeof config[MAX_PROPERTY_NAME] != 'number') return [MAX_PROPERTY_NAME + ' must be a number if provided'];
 	if (config[STEP_PROPERTY_NAME] !== undefined && typeof config[STEP_PROPERTY_NAME] != 'number') return [STEP_PROPERTY_NAME + ' must be a number if provided'];
+
+	if (config[BEHAVIOR_PROPERTY_NAME] !== undefined && (typeof config[BEHAVIOR_PROPERTY_NAME] != 'string' || !ALLOWED_BEHAVIOR_NAMES[config[BEHAVIOR_PROPERTY_NAME]])) return [BEHAVIOR_PROPERTY_NAME + ' was provided ' + config[BEHAVIOR_PROPERTY_NAME] + ' but only allows ' + Object.keys(ALLOWED_BEHAVIOR_NAMES).join(', ')];
 
 	if (config[MIN_PROPERTY_NAME] !== undefined && config[MAX_PROPERTY_NAME] !== undefined && config[MIN_PROPERTY_NAME] > config[MAX_PROPERTY_NAME]) return ['max is less than min'];
 	if (typeof config[EXAMPLE_PROPERTY_NAME] !== 'number' && typeof config[EXAMPLE_PROPERTY_NAME] !== 'object' && !Array.isArray(config[EXAMPLE_PROPERTY_NAME])) {

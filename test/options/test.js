@@ -458,6 +458,7 @@ describe('optionsConfigValidator', () => {
 				description: '3 is an example',
 				nullable: true,
 				advanced: true,
+				behavior: 'color',
 				min: 2,
 				max: 3,
 				step: 1,
@@ -474,6 +475,18 @@ describe('optionsConfigValidator', () => {
 		};
 		const result = optionsConfigValidator(config);
 		const expectedProblemLength = 0;
+		assert.strictEqual(result.length, expectedProblemLength);
+	});
+
+	it('handles basic object with invalid behavior', async () => {
+		const config = {
+			foo: {
+				example: 3,
+				behavior: 'invalid',
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblemLength = 1;
 		assert.strictEqual(result.length, expectedProblemLength);
 	});
 
