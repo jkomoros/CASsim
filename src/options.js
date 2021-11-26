@@ -10,7 +10,7 @@ const BEHAVIOR_PROPERTY_NAME = 'behavior';
 const VALUE_PROPERTY_NAME = 'value';
 const DISPLAY_PROPERTY_NAME = 'display';
 
-const COLOR_BEHAVIOR_NAME = 'color';
+export const COLOR_BEHAVIOR_NAME = 'color';
 
 const ALLOWED_BEHAVIOR_NAMES = {
 	[COLOR_BEHAVIOR_NAME]: true,

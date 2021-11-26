@@ -1,6 +1,10 @@
 import { LitElement, html, css } from "lit-element";
 
 import {
+	COLOR_BEHAVIOR_NAME
+} from "../options.js";
+
+import {
 	help,
 	HelpStyles
 } from './help-badges.js';
@@ -69,7 +73,12 @@ class OptionsControl extends LitElement {
 		if (this.config.options) {
 			return html`<select @change=${this._handleInputChanged} .value=${this.value}>${this.config.options.map(opt => html`<option .value=${opt.value} .selected=${opt.value == this.value} .title=${opt.description || opt.display || opt.value}>${opt.display || opt.value}</option>`)}</select>`;
 		}
-		return html`<input @change=${this._handleInputChanged} .type=${typeof example == 'number' ? 'number' : (typeof example =='string' ? 'text' : 'checkbox')} .min=${this.config.min || 0.0} .max=${this.config.max || Number.MAX_SAFE_INTEGER} .step=${this.config.step || 1.0} .value=${this.value} .checked=${this.value}></input>`;
+		let type = 'text';
+		if (typeof example == 'number') type = 'number';
+		if (typeof example == 'boolean') type = 'checkbox';
+		if (this.config.behavior == COLOR_BEHAVIOR_NAME) type = 'color';
+
+		return html`<input @change=${this._handleInputChanged} .type=${type} .min=${this.config.min || 0.0} .max=${this.config.max || Number.MAX_SAFE_INTEGER} .step=${this.config.step || 1.0} .value=${this.value} .checked=${this.value}></input>`;
 	}
 
 	_handleInputChanged(e) {
