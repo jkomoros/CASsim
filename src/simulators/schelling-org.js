@@ -302,9 +302,16 @@ const SchellingOrgSimulator = class {
 		return rawSimOptions;
 	}
 
-	static optionsValidator() {
-		//Our validations are fully served by the config in optionsConfig.
-		//TODO: check that beliefs match
+	static optionsValidator(normalizedSimOptions) {
+		//Our validations are mainly served by the config in optionsConfig.
+		const individuals = normalizedSimOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
+		if (!individuals) return [];
+		const numProjects = normalizedSimOptions[PROJECTS_PROPERTY_NAME].count;
+		for (const [i, individual] of individuals.entries()) {
+			if (!individual) continue;
+			if (!individual.beliefs) continue;
+			if (individual.beliefs.length != numProjects) return ['Collaborator ' + i + ' had beliefs provided but they didn\'t match the number of projects'];
+		}
 		return [];
 	}
 
