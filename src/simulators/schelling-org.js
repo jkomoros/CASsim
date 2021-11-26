@@ -380,7 +380,7 @@ const SchellingOrgSimulator = class {
 		return problems;
 	}
 	
-	optionsConfig() {
+	static optionsConfig() {
 		//TODO: return a real one
 		return {};
 	}
