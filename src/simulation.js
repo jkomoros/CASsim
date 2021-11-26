@@ -28,6 +28,12 @@ export const GIF_COMMAND = 'gif';
 	"seed": "abc",
 	//if true, then it will automatically run all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.
 	"autoRun": true,
+	"colors": {
+		"primary": "#fb8c00",
+		"secondary": "#51b9a3",
+		"disabled": "#CCCCCC",
+		"background": "transparent"
+	}
 	//The simulator type to run. Currently only "schelling-org" is supported.
 	"sim": "schelling-org",
 	//The options to feed to the simulator. These will be different shapes depending on the value of "sim". See each specific simulator's documentation.
@@ -43,6 +49,11 @@ const SIM_OPTIONS_PROPERTY = 'simOptions';
 const RUNS_PROPERTY = 'runs';
 const SEED_PROPERTY = 'seed';
 const NAME_PROPERTY = 'name';
+const COLORS_PROPERTY = 'colors';
+const COLOR_PRIMARY_PROPERTY = 'primary';
+const COLOR_SECONDARY_PROPERTY = 'secondary';
+const COLOR_DISABLED_PROPERTY = 'disabled';
+const COLOR_BACKGROUND_PROPERTY = 'background';
 const DESCRIPTION_PROPERTY = 'description';
 const AUTO_RUN_PROPERTY = 'autoRun';
 
@@ -362,6 +373,28 @@ const Simulation = class {
 			[AUTO_RUN_PROPERTY]: {
 				example: false,
 				description: 'if true, then it will automatically run all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.'
+			},
+			[COLORS_PROPERTY]: {
+				example: {
+					[COLOR_PRIMARY_PROPERTY]: {
+						example: "#fb8c00",
+						description: "Primary color"
+					},
+					[COLOR_SECONDARY_PROPERTY]: {
+						example: "#51b9a3",
+						description: "Secondary color",
+					},
+					[COLOR_DISABLED_PROPERTY]: {
+						example: "ECCCCCC",
+						description: "Disabled color"
+					},
+					[COLOR_BACKGROUND_PROPERTY]: {
+						example: "transparent",
+						description: "Background color"
+					}
+				},
+				description: "Colors",
+				nullable: true,
 			},
 			[SIM_PROPERTY]: {
 				//TODO: use the constant
