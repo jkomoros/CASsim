@@ -27,6 +27,15 @@ class OptionsControl extends LitElement {
 					flex-direction: column;
 				}
 
+				details {
+					display: flex;
+					flex-direction: column;
+				}
+
+				summary > label {
+					font-size: 0.7em;
+				}
+
 				label {
 					font-size: 0.8em;
 					font-color: #ccc;
