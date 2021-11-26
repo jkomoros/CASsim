@@ -49,7 +49,7 @@ class OptionsControl extends LitElement {
 			html`${this.value.map((item, index) => html`<options-control .value=${item} .config=${example[0]} .name=${index}></options-control>`)}` :
 			(this.value == null ? html`<em>null</em>` :
 				html`${Object.entries(this.value).map(entry => html`<options-control .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]}></options-control>`)}`)) :
-		html`<input .value=${this.value}></input>`}
+		html`<input .type=${typeof example == 'number' ? 'number' : (typeof example =='string' ? 'text' : 'checkbox')} .min=${this.config.min || 0.0} .max=${this.config.max || Number.MAX_SAFE_INTEGER} .step=${this.config.step || 1.0} .value=${this.value} .checked=${this.value}></input>`}
 		`;
 	}
 
