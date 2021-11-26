@@ -1,4 +1,5 @@
 export const LOAD_DATA = "LOAD_DATA";
+export const UPDATE_CURRENT_SIMULATION_CONFIG = "UPDATE_CURRENT_SIMULATION_CONFIG";
 export const UPDATE_SIMULATION_INDEX = 'UPDATE_SIMULATION_INDEX';
 export const UPDATE_RUN_INDEX = 'UPDATE_RUN_INDEX';
 export const UPDATE_FRAME_INDEX = 'UPDATE_FRAME_INDEX';
@@ -12,8 +13,13 @@ import {
 	selectFrameIndex,
 	selectRunIndex,
 	selectCurrentSimulationMaxRunIndex,
-	selectCurrentSimulationRun
+	selectCurrentSimulationRun,
+	selectCurrentSimulation
 } from '../selectors.js';
+
+import {
+	maySetPropertyInConfigObject
+} from '../options.js';
 
 export const loadData = (data) => {
 	return {
@@ -97,4 +103,19 @@ export const updateRunIndex = (index, skipCanonicalize) => (dispatch, getState) 
 		index,
 	});
 	if (!skipCanonicalize) dispatch(canonicalizePath());
+};
+
+export const updateCurrentSimulationOptions = (path, value) => (dispatch, getState) => {
+	const state = getState();
+	const simulation = selectCurrentSimulation(state);
+	const problems = maySetPropertyInConfigObject(simulation.optionsConfig, simulation.config, path, value);
+	if (problems.length) {
+		console.warn('Invalid modification proposed: ' + path + ': ' + value + ': ' + problems.join(', '));
+		return;
+	}
+	dispatch({
+		type: UPDATE_CURRENT_SIMULATION_CONFIG,
+		path,
+		value
+	});
 };

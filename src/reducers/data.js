@@ -2,8 +2,13 @@ import {
 	LOAD_DATA,
 	UPDATE_SIMULATION_INDEX,
 	UPDATE_RUN_INDEX,
-	UPDATE_FRAME_INDEX
+	UPDATE_FRAME_INDEX,
+	UPDATE_CURRENT_SIMULATION_CONFIG
 } from "../actions/data.js";
+
+import {
+	setPropertyInObject
+} from '../util.js';
 
 const INITIAL_STATE = {
 	data: [],
@@ -38,6 +43,22 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			frameIndex: action.index,
+		};
+	case UPDATE_CURRENT_SIMULATION_CONFIG:
+		const newData = [...state.data];
+		let index = state.simulationIndex;
+		if (typeof index != 'number') {
+			for (const [i, obj] of newData.entries()) {
+				if (obj.name == state.simulationIndex) {
+					index = i;
+					break;
+				}
+			}
+		}
+		newData[index] = setPropertyInObject(newData[index], action.path, action.value);
+		return {
+			...state,
+			data: newData
 		};
 	default:
 		return state;
