@@ -899,7 +899,6 @@ describe('maySetPropertyInConfigObject', () => {
 		}
 	});
 
-	/*
 	it('handles basic single-level object set with subobject that has a null value that is allowed', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
 		const config = {
@@ -964,9 +963,7 @@ describe('maySetPropertyInConfigObject', () => {
 			console.warn(result);
 			throw err;
 		}
-	});	
-
-	*/
+	});
 
 	it('handles basic single-level object set with subobject that has a null value that is not allowed', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf

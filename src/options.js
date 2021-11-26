@@ -241,7 +241,7 @@ const configObjectIsValid = (optionsConfig, value) => {
 	if (value != null && typeof example != typeof value) return ['Example was of type ' + typeof optionsConfig[EXAMPLE_PROPERTY_NAME] + ' but value was of type ' + typeof value];
 	if (Array.isArray(example) != Array.isArray(value)) return ['Example was an array but value was not or vice versa'];
 
-	if (typeof example == 'object') {
+	if (typeof example == 'object' && value) {
 		if (Array.isArray(example)) {
 			for (const [valueKey, valueValue] of value.entries()) {
 				const problems = configObjectIsValid(example[0], valueValue);
