@@ -274,6 +274,7 @@ const Simulation = class {
 		this._altName = altName;
 		this._seed = this._config[SEED_PROPERTY] || '' + Date.now();
 		this._runs = [];
+		this._optionConfig = null;
 		for (let i = 0; i < config[RUNS_PROPERTY]; i++) {
 			const run = new SimulationRun(this, i);
 			if (config[AUTO_RUN_PROPERTY]) run.run();
@@ -323,5 +324,52 @@ const Simulation = class {
 
 	get runs() {
 		return this._runs;
+	}
+
+	get optionsConfig() {
+		if (this._optionConfig) return this._optionConfig;
+		const result = {
+			[NAME_PROPERTY]: {
+				example: '',
+				description: 'Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL. May be omitted',
+			},
+			[DESCRIPTION_PROPERTY]: {
+				example: '',
+				description: 'The human-readable description of the config. Optional. Will use name if not provided.',
+			},
+			[WIDTH_PROPERTY]: {
+				example: 800,
+				description: 'The width of the canvas in pixels',
+			},
+			[HEIGHT_PROPERTY]: {
+				example: 450,
+				description: 'The height of the canvas in pixels',
+			},
+			[RUNS_PROPERTY]: {
+				example: 10,
+				description: 'How many runs in the simulation to run',
+			},
+			[SEED_PROPERTY]: {
+				example: '',
+				description: 'If omitted, will use a value derived from current time. The deterministic value to feed to seed.'
+			},
+			[AUTO_RUN_PROPERTY]: {
+				example: false,
+				description: 'if true, then it will automatically run all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.'
+			},
+			[SIM_PROPERTY]: {
+				//TODO: use the constant
+				example: 'schelling-org',
+				options: [{value:'schelling-org'}],
+				description: 'The simulator type to run. Currently only "schelling-org" is supported.'
+			},
+			[SIM_OPTIONS_PROPERTY]: {
+				example: this._simulator.optionsConfig(),
+				description: 'Settings specific to this simulator'
+			}
+		};
+		deepFreeze(result);
+		this._optionConfig = result;
+		return result;
 	}
 };
