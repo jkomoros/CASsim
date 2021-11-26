@@ -329,7 +329,7 @@ const Simulation = class {
 
 	get optionsConfig() {
 		if (this._optionConfig) return this._optionConfig;
-		const simOptionsConfig = this._simulator().optionsConfig();
+		const simOptionsConfig = this._simulator.optionsConfig();
 		const problems = optionsConfigValidator(simOptionsConfig);
 		if (problems.length) {
 			throw new Error('Invalid simOptions: ' + problems.join(', '));
