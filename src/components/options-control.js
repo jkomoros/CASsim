@@ -62,7 +62,8 @@ class OptionsControl extends LitElement {
 
 	_handleInputChanged(e) {
 		const ele = e.composedPath()[0];
-		const value = ele.type == 'checkbox' ? ele.checked : ele.value;
+		let value = ele.type == 'checkbox' ? ele.checked : ele.value;
+		if (ele.type == 'number') value = parseFloat(value);
 		this.dispatchEvent(new CustomEvent('option-changed', {composed: true, detail: {path: this.path, value:value}}));
 	}
 
