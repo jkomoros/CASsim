@@ -378,19 +378,23 @@ const Simulation = class {
 				example: {
 					[COLOR_PRIMARY_PROPERTY]: {
 						example: "#fb8c00",
-						description: "Primary color"
+						description: "Primary color",
+						nullable: true,
 					},
 					[COLOR_SECONDARY_PROPERTY]: {
 						example: "#51b9a3",
 						description: "Secondary color",
+						nullable: true
 					},
 					[COLOR_DISABLED_PROPERTY]: {
 						example: "ECCCCCC",
-						description: "Disabled color"
+						description: "Disabled color",
+						nullable: true
 					},
 					[COLOR_BACKGROUND_PROPERTY]: {
 						example: "transparent",
-						description: "Background color"
+						description: "Background color",
+						nullable: true
 					}
 				},
 				description: "Colors",
