@@ -13,13 +13,19 @@ export const help = (message, isAlert) => {
 export const HelpStyles =  html`
 	<style>
 		.help {
-			margin-left:0.4em;
+			margin-left:0.0em;
 		}
 
 		.help svg {
-			height:1.3em;
-			width:1.3em;
+            position:relative;
+            top: 0.2em;
+			height:1.0em;
+			width:1.0em;
 			fill: var(--disabled-color);
 		}
+
+        .help:hover svg {
+            fill: var(--dark-gray-color);
+        }
 	</style>
 `;
