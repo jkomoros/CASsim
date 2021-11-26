@@ -8,6 +8,7 @@ import {
 } from './util.js';
 
 import SchellingOrgSimulator from "./simulators/schelling-org.js";
+import { optionsConfigValidator } from './options.js';
 
 //A string or "" to request gif output include this frame. Only frames that explicitly include this will be outputed.
 //Duplicated in screenshot.js
@@ -328,6 +329,11 @@ const Simulation = class {
 
 	get optionsConfig() {
 		if (this._optionConfig) return this._optionConfig;
+		const simOptionsConfig = this._simulator().optionsConfig();
+		const problems = optionsConfigValidator(simOptionsConfig);
+		if (problems.length) {
+			throw new Error('Invalid simOptions: ' + problems.join(', '));
+		}
 		const result = {
 			[NAME_PROPERTY]: {
 				example: '',
@@ -364,7 +370,7 @@ const Simulation = class {
 				description: 'The simulator type to run. Currently only "schelling-org" is supported.'
 			},
 			[SIM_OPTIONS_PROPERTY]: {
-				example: this._simulator.optionsConfig(),
+				example: simOptionsConfig,
 				description: 'Settings specific to this simulator'
 			}
 		};
