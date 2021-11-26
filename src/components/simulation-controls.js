@@ -24,6 +24,7 @@ import {
 import { SharedStyles } from "./shared-styles.js";
 
 import './run-summary.js';
+import './options-control.js';
 
 class SimulationControls extends connect(store)(LitElement) {
 	static get properties() {
@@ -32,6 +33,7 @@ class SimulationControls extends connect(store)(LitElement) {
 			_simulationIndex: { type:Number },
 			_simulationMaxRunIndex: { type:Number },
 			_maxFrameIndex: { type: Number },
+			_simulation: { type: Object},
 			_frameIndex: { type: Number },
 			_runIndex: {type: Number},
 			_runStatuses: { type:Array },
@@ -72,6 +74,9 @@ class SimulationControls extends connect(store)(LitElement) {
 				<div>
 					<run-summary .statuses=${this._runStatuses} .selectedIndex=${this._runIndex} @run-clicked=${this._handleStatusClicked}></run-summary>
 				</div>
+				<div>
+					<options-control .config=${this._simulation.optionsConfig}></options-control>
+				</div>
 			</div>
 		`;
 	}
@@ -89,8 +94,8 @@ class SimulationControls extends connect(store)(LitElement) {
 		const run = selectCurrentSimulationRun(state);
 		this._maxFrameIndex = run ? run.maxFrameIndex : Number.MAX_SAFE_INTEGER;
 
-		const simulation = selectCurrentSimulation(state);
-		this._runStatuses = simulation ? simulation.runs.map(run => run.finalStatus) : [];
+		this._simulation = selectCurrentSimulation(state);
+		this._runStatuses = this._simulation ? this._simulation.runs.map(run => run.finalStatus) : [];
 		
 	}
 
