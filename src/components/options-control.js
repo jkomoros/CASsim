@@ -1,5 +1,10 @@
 import { LitElement, html, css } from "lit-element";
 
+import {
+	help,
+	HelpStyles
+} from './help-badges.js';
+
 class OptionsControl extends LitElement {
 	static get properties() {
 		return {
@@ -25,7 +30,9 @@ class OptionsControl extends LitElement {
 	}
 
 	render() {
-		return html`<div class='container'>
+		return html`
+		${HelpStyles}
+		<div class='container'>
 			${this._inner()}
 		</div>`;
 	}
@@ -36,7 +43,7 @@ class OptionsControl extends LitElement {
 			return html`${Object.entries(this.config).map(entry => html`<options-control .value=${this.value[entry[0]]} .config=${entry[1]} .name=${entry[0]}></options-control>`)}`;
 		}
 		return html`
-			<label>${this.name} - ${this.config.description}</label>
+			<label>${this.name} ${help(this.config.description)}</label>
 			${typeof example == 'object' ?
 		(Array.isArray(example) ?
 			html`${this.value.map((item, index) => html`<options-control .value=${item} .config=${this.config[0]} .name=${index}></options-control>`)}` :
