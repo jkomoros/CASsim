@@ -279,20 +279,6 @@ const SchellingOrgSimulator = class {
 		return frame;
 	}
 
-	static _collaboratorOptionsValidator(collaboratorOptions) {
-		if (!collaboratorOptions || typeof collaboratorOptions !== 'object') return ['If collaborators is provided it must be an object'];
-		if (!collaboratorOptions.count || typeof collaboratorOptions.count != 'number' || collaboratorOptions.count < 1) return ['collaborators.count must exist and be a positive number'];
-		return [];
-	}
-
-	static _projectOptionsValidator(projectOptions) {
-		if (!projectOptions || typeof projectOptions !== 'object') return ['If projects is provided it must be an object'];
-		if (!projectOptions.count || typeof projectOptions.count != 'number' || projectOptions.count < 1) return ['projectOptions.count must exist and be a positive number'];
-		if (projectOptions[MAX_EXTRA_VALUE_PROPERTY_NAME] && typeof projectOptions[MAX_EXTRA_VALUE_PROPERTY_NAME] != 'number') return ['projectOptions.' + MAX_EXTRA_VALUE_PROPERTY_NAME + ' must be a number'];
-		if (projectOptions[MAX_ERROR_VALUE_PROPERTY_NAME] && typeof projectOptions[MAX_ERROR_VALUE_PROPERTY_NAME] != 'number') return ['projectOptions.' + MAX_ERROR_VALUE_PROPERTY_NAME + ' must be a number'];
-		return [];
-	}
-
 	static normalizeOptions(rawSimOptions) {
 		rawSimOptions[COMMUNICATION_PROPERTY_NAME] = rawSimOptions[COMMUNICATION_PROPERTY_NAME] || 0.0;
 		if (!rawSimOptions[COLLABORATORS_PROPERTY_NAME]) {
@@ -316,20 +302,10 @@ const SchellingOrgSimulator = class {
 		return rawSimOptions;
 	}
 
-	static optionsValidator(rawSimOptions) {
-		let problems = [];
-		for (const [key, value] of Object.entries(rawSimOptions)) {
-			if (key == COLLABORATORS_PROPERTY_NAME) {
-				problems = [...problems, ...SchellingOrgSimulator._collaboratorOptionsValidator(value)];
-			}
-			if (key == PROJECTS_PROPERTY_NAME) {
-				problems = [...problems, ...SchellingOrgSimulator._projectOptionsValidator(value)];
-			}
-			if (key == COMMUNICATION_PROPERTY_NAME) {
-				if (typeof value != 'number' || value < 0) problems.push(COMMUNICATION_PROPERTY_NAME + ' must be a non-negative number');
-			}
-		}
-		return problems;
+	static optionsValidator() {
+		//Our validations are fully served by the config in optionsConfig.
+		//TODO: check that beliefs match
+		return [];
 	}
 
 	static frameScorer(frame, simOptions) {
