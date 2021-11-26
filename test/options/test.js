@@ -1284,4 +1284,38 @@ describe('maySetPropertyInConfigObject', () => {
 		}
 	});
 
+	it('handles basic stacked object with example object with a set at a non-present value', async () => {
+		const config = {
+			foo: {
+				example: {
+					bar: {
+						example: 4
+					}
+				}
+			}
+		};
+		const validatorResult = optionsConfigValidator(config);
+		try {
+			assert.strictEqual(validatorResult.length, 0);
+		} catch(err) {
+			console.warn('Basic config not valid', validatorResult);
+			throw err;
+		}
+		const path = 'foo.baz';
+		const value = 3;
+		const obj = {
+			foo: {
+				bar: 4
+			}
+		};
+		const result = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblemLength = 1;
+		try {
+			assert.strictEqual(result.length, expectedProblemLength);
+		} catch (err) {
+			console.warn(result);
+			throw err;
+		}
+	});
+
 });
