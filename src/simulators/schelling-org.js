@@ -381,8 +381,125 @@ const SchellingOrgSimulator = class {
 	}
 	
 	static optionsConfig() {
-		//TODO: return a real one
-		return {};
+		return {
+			[DISPLAY_PROPERTY_NAME]: {
+				example: {
+					[DEBUG_PROPERTY_NAME]: {
+						example: false,
+						description: "If true, then the SVG will render debug information",
+						advanced: true,
+					}
+				},
+				nullable: true,
+				description: "An optional object that controls how things render. If not provided, will be interpreted as though it enables no optional rendering."
+			},
+			[COMMUNICATION_PROPERTY_NAME]: {
+				example: 0,
+				description: "How many rounds of communication should be allowed between agents before they decide. 0 is no communication."
+			},
+			[COLLABORATORS_PROPERTY_NAME]: {
+				example: {
+					count: {
+						example: 5,
+						description: "How many collaborators there should be"
+					},
+					[EPSILON_PROPERTY_NAME]: {
+						example: 0.05,
+						description: "Project values within this amount of each other will be considered to be the same"
+					},
+					[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: {
+						example: 0.5,
+						description: "We compute a range of possible connection likelihoods based on [avgConnectionLikelihood - connectionLikelihoodSpread, avgConnectionLikelihood + connectionLikelihoodSpread] Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength."
+					},
+					[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: {
+						example: 0.5,
+						description: "We compute a range of possible connection likelihoods based on [avgConnectionLikelihood - connectionLikelihoodSpread, avgConnectionLikelihood + connectionLikelihoodSpread] Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength."
+					},
+					[INDIVIDUALS_PROPERTY_NAME]: {
+						example: [
+							{
+								example: {
+									beliefs: {
+										example: [
+											{
+												example: 0.0,
+											}
+										],
+										description: "The starter beliefs of this individual of the values of projects. Must be an array of the same length as number of projects",
+										nullable: true,
+									},
+									[EPSILON_PROPERTY_NAME]: {
+										example: 0.5,
+										description: "The epsilon for this specific individual",
+										nullable:true,
+									},
+									emoji: {
+										example: 'A',
+										description: 'The specific emoji',
+										nullable:true,
+									},
+									[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: {
+										example: 0.5,
+										description: AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME + ' for this individual',
+										nullable:true,
+									},
+									[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: {
+										example: 0.5,
+										description: CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME + ' for this individual',
+										nullable:true,
+									}
+								},
+								description: "An individual",
+								nullable: true
+							}
+						],
+						description: "individuals is set to override the computed individuals with the given properties. null values will be ignored, and keys not in the override will be left in place."
+					}
+				},
+				description: "Information on the collaborators"
+			},
+			[PROJECTS_PROPERTY_NAME]: {
+				example: {
+					count: {
+						example: 3,
+						description: "How many projects there are"
+					},
+					[MAX_EXTRA_VALUE_PROPERTY_NAME]: {
+						example: 0.0,
+						description: "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value"
+					},
+					[MAX_ERROR_VALUE_PROPERTY_NAME]: {
+						example: 0.0,
+						description: 'Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.'
+					},
+					[INDIVIDUALS_PROPERTY_NAME]: {
+						example: [
+							{
+								example: {
+									[MARKED_PROPERTY_NAME]: {
+										example: false,
+										description: "A marked project shows up distinctively; collaborators, when deciding between two projects that look like the same value, will prefer the marked one."
+									},
+									value: {
+										example: 1.0,
+										description: "Value is the height of the project, in units of 1.0 = width",
+									},
+									error: {
+										example: 0.0,
+										description: "The error bars for this value; collaborators will consider the true value to be somewhere within value +/- this value"
+									}
+								},
+								description: "A specific project",
+								nullable:true,
+							}
+						],
+						nullable: true,
+						description: "individuals is set to override the computed individuals with the given properties. null values will be ignored, and keys not in the override will be left in place."
+					}
+				},
+				description: "Information on projects"
+			}
+		};
 	}
 };
 
