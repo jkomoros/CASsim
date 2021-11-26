@@ -479,15 +479,18 @@ const SchellingOrgSimulator = class {
 								example: {
 									[MARKED_PROPERTY_NAME]: {
 										example: false,
-										description: "A marked project shows up distinctively; collaborators, when deciding between two projects that look like the same value, will prefer the marked one."
+										description: "A marked project shows up distinctively; collaborators, when deciding between two projects that look like the same value, will prefer the marked one.",
+										nullable: true
 									},
 									value: {
 										example: 1.0,
 										description: "Value is the height of the project, in units of 1.0 = width",
+										nullable: true
 									},
 									error: {
 										example: 0.0,
-										description: "The error bars for this value; collaborators will consider the true value to be somewhere within value +/- this value"
+										description: "The error bars for this value; collaborators will consider the true value to be somewhere within value +/- this value",
+										nullable: true
 									}
 								},
 								description: "A specific project",
