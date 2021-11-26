@@ -388,6 +388,7 @@ const SchellingOrgSimulator = class {
 						example: false,
 						description: "If true, then the SVG will render debug information",
 						advanced: true,
+						nullable: true,
 					}
 				},
 				nullable: true,
