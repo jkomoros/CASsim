@@ -111,19 +111,8 @@ class OptionsControl extends LitElement {
 	}
 
 	_inner() {
-		const example = this.config.example;
-		if (example == undefined) {
-			const nonAdvancedEntries = Object.entries(this.config).filter(entry => !entry[1].advanced);
-			const advancedEntries = Object.entries(this.config).filter(entry => entry[1].advanced);
-			return html`
-			${nonAdvancedEntries.map(entry => html`<options-control .value=${this.value[entry[0]]} .config=${entry[1]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}
-			${advancedEntries.length ? html`<details>
-				<summary><label>Advanced</label></summary>
-				${advancedEntries.map(entry => html`<options-control .value=${this.value[entry[0]]} .config=${entry[1]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}
-			</details>` : ''}`;
-		}
 		return html`
-			<label>${this.name} ${help(this.config.description)} ${this.config.nullable ? html`<button class='small' @click=${this._handleNullableClicked} title='Remove'>${CANCEL_ICON}</button>` : ''}</label>
+			${this.path ? html`<label>${this.name} ${help(this.config.description)} ${this.config.nullable ? html`<button class='small' @click=${this._handleNullableClicked} title='Remove'>${CANCEL_ICON}</button>` : ''}</label>`: ''}
 			${this._innerControl()}
 		`;
 	}

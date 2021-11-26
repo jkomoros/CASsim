@@ -334,78 +334,80 @@ const Simulation = class {
 			throw new Error('Invalid simOptions: ' + problems.join(', '));
 		}
 		const result = {
-			[NAME_PROPERTY]: {
-				example: '',
-				description: 'Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL. May be omitted',
-			},
-			[DESCRIPTION_PROPERTY]: {
-				example: '',
-				description: 'The human-readable description of the config. Optional. Will use name if not provided.',
-			},
-			[WIDTH_PROPERTY]: {
-				example: 800,
-				description: 'The width of the canvas in pixels',
-				advanced: true
-			},
-			[HEIGHT_PROPERTY]: {
-				example: 450,
-				description: 'The height of the canvas in pixels',
-				advanced: true
-			},
-			[RUNS_PROPERTY]: {
-				example: 10,
-				description: 'How many runs in the simulation to run',
-			},
-			[SEED_PROPERTY]: {
-				example: '',
-				description: 'If omitted, will use a value derived from current time. The deterministic value to feed to seed.',
-				advanced: true
-			},
-			[AUTO_RUN_PROPERTY]: {
-				example: false,
-				description: 'if true, then it will automatically run all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.',
-				advanced: true
-			},
-			[COLORS_PROPERTY]: {
-				example: {
-					[COLOR_PRIMARY_PROPERTY]: {
-						example: "#fb8c00",
-						description: "Primary color",
-						behavior: "color",
-						nullable: true,
-					},
-					[COLOR_SECONDARY_PROPERTY]: {
-						example: "#51b9a3",
-						description: "Secondary color",
-						behavior: "color",
-						nullable: true
-					},
-					[COLOR_DISABLED_PROPERTY]: {
-						example: "ECCCCCC",
-						description: "Disabled color",
-						behavior: "color",
-						nullable: true
-					},
-					[COLOR_BACKGROUND_PROPERTY]: {
-						example: "transparent",
-						description: "Background color",
-						behavior: "color",
-						nullable: true
-					}
+			example: {
+				[NAME_PROPERTY]: {
+					example: '',
+					description: 'Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL. May be omitted',
 				},
-				advanced: true,
-				description: "Colors",
-				nullable: true,
-			},
-			[SIM_PROPERTY]: {
-				//TODO: use the constant
-				example: 'schelling-org',
-				options: [{value:'schelling-org'}],
-				description: 'The simulator type to run. Currently only "schelling-org" is supported.'
-			},
-			[SIM_OPTIONS_PROPERTY]: {
-				example: simOptionsConfig,
-				description: 'Settings specific to this simulator'
+				[DESCRIPTION_PROPERTY]: {
+					example: '',
+					description: 'The human-readable description of the config. Optional. Will use name if not provided.',
+				},
+				[WIDTH_PROPERTY]: {
+					example: 800,
+					description: 'The width of the canvas in pixels',
+					advanced: true
+				},
+				[HEIGHT_PROPERTY]: {
+					example: 450,
+					description: 'The height of the canvas in pixels',
+					advanced: true
+				},
+				[RUNS_PROPERTY]: {
+					example: 10,
+					description: 'How many runs in the simulation to run',
+				},
+				[SEED_PROPERTY]: {
+					example: '',
+					description: 'If omitted, will use a value derived from current time. The deterministic value to feed to seed.',
+					advanced: true
+				},
+				[AUTO_RUN_PROPERTY]: {
+					example: false,
+					description: 'if true, then it will automatically run all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.',
+					advanced: true
+				},
+				[COLORS_PROPERTY]: {
+					example: {
+						[COLOR_PRIMARY_PROPERTY]: {
+							example: "#fb8c00",
+							description: "Primary color",
+							behavior: "color",
+							nullable: true,
+						},
+						[COLOR_SECONDARY_PROPERTY]: {
+							example: "#51b9a3",
+							description: "Secondary color",
+							behavior: "color",
+							nullable: true
+						},
+						[COLOR_DISABLED_PROPERTY]: {
+							example: "ECCCCCC",
+							description: "Disabled color",
+							behavior: "color",
+							nullable: true
+						},
+						[COLOR_BACKGROUND_PROPERTY]: {
+							example: "transparent",
+							description: "Background color",
+							behavior: "color",
+							nullable: true
+						}
+					},
+					advanced: true,
+					description: "Colors",
+					nullable: true,
+				},
+				[SIM_PROPERTY]: {
+					//TODO: use the constant
+					example: 'schelling-org',
+					options: [{value:'schelling-org'}],
+					description: 'The simulator type to run. Currently only "schelling-org" is supported.'
+				},
+				[SIM_OPTIONS_PROPERTY]: {
+					example: simOptionsConfig,
+					description: 'Settings specific to this simulator'
+				}
 			}
 		};
 		deepFreeze(result);
