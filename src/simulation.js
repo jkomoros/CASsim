@@ -8,7 +8,11 @@ import {
 } from './util.js';
 
 import SchellingOrgSimulator from "./simulators/schelling-org.js";
-import { optionsConfigValidator } from './options.js';
+
+import {
+	configObjectIsValid,
+	optionsConfigValidator
+} from './options.js';
 
 //A string or "" to request gif output include this frame. Only frames that explicitly include this will be outputed.
 //Duplicated in screenshot.js
@@ -283,6 +287,10 @@ const Simulation = class {
 		configCopy[SIM_OPTIONS_PROPERTY] = this._simulator.normalizeOptions(rawSimOptions);
 		deepFreeze(configCopy);
 		this._config = configCopy;
+		const configProblems = configObjectIsValid(this.optionsConfig, this._config);
+		if (configProblems.length) {
+			throw new Error('Invalid config: ' + configProblems.join(', '));
+		}
 		this._altName = altName;
 		this._seed = this._config[SEED_PROPERTY] || '' + Date.now();
 		this._runs = [];
