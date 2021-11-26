@@ -75,7 +75,7 @@ class SimulationControls extends connect(store)(LitElement) {
 					<run-summary .statuses=${this._runStatuses} .selectedIndex=${this._runIndex} @run-clicked=${this._handleStatusClicked}></run-summary>
 				</div>
 				<div>
-					<options-control .config=${this._simulation.optionsConfig}></options-control>
+					<options-control .config=${this._simulation.optionsConfig} .value=${this._simulation.config}></options-control>
 				</div>
 			</div>
 		`;
