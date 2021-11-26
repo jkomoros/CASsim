@@ -338,10 +338,12 @@ const Simulation = class {
 				[NAME_PROPERTY]: {
 					example: '',
 					description: 'Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL. May be omitted',
+					advanced: true
 				},
 				[DESCRIPTION_PROPERTY]: {
 					example: '',
 					description: 'The human-readable description of the config. Optional. Will use name if not provided.',
+					advanced: true
 				},
 				[WIDTH_PROPERTY]: {
 					example: 800,
