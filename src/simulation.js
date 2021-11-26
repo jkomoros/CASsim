@@ -66,7 +66,11 @@ const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 /*
 	Simulators are classes that have the following static methods:
 
-	optionsValidator(rawSimOptions) => array of problem strings, or [] if OK
+	optionsValidator(rawSimOptions) => array of problem strings, or [] if OK.
+	Note that the harness will already check for config problems against
+	optionsConfig() before this, so you only need to do validation that isn't
+	possible to do declaratively via optionsConfig() (e.g. checking a text field
+	against a regular expression, etc.)
 
 	normalizeOptions(rawSimOptions) => normalizedSimOptions. An opportunity for
 	the simulator to take a raw sim options and return a fully normalized
