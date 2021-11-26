@@ -46,8 +46,9 @@ class OptionsControl extends LitElement {
 			<label>${this.name} ${help(this.config.description)}</label>
 			${typeof example == 'object' ?
 		(Array.isArray(example) ?
-			html`${this.value.map((item, index) => html`<options-control .value=${item} .config=${this.config[0]} .name=${index}></options-control>`)}` :
-			html`${Object.entries(this.value).map(entry => html`<options-control .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]}></options-control>`)}`) :
+			html`${this.value.map((item, index) => html`<options-control .value=${item} .config=${example[0]} .name=${index}></options-control>`)}` :
+			(this.value == null ? html`<em>null</em>` :
+				html`${Object.entries(this.value).map(entry => html`<options-control .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]}></options-control>`)}`)) :
 		html`<input .value=${this.value}></input>`}
 		`;
 	}
