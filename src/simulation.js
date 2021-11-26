@@ -402,7 +402,9 @@ const Simulation = class {
 					//TODO: use the constant
 					example: 'schelling-org',
 					options: [{value:'schelling-org'}],
-					description: 'The simulator type to run. Currently only "schelling-org" is supported.'
+					description: 'The simulator type to run. Currently only "schelling-org" is supported.',
+					//Advanced while this is the only option
+					advanced: true,
 				},
 				[SIM_OPTIONS_PROPERTY]: {
 					example: simOptionsConfig,
