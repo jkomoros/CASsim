@@ -375,7 +375,8 @@ const SchellingOrgSimulator = class {
 					}
 				},
 				nullable: true,
-				description: "An optional object that controls how things render. If not provided, will be interpreted as though it enables no optional rendering."
+				description: "An optional object that controls how things render. If not provided, will be interpreted as though it enables no optional rendering.",
+				advanced: true
 			},
 			[COMMUNICATION_PROPERTY_NAME]: {
 				example: 0,
