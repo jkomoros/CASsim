@@ -17,7 +17,8 @@ import {
 import {
 	updateSimulationIndex,
 	updateFrameIndex,
-	updateRunIndex
+	updateRunIndex,
+	updateCurrentSimulationOptions
 } from '../actions/data.js';
 
 // These are the shared styles needed by this element.
@@ -119,8 +120,7 @@ class SimulationControls extends connect(store)(LitElement) {
 	}
 
 	_handleOptionChanged(e) {
-		//TODO: actualy dispatch to change it
-		console.log('Option changed: ' + e.detail.path + ': ' + e.detail.value);
+		store.dispatch(updateCurrentSimulationOptions(e.detail.path, e.detail.value));
 	}
 }
 
