@@ -379,6 +379,11 @@ const SchellingOrgSimulator = class {
 		}
 		return problems;
 	}
+	
+	optionsConfig() {
+		//TODO: return a real one
+		return {};
+	}
 };
 
 export default SchellingOrgSimulator;
