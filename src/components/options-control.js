@@ -5,6 +5,10 @@ import {
 } from "../options.js";
 
 import {
+	DELETE_SENTINEL
+} from '../util.js';
+
+import {
 	help,
 	HelpStyles
 } from './help-badges.js';
@@ -79,7 +83,7 @@ class OptionsControl extends LitElement {
 			</details>` : ''}`;
 		}
 		return html`
-			<label>${this.name} ${help(this.config.description)}</label>
+			<label>${this.name} ${help(this.config.description)} ${this.config.nullable ? html`<button @click=${this._handleNullableClicked}>X</button>` : ''}</label>
 			${this._innerControl()}
 		`;
 	}
@@ -111,6 +115,10 @@ class OptionsControl extends LitElement {
 		if (this.config.behavior == COLOR_BEHAVIOR_NAME) type = 'color';
 
 		return html`<input @change=${this._handleInputChanged} .type=${type} .min=${this.config.min || 0.0} .max=${this.config.max || Number.MAX_SAFE_INTEGER} .step=${this.config.step || 1.0} .value=${this.value} .checked=${this.value}></input>`;
+	}
+
+	_handleNullableClicked() {
+		this.dispatchEvent(new CustomEvent('option-changed', {composed: true, detail: {path: this.path, value:DELETE_SENTINEL}}));
 	}
 
 	_handleInputChanged(e) {
