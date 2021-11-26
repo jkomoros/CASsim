@@ -274,24 +274,9 @@ const configObjectIsValid = (optionsConfig, value) => {
 		if (optionsConfig[STEP_PROPERTY_NAME] !== undefined && optionsConfig[STEP_PROPERTY_NAME] % value !== 0) return [STEP_PROPERTY_NAME + ' was set but the value was not a multiple of it'];
 	}
 	//Skip null values, we already checked above if it was OK they were null.
-	if (typeof value == 'object' && value) {
-		if (Array.isArray(value)) {
-			if (optionsConfig[MIN_PROPERTY_NAME] !== undefined && optionsConfig[MIN_PROPERTY_NAME] > value.length) return [MIN_PROPERTY_NAME + ' was set and the array value had a length less than it'];
-			if (optionsConfig[MAX_PROPERTY_NAME] !== undefined && optionsConfig[MAX_PROPERTY_NAME] < value.length) return [MAX_PROPERTY_NAME + ' was set and the array value had a length more than it'];
-			for (const [i, subValue] of value.entries()) {
-				const problems = maySetPropertyInConfigObject(optionsConfig[EXAMPLE_PROPERTY_NAME][0], '', subValue);
-				if (problems.length) {
-					return ['Array item ' + i + ' failed validation: ' + problems.join(', ')];
-				}
-			}
-		} else {
-			for (const [key, exampleValue] of Object.entries(example)) {
-				const problems = maySetPropertyInConfigObject(exampleValue, '', value[key]);
-				if (problems.length) {
-					return ['Sub object ' + key + ' failed validation: ' + problems.join(', ')];
-				}
-			}
-		}
+	if (typeof value == 'object'  && value && Array.isArray(value)) {
+		if (optionsConfig[MIN_PROPERTY_NAME] !== undefined && optionsConfig[MIN_PROPERTY_NAME] > value.length) return [MIN_PROPERTY_NAME + ' was set and the array value had a length less than it'];
+		if (optionsConfig[MAX_PROPERTY_NAME] !== undefined && optionsConfig[MAX_PROPERTY_NAME] < value.length) return [MAX_PROPERTY_NAME + ' was set and the array value had a length more than it'];
 	}
 	//TODO: make sure that DELETE_SENTINEL works fine
 	//TODO: test very hard objects like the individuals array from schelling-org
