@@ -59,7 +59,7 @@ class MyApp extends connect(store)(LitElement) {
 				main {
 					display: block;
 					--disabled-color: #CCC;
-					--dark-gray-clor: #999;
+					--dark-gray-color: #666;
 				}
 
 				.page {

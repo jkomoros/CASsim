@@ -32,13 +32,9 @@ class OptionsControl extends LitElement {
 					flex-direction: column;
 				}
 
-				summary > label {
-					font-size: 0.7em;
-				}
-
 				label {
 					font-size: 0.8em;
-					font-color: #ccc;
+					color: var(--dark-gray-color);
 				}
 
 				options-control {
