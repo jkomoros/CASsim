@@ -217,7 +217,7 @@ const configObjectIsValid = (optionsConfig, value) => {
 			//recurse into sub-objects or array
 			if (!example) {
 				//Basic value recursion
-				const problems = maySetPropertyInConfigObject(optionsConfig[valueKey], valueValue);
+				const problems = configObjectIsValid(optionsConfig[valueKey], valueValue);
 				if (problems.length) {
 					return [valueKey + ' property returned error: ' + problems.join(', ')];
 				}
@@ -227,14 +227,14 @@ const configObjectIsValid = (optionsConfig, value) => {
 
 			//array
 			if (Array.isArray(example)) {
-				const problems = maySetPropertyInConfigObject(example[0], valueValue);
+				const problems = configObjectIsValid(example[0], valueValue);
 				if (problems.length) {
 					return [valueKey + ' property returned error: ' + problems.join(', ')];
 				}
 				return [];
 			}
 			//object
-			const problems = maySetPropertyInConfigObject(example[valueKey], valueValue);
+			const problems = configObjectIsValid(example[valueKey], valueValue);
 			if (problems.length) {
 				return [valueKey + ' property within example returned error: ' + problems.join(', ')];
 			}

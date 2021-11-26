@@ -1033,6 +1033,7 @@ describe('maySetPropertyInConfigObject', () => {
 		}
 	});
 
+
 	it('handles basic single-level object set with subobject that is invalid', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
 		const config = {
@@ -1064,6 +1065,8 @@ describe('maySetPropertyInConfigObject', () => {
 			throw err;
 		}
 	});
+
+	*/
 
 	it('handles basic single-level object set with subobject that is invalid', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
@@ -1136,6 +1139,7 @@ describe('maySetPropertyInConfigObject', () => {
 			throw err;
 		}
 	});
+
 
 	it('handles basic single-level object on a non-leaf object', async () => {
 		const config = {
@@ -1217,6 +1221,7 @@ describe('maySetPropertyInConfigObject', () => {
 		}
 	});
 
+
 	it('handles basic stacked object with example array', async () => {
 		const config = {
 			foo: {
@@ -1248,6 +1253,7 @@ describe('maySetPropertyInConfigObject', () => {
 			throw err;
 		}
 	});
+
 
 	it('handles basic stacked object with example object', async () => {
 		const config = {
@@ -1283,6 +1289,6 @@ describe('maySetPropertyInConfigObject', () => {
 		}
 	});
 
-	*/
+	
 
 });
