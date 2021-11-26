@@ -110,7 +110,7 @@ export const updateCurrentSimulationOptions = (path, value) => (dispatch, getSta
 	const simulation = selectCurrentSimulation(state);
 	const problems = maySetPropertyInConfigObject(simulation.optionsConfig, simulation.config, path, value);
 	if (problems.length) {
-		console.warn('Invalid modification proposed: ' + path + ': ' + value + ': ' + problems.join(', '));
+		alert('Invalid modification proposed: ' + path + ': ' + value + ': ' + problems.join(', '));
 		return;
 	}
 	dispatch({
