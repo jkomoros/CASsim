@@ -25,6 +25,9 @@ class OptionsControl extends LitElement {
 				.container {
 					display: flex;
 					flex-direction: column;
+					line-height: 1.0em;
+					padding-left: 0.3em;
+					border-left: 1px solid var(--disabled-color);
 				}
 
 				details {
@@ -32,13 +35,13 @@ class OptionsControl extends LitElement {
 					flex-direction: column;
 				}
 
-				label {
+				label, em {
 					font-size: 0.8em;
 					color: var(--dark-gray-color);
 				}
 
 				options-control {
-					margin-left: 0.5em;
+					margin-left: 0.3em;
 				}
 			`
 		];
