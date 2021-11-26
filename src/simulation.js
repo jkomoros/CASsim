@@ -66,8 +66,8 @@ const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 /*
 	Simulators are classes that have the following static methods:
 
-	optionsValidator(rawSimOptions) => array of problem strings, or [] if OK.
-	Note that the harness will already check for config problems against
+	optionsValidator(normalizedSimOptions) => array of problem strings, or [] if
+	OK. Note that the harness will already check for config problems against
 	optionsConfig() before this, so you only need to do validation that isn't
 	possible to do declaratively via optionsConfig() (e.g. checking a text field
 	against a regular expression, etc.)
@@ -97,34 +97,6 @@ const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 */
 const SIMULATORS = {
 	[SCHELLING_ORG_SIMULATION_NAME]: SchellingOrgSimulator,
-};
-
-//Returns an array of strings describing problems, or [] if everything is OK.
-const simulatorConfigValid = (config) => {
-	if (!config) return ['Not an object'];
-	const problems = [];
-	if (config.runs == undefined) problems.push('Required property runs is not provided');
-	if (typeof config.runs != 'number' || config.runs < 1.0) problems.push('Runs must be a number greater than 1');
-
-	if (typeof config[HEIGHT_PROPERTY] != 'number' || config[HEIGHT_PROPERTY] < 0) problems.push(HEIGHT_PROPERTY + ' property must be a positive number');
-	if (typeof config[WIDTH_PROPERTY] != 'number' || config[WIDTH_PROPERTY] < 0) problems.push(WIDTH_PROPERTY + ' property must be a positive number');
-
-	if (config.sim != SCHELLING_ORG_SIMULATION_NAME) problems.push('Only ' + SCHELLING_ORG_SIMULATION_NAME + ' is supported as a sim');
-
-	//TODO: verify other properties
-
-	const sim = SIMULATORS[config[SIM_PROPERTY]];
-	if (!sim) {
-		problems.push('Unknown sim');
-		return problems;
-	}
-
-	const simProblems = sim.optionsValidator(config[SIM_OPTIONS_PROPERTY] || {}) || [];
-	if (simProblems.length) {
-		problems.push('Sim problems: ' + simProblems.join(', '));
-	}
-
-	return problems;
 };
 
 export const SimulationCollection = class {
@@ -276,19 +248,23 @@ const SimulationRun = class {
 const Simulation = class {
 	constructor(config, altName) {
 
-		const problems = simulatorConfigValid(config);
-		if (problems.length > 0) {
-			throw new Error('Invalid config: ' + problems.join(', '));
-		}
 		const name = config[NAME_PROPERTY];
 		if (name) {
 			if (typeof name != 'string') throw new Error('Name was provided but not a string');
 			if (!name.match(/^[0-9a-zA-Z-_]+$/)) throw new Error('Name had invalid characters in it');
 		}
 		this._simulator = SIMULATORS[config.sim];
+		if (!this._simulator) {
+			throw new Error('Unknown simulator name: ' + config.sim);
+		}
 		const configCopy = deepCopy(config);
 		const rawSimOptions = configCopy[SIM_OPTIONS_PROPERTY];
 		configCopy[SIM_OPTIONS_PROPERTY] = this._simulator.normalizeOptions(rawSimOptions);
+		const simProblems = this._simulator.optionsValidator(config[SIM_OPTIONS_PROPERTY] || {}) || [];
+		if (simProblems.length) {
+			return ['Sim problems: ' + simProblems.join(', ')];
+		}
+	
 		deepFreeze(configCopy);
 		this._config = configCopy;
 		const configProblems = configObjectIsValid(this.optionsConfig, this._config);
