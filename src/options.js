@@ -278,7 +278,6 @@ export const configObjectIsValid = (optionsConfig, value) => {
 		if (optionsConfig[MIN_PROPERTY_NAME] !== undefined && optionsConfig[MIN_PROPERTY_NAME] > value.length) return [MIN_PROPERTY_NAME + ' was set and the array value had a length less than it'];
 		if (optionsConfig[MAX_PROPERTY_NAME] !== undefined && optionsConfig[MAX_PROPERTY_NAME] < value.length) return [MAX_PROPERTY_NAME + ' was set and the array value had a length more than it'];
 	}
-	//TODO: make sure that DELETE_SENTINEL works fine
 	return [];
 };
 
