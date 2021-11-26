@@ -30,6 +30,11 @@ class OptionsControl extends LitElement {
 					border-left: 1px solid var(--disabled-color);
 				}
 
+				.container.top {
+					padding-left: 0;
+					border-left-width: 0;
+				}
+
 				details {
 					display: flex;
 					flex-direction: column;
@@ -50,7 +55,7 @@ class OptionsControl extends LitElement {
 	render() {
 		return html`
 		${HelpStyles}
-		<div class='container'>
+		<div class='container ${(this.path || '').split('.').length < 2 ? 'top' : ''}'>
 			${this._inner()}
 		</div>`;
 	}
