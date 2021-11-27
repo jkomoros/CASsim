@@ -10,7 +10,9 @@ import {
 	nextFrameIndex,
 	prevFrameIndex,
 	updateWithSimPageExtra,
-	closeDialog
+	closeDialog,
+	updateCurrentSimulationOptions,
+	DIALOG_TYPE_JSON
 } from "../actions/data.js";
 
 import {
@@ -24,7 +26,9 @@ import {
 	selectCurrentSimulationHeight,
 	selectCurrentSimulationWidth,
 	selectDialogOpen,
-	selectRawConfigData
+	selectRawConfigData,
+	selectDialogType,
+	selectDialogExtras
 } from "../selectors.js";
 
 import {
@@ -89,6 +93,8 @@ class SimView extends connect(store)(PageViewElement) {
 			_pageExtra: { type: String },
 			_frameIndex: { type: Number },
 			_dialogOpen: {type: Boolean},
+			_dialogType: {type: String},
+			_dialogExtras: {type:Object},
 			_rawConfigData: {type: Object},
 			_height: {type: Number},
 			_width: {type: Number},
@@ -147,8 +153,8 @@ class SimView extends connect(store)(PageViewElement) {
 					--app-background-color: ${this._backgroundColor}
 				}
 			</style>
-			<dialog-element .open=${this._dialogOpen} .title=${'JSON'} @dialog-should-close=${this._handleDialogShouldClose}>
-				<textarea readonly style='height:100%; width:100%'>${JSON.stringify(this._rawConfigData, '', 2)}</textarea>
+			<dialog-element .open=${this._dialogOpen} .title=${this._dialogType} @dialog-should-close=${this._handleDialogShouldClose}>
+				${this._dialogInner()}
 			</dialog-element>
 			<simulation-controls></simulation-controls>
 			<div class='container'>
@@ -163,10 +169,21 @@ class SimView extends connect(store)(PageViewElement) {
 		return this._currentFrame.colors.background.hex;
 	}
 
+	_dialogInner() {
+		if (!this._dialogOpen) return html``;
+		if (this._dialogType == DIALOG_TYPE_JSON) return html`<textarea readonly style='height:100%; width:100%'>${JSON.stringify(this._rawConfigData, '', 2)}</textarea>`;
+		return html`
+			${this._dialogExtras.options.map(item => html`<input id=${item.value} type='radio' name='add' .value=${item.value} .path=${item.path} .default=${item.default}><label for=${item.value}>${item.value}</label>`)}
+			<button @click=${this._handleAddFieldButtonClicked}>Add</button>
+			`;
+	}
+
 	// This is called every time something is updated in the store.
 	stateChanged(state) {
 		this._rawConfigData = selectRawConfigData(state);
 		this._dialogOpen = selectDialogOpen(state);
+		this._dialogType = selectDialogType(state);
+		this._dialogExtras = selectDialogExtras(state);
 		this._currentFrame = selectCurrentFrame(state);
 		this._pageExtra = selectPageExtra(state);
 		this._frameIndex = selectFrameIndex(state);
@@ -176,6 +193,21 @@ class SimView extends connect(store)(PageViewElement) {
 		this.updateComplete.then(() => {
 			window[RENDER_COMPLETE_VARIABLE] = true;
 		});
+	}
+
+	_handleAddFieldButtonClicked() {
+		const eles = this.shadowRoot.querySelectorAll('input[type=radio]');
+		let selectedEle = null;
+		for (const ele of eles) {
+			if (ele.checked) {
+				selectedEle = ele;
+				break;
+			}
+		}
+		if (selectedEle){
+			store.dispatch(updateCurrentSimulationOptions(selectedEle.path, selectedEle.default));
+		}
+		store.dispatch(closeDialog());
 	}
 
 	_handleDialogShouldClose() {

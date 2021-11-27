@@ -6,6 +6,7 @@ export const UPDATE_FRAME_INDEX = 'UPDATE_FRAME_INDEX';
 export const UPDATE_DIALOG_OPEN = 'UPDATE_DIALOG_OPEN';
 
 export const DIALOG_TYPE_JSON = 'json';
+export const DIALOG_TYPE_ADD_FIELD = 'add-field';
 
 import {
 	canonicalizePath

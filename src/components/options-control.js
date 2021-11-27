@@ -27,6 +27,10 @@ import {
 	PLUS_ICON
 } from './my-icons.js';
 
+import {
+	DIALOG_TYPE_ADD_FIELD
+} from '../actions/data.js';
+
 class OptionsControl extends LitElement {
 	static get properties() {
 		return {
@@ -110,10 +114,7 @@ class OptionsControl extends LitElement {
 			return html`
 				${this.value == null ? html`<em>null</em>` : ''}
 				${nonAdvancedEntries.map(entry => html`<options-control .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}
-				${nulledEntries.length ? html`<select @input=${this._handleAddNulled}>
-					<option .selected=${true}><em>Add a missing field...</em></option>
-					${nulledEntries.map(entry => html`<option .value=${entry[0]}>${entry[0]}</option>`)}
-				</select>` : ''}
+				${nulledEntries.length ? html`<button class='small' @click=${this._handleAddNulledClicked}>Add field...</button>` : ''}
 				${advancedEntries.length ? html`<details>
 					<summary><label>Advanced</label></summary>
 					${advancedEntries.map(entry => html`<options-control .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}
@@ -148,14 +149,20 @@ class OptionsControl extends LitElement {
 		this.dispatchEvent(new CustomEvent('option-changed', {composed: true, detail: {path: subPath, value: value}}));
 	}
 
-	_handleAddNulled(e) {
-		const ele = e.composedPath()[0];
-		const subPath = this.path ? this.path + '.' + ele.value : ele.value;
-		const subConfig = this.config.example[ele.value];
-		let value = defaultValueForConfig(subConfig);
-		this.dispatchEvent(new CustomEvent('option-changed', {composed: true, detail: {path: subPath, value: value}}));
-		//Flip it back to unselected
-		ele.selectedIndex = 0;
+	_handleAddNulledClicked() {
+		const example = this.config.example;
+		const nonNullValue = this.value || {};
+		const nulledEntries = Object.entries(example).filter(entry => entry[1].optional && nonNullValue[entry[0]] == undefined);
+
+		const extras = {
+			options: nulledEntries.map(entry => ({
+				path: this.path ? this.path + '.' + entry[0] : entry[0],
+				value: entry[0],
+				default: defaultValueForConfig(example[entry[0]])
+			}))
+		};
+
+		this.dispatchEvent(new CustomEvent('open-dialog', {composed: true, detail: {type: DIALOG_TYPE_ADD_FIELD, extras}}));
 	}
 
 }
