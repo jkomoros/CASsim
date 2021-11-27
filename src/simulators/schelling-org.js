@@ -390,14 +390,17 @@ const SchellingOrgSimulator = class {
 					},
 					[EPSILON_PROPERTY_NAME]: {
 						example: 0.05,
+						step: 0.05,
 						description: "Project values within this amount of each other will be considered to be the same"
 					},
 					[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: {
 						example: 0.5,
+						step: 0.05,
 						description: "We compute a range of possible connection likelihoods based on [avgConnectionLikelihood - connectionLikelihoodSpread, avgConnectionLikelihood + connectionLikelihoodSpread] Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength."
 					},
 					[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: {
 						example: 0.5,
+						step: 0.05,
 						description: "We compute a range of possible connection likelihoods based on [avgConnectionLikelihood - connectionLikelihoodSpread, avgConnectionLikelihood + connectionLikelihoodSpread] Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength."
 					},
 					[INDIVIDUALS_PROPERTY_NAME]: {
@@ -415,6 +418,7 @@ const SchellingOrgSimulator = class {
 									},
 									[EPSILON_PROPERTY_NAME]: {
 										example: 0.5,
+										step: 0.05,
 										description: "The epsilon for this specific individual",
 										nullable:true,
 									},
@@ -451,10 +455,12 @@ const SchellingOrgSimulator = class {
 					},
 					[MAX_EXTRA_VALUE_PROPERTY_NAME]: {
 						example: 0.0,
+						step: 0.05,
 						description: "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value"
 					},
 					[MAX_ERROR_VALUE_PROPERTY_NAME]: {
 						example: 0.0,
+						step: 0.05,
 						description: 'Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.'
 					},
 					[INDIVIDUALS_PROPERTY_NAME]: {
@@ -468,11 +474,13 @@ const SchellingOrgSimulator = class {
 									},
 									value: {
 										example: 1.0,
+										step: 0.05,
 										description: "Value is the height of the project, in units of 1.0 = width",
 										nullable: true
 									},
 									error: {
 										example: 0.0,
+										step: 0.05,
 										description: "The error bars for this value; collaborators will consider the true value to be somewhere within value +/- this value",
 										nullable: true
 									}
