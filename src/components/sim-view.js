@@ -22,7 +22,8 @@ import {
 	selectFrameIndex,
 	selectCurrentSimulationHeight,
 	selectCurrentSimulationWidth,
-	selectDialogOpen
+	selectDialogOpen,
+	selectRawConfigData
 } from "../selectors.js";
 
 import {
@@ -87,6 +88,7 @@ class SimView extends connect(store)(PageViewElement) {
 			_pageExtra: { type: String },
 			_frameIndex: { type: Number },
 			_dialogOpen: {type: Boolean},
+			_rawConfigData: {type: Object},
 			_height: {type: Number},
 			_width: {type: Number},
 		};
@@ -144,7 +146,11 @@ class SimView extends connect(store)(PageViewElement) {
 					--app-background-color: ${this._backgroundColor}
 				}
 			</style>
-			<dialog-element .open=${this._dialogOpen}></dialog-element>
+			<dialog-element .open=${this._dialogOpen} .title=${'JSON'}>
+				<textarea disabled>
+					${JSON.stringify(this._rawConfigData, '', 2)}
+				</textarea>
+			</dialog-element>
 			<simulation-controls></simulation-controls>
 			<div class='container'>
 				<frame-visualization .frame=${this._currentFrame} .width=${this._width} .height=${this._height}></frame-visualization>
@@ -160,6 +166,7 @@ class SimView extends connect(store)(PageViewElement) {
 
 	// This is called every time something is updated in the store.
 	stateChanged(state) {
+		this._rawConfigData = selectRawConfigData(state);
 		this._dialogOpen = selectDialogOpen(state);
 		this._currentFrame = selectCurrentFrame(state);
 		this._pageExtra = selectPageExtra(state);
