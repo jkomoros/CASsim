@@ -148,7 +148,6 @@ export class DialogElement extends LitElement {
 		if (!input) input = this.shadowRoot.querySelector('textarea');
 		if (!input) {
 			const slot = this.shadowRoot.querySelector('slot');
-			console.log(slot.assignedElements());
 			for (const ele of slot.assignedElements()) {
 				if (ele.localName == 'textarea') {
 					input = ele;
@@ -158,6 +157,7 @@ export class DialogElement extends LitElement {
 		}
 		if (!input) return;
 		input.focus();
+		input.select();
 	}
 
 	static get properties() {

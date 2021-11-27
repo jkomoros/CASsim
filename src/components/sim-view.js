@@ -148,7 +148,7 @@ class SimView extends connect(store)(PageViewElement) {
 				}
 			</style>
 			<dialog-element .open=${this._dialogOpen} .title=${'JSON'} @dialog-should-close=${this._handleDialogShouldClose}>
-				<textarea disabled style='height:100%; width:100%'>${JSON.stringify(this._rawConfigData, '', 2)}</textarea>
+				<textarea readonly style='height:100%; width:100%'>${JSON.stringify(this._rawConfigData, '', 2)}</textarea>
 			</dialog-element>
 			<simulation-controls></simulation-controls>
 			<div class='container'>
