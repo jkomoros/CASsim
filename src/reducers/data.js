@@ -56,14 +56,6 @@ const data = (state = INITIAL_STATE, action) => {
 	case UPDATE_CURRENT_SIMULATION_CONFIG:
 		const newData = [...state.data];
 		let index = state.simulationIndex;
-		if (typeof index != 'number') {
-			for (const [i, obj] of newData.entries()) {
-				if (obj.name == state.simulationIndex) {
-					index = i;
-					break;
-				}
-			}
-		}
 		newData[index] = setPropertyInObject(newData[index], action.path, action.value);
 		return {
 			...state,
