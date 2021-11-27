@@ -22,7 +22,11 @@ import {
 	openDialog,
 } from '../actions/data.js';
 
-// These are the shared styles needed by this element.
+import {
+	CODE_ICON
+} from "./my-icons.js";
+
+import { ButtonSharedStyles } from "./button-shared-styles.js";
 import { SharedStyles } from "./shared-styles.js";
 
 import './run-summary.js';
@@ -45,6 +49,7 @@ class SimulationControls extends connect(store)(LitElement) {
 	static get styles() {
 		return [
 			SharedStyles,
+			ButtonSharedStyles,
 			css`
 				:host {
 					position:absolute;
@@ -60,7 +65,7 @@ class SimulationControls extends connect(store)(LitElement) {
 		return html`
 			<div class='container'>
 				<div>
-					<button class='small' @click=${this._handleShowJSONClicked}>Show JSON</button>
+					<button class='small' @click=${this._handleShowJSONClicked}>${CODE_ICON}</button>
 				</div>
 				<div>
 					<label for='simulationIndex'>Simulation</label>
