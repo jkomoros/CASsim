@@ -44,7 +44,7 @@ export const shuffleArrayInPlace = (array, rnd) => {
 	}
 };
 
-export const DELETE_SENTINEL = {};
+export const DELETE_SENTINEL = {DELETE:true};
 
 //path is a dotted list of accessors in the object, returns a new object with
 //the modifications. If value is DELETE_SENTINEL then it will delete the implied
