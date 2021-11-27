@@ -1,7 +1,7 @@
 const EXAMPLE_PROPERTY_NAME = 'example';
 const DESCRIPTION_PROPERTY_NAME = 'description';
 const ADVANCED_PROPERTY_NAME = 'advanced';
-const NULLABLE_PROPERTY_NAME = 'nullable';
+const OPTIONAL_PROPERTY_NAME = 'optional';
 const MIN_PROPERTY_NAME = 'min';
 const MAX_PROPERTY_NAME = 'max';
 const STEP_PROPERTY_NAME = 'step';
@@ -68,17 +68,17 @@ optionsConfig shape:
 				"example": [
 					{
 						//an optionLeaf option useful only for array leafs, which says individual items may be null.
-						"nullable": true,
+						"optional": true,
 						"example": {
 							"epsilon": {
 								"example": 0.05,
 								"step": 0.01,
 								"description": "The individuals likelihood",
-								"nullable": true,
+								"optional": true,
 							},
 							"avgLikelihood": {
 								"example": 1.0,
-								"nullable": true,
+								"optional": true,
 								"description": "This individual's specific avg likelihood"
 							}
 							"description": "Options for a single individual"
@@ -142,7 +142,7 @@ optionsConfig shape:
 	],
 	//For array and object types, whether a given item is allowed to be set explicitly to null.
 	//Defaults to false
-	"nullable": false,
+	"optional": false,
 	//Advanced options will only render UI if the user has enabled advanced mode.
 	"advanced": false,
 }
@@ -189,7 +189,7 @@ const optionsLeafValidator = (config) => {
 	}
 
 	if (config[DESCRIPTION_PROPERTY_NAME] !== undefined && typeof config[DESCRIPTION_PROPERTY_NAME] != 'string') return [DESCRIPTION_PROPERTY_NAME + ' must be a string if provided'];
-	if (config[NULLABLE_PROPERTY_NAME] !== undefined && typeof config[NULLABLE_PROPERTY_NAME] != 'boolean') return [NULLABLE_PROPERTY_NAME + ' must be a boolean if provided'];
+	if (config[OPTIONAL_PROPERTY_NAME] !== undefined && typeof config[OPTIONAL_PROPERTY_NAME] != 'boolean') return [OPTIONAL_PROPERTY_NAME + ' must be a boolean if provided'];
 	if (config[ADVANCED_PROPERTY_NAME] !== undefined && typeof config[ADVANCED_PROPERTY_NAME] != 'boolean') return [ADVANCED_PROPERTY_NAME + ' must be a boolean if provided'];
 
 	if (config[MIN_PROPERTY_NAME] !== undefined && typeof config[MIN_PROPERTY_NAME] != 'number') return [MIN_PROPERTY_NAME + ' must be a number if provided'];
@@ -235,7 +235,7 @@ export const configObjectIsValid = (optionsConfig, value) => {
 				return [valueKey + ' property returned error: ' + problems.join(', ')];
 			}
 		}
-		//Verify that if there were more keys expected to be there they are valid (i.e. they might be nullable)
+		//Verify that if there were more keys expected to be there they are valid (i.e. they might be optional)
 		for (const configKey of Object.keys(optionsConfig)) {
 			if (seenKeys[configKey]) continue;
 			const problems = configObjectIsValid(optionsConfig[configKey], value[configKey]);
@@ -247,7 +247,7 @@ export const configObjectIsValid = (optionsConfig, value) => {
 	}
 
 	if (example == undefined) return ['No example provided'];
-	if (value == null && !optionsConfig[NULLABLE_PROPERTY_NAME]) return ['value was null but ' + NULLABLE_PROPERTY_NAME + ' was not set'];
+	if (value == null && !optionsConfig[OPTIONAL_PROPERTY_NAME]) return ['value was null but ' + OPTIONAL_PROPERTY_NAME + ' was not set'];
 	//Base case. optionsConfig should be an optionLeaf.
 	if (value != null && typeof example != typeof value) return ['Example was of type ' + typeof optionsConfig[EXAMPLE_PROPERTY_NAME] + ' but value was of type ' + typeof value];
 	if (Array.isArray(example) != Array.isArray(value)) return ['Example was an array but value was not or vice versa'];

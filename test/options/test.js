@@ -266,11 +266,11 @@ describe('optionsConfigValidator', () => {
 		assert.strictEqual(result.length, expectedProblemLength);
 	});
 
-	it('handles basic object with incorrect nullable', async () => {
+	it('handles basic object with incorrect optional', async () => {
 		const config = {
 			foo: {
 				example: 3,
-				nullable: 5,
+				optional: 5,
 			}
 		};
 		const result = optionsConfigValidator(config);
@@ -456,7 +456,7 @@ describe('optionsConfigValidator', () => {
 			foo: {
 				example: 3,
 				description: '3 is an example',
-				nullable: true,
+				optional: true,
 				advanced: true,
 				behavior: 'color',
 				min: 2,
@@ -873,7 +873,7 @@ describe('maySetPropertyInConfigObject', () => {
 			example: [
 				{
 					example: 3,
-					nullable: true,
+					optional: true,
 				}
 			],
 		};
@@ -922,7 +922,7 @@ describe('maySetPropertyInConfigObject', () => {
 							example: 3,
 						}
 					},
-					nullable: true,
+					optional: true,
 				}
 			},
 		};
@@ -945,7 +945,7 @@ describe('maySetPropertyInConfigObject', () => {
 		}
 	});
 
-	it('handles basic single-level object set with subobject that has a missing property value that is allowed to be nullable', async () => {
+	it('handles basic single-level object set with subobject that has a missing property value that is allowed to be optional', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
 		const config = {
 			example: {
@@ -955,7 +955,7 @@ describe('maySetPropertyInConfigObject', () => {
 							example: 3,
 						}
 					},
-					nullable: true,
+					optional: true,
 				}
 			},
 		};
@@ -988,7 +988,7 @@ describe('maySetPropertyInConfigObject', () => {
 							example: 3,
 						}
 					},
-					nullable: false,
+					optional: false,
 				}
 			},
 		};
@@ -1346,7 +1346,7 @@ describe('maySetPropertyInConfigObject', () => {
 										example: 2,
 									}
 								},
-								nullable: true
+								optional: true
 							}
 						]
 					}
@@ -1402,7 +1402,7 @@ describe('maySetPropertyInConfigObject', () => {
 										example: 2,
 									}
 								},
-								nullable: true
+								optional: true
 							}
 						]
 					}

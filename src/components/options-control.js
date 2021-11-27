@@ -112,7 +112,7 @@ class OptionsControl extends LitElement {
 
 	_inner() {
 		return html`
-			${this.path ? html`<label>${this.name} ${help(this.config.description)} ${this.config.nullable ? html`<button class='small' @click=${this._handleNullableClicked} title='Remove'>${CANCEL_ICON}</button>` : ''}</label>`: ''}
+			${this.path ? html`<label>${this.name} ${help(this.config.description)} ${this.config.optional ? html`<button class='small' @click=${this._handleNullableClicked} title='Remove'>${CANCEL_ICON}</button>` : ''}</label>`: ''}
 			${this._innerControl()}
 		`;
 	}
@@ -128,7 +128,7 @@ class OptionsControl extends LitElement {
 			}
 			const nonAdvancedEntries = Object.entries(this.value).filter(entry => !example[entry[0]].advanced);
 			const advancedEntries = Object.entries(this.value).filter(entry => example[entry[0]].advanced);
-			const nulledEntries = Object.entries(example).filter(entry => entry[1].nullable && this.value[entry[0]] == undefined);
+			const nulledEntries = Object.entries(example).filter(entry => entry[1].optional && this.value[entry[0]] == undefined);
 			return html`
 				${nonAdvancedEntries.map(entry => html`<options-control .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}
 				${nulledEntries.length ? html`<select @input=${this._handleAddNulled}>

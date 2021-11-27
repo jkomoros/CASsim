@@ -371,10 +371,10 @@ const SchellingOrgSimulator = class {
 						example: false,
 						description: "If true, then the SVG will render debug information",
 						advanced: true,
-						nullable: true,
+						optional: true,
 					}
 				},
-				nullable: true,
+				optional: true,
 				description: "An optional object that controls how things render. If not provided, will be interpreted as though it enables no optional rendering.",
 				advanced: true
 			},
@@ -414,32 +414,32 @@ const SchellingOrgSimulator = class {
 											}
 										],
 										description: "The starter beliefs of this individual of the values of projects. Must be an array of the same length as number of projects",
-										nullable: true,
+										optional: true,
 									},
 									[EPSILON_PROPERTY_NAME]: {
 										example: 0.5,
 										step: 0.05,
 										description: "The epsilon for this specific individual",
-										nullable:true,
+										optional:true,
 									},
 									emoji: {
 										example: 'A',
 										description: 'The specific emoji',
-										nullable:true,
+										optional:true,
 									},
 									[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: {
 										example: 0.5,
 										description: AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME + ' for this individual',
-										nullable:true,
+										optional:true,
 									},
 									[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: {
 										example: 0.5,
 										description: CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME + ' for this individual',
-										nullable:true,
+										optional:true,
 									}
 								},
 								description: "An individual",
-								nullable: true
+								optional: true
 							}
 						],
 						description: "individuals is set to override the computed individuals with the given properties. null values will be ignored, and keys not in the override will be left in place."
@@ -470,26 +470,26 @@ const SchellingOrgSimulator = class {
 									[MARKED_PROPERTY_NAME]: {
 										example: false,
 										description: "A marked project shows up distinctively; collaborators, when deciding between two projects that look like the same value, will prefer the marked one.",
-										nullable: true
+										optional: true
 									},
 									value: {
 										example: 1.0,
 										step: 0.05,
 										description: "Value is the height of the project, in units of 1.0 = width",
-										nullable: true
+										optional: true
 									},
 									error: {
 										example: 0.0,
 										step: 0.05,
 										description: "The error bars for this value; collaborators will consider the true value to be somewhere within value +/- this value",
-										nullable: true
+										optional: true
 									}
 								},
 								description: "A specific project",
-								nullable:true,
+								optional:true,
 							}
 						],
-						nullable: true,
+						optional: true,
 						description: "individuals is set to override the computed individuals with the given properties. null values will be ignored, and keys not in the override will be left in place."
 					}
 				},

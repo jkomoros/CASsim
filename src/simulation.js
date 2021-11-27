@@ -375,30 +375,30 @@ const Simulation = class {
 							example: "#fb8c00",
 							description: "Primary color",
 							behavior: "color",
-							nullable: true,
+							optional: true,
 						},
 						[COLOR_SECONDARY_PROPERTY]: {
 							example: "#51b9a3",
 							description: "Secondary color",
 							behavior: "color",
-							nullable: true
+							optional: true
 						},
 						[COLOR_DISABLED_PROPERTY]: {
 							example: "ECCCCCC",
 							description: "Disabled color",
 							behavior: "color",
-							nullable: true
+							optional: true
 						},
 						[COLOR_BACKGROUND_PROPERTY]: {
 							example: "transparent",
 							description: "Background color",
 							behavior: "color",
-							nullable: true
+							optional: true
 						}
 					},
 					advanced: true,
 					description: "Colors",
-					nullable: true,
+					optional: true,
 				},
 				[SIM_PROPERTY]: {
 					//TODO: use the constant
