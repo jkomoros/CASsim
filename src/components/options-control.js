@@ -168,7 +168,7 @@ class OptionsControl extends LitElement {
 
 	_handleAddArrayItem() {
 		const subPath = this.path + '.' + this.value.length;
-		let value = defaultValueForConfig(this.config);
+		let value = defaultValueForConfig(this.config.example[0]);
 		this.dispatchEvent(new CustomEvent('option-changed', {composed: true, detail: {path: subPath, value: value}}));
 	}
 
