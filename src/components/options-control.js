@@ -128,13 +128,13 @@ class OptionsControl extends LitElement {
 					<button class='small' @click=${this._handleAddArrayItem} title='Add additional item'>${PLUS_ICON}</button>
 					`;
 			}
-			if (this.value == null) {
-				return html`<em>null</em>`;
-			}
-			const nonAdvancedEntries = Object.entries(this.value).filter(entry => !example[entry[0]].advanced);
-			const advancedEntries = Object.entries(this.value).filter(entry => example[entry[0]].advanced);
-			const nulledEntries = Object.entries(example).filter(entry => entry[1].optional && this.value[entry[0]] == undefined);
+			//value might be null
+			const nonNullValue = this.value || {};
+			const nonAdvancedEntries = Object.entries(nonNullValue).filter(entry => !example[entry[0]].advanced);
+			const advancedEntries = Object.entries(nonNullValue).filter(entry => example[entry[0]].advanced);
+			const nulledEntries = Object.entries(example).filter(entry => entry[1].optional && nonNullValue[entry[0]] == undefined);
 			return html`
+				${this.value == null ? html`<em>null</em>` : ''}
 				${nonAdvancedEntries.map(entry => html`<options-control .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}
 				${nulledEntries.length ? html`<select @input=${this._handleAddNulled}>
 					<option .selected=${true}><em>Add a missing field...</em></option>
