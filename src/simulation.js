@@ -112,7 +112,7 @@ export const SimulationCollection = class {
 			let sim;
 			const config = configs[i];
 			try {
-				sim = new Simulation(config, i.toString());
+				sim = new Simulation(config, i);
 			} catch(err) {
 				throw new Error('Config #' + i + ' errored: ' + err);
 			}
@@ -250,7 +250,7 @@ const SimulationRun = class {
 };
 
 const Simulation = class {
-	constructor(config, altName) {
+	constructor(config, index) {
 
 		const name = config[NAME_PROPERTY];
 		if (name) {
@@ -277,10 +277,11 @@ const Simulation = class {
 		if (configProblems.length) {
 			throw new Error('Invalid config: ' + configProblems.join(', '));
 		}
-		this._altName = altName;
+		this._altName = (index || 0).toString();
 		this._seed = this._config[SEED_PROPERTY] || '' + Date.now();
 		this._runs = [];
 		this._optionConfig = null;
+		this._index = index;
 		this._colors = Object.fromEntries(Object.entries(this._config[COLORS_PROPERTY] || {}).map(entry => [entry[0], color(entry[1])]));
 		for (let i = 0; i < config[RUNS_PROPERTY]; i++) {
 			const run = new SimulationRun(this, i);
@@ -305,6 +306,10 @@ const Simulation = class {
 	//rawConfig is the un-normalized config, exactly as passed in from data.
 	get rawConfig() {
 		return this._rawConfig;
+	}
+
+	get index() {
+		return this._index;
 	}
 
 	get colors() {

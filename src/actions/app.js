@@ -6,7 +6,7 @@ export const CLOSE_SNACKBAR = "CLOSE_SNACKBAR";
 import {
 	selectPage,
 	selectPageExtra,
-	selectSimulationIndex,
+	selectCurrentSimulationName,
 	selectRunIndex,
 	selectFrameIndex,
 	selectFilename
@@ -35,10 +35,10 @@ export const canonicalizePath = () => (dispatch ,getState) => {
 		path.push(pageExtra);
 	} else {
 		const filename = selectFilename(state);
-		const simulationIndex = selectSimulationIndex(state);
+		const simulationName = selectCurrentSimulationName(state);
 		const runIndex = selectRunIndex(state);
 		const frameIndex = selectFrameIndex(state);
-		path.push(filename, simulationIndex, runIndex, frameIndex, '');
+		path.push(filename, simulationName, runIndex, frameIndex, '');
 	}
 
 	dispatch(navigatePathTo(path.join('/'), true));

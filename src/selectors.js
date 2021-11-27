@@ -33,6 +33,12 @@ export const selectCurrentSimulation = createSelector(
 	(collection, simulationIndex) => collection.simulation(simulationIndex)
 );
 
+export const selectCurrentSimulationName = createSelector(
+	selectCurrentSimulation,
+	selectSimulationIndex,
+	(sim, index) => sim ? sim.name : index
+);
+
 export const selectCurrentSimulationSimulatorName = createSelector(
 	selectCurrentSimulation,
 	(sim) => sim ? sim.simulatorName : ''

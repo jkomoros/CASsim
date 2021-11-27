@@ -23,7 +23,8 @@ import {
 	selectCurrentSimulationMaxRunIndex,
 	selectCurrentSimulationRun,
 	selectCurrentSimulation,
-	selectFilename
+	selectFilename,
+	selectSimulationsMap
 } from '../selectors.js';
 
 import {
@@ -37,17 +38,22 @@ export const loadData = (data) => {
 	};
 };
 
-export const updateWithSimPageExtra = (pageExtra) => (dispatch) => {
+export const updateWithSimPageExtra = (pageExtra) => (dispatch, getState) => {
 	const parts = pageExtra.split('/');
 	//The last piece is the trailing slash
 	//TODO: handle malformed URLs better
 	if (parts.length != 5) return;
 	const filename = parts[0];
-	const simulationIndex = parts[1];
+	const simulationName = parts[1];
 	let runIndex = parseInt(parts[2]);
 	if (isNaN(runIndex)) runIndex = 0;
 	let frameIndex = parseInt(parts[3]);
 	if (isNaN(frameIndex)) frameIndex = 0;
+
+	const simulationsMap = selectSimulationsMap(getState());
+	const fallbackIndex = parseInt(simulationName);
+	const simulationIndex = simulationsMap[simulationName] || (isNaN(fallbackIndex) ? 0 : fallbackIndex);
+
 	//Each of these will return if a no op
 	dispatch(updateFilename(filename), true);
 	dispatch(updateSimulationIndex(simulationIndex), true);
