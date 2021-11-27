@@ -18,7 +18,8 @@ import {
 	updateSimulationIndex,
 	updateFrameIndex,
 	updateRunIndex,
-	updateCurrentSimulationOptions
+	updateCurrentSimulationOptions,
+	openDialog,
 } from '../actions/data.js';
 
 // These are the shared styles needed by this element.
@@ -58,6 +59,9 @@ class SimulationControls extends connect(store)(LitElement) {
 	render() {
 		return html`
 			<div class='container'>
+				<div>
+					<button class='small' @click=${this._handleShowJSONClicked}>Show JSON</button>
+				</div>
 				<div>
 					<label for='simulationIndex'>Simulation</label>
 					<select id='simulationIndex' .value=${this._simulationIndex} @change=${this._handleSimulationIndexChanged}>
@@ -102,6 +106,10 @@ class SimulationControls extends connect(store)(LitElement) {
 
 	_handleStatusClicked(e) {
 		store.dispatch(updateRunIndex(e.detail.index));
+	}
+
+	_handleShowJSONClicked() {
+		store.dispatch(openDialog());
 	}
 
 	_handleSimulationIndexChanged(e) {
