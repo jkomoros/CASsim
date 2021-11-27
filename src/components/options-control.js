@@ -14,6 +14,10 @@ import {
 } from "./button-shared-styles.js";
 
 import {
+	SharedStyles
+} from "./shared-styles.js";
+
+import {
 	help,
 	HelpStyles
 } from './help-badges.js';
@@ -54,7 +58,7 @@ class OptionsControl extends LitElement {
 					flex-direction: column;
 				}
 
-				label, em {
+				em {
 					font-size: 0.8em;
 					color: var(--dark-gray-color);
 				}
@@ -63,6 +67,7 @@ class OptionsControl extends LitElement {
 					margin-left: 0.3em;
 				}
 			`,
+			SharedStyles,
 			ButtonSharedStyles
 		];
 	}

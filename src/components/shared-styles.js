@@ -15,5 +15,9 @@ export const SharedStyles = css`
     display: block;
     box-sizing: border-box;
   }
-  /* Add other styles shared across multiple components here */
+
+  label {
+    font-size: 0.8em;
+    color: var(--dark-gray-color);
+  }
 `;
