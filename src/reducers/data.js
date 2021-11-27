@@ -18,7 +18,6 @@ import {
 const INITIAL_STATE = {
 	filename: DEFAULT_FILE_NAME,
 	data: [],
-	//Either a string (preferred) referring to the name of the item in the current collection to select, or an index.
 	simulationIndex: 0,
 	runIndex: 0,
 	frameIndex: 0,
@@ -30,12 +29,8 @@ const INITIAL_STATE = {
 const data = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 	case LOAD_DATA:
-		//Make it so we swap simulationIndex to name once we know it.
-		//TODO: it feels a bit weird to do this here...
-		const newSimulationIndex = typeof state.simulationIndex == 'number' && action.data && action.data.length > state.simulationIndex && action.data[state.simulationIndex].name ? action.data[state.simulationIndex].name : state.simulationIndex;
 		return {
 			...state,
-			simulationIndex: newSimulationIndex,
 			data: action.data,
 		};
 	case UPDATE_FILENAME:
