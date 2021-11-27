@@ -4,7 +4,9 @@ import {
 	UPDATE_RUN_INDEX,
 	UPDATE_FRAME_INDEX,
 	UPDATE_CURRENT_SIMULATION_CONFIG,
-	UPDATE_DIALOG_OPEN
+	UPDATE_DIALOG_OPEN,
+
+	DIALOG_TYPE_JSON
 } from "../actions/data.js";
 
 import {
@@ -18,6 +20,7 @@ const INITIAL_STATE = {
 	runIndex: 0,
 	frameIndex: 0,
 	dialogOpen: false,
+	dialogType: DIALOG_TYPE_JSON,
 };
 
 const data = (state = INITIAL_STATE, action) => {
@@ -65,7 +68,8 @@ const data = (state = INITIAL_STATE, action) => {
 	case UPDATE_DIALOG_OPEN:
 		return {
 			...state,
-			dialogOpen: action.open
+			dialogOpen: action.open,
+			dialogType: action.dialogType ? action.dialogType : state.dialogType
 		};
 	default:
 		return state;

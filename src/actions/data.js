@@ -5,6 +5,8 @@ export const UPDATE_RUN_INDEX = 'UPDATE_RUN_INDEX';
 export const UPDATE_FRAME_INDEX = 'UPDATE_FRAME_INDEX';
 export const UPDATE_DIALOG_OPEN = 'UPDATE_DIALOG_OPEN';
 
+export const DIALOG_TYPE_JSON = 'json';
+
 import {
 	canonicalizePath
 } from './app.js';
@@ -121,10 +123,11 @@ export const updateCurrentSimulationOptions = (path, value) => (dispatch, getSta
 	});
 };
 
-export const openDialog = () => {
+export const openDialog = (optType) => {
 	return {
 		type: UPDATE_DIALOG_OPEN,
 		open: true,
+		dialogType: optType,
 	};
 };
 
