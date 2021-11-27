@@ -97,6 +97,7 @@ export const updateFilename = (filename, skipCanonicalize) => (dispatch, getStat
 export const updateSimulationIndex = (index, skipCanonicalize) => (dispatch, getState) => {
 	const currentIndex = selectSimulationIndex(getState());
 	if (currentIndex == index) return;
+	if (index < 0) return;
 	dispatch({
 		type: UPDATE_SIMULATION_INDEX,
 		index,
@@ -108,6 +109,7 @@ export const updateFrameIndex = (index, skipCanonicalize) => (dispatch, getState
 	if (typeof index == 'string') index = parseInt(index);
 	const state = getState();
 	const run = selectCurrentSimulationRun(state);
+	if (index < 0) return;
 	//run won't exist yet in the case that the URL is being parsed before the data exists
 	if (run) {
 		//Probe directly for whether this index will be legal BEFORE we set it.
