@@ -14,6 +14,7 @@ class RunSummary extends LitElement {
 			.statuses {
 				display: flex;
 				flex-direction: row;
+				flex-wrap: wrap;
 			}
 		
 			.status {

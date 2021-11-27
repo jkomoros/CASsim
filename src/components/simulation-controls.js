@@ -55,6 +55,7 @@ class SimulationControls extends connect(store)(LitElement) {
 					position:absolute;
 					top: 0;
 					left: 0;
+					width: 12em;
 				}
 				.row {
 					display:flex;
