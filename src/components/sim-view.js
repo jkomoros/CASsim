@@ -9,7 +9,8 @@ import {
 	loadData,
 	nextFrameIndex,
 	prevFrameIndex,
-	updateWithSimPageExtra
+	updateWithSimPageExtra,
+	closeDialog
 } from "../actions/data.js";
 
 import {
@@ -146,7 +147,7 @@ class SimView extends connect(store)(PageViewElement) {
 					--app-background-color: ${this._backgroundColor}
 				}
 			</style>
-			<dialog-element .open=${this._dialogOpen} .title=${'JSON'}>
+			<dialog-element .open=${this._dialogOpen} .title=${'JSON'} @dialog-should-close=${this._handleDialogShouldClose}>
 				<textarea disabled>
 					${JSON.stringify(this._rawConfigData, '', 2)}
 				</textarea>
@@ -177,6 +178,10 @@ class SimView extends connect(store)(PageViewElement) {
 		this.updateComplete.then(() => {
 			window[RENDER_COMPLETE_VARIABLE] = true;
 		});
+	}
+
+	_handleDialogShouldClose() {
+		store.dispatch(closeDialog());
 	}
 
 	updated(changedProps) {
