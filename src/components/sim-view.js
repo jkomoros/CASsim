@@ -76,6 +76,8 @@ import { PLUS_ICON } from "./my-icons.js";
 
 const fetchData = async(filename) => {
 	let res;
+	filename = ('' + filename).toLowerCase();
+	filename = filename.split('/')[0];
 	const path = '/' + DATA_DIRECTORY + '/' + filename + '.json';
 	try {
 		res = await fetch(path);
