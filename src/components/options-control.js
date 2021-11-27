@@ -95,6 +95,7 @@ class OptionsControl extends LitElement {
 			${this.path ? html`<label>${this.name} ${help(this.config.description)} 
 				${this.config.optional ? html`<button class='small' @click=${this._handleNullableClicked} title='Remove'>${CANCEL_ICON}</button>` : ''}
 				${this.config.example && Array.isArray(this.config.example) ? html`<button class='small' @click=${this._handleAddArrayItem} title='Add additional item'>${PLUS_ICON}</button>` : ''}
+				${this._nulledEntries().length ? html`<button class='small' @click=${this._handleAddNulledClicked} title='Add field...'>${PLUS_ICON}</button>` : ''}
 			</label>`: ''}
 			${this._innerControl()}
 		`;
@@ -102,6 +103,7 @@ class OptionsControl extends LitElement {
 
 	_nulledEntries() {
 		const nonNullValue = this.value || {};
+		if (Array.isArray(this.config.example)) return [];
 		return Object.entries(this.config.example).filter(entry => entry[1].optional && nonNullValue[entry[0]] == undefined);
 	}
 
@@ -115,11 +117,9 @@ class OptionsControl extends LitElement {
 			const nonNullValue = this.value || {};
 			const nonAdvancedEntries = Object.entries(nonNullValue).filter(entry => !example[entry[0]].advanced);
 			const advancedEntries = Object.entries(nonNullValue).filter(entry => example[entry[0]].advanced);
-			const nulledEntries = this._nulledEntries();
 			return html`
 				${this.value == null ? html`<em>null</em>` : ''}
 				${nonAdvancedEntries.map(entry => html`<options-control .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}
-				${nulledEntries.length ? html`<div class='row'><button class='small' @click=${this._handleAddNulledClicked}>Add field...</button></div>` : ''}
 				${advancedEntries.length ? html`<details>
 					<summary><label>Advanced</label></summary>
 					${advancedEntries.map(entry => html`<options-control .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}
