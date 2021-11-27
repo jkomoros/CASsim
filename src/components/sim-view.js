@@ -21,7 +21,8 @@ import {
 	selectPageExtra,
 	selectFrameIndex,
 	selectCurrentSimulationHeight,
-	selectCurrentSimulationWidth
+	selectCurrentSimulationWidth,
+	selectDialogOpen
 } from "../selectors.js";
 
 import {
@@ -51,6 +52,7 @@ window[PREVIOUS_MAP_VARIABLE] = () => {
 
 import "./frame-visualization.js";
 import "./simulation-controls.js";
+import "./dialog-element.js";
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from "./shared-styles.js";
@@ -84,6 +86,7 @@ class SimView extends connect(store)(PageViewElement) {
 			_currentFrame: { type: Object },
 			_pageExtra: { type: String },
 			_frameIndex: { type: Number },
+			_dialogOpen: {type: Boolean},
 			_height: {type: Number},
 			_width: {type: Number},
 		};
@@ -141,6 +144,7 @@ class SimView extends connect(store)(PageViewElement) {
 					--app-background-color: ${this._backgroundColor}
 				}
 			</style>
+			<dialog-element .open=${this._dialogOpen}></dialog-element>
 			<simulation-controls></simulation-controls>
 			<div class='container'>
 				<frame-visualization .frame=${this._currentFrame} .width=${this._width} .height=${this._height}></frame-visualization>
@@ -156,6 +160,7 @@ class SimView extends connect(store)(PageViewElement) {
 
 	// This is called every time something is updated in the store.
 	stateChanged(state) {
+		this._dialogOpen = selectDialogOpen(state);
 		this._currentFrame = selectCurrentFrame(state);
 		this._pageExtra = selectPageExtra(state);
 		this._frameIndex = selectFrameIndex(state);
