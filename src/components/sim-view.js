@@ -164,7 +164,7 @@ class SimView extends connect(store)(PageViewElement) {
 					--app-background-color: ${this._backgroundColor}
 				}
 			</style>
-			<dialog-element .open=${this._dialogOpen} .title=${this._dialogType} @dialog-should-close=${this._handleDialogShouldClose}>
+			<dialog-element .open=${this._dialogOpen} .title=${this._dialogTitle()} @dialog-should-close=${this._handleDialogShouldClose}>
 				${this._dialogInner()}
 			</dialog-element>
 			<simulation-controls></simulation-controls>
@@ -178,6 +178,11 @@ class SimView extends connect(store)(PageViewElement) {
 		if (!this._currentFrame) return 'transparent';
 		if (!this._currentFrame.colors) return 'transparent';
 		return this._currentFrame.colors.background.hex;
+	}
+
+	_dialogTitle() {
+		if (this._dialogType == DIALOG_TYPE_JSON) return 'JSON Output';
+		return 'Add a field...';
 	}
 
 	_dialogInner() {
