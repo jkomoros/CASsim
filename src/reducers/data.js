@@ -6,7 +6,8 @@ import {
 	UPDATE_CURRENT_SIMULATION_CONFIG,
 	UPDATE_DIALOG_OPEN,
 
-	DIALOG_TYPE_JSON
+	DIALOG_TYPE_JSON,
+	DEFAULT_FILE_NAME
 } from "../actions/data.js";
 
 import {
@@ -14,6 +15,7 @@ import {
 } from '../util.js';
 
 const INITIAL_STATE = {
+	filename: DEFAULT_FILE_NAME,
 	data: [],
 	//Either a string (preferred) referring to the name of the item in the current collection to select, or an index.
 	simulationIndex: 0,

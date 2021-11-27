@@ -13,7 +13,6 @@ import {
 	closeDialog,
 	updateCurrentSimulationOptions,
 	DIALOG_TYPE_JSON,
-	DEFAULT_FILE_NAME
 } from "../actions/data.js";
 
 import {
@@ -34,7 +33,8 @@ import {
 	selectDialogOpen,
 	selectRawConfigData,
 	selectDialogType,
-	selectDialogExtras
+	selectDialogExtras,
+	selectFilename
 } from "../selectors.js";
 
 import {
@@ -73,13 +73,13 @@ import { PLUS_ICON } from "./my-icons.js";
 
 
 
-const fetchData = async() => {
+const fetchData = async(filename) => {
 	let res;
-	const filename = '/config/' + DEFAULT_FILE_NAME + '.json';
+	const path = '/config/' + filename + '.json';
 	try {
-		res = await fetch(filename);
+		res = await fetch(path);
 	} catch (err) {
-		console.warn('Couldn\'t fetch ' + filename + ': ' + err);
+		console.warn('Couldn\'t fetch ' + path + ': ' + err);
 	}
 
 	const data = await res.json();
@@ -94,6 +94,7 @@ class SimView extends connect(store)(PageViewElement) {
 			_currentFrame: { type: Object },
 			_pageExtra: { type: String },
 			_frameIndex: { type: Number },
+			_filename: {type:String},
 			_dialogOpen: {type: Boolean},
 			_dialogType: {type: String},
 			_dialogExtras: {type:Object},
@@ -142,7 +143,6 @@ class SimView extends connect(store)(PageViewElement) {
 	}
 
 	firstUpdated() {
-		fetchData();
 		document.addEventListener('keydown', e => this._handleKeyDown(e));
 	}
 
@@ -207,6 +207,7 @@ class SimView extends connect(store)(PageViewElement) {
 		this._frameIndex = selectFrameIndex(state);
 		this._height = selectCurrentSimulationHeight(state);
 		this._width = selectCurrentSimulationWidth(state);
+		this._filename = selectFilename(state);
 
 		this.updateComplete.then(() => {
 			window[RENDER_COMPLETE_VARIABLE] = true;
@@ -233,6 +234,9 @@ class SimView extends connect(store)(PageViewElement) {
 	}
 
 	updated(changedProps) {
+		if (changedProps.has('_filename') && this._filename) {
+			fetchData(this._filename);
+		}
 		if (changedProps.has('_pageExtra') && this._pageExtra) {
 			store.dispatch(updateWithSimPageExtra(this._pageExtra));
 		}
