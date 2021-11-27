@@ -123,11 +123,12 @@ export const updateCurrentSimulationOptions = (path, value) => (dispatch, getSta
 	});
 };
 
-export const openDialog = (optType) => {
+export const openDialog = (optType, optExtras) => {
 	return {
 		type: UPDATE_DIALOG_OPEN,
 		open: true,
 		dialogType: optType,
+		extras: optExtras
 	};
 };
 

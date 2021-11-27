@@ -11,6 +11,7 @@ export const selectRunIndex = state => state.data ? state.data.runIndex : 0;
 
 export const selectDialogOpen = state => state.data ? state.data.dialogOpen : false;
 export const selectDialogType = state => state.data ? state.data.dialogType : '';
+export const selectDialogExtras = state => state.data ? state.data.dialogExtras : {};
 
 export const selectPage = state => state.app ? state.app.page : '';
 export const selectPageExtra = state => state.app ? state.app.pageExtra : '';

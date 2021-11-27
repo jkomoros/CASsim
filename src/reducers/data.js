@@ -21,6 +21,7 @@ const INITIAL_STATE = {
 	frameIndex: 0,
 	dialogOpen: false,
 	dialogType: DIALOG_TYPE_JSON,
+	dialogExtras: {},
 };
 
 const data = (state = INITIAL_STATE, action) => {
@@ -69,7 +70,8 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			dialogOpen: action.open,
-			dialogType: action.dialogType ? action.dialogType : state.dialogType
+			dialogType: action.dialogType ? action.dialogType : state.dialogType,
+			dialogExtras: action.extras ? action.extras : {}
 		};
 	default:
 		return state;
