@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit-element';
+import { LitElement, html, css } from 'lit-element';
 
 import { SharedStyles } from './shared-styles.js';
 
@@ -9,78 +9,88 @@ import {
 } from './my-icons.js';
 
 export class DialogElement extends LitElement {
+	static get styles() {
+		return [
+			css`
+			:host {
+				position:absolute;
+				height:100%;
+				width:100%;
+				top:0;
+				left:0;
+				/* Note that card-preview has a z-index higher than this to
+				show up above it */
+				z-index:1000;
+			}
+
+			.background {
+				position:absolute;
+				height:100%;
+				width:100%;
+				top:0;
+				left:0;
+				background-color:#FFFFFFCC;
+				display:flex;
+				flex-direction:column;
+				align-items: center;
+				justify-content:center;
+			}
+
+			.content {
+				background-color:white;
+				padding:1em;
+				box-sizing: border-box;
+				box-shadow: var(--card-shadow);
+				position:relative;
+				display:flex;
+				flex-direction:column;
+				min-height: 40%;
+				min-width: 40%;
+				max-height:90%;
+				max-width:70%;
+			}
+
+			.mobile .content {
+				height:100%;
+				width:100%;
+				max-height:none;
+				max-width:none;
+			}
+
+			h2 {
+				font-weight: normal;
+				font-size:1.5em;
+				text-align:left;
+				margin:0;
+			}
+
+			#close {
+				position: absolute;
+				top: 0.5em;
+				right: 0.5em;
+			}
+
+			#inner {
+				flex-grow:1;
+				display:flex;
+				flex-direction:column;
+				overflow:scroll;
+			}
+
+
+			`,
+			SharedStyles,
+			ButtonSharedStyles
+		];
+	}
+
 	render() {
 		return html`
-			${SharedStyles}
-			${ButtonSharedStyles}
 			<style>
 				:host {
-					position:absolute;
-					height:100%;
-					width:100%;
-					top:0;
-					left:0;
-					/* Note that card-preview has a z-index higher than this to
-					show up above it */
-					z-index:1000;
-					display: ${this.open ? 'block' : 'none'}
+					/* TODO: this is a hack to get it to override the static styles block */
+					display: ${this.open ? 'block' : 'none'} !important;
 				}
-
-				.background {
-					position:absolute;
-					height:100%;
-					width:100%;
-					top:0;
-					left:0;
-					background-color:#FFFFFFCC;
-					display:flex;
-					flex-direction:column;
-					align-items: center;
-					justify-content:center;
-				}
-
-				.content {
-					background-color:white;
-					padding:1em;
-					box-sizing: border-box;
-					box-shadow: var(--card-shadow);
-					position:relative;
-					display:flex;
-					flex-direction:column;
-					min-height: 40%;
-					min-width: 40%;
-					max-height:90%;
-					max-width:70%;
-				}
-
-				.mobile .content {
-					height:100%;
-					width:100%;
-					max-height:none;
-					max-width:none;
-				}
-
-				h2 {
-					font-weight: normal;
-					font-size:1.5em;
-					text-align:left;
-					margin:0;
-				}
-
-				#close {
-					position: absolute;
-					top: 0.5em;
-					right: 0.5em;
-				}
-
-				#inner {
-					flex-grow:1;
-					display:flex;
-					flex-direction:column;
-					overflow:scroll;
-				}
-
-
 			</style>
 			<div class='background ${this.mobileMode ? 'mobile': ''}' @click=${this._handleBackgroundClicked}>
 				<div class='content'>
