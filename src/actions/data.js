@@ -31,11 +31,21 @@ import {
 	maySetPropertyInConfigObject
 } from '../options.js';
 
-export const loadData = (data) => {
-	return {
+export const loadData = (data) => (dispatch) => {
+	dispatch({
 		type: LOAD_DATA,
 		data,
-	};
+	});
+	dispatch(verifyValidIndexes());
+};
+
+export const verifyValidIndexes = () => (dispatch, getState) => {
+	const runIndex = selectRunIndex(getState());
+	//These will either be no ops or cut them down to size.
+	dispatch(updateRunIndex(runIndex));
+	//Fetch state again because it might have changed just above
+	const frameIndex = selectFrameIndex(getState());
+	dispatch(updateFrameIndex(frameIndex));
 };
 
 export const updateWithSimPageExtra = (pageExtra) => (dispatch, getState) => {
@@ -129,6 +139,7 @@ export const updateRunIndex = (index, skipCanonicalize) => (dispatch, getState) 
 		type: UPDATE_RUN_INDEX,
 		index,
 	});
+	dispatch(verifyValidIndexes());
 	if (!skipCanonicalize) dispatch(canonicalizePath());
 };
 
@@ -145,6 +156,7 @@ export const updateCurrentSimulationOptions = (path, value) => (dispatch, getSta
 		path,
 		value
 	});
+	dispatch(verifyValidIndexes());
 };
 
 export const openDialog = (optType, optExtras) => {
