@@ -404,6 +404,7 @@ const SchellingOrgSimulator = class {
 						description: "We compute a range of possible connection likelihoods based on [avgConnectionLikelihood - connectionLikelihoodSpread, avgConnectionLikelihood + connectionLikelihoodSpread] Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength."
 					},
 					[INDIVIDUALS_PROPERTY_NAME]: {
+						optional: true,
 						example: [
 							{
 								example: {
