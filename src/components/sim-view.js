@@ -35,7 +35,8 @@ import {
 	selectRawConfigData,
 	selectDialogType,
 	selectDialogExtras,
-	selectFilename
+	selectFilename,
+	selectCurrentSimulation
 } from "../selectors.js";
 
 import {
@@ -95,6 +96,7 @@ class SimView extends connect(store)(PageViewElement) {
 		return {
 			// This is the data from the store.
 			_currentFrame: { type: Object },
+			_currentSimulation: { type: Object },
 			_pageExtra: { type: String },
 			_frameIndex: { type: Number },
 			_filename: {type:String},
@@ -126,10 +128,6 @@ class SimView extends connect(store)(PageViewElement) {
 					height: 100%;
 					width: 100%;
 					background-color: var(--override-app-background-color, var(--app-background-color, #356F9E));
-					/* TODO: set these based on the simulation config */
-					--primary-color: #fb8c00;
-					--secondary-color: #51b9a3;
-					--disabled-color: #cccccc;
 				}
 
 				.row {
@@ -163,6 +161,7 @@ class SimView extends connect(store)(PageViewElement) {
 	}
 
 	render() {
+		const colors = this._currentSimulation ? Object.entries(this._currentSimulation.colors || {}).map(entry => '--' + entry[0] + '-color: ' + entry[1].hex + ';').join(' ') : '';
 		return html`
 			<style>
 				:host {
@@ -173,7 +172,7 @@ class SimView extends connect(store)(PageViewElement) {
 				${this._dialogInner()}
 			</dialog-element>
 			<simulation-controls></simulation-controls>
-			<div class='container'>
+			<div class='container' style='${colors}'>
 				<frame-visualization .frame=${this._currentFrame} .width=${this._width} .height=${this._height}></frame-visualization>
 			</div>
 		`;
@@ -202,6 +201,7 @@ class SimView extends connect(store)(PageViewElement) {
 	// This is called every time something is updated in the store.
 	stateChanged(state) {
 		this._rawConfigData = selectRawConfigData(state);
+		this._currentSimulation = selectCurrentSimulation(state);
 		this._dialogOpen = selectDialogOpen(state);
 		this._dialogType = selectDialogType(state);
 		this._dialogExtras = selectDialogExtras(state);

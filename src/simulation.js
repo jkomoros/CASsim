@@ -14,6 +14,10 @@ import {
 	optionsConfigValidator
 } from './options.js';
 
+import {
+	color
+} from './color.js';
+
 //A string or "" to request gif output include this frame. Only frames that explicitly include this will be outputed.
 //Duplicated in screenshot.js
 export const GIF_COMMAND = 'gif';
@@ -277,6 +281,7 @@ const Simulation = class {
 		this._seed = this._config[SEED_PROPERTY] || '' + Date.now();
 		this._runs = [];
 		this._optionConfig = null;
+		this._colors = Object.fromEntries(Object.entries(this._config[COLORS_PROPERTY] || {}).map(entry => [entry[0], color(entry[1])]));
 		for (let i = 0; i < config[RUNS_PROPERTY]; i++) {
 			const run = new SimulationRun(this, i);
 			if (config[AUTO_RUN_PROPERTY]) run.run();
@@ -300,6 +305,10 @@ const Simulation = class {
 	//rawConfig is the un-normalized config, exactly as passed in from data.
 	get rawConfig() {
 		return this._rawConfig;
+	}
+
+	get colors() {
+		return this._colors;
 	}
 
 	get width() {
