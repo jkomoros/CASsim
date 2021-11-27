@@ -70,21 +70,14 @@ import { SharedStyles } from "./shared-styles.js";
 import { ButtonSharedStyles } from "./button-shared-styles.js";
 import { PLUS_ICON } from "./my-icons.js";
 
-const CONFIG_FILE_NAME = 'config.json';
-const SAMPLE_CONFIG_FILE_NAME = 'config.SAMPLE.json';
+const CONFIG_FILE_NAME = 'default.json';
 
 const fetchData = async() => {
 	let res;
-	let fetchErrored = false;
 	try {
-		res = await fetch("/" + CONFIG_FILE_NAME);
+		res = await fetch("/config/" + CONFIG_FILE_NAME);
 	} catch (err) {
-		fetchErrored = err;
-	}
-
-	if (fetchErrored || !res.ok) {
-		console.warn(CONFIG_FILE_NAME + ' not found. Using ' + SAMPLE_CONFIG_FILE_NAME + ' instead.');
-		res = await fetch("/" + SAMPLE_CONFIG_FILE_NAME);
+		console.warn('Couldn\'t fetch ' + CONFIG_FILE_NAME + ': ' + err);
 	}
 
 	const data = await res.json();
