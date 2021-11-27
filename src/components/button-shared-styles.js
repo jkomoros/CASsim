@@ -31,6 +31,8 @@ export const ButtonSharedStyles = css`
       padding: 0;
       margin:0;
       box-shadow: none;
+      font-size: 0.8em;
+      color: var(--dark-gray-color);
     }
 
     button.small svg {
