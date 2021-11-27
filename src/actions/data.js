@@ -1,5 +1,6 @@
 export const LOAD_DATA = "LOAD_DATA";
 export const UPDATE_CURRENT_SIMULATION_CONFIG = "UPDATE_CURRENT_SIMULATION_CONFIG";
+export const UPDATE_FILENAME = 'UPDATE_FILENAME';
 export const UPDATE_SIMULATION_INDEX = 'UPDATE_SIMULATION_INDEX';
 export const UPDATE_RUN_INDEX = 'UPDATE_RUN_INDEX';
 export const UPDATE_FRAME_INDEX = 'UPDATE_FRAME_INDEX';
@@ -20,7 +21,8 @@ import {
 	selectRunIndex,
 	selectCurrentSimulationMaxRunIndex,
 	selectCurrentSimulationRun,
-	selectCurrentSimulation
+	selectCurrentSimulation,
+	selectFilename
 } from '../selectors.js';
 
 import {
@@ -38,13 +40,15 @@ export const updateWithSimPageExtra = (pageExtra) => (dispatch) => {
 	const parts = pageExtra.split('/');
 	//The last piece is the trailing slash
 	//TODO: handle malformed URLs better
-	if (parts.length != 4) return; 
-	const simulationIndex = parts[0];
-	let runIndex = parseInt(parts[1]);
+	if (parts.length != 5) return;
+	const filename = parts[0];
+	const simulationIndex = parts[1];
+	let runIndex = parseInt(parts[2]);
 	if (isNaN(runIndex)) runIndex = 0;
-	let frameIndex = parseInt(parts[2]);
+	let frameIndex = parseInt(parts[3]);
 	if (isNaN(frameIndex)) frameIndex = 0;
 	//Each of these will return if a no op
+	dispatch(updateFilename(filename), true);
 	dispatch(updateSimulationIndex(simulationIndex), true);
 	dispatch(updateRunIndex(runIndex), true);
 	dispatch(updateFrameIndex(frameIndex), true);
@@ -61,6 +65,16 @@ export const prevFrameIndex = () => (dispatch, getState) => {
 	currentIndex--;
 	if (currentIndex < 0) return;
 	dispatch(updateFrameIndex(currentIndex));
+};
+
+export const updateFilename = (filename, skipCanonicalize) => (dispatch, getState) => {
+	const currentFilename = selectFilename(getState());
+	if (currentFilename == filename) return;
+	dispatch({
+		type: UPDATE_FILENAME,
+		filename,
+	});
+	if (!skipCanonicalize) dispatch(canonicalizePath());
 };
 
 export const updateSimulationIndex = (index, skipCanonicalize) => (dispatch, getState) => {

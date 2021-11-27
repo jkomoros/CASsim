@@ -1,5 +1,6 @@
 import {
 	LOAD_DATA,
+	UPDATE_FILENAME,
 	UPDATE_SIMULATION_INDEX,
 	UPDATE_RUN_INDEX,
 	UPDATE_FRAME_INDEX,
@@ -36,6 +37,11 @@ const data = (state = INITIAL_STATE, action) => {
 			...state,
 			simulationIndex: newSimulationIndex,
 			data: action.data,
+		};
+	case UPDATE_FILENAME:
+		return {
+			...state,
+			filename: action.filename
 		};
 	case UPDATE_SIMULATION_INDEX:
 		return {
