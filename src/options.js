@@ -17,6 +17,7 @@ const ALLOWED_BEHAVIOR_NAMES = {
 };
 
 import {
+	isStep,
 	setPropertyInObject
 } from './util.js';
 
@@ -282,7 +283,7 @@ export const configObjectIsValid = (optionsConfig, value) => {
 	if (typeof value == 'number') {
 		if (optionsConfig[MIN_PROPERTY_NAME] !== undefined && optionsConfig[MIN_PROPERTY_NAME] > value) return [MIN_PROPERTY_NAME + ' was set and the value was less than it'];
 		if (optionsConfig[MAX_PROPERTY_NAME] !== undefined && optionsConfig[MAX_PROPERTY_NAME] < value) return [MAX_PROPERTY_NAME + ' was set and the value was more than it'];
-		if (optionsConfig[STEP_PROPERTY_NAME] !== undefined && !Number.isInteger(value / optionsConfig[STEP_PROPERTY_NAME])) return [STEP_PROPERTY_NAME + ' was set but the value was not a multiple of it'];
+		if (optionsConfig[STEP_PROPERTY_NAME] !== undefined && !isStep(value, optionsConfig[STEP_PROPERTY_NAME])) return [STEP_PROPERTY_NAME + ' was set but the value was not a multiple of it'];
 	}
 	//Skip null values, we already checked above if it was OK they were null.
 	if (typeof value == 'object'  && value && Array.isArray(value)) {

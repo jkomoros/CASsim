@@ -44,6 +44,14 @@ export const shuffleArrayInPlace = (array, rnd) => {
 	}
 };
 
+const IS_STEP_EPSILON = 0.0000001;
+
+export const isStep = (value, step) => {
+	const remainder = value / step;
+	const nonIntegerRemainder = remainder - (Math.round(remainder));
+	return nonIntegerRemainder < IS_STEP_EPSILON;
+};
+
 export const DELETE_SENTINEL = {DELETE:true};
 
 //path is a dotted list of accessors in the object, returns a new object with
