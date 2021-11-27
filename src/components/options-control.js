@@ -157,7 +157,8 @@ class OptionsControl extends LitElement {
 	}
 
 	_handleNullableClicked() {
-		this.dispatchEvent(new CustomEvent('option-changed', {composed: true, detail: {path: this.path, value:DELETE_SENTINEL}}));
+		const value = this.value && Object.keys(this.value).length == 0 && this.config.optional ? null : DELETE_SENTINEL;
+		this.dispatchEvent(new CustomEvent('option-changed', {composed: true, detail: {path: this.path, value:value}}));
 	}
 
 	_handleInputChanged(e) {
