@@ -92,7 +92,7 @@ class OptionsControl extends LitElement {
 
 	_inner() {
 		return html`
-			${this.path ? html`<label>${this.name} ${help(this.config.description)} 
+			${this.path ? html`<label>${this.name} ${this.config.description ? html`${help(this.config.description)}` : ''} 
 				${this.config.optional ? html`<button class='small' @click=${this._handleNullableClicked} title='Remove'>${CANCEL_ICON}</button>` : ''}
 				${this.config.example && Array.isArray(this.config.example) ? html`<button class='small' @click=${this._handleAddArrayItem} title='Add additional item'>${PLUS_ICON}</button>` : ''}
 				${this._nulledEntries().length ? html`<button class='small' @click=${this._handleAddNulledClicked} title='Add field...'>${PLUS_ICON}</button>` : ''}
