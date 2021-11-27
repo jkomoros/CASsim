@@ -88,7 +88,10 @@ class OptionsControl extends LitElement {
 
 	_inner() {
 		return html`
-			${this.path ? html`<label>${this.name} ${help(this.config.description)} ${this.config.optional ? html`<button class='small' @click=${this._handleNullableClicked} title='Remove'>${CANCEL_ICON}</button>` : ''}</label>`: ''}
+			${this.path ? html`<label>${this.name} ${help(this.config.description)} 
+				${this.config.optional ? html`<button class='small' @click=${this._handleNullableClicked} title='Remove'>${CANCEL_ICON}</button>` : ''}
+				${this.config.example && Array.isArray(this.config.example) ? html`<button class='small' @click=${this._handleAddArrayItem} title='Add additional item'>${PLUS_ICON}</button>` : ''}
+			</label>`: ''}
 			${this._innerControl()}
 		`;
 	}
@@ -97,10 +100,7 @@ class OptionsControl extends LitElement {
 		const example = this.config.example;
 		if (typeof example == 'object') {
 			if (Array.isArray(example)) {
-				return html`
-					${this.value.map((item, index) => html`<options-control .value=${item} .config=${example[0]} .name=${index} .path=${this._dottedPath(index)}></options-control>`)}
-					<button class='small' @click=${this._handleAddArrayItem} title='Add additional item'>${PLUS_ICON}</button>
-					`;
+				return html`${this.value.map((item, index) => html`<options-control .value=${item} .config=${example[0]} .name=${index} .path=${this._dottedPath(index)}></options-control>`)}`;
 			}
 			//value might be null
 			const nonNullValue = this.value || {};
