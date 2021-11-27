@@ -1,4 +1,5 @@
 import { LitElement, html, css } from "lit-element";
+import { SharedStyles } from "./shared-styles.js";
 
 class RunSummary extends LitElement {
 	static get properties() {
@@ -10,17 +11,19 @@ class RunSummary extends LitElement {
 
 	static get styles() {
 		return [
+			SharedStyles,
 			css`
 			.statuses {
 				display: flex;
 				flex-direction: row;
 				flex-wrap: wrap;
+				align-items: center;
 			}
 		
 			.status {
-				height: 1em;
-				width: 1em;
-				border-radius: 1em;
+				height: 0.75em;
+				width: 0.75em;
+				border-radius: 0.75em;
 				background-color: gray;
 				cursor: pointer;
 			}
@@ -46,8 +49,8 @@ class RunSummary extends LitElement {
 
 		return html`
 				<div class='statuses'>
+					<label>${successPercentage}</label>
 					${this.statuses.map((status, index) => html`<div class='status ${this.selectedIndex == index ? 'selected' : ''} ${status < 0 ? 'indeterminate' : (status == 1.0 ? 'success' : 'failure')}' @click=${this._handleStatusClicked} .index=${index}></div>`)}
-					<span>${successPercentage}</span>
 				</div>
 		`;
 	}
