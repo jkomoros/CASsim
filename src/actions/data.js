@@ -3,6 +3,7 @@ export const UPDATE_CURRENT_SIMULATION_CONFIG = "UPDATE_CURRENT_SIMULATION_CONFI
 export const UPDATE_SIMULATION_INDEX = 'UPDATE_SIMULATION_INDEX';
 export const UPDATE_RUN_INDEX = 'UPDATE_RUN_INDEX';
 export const UPDATE_FRAME_INDEX = 'UPDATE_FRAME_INDEX';
+export const UPDATE_DIALOG_OPEN = 'UPDATE_DIALOG_OPEN';
 
 import {
 	canonicalizePath
@@ -118,4 +119,18 @@ export const updateCurrentSimulationOptions = (path, value) => (dispatch, getSta
 		path,
 		value
 	});
+};
+
+export const openDialog = () => {
+	return {
+		type: UPDATE_DIALOG_OPEN,
+		open: true,
+	};
+};
+
+export const closeDialog = () => {
+	return {
+		type: UPDATE_DIALOG_OPEN,
+		open: false,
+	};
 };

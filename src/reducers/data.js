@@ -3,7 +3,8 @@ import {
 	UPDATE_SIMULATION_INDEX,
 	UPDATE_RUN_INDEX,
 	UPDATE_FRAME_INDEX,
-	UPDATE_CURRENT_SIMULATION_CONFIG
+	UPDATE_CURRENT_SIMULATION_CONFIG,
+	UPDATE_DIALOG_OPEN
 } from "../actions/data.js";
 
 import {
@@ -16,6 +17,7 @@ const INITIAL_STATE = {
 	simulationIndex: 0,
 	runIndex: 0,
 	frameIndex: 0,
+	dialogOpen: false,
 };
 
 const data = (state = INITIAL_STATE, action) => {
@@ -59,6 +61,11 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			data: newData
+		};
+	case UPDATE_DIALOG_OPEN:
+		return {
+			...state,
+			dialogOpen: action.open
 		};
 	default:
 		return state;
