@@ -15,7 +15,8 @@ import {
 } from './help-badges.js';
 
 import {
-	CANCEL_ICON
+	CANCEL_ICON,
+	PLUS_ICON
 } from './my-icons.js';
 
 class OptionsControl extends LitElement {
@@ -124,7 +125,7 @@ class OptionsControl extends LitElement {
 			if (Array.isArray(example)) {
 				return html`
 					${this.value.map((item, index) => html`<options-control .value=${item} .config=${example[0]} .name=${index} .path=${this._dottedPath(index)}></options-control>`)}
-					<button @click=${this._handleAddArrayItem}>+</button>
+					<button class='small' @click=${this._handleAddArrayItem} title='Add additional item'>${PLUS_ICON}</button>
 					`;
 			}
 			if (this.value == null) {
