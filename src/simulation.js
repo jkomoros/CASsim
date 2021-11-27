@@ -267,6 +267,8 @@ const Simulation = class {
 	
 		deepFreeze(configCopy);
 		this._config = configCopy;
+		deepFreeze(config);
+		this._rawConfig = config;
 		const configProblems = configObjectIsValid(this.optionsConfig, this._config);
 		if (configProblems.length) {
 			throw new Error('Invalid config: ' + configProblems.join(', '));
@@ -290,8 +292,14 @@ const Simulation = class {
 		return this._simulator;
 	}
 
+	//config might have a different shape than the underlying data because it will have normalization on it.
 	get config() {
 		return this._config;
+	}
+
+	//rawConfig is the un-normalized config, exactly as passed in from data.
+	get rawConfig() {
+		return this._rawConfig;
 	}
 
 	get width() {
