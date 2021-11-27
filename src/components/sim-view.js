@@ -138,6 +138,10 @@ class SimView extends connect(store)(PageViewElement) {
 					flex-direction: row;
 				}
 
+				.right {
+					justify-content: flex-end;
+				}
+
 			`
 		];
 	}
@@ -193,7 +197,7 @@ class SimView extends connect(store)(PageViewElement) {
 		if (this._dialogType == DIALOG_TYPE_JSON) return html`<textarea readonly style='height:100%; width:100%'>${JSON.stringify(this._rawConfigData, '', 2)}</textarea>`;
 		return html`
 			${this._dialogExtras.options.map((item, index) => html`<div class='row'><input id=${item.value} type='radio' name='add' .checked=${index == 0} .value=${item.value} .path=${item.path} .default=${item.default}><label for=${item.value}>${item.value}</label>${item.description ? help(item.description) : ''}</div>`)}
-			<button class='round' @click=${this._handleAddFieldButtonClicked}>${PLUS_ICON}</button>
+			<div class='row right'><button class='round' @click=${this._handleAddFieldButtonClicked}>${PLUS_ICON}</button></div>
 			`;
 	}
 
