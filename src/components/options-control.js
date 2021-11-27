@@ -1,7 +1,8 @@
 import { LitElement, html, css } from "lit-element";
 
 import {
-	COLOR_BEHAVIOR_NAME
+	COLOR_BEHAVIOR_NAME,
+	defaultValueForConfig
 } from "../options.js";
 
 import {
@@ -165,9 +166,8 @@ class OptionsControl extends LitElement {
 	_handleAddNulled(e) {
 		const ele = e.composedPath()[0];
 		const subPath = this.path ? this.path + '.' + ele.value : ele.value;
-		const subExample = this.config.example[ele.value].example;
-		let value = subExample;
-		//TODO: handle objects and arrays better
+		const subConfig = this.config.example[ele.value];
+		let value = defaultValueForConfig(subConfig);
 		this.dispatchEvent(new CustomEvent('option-changed', {composed: true, detail: {path: subPath, value: value}}));
 		//Flip it back to unselected
 		ele.selectedIndex = 0;
