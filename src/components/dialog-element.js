@@ -146,6 +146,16 @@ export class DialogElement extends LitElement {
 		let input = this.shadowRoot.querySelector('input[type=text]');
 		if (!input) input = this.shadowRoot.querySelector('input[type=search]');
 		if (!input) input = this.shadowRoot.querySelector('textarea');
+		if (!input) {
+			const slot = this.shadowRoot.querySelector('slot');
+			console.log(slot.assignedElements());
+			for (const ele of slot.assignedElements()) {
+				if (ele.localName == 'textarea') {
+					input = ele;
+					break;
+				}
+			}
+		}
 		if (!input) return;
 		input.focus();
 	}
