@@ -72,13 +72,13 @@ class OptionsControl extends LitElement {
 				}
 			`,
 			SharedStyles,
-			ButtonSharedStyles
+			ButtonSharedStyles,
+			HelpStyles
 		];
 	}
 
 	render() {
 		return html`
-		${HelpStyles}
 		<div class='container ${(this.path || '').split('.').length < 2 ? 'top' : ''}'>
 			${this._inner()}
 		</div>`;

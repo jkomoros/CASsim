@@ -1,4 +1,4 @@
-import { html } from 'lit-element';
+import { html, css } from 'lit-element';
 
 import {
 	WARNING_ICON,
@@ -10,8 +10,7 @@ export const help = (message, isAlert) => {
 	return html`<span class='help' title="${message}">${isAlert ? WARNING_ICON : HELP_ICON}</span>`;
 };
 
-export const HelpStyles =  html`
-	<style>
+export const HelpStyles =  css`
 		.help {
 			margin-left:0.0em;
 		}
@@ -27,5 +26,4 @@ export const HelpStyles =  html`
         .help:hover svg {
             fill: var(--dark-gray-color);
         }
-	</style>
 `;
