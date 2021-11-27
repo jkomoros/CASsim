@@ -158,7 +158,8 @@ class OptionsControl extends LitElement {
 			options: nulledEntries.map(entry => ({
 				path: this.path ? this.path + '.' + entry[0] : entry[0],
 				value: entry[0],
-				default: defaultValueForConfig(example[entry[0]])
+				default: defaultValueForConfig(example[entry[0]]),
+				description: example[entry[0]].description || '',
 			}))
 		};
 
