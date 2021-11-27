@@ -8,7 +8,8 @@ import {
 
 import {
 	maySetPropertyInConfigObject,
-	optionsConfigValidator
+	optionsConfigValidator,
+	defaultValueForConfig
 } from '../../src/options.js';
 
 import assert from 'assert';
@@ -1443,6 +1444,212 @@ describe('maySetPropertyInConfigObject', () => {
 			console.warn(result);
 			throw err;
 		}
+	});
+
+});
+
+describe('defaultValueForConfig', () => {
+	it('handles null object', async () => {
+		const config = null;
+		const result = defaultValueForConfig(config);
+		const golden = undefined;
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles basic string', async () => {
+		const config = {
+			example: 'foo'
+		};
+		const result = defaultValueForConfig(config);
+		const golden = 'foo';
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles basic number', async () => {
+		const config = {
+			example: 3
+		};
+		const result = defaultValueForConfig(config);
+		const golden = 3;
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles basic boolean', async () => {
+		const config = {
+			example: false
+		};
+		const result = defaultValueForConfig(config);
+		const golden = false;
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles single level object', async () => {
+		const config = {
+			example: {
+				foo: {
+					example: 3,
+				}
+			}
+		};
+		const result = defaultValueForConfig(config);
+		const golden = {
+			foo: 3,
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles single level array with number', async () => {
+		const config = {
+			example: {
+				foo: {
+					example: [
+						{
+							example: 3,
+						}
+					]
+				}
+			}
+		};
+		const result = defaultValueForConfig(config);
+		const golden = {
+			foo: [3],
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles single level array with object', async () => {
+		const config = {
+			example: {
+				foo: {
+					example: [
+						{
+							bar: {
+								example: 3,
+							}
+						}
+					]
+				}
+			}
+		};
+		const result = defaultValueForConfig(config);
+		const golden = {
+			foo: [
+				{
+					bar: 3
+				}
+			],
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles multiple level object', async () => {
+		const config = {
+			example: {
+				foo: {
+					example: {
+						bar: {
+							example: 3,
+						}
+					}
+				}
+			}
+		};
+		const result = defaultValueForConfig(config);
+		const golden = {
+			foo: {
+				bar: 3
+			}
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles object with one optional property', async () => {
+		const config = {
+			example: {
+				foo: {
+					example: 3
+				},
+				bar: {
+					example: 4,
+					optional: true,
+				}
+			}
+		};
+		const result = defaultValueForConfig(config);
+		const golden = {
+			foo: 3
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles object with one optional property', async () => {
+		const config = {
+			example: {
+				foo: {
+					example: 3
+				},
+				bar: {
+					example: {
+						baz: {
+							example: 4,
+						}
+					},
+					optional: true,
+				}
+			}
+		};
+		const result = defaultValueForConfig(config);
+		const golden = {
+			foo: 3
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles object with optional array', async () => {
+		const config = {
+			example: {
+				foo: {
+					example: [
+						{
+							example: 3,
+						}
+					],
+					optional: true,
+				},
+				bar: {
+					example: 4
+				}
+			}
+		};
+		const result = defaultValueForConfig(config);
+		const golden = {
+			bar: 4
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles object with array with optional items', async () => {
+		const config = {
+			example: {
+				foo: {
+					example: [
+						{
+							example: 3,
+							optional: true,
+						}
+					],
+				},
+				bar: {
+					example: 4
+				}
+			}
+		};
+		const result = defaultValueForConfig(config);
+		const golden = {
+			foo: [],
+			bar: 4
+		};
+		assert.deepEqual(result, golden);
 	});
 
 });

@@ -297,3 +297,19 @@ export const maySetPropertyInConfigObject = (optionsConfig, obj, path, value) =>
 	const updatedObj = setPropertyInObject(obj, path, value);
 	return configObjectIsValid(optionsConfig, updatedObj);
 };
+
+export const defaultValueForConfig = (optionsConfig) => {
+	if (!optionsConfig) return undefined;
+	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
+	if (example == undefined) {
+		return Object.fromEntries(Object.entries(optionsConfig).filter(entry => !entry[1][OPTIONAL_PROPERTY_NAME]).map(entry => [entry[0], defaultValueForConfig(entry[1])]).filter(entry => entry[1] !== undefined));
+	}
+	if (optionsConfig[OPTIONAL_PROPERTY_NAME]) return undefined;
+	if (typeof example == 'object') {
+		if (Array.isArray(example)) {
+			return [defaultValueForConfig(example[0])].filter(item => item !== undefined);
+		}
+		return Object.fromEntries(Object.entries(example).filter(entry => !entry[1][OPTIONAL_PROPERTY_NAME]).map(entry => [entry[0], defaultValueForConfig(entry[1])]).filter(entry => entry[1] !== undefined));
+	}
+	return example;
+};
