@@ -114,7 +114,7 @@ class OptionsControl extends LitElement {
 			return html`
 				${this.value == null ? html`<em>null</em>` : ''}
 				${nonAdvancedEntries.map(entry => html`<options-control .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}
-				${nulledEntries.length ? html`<button class='small' @click=${this._handleAddNulledClicked}>Add field...</button>` : ''}
+				${nulledEntries.length ? html`<div class='row'><button class='small' @click=${this._handleAddNulledClicked}>Add field...</button></div>` : ''}
 				${advancedEntries.length ? html`<details>
 					<summary><label>Advanced</label></summary>
 					${advancedEntries.map(entry => html`<options-control .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}

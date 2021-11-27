@@ -46,6 +46,7 @@ export const ButtonSharedStyles = css`
       margin:0;
       box-shadow: none;
       font-size: 0.8em;
+      font-style: italic;
       color: var(--dark-gray-color);
     }
 
