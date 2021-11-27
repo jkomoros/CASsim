@@ -86,10 +86,11 @@ class OptionsControl extends LitElement {
 	}
 
 	_inner() {
+		const config = this.config || {};
 		return html`
-			${this.name !== undefined ? html`<label>${this.name} ${this.config.description ? html`${help(this.config.description)}` : ''} 
-				${this.config.optional ? html`<button class='small' @click=${this._handleNullableClicked} title='Remove'>${CANCEL_ICON}</button>` : ''}
-				${this.config.example && Array.isArray(this.config.example) ? html`<button class='small' @click=${this._handleAddArrayItem} title='Add additional item'>${PLUS_ICON}</button>` : ''}
+			${this.name !== undefined ? html`<label>${this.name} ${config.description ? html`${help(config.description)}` : ''} 
+				${config.optional ? html`<button class='small' @click=${this._handleNullableClicked} title='Remove'>${CANCEL_ICON}</button>` : ''}
+				${config.example && Array.isArray(config.example) ? html`<button class='small' @click=${this._handleAddArrayItem} title='Add additional item'>${PLUS_ICON}</button>` : ''}
 				${this._nulledEntries().length ? html`<button class='small' @click=${this._handleAddNulledClicked} title='Add field...'>${PLUS_ICON}</button>` : ''}
 			</label>`: ''}
 			${this._innerControl()}
@@ -97,13 +98,16 @@ class OptionsControl extends LitElement {
 	}
 
 	_nulledEntries() {
+		const config = this.config || {};
 		const nonNullValue = this.value || {};
-		if (Array.isArray(this.config.example)) return [];
-		return Object.entries(this.config.example).filter(entry => entry[1].optional && nonNullValue[entry[0]] == undefined);
+		if (!config.example) return [];
+		if (Array.isArray(config.example)) return [];
+		return Object.entries(config.example).filter(entry => entry[1].optional && nonNullValue[entry[0]] == undefined);
 	}
 
 	_innerControl() {
-		const example = this.config.example;
+		const config = this.config || {};
+		const example = config.example;
 		if (typeof example == 'object') {
 			if (Array.isArray(example)) {
 				return html`${this.value.map((item, index) => html`<options-control .value=${item} .config=${example[0]} .name=${index} .path=${this._dottedPath(index)}></options-control>`)}`;
@@ -120,15 +124,15 @@ class OptionsControl extends LitElement {
 					${advancedEntries.map(entry => html`<options-control .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}
 				</details>` : ''}`;
 		}
-		if (this.config.options) {
-			return html`<select @change=${this._handleInputChanged} .value=${this.value}>${this.config.options.map(opt => html`<option .value=${opt.value} .selected=${opt.value == this.value} .title=${opt.description || opt.display || opt.value}>${opt.display || opt.value}</option>`)}</select>`;
+		if (config.options) {
+			return html`<select @change=${this._handleInputChanged} .value=${this.value}>${config.options.map(opt => html`<option .value=${opt.value} .selected=${opt.value == this.value} .title=${opt.description || opt.display || opt.value}>${opt.display || opt.value}</option>`)}</select>`;
 		}
 		let type = 'text';
 		if (typeof example == 'number') type = 'number';
 		if (typeof example == 'boolean') type = 'checkbox';
-		if (this.config.behavior == COLOR_BEHAVIOR_NAME) type = 'color';
+		if (config.behavior == COLOR_BEHAVIOR_NAME) type = 'color';
 
-		return html`<input @change=${this._handleInputChanged} .type=${type} .min=${this.config.min || 0.0} .max=${this.config.max || Number.MAX_SAFE_INTEGER} .step=${this.config.step || 1.0} .value=${this.value} .checked=${this.value}></input>`;
+		return html`<input @change=${this._handleInputChanged} .type=${type} .min=${config.min || 0.0} .max=${config.max || Number.MAX_SAFE_INTEGER} .step=${config.step || 1.0} .value=${this.value} .checked=${this.value}></input>`;
 	}
 
 	_handleNullableClicked() {

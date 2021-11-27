@@ -8,7 +8,8 @@ import {
 	selectPageExtra,
 	selectSimulationIndex,
 	selectRunIndex,
-	selectFrameIndex
+	selectFrameIndex,
+	selectFilename
 } from '../selectors.js';
 
 //if silent is true, then just passively updates the URL to reflect what it should be.
@@ -33,10 +34,11 @@ export const canonicalizePath = () => (dispatch ,getState) => {
 	if (page != 'sim') {
 		path.push(pageExtra);
 	} else {
+		const filename = selectFilename(state);
 		const simulationIndex = selectSimulationIndex(state);
 		const runIndex = selectRunIndex(state);
 		const frameIndex = selectFrameIndex(state);
-		path.push(simulationIndex, runIndex, frameIndex, '');
+		path.push(filename, simulationIndex, runIndex, frameIndex, '');
 	}
 
 	dispatch(navigatePathTo(path.join('/'), true));

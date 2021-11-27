@@ -5,6 +5,7 @@ import {
 } from "./simulation.js";
 
 export const selectRawConfigData = state => state.data ? state.data.data : [];
+export const selectFilename = state => state.data ? state.data.filename : '';
 export const selectSimulationIndex = state => state.data ? state.data.simulationIndex : 0;
 export const selectFrameIndex = state => state.data ? state.data.frameIndex : 0;
 export const selectRunIndex = state => state.data ? state.data.runIndex : 0;

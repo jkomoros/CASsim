@@ -40,7 +40,7 @@ class RunSummary extends LitElement {
 	}
 
 	render() {
-		const successCount = this.statuses.map(value => value == 1.0 ? 1.0 : 0.0).reduce((prev, curr) => prev + curr);
+		const successCount = this.statuses.map(value => value == 1.0 ? 1.0 : 0.0).reduce((prev, curr) => prev + curr, 0);
 		const successPercentage = '' + Math.floor(100 * successCount / this.statuses.length) + '%';
 
 		return html`

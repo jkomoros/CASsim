@@ -12,7 +12,8 @@ import {
 	updateWithSimPageExtra,
 	closeDialog,
 	updateCurrentSimulationOptions,
-	DIALOG_TYPE_JSON
+	DIALOG_TYPE_JSON,
+	DATA_DIRECTORY,
 } from "../actions/data.js";
 
 import {
@@ -33,7 +34,8 @@ import {
 	selectDialogOpen,
 	selectRawConfigData,
 	selectDialogType,
-	selectDialogExtras
+	selectDialogExtras,
+	selectFilename
 } from "../selectors.js";
 
 import {
@@ -70,21 +72,17 @@ import { SharedStyles } from "./shared-styles.js";
 import { ButtonSharedStyles } from "./button-shared-styles.js";
 import { PLUS_ICON } from "./my-icons.js";
 
-const CONFIG_FILE_NAME = 'config.json';
-const SAMPLE_CONFIG_FILE_NAME = 'config.SAMPLE.json';
 
-const fetchData = async() => {
+
+const fetchData = async(filename) => {
 	let res;
-	let fetchErrored = false;
+	filename = ('' + filename).toLowerCase();
+	filename = filename.split('/')[0];
+	const path = '/' + DATA_DIRECTORY + '/' + filename + '.json';
 	try {
-		res = await fetch("/" + CONFIG_FILE_NAME);
+		res = await fetch(path);
 	} catch (err) {
-		fetchErrored = err;
-	}
-
-	if (fetchErrored || !res.ok) {
-		console.warn(CONFIG_FILE_NAME + ' not found. Using ' + SAMPLE_CONFIG_FILE_NAME + ' instead.');
-		res = await fetch("/" + SAMPLE_CONFIG_FILE_NAME);
+		console.warn('Couldn\'t fetch ' + path + ': ' + err);
 	}
 
 	const data = await res.json();
@@ -99,6 +97,7 @@ class SimView extends connect(store)(PageViewElement) {
 			_currentFrame: { type: Object },
 			_pageExtra: { type: String },
 			_frameIndex: { type: Number },
+			_filename: {type:String},
 			_dialogOpen: {type: Boolean},
 			_dialogType: {type: String},
 			_dialogExtras: {type:Object},
@@ -147,7 +146,6 @@ class SimView extends connect(store)(PageViewElement) {
 	}
 
 	firstUpdated() {
-		fetchData();
 		document.addEventListener('keydown', e => this._handleKeyDown(e));
 	}
 
@@ -212,6 +210,7 @@ class SimView extends connect(store)(PageViewElement) {
 		this._frameIndex = selectFrameIndex(state);
 		this._height = selectCurrentSimulationHeight(state);
 		this._width = selectCurrentSimulationWidth(state);
+		this._filename = selectFilename(state);
 
 		this.updateComplete.then(() => {
 			window[RENDER_COMPLETE_VARIABLE] = true;
@@ -238,6 +237,9 @@ class SimView extends connect(store)(PageViewElement) {
 	}
 
 	updated(changedProps) {
+		if (changedProps.has('_filename') && this._filename) {
+			fetchData(this._filename);
+		}
 		if (changedProps.has('_pageExtra') && this._pageExtra) {
 			store.dispatch(updateWithSimPageExtra(this._pageExtra));
 		}
