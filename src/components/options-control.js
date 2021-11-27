@@ -100,6 +100,11 @@ class OptionsControl extends LitElement {
 		`;
 	}
 
+	_nulledEntries() {
+		const nonNullValue = this.value || {};
+		return Object.entries(this.config.example).filter(entry => entry[1].optional && nonNullValue[entry[0]] == undefined);
+	}
+
 	_innerControl() {
 		const example = this.config.example;
 		if (typeof example == 'object') {
@@ -110,7 +115,7 @@ class OptionsControl extends LitElement {
 			const nonNullValue = this.value || {};
 			const nonAdvancedEntries = Object.entries(nonNullValue).filter(entry => !example[entry[0]].advanced);
 			const advancedEntries = Object.entries(nonNullValue).filter(entry => example[entry[0]].advanced);
-			const nulledEntries = Object.entries(example).filter(entry => entry[1].optional && nonNullValue[entry[0]] == undefined);
+			const nulledEntries = this._nulledEntries();
 			return html`
 				${this.value == null ? html`<em>null</em>` : ''}
 				${nonAdvancedEntries.map(entry => html`<options-control .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}
@@ -151,8 +156,7 @@ class OptionsControl extends LitElement {
 
 	_handleAddNulledClicked() {
 		const example = this.config.example;
-		const nonNullValue = this.value || {};
-		const nulledEntries = Object.entries(example).filter(entry => entry[1].optional && nonNullValue[entry[0]] == undefined);
+		const nulledEntries = this._nulledEntries();
 
 		const extras = {
 			options: nulledEntries.map(entry => ({
