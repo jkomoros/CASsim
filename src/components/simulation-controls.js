@@ -56,6 +56,10 @@ class SimulationControls extends connect(store)(LitElement) {
 					top: 0;
 					left: 0;
 				}
+				.row {
+					display:flex;
+					flex-direction:row;
+				}
 			`
 		];
 	}
@@ -64,22 +68,25 @@ class SimulationControls extends connect(store)(LitElement) {
 	render() {
 		return html`
 			<div class='container'>
-				<div>
-					<button class='small' @click=${this._handleShowJSONClicked}>${CODE_ICON}</button>
-				</div>
+
 				<div>
 					<label for='simulationIndex'>Simulation</label>
 					<select id='simulationIndex' .value=${this._simulationIndex} @change=${this._handleSimulationIndexChanged}>
 						${Object.entries(this._simulationsMap).map(entry => html`<option value=${entry[0]}>${entry[1].description}</option>`)}
 					</select>
 				</div>
-				<div>
-					<label for='runIndex'>Run</label>
-					<input id='runIndex' .value=${this._runIndex} type='number' min='0' max=${this._simulationMaxRunIndex} @change=${this._handleRunIndexChanged}>
-				</div>
-				<div>
-					<label for='frameIndex'>Frame</label>
-					<input id='frameIndex' .value=${this._frameIndex} type='number' min='0' max=${this._maxFrameIndex} @change=${this._handleFrameIndexChanged}>
+				<div class='row'>
+					<div>
+						<label for='runIndex'>Run</label>
+						<input id='runIndex' .value=${this._runIndex} type='number' min='0' max=${this._simulationMaxRunIndex} @change=${this._handleRunIndexChanged}>
+					</div>
+					<div>
+						<label for='frameIndex'>Frame</label>
+						<input id='frameIndex' .value=${this._frameIndex} type='number' min='0' max=${this._maxFrameIndex} @change=${this._handleFrameIndexChanged}>
+					</div>
+					<div>
+						<button class='small' @click=${this._handleShowJSONClicked}>${CODE_ICON}</button>
+					</div>
 				</div>
 				<div>
 					<run-summary .statuses=${this._runStatuses} .selectedIndex=${this._runIndex} @run-clicked=${this._handleStatusClicked}></run-summary>
