@@ -15,7 +15,7 @@ export const ButtonSharedStyles = css`
       font-size: inherit;
       vertical-align: middle;
       color: var(--app-light-text-color);
-      background: var(--app-dark-text-color);
+      background: var(--app-primary-color);
       padding: 0.5em;
       box-shadow: 0 2px 2px var(--shadow-color);
       border: none;
@@ -24,6 +24,20 @@ export const ButtonSharedStyles = css`
       position: relative;
       overflow: hidden;
       transition: background-color var(--transition-fade), color var(--transition-fade), box-shadow var(--transition-fade);
+    }
+
+    button.round {
+      border-radius:50%;
+      height: 2.75em;
+      width: 2.75em;
+    }
+
+    button svg {
+      fill: var(--app-light-text-color);
+    }
+
+    button:hover {
+      filter: brightness(0.9);
     }
 
     button.small {
