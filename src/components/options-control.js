@@ -122,7 +122,10 @@ class OptionsControl extends LitElement {
 		const example = this.config.example;
 		if (typeof example == 'object') {
 			if (Array.isArray(example)) {
-				return html`${this.value.map((item, index) => html`<options-control .value=${item} .config=${example[0]} .name=${index} .path=${this._dottedPath(index)}></options-control>`)}`;
+				return html`
+					${this.value.map((item, index) => html`<options-control .value=${item} .config=${example[0]} .name=${index} .path=${this._dottedPath(index)}></options-control>`)}
+					<button @click=${this._handleAddArrayItem}>+</button>
+					`;
 			}
 			if (this.value == null) {
 				return html`<em>null</em>`;
@@ -161,6 +164,12 @@ class OptionsControl extends LitElement {
 		let value = ele.type == 'checkbox' ? ele.checked : ele.value;
 		if (typeof this.config.example == 'number') value = parseFloat(value);
 		this.dispatchEvent(new CustomEvent('option-changed', {composed: true, detail: {path: this.path, value:value}}));
+	}
+
+	_handleAddArrayItem() {
+		const subPath = this.path + '.' + this.value.length;
+		let value = defaultValueForConfig(this.config);
+		this.dispatchEvent(new CustomEvent('option-changed', {composed: true, detail: {path: subPath, value: value}}));
 	}
 
 	_handleAddNulled(e) {
