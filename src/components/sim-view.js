@@ -13,6 +13,7 @@ import {
 	closeDialog,
 	updateCurrentSimulationOptions,
 	DIALOG_TYPE_JSON,
+	DATA_DIRECTORY,
 } from "../actions/data.js";
 
 import {
@@ -75,7 +76,7 @@ import { PLUS_ICON } from "./my-icons.js";
 
 const fetchData = async(filename) => {
 	let res;
-	const path = '/config/' + filename + '.json';
+	const path = '/' + DATA_DIRECTORY + '/' + filename + '.json';
 	try {
 		res = await fetch(path);
 	} catch (err) {
