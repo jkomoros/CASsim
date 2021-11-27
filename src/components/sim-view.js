@@ -12,7 +12,8 @@ import {
 	updateWithSimPageExtra,
 	closeDialog,
 	updateCurrentSimulationOptions,
-	DIALOG_TYPE_JSON
+	DIALOG_TYPE_JSON,
+	DEFAULT_FILE_NAME
 } from "../actions/data.js";
 
 import {
@@ -70,14 +71,15 @@ import { SharedStyles } from "./shared-styles.js";
 import { ButtonSharedStyles } from "./button-shared-styles.js";
 import { PLUS_ICON } from "./my-icons.js";
 
-const CONFIG_FILE_NAME = 'default.json';
+
 
 const fetchData = async() => {
 	let res;
+	const filename = '/config/' + DEFAULT_FILE_NAME + '.json';
 	try {
-		res = await fetch("/config/" + CONFIG_FILE_NAME);
+		res = await fetch(filename);
 	} catch (err) {
-		console.warn('Couldn\'t fetch ' + CONFIG_FILE_NAME + ': ' + err);
+		console.warn('Couldn\'t fetch ' + filename + ': ' + err);
 	}
 
 	const data = await res.json();

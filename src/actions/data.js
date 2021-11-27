@@ -8,6 +8,8 @@ export const UPDATE_DIALOG_OPEN = 'UPDATE_DIALOG_OPEN';
 export const DIALOG_TYPE_JSON = 'json';
 export const DIALOG_TYPE_ADD_FIELD = 'add-field';
 
+export const DEFAULT_FILE_NAME = 'default';
+
 import {
 	canonicalizePath
 } from './app.js';
