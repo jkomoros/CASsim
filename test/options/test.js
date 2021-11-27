@@ -1465,6 +1465,26 @@ describe('defaultValueForConfig', () => {
 		assert.deepEqual(result, golden);
 	});
 
+	it('handles basic optional string', async () => {
+		const config = {
+			example: 'foo',
+			optional: true,
+		};
+		const result = defaultValueForConfig(config);
+		const golden = 'foo';
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles basic optional string with skipOptional', async () => {
+		const config = {
+			example: 'foo',
+			optional: true,
+		};
+		const result = defaultValueForConfig(config, true);
+		const golden = undefined;
+		assert.deepEqual(result, golden);
+	});
+
 	it('handles basic number', async () => {
 		const config = {
 			example: 3

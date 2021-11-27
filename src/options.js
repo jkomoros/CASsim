@@ -298,18 +298,22 @@ export const maySetPropertyInConfigObject = (optionsConfig, obj, path, value) =>
 	return configObjectIsValid(optionsConfig, updatedObj);
 };
 
-export const defaultValueForConfig = (optionsConfig) => {
+//if skipOptional is true then optional items will be skipped. Things that
+//recurse into subObjects will have skipOptional true. This leads to behavior
+//where the top-level item requested will be returned even if optional (which is
+//useful for e.g. getting an optional value to add)
+export const defaultValueForConfig = (optionsConfig, skipOptional) => {
 	if (!optionsConfig) return undefined;
 	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
 	if (example == undefined) {
-		return Object.fromEntries(Object.entries(optionsConfig).filter(entry => !entry[1][OPTIONAL_PROPERTY_NAME]).map(entry => [entry[0], defaultValueForConfig(entry[1])]).filter(entry => entry[1] !== undefined));
+		return Object.fromEntries(Object.entries(optionsConfig).filter(entry => !entry[1][OPTIONAL_PROPERTY_NAME]).map(entry => [entry[0], defaultValueForConfig(entry[1], true)]).filter(entry => entry[1] !== undefined));
 	}
-	if (optionsConfig[OPTIONAL_PROPERTY_NAME]) return undefined;
+	if (skipOptional && optionsConfig[OPTIONAL_PROPERTY_NAME]) return undefined;
 	if (typeof example == 'object') {
 		if (Array.isArray(example)) {
-			return [defaultValueForConfig(example[0])].filter(item => item !== undefined);
+			return [defaultValueForConfig(example[0], true)].filter(item => item !== undefined);
 		}
-		return Object.fromEntries(Object.entries(example).filter(entry => !entry[1][OPTIONAL_PROPERTY_NAME]).map(entry => [entry[0], defaultValueForConfig(entry[1])]).filter(entry => entry[1] !== undefined));
+		return Object.fromEntries(Object.entries(example).filter(entry => !entry[1][OPTIONAL_PROPERTY_NAME]).map(entry => [entry[0], defaultValueForConfig(entry[1], true)]).filter(entry => entry[1] !== undefined));
 	}
 	return example;
 };
