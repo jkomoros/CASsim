@@ -50,7 +50,8 @@ const generateScreenshots = async () => {
 	});
 	await page.goto('http://localhost:8081', {waitUntil: 'networkidle2'});
 
-	await page.evaluate('document.querySelector("body").style.setProperty("--override-app-background-color", "transparent")');
+	//Turn this back on when we can do a live merge of png data with the color in the stream. See #4.
+	//await page.evaluate('document.querySelector("body").style.setProperty("--override-app-background-color", "transparent")');
 
 	//Get us to the very last sim, run, frame
 	await page.evaluate('window.' + SETUP_METHOD_VARIABLE + '()');
