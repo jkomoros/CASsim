@@ -21,12 +21,14 @@ import {
 	updateRunIndex,
 	updateCurrentSimulationOptions,
 	openDialog,
-	updatePlaying
+	updatePlaying,
+	resetSimulation
 } from '../actions/data.js';
 
 import {
 	CODE_ICON,
-	PLAY_ICON
+	PLAY_ICON,
+	REPLAY_ICON
 } from "./my-icons.js";
 
 import { ButtonSharedStyles } from "./button-shared-styles.js";
@@ -96,6 +98,9 @@ class SimulationControls extends connect(store)(LitElement) {
 						<button class='small' .disabled=${this._playing} @click=${this._handlePlayClicked}>${PLAY_ICON}</button>
 					</div>
 					<div>
+						<button class='small' .disabled=${this._playing} @click=${this._handleReplayClicked}>${REPLAY_ICON}</button>
+					</div>
+					<div>
 						<button class='small' @click=${this._handleShowJSONClicked}>${CODE_ICON}</button>
 					</div>
 				</div>
@@ -138,6 +143,10 @@ class SimulationControls extends connect(store)(LitElement) {
 
 	_handlePlayClicked() {
 		store.dispatch(updatePlaying(true));
+	}
+
+	_handleReplayClicked() {
+		store.dispatch(resetSimulation());
 	}
 
 	_handleSimulationIndexChanged(e) {

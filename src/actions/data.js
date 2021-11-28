@@ -95,6 +95,11 @@ export const updateWithSimPageExtra = (pageExtra) => (dispatch, getState) => {
 	dispatch(updateFrameIndex(frameIndex), true);
 };
 
+export const resetSimulation = () => (dispatch) => {
+	dispatch(updateRunIndex(0));
+	dispatch(updateFrameIndex(0));
+};
+
 let playingInterval = -1;
 
 export const updatePlaying = (enabled) => (dispatch, getState) => {
