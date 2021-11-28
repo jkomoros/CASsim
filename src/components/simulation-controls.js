@@ -12,6 +12,7 @@ import {
 	selectCurrentSimulationMaxRunIndex,
 	selectCurrentSimulationRun,
 	selectCurrentSimulation,
+	selectPlaying,
 } from "../selectors.js";
 
 import {
@@ -20,10 +21,12 @@ import {
 	updateRunIndex,
 	updateCurrentSimulationOptions,
 	openDialog,
+	updatePlaying
 } from '../actions/data.js';
 
 import {
-	CODE_ICON
+	CODE_ICON,
+	PLAY_ICON
 } from "./my-icons.js";
 
 import { ButtonSharedStyles } from "./button-shared-styles.js";
@@ -43,6 +46,7 @@ class SimulationControls extends connect(store)(LitElement) {
 			_frameIndex: { type: Number },
 			_runIndex: {type: Number},
 			_runStatuses: { type:Array },
+			_playing: {type: Boolean},
 		};
 	}
 
@@ -89,6 +93,9 @@ class SimulationControls extends connect(store)(LitElement) {
 						<input id='frameIndex' .value=${this._frameIndex} type='number' min='0' max=${this._maxFrameIndex} @change=${this._handleFrameIndexChanged}>
 					</div>
 					<div>
+						<button class='small' .disabled=${this._playing} @click=${this._handlePlayClicked}>${PLAY_ICON}</button>
+					</div>
+					<div>
 						<button class='small' @click=${this._handleShowJSONClicked}>${CODE_ICON}</button>
 					</div>
 				</div>
@@ -109,6 +116,7 @@ class SimulationControls extends connect(store)(LitElement) {
 		this._simulationMaxRunIndex = selectCurrentSimulationMaxRunIndex(state);
 		this._frameIndex = selectFrameIndex(state);
 		this._runIndex = selectRunIndex(state);
+		this._playing = selectPlaying(state);
 
 		//We can't just have a selector for these, because the value will change
 		//even when the inputs don't, so the selector would give an old value.
@@ -126,6 +134,10 @@ class SimulationControls extends connect(store)(LitElement) {
 
 	_handleShowJSONClicked() {
 		store.dispatch(openDialog());
+	}
+
+	_handlePlayClicked() {
+		store.dispatch(updatePlaying(true));
 	}
 
 	_handleSimulationIndexChanged(e) {
