@@ -22,14 +22,16 @@ import {
 	updateCurrentSimulationOptions,
 	openDialog,
 	updatePlaying,
-	resetSimulation
+	resetSimulation,
+	advanceToLastFrame
 } from '../actions/data.js';
 
 import {
 	CODE_ICON,
 	PLAY_ICON,
 	REPLAY_ICON,
-	PAUSE_ICON
+	PAUSE_ICON,
+	FAST_FORWARD_ICON
 } from "./my-icons.js";
 
 import { ButtonSharedStyles } from "./button-shared-styles.js";
@@ -104,6 +106,9 @@ class SimulationControls extends connect(store)(LitElement) {
 						<button class='small' .disabled=${!this._playing} @click=${this._handlePauseClicked}>${PAUSE_ICON}</button>
 					</div>
 					<div>
+						<button class='small' .disabled=${this._playing} @click=${this._handleFastForwardClicked}>${FAST_FORWARD_ICON}</button>
+					</div>
+					<div>
 						<button class='small' .disabled=${this._playing} @click=${this._handleReplayClicked}>${REPLAY_ICON}</button>
 					</div>
 				</div>
@@ -150,6 +155,10 @@ class SimulationControls extends connect(store)(LitElement) {
 
 	_handlePauseClicked() {
 		store.dispatch(updatePlaying(false));
+	}
+
+	_handleFastForwardClicked() {
+		store.dispatch(advanceToLastFrame());
 	}
 
 	_handleReplayClicked() {
