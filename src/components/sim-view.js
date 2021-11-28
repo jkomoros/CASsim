@@ -45,10 +45,6 @@ import {
 	selectRunIndex
 } from "../selectors.js";
 
-import {
-	GIF_COMMAND
-} from "../simulation.js";
-
 // We are lazy loading its reducer.
 import data from "../reducers/data.js";
 store.addReducers({
@@ -63,7 +59,6 @@ const CURRENT_SIMULATION_NAME_VARIABLE = 'current_simulation_name';
 const SETUP_METHOD_VARIABLE = 'setup_method';
 const PREVIOUS_FRAME_METHOD_VARIABLE = 'previous_frame';
 const RENDER_COMPLETE_VARIABLE = 'render_complete';
-const GIF_NAME_VARIABLE = 'gif_name';
 
 window[RENDER_COMPLETE_VARIABLE] = false;
 
@@ -267,8 +262,6 @@ class SimView extends connect(store)(PageViewElement) {
 			window[CURRENT_SIMULATION_NAME_VARIABLE] = this._currentSimulationName;
 		}
 		if (changedProps.has('_currentFrame')) {
-			const data = this._currentFrame || {};
-			window[GIF_NAME_VARIABLE] = data[GIF_COMMAND];
 			store.dispatch(canonicalizePath());
 		}
 	}

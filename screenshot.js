@@ -18,7 +18,6 @@ const CURRENT_SIMULATION_NAME_VARIABLE = 'current_simulation_name';
 const SETUP_METHOD_VARIABLE = 'setup_method';
 const PREVIOUS_FRAME_METHOD_VARIABLE = 'previous_frame';
 const RENDER_COMPLETE_VARIABLE = 'render_complete';
-const GIF_NAME_VARIABLE = 'gif_name';
 
 const clearScreenshotsDir = () => {
 	if (fs.existsSync(SCREENSHOT_DIR)) {
@@ -42,7 +41,7 @@ const generateScreenshots = async () => {
 		deviceScaleFactor: 2.0,
 	});
 	await page.goto('http://localhost:8081', {waitUntil: 'networkidle2'});
-	let isTransparent = true;
+
 	await page.evaluate('document.querySelector("body").style.setProperty("--override-app-background-color", "transparent")');
 
 	//Get us to the very last sim, run, frame
@@ -52,7 +51,6 @@ const generateScreenshots = async () => {
 	let currentRunIndex = await page.evaluate('window.' + CURRENT_RUN_INDEX_VARIABLE);
 	let currentFrameIndex = await page.evaluate('window.' + CURRENT_FRAME_INDEX_VARIABLE);
 	let currentSimulationName = await page.evaluate('window.' + CURRENT_SIMULATION_NAME_VARIABLE);
-	let gifName = await page.evaluate('window.' + GIF_NAME_VARIABLE);
 	do {
 		console.log('Working on state #' + currentSimulationIndex + ' : ' + currentRunIndex + ' : ' + currentFrameIndex);
 		const ele = await page.evaluateHandle('document.querySelector("my-app").shadowRoot.querySelector("sim-view").shadowRoot.querySelector("frame-visualization")');
@@ -64,19 +62,6 @@ const generateScreenshots = async () => {
 
 		//When this logic is updated, also change gifNameForFile
 		let path = SCREENSHOT_DIR + '/screenshot_' + safeSimulationName + '_' + currentSimulationIndex + '_' + currentRunIndex + '_' + currentFrameIndex;
-		if (gifName !== undefined) {
-			path += '_gif_' + (gifName || 'default');
-			//for gif frames, include the background color, otherwise the variable alpha looks really bad
-			if (isTransparent) {
-				isTransparent = false;
-				await page.evaluate('document.querySelector("body").style.removeProperty("--override-app-background-color")');
-			}
-		} else {
-			if (!isTransparent) {
-				isTransparent = true;
-				await page.evaluate('document.querySelector("body").style.setProperty("--override-app-background-color", "transparent")');
-			}
-		}
 		path += '.png';
 		await ele.screenshot({path, omitBackground:true});
 
@@ -89,7 +74,6 @@ const generateScreenshots = async () => {
 		currentRunIndex = await page.evaluate('window.' + CURRENT_RUN_INDEX_VARIABLE);
 		currentFrameIndex = await page.evaluate('window.' + CURRENT_FRAME_INDEX_VARIABLE);
 		currentSimulationName = await page.evaluate('window.' + CURRENT_SIMULATION_NAME_VARIABLE);
-		gifName = await page.evaluate('window.' + GIF_NAME_VARIABLE);
 	} while(currentSimulationIndex >= 0 && currentRunIndex >= 0 && currentFrameIndex >= 0);
 
 	await browser.close();

@@ -18,10 +18,6 @@ import {
 	color
 } from './color.js';
 
-//A string or "" to request gif output include this frame. Only frames that explicitly include this will be outputed.
-//Duplicated in screenshot.js
-export const GIF_COMMAND = 'gif';
-
 /*
 {
 	//Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL. May be omitted.
