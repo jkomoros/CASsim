@@ -55,7 +55,7 @@ class SimulationControls extends connect(store)(LitElement) {
 					position:absolute;
 					top: 0;
 					left: 0;
-					width: 12em;
+					width: 15em;
 					background-color: white;
 					padding: 0.5em;
 				}
