@@ -26,7 +26,6 @@ const INITIAL_STATE = {
 	frameIndex: 0,
 	playType: PLAY_TYPE_SIMULATION,
 	playing: false,
-	frameDelay: 100,
 	dialogOpen: false,
 	dialogType: DIALOG_TYPE_JSON,
 	dialogExtras: {},

@@ -12,7 +12,6 @@ export const selectRunIndex = state => state.data ? state.data.runIndex : 0;
 //TODO: actually have this be the real constant for PLAY_TYPE_FRAME;
 export const selectPlayType = state => state.data ? state.data.playType : 'frame';
 export const selectPlaying = state => state.data ? state.data.playing : false;
-export const selectFrameDelay = state => state.data ? state.data.frameDelay : 100;
 
 export const selectDialogOpen = state => state.data ? state.data.dialogOpen : false;
 export const selectDialogType = state => state.data ? state.data.dialogType : '';
@@ -46,6 +45,11 @@ export const selectCurrentSimulationName = createSelector(
 export const selectCurrentSimulationSimulatorName = createSelector(
 	selectCurrentSimulation,
 	(sim) => sim ? sim.simulatorName : ''
+);
+
+export const selectFrameDelay = createSelector(
+	selectCurrentSimulation,
+	(sim) => sim ? sim.frameDelay : 0
 );
 
 export const selectCurrentSimulationWidth = createSelector(

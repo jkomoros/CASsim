@@ -64,6 +64,7 @@ const COLOR_DISABLED_PROPERTY = 'disabled';
 const COLOR_BACKGROUND_PROPERTY = 'background';
 const DESCRIPTION_PROPERTY = 'description';
 const AUTO_RUN_PROPERTY = 'autoRun';
+const FRAME_DELAY_PROPERTY = 'frameDelay';
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
@@ -316,6 +317,10 @@ const Simulation = class {
 		return this._colors;
 	}
 
+	get frameDelay() {
+		return this._config[FRAME_DELAY_PROPERTY] || 100;
+	}
+
 	get width() {
 		return this._config[WIDTH_PROPERTY];
 	}
@@ -376,6 +381,12 @@ const Simulation = class {
 				[HEIGHT_PROPERTY]: {
 					example: 450,
 					description: 'The height of the canvas in pixels',
+					advanced: true
+				},
+				[FRAME_DELAY_PROPERTY]: {
+					example: 100,
+					description: 'How many milliseconds to wait before advancing to next frame when playing',
+					optional: true,
 					advanced: true
 				},
 				[RUNS_PROPERTY]: {
