@@ -10,7 +10,7 @@ import {
 
 	DIALOG_TYPE_JSON,
 	DEFAULT_FILE_NAME,
-	PLAY_TYPE_FRAME
+	PLAY_TYPE_SIMULATION
 } from "../actions/data.js";
 
 import {
@@ -23,7 +23,7 @@ const INITIAL_STATE = {
 	simulationIndex: 0,
 	runIndex: 0,
 	frameIndex: 0,
-	playType: PLAY_TYPE_FRAME,
+	playType: PLAY_TYPE_SIMULATION,
 	dialogOpen: false,
 	dialogType: DIALOG_TYPE_JSON,
 	dialogExtras: {},
