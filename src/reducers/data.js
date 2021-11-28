@@ -6,9 +6,11 @@ import {
 	UPDATE_FRAME_INDEX,
 	UPDATE_CURRENT_SIMULATION_CONFIG,
 	UPDATE_DIALOG_OPEN,
+	UPDATE_PLAY_TYPE,
 
 	DIALOG_TYPE_JSON,
-	DEFAULT_FILE_NAME
+	DEFAULT_FILE_NAME,
+	PLAY_TYPE_FRAME
 } from "../actions/data.js";
 
 import {
@@ -21,6 +23,7 @@ const INITIAL_STATE = {
 	simulationIndex: 0,
 	runIndex: 0,
 	frameIndex: 0,
+	playType: PLAY_TYPE_FRAME,
 	dialogOpen: false,
 	dialogType: DIALOG_TYPE_JSON,
 	dialogExtras: {},
@@ -67,6 +70,11 @@ const data = (state = INITIAL_STATE, action) => {
 			dialogOpen: action.open,
 			dialogType: action.dialogType ? action.dialogType : state.dialogType,
 			dialogExtras: action.extras ? action.extras : {}
+		};
+	case UPDATE_PLAY_TYPE:
+		return {
+			...state,
+			playType: action.playType
 		};
 	default:
 		return state;

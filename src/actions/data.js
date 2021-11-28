@@ -5,12 +5,27 @@ export const UPDATE_SIMULATION_INDEX = 'UPDATE_SIMULATION_INDEX';
 export const UPDATE_RUN_INDEX = 'UPDATE_RUN_INDEX';
 export const UPDATE_FRAME_INDEX = 'UPDATE_FRAME_INDEX';
 export const UPDATE_DIALOG_OPEN = 'UPDATE_DIALOG_OPEN';
+export const UPDATE_PLAY_TYPE = 'UPDATE_PLAY_TYPE';
 
 export const DIALOG_TYPE_JSON = 'json';
 export const DIALOG_TYPE_ADD_FIELD = 'add-field';
 
 export const DATA_DIRECTORY = 'data';
 export const DEFAULT_FILE_NAME = 'default';
+
+//When playing forward into the next frame, where do we stop?
+//Frame == stop at the end of a round
+export const PLAY_TYPE_FRAME = 'frame';
+//Round == stop at the end of a simulation
+export const PLAY_TYPE_ROUND = 'round';
+//Play all frames across all simulations
+export const PLAY_TYPE_SIMULATION = 'simulation';
+
+export const LEGAL_PLAY_TYPES = {
+	[PLAY_TYPE_FRAME]: true,
+	[PLAY_TYPE_ROUND]: true,
+	[PLAY_TYPE_SIMULATION]: true,
+};
 
 import {
 	canonicalizePath
@@ -181,5 +196,16 @@ export const closeDialog = () => {
 	return {
 		type: UPDATE_DIALOG_OPEN,
 		open: false,
+	};
+};
+
+export const updatePlayType = (typ) => {
+	if (!LEGAL_PLAY_TYPES[typ]) {
+		console.warn(typ + ' is not a legal playType');
+		return;
+	}
+	return {
+		type: UPDATE_PLAY_TYPE,
+		playType: typ,
 	};
 };
