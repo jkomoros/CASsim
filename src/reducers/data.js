@@ -7,6 +7,7 @@ import {
 	UPDATE_CURRENT_SIMULATION_CONFIG,
 	UPDATE_DIALOG_OPEN,
 	UPDATE_PLAY_TYPE,
+	UPDATE_PLAYING,
 
 	DIALOG_TYPE_JSON,
 	DEFAULT_FILE_NAME,
@@ -24,6 +25,8 @@ const INITIAL_STATE = {
 	runIndex: 0,
 	frameIndex: 0,
 	playType: PLAY_TYPE_SIMULATION,
+	playing: false,
+	frameDelay: 100,
 	dialogOpen: false,
 	dialogType: DIALOG_TYPE_JSON,
 	dialogExtras: {},
@@ -75,6 +78,11 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			playType: action.playType
+		};
+	case UPDATE_PLAYING:
+		return {
+			...state,
+			playing: action.playing
 		};
 	default:
 		return state;

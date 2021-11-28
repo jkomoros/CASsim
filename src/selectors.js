@@ -11,6 +11,8 @@ export const selectFrameIndex = state => state.data ? state.data.frameIndex : 0;
 export const selectRunIndex = state => state.data ? state.data.runIndex : 0;
 //TODO: actually have this be the real constant for PLAY_TYPE_FRAME;
 export const selectPlayType = state => state.data ? state.data.playType : 'frame';
+export const selectPlaying = state => state.data ? state.data.playing : false;
+export const selectFrameDelay = state => state.data ? state.data.frameDelay : 100;
 
 export const selectDialogOpen = state => state.data ? state.data.dialogOpen : false;
 export const selectDialogType = state => state.data ? state.data.dialogType : '';

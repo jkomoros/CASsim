@@ -6,6 +6,7 @@ export const UPDATE_RUN_INDEX = 'UPDATE_RUN_INDEX';
 export const UPDATE_FRAME_INDEX = 'UPDATE_FRAME_INDEX';
 export const UPDATE_DIALOG_OPEN = 'UPDATE_DIALOG_OPEN';
 export const UPDATE_PLAY_TYPE = 'UPDATE_PLAY_TYPE';
+export const UPDATE_PLAYING = 'UPDATE_PLAYING';
 
 export const DIALOG_TYPE_JSON = 'json';
 export const DIALOG_TYPE_ADD_FIELD = 'add-field';
@@ -41,12 +42,15 @@ import {
 	selectFilename,
 	selectSimulationsMap,
 	selectMaxSimulationIndex,
-	selectPlayType
+	selectPlayType,
+	selectPlaying,
+	selectFrameDelay
 } from '../selectors.js';
 
 import {
 	maySetPropertyInConfigObject
 } from '../options.js';
+import { store } from '../store.js';
 
 export const loadData = (data) => (dispatch) => {
 	dispatch({
@@ -91,6 +95,28 @@ export const updateWithSimPageExtra = (pageExtra) => (dispatch, getState) => {
 	dispatch(updateFrameIndex(frameIndex), true);
 };
 
+let playingInterval = -1;
+
+export const updatePlaying = (enabled) => (dispatch, getState) => {
+	const state = getState();
+	const playing = selectPlaying(state);
+	if (playing == enabled) return;
+	if (playing) {
+		playingInterval = setInterval(advanceFrame, selectFrameDelay(state));
+	} else {
+		clearInterval(playingInterval);
+		playingInterval = -1;
+	}
+	dispatch({
+		type: UPDATE_PLAYING,
+		playing: enabled,
+	});
+};
+
+const advanceFrame = () => {
+	store.dispatch(nextFrameIndex());
+};
+
 export const nextFrameIndex = () => (dispatch, getState) => {
 	const state = getState();
 	const playType = selectPlayType(state);
@@ -131,6 +157,9 @@ export const nextFrameIndex = () => (dispatch, getState) => {
 		dispatch(updateFrameIndex(frameIndex));
 		return;
 	}
+
+	//If we get to here then we can't advance any more. Ensure we aren't playing!
+	dispatch(updatePlaying(false));
 };
 
 export const prevFrameIndex = () => (dispatch, getState) => {
@@ -176,6 +205,9 @@ export const prevFrameIndex = () => (dispatch, getState) => {
 		dispatch(updateFrameIndex(frameIndex));
 		return;
 	}
+
+	//If we get to here then we can't advance any more. Ensure we aren't playing!
+	dispatch(updatePlaying(false));
 };
 
 export const updateFilename = (filename, skipCanonicalize) => (dispatch, getState) => {
