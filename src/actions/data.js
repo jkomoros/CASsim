@@ -101,7 +101,7 @@ export const updatePlaying = (enabled) => (dispatch, getState) => {
 	const state = getState();
 	const playing = selectPlaying(state);
 	if (playing == enabled) return;
-	if (playing) {
+	if (enabled) {
 		playingInterval = setInterval(advanceFrame, selectFrameDelay(state));
 	} else {
 		clearInterval(playingInterval);
