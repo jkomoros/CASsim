@@ -365,7 +365,8 @@ const Simulation = class {
 				[DESCRIPTION_PROPERTY]: {
 					example: '',
 					description: 'The human-readable description of the config. Optional. Will use name if not provided.',
-					advanced: true
+					advanced: true,
+					optional: true
 				},
 				[WIDTH_PROPERTY]: {
 					example: 800,
@@ -384,12 +385,14 @@ const Simulation = class {
 				[SEED_PROPERTY]: {
 					example: '',
 					description: 'If omitted, will use a value derived from current time. The deterministic value to feed to seed.',
-					advanced: true
+					advanced: true,
+					optional: true
 				},
 				[AUTO_RUN_PROPERTY]: {
 					example: false,
 					description: 'if true, then it will automatically run all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.',
-					advanced: true
+					advanced: true,
+					optional: true
 				},
 				[COLORS_PROPERTY]: {
 					example: {
