@@ -16,6 +16,7 @@ import {
 	DIALOG_TYPE_JSON,
 	DATA_DIRECTORY,
 	updatePlayType,
+	updateShowControls,
 	PLAY_TYPE_SIMULATION,
 } from "../actions/data.js";
 
@@ -72,6 +73,8 @@ window[PREVIOUS_FRAME_METHOD_VARIABLE] = () => {
 };
 
 window[SETUP_METHOD_VARIABLE] = () => {
+	//This is the setup that the screenshot service will call before starting screenshots
+	store.dispatch(updateShowControls(false));
 	store.dispatch(updatePlayType(PLAY_TYPE_SIMULATION));
 	store.dispatch(advanceToLastFrameInConfig());
 };
