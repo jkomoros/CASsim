@@ -66,6 +66,7 @@ const DESCRIPTION_PROPERTY = 'description';
 const AUTO_GENERATE_PROPERTY = 'autoGenerate';
 const AUTO_PLAY_PROPERTY = 'autoPlay';
 const FRAME_DELAY_PROPERTY = 'frameDelay';
+const EXTRA_FINAL_FRAME_COUNT_PROPERTY = 'extraFinalFrameCount';
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
@@ -358,6 +359,10 @@ const Simulation = class {
 		return this._config[AUTO_PLAY_PROPERTY] || false;
 	}
 
+	get extraFinalFrameCount() {
+		return this._config[EXTRA_FINAL_FRAME_COUNT_PROPERTY] || 0;
+	}
+
 	get optionsConfig() {
 		if (this._optionConfig) return this._optionConfig;
 		const simOptionsConfig = this._simulator.optionsConfig();
@@ -414,6 +419,12 @@ const Simulation = class {
 				[AUTO_PLAY_PROPERTY]: {
 					example: false,
 					description: 'If set, will automatically start playing when simulation is loaded',
+					advanced: true,
+					optional: true
+				},
+				[EXTRA_FINAL_FRAME_COUNT_PROPERTY]: {
+					example: 0,
+					description: 'The number of additional frames to pause at the end of a round',
 					advanced: true,
 					optional: true
 				},
