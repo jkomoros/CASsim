@@ -54,6 +54,11 @@ export const selectCurrentSimulationHeight = createSelector(
 	(sim) => sim ? sim.height : 0
 );
 
+export const selectMaxSimulationIndex = createSelector(
+	selectRawConfigData,
+	(configData) => (configData || [' ']).length - 1
+);
+
 export const selectCurrentSimulationMaxRunIndex = createSelector(
 	selectCurrentSimulation,
 	(sim) => sim ? sim.maxRunIndex : Number.MAX_SAFE_INTEGER

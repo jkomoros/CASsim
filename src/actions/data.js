@@ -24,7 +24,8 @@ import {
 	selectCurrentSimulationRun,
 	selectCurrentSimulation,
 	selectFilename,
-	selectSimulationsMap
+	selectSimulationsMap,
+	selectMaxSimulationIndex
 } from '../selectors.js';
 
 import {
@@ -40,10 +41,13 @@ export const loadData = (data) => (dispatch) => {
 };
 
 export const verifyValidIndexes = () => (dispatch, getState) => {
-	const runIndex = selectRunIndex(getState());
-	//These will either be no ops or cut them down to size.
-	dispatch(updateRunIndex(runIndex));
+	const simulationIndex = selectSimulationIndex(getState());
+	//All of these dispatches will be either noops or cut it to a valid index
+	dispatch(updateSimulationIndex(simulationIndex));
 	//Fetch state again because it might have changed just above
+	const runIndex = selectRunIndex(getState());
+	dispatch(updateRunIndex(runIndex));
+	
 	const frameIndex = selectFrameIndex(getState());
 	dispatch(updateFrameIndex(frameIndex));
 };
@@ -96,12 +100,15 @@ export const updateFilename = (filename, skipCanonicalize) => (dispatch, getStat
 
 export const updateSimulationIndex = (index, skipCanonicalize) => (dispatch, getState) => {
 	const currentIndex = selectSimulationIndex(getState());
+	if (index < 0) index = 0;
+	const maxIndex = selectMaxSimulationIndex(getState());
+	if (index > maxIndex) index = maxIndex;
 	if (currentIndex == index) return;
-	if (index < 0) return;
 	dispatch({
 		type: UPDATE_SIMULATION_INDEX,
 		index,
 	});
+	dispatch(verifyValidIndexes());
 	if (!skipCanonicalize) dispatch(canonicalizePath());
 };
 
@@ -109,7 +116,7 @@ export const updateFrameIndex = (index, skipCanonicalize) => (dispatch, getState
 	if (typeof index == 'string') index = parseInt(index);
 	const state = getState();
 	const run = selectCurrentSimulationRun(state);
-	if (index < 0) return;
+	if (index < 0) index = 0;
 	//run won't exist yet in the case that the URL is being parsed before the data exists
 	if (run) {
 		//Probe directly for whether this index will be legal BEFORE we set it.
