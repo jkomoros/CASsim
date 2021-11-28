@@ -81,32 +81,15 @@ const generateScreenshots = async () => {
 
 const gifNameForFile = (fileName) => {
 	//Needs to be updated every time the logic for filename saving is changed.
-	if (!fileName.includes('gif')) return '';
 	const name = fileName.split('.')[0];
 	const pieces = name.split('_');
-	return pieces[3];
+	return pieces.slice(1, 4).join('_');
 };
 
 const DEFAULT_GIF_CONFIG = {
 	//in ms
 	delay: 150,
 	repeat: 0,
-};
-
-//Duplicated from simulation.js;
-const GIF_COMMAND = 'gif';
-
-const FRAME_DATA_FILE = 'config.json';
-
-const configForGif = (frameData, gifName) => {
-	for (const frame of frameData) {
-		const gifInfo = frame[GIF_COMMAND];
-		if (!gifInfo) continue;
-		if (typeof gifInfo != 'object') continue;
-		if (gifInfo.name != gifName) continue;
-		return {...DEFAULT_GIF_CONFIG, ...gifInfo};
-	}
-	return {...DEFAULT_GIF_CONFIG};
 };
 
 //Returns an object with gifNames and the information on each, including: 
@@ -134,10 +117,8 @@ const gifInfos = async () => {
 	for (const name of Object.keys(illegalGifs)) {
 		delete result[name];
 	}
-	const rawFrameData = fs.readFileSync(FRAME_DATA_FILE);
-	const frameData = JSON.parse(rawFrameData);
 	for (const name of Object.keys(result)) {
-		result[name] = {...result[name], ...configForGif(frameData, name)};
+		result[name] = {...result[name], ...DEFAULT_GIF_CONFIG};
 	}
 	return result;
 };
@@ -148,7 +129,7 @@ const generateGifs = async (infos) => {
 		const encoder = new GIFEncoder(info.width, info.height);
 		encoder.setDelay(info.delay);
 		encoder.setRepeat(info.repeat);
-		const stream = pngFileStream(path.join(SCREENSHOT_DIR, 'screenshot_*_gif_' + gifName + '.png'))
+		const stream = pngFileStream(path.join(SCREENSHOT_DIR, 'screenshot_' + gifName + '_*.png'))
 			.pipe(encoder.createWriteStream())
 			.pipe(fs.createWriteStream(path.join(SCREENSHOT_DIR, gifName + '.gif')));
  
@@ -168,8 +149,6 @@ const DEFAULT_ARGS = {
 	[COMMAND_GIF]: true
 };
 
-const GIF_ENABLED = false;
-
 (async() => {
 
 	let args = Object.fromEntries(process.argv.slice(2).map(item => [item, true]));
@@ -184,10 +163,6 @@ const GIF_ENABLED = false;
 	}
 
 	if (args[COMMAND_GIF]) {
-		if (!GIF_ENABLED) {
-			console.warn('Not yet re-implemented');
-			return;
-		}
 		const infos = await gifInfos();
 		await generateGifs(infos);
 	}
