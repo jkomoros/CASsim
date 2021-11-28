@@ -165,6 +165,8 @@ const DEFAULT_ARGS = {
 	[COMMAND_GIF]: true
 };
 
+const GIF_ENABLED = false;
+
 (async() => {
 
 	let args = Object.fromEntries(process.argv.slice(2).map(item => [item, true]));
@@ -179,6 +181,10 @@ const DEFAULT_ARGS = {
 	}
 
 	if (args[COMMAND_GIF]) {
+		if (!GIF_ENABLED) {
+			console.warn('Not yet re-implemented');
+			return;
+		}
 		const infos = await gifInfos();
 		await generateGifs(infos);
 	}
