@@ -26,7 +26,12 @@ class FrameVisualization extends LitElement {
 
 	static get styles() {
 		return [
-			css``
+			css`
+				:host {
+					background-color: var(--override-app-background-color, var(--background-color, transparent));
+				}
+			
+			`
 		];
 	}
 
