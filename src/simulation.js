@@ -159,6 +159,10 @@ const SimulationRun = class {
 		this._maxFrameIndex = Number.MAX_SAFE_INTEGER;
 	}
 
+	get simulation() {
+		return this._simulation;
+	}
+
 	frame(frameIndex) {
 		this._ensureFrameDataUpTo(frameIndex);
 		if (frameIndex >= this._frames.length) return null;

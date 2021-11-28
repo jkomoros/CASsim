@@ -13,6 +13,7 @@
 			"background": "white"
 		},
 		"autoGenerate": true,
+		"extraFinalFrameCount": 10,
 		"sim": "schelling-org",
 		"simOptions": {
 			"communication": 15,

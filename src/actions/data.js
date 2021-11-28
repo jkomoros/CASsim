@@ -45,7 +45,8 @@ import {
 	selectMaxSimulationIndex,
 	selectPlayType,
 	selectPlaying,
-	selectFrameDelay
+	selectFrameDelay,
+	selectDelayCount
 } from '../selectors.js';
 
 import {
@@ -139,6 +140,15 @@ export const nextFrameIndex = (fromInterval) => (dispatch, getState) => {
 	const state = getState();
 	//Don't allow anything but the interval to advance (so a user can't hit the arrow key and advance when playing)
 	if (!fromInterval && selectPlaying(state)) return;
+	let delayCount = selectDelayCount(state);
+	let delayed = false;
+	if (fromInterval && delayCount) {
+		delayCount--;
+		dispatch(updateDelayCount(delayCount));
+		//Fall through on the last time through
+		if (delayCount) return;
+		delayed = true;
+	}
 	const playType = selectPlayType(state);
 	let frameIndex = selectFrameIndex(state);
 	let runIndex = selectRunIndex(state);
@@ -151,8 +161,16 @@ export const nextFrameIndex = (fromInterval) => (dispatch, getState) => {
 		if (run.frameIndexLegal(frameIndex)) {
 			dispatch(updateFrameIndex(frameIndex));
 			return;
-		} 
+		}
 		frameIndex = run.maxFrameIndex;
+		//Only go into delay counting if we didn't just finish a delay count loop
+		if (fromInterval && !delayed) {
+			const delayCount = run.simulation.extraFinalFrameCount;
+			if (delayCount) {
+				dispatch(updateDelayCount(delayCount));
+				return;
+			}
+		}
 	}
 	if (playType != PLAY_TYPE_ROUND && playType != PLAY_TYPE_SIMULATION) return;
 
