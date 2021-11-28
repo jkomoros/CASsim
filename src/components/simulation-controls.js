@@ -28,7 +28,8 @@ import {
 import {
 	CODE_ICON,
 	PLAY_ICON,
-	REPLAY_ICON
+	REPLAY_ICON,
+	PAUSE_ICON
 } from "./my-icons.js";
 
 import { ButtonSharedStyles } from "./button-shared-styles.js";
@@ -100,6 +101,9 @@ class SimulationControls extends connect(store)(LitElement) {
 						<button class='small' .disabled=${this._playing} @click=${this._handlePlayClicked}>${PLAY_ICON}</button>
 					</div>
 					<div>
+						<button class='small' .disabled=${!this._playing} @click=${this._handlePauseClicked}>${PAUSE_ICON}</button>
+					</div>
+					<div>
 						<button class='small' .disabled=${this._playing} @click=${this._handleReplayClicked}>${REPLAY_ICON}</button>
 					</div>
 				</div>
@@ -142,6 +146,10 @@ class SimulationControls extends connect(store)(LitElement) {
 
 	_handlePlayClicked() {
 		store.dispatch(updatePlaying(true));
+	}
+
+	_handlePauseClicked() {
+		store.dispatch(updatePlaying(false));
 	}
 
 	_handleReplayClicked() {
