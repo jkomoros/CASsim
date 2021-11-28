@@ -132,7 +132,7 @@ export const updatePlaying = (enabled) => (dispatch, getState) => {
 	});
 };
 
-export const advanceToLastFrame = () => (dispatch) => {
+export const advanceToLastFrameInRun = () => (dispatch) => {
 	//Just try to jump too far in the future and updateFramIndex will cut us back.
 	dispatch(updateFrameIndex(Number.MAX_SAFE_INTEGER));
 };

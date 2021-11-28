@@ -23,7 +23,7 @@ import {
 	openDialog,
 	updatePlaying,
 	resetSimulation,
-	advanceToLastFrame
+	advanceToLastFrameInRun
 } from '../actions/data.js';
 
 import {
@@ -158,7 +158,7 @@ class SimulationControls extends connect(store)(LitElement) {
 	}
 
 	_handleFastForwardClicked() {
-		store.dispatch(advanceToLastFrame());
+		store.dispatch(advanceToLastFrameInRun());
 	}
 
 	_handleReplayClicked() {
