@@ -14,6 +14,7 @@ const SCREENSHOT_DIR = 'screenshots';
 const CURRENT_SIMULATION_INDEX_VARIABLE = 'current_simulation_index';
 const CURRENT_RUN_INDEX_VARIABLE = 'current_run_index';
 const CURRENT_FRAME_INDEX_VARIABLE = 'current_frame_index';
+const CURRENT_SIMULATION_NAME_VARIABLE = 'current_simulation_name';
 const SETUP_METHOD_VARIABLE = 'setup_method';
 const PREVIOUS_FRAME_METHOD_VARIABLE = 'previous_frame';
 const RENDER_COMPLETE_VARIABLE = 'render_complete';
@@ -50,12 +51,19 @@ const generateScreenshots = async () => {
 	let currentSimulationIndex = await page.evaluate('window.' + CURRENT_SIMULATION_INDEX_VARIABLE);
 	let currentRunIndex = await page.evaluate('window.' + CURRENT_RUN_INDEX_VARIABLE);
 	let currentFrameIndex = await page.evaluate('window.' + CURRENT_FRAME_INDEX_VARIABLE);
+	let currentSimulationName = await page.evaluate('window.' + CURRENT_SIMULATION_NAME_VARIABLE);
 	let gifName = await page.evaluate('window.' + GIF_NAME_VARIABLE);
 	do {
 		console.log('Working on state #' + currentSimulationIndex + ' : ' + currentRunIndex + ' : ' + currentFrameIndex);
 		const ele = await page.evaluateHandle('document.querySelector("my-app").shadowRoot.querySelector("sim-view").shadowRoot.querySelector("frame-visualization")');
+		
+		//Simulation name are [a-zA-z0-0-_], but '_' is the delimiter for us
+		const safeSimulationName = currentSimulationName.split('_').join('-');
+		
+		//Filename includes the safeSimulationName not because it's necessary (the index is what we need), but for human convenience of name
+
 		//When this logic is updated, also change gifNameForFile
-		let path = SCREENSHOT_DIR + '/screenshot_' + currentSimulationIndex + '_' + currentRunIndex + '_' + currentFrameIndex;
+		let path = SCREENSHOT_DIR + '/screenshot_' + safeSimulationName + '_' + currentSimulationIndex + '_' + currentRunIndex + '_' + currentFrameIndex;
 		if (gifName !== undefined) {
 			path += '_gif_' + (gifName || 'default');
 			//for gif frames, include the background color, otherwise the variable alpha looks really bad
@@ -80,6 +88,7 @@ const generateScreenshots = async () => {
 		currentSimulationIndex = await page.evaluate('window.' + CURRENT_SIMULATION_INDEX_VARIABLE);
 		currentRunIndex = await page.evaluate('window.' + CURRENT_RUN_INDEX_VARIABLE);
 		currentFrameIndex = await page.evaluate('window.' + CURRENT_FRAME_INDEX_VARIABLE);
+		currentSimulationName = await page.evaluate('window.' + CURRENT_SIMULATION_NAME_VARIABLE);
 		gifName = await page.evaluate('window.' + GIF_NAME_VARIABLE);
 	} while(currentSimulationIndex >= 0 && currentRunIndex >= 0 && currentFrameIndex >= 0);
 

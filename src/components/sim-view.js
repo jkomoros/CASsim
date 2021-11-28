@@ -59,6 +59,7 @@ store.addReducers({
 const CURRENT_SIMULATION_INDEX_VARIABLE = 'current_simulation_index';
 const CURRENT_RUN_INDEX_VARIABLE = 'current_run_index';
 const CURRENT_FRAME_INDEX_VARIABLE = 'current_frame_index';
+const CURRENT_SIMULATION_NAME_VARIABLE = 'current_simulation_name';
 const SETUP_METHOD_VARIABLE = 'setup_method';
 const PREVIOUS_FRAME_METHOD_VARIABLE = 'previous_frame';
 const RENDER_COMPLETE_VARIABLE = 'render_complete';
@@ -112,6 +113,7 @@ class SimView extends connect(store)(PageViewElement) {
 			// This is the data from the store.
 			_currentFrame: { type: Object },
 			_currentSimulation: { type: Object },
+			_currentSimulationName: {type: String},
 			_pageExtra: { type: String },
 			_simulationIndex: { type: Number },
 			_runIndex: { type: Number },
@@ -208,6 +210,7 @@ class SimView extends connect(store)(PageViewElement) {
 	stateChanged(state) {
 		this._rawConfigData = selectRawConfigData(state);
 		this._currentSimulation = selectCurrentSimulation(state);
+		this._currentSimulationName = this._currentSimulation ? this._currentSimulation.name : '';
 		this._dialogOpen = selectDialogOpen(state);
 		this._dialogType = selectDialogType(state);
 		this._dialogExtras = selectDialogExtras(state);
@@ -259,6 +262,9 @@ class SimView extends connect(store)(PageViewElement) {
 		}
 		if (changedProps.has('_frameIndex')) {
 			window[CURRENT_FRAME_INDEX_VARIABLE] = this._frameIndex;
+		}
+		if (changedProps.has('_currentSimulationName')) {
+			window[CURRENT_SIMULATION_NAME_VARIABLE] = this._currentSimulationName;
 		}
 		if (changedProps.has('_currentFrame')) {
 			const data = this._currentFrame || {};
