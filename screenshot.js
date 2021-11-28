@@ -30,6 +30,14 @@ const clearScreenshotsDir = () => {
 	}
 };
 
+const padInt = (val, length) => {
+	let result = val.toString();
+	while (result.length < length) {
+		result = '0' + result;
+	}
+	return result;
+};
+
 const generateScreenshots = async () => {
 
 	const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
@@ -51,6 +59,10 @@ const generateScreenshots = async () => {
 	let currentRunIndex = await page.evaluate('window.' + CURRENT_RUN_INDEX_VARIABLE);
 	let currentFrameIndex = await page.evaluate('window.' + CURRENT_FRAME_INDEX_VARIABLE);
 	let currentSimulationName = await page.evaluate('window.' + CURRENT_SIMULATION_NAME_VARIABLE);
+	//We need to know how many digits frame and run might be, so we can pad with that many 0's to verify the right ordering for gif creation.
+	//We start out with those numbers as high as they will get.
+	const runLength = currentRunIndex.toString().length;
+	const frameLength = currentFrameIndex.toString().length;
 	do {
 		console.log('Working on state #' + currentSimulationName + ' : ' + currentRunIndex + ' : ' + currentFrameIndex);
 		const ele = await page.evaluateHandle('document.querySelector("my-app").shadowRoot.querySelector("sim-view").shadowRoot.querySelector("frame-visualization")');
@@ -59,7 +71,7 @@ const generateScreenshots = async () => {
 		const safeSimulationName = currentSimulationName.split('_').join('-');
 
 		//When this logic is updated, also change gifNameForFile
-		let path = SCREENSHOT_DIR + '/screenshot_' + safeSimulationName + '_' + currentRunIndex + '_' + currentFrameIndex;
+		let path = SCREENSHOT_DIR + '/screenshot_' + safeSimulationName + '_' + padInt(currentRunIndex,runLength) + '_' + padInt(currentFrameIndex, frameLength);
 		path += '.png';
 		await ele.screenshot({path, omitBackground:true});
 
@@ -129,6 +141,8 @@ const generateGifs = async (infos) => {
 		const encoder = new GIFEncoder(info.width, info.height);
 		encoder.setDelay(info.delay);
 		encoder.setRepeat(info.repeat);
+		//This order has been confirmed to be the correct order in testing, as
+		//long as numbers are padded with prefixed 0's (lexicographic ordering)
 		const stream = pngFileStream(path.join(SCREENSHOT_DIR, 'screenshot_' + gifName + '_*_*.png'))
 			.pipe(encoder.createWriteStream())
 			.pipe(fs.createWriteStream(path.join(SCREENSHOT_DIR, gifName + '.gif')));
