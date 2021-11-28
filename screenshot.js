@@ -15,7 +15,7 @@ const CURRENT_SIMULATION_INDEX_VARIABLE = 'current_simulation_index';
 const CURRENT_RUN_INDEX_VARIABLE = 'current_run_index';
 const CURRENT_FRAME_INDEX_VARIABLE = 'current_frame_index';
 const SETUP_METHOD_VARIABLE = 'setup_method';
-const PREVIOUS_MAP_VARIABLE = 'previous_map';
+const PREVIOUS_FRAME_METHOD_VARIABLE = 'previous_frame';
 const RENDER_COMPLETE_VARIABLE = 'render_complete';
 const GIF_NAME_VARIABLE = 'gif_name';
 
@@ -74,7 +74,7 @@ const generateScreenshots = async () => {
 
 		if(currentSimulationIndex == 0 && currentRunIndex == 0 && currentFrameIndex == 0) break;
 
-		await page.evaluate('window.' + PREVIOUS_MAP_VARIABLE + '()');
+		await page.evaluate('window.' + PREVIOUS_FRAME_METHOD_VARIABLE + '()');
 		//Wait for the flag to be raised high after rendering has happened
 		await page.waitForFunction('window.' + RENDER_COMPLETE_VARIABLE);
 		currentSimulationIndex = await page.evaluate('window.' + CURRENT_SIMULATION_INDEX_VARIABLE);
