@@ -40,7 +40,8 @@ import {
 	selectCurrentSimulation,
 	selectFilename,
 	selectSimulationsMap,
-	selectMaxSimulationIndex
+	selectMaxSimulationIndex,
+	selectPlayType
 } from '../selectors.js';
 
 import {
@@ -91,9 +92,51 @@ export const updateWithSimPageExtra = (pageExtra) => (dispatch, getState) => {
 };
 
 export const nextFrameIndex = () => (dispatch, getState) => {
-	let currentIndex = selectFrameIndex(getState());
-	currentIndex++;
-	dispatch(updateFrameIndex(currentIndex));
+	const state = getState();
+	const playType = selectPlayType(state);
+	let frameIndex = selectFrameIndex(state);
+	let runIndex = selectRunIndex(state);
+	let simulationIndex = selectSimulationIndex(state);
+	frameIndex++;
+	let tryToAdvanceRun = false;
+	let doAdvanceRun = false;
+	let tryToAdvanceSimulation = false;
+	let doAdvanceSimulation = false;
+	const run = selectCurrentSimulationRun(state);
+	//run won't exist yet in the case that the URL is being parsed before the data exists
+	if (run) {
+		//Probe directly for whether this index will be legal BEFORE we set it.
+		if (!run.frameIndexLegal(frameIndex)) {
+			frameIndex = run.maxFrameIndex;
+			tryToAdvanceRun = true;
+		}
+	}
+	if (tryToAdvanceRun && (playType == PLAY_TYPE_ROUND || playType == PLAY_TYPE_SIMULATION)) {
+		runIndex++;
+		const maxRunIndex = selectCurrentSimulationMaxRunIndex(state);
+		if (runIndex > maxRunIndex) {
+			tryToAdvanceSimulation = true;
+		} else {
+			doAdvanceRun = true;
+			frameIndex = 0;
+		}
+	}
+
+	if (tryToAdvanceSimulation && playType == PLAY_TYPE_SIMULATION) {
+		simulationIndex++;
+		const maxSimulationIndex = selectMaxSimulationIndex(state);
+		if (simulationIndex > maxSimulationIndex) {
+			//Don't update
+		} else {
+			doAdvanceSimulation = true;
+			doAdvanceRun = true;
+			runIndex = 0;
+			frameIndex = 0;
+		}
+	}
+	dispatch(updateFrameIndex(frameIndex));
+	if (doAdvanceRun) dispatch(updateRunIndex(runIndex));
+	if (doAdvanceSimulation) dispatch(updateSimulationIndex(simulationIndex));
 };
 
 export const prevFrameIndex = () => (dispatch, getState) => {
