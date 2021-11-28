@@ -64,6 +64,7 @@ const COLOR_DISABLED_PROPERTY = 'disabled';
 const COLOR_BACKGROUND_PROPERTY = 'background';
 const DESCRIPTION_PROPERTY = 'description';
 const AUTO_GENERATE_PROPERTY = 'autoGenerate';
+const AUTO_PLAY_PROPERTY = 'autoPlay';
 const FRAME_DELAY_PROPERTY = 'frameDelay';
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
@@ -353,6 +354,10 @@ const Simulation = class {
 		return this._runs;
 	}
 
+	get autoPlay() {
+		return this._config[AUTO_PLAY_PROPERTY] || false;
+	}
+
 	get optionsConfig() {
 		if (this._optionConfig) return this._optionConfig;
 		const simOptionsConfig = this._simulator.optionsConfig();
@@ -402,6 +407,12 @@ const Simulation = class {
 				[AUTO_GENERATE_PROPERTY]: {
 					example: false,
 					description: 'if true, then it will automatically generate all frames for all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.',
+					advanced: true,
+					optional: true
+				},
+				[AUTO_PLAY_PROPERTY]: {
+					example: false,
+					description: 'If set, will automatically start playing when simulation is loaded',
 					advanced: true,
 					optional: true
 				},

@@ -58,6 +58,7 @@ export const loadData = (data) => (dispatch) => {
 		data,
 	});
 	dispatch(verifyValidIndexes());
+	dispatch(simulationActivated());
 };
 
 export const verifyValidIndexes = () => (dispatch, getState) => {
@@ -98,6 +99,17 @@ export const updateWithSimPageExtra = (pageExtra) => (dispatch, getState) => {
 export const resetSimulation = () => (dispatch) => {
 	dispatch(updateRunIndex(0));
 	dispatch(updateFrameIndex(0));
+};
+
+const simulationActivated = () => (dispatch, getState) => {
+	//This might be called multiple times per simulation activation
+	const state = getState();
+	const simulation = selectCurrentSimulation(state);
+	if (!simulation) return;
+	if (simulation.autoPlay && !selectPlaying(state)) {
+		dispatch(resetSimulation());
+		dispatch(updatePlaying(true));
+	}
 };
 
 let playingInterval = -1;
@@ -240,6 +252,7 @@ export const updateSimulationIndex = (index, skipCanonicalize) => (dispatch, get
 		index,
 	});
 	dispatch(verifyValidIndexes());
+	dispatch(simulationActivated());
 	if (!skipCanonicalize) dispatch(canonicalizePath());
 };
 
