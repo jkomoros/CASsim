@@ -78,12 +78,14 @@ class SimulationControls extends connect(store)(LitElement) {
 	render() {
 		return html`
 			<div class='container'>
-
-				<div>
+				<div class='row'>
 					<label for='simulationIndex'>Simulation</label>
 					<select id='simulationIndex' .value=${this._simulationIndex} @change=${this._handleSimulationIndexChanged}>
 						${Object.entries(this._simulationsMap).map((entry, index) => html`<option value=${index}>${entry[1].description}</option>`)}
 					</select>
+					<div>
+						<button class='small' @click=${this._handleShowJSONClicked}>${CODE_ICON}</button>
+					</div>
 				</div>
 				<div class='row'>
 					<div>
@@ -99,9 +101,6 @@ class SimulationControls extends connect(store)(LitElement) {
 					</div>
 					<div>
 						<button class='small' .disabled=${this._playing} @click=${this._handleReplayClicked}>${REPLAY_ICON}</button>
-					</div>
-					<div>
-						<button class='small' @click=${this._handleShowJSONClicked}>${CODE_ICON}</button>
 					</div>
 				</div>
 				<div>
