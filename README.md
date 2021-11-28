@@ -34,3 +34,9 @@ Arrow keys left or right to move forward or backward in state.
 Run `npm run generate` to generate screenshots, one for each state in your `config.json`, blowing away whatever was in the screenshots/ directory.
 
 If you only want to generate the screenshots, not the gifs, run `npm run generate:screenshot`. If you only want to generate the gifs based on already-generated screenshots, run `npm run generate:gif`.
+
+## Deploying
+
+`firebase use <PROJECT-ID>`
+`polymer build`
+`firebase deploy`
