@@ -58,6 +58,7 @@ class MyApp extends connect(store)(LitElement) {
 				/* Workaround for IE11 displaying <main> as inline */
 				main {
 					display: block;
+					--app-background-color: #EEE;
 					--disabled-color: #CCC;
 					--dark-gray-color: #666;
 					--app-primary-color: #51b9a3;

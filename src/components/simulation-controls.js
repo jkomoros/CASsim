@@ -56,7 +56,10 @@ class SimulationControls extends connect(store)(LitElement) {
 					top: 0;
 					left: 0;
 					width: 12em;
+					background-color: white;
+					padding: 0.5em;
 				}
+
 				.row {
 					display:flex;
 					flex-direction:row;

@@ -163,11 +163,6 @@ class SimView extends connect(store)(PageViewElement) {
 	render() {
 		const colors = this._currentSimulation ? Object.entries(this._currentSimulation.colors || {}).map(entry => '--' + entry[0] + '-color: ' + entry[1].hex + ';').join(' ') : '';
 		return html`
-			<style>
-				:host {
-					--app-background-color: ${this._backgroundColor}
-				}
-			</style>
 			<dialog-element .open=${this._dialogOpen} .title=${this._dialogTitle()} @dialog-should-close=${this._handleDialogShouldClose}>
 				${this._dialogInner()}
 			</dialog-element>
@@ -176,12 +171,6 @@ class SimView extends connect(store)(PageViewElement) {
 				<frame-visualization .frame=${this._currentFrame} .width=${this._width} .height=${this._height}></frame-visualization>
 			</div>
 		`;
-	}
-
-	get _backgroundColor() {
-		if (!this._currentFrame) return 'transparent';
-		if (!this._currentFrame.colors) return 'transparent';
-		return this._currentFrame.colors.background.hex;
 	}
 
 	_dialogTitle() {

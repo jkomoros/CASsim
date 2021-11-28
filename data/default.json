@@ -10,7 +10,7 @@
 			"primary": "#fb8c00",
 			"secondary": "#51b9a3",
 			"disabled": "#CCCCCC",
-			"background": "transparent"
+			"background": "white"
 		},
 		"autoRun": true,
 		"sim": "schelling-org",
