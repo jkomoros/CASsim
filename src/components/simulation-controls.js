@@ -13,6 +13,7 @@ import {
 	selectCurrentSimulationRun,
 	selectCurrentSimulation,
 	selectPlaying,
+	selectShowControls,
 } from "../selectors.js";
 
 import {
@@ -43,6 +44,7 @@ import './options-control.js';
 class SimulationControls extends connect(store)(LitElement) {
 	static get properties() {
 		return {
+			_showControsl : {type:Boolean},
 			_simulationsMap: { type:Object },
 			_simulationIndex: { type:Number },
 			_simulationMaxRunIndex: { type:Number },
@@ -69,6 +71,10 @@ class SimulationControls extends connect(store)(LitElement) {
 					padding: 0.5em;
 				}
 
+				[hidden] {
+					display:none;
+				}
+
 				.row {
 					display:flex;
 					flex-direction:row;
@@ -80,7 +86,7 @@ class SimulationControls extends connect(store)(LitElement) {
 
 	render() {
 		return html`
-			<div class='container'>
+			<div class='container' ?hidden=${!this._showControls}>
 				<div class='row'>
 					<label for='simulationIndex'>Simulation</label>
 					<select id='simulationIndex' .value=${this._simulationIndex} @change=${this._handleSimulationIndexChanged} .readonly=${this._playing}>
@@ -124,6 +130,7 @@ class SimulationControls extends connect(store)(LitElement) {
 
 	// This is called every time something is updated in the store.
 	stateChanged(state) {
+		this._showControls = selectShowControls(state);
 		this._simulationsMap = selectSimulationsMap(state);
 		this._simulationIndex = selectSimulationIndex(state);
 		this._simulationMaxRunIndex = selectCurrentSimulationMaxRunIndex(state);

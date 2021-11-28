@@ -13,6 +13,7 @@ export const selectRunIndex = state => state.data ? state.data.runIndex : 0;
 export const selectPlayType = state => state.data ? state.data.playType : 'frame';
 export const selectPlaying = state => state.data ? state.data.playing : false;
 export const selectDelayCount = state => state.data ? state.data.delayCount : 0;
+export const selectShowControls = state => state.data ? state.data.showControls : true;
 
 export const selectDialogOpen = state => state.data ? state.data.dialogOpen : false;
 export const selectDialogType = state => state.data ? state.data.dialogType : '';
