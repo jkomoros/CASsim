@@ -57,8 +57,6 @@ const generateScreenshots = async () => {
 		
 		//Simulation name are [a-zA-z0-0-_], but '_' is the delimiter for us
 		const safeSimulationName = currentSimulationName.split('_').join('-');
-		
-		//Filename includes the safeSimulationName not because it's necessary (the index is what we need), but for human convenience of name
 
 		//When this logic is updated, also change gifNameForFile
 		let path = SCREENSHOT_DIR + '/screenshot_' + safeSimulationName + '_' + currentSimulationIndex + '_' + currentRunIndex + '_' + currentFrameIndex;
@@ -81,9 +79,11 @@ const generateScreenshots = async () => {
 
 const gifNameForFile = (fileName) => {
 	//Needs to be updated every time the logic for filename saving is changed.
-	const name = fileName.split('.')[0];
+	const filenameParts = fileName.split('.');
+	if (filenameParts[1].toLowerCase() == 'gif') return '';
+	const name = filenameParts[0];
 	const pieces = name.split('_');
-	return pieces.slice(1, 4).join('_');
+	return pieces[1];
 };
 
 const DEFAULT_GIF_CONFIG = {
@@ -129,7 +129,7 @@ const generateGifs = async (infos) => {
 		const encoder = new GIFEncoder(info.width, info.height);
 		encoder.setDelay(info.delay);
 		encoder.setRepeat(info.repeat);
-		const stream = pngFileStream(path.join(SCREENSHOT_DIR, 'screenshot_' + gifName + '_*.png'))
+		const stream = pngFileStream(path.join(SCREENSHOT_DIR, 'screenshot_' + gifName + '_*_*_*.png'))
 			.pipe(encoder.createWriteStream())
 			.pipe(fs.createWriteStream(path.join(SCREENSHOT_DIR, gifName + '.gif')));
  
