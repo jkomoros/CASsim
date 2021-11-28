@@ -36,7 +36,9 @@ import {
 	selectDialogType,
 	selectDialogExtras,
 	selectFilename,
-	selectCurrentSimulation
+	selectCurrentSimulation,
+	selectSimulationIndex,
+	selectRunIndex
 } from "../selectors.js";
 
 import {
@@ -50,7 +52,9 @@ store.addReducers({
 });
 
 //rendevous point with screenshot service. Duplicated in screenshot.js
-const CURRENT_INDEX_VARIABLE = 'current_index';
+const CURRENT_SIMULATION_INDEX_VARIABLE = 'current_simulation_index';
+const CURRENT_RUN_INDEX_VARIABLE = 'current_run_index';
+const CURRENT_FRAME_INDEX_VARIABLE = 'current_frame_index';
 const PREVIOUS_MAP_VARIABLE = 'previous_map';
 const RENDER_COMPLETE_VARIABLE = 'render_complete';
 const GIF_NAME_VARIABLE = 'gif_name';
@@ -98,6 +102,8 @@ class SimView extends connect(store)(PageViewElement) {
 			_currentFrame: { type: Object },
 			_currentSimulation: { type: Object },
 			_pageExtra: { type: String },
+			_simulationIndex: { type: Number },
+			_runIndex: { type: Number },
 			_frameIndex: { type: Number },
 			_filename: {type:String},
 			_dialogOpen: {type: Boolean},
@@ -197,6 +203,8 @@ class SimView extends connect(store)(PageViewElement) {
 		this._currentFrame = selectCurrentFrame(state);
 		this._pageExtra = selectPageExtra(state);
 		this._frameIndex = selectFrameIndex(state);
+		this._simulationIndex = selectSimulationIndex(state);
+		this._runIndex = selectRunIndex(state);
 		this._height = selectCurrentSimulationHeight(state);
 		this._width = selectCurrentSimulationWidth(state);
 		this._filename = selectFilename(state);
@@ -232,8 +240,14 @@ class SimView extends connect(store)(PageViewElement) {
 		if (changedProps.has('_pageExtra') && this._pageExtra) {
 			store.dispatch(updateWithSimPageExtra(this._pageExtra));
 		}
+		if (changedProps.has('_simulationIndex')) {
+			window[CURRENT_SIMULATION_INDEX_VARIABLE] = this._simulationIndex;
+		}
+		if (changedProps.has('_runIndex')) {
+			window[CURRENT_RUN_INDEX_VARIABLE] = this._roundIndex;
+		}
 		if (changedProps.has('_frameIndex')) {
-			window[CURRENT_INDEX_VARIABLE] = this._frameIndex;
+			window[CURRENT_FRAME_INDEX_VARIABLE] = this._frameIndex;
 		}
 		if (changedProps.has('_currentFrame')) {
 			const data = this._currentFrame || {};

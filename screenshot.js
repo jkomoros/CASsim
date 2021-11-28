@@ -11,7 +11,9 @@ const pngFileStream = require('png-file-stream');
 const SCREENSHOT_DIR = 'screenshots';
 
 //rendevous point with screenshot service. Duplicated in sim-view.js
-const CURRENT_INDEX_VARIABLE = 'current_index';
+const CURRENT_SIMULATION_INDEX_VARIABLE = 'current_simulation_index';
+const CURRENT_RUN_INDEX_VARIABLE = 'current_run_index';
+const CURRENT_FRAME_INDEX_VARIABLE = 'current_frame_index';
 const PREVIOUS_MAP_VARIABLE = 'previous_map';
 const RENDER_COMPLETE_VARIABLE = 'render_complete';
 const GIF_NAME_VARIABLE = 'gif_name';
@@ -41,13 +43,15 @@ const generateScreenshots = async () => {
 	let isTransparent = true;
 	await page.evaluate('document.querySelector("body").style.setProperty("--override-app-background-color", "transparent")');
 
-	let currentIndex = await page.evaluate('window.' + CURRENT_INDEX_VARIABLE);
+	let currentSimulationIndex = await page.evaluate('window.' + CURRENT_SIMULATION_INDEX_VARIABLE);
+	let currentRunIndex = await page.evaluate('window.' + CURRENT_RUN_INDEX_VARIABLE);
+	let currentFrameIndex = await page.evaluate('window.' + CURRENT_FRAME_INDEX_VARIABLE);
 	let gifName = await page.evaluate('window.' + GIF_NAME_VARIABLE);
 	do {
-		console.log('Working on state #' + currentIndex);
+		console.log('Working on state #' + currentSimulationIndex + ' : ' + currentRunIndex + ' : ' + currentFrameIndex);
 		const ele = await page.evaluateHandle('document.querySelector("my-app").shadowRoot.querySelector("sim-view").shadowRoot.querySelector("frame-visualization")');
 		//When this logic is updated, also change gifNameForFile
-		let path = SCREENSHOT_DIR + '/screenshot_' + currentIndex;
+		let path = SCREENSHOT_DIR + '/screenshot_' + currentSimulationIndex + '_' + currentRunIndex + '_' + currentFrameIndex;
 		if (gifName !== undefined) {
 			path += '_gif_' + (gifName || 'default');
 			//for gif frames, include the background color, otherwise the variable alpha looks really bad
@@ -64,14 +68,16 @@ const generateScreenshots = async () => {
 		path += '.png';
 		await ele.screenshot({path, omitBackground:true});
 
-		if (currentIndex == 0) break;
+		if(currentSimulationIndex == 0 && currentRunIndex == 0 && currentFrameIndex == 0) break;
 
 		await page.evaluate('window.' + PREVIOUS_MAP_VARIABLE + '()');
 		//Wait for the flag to be raised high after rendering has happened
 		await page.waitForFunction('window.' + RENDER_COMPLETE_VARIABLE);
-		currentIndex = await page.evaluate('window.' + CURRENT_INDEX_VARIABLE);
+		currentSimulationIndex = await page.evaluate('window.' + CURRENT_SIMULATION_INDEX_VARIABLE);
+		currentRunIndex = await page.evaluate('window.' + CURRENT_RUN_INDEX_VARIABLE);
+		currentFrameIndex = await page.evaluate('window.' + CURRENT_FRAME_INDEX_VARIABLE);
 		gifName = await page.evaluate('window.' + GIF_NAME_VARIABLE);
-	} while(currentIndex >= 0);
+	} while(currentSimulationIndex >= 0 && currentRunIndex >= 0 && currentFrameIndex >= 0);
 
 	await browser.close();
 };
