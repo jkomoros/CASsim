@@ -8,6 +8,7 @@ import {
 	UPDATE_DIALOG_OPEN,
 	UPDATE_PLAY_TYPE,
 	UPDATE_PLAYING,
+	UPDATE_DELAY_COUNT,
 
 	DIALOG_TYPE_JSON,
 	DEFAULT_FILE_NAME,
@@ -26,6 +27,7 @@ const INITIAL_STATE = {
 	frameIndex: 0,
 	playType: PLAY_TYPE_ROUND,
 	playing: false,
+	delayCount: 0,
 	dialogOpen: false,
 	dialogType: DIALOG_TYPE_JSON,
 	dialogExtras: {},
@@ -82,6 +84,11 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			playing: action.playing
+		};
+	case UPDATE_DELAY_COUNT:
+		return {
+			...state,
+			delayCount: action.count
 		};
 	default:
 		return state;
