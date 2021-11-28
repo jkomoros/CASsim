@@ -134,10 +134,48 @@ export const nextFrameIndex = () => (dispatch, getState) => {
 };
 
 export const prevFrameIndex = () => (dispatch, getState) => {
-	let currentIndex = selectFrameIndex(getState());
-	currentIndex--;
-	if (currentIndex < 0) return;
-	dispatch(updateFrameIndex(currentIndex));
+	const state = getState();
+	const playType = selectPlayType(state);
+	let frameIndex = selectFrameIndex(state);
+	let runIndex = selectRunIndex(state);
+	let simulationIndex = selectSimulationIndex(state);
+	frameIndex--;
+	if (frameIndex >= 0) {
+		dispatch(updateFrameIndex(frameIndex));
+		return;
+	}
+
+	if (playType != PLAY_TYPE_ROUND && playType != PLAY_TYPE_SIMULATION) return;
+
+	runIndex--;
+	if (runIndex >= 0) {
+		dispatch(updateRunIndex(runIndex));
+		const run = selectCurrentSimulationRun(getState());
+		if (run) {
+			frameIndex = run.maxFrameIndex;
+		} else {
+			frameIndex = 0;
+		}
+		dispatch(updateFrameIndex(frameIndex));
+		return;
+	}
+
+	if (playType != PLAY_TYPE_SIMULATION) return;
+
+	simulationIndex--;
+	if (simulationIndex >= 0) {
+		dispatch(updateSimulationIndex(simulationIndex));
+		runIndex = selectCurrentSimulationMaxRunIndex(getState());
+		dispatch(updateRunIndex(runIndex));
+		const run = selectCurrentSimulationRun(getState());
+		if (run) {
+			frameIndex = run.maxFrameIndex;
+		} else {
+			frameIndex = 0;
+		}
+		dispatch(updateFrameIndex(frameIndex));
+		return;
+	}
 };
 
 export const updateFilename = (filename, skipCanonicalize) => (dispatch, getState) => {
