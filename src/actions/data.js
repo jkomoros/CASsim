@@ -132,6 +132,13 @@ export const updatePlaying = (enabled) => (dispatch, getState) => {
 	});
 };
 
+export const advanceToLastFrameInConfig =() => (dispatch) => {
+	//All of these will be set to the highest number they can be before being set.
+	dispatch(updateSimulationIndex(Number.MAX_SAFE_INTEGER));
+	dispatch(updateRunIndex(Number.MAX_SAFE_INTEGER));
+	dispatch(updateFrameIndex(Number.MAX_SAFE_INTEGER));
+};
+
 export const advanceToLastFrameInRun = () => (dispatch) => {
 	//Just try to jump too far in the future and updateFramIndex will cut us back.
 	dispatch(updateFrameIndex(Number.MAX_SAFE_INTEGER));
