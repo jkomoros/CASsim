@@ -52,14 +52,14 @@ const generateScreenshots = async () => {
 	let currentFrameIndex = await page.evaluate('window.' + CURRENT_FRAME_INDEX_VARIABLE);
 	let currentSimulationName = await page.evaluate('window.' + CURRENT_SIMULATION_NAME_VARIABLE);
 	do {
-		console.log('Working on state #' + currentSimulationIndex + ' : ' + currentRunIndex + ' : ' + currentFrameIndex);
+		console.log('Working on state #' + currentSimulationName + ' : ' + currentRunIndex + ' : ' + currentFrameIndex);
 		const ele = await page.evaluateHandle('document.querySelector("my-app").shadowRoot.querySelector("sim-view").shadowRoot.querySelector("frame-visualization")');
 		
 		//Simulation name are [a-zA-z0-0-_], but '_' is the delimiter for us
 		const safeSimulationName = currentSimulationName.split('_').join('-');
 
 		//When this logic is updated, also change gifNameForFile
-		let path = SCREENSHOT_DIR + '/screenshot_' + safeSimulationName + '_' + currentSimulationIndex + '_' + currentRunIndex + '_' + currentFrameIndex;
+		let path = SCREENSHOT_DIR + '/screenshot_' + safeSimulationName + '_' + currentRunIndex + '_' + currentFrameIndex;
 		path += '.png';
 		await ele.screenshot({path, omitBackground:true});
 
@@ -129,7 +129,7 @@ const generateGifs = async (infos) => {
 		const encoder = new GIFEncoder(info.width, info.height);
 		encoder.setDelay(info.delay);
 		encoder.setRepeat(info.repeat);
-		const stream = pngFileStream(path.join(SCREENSHOT_DIR, 'screenshot_' + gifName + '_*_*_*.png'))
+		const stream = pngFileStream(path.join(SCREENSHOT_DIR, 'screenshot_' + gifName + '_*_*.png'))
 			.pipe(encoder.createWriteStream())
 			.pipe(fs.createWriteStream(path.join(SCREENSHOT_DIR, gifName + '.gif')));
  
