@@ -63,7 +63,7 @@ const COLOR_SECONDARY_PROPERTY = 'secondary';
 const COLOR_DISABLED_PROPERTY = 'disabled';
 const COLOR_BACKGROUND_PROPERTY = 'background';
 const DESCRIPTION_PROPERTY = 'description';
-const AUTO_RUN_PROPERTY = 'autoRun';
+const AUTO_GENERATE_PROPERTY = 'autoGenerate';
 const FRAME_DELAY_PROPERTY = 'frameDelay';
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
@@ -286,7 +286,7 @@ const Simulation = class {
 		this._colors = Object.fromEntries(Object.entries(this._config[COLORS_PROPERTY] || {}).map(entry => [entry[0], color(entry[1])]));
 		for (let i = 0; i < config[RUNS_PROPERTY]; i++) {
 			const run = new SimulationRun(this, i);
-			if (config[AUTO_RUN_PROPERTY]) run.run();
+			if (config[AUTO_GENERATE_PROPERTY]) run.run();
 			this._runs.push(run);
 		}
 	}
@@ -399,9 +399,9 @@ const Simulation = class {
 					advanced: true,
 					optional: true
 				},
-				[AUTO_RUN_PROPERTY]: {
+				[AUTO_GENERATE_PROPERTY]: {
 					example: false,
-					description: 'if true, then it will automatically run all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.',
+					description: 'if true, then it will automatically generate all frames for all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.',
 					advanced: true,
 					optional: true
 				},
