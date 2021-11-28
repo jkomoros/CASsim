@@ -14,6 +14,7 @@ const SCREENSHOT_DIR = 'screenshots';
 const CURRENT_SIMULATION_INDEX_VARIABLE = 'current_simulation_index';
 const CURRENT_RUN_INDEX_VARIABLE = 'current_run_index';
 const CURRENT_FRAME_INDEX_VARIABLE = 'current_frame_index';
+const SETUP_METHOD_VARIABLE = 'setup_method';
 const PREVIOUS_MAP_VARIABLE = 'previous_map';
 const RENDER_COMPLETE_VARIABLE = 'render_complete';
 const GIF_NAME_VARIABLE = 'gif_name';
@@ -42,6 +43,9 @@ const generateScreenshots = async () => {
 	await page.goto('http://localhost:8081', {waitUntil: 'networkidle2'});
 	let isTransparent = true;
 	await page.evaluate('document.querySelector("body").style.setProperty("--override-app-background-color", "transparent")');
+
+	//Get us to the very last sim, run, frame
+	await page.evaluate('window.' + SETUP_METHOD_VARIABLE + '()');
 
 	let currentSimulationIndex = await page.evaluate('window.' + CURRENT_SIMULATION_INDEX_VARIABLE);
 	let currentRunIndex = await page.evaluate('window.' + CURRENT_RUN_INDEX_VARIABLE);

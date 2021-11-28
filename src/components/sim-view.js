@@ -12,6 +12,7 @@ import {
 	updateWithSimPageExtra,
 	closeDialog,
 	updateCurrentSimulationOptions,
+	advanceToLastFrameInConfig,
 	DIALOG_TYPE_JSON,
 	DATA_DIRECTORY,
 } from "../actions/data.js";
@@ -55,6 +56,7 @@ store.addReducers({
 const CURRENT_SIMULATION_INDEX_VARIABLE = 'current_simulation_index';
 const CURRENT_RUN_INDEX_VARIABLE = 'current_run_index';
 const CURRENT_FRAME_INDEX_VARIABLE = 'current_frame_index';
+const SETUP_METHOD_VARIABLE = 'setup_method';
 const PREVIOUS_MAP_VARIABLE = 'previous_map';
 const RENDER_COMPLETE_VARIABLE = 'render_complete';
 const GIF_NAME_VARIABLE = 'gif_name';
@@ -67,6 +69,10 @@ window[PREVIOUS_MAP_VARIABLE] = () => {
 	store.dispatch(prevFrameIndex());
 };
 
+window[SETUP_METHOD_VARIABLE] = () => {
+	store.dispatch(advanceToLastFrameInConfig());
+};
+
 
 import "./frame-visualization.js";
 import "./simulation-controls.js";
@@ -76,7 +82,6 @@ import "./dialog-element.js";
 import { SharedStyles } from "./shared-styles.js";
 import { ButtonSharedStyles } from "./button-shared-styles.js";
 import { PLUS_ICON } from "./my-icons.js";
-
 
 
 const fetchData = async(filename) => {
