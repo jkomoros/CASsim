@@ -15,6 +15,8 @@ import {
 	advanceToLastFrameInConfig,
 	DIALOG_TYPE_JSON,
 	DATA_DIRECTORY,
+	updatePlayType,
+	PLAY_TYPE_SIMULATION,
 } from "../actions/data.js";
 
 import {
@@ -70,6 +72,7 @@ window[PREVIOUS_FRAME_METHOD_VARIABLE] = () => {
 };
 
 window[SETUP_METHOD_VARIABLE] = () => {
+	store.dispatch(updatePlayType(PLAY_TYPE_SIMULATION));
 	store.dispatch(advanceToLastFrameInConfig());
 };
 
