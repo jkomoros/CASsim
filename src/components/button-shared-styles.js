@@ -40,6 +40,10 @@ export const ButtonSharedStyles = css`
       filter: brightness(0.9);
     }
 
+    button.small:disabled:hover {
+      filter: none;
+    }
+
     button.small {
       background:transparent;
       padding: 0;
@@ -54,6 +58,10 @@ export const ButtonSharedStyles = css`
       fill: var(--disabled-color);
       height:1.0em;
       width:1.0em;
+    }
+
+    button.small:disabled:hover svg {
+      fill: var(--disabled-color);
     }
 
     button.small:hover svg {
