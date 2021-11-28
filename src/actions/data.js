@@ -99,9 +99,7 @@ export const nextFrameIndex = () => (dispatch, getState) => {
 	let simulationIndex = selectSimulationIndex(state);
 	frameIndex++;
 	let tryToAdvanceRun = false;
-	let doAdvanceRun = false;
 	let tryToAdvanceSimulation = false;
-	let doAdvanceSimulation = false;
 	const run = selectCurrentSimulationRun(state);
 	//run won't exist yet in the case that the URL is being parsed before the data exists
 	if (run) {
@@ -109,6 +107,9 @@ export const nextFrameIndex = () => (dispatch, getState) => {
 		if (!run.frameIndexLegal(frameIndex)) {
 			frameIndex = run.maxFrameIndex;
 			tryToAdvanceRun = true;
+		} else {
+			dispatch(updateFrameIndex(frameIndex));
+			return;
 		}
 	}
 	if (tryToAdvanceRun && (playType == PLAY_TYPE_ROUND || playType == PLAY_TYPE_SIMULATION)) {
@@ -117,8 +118,9 @@ export const nextFrameIndex = () => (dispatch, getState) => {
 		if (runIndex > maxRunIndex) {
 			tryToAdvanceSimulation = true;
 		} else {
-			doAdvanceRun = true;
 			frameIndex = 0;
+			dispatch(updateRunIndex(runIndex));
+			dispatch(updateFrameIndex(frameIndex));
 		}
 	}
 
@@ -128,15 +130,13 @@ export const nextFrameIndex = () => (dispatch, getState) => {
 		if (simulationIndex > maxSimulationIndex) {
 			//Don't update
 		} else {
-			doAdvanceSimulation = true;
-			doAdvanceRun = true;
 			runIndex = 0;
 			frameIndex = 0;
+			dispatch(updateSimulationIndex(simulationIndex));
+			dispatch(updateRunIndex(runIndex));
+			dispatch(updateFrameIndex(frameIndex));
 		}
 	}
-	dispatch(updateFrameIndex(frameIndex));
-	if (doAdvanceRun) dispatch(updateRunIndex(runIndex));
-	if (doAdvanceSimulation) dispatch(updateSimulationIndex(simulationIndex));
 };
 
 export const prevFrameIndex = () => (dispatch, getState) => {
