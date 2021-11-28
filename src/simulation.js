@@ -390,6 +390,7 @@ const Simulation = class {
 				},
 				[FRAME_DELAY_PROPERTY]: {
 					example: 100,
+					step: 50,
 					description: 'How many milliseconds to wait before advancing to next frame when playing',
 					optional: true,
 					advanced: true
