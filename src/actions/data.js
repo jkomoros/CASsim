@@ -98,44 +98,38 @@ export const nextFrameIndex = () => (dispatch, getState) => {
 	let runIndex = selectRunIndex(state);
 	let simulationIndex = selectSimulationIndex(state);
 	frameIndex++;
-	let tryToAdvanceRun = false;
-	let tryToAdvanceSimulation = false;
 	const run = selectCurrentSimulationRun(state);
 	//run won't exist yet in the case that the URL is being parsed before the data exists
 	if (run) {
 		//Probe directly for whether this index will be legal BEFORE we set it.
-		if (!run.frameIndexLegal(frameIndex)) {
-			frameIndex = run.maxFrameIndex;
-			tryToAdvanceRun = true;
-		} else {
+		if (run.frameIndexLegal(frameIndex)) {
 			dispatch(updateFrameIndex(frameIndex));
 			return;
-		}
+		} 
+		frameIndex = run.maxFrameIndex;
 	}
-	if (tryToAdvanceRun && (playType == PLAY_TYPE_ROUND || playType == PLAY_TYPE_SIMULATION)) {
-		runIndex++;
-		const maxRunIndex = selectCurrentSimulationMaxRunIndex(state);
-		if (runIndex > maxRunIndex) {
-			tryToAdvanceSimulation = true;
-		} else {
-			frameIndex = 0;
-			dispatch(updateRunIndex(runIndex));
-			dispatch(updateFrameIndex(frameIndex));
-		}
+	if (playType != PLAY_TYPE_ROUND && playType != PLAY_TYPE_SIMULATION) return;
+
+	runIndex++;
+	const maxRunIndex = selectCurrentSimulationMaxRunIndex(state);
+	if (runIndex <= maxRunIndex) {
+		frameIndex = 0;
+		dispatch(updateRunIndex(runIndex));
+		dispatch(updateFrameIndex(frameIndex));
+		return;
 	}
 
-	if (tryToAdvanceSimulation && playType == PLAY_TYPE_SIMULATION) {
-		simulationIndex++;
-		const maxSimulationIndex = selectMaxSimulationIndex(state);
-		if (simulationIndex > maxSimulationIndex) {
-			//Don't update
-		} else {
-			runIndex = 0;
-			frameIndex = 0;
-			dispatch(updateSimulationIndex(simulationIndex));
-			dispatch(updateRunIndex(runIndex));
-			dispatch(updateFrameIndex(frameIndex));
-		}
+	if (playType != PLAY_TYPE_SIMULATION) return;
+
+	simulationIndex++;
+	const maxSimulationIndex = selectMaxSimulationIndex(state);
+	if (simulationIndex <= maxSimulationIndex) {
+		runIndex = 0;
+		frameIndex = 0;
+		dispatch(updateSimulationIndex(simulationIndex));
+		dispatch(updateRunIndex(runIndex));
+		dispatch(updateFrameIndex(frameIndex));
+		return;
 	}
 };
 
