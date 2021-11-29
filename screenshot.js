@@ -43,6 +43,11 @@ const padInt = (val, length) => {
 	return result;
 };
 
+const sanitizeSimulationName = (name) => {
+	//Simulation name are [a-zA-z0-0-_], but '_' is the delimiter for us
+	return name.split('_').join('-');
+};
+
 const generateScreenshots = async () => {
 
 	const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
@@ -73,8 +78,8 @@ const generateScreenshots = async () => {
 		console.log('Working on state #' + currentSimulationName + ' : ' + currentRunIndex + ' : ' + currentFrameIndex);
 		const ele = await page.evaluateHandle('document.querySelector("my-app").shadowRoot.querySelector("sim-view").shadowRoot.querySelector("frame-visualization")');
 		
-		//Simulation name are [a-zA-z0-0-_], but '_' is the delimiter for us
-		const safeSimulationName = currentSimulationName.split('_').join('-');
+		
+		const safeSimulationName = sanitizeSimulationName(currentSimulationName);
 
 		//When this logic is updated, also change gifNameForFile
 		let path = SCREENSHOT_DIR + '/screenshot_' + safeSimulationName + '_' + padInt(currentRunIndex,runLength) + '_' + padInt(currentFrameIndex, frameLength);
