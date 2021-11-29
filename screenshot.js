@@ -204,11 +204,12 @@ const generateGifs = async (infos) => {
 		encoder.setRepeat(info.repeat);
 
 		for (const [index, match] of matches.entries()) {
-			let nextMatch = index + 1 < matches.length ? matches[index + 1] : '';
-			encoder.setDelay(frameIsFinalInRound(match, nextMatch) ? finalFrameDelay : normalDelay);
 			console.log('Loading png ' + match);
 			const png = PNG.sync.read(fs.readFileSync(match));
 			encoder.addFrame(png.data);
+			//We set the delay AFTER the frame in question; it's the delay to START the next frame
+			let nextMatch = index + 1 < matches.length ? matches[index + 1] : '';
+			encoder.setDelay(frameIsFinalInRound(match, nextMatch) ? finalFrameDelay : normalDelay);
 		}
 		encoder.finish();
 
