@@ -23,10 +23,8 @@ const RENDER_COMPLETE_VARIABLE = 'render_complete';
 //Duplicated in simulations.js
 const NAME_PROPERTY = 'name';
 const FRAME_DELAY_PROPERTY = 'frameDelay';
-//eslint-disable-next-line no-unused-vars
 const EXTRA_FINAL_FRAME_COUNT_PROPERTY = 'extraFinalFrameCount';
 const DEFAULT_FRAME_DELAY = 100;
-//eslint-disable-next-line no-unused-vars
 const DEFAULT_EXTRA_FINAL_FRAME_COUNT = 0;
 
 
@@ -118,6 +116,7 @@ const gifNameForFile = (fileName) => {
 const DEFAULT_GIF_CONFIG = {
 	//in ms
 	delay: DEFAULT_FRAME_DELAY,
+	extraFinalFrameCount: DEFAULT_EXTRA_FINAL_FRAME_COUNT,
 	repeat: 0,
 };
 
@@ -128,8 +127,11 @@ const configForGif = (configData, gifName) => {
 	for (const config of configData) {
 		const safeName = sanitizeSimulationName(config[NAME_PROPERTY]);
 		if (safeName != gifName) continue;
+		const gifInfo = {};
 		const delay = config[FRAME_DELAY_PROPERTY];
-		const gifInfo = delay == undefined ? {} : {delay};
+		if (delay != undefined) gifInfo.delay = delay;
+		const extraFinalFrameCount = config[EXTRA_FINAL_FRAME_COUNT_PROPERTY];
+		if (extraFinalFrameCount != undefined) gifInfo.extraFinalFrameCount = extraFinalFrameCount;
 		return {...DEFAULT_GIF_CONFIG, ...gifInfo};
 	}
 	return {...DEFAULT_GIF_CONFIG};
@@ -140,6 +142,7 @@ const configForGif = (configData, gifName) => {
 // - height
 // - delay
 // - repeat
+// - extraFinalFrameCount
 const gifInfos = async () => {
 	const result = {};
 	const illegalGifs = {};
