@@ -171,6 +171,17 @@ const gifInfos = async () => {
 	return result;
 };
 
+const frameIsFinalInRound = (firstFileName, secondFileName) => {
+	if (!secondFileName) return true;
+	const firstFile = path.basename(firstFileName, '.png');
+	const secondFile = path.basename(secondFileName, '.png');
+	const firstFileParts = firstFile.split('_');
+	const secondFileParts = secondFile.split('_');
+	const firstFileFrame = parseInt(firstFileParts[firstFileParts.length - 1]);
+	const secondFileFrame = parseInt(secondFileParts[secondFileParts.length - 1]);
+	return secondFileFrame < firstFileFrame;
+};
+
 const generateGifs = async (infos) => {
 	for (const [gifName, info] of Object.entries(infos)) {
 		console.log("Generating gif " + gifName + " (this could take awhile)");
@@ -184,13 +195,17 @@ const generateGifs = async (infos) => {
 			});
 		});
 
+		const normalDelay = info.delay;
+		const finalFrameDelay = info.delay * info.extraFinalFrameCount;
+
 		const encoder = new GIFEncoder(info.width, info.height);
 		const stream = encoder.createReadStream().pipe(fs.createWriteStream(path.join(SCREENSHOT_DIR, gifName + '.gif')));
 		encoder.start();
-		encoder.setDelay(info.delay);
 		encoder.setRepeat(info.repeat);
 
-		for (const match of matches) {
+		for (const [index, match] of matches.entries()) {
+			let nextMatch = index + 1 < matches.length ? matches[index + 1] : '';
+			encoder.setDelay(frameIsFinalInRound(match, nextMatch) ? finalFrameDelay : normalDelay);
 			console.log('Loading png ' + match);
 			const png = PNG.sync.read(fs.readFileSync(match));
 			encoder.addFrame(png.data);
