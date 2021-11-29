@@ -20,7 +20,13 @@ class RunSummary extends LitElement {
 				margin: 0.5em 0;
 			}
 
+			span {
+				color: var(--dark-gray-color);
+				font-weight: bold;
+			}
+
 			.output {
+				margin-left: 0.25em;
 				flex-grow: 1;
 				display: flex;
 				flex-direction: row;
@@ -56,7 +62,7 @@ class RunSummary extends LitElement {
 
 		return html`
 				<div class='statuses'>
-					<label>${successPercentage}</label>
+					<span>${successPercentage}</span>
 					<div class='output'>${this.statuses.map((status, index) => html`<div class='status ${this.selectedIndex == index ? 'selected' : ''} ${status < 0 ? 'indeterminate' : (status == 1.0 ? 'success' : 'failure')}' @click=${this._handleStatusClicked} .index=${index}></div>`)}</div>
 				</div>
 		`;
