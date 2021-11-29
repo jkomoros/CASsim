@@ -171,11 +171,6 @@ const gifInfos = async () => {
 const generateGifs = async (infos) => {
 	for (const [gifName, info] of Object.entries(infos)) {
 		console.log("Generating gif " + gifName + " (this could take awhile)");
-		const encoder = new GIFEncoder(info.width, info.height);
-		const stream = encoder.createReadStream().pipe(fs.createWriteStream(path.join(SCREENSHOT_DIR, gifName + '.gif')));
-		encoder.start();
-		encoder.setDelay(info.delay);
-		encoder.setRepeat(info.repeat);
 
 		const matches = await new Promise((resolve, reject) => {
 			//This order has been confirmed to be the correct order in testing, as
@@ -186,14 +181,18 @@ const generateGifs = async (infos) => {
 			});
 		});
 
+		const encoder = new GIFEncoder(info.width, info.height);
+		const stream = encoder.createReadStream().pipe(fs.createWriteStream(path.join(SCREENSHOT_DIR, gifName + '.gif')));
+		encoder.start();
+		encoder.setDelay(info.delay);
+		encoder.setRepeat(info.repeat);
+
 		for (const match of matches) {
 			console.log('Loading png ' + match);
 			const png = PNG.sync.read(fs.readFileSync(match));
 			encoder.addFrame(png.data);
 		}
 		encoder.finish();
-
-		
 
 		await new Promise((resolve, reject) => {
 			stream.on('finish', resolve);
