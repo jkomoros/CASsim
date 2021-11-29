@@ -16,16 +16,23 @@ class RunSummary extends LitElement {
 			.statuses {
 				display: flex;
 				flex-direction: row;
-				flex-wrap: wrap;
 				align-items: center;
+				margin: 0.5em 0;
 			}
-		
+
+			.output {
+				flex-grow: 1;
+				display: flex;
+				flex-direction: row;
+			}
+			
 			.status {
-				height: 0.75em;
-				width: 0.75em;
-				border-radius: 0.75em;
+				border: 1px solid white;
+				height: 1.5em;
 				background-color: gray;
 				cursor: pointer;
+				flex-grow:1;
+				box-sizing: border-box;
 			}
 
 			.status.selected {
@@ -50,7 +57,7 @@ class RunSummary extends LitElement {
 		return html`
 				<div class='statuses'>
 					<label>${successPercentage}</label>
-					${this.statuses.map((status, index) => html`<div class='status ${this.selectedIndex == index ? 'selected' : ''} ${status < 0 ? 'indeterminate' : (status == 1.0 ? 'success' : 'failure')}' @click=${this._handleStatusClicked} .index=${index}></div>`)}
+					<div class='output'>${this.statuses.map((status, index) => html`<div class='status ${this.selectedIndex == index ? 'selected' : ''} ${status < 0 ? 'indeterminate' : (status == 1.0 ? 'success' : 'failure')}' @click=${this._handleStatusClicked} .index=${index}></div>`)}</div>
 				</div>
 		`;
 	}
