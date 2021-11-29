@@ -124,7 +124,7 @@ class SimulationControls extends connect(store)(LitElement) {
 				<div>
 					<details>
 						<summary><label>Config</label></summary>
-						<options-control .readonly=${this._playing} @option-changed=${this._handleOptionChanged} @open-dialog=${this._handleOpenDialog} .config=${this._simulation ? this._simulation.optionsConfig : null} .value=${this._simulation ? this._simulation.rawConfig : null} .name=${'Config'}></options-control>
+						<options-control .readonly=${this._playing} @option-changed=${this._handleOptionChanged} @open-dialog=${this._handleOpenDialog} .config=${this._simulation ? this._simulation.optionsConfig : null} .value=${this._simulation ? this._simulation.rawConfig : null} .name=${''}></options-control>
 					</details>
 				</div>
 			</div>
