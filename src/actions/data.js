@@ -196,6 +196,10 @@ export const nextFrameIndex = (fromInterval) => (dispatch, getState) => {
 		return;
 	}
 
+	if (run && run.simulation.repeat) {
+		dispatch(resetSimulation());
+	}
+
 	if (playType != PLAY_TYPE_SIMULATION) return;
 
 	simulationIndex++;

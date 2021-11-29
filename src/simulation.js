@@ -65,10 +65,12 @@ const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 //Also duplicated into screenshot.js
 const NAME_PROPERTY = 'name';
+const REPEAT_PROPERTY = 'repeat';
 const FRAME_DELAY_PROPERTY = 'frameDelay';
 const EXTRA_FINAL_FRAME_COUNT_PROPERTY = 'extraFinalFrameCount';
 const DEFAULT_FRAME_DELAY = 100;
 const DEFAULT_EXTRA_FINAL_FRAME_COUNT = 0;
+const DEFAULT_REPEAT = false;
 
 /*
 	Simulators are classes that have the following static methods:
@@ -363,6 +365,10 @@ const Simulation = class {
 		return this._config[AUTO_PLAY_PROPERTY] || false;
 	}
 
+	get repeat() {
+		return this._config[REPEAT_PROPERTY] || DEFAULT_REPEAT;
+	}
+
 	get extraFinalFrameCount() {
 		return this._config[EXTRA_FINAL_FRAME_COUNT_PROPERTY] || DEFAULT_EXTRA_FINAL_FRAME_COUNT;
 	}
@@ -423,6 +429,12 @@ const Simulation = class {
 				[AUTO_PLAY_PROPERTY]: {
 					example: false,
 					description: 'If set, will automatically start playing when simulation is loaded',
+					advanced: true,
+					optional: true
+				},
+				[REPEAT_PROPERTY]: {
+					example: false,
+					description: 'If true, will loop back around to the beginning of the round when being played. Gif screenshotting also respects this value',
 					advanced: true,
 					optional: true
 				},

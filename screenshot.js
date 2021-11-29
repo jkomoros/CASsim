@@ -22,10 +22,12 @@ const RENDER_COMPLETE_VARIABLE = 'render_complete';
 
 //Duplicated in simulations.js
 const NAME_PROPERTY = 'name';
+const REPEAT_PROPERTY = 'repeat';
 const FRAME_DELAY_PROPERTY = 'frameDelay';
 const EXTRA_FINAL_FRAME_COUNT_PROPERTY = 'extraFinalFrameCount';
 const DEFAULT_FRAME_DELAY = 100;
 const DEFAULT_EXTRA_FINAL_FRAME_COUNT = 0;
+const DEFAULT_REPEAT = false;
 
 
 const clearScreenshotsDir = () => {
@@ -117,7 +119,7 @@ const DEFAULT_GIF_CONFIG = {
 	//in ms
 	delay: DEFAULT_FRAME_DELAY,
 	extraFinalFrameCount: DEFAULT_EXTRA_FINAL_FRAME_COUNT,
-	repeat: 0,
+	repeat: DEFAULT_REPEAT,
 };
 
 //TODO: allow specifying a different file
@@ -132,6 +134,8 @@ const configForGif = (configData, gifName) => {
 		if (delay != undefined) gifInfo.delay = delay;
 		const extraFinalFrameCount = config[EXTRA_FINAL_FRAME_COUNT_PROPERTY];
 		if (extraFinalFrameCount != undefined) gifInfo.extraFinalFrameCount = extraFinalFrameCount;
+		const repeat = config[REPEAT_PROPERTY];
+		if (repeat != undefined) gifInfo.repeat = repeat;
 		return {...DEFAULT_GIF_CONFIG, ...gifInfo};
 	}
 	return {...DEFAULT_GIF_CONFIG};
@@ -201,7 +205,8 @@ const generateGifs = async (infos) => {
 		const encoder = new GIFEncoder(info.width, info.height);
 		const stream = encoder.createReadStream().pipe(fs.createWriteStream(path.join(SCREENSHOT_DIR, gifName + '.gif')));
 		encoder.start();
-		encoder.setRepeat(info.repeat);
+		//0 is repeat, -1 is no-repeat
+		encoder.setRepeat(info.repeat ? 0 : -1);
 
 		for (const [index, match] of matches.entries()) {
 			console.log('Loading png ' + match);
