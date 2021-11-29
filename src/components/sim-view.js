@@ -179,6 +179,7 @@ class SimView extends connect(store)(PageViewElement) {
 			store.dispatch(prevFrameIndex());
 		} else if (e.key == ' ') {
 			store.dispatch(togglePlaying());
+			e.preventDefault();
 		}
 
 	}
