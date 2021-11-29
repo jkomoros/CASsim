@@ -66,6 +66,7 @@ const EXTRA_FINAL_FRAME_COUNT_PROPERTY = 'extraFinalFrameCount';
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
+//Also duplicated into screenshot.js
 const DEFAULT_FRAME_DELAY = 100;
 const DEFAULT_EXTRA_FINAL_FRAME_COUNT = 0;
 

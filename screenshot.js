@@ -19,6 +19,11 @@ const SETUP_METHOD_VARIABLE = 'setup_method';
 const PREVIOUS_FRAME_METHOD_VARIABLE = 'previous_frame';
 const RENDER_COMPLETE_VARIABLE = 'render_complete';
 
+//Duplicated in simulations.js
+const DEFAULT_FRAME_DELAY = 100;
+//eslint-disable-next-line no-unused-vars
+const DEFAULT_EXTRA_FINAL_FRAME_COUNT = 0;
+
 const clearScreenshotsDir = () => {
 	if (fs.existsSync(SCREENSHOT_DIR)) {
 		const files = fs.readdirSync(SCREENSHOT_DIR);
@@ -101,7 +106,7 @@ const gifNameForFile = (fileName) => {
 
 const DEFAULT_GIF_CONFIG = {
 	//in ms
-	delay: 150,
+	delay: DEFAULT_FRAME_DELAY,
 	repeat: 0,
 };
 
