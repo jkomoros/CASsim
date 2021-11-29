@@ -79,6 +79,14 @@ class SimulationControls extends connect(store)(LitElement) {
 					display:flex;
 					flex-direction:row;
 				}
+
+				input, select {
+					margin-right: 0.5em;
+				}
+
+				select {
+					margin-left: 0.5em;
+				}
 			`
 		];
 	}
