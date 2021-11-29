@@ -22,6 +22,10 @@ export const ButtonSharedStyles = css`
 			transition: background-color var(--transition-fade), color var(--transition-fade), box-shadow var(--transition-fade);
 		}
 
+		button.help {
+			cursor:default;
+		}
+
 		button.round {
 			border-radius:50%;
 			height: 2.75em;
