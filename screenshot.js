@@ -6,7 +6,8 @@ const path = require('path');
 const { promisify } = require('util');
 const sizeOf = promisify(require('image-size'));
 const GIFEncoder = require('gifencoder');
-const pngFileStream = require('png-file-stream');
+const glob = require("glob");
+const PNG = require('pngjs').PNG;
 
 const SCREENSHOT_DIR = 'screenshots';
 
@@ -171,14 +172,29 @@ const generateGifs = async (infos) => {
 	for (const [gifName, info] of Object.entries(infos)) {
 		console.log("Generating gif " + gifName + " (this could take awhile)");
 		const encoder = new GIFEncoder(info.width, info.height);
+		const stream = encoder.createReadStream().pipe(fs.createWriteStream(path.join(SCREENSHOT_DIR, gifName + '.gif')));
+		encoder.start();
 		encoder.setDelay(info.delay);
 		encoder.setRepeat(info.repeat);
-		//This order has been confirmed to be the correct order in testing, as
-		//long as numbers are padded with prefixed 0's (lexicographic ordering)
-		const stream = pngFileStream(path.join(SCREENSHOT_DIR, 'screenshot_' + gifName + '_*_*.png'))
-			.pipe(encoder.createWriteStream())
-			.pipe(fs.createWriteStream(path.join(SCREENSHOT_DIR, gifName + '.gif')));
- 
+
+		const matches = await new Promise((resolve, reject) => {
+			//This order has been confirmed to be the correct order in testing, as
+			//long as numbers are padded with prefixed 0's (lexicographic ordering)
+			glob(path.join(SCREENSHOT_DIR, 'screenshot_' + gifName + '_*_*.png'), (er, matches) => {
+				if (er) reject(er);
+				resolve(matches);
+			});
+		});
+
+		for (const match of matches) {
+			console.log('Loading png ' + match);
+			const png = PNG.sync.read(fs.readFileSync(match));
+			encoder.addFrame(png.data);
+		}
+		encoder.finish();
+
+		
+
 		await new Promise((resolve, reject) => {
 			stream.on('finish', resolve);
 			stream.on('error', reject);
