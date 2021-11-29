@@ -66,6 +66,9 @@ const EXTRA_FINAL_FRAME_COUNT_PROPERTY = 'extraFinalFrameCount';
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
+const DEFAULT_FRAME_DELAY = 100;
+const DEFAULT_EXTRA_FINAL_FRAME_COUNT = 0;
+
 /*
 	Simulators are classes that have the following static methods:
 
@@ -320,7 +323,7 @@ const Simulation = class {
 	}
 
 	get frameDelay() {
-		return this._config[FRAME_DELAY_PROPERTY] || 100;
+		return this._config[FRAME_DELAY_PROPERTY] || DEFAULT_FRAME_DELAY;
 	}
 
 	get width() {
@@ -360,7 +363,7 @@ const Simulation = class {
 	}
 
 	get extraFinalFrameCount() {
-		return this._config[EXTRA_FINAL_FRAME_COUNT_PROPERTY] || 0;
+		return this._config[EXTRA_FINAL_FRAME_COUNT_PROPERTY] || DEFAULT_EXTRA_FINAL_FRAME_COUNT;
 	}
 
 	get optionsConfig() {
@@ -394,7 +397,7 @@ const Simulation = class {
 					advanced: true
 				},
 				[FRAME_DELAY_PROPERTY]: {
-					example: 100,
+					example: DEFAULT_FRAME_DELAY,
 					step: 50,
 					description: 'How many milliseconds to wait before advancing to next frame when playing',
 					optional: true,
@@ -423,7 +426,7 @@ const Simulation = class {
 					optional: true
 				},
 				[EXTRA_FINAL_FRAME_COUNT_PROPERTY]: {
-					example: 0,
+					example: DEFAULT_EXTRA_FINAL_FRAME_COUNT,
 					description: 'The number of additional frames to pause at the end of a round',
 					advanced: true,
 					optional: true
