@@ -122,7 +122,10 @@ class SimulationControls extends connect(store)(LitElement) {
 					<run-summary .statuses=${this._runStatuses} .selectedIndex=${this._runIndex} @run-clicked=${this._handleStatusClicked}></run-summary>
 				</div>
 				<div>
-					<options-control .readonly=${this._playing} @option-changed=${this._handleOptionChanged} @open-dialog=${this._handleOpenDialog} .config=${this._simulation ? this._simulation.optionsConfig : null} .value=${this._simulation ? this._simulation.rawConfig : null} .name=${'Config'}></options-control>
+					<details>
+						<summary><label>Config</label></summary>
+						<options-control .readonly=${this._playing} @option-changed=${this._handleOptionChanged} @open-dialog=${this._handleOpenDialog} .config=${this._simulation ? this._simulation.optionsConfig : null} .value=${this._simulation ? this._simulation.rawConfig : null} .name=${'Config'}></options-control>
+					</details>
 				</div>
 			</div>
 		`;
