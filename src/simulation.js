@@ -52,7 +52,6 @@ const WIDTH_PROPERTY = 'width';
 const SIM_OPTIONS_PROPERTY = 'simOptions';
 const RUNS_PROPERTY = 'runs';
 const SEED_PROPERTY = 'seed';
-const NAME_PROPERTY = 'name';
 const COLORS_PROPERTY = 'colors';
 const COLOR_PRIMARY_PROPERTY = 'primary';
 const COLOR_SECONDARY_PROPERTY = 'secondary';
@@ -61,12 +60,13 @@ const COLOR_BACKGROUND_PROPERTY = 'background';
 const DESCRIPTION_PROPERTY = 'description';
 const AUTO_GENERATE_PROPERTY = 'autoGenerate';
 const AUTO_PLAY_PROPERTY = 'autoPlay';
-const FRAME_DELAY_PROPERTY = 'frameDelay';
-const EXTRA_FINAL_FRAME_COUNT_PROPERTY = 'extraFinalFrameCount';
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 //Also duplicated into screenshot.js
+const NAME_PROPERTY = 'name';
+const FRAME_DELAY_PROPERTY = 'frameDelay';
+const EXTRA_FINAL_FRAME_COUNT_PROPERTY = 'extraFinalFrameCount';
 const DEFAULT_FRAME_DELAY = 100;
 const DEFAULT_EXTRA_FINAL_FRAME_COUNT = 0;
 
