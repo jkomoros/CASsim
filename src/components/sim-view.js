@@ -167,6 +167,12 @@ class SimView extends connect(store)(PageViewElement) {
 		//active. But most of the time we don't want to do anything.
 		if (!this.active) return;
 
+		//Don't trigger keyboard shortcuts if the user is editing a text field
+		for (const ele of e.composedPath()) {
+			if (ele.localName == 'input') return;
+			if (ele.localName == 'textarea') return;
+		}
+
 		if (e.key == 'ArrowRight') {
 			store.dispatch(nextFrameIndex());
 		} else if (e.key == 'ArrowLeft') {
