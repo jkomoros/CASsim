@@ -22,8 +22,10 @@ const RENDER_COMPLETE_VARIABLE = 'render_complete';
 //Duplicated in simulations.js
 const NAME_PROPERTY = 'name';
 const FRAME_DELAY_PROPERTY = 'frameDelay';
+//eslint-disable-next-line no-unused-vars
 const EXTRA_FINAL_FRAME_COUNT_PROPERTY = 'extraFinalFrameCount';
 const DEFAULT_FRAME_DELAY = 100;
+//eslint-disable-next-line no-unused-vars
 const DEFAULT_EXTRA_FINAL_FRAME_COUNT = 0;
 
 
@@ -118,6 +120,20 @@ const DEFAULT_GIF_CONFIG = {
 	repeat: 0,
 };
 
+//TODO: allow specifying a different file
+const CONFIG_DATA_FILE = 'data/default.json';
+
+const configForGif = (configData, gifName) => {
+	for (const config of configData) {
+		const safeName = sanitizeSimulationName(config[NAME_PROPERTY]);
+		if (safeName != gifName) continue;
+		const delay = config[FRAME_DELAY_PROPERTY];
+		const gifInfo = delay == undefined ? {} : {delay};
+		return {...DEFAULT_GIF_CONFIG, ...gifInfo};
+	}
+	return {...DEFAULT_GIF_CONFIG};
+};
+
 //Returns an object with gifNames and the information on each, including: 
 // - width
 // - height
@@ -143,8 +159,10 @@ const gifInfos = async () => {
 	for (const name of Object.keys(illegalGifs)) {
 		delete result[name];
 	}
+	const rawConfigData = fs.readFileSync(CONFIG_DATA_FILE);
+	const configData = JSON.parse(rawConfigData);
 	for (const name of Object.keys(result)) {
-		result[name] = {...result[name], ...DEFAULT_GIF_CONFIG};
+		result[name] = {...result[name], ...configForGif(configData, name)};
 	}
 	return result;
 };
