@@ -18,6 +18,7 @@ import {
 	updatePlayType,
 	updateShowControls,
 	PLAY_TYPE_SIMULATION,
+	togglePlaying,
 } from "../actions/data.js";
 
 import {
@@ -170,6 +171,8 @@ class SimView extends connect(store)(PageViewElement) {
 			store.dispatch(nextFrameIndex());
 		} else if (e.key == 'ArrowLeft') {
 			store.dispatch(prevFrameIndex());
+		} else if (e.key == ' ') {
+			store.dispatch(togglePlaying());
 		}
 
 	}
