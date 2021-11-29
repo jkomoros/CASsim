@@ -54,8 +54,12 @@ export const ButtonSharedStyles = css`
 			color: var(--dark-gray-color);
 		}
 
-		button.small svg {
+		button.small:disabled svg {
 			fill: var(--disabled-color);
+		}
+
+		button.small svg {
+			fill: var(--dark-gray-color);
 			height:1.0em;
 			width:1.0em;
 		}
@@ -65,8 +69,6 @@ export const ButtonSharedStyles = css`
 		}
 
 		button.small:hover svg {
-			fill: var(--dark-gray-color);
-			box-shadow:none;
-			padding:0;
+			fill: var(--disabled-color);
 		}
 `;
