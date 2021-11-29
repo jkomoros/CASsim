@@ -49,7 +49,7 @@ export const ButtonSharedStyles = css`
 			padding: 0;
 			margin:0;
 			box-shadow: none;
-			font-size: 0.8em;
+			font-size: 1.0em;
 			font-style: italic;
 			color: var(--dark-gray-color);
 		}
