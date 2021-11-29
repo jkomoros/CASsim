@@ -7,8 +7,6 @@ import {
 	selectPage,
 	selectPageExtra,
 	selectCurrentSimulationName,
-	selectRunIndex,
-	selectFrameIndex,
 	selectFilename
 } from '../selectors.js';
 
@@ -36,9 +34,7 @@ export const canonicalizePath = () => (dispatch ,getState) => {
 	} else {
 		const filename = selectFilename(state);
 		const simulationName = selectCurrentSimulationName(state);
-		const runIndex = selectRunIndex(state);
-		const frameIndex = selectFrameIndex(state);
-		path.push(filename, simulationName, runIndex, frameIndex, '');
+		path.push(filename, simulationName, '');
 	}
 
 	dispatch(navigatePathTo(path.join('/'), true));

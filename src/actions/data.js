@@ -80,13 +80,9 @@ export const updateWithSimPageExtra = (pageExtra) => (dispatch, getState) => {
 	const parts = pageExtra.split('/');
 	//The last piece is the trailing slash
 	//TODO: handle malformed URLs better
-	if (parts.length != 5) return;
+	if (parts.length != 3) return;
 	const filename = parts[0];
 	const simulationName = parts[1];
-	let runIndex = parseInt(parts[2]);
-	if (isNaN(runIndex)) runIndex = 0;
-	let frameIndex = parseInt(parts[3]);
-	if (isNaN(frameIndex)) frameIndex = 0;
 
 	const simulationsMap = selectSimulationsMap(getState());
 	const fallbackIndex = parseInt(simulationName);
@@ -95,8 +91,6 @@ export const updateWithSimPageExtra = (pageExtra) => (dispatch, getState) => {
 	//Each of these will return if a no op
 	dispatch(updateFilename(filename), true);
 	dispatch(updateSimulationIndex(simulationIndex), true);
-	dispatch(updateRunIndex(runIndex), true);
-	dispatch(updateFrameIndex(frameIndex), true);
 };
 
 export const resetSimulation = () => (dispatch) => {
@@ -297,7 +291,7 @@ export const updateSimulationIndex = (index, skipCanonicalize) => (dispatch, get
 	if (!skipCanonicalize) dispatch(canonicalizePath());
 };
 
-export const updateFrameIndex = (index, skipCanonicalize) => (dispatch, getState) => {
+export const updateFrameIndex = (index) => (dispatch, getState) => {
 	if (typeof index == 'string') index = parseInt(index);
 	const state = getState();
 	const run = selectCurrentSimulationRun(state);
@@ -315,10 +309,9 @@ export const updateFrameIndex = (index, skipCanonicalize) => (dispatch, getState
 		type: UPDATE_FRAME_INDEX,
 		index,
 	});
-	if (!skipCanonicalize) dispatch(canonicalizePath());
 };
 
-export const updateRunIndex = (index, skipCanonicalize) => (dispatch, getState) => {
+export const updateRunIndex = (index) => (dispatch, getState) => {
 	if (typeof index == 'string') index = parseInt(index);
 	const state = getState();
 	if (index < 0) {
@@ -334,7 +327,6 @@ export const updateRunIndex = (index, skipCanonicalize) => (dispatch, getState) 
 		index,
 	});
 	dispatch(verifyValidIndexes());
-	if (!skipCanonicalize) dispatch(canonicalizePath());
 };
 
 export const updateCurrentSimulationOptions = (path, value) => (dispatch, getState) => {
