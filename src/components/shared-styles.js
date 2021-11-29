@@ -20,4 +20,8 @@ export const SharedStyles = css`
     font-size: 0.8em;
     color: var(--dark-gray-color);
   }
+
+  details {
+    color: var(--dark-gray-color);
+  }
 `;
