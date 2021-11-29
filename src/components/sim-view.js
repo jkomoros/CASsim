@@ -26,11 +26,6 @@ import {
 } from "../actions/app.js";
 
 import {
-	help,
-	HelpStyles
-} from './help-badges.js';
-
-import {
 	selectCurrentFrame,
 	selectPageExtra,
 	selectFrameIndex,
@@ -83,7 +78,12 @@ import "./dialog-element.js";
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from "./shared-styles.js";
-import { ButtonSharedStyles } from "./button-shared-styles.js";
+
+import {
+	help,
+	ButtonSharedStyles
+} from "./button-shared-styles.js";
+
 import { PLUS_ICON } from "./my-icons.js";
 
 
@@ -128,7 +128,6 @@ class SimView extends connect(store)(PageViewElement) {
 		return [
 			SharedStyles,
 			ButtonSharedStyles,
-			HelpStyles,
 			css`
 				:host {
 					position:relative;

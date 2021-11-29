@@ -10,17 +10,13 @@ import {
 } from '../util.js';
 
 import {
+	help,
 	ButtonSharedStyles
 } from "./button-shared-styles.js";
 
 import {
 	SharedStyles
 } from "./shared-styles.js";
-
-import {
-	help,
-	HelpStyles
-} from './help-badges.js';
 
 import {
 	CANCEL_ICON,
@@ -69,7 +65,6 @@ class OptionsControl extends LitElement {
 			`,
 			SharedStyles,
 			ButtonSharedStyles,
-			HelpStyles
 		];
 	}
 
