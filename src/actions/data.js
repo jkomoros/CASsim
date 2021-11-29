@@ -115,6 +115,11 @@ const simulationActivated = () => (dispatch, getState) => {
 	}
 };
 
+export const togglePlaying = () => (dispatch, getState) => {
+	const playing = selectPlaying(getState());
+	dispatch(updatePlaying(!playing));
+};
+
 let playingInterval = -1;
 
 export const updatePlaying = (enabled) => (dispatch, getState) => {
