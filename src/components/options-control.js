@@ -84,11 +84,11 @@ class OptionsControl extends LitElement {
 	_inner() {
 		const config = this.config || {};
 		return html`
-			${this.name !== undefined ? html`<label>${this.name} ${config.description ? html`${help(config.description)}` : ''} 
+			${this.name !== undefined ? html`<span class='label'>${this.name} ${config.description ? html`${help(config.description)}` : ''} 
 				${config.optional ? html`<button class='small' @click=${this._handleNullableClicked} .disabled=${this.readonly} title='Remove'>${CANCEL_ICON}</button>` : ''}
 				${config.example && Array.isArray(config.example) ? html`<button class='small' .disabled=${this.readonly} @click=${this._handleAddArrayItem} title='Add additional item'>${PLUS_ICON}</button>` : ''}
 				${this._nulledEntries().length ? html`<button class='small' .disabled=${this.readonly} @click=${this._handleAddNulledClicked} title='Add field...'>${PLUS_ICON}</button>` : ''}
-			</label>`: ''}
+			</span>`: ''}
 			${this._innerControl()}
 		`;
 	}

@@ -16,7 +16,7 @@ export const SharedStyles = css`
     box-sizing: border-box;
   }
 
-  label {
+  label, span.label {
     font-size: 0.8em;
     color: var(--dark-gray-color);
   }
