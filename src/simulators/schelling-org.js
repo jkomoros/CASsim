@@ -592,7 +592,7 @@ class SchellingOrgRenderer extends LitElement {
 
 	render() {
 		return html`
-			<svg>
+			<svg viewBox='0 0 ${this.width} ${this.height}'>
 				${this._debugRender()}
 				${this._connections.map(item => this._connectionSVG(item))}
 				${this._collaborators.map(item => this._collaboratorSVG(item))}
