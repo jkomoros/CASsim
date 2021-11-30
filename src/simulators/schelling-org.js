@@ -581,13 +581,18 @@ class SchellingOrgRenderer extends LitElement {
 				stroke-width: 3px;
 			}
 
+			svg {
+				width: 100%;
+				height: 100%;
+			}
+
 			`
 		];
 	}
 
 	render() {
 		return html`
-			<svg width=${this.width} height=${this.height}>
+			<svg>
 				${this._debugRender()}
 				${this._connections.map(item => this._connectionSVG(item))}
 				${this._collaborators.map(item => this._collaboratorSVG(item))}

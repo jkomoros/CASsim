@@ -30,6 +30,10 @@ class FrameVisualization extends LitElement {
 				:host {
 					background-color: var(--override-app-background-color, var(--background-color, transparent));
 				}
+				
+				.container {
+					position:relative;
+				}
 			
 			`
 		];
@@ -37,7 +41,9 @@ class FrameVisualization extends LitElement {
 
 	render() {
 		return html`
+		<div class='container' style='height:${this.height}px; width: ${this.width}px'>
 			<schelling-org-renderer .frame=${this.frame} .width=${this.width} .height=${this.height}></schelling-org-renderer>
+		</div>
 		`;
 	}
 }
