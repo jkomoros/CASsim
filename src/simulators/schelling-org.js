@@ -545,7 +545,7 @@ class SchellingOrgRenderer extends LitElement {
 			}
 
 			.project.not-selected {
-				filter: saturate(30%) brightness(1.3);
+				opacity: 0.5;
 			}
 
 			.project.marked {
