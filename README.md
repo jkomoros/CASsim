@@ -3,6 +3,10 @@ Complex Adaptive Systems Simulator.
 
 In a very very messy state.
 
+![interface Demo](/examples/screenshot.png?raw=true)
+
+![Animated Example](/examples/example.gif?raw=true)
+
 # Installing
 
 Install npm.
