@@ -5,6 +5,8 @@ This is a very basic harness and framework to make configurable, interactive age
 
 It's in a very messy, hacky state, and currently only supports a single simulation type, `schelling-org`. Over time I'll make it more generalized and polished.
 
+You can see a live demo at [https://cassim-viewer.web.app/](https://cassim-viewer.web.app/)
+
 ![interface Demo](/examples/screenshot.png?raw=true)
 
 ![Animated Example](/examples/example.gif?raw=true)
