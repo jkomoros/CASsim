@@ -19,6 +19,7 @@ import {
 	updateShowControls,
 	PLAY_TYPE_SIMULATION,
 	togglePlaying,
+	updateScale,
 } from "../actions/data.js";
 
 import {
@@ -88,6 +89,8 @@ import {
 
 import { PLUS_ICON } from "./my-icons.js";
 
+//Size in px that we want to allow around the visualization edge
+const VISUALIZATION_PADDING = 100;
 
 const fetchData = async(filename) => {
 	let res;
@@ -243,7 +246,26 @@ class SimView extends connect(store)(PageViewElement) {
 	//Should be called any time the scale of visualization might need to change.
 	//width, height, configurationExpanded, or page resizes
 	resizeVisualization() {
-		console.warn('Resizing not yet implemented');
+		const pageRect = this.getBoundingClientRect();
+		const configurationOptionsEle = this.shadowRoot.querySelector('simulation-controls');
+		if (!configurationOptionsEle) {
+			console.warn('Couldn\'t find configuration-options');
+			return;
+		}
+		const configurationRect = configurationOptionsEle.getBoundingClientRect();
+		let availableWidth = pageRect.width - (this._configurationExpanded ? configurationRect.width : 0);
+		let availableHeight = pageRect.height;
+
+		availableWidth -= (2 * VISUALIZATION_PADDING);
+		availableHeight -= (2 * VISUALIZATION_PADDING);
+
+		const heightScale = availableHeight / this._height;
+		const widthScale = availableWidth / this._width;
+
+		const scale =  Math.min(heightScale, widthScale);
+		if (!Number.isFinite(scale)) return;
+		store.dispatch(updateScale(scale));
+
 	}
 
 	_handleAddFieldButtonClicked() {
