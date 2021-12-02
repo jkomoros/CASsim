@@ -191,7 +191,7 @@ class SimView extends connect(store)(PageViewElement) {
 			</dialog-element>
 			<simulation-controls></simulation-controls>
 			<div class='container' style='${colors}'>
-				<frame-visualization .frame=${this._currentFrame} .width=${this._width} .height=${this._height}></frame-visualization>
+				<frame-visualization .frame=${this._currentFrame} .width=${this._width} .height=${this._height} .scale=${1.0}></frame-visualization>
 			</div>
 		`;
 	}

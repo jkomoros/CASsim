@@ -21,6 +21,7 @@ class FrameVisualization extends LitElement {
 			frame: { type: Object },
 			width: {type:Number},
 			height: {type:Number},
+			scale: {type:Number},
 		};
 	}
 
