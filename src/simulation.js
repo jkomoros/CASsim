@@ -24,6 +24,7 @@ import {
 	"name": "this-is-a-name",
 	//The human-readable description of the config. Optional. Will use name if not provided.
 	"description": "This is a description",
+	//Height and width. Mainly used for aspect ratio, but for screenshotting this will be the literal height and width in pixels
 	"width": 16,
 	"height": 9,
 	//How many runs to generate in the set
@@ -395,12 +396,12 @@ const Simulation = class {
 				},
 				[WIDTH_PROPERTY]: {
 					example: 800,
-					description: 'The width of the canvas in pixels',
+					description: 'The width of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal width in pixels.',
 					advanced: true
 				},
 				[HEIGHT_PROPERTY]: {
 					example: 450,
-					description: 'The height of the canvas in pixels',
+					description: 'The height of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal height in pixels.',
 					advanced: true
 				},
 				[FRAME_DELAY_PROPERTY]: {
