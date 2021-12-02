@@ -69,6 +69,7 @@ class SimulationControls extends connect(store)(LitElement) {
 					width: 18em;
 					background-color: white;
 					padding: 0.5em;
+					z-index: 1;
 				}
 
 				input {
