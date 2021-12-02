@@ -41,8 +41,9 @@ class FrameVisualization extends LitElement {
 	}
 
 	render() {
+		const scale = this.scale || 1.0;
 		return html`
-		<div class='container' style='height:${this.height}px; width: ${this.width}px'>
+		<div class='container' style='height:${this.height * scale}px; width: ${this.width * scale}px'>
 			<schelling-org-renderer .frame=${this.frame} .width=${this.width} .height=${this.height}></schelling-org-renderer>
 		</div>
 		`;
