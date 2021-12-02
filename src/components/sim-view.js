@@ -161,6 +161,8 @@ class SimView extends connect(store)(PageViewElement) {
 
 	firstUpdated() {
 		document.addEventListener('keydown', e => this._handleKeyDown(e));
+		window.addEventListener('resize', () => this.resizeVisualization());
+		this.resizeVisualization();
 	}
 
 	_handleKeyDown(e) {
@@ -235,6 +237,12 @@ class SimView extends connect(store)(PageViewElement) {
 		});
 	}
 
+	//Should be called any time the scale of visualization might need to change.
+	//width, height, configurationExpanded, or page resizes
+	resizeVisualization() {
+		console.warn('Resizing not yet implemented');
+	}
+
 	_handleAddFieldButtonClicked() {
 		const eles = this.shadowRoot.querySelectorAll('input[type=radio]');
 		let selectedEle = null;
@@ -275,6 +283,9 @@ class SimView extends connect(store)(PageViewElement) {
 		}
 		if (changedProps.has('_currentFrame')) {
 			store.dispatch(canonicalizePath());
+		}
+		if (changedProps.has('_height') || changedProps.has('_width')) {
+			this.resizeVisualization();
 		}
 	}
 }
