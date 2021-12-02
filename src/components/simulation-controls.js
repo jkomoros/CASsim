@@ -14,6 +14,7 @@ import {
 	selectCurrentSimulation,
 	selectPlaying,
 	selectShowControls,
+	selectConfigurationExpanded,
 } from "../selectors.js";
 
 import {
@@ -24,7 +25,8 @@ import {
 	openDialog,
 	updatePlaying,
 	resetSimulation,
-	advanceToLastFrameInRun
+	advanceToLastFrameInRun,
+	updateConfigurationExpanded
 } from '../actions/data.js';
 
 import {
@@ -45,6 +47,7 @@ class SimulationControls extends connect(store)(LitElement) {
 	static get properties() {
 		return {
 			_showControsl : {type:Boolean},
+			_configurationExpanded: {type:Boolean},
 			_simulationsMap: { type:Object },
 			_simulationIndex: { type:Number },
 			_simulationMaxRunIndex: { type:Number },
@@ -135,7 +138,7 @@ class SimulationControls extends connect(store)(LitElement) {
 					<run-summary .statuses=${this._runStatuses} .selectedIndex=${this._runIndex} @run-clicked=${this._handleStatusClicked}></run-summary>
 				</div>
 				<div>
-					<details>
+					<details .open=${this._configurationExpanded} @toggle=${this._handleConfigurationExpandedToggled}>
 						<summary><label>Simulation Configuration</label></summary>
 						<options-control .readonly=${this._playing} @option-changed=${this._handleOptionChanged} @open-dialog=${this._handleOpenDialog} .config=${this._simulation ? this._simulation.optionsConfig : null} .value=${this._simulation ? this._simulation.rawConfig : null} .name=${''}></options-control>
 					</details>
@@ -147,6 +150,7 @@ class SimulationControls extends connect(store)(LitElement) {
 	// This is called every time something is updated in the store.
 	stateChanged(state) {
 		this._showControls = selectShowControls(state);
+		this._configurationExpanded = selectConfigurationExpanded(state);
 		this._simulationsMap = selectSimulationsMap(state);
 		this._simulationIndex = selectSimulationIndex(state);
 		this._simulationMaxRunIndex = selectCurrentSimulationMaxRunIndex(state);
@@ -162,6 +166,11 @@ class SimulationControls extends connect(store)(LitElement) {
 		this._simulation = selectCurrentSimulation(state);
 		this._runStatuses = this._simulation ? this._simulation.runs.map(run => run.finalStatus) : [];
 		
+	}
+
+	_handleConfigurationExpandedToggled(e) {
+		const ele = e.composedPath()[0];
+		store.dispatch(updateConfigurationExpanded(ele.open));
 	}
 
 	_handleStatusClicked(e) {
