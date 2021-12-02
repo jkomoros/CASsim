@@ -39,7 +39,8 @@ import {
 	selectCurrentSimulation,
 	selectSimulationIndex,
 	selectRunIndex,
-	selectScale
+	selectScale,
+	selectConfigurationExpanded
 } from "../selectors.js";
 
 // We are lazy loading its reducer.
@@ -123,6 +124,7 @@ class SimView extends connect(store)(PageViewElement) {
 			_height: {type: Number},
 			_width: {type: Number},
 			_scale: {type: Number},
+			_configurationExpanded: {type:Boolean},
 		};
 	}
 
@@ -231,6 +233,7 @@ class SimView extends connect(store)(PageViewElement) {
 		this._width = selectCurrentSimulationWidth(state);
 		this._filename = selectFilename(state);
 		this._scale = selectScale(state);
+		this._configurationExpanded = selectConfigurationExpanded(state);
 
 		this.updateComplete.then(() => {
 			window[RENDER_COMPLETE_VARIABLE] = true;
@@ -284,7 +287,7 @@ class SimView extends connect(store)(PageViewElement) {
 		if (changedProps.has('_currentFrame')) {
 			store.dispatch(canonicalizePath());
 		}
-		if (changedProps.has('_height') || changedProps.has('_width')) {
+		if (changedProps.has('_height') || changedProps.has('_width') || changedProps.has('_configurationExpanded')) {
 			this.resizeVisualization();
 		}
 	}
