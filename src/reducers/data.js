@@ -11,6 +11,7 @@ import {
 	UPDATE_DELAY_COUNT,
 	UPDATE_SHOW_CONTROLS,
 	UPDATE_SCALE,
+	UPDATE_CONFIGURATION_EXPANDED,
 
 	DIALOG_TYPE_JSON,
 	DEFAULT_FILE_NAME,
@@ -31,7 +32,10 @@ const INITIAL_STATE = {
 	playing: false,
 	delayCount: 0,
 	scale: 1.0,
+	//Whether the whole controls is visible or not
 	showControls: true,
+	//Whether the Simulation Controls zippy within simulation-controls is open
+	configurationExpanded: false,
 	dialogOpen: false,
 	dialogType: DIALOG_TYPE_JSON,
 	dialogExtras: {},
@@ -98,6 +102,11 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			showControls: action.show,
+		};
+	case UPDATE_CONFIGURATION_EXPANDED:
+		return {
+			...state,
+			configurationExpanded: action.expanded
 		};
 	case UPDATE_SCALE: {
 		return {
