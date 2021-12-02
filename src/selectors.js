@@ -14,6 +14,7 @@ export const selectPlayType = state => state.data ? state.data.playType : 'frame
 export const selectPlaying = state => state.data ? state.data.playing : false;
 export const selectDelayCount = state => state.data ? state.data.delayCount : 0;
 export const selectShowControls = state => state.data ? state.data.showControls : true;
+export const selectScale = state => state.data ? state.data.scale : 1.0;
 
 export const selectDialogOpen = state => state.data ? state.data.dialogOpen : false;
 export const selectDialogType = state => state.data ? state.data.dialogType : '';

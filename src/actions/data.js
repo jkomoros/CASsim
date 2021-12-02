@@ -9,6 +9,7 @@ export const UPDATE_PLAY_TYPE = 'UPDATE_PLAY_TYPE';
 export const UPDATE_PLAYING = 'UPDATE_PLAYING';
 export const UPDATE_DELAY_COUNT = 'UPDATE_DELAY_COUNT';
 export const UPDATE_SHOW_CONTROLS = 'UPDATE_SHOW_CONTROLS';
+export const UPDATE_SCALE = 'UPDATE_SCALE';
 
 export const DIALOG_TYPE_JSON = 'json';
 export const DIALOG_TYPE_ADD_FIELD = 'add-field';
@@ -383,5 +384,12 @@ export const updateShowControls = (show) => {
 	return {
 		type: UPDATE_SHOW_CONTROLS,
 		show
+	};
+};
+
+export const updateScale = (scale) => {
+	return {
+		type: UPDATE_SCALE,
+		scale,
 	};
 };

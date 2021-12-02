@@ -10,6 +10,7 @@ import {
 	UPDATE_PLAYING,
 	UPDATE_DELAY_COUNT,
 	UPDATE_SHOW_CONTROLS,
+	UPDATE_SCALE,
 
 	DIALOG_TYPE_JSON,
 	DEFAULT_FILE_NAME,
@@ -29,6 +30,7 @@ const INITIAL_STATE = {
 	playType: PLAY_TYPE_ROUND,
 	playing: false,
 	delayCount: 0,
+	scale: 1.0,
 	showControls: true,
 	dialogOpen: false,
 	dialogType: DIALOG_TYPE_JSON,
@@ -97,6 +99,12 @@ const data = (state = INITIAL_STATE, action) => {
 			...state,
 			showControls: action.show,
 		};
+	case UPDATE_SCALE: {
+		return {
+			...state,
+			scale: action.scale
+		};
+	}
 	default:
 		return state;
 	}

@@ -38,7 +38,8 @@ import {
 	selectFilename,
 	selectCurrentSimulation,
 	selectSimulationIndex,
-	selectRunIndex
+	selectRunIndex,
+	selectScale
 } from "../selectors.js";
 
 // We are lazy loading its reducer.
@@ -121,6 +122,7 @@ class SimView extends connect(store)(PageViewElement) {
 			_rawConfigData: {type: Object},
 			_height: {type: Number},
 			_width: {type: Number},
+			_scale: {type: Number},
 		};
 	}
 
@@ -191,7 +193,7 @@ class SimView extends connect(store)(PageViewElement) {
 			</dialog-element>
 			<simulation-controls></simulation-controls>
 			<div class='container' style='${colors}'>
-				<frame-visualization .frame=${this._currentFrame} .width=${this._width} .height=${this._height} .scale=${1.0}></frame-visualization>
+				<frame-visualization .frame=${this._currentFrame} .width=${this._width} .height=${this._height} .scale=${this._scale}></frame-visualization>
 			</div>
 		`;
 	}
@@ -226,6 +228,7 @@ class SimView extends connect(store)(PageViewElement) {
 		this._height = selectCurrentSimulationHeight(state);
 		this._width = selectCurrentSimulationWidth(state);
 		this._filename = selectFilename(state);
+		this._scale = selectScale(state);
 
 		this.updateComplete.then(() => {
 			window[RENDER_COMPLETE_VARIABLE] = true;
