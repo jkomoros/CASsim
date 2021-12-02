@@ -151,6 +151,11 @@ class SimView extends connect(store)(PageViewElement) {
 					background-color: var(--override-app-background-color, var(--app-background-color, #356F9E));
 				}
 
+				.container.config-expanded frame-visualization {
+					/* Note: same value as set in the simulation-controls styles */
+					margin-left: 18em;
+				}
+
 				.row {
 					display: flex;
 					flex-direction: row;
@@ -199,7 +204,7 @@ class SimView extends connect(store)(PageViewElement) {
 				${this._dialogInner()}
 			</dialog-element>
 			<simulation-controls></simulation-controls>
-			<div class='container' style='${colors}'>
+			<div class='container ${this._configurationExpanded ? 'config-expanded' : ''}' style='${colors}'>
 				<frame-visualization .frame=${this._currentFrame} .width=${this._width} .height=${this._height} .scale=${this._scale}></frame-visualization>
 			</div>
 		`;
