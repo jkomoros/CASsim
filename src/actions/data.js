@@ -51,7 +51,8 @@ import {
 	selectPlaying,
 	selectFrameDelay,
 	selectDelayCount,
-	selectLoadedSimulators
+	selectLoadedSimulators,
+	selectRawConfigData
 } from '../selectors.js';
 
 import {
@@ -67,13 +68,21 @@ import {
 
 const SIMULATORS_DIRECTORY = 'simulators';
 
-export const loadData = (data) => (dispatch, getState) => {
+export const loadData = (data) => (dispatch) => {
 	dispatch({
 		type: LOAD_DATA,
 		data,
 	});
-	const loadedSimulators = selectLoadedSimulators(getState());
-	const neededSimulatorNames = extractSimulatorNamesFromRawConfig(data);
+	dispatch(fetchNeededSimulators());
+	dispatch(verifyValidIndexes());
+	dispatch(simulationActivated());
+};
+
+export const fetchNeededSimulators = () => (dispatch, getState) => {
+	const state = getState();
+	const loadedSimulators = selectLoadedSimulators(state);
+	const rawConfig = selectRawConfigData(state);
+	const neededSimulatorNames = extractSimulatorNamesFromRawConfig(rawConfig);
 	for (const name of neededSimulatorNames) {
 		if (loadedSimulators[name]) continue;
 		(async () => {
@@ -95,9 +104,6 @@ export const loadData = (data) => (dispatch, getState) => {
 			}
 		})();
 	}
-
-	dispatch(verifyValidIndexes());
-	dispatch(simulationActivated());
 };
 
 export const verifyValidIndexes = () => (dispatch, getState) => {
@@ -378,6 +384,7 @@ export const updateCurrentSimulationOptions = (path, value) => (dispatch, getSta
 		path,
 		value
 	});
+	dispatch(fetchNeededSimulators());
 	dispatch(verifyValidIndexes());
 };
 
