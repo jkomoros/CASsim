@@ -89,8 +89,9 @@ import {
 
 import { PLUS_ICON } from "./my-icons.js";
 
-//Size in px that we want to allow around the visualization edge
-const VISUALIZATION_PADDING = 100;
+//Size in px that we want to allow around the visualization edge. Pixels per 100
+//px of width.
+const VISUALIZATION_PADDING = 8;
 
 const fetchData = async(filename) => {
 	let res;
@@ -261,8 +262,10 @@ class SimView extends connect(store)(PageViewElement) {
 		let availableWidth = pageRect.width - (this._configurationExpanded ? configurationRect.width : 0);
 		let availableHeight = pageRect.height;
 
-		availableWidth -= (2 * VISUALIZATION_PADDING);
-		availableHeight -= (2 * VISUALIZATION_PADDING);
+		const effectivePadding = VISUALIZATION_PADDING * (pageRect.width / 100);
+
+		availableWidth -= (2 * effectivePadding);
+		availableHeight -= (2 * effectivePadding);
 
 		const heightScale = availableHeight / this._height;
 		const widthScale = availableWidth / this._width;
