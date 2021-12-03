@@ -86,3 +86,18 @@ export const setPropertyInObject = (obj, path, value) => {
 	}
 	return {...obj, [firstPart]: innerResult};
 };
+
+const memoizedRendererMaps = {};
+
+export const memoizedRenderer = (simulation, frameVisualizer) => {
+	if (!simulation) return null;
+	const simulatorName = simulation.simulatorName;
+	if (!memoizedRendererMaps[simulatorName]) {
+		memoizedRendererMaps[simulatorName] = new WeakMap();
+	}
+	const map = memoizedRendererMaps[simulatorName];
+	if (!map.has(frameVisualizer)) {
+		map.set(frameVisualizer, simulation.simulator.renderer());
+	}
+	return map.get(frameVisualizer);
+};
