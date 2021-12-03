@@ -104,6 +104,8 @@ const DEFAULT_REPEAT = false;
 	optionsConfig() optionsConfig - Describes the options, their legal values,
 	and what they mean. See optionsConfig shape, below.
 
+	renderer() - Should return a custom element ready to be inserted into the DOM.
+
 */
 const SIMULATORS = {
 	[SchellingOrgSimulator.name()]: SchellingOrgSimulator,

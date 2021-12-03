@@ -504,6 +504,10 @@ const SchellingOrgSimulator = class {
 			}
 		};
 	}
+
+	static renderer() {
+		return new SchellingOrgRenderer();
+	}
 };
 
 export default SchellingOrgSimulator;
