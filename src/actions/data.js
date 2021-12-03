@@ -56,7 +56,12 @@ import {
 import {
 	maySetPropertyInConfigObject
 } from '../options.js';
+
 import { store } from '../store.js';
+
+import {
+	SIMULATORS
+} from '../simulation.js';
 
 export const loadData = (data) => (dispatch) => {
 	dispatch({
@@ -405,6 +410,7 @@ export const updateScale = (scale) => {
 
 export const simulatorLoaded = (simulator) => {
 	const name = simulator.name();
+	SIMULATORS[name] = simulator;
 	return {
 		type: SIMULATOR_LOADED,
 		name,

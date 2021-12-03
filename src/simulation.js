@@ -107,7 +107,7 @@ const DEFAULT_REPEAT = false;
 	renderer() - Should return a custom element ready to be inserted into the DOM.
 
 */
-const SIMULATORS = {
+export const SIMULATORS = {
 	[SchellingOrgSimulator.name()]: SchellingOrgSimulator,
 };
 
