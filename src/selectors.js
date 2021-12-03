@@ -1,7 +1,8 @@
 import { createSelector } from "reselect";
 
 import {
-	SimulationCollection
+	SimulationCollection,
+	extractSimulatorNamesFromRawConfig
 } from "./simulation.js";
 
 export const selectRawConfigData = state => state.data ? state.data.data : [];
@@ -31,9 +32,22 @@ export const selectConfigurationExpanded = createSelector(
 	(showControls, rawConfigurationExpanded) => showControls && rawConfigurationExpanded
 );
 
+const selectRequiredSimulatorsLoaded = createSelector(
+	selectRawConfigData,
+	selectLoadedSimulators,
+	(data, loadedSimulators) => {
+		const requiredSimulatorNames = extractSimulatorNamesFromRawConfig(data);
+		for (const name of requiredSimulatorNames) {
+			if (!loadedSimulators[name]) return false;
+		}
+		return true;
+	}
+);
+
 const selectSimulationCollection = createSelector(
 	selectRawConfigData,
-	(rawConfig) => new SimulationCollection(rawConfig)
+	selectRequiredSimulatorsLoaded,
+	(rawConfig, simulatorsLoaded) => simulatorsLoaded ? new SimulationCollection(rawConfig) : null
 );
 
 export const selectSimulationsMap = createSelector(
