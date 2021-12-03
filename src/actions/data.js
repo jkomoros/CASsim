@@ -427,6 +427,10 @@ export const updateScale = (scale) => {
 };
 
 export const simulatorLoaded = (simulator) => {
+	if (!simulator) {
+		console.warn('No simulator provided');
+		return;
+	}
 	const name = simulator.name();
 	SIMULATORS[name] = simulator;
 	return {
