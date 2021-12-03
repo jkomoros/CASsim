@@ -129,6 +129,8 @@ class SimView extends connect(store)(PageViewElement) {
 			_width: {type: Number},
 			_scale: {type: Number},
 			_configurationExpanded: {type:Boolean},
+			//Note: this is calculated in this._resizeVisualzation, NOT in state
+			_needsMarginLeft : {type:Boolean},
 		};
 	}
 
@@ -152,7 +154,7 @@ class SimView extends connect(store)(PageViewElement) {
 					background-color: var(--override-app-background-color, var(--app-background-color, #356F9E));
 				}
 
-				.container.config-expanded frame-visualization {
+				.container.needs-margin-left frame-visualization {
 					/* Note: same value as set in the simulation-controls styles */
 					margin-left: 18em;
 				}
@@ -205,7 +207,7 @@ class SimView extends connect(store)(PageViewElement) {
 				${this._dialogInner()}
 			</dialog-element>
 			<simulation-controls></simulation-controls>
-			<div class='container ${this._configurationExpanded ? 'config-expanded' : ''}' style='${colors}'>
+			<div class='container ${this._needsMarginLeft ? 'needs-margin-left' : ''}' style='${colors}'>
 				<frame-visualization .frame=${this._currentFrame} .width=${this._width} .height=${this._height} .scale=${this._scale}></frame-visualization>
 			</div>
 		`;
@@ -272,6 +274,16 @@ class SimView extends connect(store)(PageViewElement) {
 
 		const scale =  Math.min(heightScale, widthScale);
 		if (!Number.isFinite(scale)) return;
+
+		const newHeight = this._height * scale;
+		//If there's so little height, then it will overlpa with the
+		//configurationRect vertically, so push it to the right.
+
+		//TODO: the fact that this is just a weird non-state-backed property
+		//implies scale could be, too, since it's a downstream/derivable
+		//property of the state
+		//+ window size.
+		this._needsMarginLeft = pageRect.height - newHeight < 2 * configurationRect.height;
 		store.dispatch(updateScale(scale));
 
 	}
