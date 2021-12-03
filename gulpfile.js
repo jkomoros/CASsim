@@ -14,6 +14,7 @@ const gulp = require('gulp');
 const rename = require('gulp-rename');
 const replace = require('gulp-replace');
 const del = require('del');
+const fs = require('fs');
 
 /**
  * Cleans the prpl-server build in the server directory.
@@ -43,3 +44,14 @@ gulp.task('prpl-server', gulp.series(
 	'prpl-server:clean',
 	'prpl-server:build'
 ));
+
+const SIMULATORS_DIR = 'src/simulators/';
+
+gulp.task('generate-polymer-json', (done) => {
+	const polymerTemplate = JSON.parse(fs.readFileSync('polymer.TEMPLATE.json'));
+	const files = fs.readdirSync(SIMULATORS_DIR);
+	polymerTemplate.fragments = files.map(file => SIMULATORS_DIR + file);
+	const blob = JSON.stringify(polymerTemplate, '', '\t');
+	fs.writeFileSync('polymer.json', blob);
+	done();
+});

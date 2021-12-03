@@ -46,5 +46,6 @@ If you only want to generate the screenshots, not the gifs, run `npm run generat
 ## Deploying
 
 `firebase use <PROJECT-ID>`
+`gulp generate-polymer-json`
 `polymer build`
 `firebase deploy`

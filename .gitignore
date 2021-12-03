@@ -3,6 +3,7 @@ bower_components/
 *.log
 
 frame_data.json
+polymer.json
 
 build/
 dist/

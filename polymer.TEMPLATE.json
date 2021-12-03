@@ -1,9 +1,6 @@
 {
 	"entrypoint": "index.html",
 	"shell": "src/components/my-app.js",
-	"fragments": [
-		"src/simulators/schelling-org.js"
-	],
 	"sources": [
 		"images/**/*",
 		"data/**/*"
