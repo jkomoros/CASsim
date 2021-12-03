@@ -38,13 +38,13 @@ const selectSimulationCollection = createSelector(
 
 export const selectSimulationsMap = createSelector(
 	selectSimulationCollection,
-	(collection) => collection.simulationsMap
+	(collection) => collection ? collection.simulationsMap : null
 );
 
 export const selectCurrentSimulation = createSelector(
 	selectSimulationCollection,
 	selectSimulationIndex,
-	(collection, simulationIndex) => collection.simulation(simulationIndex)
+	(collection, simulationIndex) => collection ? collection.simulation(simulationIndex) : null
 );
 
 export const selectCurrentSimulationName = createSelector(
