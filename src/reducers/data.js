@@ -108,12 +108,11 @@ const data = (state = INITIAL_STATE, action) => {
 			...state,
 			configurationExpanded: action.expanded
 		};
-	case UPDATE_SCALE: {
+	case UPDATE_SCALE:
 		return {
 			...state,
 			scale: action.scale
 		};
-	}
 	default:
 		return state;
 	}
