@@ -78,7 +78,17 @@ export const loadData = (data) => (dispatch, getState) => {
 		if (loadedSimulators[name]) continue;
 		(async () => {
 			try {
-				const {default: simulator} = await import('../' + SIMULATORS_DIRECTORY + '/' + name + '.js');
+				const mod = await import('../' + SIMULATORS_DIRECTORY + '/' + name + '.js');
+				//The module might be a proper, uncompiled module, or might be a
+				//mangled, built module. Extract the default export in either
+				//case.
+				let simulator = null;
+				for (const [key, descriptor] of Object.entries(Object.getOwnPropertyDescriptors(mod))) {
+					if (key == 'default' || (key.endsWith('Default') && key.startsWith('$'))) {
+						simulator = descriptor.value;
+						break;
+					}
+				}
 				dispatch(simulatorLoaded(simulator));
 			} catch(err) {
 				console.warn('Couldn\'t load simulator: ' + name + ': ' + err);

@@ -12,23 +12,7 @@
 	],
 	"builds": [
 		{
-			"name": "es6-bundled",
-			"browserCapabilities": [
-				"es2015"
-			],
-			"js": {
-				"compile": "es2015",
-				"minify": true,
-				"transformModulesToAmd": true
-			},
-			"css": {
-				"minify": true
-			},
-			"html": {
-				"minify": true
-			},
-			"bundle": true,
-			"addServiceWorker": true
+			"preset": "es6-bundled"
 		}
 	],
 	"moduleResolution": "node",
