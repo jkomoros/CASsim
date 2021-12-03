@@ -50,7 +50,8 @@ import {
 	selectPlayType,
 	selectPlaying,
 	selectFrameDelay,
-	selectDelayCount
+	selectDelayCount,
+	selectLoadedSimulators
 } from '../selectors.js';
 
 import {
@@ -60,14 +61,31 @@ import {
 import { store } from '../store.js';
 
 import {
-	SIMULATORS
+	SIMULATORS,
+	extractSimulatorNamesFromRawConfig
 } from '../simulation.js';
 
-export const loadData = (data) => (dispatch) => {
+const SIMULATORS_DIRECTORY = 'simulators';
+
+export const loadData = (data) => (dispatch, getState) => {
 	dispatch({
 		type: LOAD_DATA,
 		data,
 	});
+	const loadedSimulators = selectLoadedSimulators(getState());
+	const neededSimulatorNames = extractSimulatorNamesFromRawConfig(data);
+	for (const name of neededSimulatorNames) {
+		if (loadedSimulators[name]) continue;
+		(async () => {
+			try {
+				const {default: simulator} = await import('../' + SIMULATORS_DIRECTORY + '/' + name + '.js');
+				dispatch(simulatorLoaded(simulator));
+			} catch(err) {
+				console.warn('Couldn\'t load simulator: ' + name + ': ' + err);
+			}
+		})();
+	}
+
 	dispatch(verifyValidIndexes());
 	dispatch(simulationActivated());
 };

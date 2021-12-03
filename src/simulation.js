@@ -111,6 +111,16 @@ export const SIMULATORS = {
 	[SchellingOrgSimulator.name()]: SchellingOrgSimulator,
 };
 
+//Returns an array of the names of simulators in this data blob.
+export const extractSimulatorNamesFromRawConfig = data => {
+	const result = {};
+	for (const item of data) {
+		if (!item[SIM_PROPERTY]) continue;
+		result[item[SIM_PROPERTY]] = true;
+	}
+	return Object.keys(result);
+};
+
 export const SimulationCollection = class {
 	constructor(configs) {
 		if (!configs) configs = [];
