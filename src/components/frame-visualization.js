@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html, css } from "lit-element";
+import { memoizedRenderer } from "../util.js";
 
 //schelling-org-renderer will already be loaded by simulation.js 
 
@@ -45,9 +46,18 @@ class FrameVisualization extends LitElement {
 		const scale = this.scale || 1.0;
 		return html`
 		<div class='container' style='height:${this.height * scale}px; width: ${this.width * scale}px'>
-			${this.simulation && this.simulation.simulatorName == 'schelling-org' ? html`<schelling-org-renderer .frame=${this.frame} .width=${this.width} .height=${this.height}></schelling-org-renderer>` : html`<em>Unknown renderer</em>`}
+			${this._renderer()}
 		</div>
 		`;
+	}
+
+	_renderer() {
+		const ele = memoizedRenderer(this.simulation, this);
+		if (!ele) return html`<em>Unknown renderer</em>`;
+		ele.frame = this.frame;
+		ele.width = this.width;
+		ele.height = this.height;
+		return ele;
 	}
 }
 
