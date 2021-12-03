@@ -7,8 +7,6 @@ import {
 	deepCopy
 } from './util.js';
 
-import SchellingOrgSimulator from "./simulators/schelling-org.js";
-
 import {
 	configObjectIsValid,
 	optionsConfigValidator
@@ -107,9 +105,7 @@ const DEFAULT_REPEAT = false;
 	renderer() - Should return a custom element ready to be inserted into the DOM.
 
 */
-export const SIMULATORS = {
-	[SchellingOrgSimulator.name()]: SchellingOrgSimulator,
-};
+export const SIMULATORS = {};
 
 //Returns an array of the names of simulators in this data blob.
 export const extractSimulatorNamesFromRawConfig = data => {
