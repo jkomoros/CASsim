@@ -18,6 +18,7 @@ import { LitElement, html, css } from "lit-element";
 class FrameVisualization extends LitElement {
 	static get properties() {
 		return {
+			simulation: {type:Object},
 			frame: { type: Object },
 			width: {type:Number},
 			height: {type:Number},
@@ -44,7 +45,7 @@ class FrameVisualization extends LitElement {
 		const scale = this.scale || 1.0;
 		return html`
 		<div class='container' style='height:${this.height * scale}px; width: ${this.width * scale}px'>
-			<schelling-org-renderer .frame=${this.frame} .width=${this.width} .height=${this.height}></schelling-org-renderer>
+			${this.simulation && this.simulation.simulatorName == 'schelling-org' ? html`<schelling-org-renderer .frame=${this.frame} .width=${this.width} .height=${this.height}></schelling-org-renderer>` : html`<em>Unknown renderer</em>`}
 		</div>
 		`;
 	}
