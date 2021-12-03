@@ -2,6 +2,8 @@ import {
 	Urn
 } from '../util.js';
 
+const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
+
 const COLLABORATORS_PROPERTY_NAME = 'collaborators';
 const PROJECTS_PROPERTY_NAME = 'projects';
 const CONNECTIONS_PROPERTY_NAME = 'connections';
@@ -92,6 +94,10 @@ Sim options shape:
 */
 
 const SchellingOrgSimulator = class {
+
+	static name() {
+		return SCHELLING_ORG_SIMULATION_NAME;
+	}
 
 	static _firstFrameGenerator(simOptions, rnd) {
 		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;

@@ -62,8 +62,6 @@ const DESCRIPTION_PROPERTY = 'description';
 const AUTO_GENERATE_PROPERTY = 'autoGenerate';
 const AUTO_PLAY_PROPERTY = 'autoPlay';
 
-const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
-
 //Also duplicated into screenshot.js
 const NAME_PROPERTY = 'name';
 const REPEAT_PROPERTY = 'repeat';
@@ -75,6 +73,8 @@ const DEFAULT_REPEAT = false;
 
 /*
 	Simulators are classes that have the following static methods:
+
+	name() - Returns the name of the simulator, e.g. 'schelling-org'
 
 	optionsValidator(normalizedSimOptions) => array of problem strings, or [] if
 	OK. Note that the harness will already check for config problems against
@@ -106,7 +106,7 @@ const DEFAULT_REPEAT = false;
 
 */
 const SIMULATORS = {
-	[SCHELLING_ORG_SIMULATION_NAME]: SchellingOrgSimulator,
+	[SchellingOrgSimulator.name()]: SchellingOrgSimulator,
 };
 
 export const SimulationCollection = class {
