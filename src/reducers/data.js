@@ -12,6 +12,7 @@ import {
 	UPDATE_SHOW_CONTROLS,
 	UPDATE_SCALE,
 	UPDATE_CONFIGURATION_EXPANDED,
+	SIMULATOR_LOADED,
 
 	DIALOG_TYPE_JSON,
 	DEFAULT_FILE_NAME,
@@ -24,6 +25,7 @@ import {
 
 const INITIAL_STATE = {
 	filename: DEFAULT_FILE_NAME,
+	loadedSimulators: {},
 	data: [],
 	simulationIndex: 0,
 	runIndex: 0,
@@ -112,6 +114,11 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			scale: action.scale
+		};
+	case SIMULATOR_LOADED:
+		return {
+			...state,
+			loadedSimulators: {...state.loadedSimulators, [action.name]: true},
 		};
 	default:
 		return state;

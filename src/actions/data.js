@@ -11,6 +11,7 @@ export const UPDATE_DELAY_COUNT = 'UPDATE_DELAY_COUNT';
 export const UPDATE_SHOW_CONTROLS = 'UPDATE_SHOW_CONTROLS';
 export const UPDATE_CONFIGURATION_EXPANDED = 'UPDATE_CONFIGURATION_EXPANDED';
 export const UPDATE_SCALE = 'UPDATE_SCALE';
+export const SIMULATOR_LOADED = 'SIMULATOR_LOADED';
 
 export const DIALOG_TYPE_JSON = 'json';
 export const DIALOG_TYPE_ADD_FIELD = 'add-field';
@@ -399,5 +400,13 @@ export const updateScale = (scale) => {
 	return {
 		type: UPDATE_SCALE,
 		scale,
+	};
+};
+
+export const simulatorLoaded = (simulator) => {
+	const name = simulator.name();
+	return {
+		type: SIMULATOR_LOADED,
+		name,
 	};
 };

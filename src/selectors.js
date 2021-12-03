@@ -16,6 +16,7 @@ export const selectDelayCount = state => state.data ? state.data.delayCount : 0;
 export const selectShowControls = state => state.data ? state.data.showControls : true;
 const selectRawConfigurationExpanded = state => state.data ? state.data.configurationExpanded : false;
 export const selectScale = state => state.data ? state.data.scale : 1.0;
+export const selectLoadedSimulators = state => state.data ? state.data.loadedSimulators : {};
 
 export const selectDialogOpen = state => state.data ? state.data.dialogOpen : false;
 export const selectDialogType = state => state.data ? state.data.dialogType : '';
