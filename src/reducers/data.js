@@ -13,6 +13,8 @@ import {
 	UPDATE_SCALE,
 	UPDATE_CONFIGURATION_EXPANDED,
 	SIMULATOR_LOADED,
+	UPDATE_KNOWN_DATAFILES,
+	UPDATE_KNOWN_SIMULATOR_NAMES,
 
 	DIALOG_TYPE_JSON,
 	DEFAULT_FILE_NAME,
@@ -26,6 +28,8 @@ import {
 const INITIAL_STATE = {
 	filename: DEFAULT_FILE_NAME,
 	loadedSimulators: {},
+	knownDatafiles: [],
+	knownSimulatorNames: [],
 	data: [],
 	simulationIndex: 0,
 	runIndex: 0,
@@ -119,6 +123,16 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			loadedSimulators: {...state.loadedSimulators, [action.name]: true},
+		};
+	case UPDATE_KNOWN_DATAFILES:
+		return {
+			...state,
+			knownDatafiles: action.datafiles
+		};
+	case UPDATE_KNOWN_SIMULATOR_NAMES:
+		return {
+			...state,
+			knownSimulatorNames: action.simulatorNames
 		};
 	default:
 		return state;

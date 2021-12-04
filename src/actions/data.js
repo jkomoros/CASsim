@@ -12,6 +12,8 @@ export const UPDATE_SHOW_CONTROLS = 'UPDATE_SHOW_CONTROLS';
 export const UPDATE_CONFIGURATION_EXPANDED = 'UPDATE_CONFIGURATION_EXPANDED';
 export const UPDATE_SCALE = 'UPDATE_SCALE';
 export const SIMULATOR_LOADED = 'SIMULATOR_LOADED';
+export const UPDATE_KNOWN_SIMULATOR_NAMES = 'UPDATE_KNOWN_SIMULATOR_NAMES';
+export const UPDATE_KNOWN_DATAFILES = 'UPDATE_KNOWN_DATAFILES';
 
 export const DIALOG_TYPE_JSON = 'json';
 export const DIALOG_TYPE_ADD_FIELD = 'add-field';
@@ -455,5 +457,27 @@ export const simulatorLoaded = (simulator) => (dispatch) => {
 	dispatch({
 		type: SIMULATOR_LOADED,
 		name,
+	});
+};
+
+export const updateKnownDatafiles = (datafiles) => (dispatch) => {
+	if (!Array.isArray(datafiles)) {
+		console.warn('datafiles is not an array');
+		return;
+	}
+	dispatch({
+		type: UPDATE_KNOWN_DATAFILES,
+		datafiles,
+	});
+};
+
+export const updateKnownSimulators = (simulatorNames) => (dispatch) => {
+	if (!Array.isArray(simulatorNames)) {
+		console.warn('simulatorsNames is not an array');
+		return;
+	}
+	dispatch({
+		type: UPDATE_KNOWN_SIMULATOR_NAMES,
+		simulatorNames,
 	});
 };
