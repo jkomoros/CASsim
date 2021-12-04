@@ -70,6 +70,13 @@ Now, you can deploy whenever you want to:
 
 Your web app will now be available at `https://<PROJECT-ID>.web.app/`
 
+## Modifying a simulation
+
+The simulation is configured by reading the JSON in `data/default.json` (or other files in that directory if the URL points to a different file).
+
+The JSON of each of these files is an array of simulationObjects. You can define
+these by hand in the JSON, by carefully reading the documentation for simulatorOptions, and the simOptions documentation for the simulator type you're using, or you can modify them live in the web app using the UI and help affordances. Note that the modifications you make live in the web app don't get saved back to the backing JSON file. However, if you click the `<>` icon to the right of the Simulation selector in the controls, it will open a dialog including the fully modified configuration objects, which you can then copy and paste back into the underlying data JSON files to "save" your live edits.
+
 ## Creating a new Simulator type
 
 In the `src/simulators/` directory, copy `dice-roll-demo.js` (a simulator that is extremely simple) to whatever file name you want. Then, customize the file. Note that the name property of your class must match the name of the file.
