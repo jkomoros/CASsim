@@ -11,7 +11,7 @@ You can see a live demo at [https://cassim-viewer.web.app/](https://cassim-viewe
 
 ![Animated Example](/examples/example.gif?raw=true)
 
-# Why this exists
+## Why this exists
 
 Many problems can be modeled as **complex adaptive systems**. In complex adaptive systems, a number of 'agents' continually make decisions based on their context. Crucially, their context includes the actions and state of *other* agents. This interdependence of decisions among agents is why these systems demonstrate **complexity**. A complex problem domain is one that exhibits non-linear behavior that cannot be captured in static equations. The only way to see what will happen in a complex system is to 'run' it&mdash;either let it play out in reality, or to simulate some code.
 
@@ -25,7 +25,7 @@ That's where Agent Based Modelling comes in. Instead of doing a typical linear m
 
 There is nothing special about agent based model; any simple little program could be called one, and often the core logic is almost embarassingly simple. However, there's quite a bit of work to do for the harness around the model, to help make it interactive, have nice visualizations, etc. There's been many times when the right way to get a handle on a problem I was wrestling with was to write a very simple agent based model... but I was deterred by the amount of overhead it took to do the infrastructure for each one. While working on https://medium.com/@komorama/schelling-points-in-organizations-e90647cdd81b I realized that it would be more effective to show not a single, manually created example of each situation, but to show a number of simulated runs. I decided to overbuild the harness for that system so that it would be easy to create additional agent based models for other domains far more quickly.
 
-# Installing
+## Installing
 
 Install npm.
 
@@ -43,7 +43,7 @@ Run `arch -arm64 brew install pkg-config cairo pango libpng jpeg giflib librsvg`
 
 Then run `npm install canvas` and `npm install` (?)
 
-# Running
+## Running
 
 If you want to do your own config, create a `config.json` in the root of the repo. If not provided, `config.SAMPLE.json` will be used.
 
