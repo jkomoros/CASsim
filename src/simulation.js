@@ -227,10 +227,15 @@ const SimulationRun = class {
 	//Will only be called when all lower frames exist
 	_calculateFrameAt(frameIndex) {
 		const previousFrames = frameIndex == 0 ? [] : this._frames.slice(0, frameIndex);
-		const rnd = prng_alea('' + this._simulation.seed + this._index + frameIndex);
+		const rnd = makeSeededRandom('' + this._simulation.seed + this._index + frameIndex);
 		const sim = this._simulation.simulator;
 		return sim.generator(previousFrames, this._simulation.simOptions, rnd, this._index);
 	}
+};
+
+const makeSeededRandom = seed => {
+	const rnd = prng_alea(seed);
+	return () => rnd.quick();
 };
 
 const Simulation = class {

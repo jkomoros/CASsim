@@ -11,7 +11,7 @@ export class Urn {
 	}
 
 	pick() {
-		const val = Math.floor(this._rnd.quick() * this._sum);
+		const val = Math.floor(this._rnd() * this._sum);
 		let sum = 0.0;
 		const entries = this._items.entries();
 		for (let [item, count] of entries) {
@@ -39,7 +39,7 @@ export const deepCopy = (obj) => {
 export const shuffleArrayInPlace = (array, rnd) => {
 	//based on the answer at https://stackoverflow.com/a/12646864
 	for (let i = array.length - 1; i > 0; i--) {
-		const j = Math.floor(rnd.quick() * (i + 1));
+		const j = Math.floor(rnd() * (i + 1));
 		[array[i], array[j]] = [array[j], array[i]];
 	}
 };

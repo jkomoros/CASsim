@@ -123,8 +123,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 				index: i,
 				//We'll select this later based on which ones were actually selected.
 				selected: false,
-				value: 1.0 + (rnd.quick() * projectExtraValue),
-				error: 0.0 + (rnd.quick() * projectErrorValue),
+				value: 1.0 + (rnd() * projectExtraValue),
+				error: 0.0 + (rnd() * projectErrorValue),
 			});
 		}
 		projects = projects.map((item, index) => individualProjectOverrides[index] ? {...item, ...individualProjectOverrides[index]} : item);
@@ -137,7 +137,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		for (let i = 0; i < collaboratorsCount; i++) {
 			const personalBeliefs = [...baseBeliefs];
 			for (let j = 0; j < personalBeliefs.length; j++) {
-				personalBeliefs[j] += (rnd.quick() < 0.5 ? -1 : 1) * (rnd.quick() * projects[j].error);
+				personalBeliefs[j] += (rnd() < 0.5 ? -1 : 1) * (rnd() * projects[j].error);
 			}
 			collaborators.push({
 				index: i,
@@ -165,7 +165,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					const senderConnectionLikelihoodSpread = sender[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME];
 					const minConnectionLikelihood = senderAvgConnectionLikelihood - senderConnectionLikelihoodSpread;
 					const maxConnectionLikelihood = senderAvgConnectionLikelihood + senderConnectionLikelihoodSpread;
-					let strength = (maxConnectionLikelihood - minConnectionLikelihood) * rnd.quick() + minConnectionLikelihood;
+					let strength = (maxConnectionLikelihood - minConnectionLikelihood) * rnd() + minConnectionLikelihood;
 					if (strength < 0.0) strength = 0.0;
 					if (strength > 1.0) strength = 1.0;
 					connections.push({i, j, strength, index:count});
@@ -213,7 +213,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 			//If any of the projects that are max value are marked, only selected from them.
 			if (maxProjects.some(projectIndex => projects[projectIndex][MARKED_PROPERTY_NAME])) maxProjects = maxProjects.filter(projectIndex => projects[projectIndex][MARKED_PROPERTY_NAME]);
 
-			const selectedProject = maxProjects[Math.floor(rnd.quick() * maxProjects.length)];
+			const selectedProject = maxProjects[Math.floor(rnd() * maxProjects.length)];
 			selectedProjects[selectedProject] = (selectedProjects[selectedProject] || 0) + 1;
 			collaborators[i] = {...collaborators[i], project:selectedProject};
 		}
@@ -257,7 +257,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 		//Which project to communicate about.
 		//TODO: allow overriding this based on different strategies.
-		const projectIndex = Math.floor(rnd.quick() * frame[PROJECTS_PROPERTY_NAME].length);
+		const projectIndex = Math.floor(rnd() * frame[PROJECTS_PROPERTY_NAME].length);
 
 		const senderBeliefs = collaborators[connection.i][BELIEFS_PROPERTY_NAME];
 		const recieverBeliefs = collaborators[connection.j][BELIEFS_PROPERTY_NAME];

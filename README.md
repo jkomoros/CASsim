@@ -119,9 +119,10 @@ workhorse of your simulator, the thing that actually does the whole body of your
 simulation. This should return null when a run of a simulation is finished.
 Typically your generator function will call out to helper functions (for
 example, generating the first frame, determining if a simulation is done, etc.)
-randomGenerator is an object with a method, `quick()`, that will return a number
-between 0.0 and 1.0. This generator is based on the seeded values; use it
-instead of Math.random() to generate deterministic results. 
+randomGenerator is a fucntion that, when called, will return a number between
+0.0 and 1.0, in a deterministic order for this seed. This generator is based on
+the seeded values; use it instead of Math.random() to generate deterministic
+results. 
 
 `frameScorer(frame, normalizedSimOptions) => an array of numbers between 0.0 and
 1.0 or below 0 to signal indeterminate` This method takes a frame and scores it,
