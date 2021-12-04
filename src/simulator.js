@@ -61,6 +61,8 @@ export class BaseSimulator {
 		return [];
 	}
 
+	//The score for the frame. Typically the first number is the 'main' score,
+	//and other numbers are auxilary scores, useful for charting over time.
 	static frameScorer(frame, simOptions) {
 		return [0.0];
 	}
