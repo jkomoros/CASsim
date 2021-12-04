@@ -2,7 +2,6 @@ import { LitElement, html, css } from "lit-element";
 
 import {
 	COLOR_BEHAVIOR_NAME,
-	defaultValueForConfig
 } from "../options.js";
 
 import {
@@ -24,7 +23,8 @@ import {
 } from './my-icons.js';
 
 import {
-	DIALOG_TYPE_ADD_FIELD
+	DIALOG_TYPE_ADD_FIELD,
+	DEFAULT_SENTINEL
 } from '../actions/data.js';
 
 class OptionsControl extends LitElement {
@@ -145,7 +145,7 @@ class OptionsControl extends LitElement {
 
 	_handleAddArrayItem() {
 		const subPath = this.path + '.' + this.value.length;
-		let value = defaultValueForConfig(this.config.example[0]);
+		let value = DEFAULT_SENTINEL;
 		this.dispatchEvent(new CustomEvent('option-changed', {composed: true, detail: {path: subPath, value: value}}));
 	}
 
@@ -157,7 +157,6 @@ class OptionsControl extends LitElement {
 			options: nulledEntries.map(entry => ({
 				path: this.path ? this.path + '.' + entry[0] : entry[0],
 				value: entry[0],
-				default: defaultValueForConfig(example[entry[0]]),
 				description: example[entry[0]].description || '',
 			}))
 		};

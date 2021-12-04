@@ -22,7 +22,8 @@ import {
 	togglePlaying,
 	updateScale,
 	updateKnownDatafiles,
-	updateKnownSimulatorNames
+	updateKnownSimulatorNames,
+	DEFAULT_SENTINEL
 } from "../actions/data.js";
 
 import {
@@ -239,7 +240,7 @@ class SimView extends connect(store)(PageViewElement) {
 		if (!this._dialogOpen) return html``;
 		if (this._dialogType == DIALOG_TYPE_JSON) return html`<textarea readonly style='height:100%; width:100%'>${JSON.stringify(this._rawConfigData, '', '\t')}</textarea>`;
 		return html`
-			${this._dialogExtras.options.map((item, index) => html`<div class='row'><input id=${item.value} type='radio' name='add' .checked=${index == 0} .value=${item.value} .path=${item.path} .default=${item.default}><label for=${item.value}>${item.value}</label>${item.description ? help(item.description) : ''}</div>`)}
+			${this._dialogExtras.options.map((item, index) => html`<div class='row'><input id=${item.value} type='radio' name='add' .checked=${index == 0} .value=${item.value} .path=${item.path}><label for=${item.value}>${item.value}</label>${item.description ? help(item.description) : ''}</div>`)}
 			<div class='row right'><button class='round' @click=${this._handleAddFieldButtonClicked}>${PLUS_ICON}</button></div>
 			`;
 	}
@@ -315,7 +316,7 @@ class SimView extends connect(store)(PageViewElement) {
 			}
 		}
 		if (selectedEle){
-			store.dispatch(updateCurrentSimulationOptions(selectedEle.path, selectedEle.default));
+			store.dispatch(updateCurrentSimulationOptions(selectedEle.path, DEFAULT_SENTINEL));
 		}
 		store.dispatch(closeDialog());
 	}

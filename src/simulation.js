@@ -11,6 +11,7 @@ import {
 	configObjectIsValid,
 	optionsConfigValidator,
 	defaultValueForConfig,
+	configForPath,
 	SIM_PROPERTY,
 	SIM_OPTIONS_PROPERTY
 } from './options.js';
@@ -246,7 +247,7 @@ const Simulation = class {
 		}
 		this._knownSimulatorNames = knownSimulatorNames;
 		const configCopy = deepCopy(config);
-		const rawSimOptions = configCopy[SIM_OPTIONS_PROPERTY] || defaultValueForConfig(this._simulator.optionsConfig);
+		const rawSimOptions = configCopy[SIM_OPTIONS_PROPERTY] || this._simulator.defaultValueForPath('');
 		configCopy[SIM_OPTIONS_PROPERTY] = this._simulator.normalizeOptions(rawSimOptions);
 		const simProblems = this._simulator.optionsValidator(configCopy[SIM_OPTIONS_PROPERTY]) || [];
 		if (simProblems.length) {
@@ -342,6 +343,14 @@ const Simulation = class {
 
 	get repeat() {
 		return this._config[REPEAT_PROPERTY] || DEFAULT_REPEAT;
+	}
+
+	defaultValueForOptionsPath(path) {
+		const parts = path.split('.');
+		if (parts[0] == SIM_OPTIONS_PROPERTY) {
+			return this._simulator.defaultValueForPath(parts.slice(1).join('.'));
+		}
+		return defaultValueForConfig(configForPath(this.optionsConfig, path));
 	}
 
 	get extraFinalFrameCount() {

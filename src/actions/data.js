@@ -24,6 +24,8 @@ export const LISTINGS_JSON_PATH = 'src/listings.json';
 
 export const DEFAULT_FILE_NAME = 'default';
 
+export const DEFAULT_SENTINEL = {default: true};
+
 //When playing forward into the next frame, where do we stop?
 //Frame == stop at the end of a round
 export const PLAY_TYPE_FRAME = 'frame';
@@ -379,6 +381,9 @@ export const updateRunIndex = (index) => (dispatch, getState) => {
 export const updateCurrentSimulationOptions = (path, value) => (dispatch, getState) => {
 	const state = getState();
 	const simulation = selectCurrentSimulation(state);
+	if (value == DEFAULT_SENTINEL) {
+		value = simulation.defaultValueForOptionsPath(path);
+	}
 	const problems = maySetPropertyInConfigObject(simulation.optionsConfig, simulation.config, path, value);
 	if (problems.length) {
 		alert('Invalid modification proposed: ' + path + ': ' + value + ': ' + problems.join(', '));
