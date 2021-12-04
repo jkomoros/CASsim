@@ -146,6 +146,7 @@ class SimView extends connect(store)(PageViewElement) {
 			_width: {type: Number},
 			_scale: {type: Number},
 			_configurationExpanded: {type:Boolean},
+			_runStatues: {type:Object},
 			//Note: this is calculated in this._resizeVisualzation, NOT in state
 			_needsMarginLeft : {type:Boolean},
 		};
@@ -226,7 +227,7 @@ class SimView extends connect(store)(PageViewElement) {
 			</dialog-element>
 			<simulation-controls></simulation-controls>
 			<div class='container ${this._needsMarginLeft ? 'needs-margin-left' : ''}' style='${colors}'>
-				<frame-visualization .simulation=${this._currentSimulation} .frame=${this._currentFrame} .width=${this._width} .height=${this._height} .scale=${this._scale}></frame-visualization>
+				<frame-visualization .simulation=${this._currentSimulation} .frame=${this._currentFrame} .width=${this._width} .height=${this._height} .scale=${this._scale} .runStatuses=${this._runStatuses}></frame-visualization>
 			</div>
 		`;
 	}
@@ -263,6 +264,8 @@ class SimView extends connect(store)(PageViewElement) {
 		this._filename = selectFilename(state);
 		this._scale = selectScale(state);
 		this._configurationExpanded = selectConfigurationExpanded(state);
+
+		this._runStatuses = this._currentSimulation ? this._currentSimulation.runs.map(run => run.finalStatus) : [];
 
 		this.updateComplete.then(() => {
 			window[RENDER_COMPLETE_VARIABLE] = true;

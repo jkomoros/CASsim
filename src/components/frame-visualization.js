@@ -24,6 +24,7 @@ class FrameVisualization extends LitElement {
 			width: {type:Number},
 			height: {type:Number},
 			scale: {type:Number},
+			runStatuses: {type:Object},
 		};
 	}
 
@@ -34,6 +35,16 @@ class FrameVisualization extends LitElement {
 					background-color: var(--override-app-background-color, var(--background-color, transparent));
 				}
 				
+				run-summary {
+					/* TODO: make it size based on scale */
+					z-index: 1;
+					position: absolute;
+					bottom: -1em;
+					left: 0;
+					width:100%;
+					height: 1em;
+				}
+
 				.container {
 					position:relative;
 				}
@@ -46,6 +57,7 @@ class FrameVisualization extends LitElement {
 		const scale = this.scale || 1.0;
 		return html`
 		<div class='container' style='height:${this.height * scale}px; width: ${this.width * scale}px'>
+			${this.runStatuses ? html`<run-summary .statuses=${this.runStatuses}></run-summary>` : ''}
 			${this._renderer()}
 		</div>
 		`;
