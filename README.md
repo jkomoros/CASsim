@@ -79,6 +79,10 @@ these by hand in the JSON, by carefully reading the documentation for simulatorO
 
 ## Creating a new Simulator type
 
+The harness comes with a couple of pre-built agent based models (`schelling-org` and `dice-roll-demo` currently). That allows you to play around with those models, but not create your own.
+
+If you want to model your own problem, you'll likely want to create your own type of simulator. This section describes how to do that.
+
 In the `src/simulators/` directory, copy `dice-roll-demo.js` (a simulator that is extremely simple) to whatever file name you want. Then, customize the file. Note that the name property of your class must match the name of the file.
 
 (If you want the new simulator to immediately show up in the drop down in the simulator options, you'll need to run `gulp generate-listings-json`. That will be run automatically when building or deploying.)
