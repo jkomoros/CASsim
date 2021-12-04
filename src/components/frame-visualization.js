@@ -28,15 +28,17 @@ class FrameVisualization extends LitElement {
 				run-summary {
 					/* TODO: make it size based on scale */
 					z-index: 1;
-					position: absolute;
-					bottom: -1em;
+					position: relative;
+					bottom: 0em;
 					left: 0;
 					width:100%;
 					height: 1em;
 				}
 
-				.container {
+				.renderer {
 					position:relative;
+					top:0;
+					left:0;
 				}
 			
 			`
@@ -46,9 +48,11 @@ class FrameVisualization extends LitElement {
 	render() {
 		const scale = this.scale || 1.0;
 		return html`
-		<div class='container' style='height:${this.height * scale}px; width: ${this.width * scale}px; font-size:${DEFAULT_FONT_SIZE_PX_HEIGHT * scale}px'>
+		<div class='container' style='font-size:${DEFAULT_FONT_SIZE_PX_HEIGHT * scale}px'>
+			<div class='renderer' style='height:${this.height * scale}px; width: ${this.width * scale}px; font-size:${DEFAULT_FONT_SIZE_PX_HEIGHT * scale}px'>
+				${this._renderer()}
+			</div>
 			${this.runStatuses ? html`<run-summary .statuses=${this.runStatuses}></run-summary>` : ''}
-			${this._renderer()}
 		</div>
 		`;
 	}

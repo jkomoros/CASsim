@@ -404,7 +404,7 @@ const Simulation = class {
 				},
 				[HEIGHT_PROPERTY]: {
 					example: 450,
-					description: 'The height of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal height in pixels.',
+					description: 'The height of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal height in pixels--although if ' + DISPLAY_PROPERTY + '.' + STATUS_DISPLAY_PROPERTY + ' is true then it will be slightly taller.',
 					advanced: true
 				},
 				[FRAME_DELAY_PROPERTY]: {
