@@ -56,9 +56,9 @@ Arrow keys left or right to move forward or backward in state. Spacebar toggles 
 
 The main config that will be loaded up is `data/default.json`. You can also create additional config files in that directory, and load them by changing the `default` in the URL to be the filename of the json file you want to load.
 
-Run `npm run generate` to generate screenshots, one for each state in your `data/default.json`, blowing away whatever was in the screenshots/ directory.
+Run `gulp generate` to generate screenshots, one for each state in your `data/default.json`, blowing away whatever was in the screenshots/ directory.
 
-If you only want to generate the screenshots, not the gifs, run `npm run generate:screenshot`. If you only want to generate the gifs based on already-generated screenshots, run `npm run generate:gif`.
+If you only want to generate the screenshots, not the gifs, run `gulp generate:screenshot`. If you only want to generate the gifs based on already-generated screenshots, run `gulp generate:gif`.
 
 ## Deploying
 

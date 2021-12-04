@@ -57,6 +57,10 @@ gulp.task('polymer-build', makeExecutor('polymer build'));
 
 gulp.task('firebase-deploy', makeExecutor('firebase deploy'));
 
+gulp.task('generate', makeExecutor('node screenshot.js'));
+gulp.task('generate:screenshot', makeExecutor('node screenshot.js screenshot'));
+gulp.task('generate:gif', makeExecutor('node screenshot.js gif'));
+
 gulp.task('generate-json', gulp.series(
 	'generate-polymer-json',
 	'generate-listings-json'

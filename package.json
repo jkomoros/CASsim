@@ -13,10 +13,7 @@
     "serve": "prpl-server --root server/build",
     "serve:static": "polymer serve --port 5000 build/es5-bundled",
     "test": "npm run test:options",
-    "test:options": "mocha -r esm test/options --timeout=10000",
-    "generate": "node screenshot.js",
-    "generate:screenshot": "node screenshot.js screenshot",
-    "generate:gif": "node screenshot.js gif"
+    "test:options": "mocha -r esm test/options --timeout=10000"
   },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.4",
