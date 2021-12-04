@@ -46,3 +46,9 @@ If you only want to generate the screenshots, not the gifs, run `npm run generat
 ## Deploying
 
 `gulp deploy`
+
+## Creating a new Simulator type
+
+Create a new file in the src/simulators directory, copying an existing one and tweaking
+
+Run `gulp generate-listings-json` to get the new sim type to show up in the simulation controls. (This is run for you automatically when you build or deploy)
