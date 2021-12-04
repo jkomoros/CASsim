@@ -21,6 +21,7 @@ const CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME = 'connectionLikelihoodSpread';
 const INDIVIDUALS_PROPERTY_NAME = 'individuals';
 const MARKED_PROPERTY_NAME = 'marked';
 const EPSILON_PROPERTY_NAME = 'epsilon';
+const BELIEFS_PROPERTY_NAME = 'beliefs';
 
 
 const DEFAULT_EMOJIS = [
@@ -197,7 +198,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 			//We do this within the loop because later each collaborator will have their own beliefs.
 			let maxProjectValue = 0.0;
 			let maxProjects = [];
-			for (const [projectIndex, projectBelief] of collaborator.beliefs.entries()) {
+			for (const [projectIndex, projectBelief] of collaborator[BELIEFS_PROPERTY_NAME].entries()) {
 				if (Math.abs(projectBelief - maxProjectValue) < collaborators[i].epsilon) {
 					//Effectively equal
 					maxProjects.push(projectIndex);
@@ -258,8 +259,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 		//TODO: allow overriding this based on different strategies.
 		const projectIndex = Math.floor(rnd.quick() * frame[PROJECTS_PROPERTY_NAME].length);
 
-		const senderBeliefs = collaborators[connection.i].beliefs;
-		const recieverBeliefs = collaborators[connection.j].beliefs;
+		const senderBeliefs = collaborators[connection.i][BELIEFS_PROPERTY_NAME];
+		const recieverBeliefs = collaborators[connection.j][BELIEFS_PROPERTY_NAME];
 
 		const senderProjectBelief = senderBeliefs[projectIndex];
 		const receiverProjectBelief = recieverBeliefs[projectIndex];
@@ -319,8 +320,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const numProjects = normalizedSimOptions[PROJECTS_PROPERTY_NAME].count;
 		for (const [i, individual] of individuals.entries()) {
 			if (!individual) continue;
-			if (!individual.beliefs) continue;
-			if (individual.beliefs.length != numProjects) return ['Collaborator ' + i + ' had beliefs provided but they didn\'t match the number of projects'];
+			if (!individual[BELIEFS_PROPERTY_NAME]) continue;
+			if (individual[BELIEFS_PROPERTY_NAME].length != numProjects) return ['Collaborator ' + i + ' had beliefs provided but they didn\'t match the number of projects'];
 		}
 		return [];
 	}
@@ -367,6 +368,21 @@ class SchellingOrgSimulator extends BaseSimulator {
 			problems.push('Connections is not provided');
 		}
 		return problems;
+	}
+
+	defaultValueForPath(path, simOptions) {
+		const parts = path.split('.');
+		const lastPart = parts[parts.length -1];
+		if (lastPart == BELIEFS_PROPERTY_NAME){
+			const base = super.defaultValueForPath(path, simOptions);
+			const length = simOptions[PROJECTS_PROPERTY_NAME].count;
+			const result = [];
+			for (let i = 0; i < length; i++) {
+				result.push(base[0]);
+			}
+			return result;
+		}
+		return super.defaultValueForPath(path, simOptions);
 	}
 	
 	get optionsConfig() {
