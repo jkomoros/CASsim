@@ -471,7 +471,7 @@ export const updateKnownDatafiles = (datafiles) => (dispatch) => {
 	});
 };
 
-export const updateKnownSimulators = (simulatorNames) => (dispatch) => {
+export const updateKnownSimulatorNames = (simulatorNames) => (dispatch) => {
 	if (!Array.isArray(simulatorNames)) {
 		console.warn('simulatorsNames is not an array');
 		return;
