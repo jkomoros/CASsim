@@ -95,7 +95,7 @@ Your customizable simulator is a class that must have the methods described belo
 the same as the name of the file in the src/simulators/ directory. Will show up
 in the URL.
 
-`get optionsConfig() optionsConfig` - Describes the configuration options
+`get optionsConfig() => optionsConfig` - Describes the configuration options
 specific to this simulator, their legal values, and what they mean. This
 generates the UI and also drives a lot of validation behavior. See the
 optionsConfig section below for more.
@@ -140,7 +140,7 @@ yet finished (a negative number).
 problems, or [] if OK` - This method is optional, just to ensure for yourself
 that your generator hasn't output invalid frames.
 
-`defaultValueForPath(path, normalizedSimOptions) value` - Returns the default
+`defaultValueForPath(path, normalizedSimOptions) => value` - Returns the default
 value for the property at path, where path is something like
 `collaborators.individuals.0' that selects into your simOptions object.
 Typically you can leave this as what BaseSimulator does. But for some
@@ -148,7 +148,7 @@ properties, you need custom logic to generate a legal default. For example, if
 there's extra validation you do in optionsValidator then you might need to do
 special case behavior in this.
 
-`renderer()` - Should return a new custom element ready to be inserted into the
+`renderer() => CustomElementInstance` - Should return a new custom element ready to be inserted into the
 DOM. The result will be cached and typically reused many times. See more about
 renderers below.
 
