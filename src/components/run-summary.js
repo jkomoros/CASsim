@@ -33,7 +33,7 @@ class RunSummary extends LitElement {
 			}
 			
 			.status {
-				border: 1px solid white;
+				border: 0.0625em solid white;
 				height: 1.5em;
 				background-color: gray;
 				cursor: pointer;
@@ -42,7 +42,7 @@ class RunSummary extends LitElement {
 			}
 
 			.status.selected {
-				border: 1px solid black;
+				border: 0.0625em solid black;
 			}
 
 			.status.failure {
