@@ -45,7 +45,8 @@ import {
 	selectSimulationIndex,
 	selectRunIndex,
 	selectScale,
-	selectConfigurationExpanded
+	selectConfigurationExpanded,
+	selectResizeVisualization
 } from "../selectors.js";
 
 // We are lazy loading its reducer.
@@ -149,6 +150,7 @@ class SimView extends connect(store)(PageViewElement) {
 			_runStatues: {type:Object},
 			//Note: this is calculated in this._resizeVisualzation, NOT in state
 			_needsMarginLeft : {type:Boolean},
+			_resizeVisualization: {type:Boolean},
 		};
 	}
 
@@ -264,6 +266,7 @@ class SimView extends connect(store)(PageViewElement) {
 		this._filename = selectFilename(state);
 		this._scale = selectScale(state);
 		this._configurationExpanded = selectConfigurationExpanded(state);
+		this._resizeVisualization = selectResizeVisualization(state);
 
 		this._runStatuses = this._currentSimulation && this._currentSimulation.displayStatus ? this._currentSimulation.runs.map(run => run.finalStatus) : null;
 
@@ -275,6 +278,12 @@ class SimView extends connect(store)(PageViewElement) {
 	//Should be called any time the scale of visualization might need to change.
 	//width, height, configurationExpanded, or page resizes
 	resizeVisualization() {
+
+		if (!this._resizeVisualization) {
+			store.dispatch(updateScale(1.0));
+			return;
+		}
+
 		const pageRect = this.getBoundingClientRect();
 		const configurationOptionsEle = this.shadowRoot.querySelector('simulation-controls');
 		if (!configurationOptionsEle) {
@@ -350,7 +359,7 @@ class SimView extends connect(store)(PageViewElement) {
 		if (changedProps.has('_currentFrame')) {
 			store.dispatch(canonicalizePath());
 		}
-		if (changedProps.has('_height') || changedProps.has('_width') || changedProps.has('_configurationExpanded')) {
+		if (changedProps.has('_height') || changedProps.has('_width') || changedProps.has('_configurationExpanded') || changedProps.has('_resizeVisualization')) {
 			this.resizeVisualization();
 		}
 	}

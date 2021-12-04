@@ -20,6 +20,7 @@ export const selectScale = state => state.data ? state.data.scale : 1.0;
 export const selectLoadedSimulators = state => state.data ? state.data.loadedSimulators : {};
 export const selectKnownDatafiles = state => state.data ? state.data.knownDatafiles : [];
 export const selectKnownSimulatorNames = state => state.data ? state.data.knownSimulatorNames : [];
+export const selectResizeVisualization = state => state.data ? state.data.resizeVisualization : false;
 
 export const selectDialogOpen = state => state.data ? state.data.dialogOpen : false;
 export const selectDialogType = state => state.data ? state.data.dialogType : '';

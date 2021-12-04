@@ -14,6 +14,7 @@ export const UPDATE_SCALE = 'UPDATE_SCALE';
 export const SIMULATOR_LOADED = 'SIMULATOR_LOADED';
 export const UPDATE_KNOWN_SIMULATOR_NAMES = 'UPDATE_KNOWN_SIMULATOR_NAMES';
 export const UPDATE_KNOWN_DATAFILES = 'UPDATE_KNOWN_DATAFILES';
+export const UPDATE_RESIZE_VISUALIZATION = 'UPDATE_RESIZE_VISUALIZATION';
 
 export const DIALOG_TYPE_JSON = 'json';
 export const DIALOG_TYPE_ADD_FIELD = 'add-field';
@@ -59,7 +60,8 @@ import {
 	selectFrameDelay,
 	selectDelayCount,
 	selectLoadedSimulators,
-	selectRawConfigData
+	selectRawConfigData,
+	selectScale
 } from '../selectors.js';
 
 import {
@@ -446,11 +448,12 @@ export const updateConfigurationExpanded = (expanded) => {
 	};
 };
 
-export const updateScale = (scale) => {
-	return {
+export const updateScale = (scale) => (dispatch, getState) => {
+	if (scale == selectScale(getState())) return;
+	dispatch({
 		type: UPDATE_SCALE,
 		scale,
-	};
+	});
 };
 
 export const simulatorLoaded = (simulatorConstructor) => (dispatch) => {
@@ -487,4 +490,11 @@ export const updateKnownSimulatorNames = (simulatorNames) => (dispatch) => {
 		type: UPDATE_KNOWN_SIMULATOR_NAMES,
 		simulatorNames,
 	});
+};
+
+export const updateResizeVisualization = (resize) => {
+	return {
+		type: UPDATE_RESIZE_VISUALIZATION,
+		resize,
+	};
 };

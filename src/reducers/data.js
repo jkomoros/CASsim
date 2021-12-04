@@ -15,6 +15,7 @@ import {
 	SIMULATOR_LOADED,
 	UPDATE_KNOWN_DATAFILES,
 	UPDATE_KNOWN_SIMULATOR_NAMES,
+	UPDATE_RESIZE_VISUALIZATION,
 
 	DIALOG_TYPE_JSON,
 	DEFAULT_FILE_NAME,
@@ -37,6 +38,7 @@ const INITIAL_STATE = {
 	playType: PLAY_TYPE_ROUND,
 	playing: false,
 	delayCount: 0,
+	resizeVisualization: true,
 	scale: 1.0,
 	//Whether the whole controls is visible or not
 	showControls: true,
@@ -133,6 +135,11 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			knownSimulatorNames: action.simulatorNames
+		};
+	case UPDATE_RESIZE_VISUALIZATION:
+		return {
+			...state,
+			resizeVisualization: action.resize,
 		};
 	default:
 		return state;
