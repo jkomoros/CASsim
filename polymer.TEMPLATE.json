@@ -6,6 +6,7 @@
 		"data/**/*"
 	],
 	"extraDependencies": [
+		"src/listings.json",
 		"manifest.json",
 		"node_modules/@webcomponents/webcomponentsjs/**",
 		"push-manifest.json"
