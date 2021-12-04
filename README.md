@@ -3,7 +3,7 @@ CASsim stands for Complex Adaptive Systems simulator.
 
 This is a very basic harness and framework to make configurable, interactive agent based models and then generate animated screenshots of their results.
 
-It's in a very messy, hacky state, and currently only supports a single simulation type, `schelling-org`. Over time I'll make it more generalized and polished.
+It's in a very messy, hacky state, but I'm continuing to work on it. File an issue with thoughts on how to improve it!
 
 You can see a live demo at [https://cassim-viewer.web.app/](https://cassim-viewer.web.app/)
 
