@@ -23,7 +23,8 @@ import {
 	updateScale,
 	updateKnownDatafiles,
 	updateKnownSimulatorNames,
-	DEFAULT_SENTINEL
+	DEFAULT_SENTINEL,
+	updateResizeVisualization
 } from "../actions/data.js";
 
 import {
@@ -75,6 +76,7 @@ window[PREVIOUS_FRAME_METHOD_VARIABLE] = () => {
 window[SETUP_METHOD_VARIABLE] = () => {
 	//This is the setup that the screenshot service will call before starting screenshots
 	store.dispatch(updateShowControls(false));
+	store.dispatch(updateResizeVisualization(false));
 	store.dispatch(updatePlayType(PLAY_TYPE_SIMULATION));
 	store.dispatch(advanceToLastFrameInConfig());
 };
