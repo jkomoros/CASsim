@@ -323,6 +323,19 @@ export const defaultValueForConfig = (optionsConfig, skipOptional) => {
 	return example;
 };
 
+export const configForPath = (optionsConfig, path) => {
+	const parts = path.split('.');
+	const firstPart = parts[0];
+	const restParts = parts.slice(1).join('.');
+	if (!firstPart) return optionsConfig;
+	if (!optionsConfig) return undefined;
+	if (optionsConfig[firstPart]) return configForPath(optionsConfig[firstPart], restParts);
+	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
+	if (!example) return undefined;
+	if (Array.isArray(example)) return configForPath(example[0], restParts);
+	return configForPath(example[firstPart], restParts);
+};
+
 export const setSimPropertyInConfig = (obj, path, value) => {
 	//When we switch sim name, we should wipe away all of simOptions, allowing
 	//it to be set to the default based on the simOptionsConfig, because the

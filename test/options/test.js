@@ -10,7 +10,8 @@ import {
 import {
 	maySetPropertyInConfigObject,
 	optionsConfigValidator,
-	defaultValueForConfig
+	defaultValueForConfig,
+	configForPath
 } from '../../src/options.js';
 
 import assert from 'assert';
@@ -1696,6 +1697,70 @@ describe('defaultValueForConfig', () => {
 		const golden = {
 			foo: [],
 			bar: 4
+		};
+		assert.deepEqual(result, golden);
+	});
+
+});
+
+describe('configForPath', () => {
+	it('handles null object', async () => {
+		const config = null;
+		const result = configForPath(config, 'foo');
+		const golden = undefined;
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles top level get', async () => {
+		const config = {
+			example: 3,
+		};
+		const result = configForPath(config, '');
+		const golden = config;
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles basic example object get', async () => {
+		const config = {
+			example: {
+				foo: {
+					example: 3,
+				}
+			}
+		};
+		const result = configForPath(config, 'foo');
+		const golden = {
+			example: 3
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles basic non-example object get', async () => {
+		const config = {
+			foo: {
+				example: 3,
+			}
+		};
+		const result = configForPath(config, 'foo');
+		const golden = {
+			example: 3
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles array get', async () => {
+		const config = {
+			foo: {
+				example: [
+					{
+						example: 3
+					}
+				]
+			}
+		};
+		const result = configForPath(config, 'foo.0');
+		const golden = {
+			example: 3
 		};
 		assert.deepEqual(result, golden);
 	});
