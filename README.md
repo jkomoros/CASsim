@@ -51,7 +51,7 @@ Run `polymer serve` from command line.
 
 Visit http://localhost:8081
 
-Arrow keys left or right to move forward or backward in state.
+Arrow keys left or right to move forward or backward in state. Spacebar toggles play/pause.
 
 The main config that will be loaded up is `data/default.json`. You can also create additional config files in that directory, and load them by changing the `default` in the URL to be the filename of the json file you want to load.
 
@@ -61,7 +61,13 @@ If you only want to generate the screenshots, not the gifs, run `npm run generat
 
 ## Deploying
 
+If you want to deploy to firebase hosting, set up a firebase project. Then run `firebase use <PROJECT-ID>`.
+
+Now, you can deploy whenever you want to:
+
 `gulp deploy`
+
+Your web app will now be available at `https://<PROJECT-ID>.web.app/`
 
 ## Creating a new Simulator type
 
