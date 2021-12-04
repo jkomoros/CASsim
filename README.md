@@ -287,6 +287,12 @@ Your simulator custom element will receive the following properties:
 simulator, the thing that `generator()` emits. Anything you need to render your
 simulation deterministically should be included in the frame.
 
+Your renderer will have a `font-size` targeted at it that will keep the font the
+same notional size to scale with the overal visualization as it scales.
+
+Your renderer will also have have CSS variables of the form: `--primary-color`,
+etc, targeted at it, based on your simulation configuration.
+
 Your renderer will be placed in a container that will be sized to the same
 aspect ratio as the simulations width/height, although perhaps a different value
 than the literal value of pixels, because it's sized to fit the available space.
