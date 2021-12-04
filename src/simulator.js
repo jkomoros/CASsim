@@ -5,7 +5,7 @@ import { LitElement, html, css} from "lit-element";
 /*
 	Simulators are classes that have the following static methods:
 
-	name() - Returns the name of the simulator, e.g. 'schelling-org'. Must be
+	get name() - Returns the name of the simulator, e.g. 'schelling-org'. Must be
 	the same as the name of the file in the src/simulators/ directory.
 
 	optionsValidator(normalizedSimOptions) => array of problem strings, or [] if
@@ -33,7 +33,7 @@ import { LitElement, html, css} from "lit-element";
 	frameValidator(frame, normalizedSimOptions) => array of strings defining
 	problems, or [] if OK
 
-	optionsConfig() optionsConfig - Describes the options, their legal values,
+	get optionsConfig() optionsConfig - Describes the options, their legal values,
 	and what they mean. See optionsConfig shape, below.
 
 	renderer() - Should return a custom element ready to be inserted into the
@@ -42,44 +42,50 @@ import { LitElement, html, css} from "lit-element";
 */
 export class BaseSimulator {
 
-	static name() {
+	//Your simulator constructor will be passed no state, and shouldn't store any kind of state.
+	//The only reason it's non-static is so this class can call subClasses's overriden methods.
+	constructor() {
+
+	}
+
+	get name() {
 		return 'INVALID-NAME';
 	}
 
-	static generator(previousFrames, simOptions, rnd) {
+	generator(previousFrames, simOptions, rnd) {
 		return {};
 	}
 
-	static normalizeOptions(rawSimOptions) {
+	normalizeOptions(rawSimOptions) {
 		return rawSimOptions;
 	}
 
 	//Typically your options are mostly validated based on the configuration you
 	//return from optionsConfig. This method is only necessary to override if
 	//you need additional validation not handled by that default machinery.
-	static optionsValidator(normalizedSimOptions) {
+	optionsValidator(normalizedSimOptions) {
 		return [];
 	}
 
 	//The score for the frame. Typically the first number is the 'main' score,
 	//and other numbers are auxilary scores, useful for charting over time.
-	static frameScorer(frame, simOptions) {
+	frameScorer(frame, simOptions) {
 		return [0.0];
 	}
 
-	static successScorer(frameScore) {
+	successScorer(frameScore) {
 		return frameScore[0];
 	}
 
-	static frameValidator(frame) {
+	frameValidator(frame) {
 		return [];
 	}
 	
-	static optionsConfig() {
+	get optionsConfig() {
 		return {};
 	}
 
-	static renderer() {
+	renderer() {
 		return new StubSimulatorRenderer();
 	}
 }

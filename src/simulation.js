@@ -246,7 +246,7 @@ const Simulation = class {
 		}
 		this._knownSimulatorNames = knownSimulatorNames;
 		const configCopy = deepCopy(config);
-		const rawSimOptions = configCopy[SIM_OPTIONS_PROPERTY] || defaultValueForConfig(this._simulator.optionsConfig());
+		const rawSimOptions = configCopy[SIM_OPTIONS_PROPERTY] || defaultValueForConfig(this._simulator.optionsConfig);
 		configCopy[SIM_OPTIONS_PROPERTY] = this._simulator.normalizeOptions(rawSimOptions);
 		const simProblems = this._simulator.optionsValidator(configCopy[SIM_OPTIONS_PROPERTY]) || [];
 		if (simProblems.length) {
@@ -350,7 +350,7 @@ const Simulation = class {
 
 	get optionsConfig() {
 		if (this._optionConfig) return this._optionConfig;
-		const simOptionsConfig = this._simulator.optionsConfig();
+		const simOptionsConfig = this._simulator.optionsConfig;
 		const problems = optionsConfigValidator(simOptionsConfig);
 		if (problems.length) {
 			throw new Error('Invalid simOptions: ' + problems.join(', '));

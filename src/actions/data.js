@@ -448,12 +448,13 @@ export const updateScale = (scale) => {
 	};
 };
 
-export const simulatorLoaded = (simulator) => (dispatch) => {
-	if (!simulator) {
+export const simulatorLoaded = (simulatorConstructor) => (dispatch) => {
+	if (!simulatorConstructor) {
 		console.warn('No simulator provided');
 		return;
 	}
-	const name = simulator.name();
+	const simulator = new simulatorConstructor();
+	const name = simulator.name;
 	SIMULATORS[name] = simulator;
 	dispatch({
 		type: SIMULATOR_LOADED,

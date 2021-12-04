@@ -19,11 +19,11 @@ Sim options shape:
 class DiceRollDemoSimulator extends BaseSimulator {
 
 	//Remember that the name must be the same as the filename of this file
-	static name() {
+	get name() {
 		return 'dice-roll-demo';
 	}
 
-	static _firstFrameGenerator(simOptions) {
+	_firstFrameGenerator(simOptions) {
 		return {
 			...simOptions,
 			index: 0,
@@ -34,11 +34,11 @@ class DiceRollDemoSimulator extends BaseSimulator {
 		};
 	}
 
-	static _frameSimulationComplete(frame) {
+	_frameSimulationComplete(frame) {
 		return frame.success || frame.busted;
 	}
 
-	static _diceRoll(frame, rnd) {
+	_diceRoll(frame, rnd) {
 		//We want numbers 1 .. frame.die (inclusive)
 		const newRoll = Math.floor(rnd.quick() * frame.die) + 1;
 		frame.lastRoll = newRoll;
@@ -53,21 +53,21 @@ class DiceRollDemoSimulator extends BaseSimulator {
 		}
 	}
 
-	static generator(previousFrames, simOptions, rnd) {
-		if (!previousFrames.length) return DiceRollDemoSimulator._firstFrameGenerator(simOptions);
+	generator(previousFrames, simOptions, rnd) {
+		if (!previousFrames.length) return this._firstFrameGenerator(simOptions);
 		const lastFrame = previousFrames[previousFrames.length - 1];
-		if (DiceRollDemoSimulator._frameSimulationComplete(lastFrame)) return null;
+		if (this._frameSimulationComplete(lastFrame)) return null;
 		const frame = {...lastFrame, index: previousFrames.length};
-		DiceRollDemoSimulator._diceRoll(frame, rnd);
+		this._diceRoll(frame, rnd);
 		return frame;
 	}
 
-	static frameScorer(frame) {
-		const finalScore = DiceRollDemoSimulator._frameSimulationComplete(frame) ? (frame.success ? 1.0 : 0.0) : -1;
+	frameScorer(frame) {
+		const finalScore = this._frameSimulationComplete(frame) ? (frame.success ? 1.0 : 0.0) : -1;
 		return [finalScore, frame.score];
 	}
 
-	static frameValidator(frame) {
+	frameValidator(frame) {
 		if (frame.busted === undefined) return ['No busted property'];
 		if (frame.score === undefined) return ['No score property'];
 		if (frame.lastRoll === undefined) return ['No last roll property'];
@@ -75,7 +75,7 @@ class DiceRollDemoSimulator extends BaseSimulator {
 		return [];
 	}
 	
-	static optionsConfig() {
+	get optionsConfig() {
 		return {
 			'die': {
 				example: 6,
@@ -92,7 +92,7 @@ class DiceRollDemoSimulator extends BaseSimulator {
 		};
 	}
 
-	static renderer() {
+	renderer() {
 		return new DiceRollDemoRenderer();
 	}
 }

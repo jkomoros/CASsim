@@ -99,11 +99,11 @@ Sim options shape:
 
 class SchellingOrgSimulator extends BaseSimulator {
 
-	static name() {
+	get name() {
 		return SCHELLING_ORG_SIMULATION_NAME;
 	}
 
-	static _firstFrameGenerator(simOptions, rnd) {
+	_firstFrameGenerator(simOptions, rnd) {
 		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
 		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
 		const projectExtraValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_EXTRA_VALUE_PROPERTY_NAME];
@@ -182,7 +182,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		};
 	}
 
-	static _selectFinalProject(frame, simOptions, rnd) {
+	_selectFinalProject(frame, simOptions, rnd) {
 		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
 		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
 		let projects = [...frame[PROJECTS_PROPERTY_NAME]];
@@ -235,7 +235,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		};
 	}
 
-	static _communicationRound(frame, rnd) {
+	_communicationRound(frame, rnd) {
 
 		//Copy connections
 		let connections = frame[CONNECTIONS_PROPERTY_NAME].map(connection => ({...connection}));
@@ -279,17 +279,17 @@ class SchellingOrgSimulator extends BaseSimulator {
 		};
 	}
 
-	static generator(previousFrames, simOptions, rnd) {
+	generator(previousFrames, simOptions, rnd) {
 		const communicationRounds = simOptions[COMMUNICATION_PROPERTY_NAME];
 		if (previousFrames.length > communicationRounds) return null;
-		let frame = previousFrames.length ? previousFrames[previousFrames.length - 1] : SchellingOrgSimulator._firstFrameGenerator(simOptions, rnd);
+		let frame = previousFrames.length ? previousFrames[previousFrames.length - 1] : this._firstFrameGenerator(simOptions, rnd);
 		frame = {...frame, index: previousFrames.length};
-		if (frame.index < communicationRounds) frame = SchellingOrgSimulator._communicationRound(frame, rnd);
-		if (frame.index == communicationRounds) frame = SchellingOrgSimulator._selectFinalProject(frame, simOptions, rnd);
+		if (frame.index < communicationRounds) frame = this._communicationRound(frame, rnd);
+		if (frame.index == communicationRounds) frame = this._selectFinalProject(frame, simOptions, rnd);
 		return frame;
 	}
 
-	static normalizeOptions(rawSimOptions) {
+	normalizeOptions(rawSimOptions) {
 		rawSimOptions[COMMUNICATION_PROPERTY_NAME] = rawSimOptions[COMMUNICATION_PROPERTY_NAME] || 0.0;
 		if (!rawSimOptions[COLLABORATORS_PROPERTY_NAME]) {
 			rawSimOptions[COLLABORATORS_PROPERTY_NAME] = {
@@ -312,7 +312,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		return rawSimOptions;
 	}
 
-	static optionsValidator(normalizedSimOptions) {
+	optionsValidator(normalizedSimOptions) {
 		//Our validations are mainly served by the config in optionsConfig.
 		const individuals = normalizedSimOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
 		if (!individuals) return [];
@@ -325,7 +325,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		return [];
 	}
 
-	static frameScorer(frame, simOptions) {
+	frameScorer(frame, simOptions) {
 		const communicationRounds = simOptions[COMMUNICATION_PROPERTY_NAME];
 		//If we aren't done yet signal indeterminate.
 		if (frame.index < communicationRounds) return [-1];
@@ -336,7 +336,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		return [0.0];
 	}
 
-	static frameValidator(frame) {
+	frameValidator(frame) {
 		const problems = [];
 		const projects = frame[PROJECTS_PROPERTY_NAME];
 		const collaborators = frame[COLLABORATORS_PROPERTY_NAME];
@@ -369,7 +369,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		return problems;
 	}
 	
-	static optionsConfig() {
+	get optionsConfig() {
 		return {
 			[DISPLAY_PROPERTY_NAME]: {
 				example: {
@@ -505,7 +505,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		};
 	}
 
-	static renderer() {
+	renderer() {
 		return new SchellingOrgRenderer();
 	}
 }
