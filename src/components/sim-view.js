@@ -265,7 +265,7 @@ class SimView extends connect(store)(PageViewElement) {
 		this._scale = selectScale(state);
 		this._configurationExpanded = selectConfigurationExpanded(state);
 
-		this._runStatuses = this._currentSimulation ? this._currentSimulation.runs.map(run => run.finalStatus) : [];
+		this._runStatuses = this._currentSimulation && this._currentSimulation.displayStatus ? this._currentSimulation.runs.map(run => run.finalStatus) : null;
 
 		this.updateComplete.then(() => {
 			window[RENDER_COMPLETE_VARIABLE] = true;

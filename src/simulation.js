@@ -35,6 +35,11 @@ import {
 	"seed": "abc",
 	//if true, then it will automatically run all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.
 	"autoRun": true,
+	//Configures whether or not to display certain things. May be omitted.
+	"display": {
+		//If true, then a status line will be rendered beneath the diagram.
+		"status": true,
+	},
 	"colors": {
 		"primary": "#fb8c00",
 		"secondary": "#51b9a3",
@@ -61,6 +66,8 @@ const COLOR_BACKGROUND_PROPERTY = 'background';
 const DESCRIPTION_PROPERTY = 'description';
 const AUTO_GENERATE_PROPERTY = 'autoGenerate';
 const AUTO_PLAY_PROPERTY = 'autoPlay';
+const DISPLAY_PROPERTY = 'display';
+const STATUS_DISPLAY_PROPERTY = 'status';
 
 //Also duplicated into screenshot.js
 const NAME_PROPERTY = 'name';
@@ -310,6 +317,14 @@ const Simulation = class {
 		return this._config[FRAME_DELAY_PROPERTY] || DEFAULT_FRAME_DELAY;
 	}
 
+	get display() {
+		return this._config[DISPLAY_PROPERTY] || {};
+	}
+
+	get displayStatus() {
+		return this.display[STATUS_DISPLAY_PROPERTY] ? true : false;
+	}
+
 	get width() {
 		return this._config[WIDTH_PROPERTY];
 	}
@@ -432,6 +447,18 @@ const Simulation = class {
 					description: 'The number of additional frames to pause at the end of a round',
 					advanced: true,
 					optional: true
+				},
+				[DISPLAY_PROPERTY]: {
+					example: {
+						[STATUS_DISPLAY_PROPERTY]: {
+							example: false,
+							description: "If provided, will render a status line of runs summary beneath the visuazliation, including in the screenshot output",
+							optional: true,
+						}
+					},
+					description: 'Properties to configure optional display characteristics',
+					optional: true,
+					advanced: true,
 				},
 				[COLORS_PROPERTY]: {
 					example: {
