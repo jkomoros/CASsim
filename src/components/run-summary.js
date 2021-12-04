@@ -29,10 +29,10 @@ class RunSummary extends LitElement {
 			span {
 				color: var(--dark-gray-color);
 				font-weight: bold;
+				width: 3.0em;
 			}
 
 			.output {
-				margin-left: 0.25em;
 				flex-grow: 1;
 				display: flex;
 				flex-direction: row;
