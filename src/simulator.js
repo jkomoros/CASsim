@@ -5,7 +5,8 @@ import { LitElement, html, css} from "lit-element";
 /*
 	Simulators are classes that have the following static methods:
 
-	name() - Returns the name of the simulator, e.g. 'schelling-org'
+	name() - Returns the name of the simulator, e.g. 'schelling-org'. Must be
+	the same as the name of the file in the src/simulators/ directory.
 
 	optionsValidator(normalizedSimOptions) => array of problem strings, or [] if
 	OK. Note that the harness will already check for config problems against
@@ -35,7 +36,8 @@ import { LitElement, html, css} from "lit-element";
 	optionsConfig() optionsConfig - Describes the options, their legal values,
 	and what they mean. See optionsConfig shape, below.
 
-	renderer() - Should return a custom element ready to be inserted into the DOM.
+	renderer() - Should return a custom element ready to be inserted into the
+	DOM.
 
 */
 export class BaseSimulator {
