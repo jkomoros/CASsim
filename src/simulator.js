@@ -41,7 +41,7 @@ import {
 	get optionsConfig() optionsConfig - Describes the options, their legal
 	values, and what they mean. See optionsConfig shape, below.
 
-	defaultValueForPath(path) value - Returns the default value for the property
+	defaultValueForPath(path, normalizedSimOptions) value - Returns the default value for the property
 	at path. Typically you can leave this as what BaseSimulator does. But for
 	some properties, you need custom logic to generate a legal default. For
 	example, if there's extra validation you do in optionsValidator then you
@@ -96,7 +96,7 @@ export class BaseSimulator {
 		return {};
 	}
 
-	defaultValueForPath(path) {
+	defaultValueForPath(path, simOptions) {
 		const result = defaultValueForConfig(configForPath(this.optionsConfig, path));
 		return result;
 	}

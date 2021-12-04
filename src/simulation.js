@@ -247,7 +247,7 @@ const Simulation = class {
 		}
 		this._knownSimulatorNames = knownSimulatorNames;
 		const configCopy = deepCopy(config);
-		const rawSimOptions = configCopy[SIM_OPTIONS_PROPERTY] || this._simulator.defaultValueForPath('');
+		const rawSimOptions = configCopy[SIM_OPTIONS_PROPERTY] || this._simulator.defaultValueForPath('', null);
 		configCopy[SIM_OPTIONS_PROPERTY] = this._simulator.normalizeOptions(rawSimOptions);
 		const simProblems = this._simulator.optionsValidator(configCopy[SIM_OPTIONS_PROPERTY]) || [];
 		if (simProblems.length) {
@@ -348,7 +348,7 @@ const Simulation = class {
 	defaultValueForOptionsPath(path) {
 		const parts = path.split('.');
 		if (parts[0] == SIM_OPTIONS_PROPERTY) {
-			return this._simulator.defaultValueForPath(parts.slice(1).join('.'));
+			return this._simulator.defaultValueForPath(parts.slice(1).join('.'), this.simOptions);
 		}
 		return defaultValueForConfig(configForPath(this.optionsConfig, path));
 	}
