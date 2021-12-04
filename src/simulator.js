@@ -54,6 +54,9 @@ export class BaseSimulator {
 		return rawSimOptions;
 	}
 
+	//Typically your options are mostly validated based on the configuration you
+	//return from optionsConfig. This method is only necessary to override if
+	//you need additional validation not handled by that default machinery.
 	static optionsValidator(normalizedSimOptions) {
 		return [];
 	}
