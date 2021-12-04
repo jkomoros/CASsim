@@ -460,7 +460,9 @@ const Simulation = class {
 				},
 				[SIM_OPTIONS_PROPERTY]: {
 					example: simOptionsConfig,
-					description: 'Settings specific to this simulator'
+					description: 'Settings specific to this simulator',
+					//If not provided, the main harness will generate a default based on the simConfig
+					optional: true
 				}
 			}
 		};
