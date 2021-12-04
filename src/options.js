@@ -1,3 +1,6 @@
+export const SIM_PROPERTY = 'sim';
+export const SIM_OPTIONS_PROPERTY = 'simOptions';
+
 const EXAMPLE_PROPERTY_NAME = 'example';
 const DESCRIPTION_PROPERTY_NAME = 'description';
 const ADVANCED_PROPERTY_NAME = 'advanced';
@@ -17,6 +20,7 @@ const ALLOWED_BEHAVIOR_NAMES = {
 };
 
 import {
+	DELETE_SENTINEL,
 	isStep,
 	setPropertyInObject
 } from './util.js';
@@ -317,4 +321,12 @@ export const defaultValueForConfig = (optionsConfig, skipOptional) => {
 		return Object.fromEntries(Object.entries(example).filter(entry => !entry[1][OPTIONAL_PROPERTY_NAME]).map(entry => [entry[0], defaultValueForConfig(entry[1], true)]).filter(entry => entry[1] !== undefined));
 	}
 	return example;
+};
+
+export const setSimPropertyInConfig = (obj, path, value) => {
+	//When we switch sim name, we should wipe away all of simOptions, allowing
+	//it to be set to the default based on the simOptionsConfig, because the
+	//simOptions for the old one definitely won't be valid for the new one.
+	if (path == SIM_PROPERTY) obj = setPropertyInObject(obj, SIM_OPTIONS_PROPERTY, DELETE_SENTINEL);
+	return setPropertyInObject(obj, path, value);
 };

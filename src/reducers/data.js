@@ -22,8 +22,8 @@ import {
 } from "../actions/data.js";
 
 import {
-	setPropertyInObject
-} from '../util.js';
+	setSimPropertyInConfig
+} from '../options.js';
 
 const INITIAL_STATE = {
 	filename: DEFAULT_FILE_NAME,
@@ -77,7 +77,7 @@ const data = (state = INITIAL_STATE, action) => {
 	case UPDATE_CURRENT_SIMULATION_CONFIG:
 		const newData = [...state.data];
 		let index = state.simulationIndex;
-		newData[index] = setPropertyInObject(newData[index], action.path, action.value);
+		newData[index] = setSimPropertyInConfig(newData[index], action.path, action.value);
 		return {
 			...state,
 			data: newData

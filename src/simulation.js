@@ -10,7 +10,9 @@ import {
 import {
 	configObjectIsValid,
 	optionsConfigValidator,
-	defaultValueForConfig
+	defaultValueForConfig,
+	SIM_PROPERTY,
+	SIM_OPTIONS_PROPERTY
 } from './options.js';
 
 import {
@@ -46,10 +48,8 @@ import {
 
 */
 
-const SIM_PROPERTY = 'sim';
 const HEIGHT_PROPERTY = 'height';
 const WIDTH_PROPERTY = 'width';
-const SIM_OPTIONS_PROPERTY = 'simOptions';
 const RUNS_PROPERTY = 'runs';
 const SEED_PROPERTY = 'seed';
 const COLORS_PROPERTY = 'colors';
