@@ -3,7 +3,8 @@
 import {
 	setPropertyInObject,
 	deepFreeze,
-	DELETE_SENTINEL
+	DELETE_SENTINEL,
+	isStep
 } from '../../src/util.js';
 
 import {
@@ -13,6 +14,33 @@ import {
 } from '../../src/options.js';
 
 import assert from 'assert';
+
+describe('isStep', () => {
+	it('handles 1.0 / 1.0', async () => {
+		const result = isStep(1.0, 1.0);
+		const golden = true;
+		assert.deepStrictEqual(result, golden);
+	});
+
+	it('handles 1.5 / 1.0', async () => {
+		const result = isStep(1.5, 1.0);
+		const golden = false;
+		assert.deepStrictEqual(result, golden);
+	});
+
+	it('handles 1.5 / 0.5', async () => {
+		const result = isStep(1.5, 0.5);
+		const golden = true;
+		assert.deepStrictEqual(result, golden);
+	});
+
+	it('handles 0.15 / 0.05', async () => {
+		//This one requires epsilon
+		const result = isStep(0.15, 0.05);
+		const golden = true;
+		assert.deepStrictEqual(result, golden);
+	});
+});
 
 describe('setPropertyInObject', () => {
 	it('handles null object', async () => {
