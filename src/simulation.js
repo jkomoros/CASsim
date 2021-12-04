@@ -248,7 +248,7 @@ const Simulation = class {
 		const configCopy = deepCopy(config);
 		const rawSimOptions = configCopy[SIM_OPTIONS_PROPERTY] || defaultValueForConfig(this._simulator.optionsConfig());
 		configCopy[SIM_OPTIONS_PROPERTY] = this._simulator.normalizeOptions(rawSimOptions);
-		const simProblems = this._simulator.optionsValidator(config[SIM_OPTIONS_PROPERTY] || {}) || [];
+		const simProblems = this._simulator.optionsValidator(configCopy[SIM_OPTIONS_PROPERTY]) || [];
 		if (simProblems.length) {
 			return ['Sim problems: ' + simProblems.join(', ')];
 		}
