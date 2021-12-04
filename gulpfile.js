@@ -55,6 +55,8 @@ gulp.task('generate-polymer-json', (done) => {
 
 gulp.task('polymer-build', makeExecutor('polymer build'));
 
+gulp.task('firebase-deploy', makeExecutor('firebase deploy'));
+
 gulp.task('generate-json', gulp.series(
 	'generate-polymer-json',
 	'generate-listings-json'
@@ -63,4 +65,9 @@ gulp.task('generate-json', gulp.series(
 gulp.task('build', gulp.series(
 	'generate-json',
 	'polymer-build'
+));
+
+gulp.task('deploy', gulp.series(
+	'build',
+	'firebase-deploy'
 ));
