@@ -18,8 +18,8 @@ const makeExecutor = cmdAndArgs => {
 };
 
 const SIMULATORS_DIR = 'src/simulators/';
-const LISTINGS_JSON_PATH = 'src/listings.json';
 //Also in actions/data.js
+const LISTINGS_JSON_PATH = 'src/listings.json';
 const DATA_DIRECTORY = 'data';
 
 gulp.task('generate-listings-json', (done) => {

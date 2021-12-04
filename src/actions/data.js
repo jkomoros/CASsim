@@ -20,6 +20,7 @@ export const DIALOG_TYPE_ADD_FIELD = 'add-field';
 
 //Also in gulpfile.js
 export const DATA_DIRECTORY = 'data';
+export const LISTINGS_JSON_PATH = 'src/listings.json';
 
 export const DEFAULT_FILE_NAME = 'default';
 

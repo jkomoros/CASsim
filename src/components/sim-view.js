@@ -15,11 +15,14 @@ import {
 	advanceToLastFrameInConfig,
 	DIALOG_TYPE_JSON,
 	DATA_DIRECTORY,
+	LISTINGS_JSON_PATH,
 	updatePlayType,
 	updateShowControls,
 	PLAY_TYPE_SIMULATION,
 	togglePlaying,
 	updateScale,
+	updateKnownDatafiles,
+	updateKnownSimulatorNames
 } from "../actions/data.js";
 
 import {
@@ -92,6 +95,19 @@ import { PLUS_ICON } from "./my-icons.js";
 //Size in px that we want to allow around the visualization edge. Pixels per 100
 //px of width.
 const VISUALIZATION_PADDING = 8;
+
+const fetchListings = async() => {
+	let res;
+	try {
+		res = await fetch(LISTINGS_JSON_PATH);
+	} catch(err) {
+		console.warn('Couldn\'t load listings');
+		return;
+	}
+	const data = await res.json();
+	store.dispatch(updateKnownDatafiles(data.datafiles));
+	store.dispatch(updateKnownSimulatorNames(data.simulatorNames));
+};
 
 const fetchData = async(filename) => {
 	let res;
@@ -176,6 +192,7 @@ class SimView extends connect(store)(PageViewElement) {
 		document.addEventListener('keydown', e => this._handleKeyDown(e));
 		window.addEventListener('resize', () => this.resizeVisualization());
 		this.resizeVisualization();
+		fetchListings();
 	}
 
 	_handleKeyDown(e) {
