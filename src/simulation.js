@@ -118,7 +118,7 @@ export const extractSimulatorNamesFromRawConfig = data => {
 };
 
 export const SimulationCollection = class {
-	constructor(configs) {
+	constructor(configs, knownSimulatorNames) {
 		if (!configs) configs = [];
 		const seenNames = {};
 		const arr = [];
@@ -126,7 +126,7 @@ export const SimulationCollection = class {
 			let sim;
 			const config = configs[i];
 			try {
-				sim = new Simulation(config, i);
+				sim = new Simulation(config, i, knownSimulatorNames);
 			} catch(err) {
 				throw new Error('Config #' + i + ' errored: ' + err);
 			}
@@ -268,7 +268,7 @@ const SimulationRun = class {
 };
 
 const Simulation = class {
-	constructor(config, index) {
+	constructor(config, index, knownSimulatorNames = []) {
 
 		const name = config[NAME_PROPERTY];
 		if (name) {
@@ -279,6 +279,7 @@ const Simulation = class {
 		if (!this._simulator) {
 			throw new Error('Unknown simulator name: ' + config.sim);
 		}
+		this._knownSimulatorNames = knownSimulatorNames;
 		const configCopy = deepCopy(config);
 		const rawSimOptions = configCopy[SIM_OPTIONS_PROPERTY];
 		configCopy[SIM_OPTIONS_PROPERTY] = this._simulator.normalizeOptions(rawSimOptions);
@@ -486,9 +487,9 @@ const Simulation = class {
 				},
 				[SIM_PROPERTY]: {
 					//TODO: use the constant
-					example: 'schelling-org',
-					options: [{value:'schelling-org'}],
-					description: 'The simulator type to run. Currently only "schelling-org" is supported.',
+					example: this._knownSimulatorNames.length ? this._knownSimulatorNames[0] : '',
+					options: this._knownSimulatorNames.map(name => ({value: name})),
+					description: 'The simulator type to run. Only simulators in the simulators directory are supported',
 					//Advanced while this is the only option
 					advanced: true,
 				},

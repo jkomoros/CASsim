@@ -49,7 +49,8 @@ const selectRequiredSimulatorsLoaded = createSelector(
 const selectSimulationCollection = createSelector(
 	selectRawConfigData,
 	selectRequiredSimulatorsLoaded,
-	(rawConfig, simulatorsLoaded) => simulatorsLoaded ? new SimulationCollection(rawConfig) : null
+	selectKnownSimulatorNames,
+	(rawConfig, simulatorsLoaded, knownSimulatorNames) => simulatorsLoaded ? new SimulationCollection(rawConfig, knownSimulatorNames) : null
 );
 
 export const selectSimulationsMap = createSelector(
