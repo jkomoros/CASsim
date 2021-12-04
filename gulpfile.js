@@ -23,19 +23,19 @@ const LISTINGS_JSON_PATH = 'src/listings.json';
 const DATA_DIRECTORY = 'data';
 
 gulp.task('generate-listings-json', (done) => {
-	const simulators = [];
-	const dataFiles = [];
+	const simulatorNames = [];
+	const datafiles = [];
 	for (const simulator of fs.readdirSync(SIMULATORS_DIR)) {
 		const filename = path.basename(simulator, '.js');
-		simulators.push(filename);
+		simulatorNames.push(filename);
 	}
 	for (const file of fs.readdirSync(DATA_DIRECTORY)) {
 		const filename = path.basename(file, '.json');
-		dataFiles.push(filename);
+		datafiles.push(filename);
 	}
 	const result = {
-		simulators,
-		dataFiles
+		simulatorNames,
+		datafiles
 	};
 
 	const blob = JSON.stringify(result, '', '\t');
