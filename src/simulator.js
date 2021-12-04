@@ -7,50 +7,7 @@ import {
 	configForPath
 } from './options.js';
 
-/*
-	Simulators are classes that have the following static methods:
-
-	get name() - Returns the name of the simulator, e.g. 'schelling-org'. Must
-	be the same as the name of the file in the src/simulators/ directory.
-
-	optionsValidator(normalizedSimOptions) => array of problem strings, or [] if
-	OK. Note that the harness will already check for config problems against
-	optionsConfig before this, so you only need to do validation that isn't
-	possible to do declaratively via optionsConfig (e.g. checking a text field
-	against a regular expression, etc.)
-
-	normalizeOptions(rawSimOptions) => normalizedSimOptions. An opportunity for
-	the simulator to take a raw sim options and return a fully normalized
-	options, e.g. with all defaults set, so that all other methods can assume
-	that all relevant properties are set. All other methods that receive
-	simOptions will receive the normalized result of this. normalizeOptions may
-	mutate the rawSimOptions and also return it.
-
-	generator(previousFrames, normalizedSimOptions, randomGenerator, runIndex)
-	=> nextFrameData, or null if the simulation run is terminated
-
-	frameScorer(frame, normalizedSimOptions) => an array of numbers between 0.0
-	and 1.0 or below 0 to signal indeterminate
-
-	successScorer(frameScore, normalizedSimOptions) => 0.0 if failure, 1.0 if
-	full success, negative numbers to say indeterminate
-
-	frameValidator(frame, normalizedSimOptions) => array of strings defining
-	problems, or [] if OK
-
-	get optionsConfig() optionsConfig - Describes the options, their legal
-	values, and what they mean. See optionsConfig shape, below.
-
-	defaultValueForPath(path, normalizedSimOptions) value - Returns the default value for the property
-	at path. Typically you can leave this as what BaseSimulator does. But for
-	some properties, you need custom logic to generate a legal default. For
-	example, if there's extra validation you do in optionsValidator then you
-	might need to do special case behavior in this.
-
-	renderer() - Should return a custom element ready to be inserted into the
-	DOM.
-
-*/
+//See README.md for more on each of these methods.
 export class BaseSimulator {
 
 	//Your simulator constructor will be passed no state, and shouldn't store any kind of state.
