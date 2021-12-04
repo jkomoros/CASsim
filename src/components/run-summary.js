@@ -13,11 +13,15 @@ class RunSummary extends LitElement {
 		return [
 			SharedStyles,
 			css`
+
+			:host {
+				margin: 0.5em 0;
+			}
+
 			.statuses {
 				display: flex;
 				flex-direction: row;
 				align-items: center;
-				margin: 0.5em 0;
 			}
 
 			span {
