@@ -2,6 +2,10 @@ import {
 	Urn
 } from '../util.js';
 
+import {
+	BaseSimulator
+} from '../simulator.js';
+
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 const COLLABORATORS_PROPERTY_NAME = 'collaborators';
@@ -93,7 +97,7 @@ Sim options shape:
 
 */
 
-const SchellingOrgSimulator = class {
+class SchellingOrgSimulator extends BaseSimulator {
 
 	static name() {
 		return SCHELLING_ORG_SIMULATION_NAME;
@@ -332,10 +336,6 @@ const SchellingOrgSimulator = class {
 		return [0.0];
 	}
 
-	static successScorer(frameScore) {
-		return frameScore[0];
-	}
-
 	static frameValidator(frame) {
 		const problems = [];
 		const projects = frame[PROJECTS_PROPERTY_NAME];
@@ -508,7 +508,7 @@ const SchellingOrgSimulator = class {
 	static renderer() {
 		return new SchellingOrgRenderer();
 	}
-};
+}
 
 export default SchellingOrgSimulator;
 
