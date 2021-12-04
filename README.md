@@ -49,6 +49,6 @@ If you only want to generate the screenshots, not the gifs, run `npm run generat
 
 ## Creating a new Simulator type
 
-Create a new file in the src/simulators directory, copying an existing one and tweaking
+Create a new file in the src/simulators directory, copying an existing one (dice-roll-demo.js is a simple example) and tweaking.
 
 Run `gulp generate-listings-json` to get the new sim type to show up in the simulation controls. (This is run for you automatically when you build or deploy)
