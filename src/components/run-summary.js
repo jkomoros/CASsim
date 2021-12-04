@@ -8,6 +8,7 @@ class RunSummary extends LitElement {
 			statuses: {type: Array},
 			//If true, then statuses beyond the selectedIndex will be rendered as indeterminate
 			clipFuture: {type:Boolean},
+			centerPercentage: {type:Boolean},
 		};
 	}
 
@@ -29,7 +30,13 @@ class RunSummary extends LitElement {
 			span {
 				color: var(--dark-gray-color);
 				font-weight: bold;
+				margin-right: 0.5em;
+			}
+
+			.statuses.center-percentage span {
 				width: 3.0em;
+				text-align: center;
+				margin-right: 0;
 			}
 
 			.output {
@@ -68,7 +75,7 @@ class RunSummary extends LitElement {
 		const successPercentage = '' + Math.floor(100 * successCount / (statuses.length || 1)) + '%';
 
 		return html`
-				<div class='statuses'>
+				<div class='statuses ${this.centerPercentage ? 'center-percentage' : ''}'>
 					<span>${successPercentage}</span>
 					<div class='output'>${statuses.map((status, index) => html`<div class='status ${this.selectedIndex == index ? 'selected' : ''} ${status < 0 ? 'indeterminate' : (status == 1.0 ? 'success' : 'failure')}' @click=${this._handleStatusClicked} .index=${index}></div>`)}</div>
 				</div>
