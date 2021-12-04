@@ -1,6 +1,5 @@
 # CASsim
-![icon](/images/manifest/icon-72x72.png?raw=true)
-
+<img src='images/manifest/icon-96x96.png?raw=true' align='right' />
 CASsim stands for Complex Adaptive Systems simulator.
 
 This is a very basic harness and framework to make configurable, interactive agent based models and then generate animated screenshots of their results.
