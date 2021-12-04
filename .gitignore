@@ -4,6 +4,7 @@ bower_components/
 
 frame_data.json
 polymer.json
+src/listings.json
 
 build/
 dist/

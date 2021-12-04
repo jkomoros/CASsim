@@ -16,7 +16,9 @@ export const SIMULATOR_LOADED = 'SIMULATOR_LOADED';
 export const DIALOG_TYPE_JSON = 'json';
 export const DIALOG_TYPE_ADD_FIELD = 'add-field';
 
+//Also in gulpfile.js
 export const DATA_DIRECTORY = 'data';
+
 export const DEFAULT_FILE_NAME = 'default';
 
 //When playing forward into the next frame, where do we stop?

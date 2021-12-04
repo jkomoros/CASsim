@@ -3,6 +3,7 @@
 const gulp = require('gulp');
 const fs = require('fs');
 const spawnSync = require('child_process').spawnSync;
+const path = require('path');
 
 const makeExecutor = cmdAndArgs => {
 	return (cb) => {
@@ -17,6 +18,31 @@ const makeExecutor = cmdAndArgs => {
 };
 
 const SIMULATORS_DIR = 'src/simulators/';
+const LISTINGS_JSON_PATH = 'src/listings.json';
+//Also in actions/data.js
+const DATA_DIRECTORY = 'data';
+
+gulp.task('generate-listings-json', (done) => {
+	const simulators = [];
+	const dataFiles = [];
+	for (const simulator of fs.readdirSync(SIMULATORS_DIR)) {
+		const filename = path.basename(simulator, '.js');
+		simulators.push(filename);
+	}
+	for (const file of fs.readdirSync(DATA_DIRECTORY)) {
+		const filename = path.basename(file, '.json');
+		dataFiles.push(filename);
+	}
+	const result = {
+		simulators,
+		dataFiles
+	};
+
+	const blob = JSON.stringify(result, '', '\t');
+	fs.writeFileSync(LISTINGS_JSON_PATH, blob);
+	done();
+
+});
 
 gulp.task('generate-polymer-json', (done) => {
 	const polymerTemplate = JSON.parse(fs.readFileSync('polymer.TEMPLATE.json'));
@@ -29,7 +55,12 @@ gulp.task('generate-polymer-json', (done) => {
 
 gulp.task('polymer-build', makeExecutor('polymer build'));
 
-gulp.task('build', gulp.series(
+gulp.task('generate-json', gulp.series(
 	'generate-polymer-json',
+	'generate-listings-json'
+));
+
+gulp.task('build', gulp.series(
+	'generate-json',
 	'polymer-build'
 ));
