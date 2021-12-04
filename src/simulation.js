@@ -9,7 +9,8 @@ import {
 
 import {
 	configObjectIsValid,
-	optionsConfigValidator
+	optionsConfigValidator,
+	defaultValueForConfig
 } from './options.js';
 
 import {
@@ -245,7 +246,7 @@ const Simulation = class {
 		}
 		this._knownSimulatorNames = knownSimulatorNames;
 		const configCopy = deepCopy(config);
-		const rawSimOptions = configCopy[SIM_OPTIONS_PROPERTY];
+		const rawSimOptions = configCopy[SIM_OPTIONS_PROPERTY] || defaultValueForConfig(this._simulator.optionsConfig());
 		configCopy[SIM_OPTIONS_PROPERTY] = this._simulator.normalizeOptions(rawSimOptions);
 		const simProblems = this._simulator.optionsValidator(config[SIM_OPTIONS_PROPERTY] || {}) || [];
 		if (simProblems.length) {
