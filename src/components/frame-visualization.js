@@ -53,7 +53,7 @@ class FrameVisualization extends LitElement {
 			<div class='renderer' style='height:${this.height * scale}px; width: ${this.width * scale}px; font-size:${DEFAULT_FONT_SIZE_PX_HEIGHT * scale}px'>
 				${this._renderer()}
 			</div>
-			${this.runStatuses ? html`<run-summary .statuses=${this.runStatuses} .selectedIndex=${this.runIndex}></run-summary>` : ''}
+			${this.runStatuses ? html`<run-summary .statuses=${this.runStatuses} .selectedIndex=${this.runIndex} .clipFuture=${true}></run-summary>` : ''}
 		</div>
 		`;
 	}

@@ -6,6 +6,8 @@ class RunSummary extends LitElement {
 		return {
 			selectedIndex: {type: Number},
 			statuses: {type: Array},
+			//If true, then statuses beyond the selectedIndex will be rendered as indeterminate
+			clipFuture: {type:Boolean},
 		};
 	}
 
@@ -61,13 +63,14 @@ class RunSummary extends LitElement {
 	}
 
 	render() {
-		const successCount = this.statuses.map(value => value == 1.0 ? 1.0 : 0.0).reduce((prev, curr) => prev + curr, 0);
-		const successPercentage = '' + Math.floor(100 * successCount / (this.statuses.length || 1)) + '%';
+		const statuses = this.clipFuture ? this.statuses.map((value, index) => index <= this.selectedIndex ? value : -1) : this.statuses;
+		const successCount = statuses.map(value => value == 1.0 ? 1.0 : 0.0).reduce((prev, curr) => prev + curr, 0);
+		const successPercentage = '' + Math.floor(100 * successCount / (statuses.length || 1)) + '%';
 
 		return html`
 				<div class='statuses'>
 					<span>${successPercentage}</span>
-					<div class='output'>${this.statuses.map((status, index) => html`<div class='status ${this.selectedIndex == index ? 'selected' : ''} ${status < 0 ? 'indeterminate' : (status == 1.0 ? 'success' : 'failure')}' @click=${this._handleStatusClicked} .index=${index}></div>`)}</div>
+					<div class='output'>${statuses.map((status, index) => html`<div class='status ${this.selectedIndex == index ? 'selected' : ''} ${status < 0 ? 'indeterminate' : (status == 1.0 ? 'success' : 'failure')}' @click=${this._handleStatusClicked} .index=${index}></div>`)}</div>
 				</div>
 		`;
 	}
