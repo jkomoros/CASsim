@@ -28,6 +28,7 @@ const EMOJI_PROPERTY_NAME = 'emoji';
 const NORTH_STAR_PROPERTY_NAME = 'northStar';
 const OFFSET_PROPERTY_NAME = 'offset';
 const STRENGTH_PROPERTY_NAME = 'strength';
+const SPREAD_PROPERTY_NAME = 'spread';
 
 const DEFAULT_COMPELLING_VALUE = 0.5;
 
@@ -402,6 +403,13 @@ class SchellingOrgSimulator extends BaseSimulator {
 						min: 0.0,
 						max: 1.0,
 						step: 0.05
+					},
+					[SPREAD_PROPERTY_NAME]: {
+						example: 0.25,
+						description: 'How far is the positive effect of the northstar affect, from plus or minus the offset position?',
+						min: 0.0,
+						max: 1.0,
+						step: 0.05,
 					}
 				},
 				description: "Information on an (optional) north star, which people will tend to pick towards",
