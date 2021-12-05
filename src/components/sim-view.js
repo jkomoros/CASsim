@@ -165,6 +165,8 @@ class SimView extends connect(store)(PageViewElement) {
 					position:relative;
 					height:100vh;
 					width: 100vw;
+					background-color: var(--override-app-background-color, var(--app-background-color, #356F9E));
+					overflow:scroll;
 				}
 
 				.container {
@@ -173,7 +175,6 @@ class SimView extends connect(store)(PageViewElement) {
 					align-items: center;
 					height: 100%;
 					width: 100%;
-					background-color: var(--override-app-background-color, var(--app-background-color, #356F9E));
 				}
 
 				.container.needs-margin-left frame-visualization {
