@@ -35,6 +35,7 @@ class OptionsControl extends LitElement {
 			config: {type: Object},
 			value: {type: Object},
 			readonly: {type: Boolean},
+			disallowDelete: {type:Boolean},
 		};
 	}
 
@@ -85,7 +86,7 @@ class OptionsControl extends LitElement {
 		const config = this.config || {};
 		return html`
 			${this.name !== undefined ? html`<span class='label'>${this.name} ${config.description ? html`${help(config.description, this.readonly)}` : ''} 
-				${config.optional ? html`<button class='small' @click=${this._handleNullableClicked} .disabled=${this.readonly} title='Remove'>${CANCEL_ICON}</button>` : ''}
+				${config.optional ? html`<button class='small' @click=${this._handleNullableClicked} .disabled=${this.readonly || this.disallowDelete} title='Remove'>${CANCEL_ICON}</button>` : ''}
 				${config.example && Array.isArray(config.example) ? html`<button class='small' .disabled=${this.readonly || config.max === this.value.length} @click=${this._handleAddArrayItem} title='Add additional item'>${PLUS_ICON}</button>` : ''}
 				${this._nulledEntries().length ? html`<button class='small' .disabled=${this.readonly} @click=${this._handleAddNulledClicked} title='Add field...'>${PLUS_ICON}</button>` : ''}
 			</span>`: ''}
@@ -106,7 +107,8 @@ class OptionsControl extends LitElement {
 		const example = config.example;
 		if (typeof example == 'object') {
 			if (Array.isArray(example)) {
-				return html`${this.value.map((item, index) => html`<options-control .readonly=${this.readonly} .value=${item} .config=${example[0]} .name=${index} .path=${this._dottedPath(index)}></options-control>`)}`;
+				//If we're at min size already, disallow deleting for sub-items.
+				return html`${this.value.map((item, index) => html`<options-control .readonly=${this.readonly} .disallowDelete=${config.min === this.value.length} .value=${item} .config=${example[0]} .name=${index} .path=${this._dottedPath(index)}></options-control>`)}`;
 			}
 			//value might be null
 			const nonNullValue = this.value || {};
