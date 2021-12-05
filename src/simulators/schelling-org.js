@@ -25,6 +25,8 @@ const EPSILON_PROPERTY_NAME = 'epsilon';
 const BELIEFS_PROPERTY_NAME = 'beliefs';
 const COMPELLING_PROPERTY_NAME = 'compelling';
 const EMOJI_PROPERTY_NAME = 'emoji';
+const NORTH_STAR_PROPERTY_NAME = 'northStar';
+const OFFSET_PROPERTY_NAME = 'offset';
 
 const DEFAULT_COMPELLING_VALUE = 0.5;
 
@@ -42,6 +44,8 @@ const DEFAULT_EMOJIS = [
 	'🧑‍🚒',
 	'👮'
 ];
+
+const DEFAULT_NORTH_STAR_EMOJI = '🌟';
 
 class SchellingOrgSimulator extends BaseSimulator {
 
@@ -375,6 +379,23 @@ class SchellingOrgSimulator extends BaseSimulator {
 			[COMMUNICATION_PROPERTY_NAME]: {
 				example: 0,
 				description: "How many rounds of communication should be allowed between agents before they decide. 0 is no communication."
+			},
+			[NORTH_STAR_PROPERTY_NAME]: {
+				example: {
+					[EMOJI_PROPERTY_NAME]: {
+						example: DEFAULT_NORTH_STAR_EMOJI,
+						description: "The emoji to render for that item",
+					},
+					[OFFSET_PROPERTY_NAME]: {
+						example: 0.5,
+						description: "How far from fully at left to fully at right is the northstar?",
+						min: 0.0,
+						max: 1.0,
+						step: 0.05,
+					}
+				},
+				description: "Information on an (optional) north star, which people will tend to pick towards",
+				optional: true
 			},
 			[COLLABORATORS_PROPERTY_NAME]: {
 				example: {
