@@ -395,6 +395,13 @@ class SchellingOrgSimulator extends BaseSimulator {
 						min: 0.0,
 						max: 1.0,
 						step: 0.05,
+					},
+					[STRENGTH_PROPERTY_NAME]: {
+						example: 1.0,
+						description: "How strong is the north star effect?",
+						min: 0.0,
+						max: 1.0,
+						step: 0.05
 					}
 				},
 				description: "Information on an (optional) north star, which people will tend to pick towards",
@@ -695,7 +702,7 @@ class SchellingOrgRenderer extends LitElement {
 
 	_northStarWidth() {
 		if (!this._northStar) return 0;
-		return this._projectWidth() / 2;
+		return this._projectWidth() * this._northStar[STRENGTH_PROPERTY_NAME];
 	}
 
 	_debugRender() {
