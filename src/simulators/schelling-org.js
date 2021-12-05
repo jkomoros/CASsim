@@ -60,6 +60,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const projectErrorValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_ERROR_VALUE_PROPERTY_NAME];
 		const communicationValue = simOptions[COMMUNICATION_PROPERTY_NAME];
 		const displayValue = simOptions[DISPLAY_PROPERTY_NAME];
+		const northStarValue = simOptions[NORTH_STAR_PROPERTY_NAME];
 		const collaboratorEpsilonValue = simOptions[COLLABORATORS_PROPERTY_NAME][EPSILON_PROPERTY_NAME];
 		const individualProjectOverrides = simOptions[PROJECTS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
 		const individualCollaboratorOverrides = simOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
@@ -129,6 +130,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 		return {
 			[DISPLAY_PROPERTY_NAME]: displayValue,
+			[NORTH_STAR_PROPERTY_NAME]: northStarValue,
 			[COMMUNICATION_PROPERTY_NAME]: communicationValue,
 			[CONNECTIONS_PROPERTY_NAME]: connections,
 			[COLLABORATORS_PROPERTY_NAME]: collaborators,
@@ -645,6 +647,7 @@ class SchellingOrgRenderer extends LitElement {
 		return html`
 			<svg viewBox='0 0 ${this.width} ${this.height}'>
 				${this._debugRender()}
+				${this._renderNorthstar()}
 				${this._connections.map(item => this._connectionSVG(item))}
 				${this._collaborators.map(item => this._collaboratorSVG(item))}
 				${this._projects.map(item => this._projectSVG(item))}
@@ -684,6 +687,16 @@ class SchellingOrgRenderer extends LitElement {
 		return displayValue[BELIEFS_PROPERTY_NAME] || false;
 	}
 
+	get _northStar() {
+		if (!this.frame) return null;
+		return this.frame[NORTH_STAR_PROPERTY_NAME];
+	}
+
+	_northStarWidth() {
+		if (!this._northStar) return 0;
+		return this._projectWidth() / 2;
+	}
+
 	_debugRender() {
 		if (!this._debug) return '';
 		const collaboratorPosition = this._collaboratorPosition(0);
@@ -695,6 +708,15 @@ class SchellingOrgRenderer extends LitElement {
 		svg`<circle class='debug' cx='${this.width / 2}' cy='${this._collaboratorVerticalLine()}' r='${this._collaboratorCircleRadius()}'></circle>` : 
 		svg`<path class='debug' d='M 0, ${collaboratorPosition[1]} H ${this.width}'></path>`}
 		`;
+	}
+
+	_renderNorthstar() {
+		const northStar = this._northStar;
+		if (!northStar) return '';
+		const width = this._northStarWidth();
+		const x = this.width * northStar[OFFSET_PROPERTY_NAME];
+		const y = (this.height / 40) + (width / 2);
+		return svg`<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width}'>${northStar[EMOJI_PROPERTY_NAME]}</text>`;
 	}
 
 	_collaboratorVerticalLine() {
@@ -762,8 +784,14 @@ class SchellingOrgRenderer extends LitElement {
 		const width = this._projectWidth();
 		//Size is so the largest bar goes to the top of the area
 		const maxVerticalRelativeSize = Math.max(...this._projects.map(project => project.value + project.error));
+
 		//Spread it across the size avaialble; this.height/3 - some padding to not go all the way to the top
-		const verticalScaleFactor = ((this.height / 3) - (this.height / 40)) / maxVerticalRelativeSize;
+		let projectAvailableHeight = this.height / 3;
+		projectAvailableHeight -= this.height / 40;
+		//northStarWidth will be 0 if no northstar
+		projectAvailableHeight -= this._northStarWidth();
+
+		const verticalScaleFactor = projectAvailableHeight / maxVerticalRelativeSize;
 		const height = project.value * verticalScaleFactor;
 		const position = this._projectPosition(project.index);
 
