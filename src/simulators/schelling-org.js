@@ -27,6 +27,7 @@ const COMPELLING_PROPERTY_NAME = 'compelling';
 const EMOJI_PROPERTY_NAME = 'emoji';
 const NORTH_STAR_PROPERTY_NAME = 'northStar';
 const OFFSET_PROPERTY_NAME = 'offset';
+const STRENGTH_PROPERTY_NAME = 'strength';
 
 const DEFAULT_COMPELLING_VALUE = 0.5;
 
@@ -201,7 +202,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		//Pick a connection randomly, samping from ones with higher connection weights higher.
 		const urn = new Urn(rnd);
 		for (const connection of connections) {
-			urn.add(connection.index, connection.strength);
+			urn.add(connection.index, connection[STRENGTH_PROPERTY_NAME]);
 		}
 		const connectionIndex = urn.pick();
 
@@ -216,7 +217,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const doBroadcast = rnd() <= collaborators[primaryConnection.i][BROADCAST_LIKELIHOOD_PROPERTY_NAME];
 
 		//If we do broadcast, then we'll transmit to each connection where sender is the sender, and the value is greater than the primaryConnection value.
-		const connectionsToSend = doBroadcast ? connections.filter(connection => connection.i == primaryConnection.i && connection.strength >= primaryConnection.strength) : [primaryConnection];
+		const connectionsToSend = doBroadcast ? connections.filter(connection => connection.i == primaryConnection.i && connection[STRENGTH_PROPERTY_NAME] >= primaryConnection[STRENGTH_PROPERTY_NAME]) : [primaryConnection];
 
 		const senderCompelling = collaborators[primaryConnection.i][COMPELLING_PROPERTY_NAME];
 		
@@ -336,7 +337,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				if (connection.index != index) problems.push('Connection ' + index + ' has an invalid index');
 				if (connection.i < 0 || connection.i >= collaborators.length) problems.push('Connection ' + index + ' has an invalid index for i');
 				if (connection.j < 0 || connection.j >= collaborators.length) problems.push('Connection ' + index + ' has an invalid index for j');
-				if (connection.strength < 0 || connection.strength > 1.0) problems.push('Connection ' + index + ' has an invalid strength');
+				if (connection[STRENGTH_PROPERTY_NAME] < 0 || connection[STRENGTH_PROPERTY_NAME] > 1.0) problems.push('Connection ' + index + ' has an invalid strength');
 			}
 		} else {
 			problems.push('Connections is not provided');
@@ -822,7 +823,7 @@ class SchellingOrgRenderer extends LitElement {
 		const jPos = this._collaboratorPosition(connection.j);
 
 		//There will be two connections rendered on top of each other (each way). But because we use opacity, they will naturally blend.
-		return svg`<path class='connection ${connection.active ? 'active' : ''}' stroke-opacity='${connection.active ? 1.0 : connection.strength}' d='M ${iPos[0]},${iPos[1]} L ${jPos[0]}, ${jPos[1]}' ></path>`;
+		return svg`<path class='connection ${connection.active ? 'active' : ''}' stroke-opacity='${connection.active ? 1.0 : connection[STRENGTH_PROPERTY_NAME]}' d='M ${iPos[0]},${iPos[1]} L ${jPos[0]}, ${jPos[1]}' ></path>`;
 	}
 
 }
