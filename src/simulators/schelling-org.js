@@ -22,7 +22,9 @@ const INDIVIDUALS_PROPERTY_NAME = 'individuals';
 const MARKED_PROPERTY_NAME = 'marked';
 const EPSILON_PROPERTY_NAME = 'epsilon';
 const BELIEFS_PROPERTY_NAME = 'beliefs';
+const COMPELLING_PROPERTY_NAME = 'compelling';
 
+const DEFAULT_COMPELLING_VALUE = 0.5;
 
 const DEFAULT_EMOJIS = [
 	'🧑‍⚕️',
@@ -38,65 +40,6 @@ const DEFAULT_EMOJIS = [
 	'🧑‍🚒',
 	'👮'
 ];
-
-/*
-Sim options shape:
-
-{
-	//An optional object that controls how things render. If not provided, will be interpreted as though it enables no optional rendering.
-	"display": {
-		//If true, then the SVG will render debug information
-		"debug": true,
-	}
-	//How many rounds of communication should be allowed between agents before they decide. 0 is no communication.
-	"communication": 0,
-	"collaborators": {
-		//How many collaborators there should be
-		"count": 5,
-		//Project values within this amount of each other will be considered to be the same
-		"epsilon": 0.05,
-		//We compute a range of possible connection likelihoods based on [avgConnectionLikelihood - connectionLikelihoodSpread, avgConnectionLikelihood + connectionLikelihoodSpread]
-		//Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength.
-		"avgConnectionLikelihood": 0.5,
-		"connectionLikelihoodSpread": 0.5,
-		//individuals is set to override the computed individuals with the given properties. null values will be ignored, and keys not in the override will be left in place.
-		"individuals": [
-			null,
-			{
-				//The starter beliefs of this individual of the values of projects. Must be an array of the same length as number of projects
-				"beliefs": [0.0, 0.2, 0.3, 0.4],
-				//The epsilon for this specific individual
-				"epsilon": 0.05,
-				//The specific emoji to use for this individual
-				"emoji": "A",
-				"avgConnectionLikelihood": 0.5,
-				"connectionLikelihoodSpread": 0.25
-			}
-		]
-	},
-	"projects": {
-		//How many projects there should be
-		"count": 3,
-		//Each project will get between 0.0 and this number randomly set on top of 1.0 for the value
-		"maxExtraValue": 1.0,
-		//Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.
-		"maxErrorValue": 0.5,
-		//individuals is set to override the computed individuals with the given properties. null values will be ignored, and keys not in the override will be left in place.
-		"individuals": [
-			null,
-			{
-				//A marked project shows up distinctively; collaborators, when deciding between two projects that look like the same value, will prefer the marked one.
-				"marked": true,
-				//Value is the height of the project, in units of 1.0 = width
-				"value": 1.2,
-				//The error bars for this value; collaborators will consider the true value to be somewhere within value +/- this value
-				"error": 0.2,
-			}
-		]
-	}
-}
-
-*/
 
 class SchellingOrgSimulator extends BaseSimulator {
 
@@ -144,6 +87,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				emoji: DEFAULT_EMOJIS[i % DEFAULT_EMOJIS.length],
 				epsilon: collaboratorEpsilonValue,
 				beliefs: personalBeliefs,
+				[COMPELLING_PROPERTY_NAME]: DEFAULT_COMPELLING_VALUE,
 				[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: avgConnectionLikelihood,
 				[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: connectionLikelihoodSpread
 			});
@@ -262,11 +206,13 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const senderBeliefs = collaborators[connection.i][BELIEFS_PROPERTY_NAME];
 		const recieverBeliefs = collaborators[connection.j][BELIEFS_PROPERTY_NAME];
 
+		const senderCompelling = collaborators[connection.i][COMPELLING_PROPERTY_NAME];
+
 		const senderProjectBelief = senderBeliefs[projectIndex];
 		const receiverProjectBelief = recieverBeliefs[projectIndex];
 
 		//The receiver should update their current belief to be halfway between their previous belief and the sender's belief.
-		const updatedBelief = ((senderProjectBelief - receiverProjectBelief) / 2) + receiverProjectBelief;
+		const updatedBelief = ((senderProjectBelief - receiverProjectBelief) * senderCompelling) + receiverProjectBelief;
 
 		const receiverUpdatedBeliefs = [...recieverBeliefs];
 		receiverUpdatedBeliefs[projectIndex] = updatedBelief;
@@ -462,6 +408,14 @@ class SchellingOrgSimulator extends BaseSimulator {
 									[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: {
 										example: 0.5,
 										description: CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME + ' for this individual',
+										optional:true,
+									},
+									[COMPELLING_PROPERTY_NAME]: {
+										example: DEFAULT_COMPELLING_VALUE,
+										description: 'When this person speaks to another person, how much does the receiver update their beliefs? 0.5 means the receiver would move their belief to be halfway between their previous belief and the speaker\'s belief',
+										max: 1.0,
+										min: 0.0,
+										step: 0.05,
 										optional:true,
 									}
 								},
