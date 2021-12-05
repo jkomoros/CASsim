@@ -717,6 +717,7 @@ class SchellingOrgRenderer extends LitElement {
 		return this.width / (this.frame[PROJECTS_PROPERTY_NAME].length * 3 - 1);
 	}
 
+	//Returns the x, y of the bottom center of the project bar
 	_projectPosition(index) {
 		if (index == undefined) return null;
 		const width = this._projectWidth();
@@ -728,7 +729,10 @@ class SchellingOrgRenderer extends LitElement {
 	_projectSVG(project) {
 
 		const width = this._projectWidth();
-		const height = width * project.value;
+		//Size is so the largest bar goes to the top of the area
+		const maxVerticalRelativeSize = Math.max(...this._projects.map(project => project.value + project.error));
+		const verticalScaleFactor = (this.height / 3) / maxVerticalRelativeSize;
+		const height = project.value * verticalScaleFactor;
 		const position = this._projectPosition(project.index);
 
 		const x = position[0] - (width / 2);
@@ -739,14 +743,14 @@ class SchellingOrgRenderer extends LitElement {
 		const hasError = project.error != 0.0;
 		const errorStartX = position[0] - (width / ERROR_BAR_CAP_WIDTH);
 		const errorEndX = position[0] + (width / ERROR_BAR_CAP_WIDTH);
-		const errorStartY = y - (project.error * width);
-		const errorEndY = y + (project.error * width);
+		const errorStartY = y - (project.error * verticalScaleFactor);
+		const errorEndY = y + (project.error * verticalScaleFactor);
 
 		const errorStrokeWidth = width / 40;
 
 		return svg`<rect class='project ${project.selected ? 'selected' : 'not-selected'} ${project[MARKED_PROPERTY_NAME] ? 'marked' : ''}' x=${x} y=${y} width=${width} height=${height}></rect>
 					${hasError ? svg`<path class='error' d='M ${errorStartX}, ${errorStartY} H ${errorEndX} M ${position[0]}, ${errorStartY} V ${errorEndY} M ${errorStartX}, ${errorEndY} H ${errorEndX}' stroke-width=${errorStrokeWidth}></path>
-						${this._collaborators.map(collaborator => svg`<path class='belief' d='M ${position[0] - ERROR_BAR_CAP_WIDTH / 2},${position[1] - width * collaborator.beliefs[project.index]} h ${ERROR_BAR_CAP_WIDTH}' stroke-width='${errorStrokeWidth / 2}'></path>`)}
+						${this._collaborators.map(collaborator => svg`<path class='belief' d='M ${position[0] - ERROR_BAR_CAP_WIDTH / 2},${position[1] - verticalScaleFactor * collaborator.beliefs[project.index]} h ${ERROR_BAR_CAP_WIDTH}' stroke-width='${errorStrokeWidth / 2}'></path>`)}
 					` : ''}`;
 	}
 
