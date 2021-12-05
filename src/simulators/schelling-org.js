@@ -744,6 +744,8 @@ class SchellingOrgRenderer extends LitElement {
 		const hasError = project.error != 0.0;
 		const errorStartX = position[0] - (width / ERROR_BAR_CAP_WIDTH);
 		const errorEndX = position[0] + (width / ERROR_BAR_CAP_WIDTH);
+		const beliefStartX = position[0] - (width / ERROR_BAR_CAP_WIDTH / 2);
+		const beliefWidth = width / ERROR_BAR_CAP_WIDTH;
 		const errorStartY = y - (project.error * verticalScaleFactor);
 		const errorEndY = y + (project.error * verticalScaleFactor);
 
@@ -751,7 +753,7 @@ class SchellingOrgRenderer extends LitElement {
 
 		return svg`<rect class='project ${project.selected ? 'selected' : 'not-selected'} ${project[MARKED_PROPERTY_NAME] ? 'marked' : ''}' x=${x} y=${y} width=${width} height=${height}></rect>
 					${hasError ? svg`<path class='error' d='M ${errorStartX}, ${errorStartY} H ${errorEndX} M ${position[0]}, ${errorStartY} V ${errorEndY} M ${errorStartX}, ${errorEndY} H ${errorEndX}' stroke-width=${errorStrokeWidth}></path>
-						${this._collaborators.map(collaborator => svg`<path class='belief' d='M ${position[0] - ERROR_BAR_CAP_WIDTH / 2},${position[1] - verticalScaleFactor * collaborator.beliefs[project.index]} h ${ERROR_BAR_CAP_WIDTH}' stroke-width='${errorStrokeWidth / 2}'></path>`)}
+						${this._collaborators.map(collaborator => svg`<path class='belief' d='M ${beliefStartX},${position[1] - verticalScaleFactor * collaborator.beliefs[project.index]} h ${beliefWidth}' stroke-width='${errorStrokeWidth / 2}'></path>`)}
 					` : ''}`;
 	}
 
