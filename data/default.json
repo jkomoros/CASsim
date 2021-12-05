@@ -1,7 +1,8 @@
 [
 	{
 		"name": "first-config",
-		"description": "First config",
+		"title": "First config",
+		"description": "This is the first config. This is a longer description about the config",
 		"seed": "abc",
 		"width": 800,
 		"height": 450,

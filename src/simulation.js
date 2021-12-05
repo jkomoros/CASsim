@@ -68,6 +68,7 @@ const AUTO_GENERATE_PROPERTY = 'autoGenerate';
 const AUTO_PLAY_PROPERTY = 'autoPlay';
 const DISPLAY_PROPERTY = 'display';
 const STATUS_DISPLAY_PROPERTY = 'status';
+const TITLE_PROPERTY = 'title';
 
 //Also duplicated into screenshot.js
 const NAME_PROPERTY = 'name';
@@ -337,8 +338,12 @@ const Simulation = class {
 		return this._config[NAME_PROPERTY] || this._altName || '';
 	}
 
+	get title() {
+		return this._config[TITLE_PROPERTY] || this.name;
+	}
+
 	get description() {
-		return this._config[DESCRIPTION_PROPERTY] || this.name;
+		return this._config[DESCRIPTION_PROPERTY] || this.title;
 	}
 
 	get simOptions() {
@@ -388,8 +393,14 @@ const Simulation = class {
 			example: {
 				[NAME_PROPERTY]: {
 					example: '',
-					description: 'Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL. May be omitted',
+					description: 'Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL.',
 					advanced: true
+				},
+				[TITLE_PROPERTY]: {
+					example: '',
+					description: 'The human-readable version of name, with pretty formatting. If omitted, defaults to ' + NAME_PROPERTY + '.',
+					advanced: true,
+					optional: true
 				},
 				[DESCRIPTION_PROPERTY]: {
 					example: '',
