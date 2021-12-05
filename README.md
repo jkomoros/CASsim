@@ -77,6 +77,53 @@ The simulation is configured by reading the JSON in `data/default.json` (or othe
 The JSON of each of these files is an array of simulationObjects. You can define
 these by hand in the JSON, by carefully reading the documentation for simulatorOptions, and the simOptions documentation for the simulator type you're using, or you can modify them live in the web app using the UI and help affordances. Note that the modifications you make live in the web app don't get saved back to the backing JSON file. However, if you click the `<>` icon to the right of the Simulation selector in the controls, it will open a dialog including the fully modified configuration objects, which you can then copy and paste back into the underlying data JSON files to "save" your live edits.
 
+### Simulation options
+
+```
+{
+	//Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL. May be omitted.
+	"name": "this-is-a-name",
+	//The human-readable description of the config. Optional. Will use name if not provided.
+	"title": "This is the name",
+	//A longer description of the simulation. If not provided will use title or name.
+	"description": "This is a longer description of what you'll notice in this particular configuration of the simulation.",
+	//Height and width. Mainly used for aspect ratio, but for screenshotting this will be the literal height and width in pixels (modulo if you include the display.status)
+	"width": 800,
+	"height": 450,
+	//How many runs to generate in the set
+	"runs": 12,
+	//The base random number seed for each run (each run and frame gets its own initialized seed based on this.) If omitted, will use a value derived from current time, leading to nondeterministic behavior.
+	"seed": "abc",
+	//How many milliseconds to wait before advancing to the next frame when playing.
+	"frameDelay": 100,
+	//How many notional extra frames the final frame as a round should be held on when playing. This allows you to pause on the final frame for longer.
+	"extraFinalFrameCount": 10,
+	//if true, then it will automatically generate all frames in all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.
+	"autoGenerate": true,
+	//If true, will start playing the simulation immediately upon load.
+	"autoPlay": false,
+	//If true, then when all rounds have played, it will loop back around to first round and continue playing.
+	"repeat": false,
+	//Configures whether or not to display certain things. May be omitted.
+	"display": {
+		//If true, then a status line will be rendered beneath the diagram. This changes the height of the final screenshot from the configured value.
+		"status": false,
+	},
+	//These colors will be provided to the simulation renderer as `--primary-color` etc CSS variables.
+	"colors": {
+		"primary": "#fb8c00",
+		"secondary": "#51b9a3",
+		"disabled": "#CCCCCC",
+		"background": "transparent"
+	}
+	//The simulator type to run, which must be one of the names of a simulator in simulators/ directory.
+	"sim": "schelling-org",
+	//The options to feed to the simulator. These will be different shapes depending on the value of "sim". See each specific simulator's documentation.
+	"simOptions": {}
+}
+
+```
+
 ## Creating a new Simulator type
 
 The harness comes with a couple of pre-built agent based models (`schelling-org` and `dice-roll-demo` currently). That allows you to play around with those models, but not create your own.
@@ -160,42 +207,42 @@ of validation and UI logic for interacting with your simulation. It's a
 declarative format that has the following shape, called an optionsLeaf:
 ```
 {
-    //Example is the most important property and the only reserved word. If an object in the config has 
-    //a "example" property then all of its other properties are treated like an optionsLeaf.
-    //example may be:
-    // - a number
-    // - a boolean
-    // - a string
-    // - an array containing precisely one optionsLeaf object (any others will be ignored)
-    // - an object, which is itself an optionsLeaf, or where each of its keys points to an optionsLeaf
-    // for numbers, booleans, and strings, this value will also be used as the default
-    "example": 1.0,
-    //A help string to show in the UI to explain what it does
-    "description": "A string to show in the UI"
-    //For numbers, the minimum amount. For arrays, the minimum length. Defaults to 0.0
-    "min": 0.0,
-    //For numbers, the maximum number. For arrays, the maximum length. Defaults to Number.MAX_SAFE_INTEGER
-    "max": 10.0,
-    //For numbers, the smallest allowable increment. Defaults to 1.0 (integer)
-    "step": 1.0,
-    //Extra behavior for a string type. Can be omitted, 'color', or 'seed'. For color, will render an input type = color.
-    "behavior": "color",
-    //If options is provided, then a select will be rendered, allowing only those options.
-    "options": [
-        {
-            //The actual value, the only required key
-            "value": "a",
-            //The string to show in the UI. Defaults to value if not provided
-            "display": "A"
-            //The help text to render in the UI. Defaults to the value of display, or value, if not provided.
-            "description": "This option is a string"
-        },
-    ],
-    //For array and object types, whether a given item is allowed to be set explicitly to null.
-    //Defaults to false
-    "optional": false,
-    //Advanced options will only render UI if the user has enabled advanced mode. This is useful to hide infrequently needed options.
-    "advanced": false,
+	//Example is the most important property and the only reserved word. If an object in the config has 
+	//a "example" property then all of its other properties are treated like an optionsLeaf.
+	//example may be:
+	// - a number
+	// - a boolean
+	// - a string
+	// - an array containing precisely one optionsLeaf object (any others will be ignored)
+	// - an object, which is itself an optionsLeaf, or where each of its keys points to an optionsLeaf
+	// for numbers, booleans, and strings, this value will also be used as the default
+	"example": 1.0,
+	//A help string to show in the UI to explain what it does
+	"description": "A string to show in the UI"
+	//For numbers, the minimum amount. For arrays, the minimum length. Defaults to 0.0
+	"min": 0.0,
+	//For numbers, the maximum number. For arrays, the maximum length. Defaults to Number.MAX_SAFE_INTEGER
+	"max": 10.0,
+	//For numbers, the smallest allowable increment. Defaults to 1.0 (integer)
+	"step": 1.0,
+	//Extra behavior for a string type. Can be omitted, 'color', or 'seed'. For color, will render an input type = color.
+	"behavior": "color",
+	//If options is provided, then a select will be rendered, allowing only those options.
+	"options": [
+		{
+			//The actual value, the only required key
+			"value": "a",
+			//The string to show in the UI. Defaults to value if not provided
+			"display": "A"
+			//The help text to render in the UI. Defaults to the value of display, or value, if not provided.
+			"description": "This option is a string"
+		},
+	],
+	//For array and object types, whether a given item is allowed to be set explicitly to null.
+	//Defaults to false
+	"optional": false,
+	//Advanced options will only render UI if the user has enabled advanced mode. This is useful to hide infrequently needed options.
+	"advanced": false,
 }
 ```
 
@@ -204,13 +251,13 @@ with alternating layers of "example" objects. Here's a more complex example:
 
 ```
 {
-    "communication": {
-        "example": 0.0,
+	"communication": {
+		"example": 0.0,
 		"min": 0.0,
 		"step": 1.0,
-        "description": "How many rounds of communication are allowed before picking. 0 means no communication"
-    },
-    "display": {
+		"description": "How many rounds of communication are allowed before picking. 0 means no communication"
+	},
+	"display": {
 		"example": {
 			"debug": {
 				"example": false,
@@ -223,8 +270,8 @@ with alternating layers of "example" objects. Here's a more complex example:
 			}
 		},
 		"description": "Boolean flags that control aspects of rendering",
-    },
-    "projects": {
+	},
+	"projects": {
 		"example": {
 			"count": {
 				"example": 5.0,
@@ -266,7 +313,7 @@ with alternating layers of "example" objects. Here's a more complex example:
 			}
 		}
 		"description": "Information about projects"
-    }
+	}
 }
 
 ```
@@ -300,8 +347,8 @@ This means you typically want a style like
 
 ```
 :host {
-    height: 100%;
-    width: 100%;
+	height: 100%;
+	width: 100%;
 }
 ```
 

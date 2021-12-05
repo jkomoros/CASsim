@@ -20,40 +20,6 @@ import {
 	color
 } from './color.js';
 
-/*
-{
-	//Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL. May be omitted.
-	"name": "this-is-a-name",
-	//The human-readable description of the config. Optional. Will use name if not provided.
-	"description": "This is a description",
-	//Height and width. Mainly used for aspect ratio, but for screenshotting this will be the literal height and width in pixels
-	"width": 16,
-	"height": 9,
-	//How many runs to generate in the set
-	"runs": 12,
-	//If omitted, will use a value derived from current time. The deterministic value to feed to seed.
-	"seed": "abc",
-	//if true, then it will automatically run all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.
-	"autoRun": true,
-	//Configures whether or not to display certain things. May be omitted.
-	"display": {
-		//If true, then a status line will be rendered beneath the diagram.
-		"status": true,
-	},
-	"colors": {
-		"primary": "#fb8c00",
-		"secondary": "#51b9a3",
-		"disabled": "#CCCCCC",
-		"background": "transparent"
-	}
-	//The simulator type to run. Currently only "schelling-org" is supported.
-	"sim": "schelling-org",
-	//The options to feed to the simulator. These will be different shapes depending on the value of "sim". See each specific simulator's documentation.
-	"simOptions": {}
-}
-
-*/
-
 const HEIGHT_PROPERTY = 'height';
 const WIDTH_PROPERTY = 'width';
 const RUNS_PROPERTY = 'runs';
