@@ -575,6 +575,16 @@ import { LitElement, html, css, svg} from "lit-element";
 
 const COLLABORATOR_CIRCLE_FACTOR = 7;
 
+
+const projectWidth = (projectCount, stageWidth = 1.0) => {
+	return stageWidth / (projectCount * 3 - 1);
+};
+
+const projectX = (index, projectCount, stageWidth = 1.0) => {
+	const width = projectWidth(projectCount, stageWidth);
+	return index * (width * 3) + width;
+};
+
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
@@ -783,14 +793,13 @@ class SchellingOrgRenderer extends LitElement {
 	}
 
 	_projectWidth() {
-		return this.width / (this.frame[PROJECTS_PROPERTY_NAME].length * 3 - 1);
+		return projectWidth(this.frame[PROJECTS_PROPERTY_NAME].length, this.width);
 	}
 
 	//Returns the x, y of the bottom center of the project bar
 	_projectPosition(index) {
 		if (index == undefined) return null;
-		const width = this._projectWidth();
-		const x = index * (width * 3) + width;
+		const x = projectX(index, this.frame[PROJECTS_PROPERTY_NAME].length, this.width);
 		const y = this.height / 3;
 		return [x, y];
 	}
