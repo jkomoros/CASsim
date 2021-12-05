@@ -59,6 +59,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const individualCollaboratorOverrides = simOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
 		const avgConnectionLikelihood = simOptions[COLLABORATORS_PROPERTY_NAME][AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME];
 		const connectionLikelihoodSpread = simOptions[COLLABORATORS_PROPERTY_NAME][CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME];
+		const defaultCompellingValue = simOptions[COLLABORATORS_PROPERTY_NAME][COMPELLING_PROPERTY_NAME];
 		//Assign basic values to projects.
 		let projects = [];
 		for (let i = 0; i < projectsCount; i++) {
@@ -87,7 +88,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				emoji: DEFAULT_EMOJIS[i % DEFAULT_EMOJIS.length],
 				epsilon: collaboratorEpsilonValue,
 				beliefs: personalBeliefs,
-				[COMPELLING_PROPERTY_NAME]: DEFAULT_COMPELLING_VALUE,
+				[COMPELLING_PROPERTY_NAME]: defaultCompellingValue,
 				[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: avgConnectionLikelihood,
 				[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: connectionLikelihoodSpread
 			});
@@ -256,6 +257,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		if (!rawSimOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME]) rawSimOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME] = [];
 		if (!rawSimOptions[COLLABORATORS_PROPERTY_NAME][AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]) rawSimOptions[COLLABORATORS_PROPERTY_NAME][AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME] = 0.5;
 		if (!rawSimOptions[COLLABORATORS_PROPERTY_NAME][CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]) rawSimOptions[COLLABORATORS_PROPERTY_NAME][CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] = 0.5;
+		if (!rawSimOptions[COLLABORATORS_PROPERTY_NAME][COMPELLING_PROPERTY_NAME]) rawSimOptions[COLLABORATORS_PROPERTY_NAME][COMPELLING_PROPERTY_NAME] = DEFAULT_COMPELLING_VALUE;
 		return rawSimOptions;
 	}
 
@@ -374,6 +376,14 @@ class SchellingOrgSimulator extends BaseSimulator {
 						example: 0.5,
 						step: 0.05,
 						description: "We compute a range of possible connection likelihoods based on [avgConnectionLikelihood - connectionLikelihoodSpread, avgConnectionLikelihood + connectionLikelihoodSpread] Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength."
+					},
+					[COMPELLING_PROPERTY_NAME]: {
+						example: 0.5,
+						description: 'When each individual speaks to another, how much does the receiver update their beliefs, between their old belief and new belief? 0.5 would be moving halfway from old belief to new belief',
+						min: 0.0,
+						max: 1.0,
+						step: 0.05,
+						optional: true,
 					},
 					[INDIVIDUALS_PROPERTY_NAME]: {
 						optional: true,
