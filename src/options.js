@@ -190,7 +190,13 @@ export const defaultValueForConfig = (optionsConfig, skipOptional) => {
 	if (skipOptional && optionsConfig[OPTIONAL_PROPERTY_NAME]) return undefined;
 	if (typeof example == 'object') {
 		if (Array.isArray(example)) {
-			return [defaultValueForConfig(example[0], true)].filter(item => item !== undefined);
+			if (optionsConfig[MIN_PROPERTY_NAME] == undefined) return [defaultValueForConfig(example[0], true)].filter(item => item !== undefined);
+			const arr = [];
+			const count = optionsConfig[MIN_PROPERTY_NAME] || 1;
+			for (let i = 0; i < count; i++) {
+				arr.push(defaultValueForConfig(example[0], true));
+			}
+			return arr;
 		}
 		return Object.fromEntries(Object.entries(example).filter(entry => !entry[1][OPTIONAL_PROPERTY_NAME]).map(entry => [entry[0], defaultValueForConfig(entry[1], true)]).filter(entry => entry[1] !== undefined));
 	}

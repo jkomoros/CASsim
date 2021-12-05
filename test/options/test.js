@@ -1701,6 +1701,31 @@ describe('defaultValueForConfig', () => {
 		assert.deepEqual(result, golden);
 	});
 
+	it('handles array min size', async () => {
+		const config = {
+			example: {
+				foo: {
+					example: [
+						{
+							example: 3,
+							optional: true,
+						}
+					],
+					min: 2,
+				},
+				bar: {
+					example: 4
+				}
+			}
+		};
+		const result = defaultValueForConfig(config);
+		const golden = {
+			foo: [null, null],
+			bar: 4
+		};
+		assert.deepEqual(result, golden);
+	});
+
 });
 
 describe('configForPath', () => {
