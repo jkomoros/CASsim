@@ -731,7 +731,8 @@ class SchellingOrgRenderer extends LitElement {
 		const width = this._projectWidth();
 		//Size is so the largest bar goes to the top of the area
 		const maxVerticalRelativeSize = Math.max(...this._projects.map(project => project.value + project.error));
-		const verticalScaleFactor = (this.height / 3) / maxVerticalRelativeSize;
+		//Spread it across the size avaialble; this.height/3 - some padding to not go all the way to the top
+		const verticalScaleFactor = ((this.height / 3) - (this.height / 40)) / maxVerticalRelativeSize;
 		const height = project.value * verticalScaleFactor;
 		const position = this._projectPosition(project.index);
 
