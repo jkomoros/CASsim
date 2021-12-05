@@ -24,6 +24,7 @@ const MARKED_PROPERTY_NAME = 'marked';
 const EPSILON_PROPERTY_NAME = 'epsilon';
 const BELIEFS_PROPERTY_NAME = 'beliefs';
 const COMPELLING_PROPERTY_NAME = 'compelling';
+const EMOJI_PROPERTY_NAME = 'emoji';
 
 const DEFAULT_COMPELLING_VALUE = 0.5;
 
@@ -87,9 +88,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 			}
 			collaborators.push({
 				index: i,
-				emoji: DEFAULT_EMOJIS[i % DEFAULT_EMOJIS.length],
-				epsilon: collaboratorEpsilonValue,
-				beliefs: personalBeliefs,
+				[EMOJI_PROPERTY_NAME]: DEFAULT_EMOJIS[i % DEFAULT_EMOJIS.length],
+				[EPSILON_PROPERTY_NAME]: collaboratorEpsilonValue,
+				[BELIEFS_PROPERTY_NAME]: personalBeliefs,
 				[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: broadcastLikelihood,
 				[COMPELLING_PROPERTY_NAME]: defaultCompellingValue,
 				[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: avgConnectionLikelihood,
@@ -147,7 +148,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 			let maxProjectValue = 0.0;
 			let maxProjects = [];
 			for (const [projectIndex, projectBelief] of collaborator[BELIEFS_PROPERTY_NAME].entries()) {
-				if (Math.abs(projectBelief - maxProjectValue) < collaborators[i].epsilon) {
+				if (Math.abs(projectBelief - maxProjectValue) < collaborators[i][EPSILON_PROPERTY_NAME]) {
 					//Effectively equal
 					maxProjects.push(projectIndex);
 					continue;
@@ -319,7 +320,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		if (collaborators) {
 			for (const [index, collaborator] of collaborators.entries()) {
 				if (collaborator.index != index) problems.push('Collaborator ' + index + ' has an invalid index');
-				if (typeof collaborator.beliefs != 'object' || !Array.isArray(collaborator.beliefs) || collaborator.beliefs.length != projects.length) problems.push('Collaborator ' + index + ' has an invalid beliefs');
+				if (typeof collaborator[BELIEFS_PROPERTY_NAME] != 'object' || !Array.isArray(collaborator[BELIEFS_PROPERTY_NAME]) || collaborator[BELIEFS_PROPERTY_NAME].length != projects.length) problems.push('Collaborator ' + index + ' has an invalid beliefs');
 			}
 		} else {
 			problems.push('Collaborators is not provided');
@@ -417,7 +418,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 						example: [
 							{
 								example: {
-									beliefs: {
+									[BELIEFS_PROPERTY_NAME]: {
 										example: [
 											{
 												example: 0.0,
@@ -432,7 +433,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 										description: "The epsilon for this specific individual",
 										optional:true,
 									},
-									emoji: {
+									[EMOJI_PROPERTY_NAME]: {
 										example: 'A',
 										description: 'The specific emoji',
 										optional:true,
@@ -718,7 +719,7 @@ class SchellingOrgRenderer extends LitElement {
 
 		return svg`
 		${projectPosition ? svg`<path class='selected-project' d='M ${projectPosition[0]},${projectPosition[1]} L ${x}, ${y}'></path>` : ''}
-		<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width * 0.8}'>${collaborator.emoji}</text>
+		<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width * 0.8}'>${collaborator[EMOJI_PROPERTY_NAME]}</text>
 		${this._communication ? '' : svg`<path class='wall' d='M ${x + width},${y - width / 2} L ${x + width},${y + width /2}' stroke-width='${width / 10}'></path>`}`;
 	}
 
