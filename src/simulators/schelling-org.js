@@ -626,11 +626,6 @@ class SchellingOrgRenderer extends LitElement {
 				opacity: 0.5;
 			}
 
-			.project.marked {
-				stroke-width: 2px;
-				stroke: var(--secondary-color);
-			}
-
 			.wall {
 				stroke: var(--disabled-color);
 			}
@@ -652,6 +647,10 @@ class SchellingOrgRenderer extends LitElement {
 			.connection {
 				stroke: black;
 				stroke-width: 1px;
+			}
+
+			.mark {
+				stroke: var(--disabled-color);
 			}
 
 			.connection.active {
@@ -834,7 +833,16 @@ class SchellingOrgRenderer extends LitElement {
 
 		const errorStrokeWidth = width / 40;
 
-		return svg`<rect class='project ${project.selected ? 'selected' : 'not-selected'} ${project[MARKED_PROPERTY_NAME] ? 'marked' : ''}' x=${x} y=${y} width=${width} height=${height}></rect>
+		const marked = project[MARKED_PROPERTY_NAME];
+		const markStartX = errorStartX - (width / 12);
+		const markEndX = errorEndX;
+		//Deliberately not at center
+		const markCenterY = position[1] - (height / 3);
+		const markStartY = markCenterY - (height / 12);
+		const markEndY = markCenterY + (height / 18);
+
+		return svg`<rect class='project ${project.selected ? 'selected' : 'not-selected'}' x=${x} y=${y} width=${width} height=${height}></rect>
+					${marked ?  svg`<path class='mark' d='M ${markStartX}, ${markStartY} L ${markEndX}, ${markEndY}' stroke-width=${errorStrokeWidth}></path>` : ''}
 					${hasError ? svg`<path class='error' d='M ${errorStartX}, ${errorStartY} H ${errorEndX} M ${position[0]}, ${errorStartY} V ${errorEndY} M ${errorStartX}, ${errorEndY} H ${errorEndX}' stroke-width=${errorStrokeWidth}></path>
 						${this._renderBeliefTicks ? html`${this._collaborators.map(collaborator => svg`<path class='belief' d='M ${beliefStartX},${position[1] - verticalScaleFactor * collaborator.beliefs[project.index]} h ${beliefWidth}' stroke-width='${errorStrokeWidth / 2}'></path>`)}` : ''}
 					` : ''}`;
