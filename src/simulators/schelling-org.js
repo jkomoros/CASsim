@@ -18,6 +18,7 @@ const MAX_EXTRA_VALUE_PROPERTY_NAME = 'maxExtraValue';
 const MAX_ERROR_VALUE_PROPERTY_NAME = 'maxErrorValue';
 const AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME = 'avgConnectionLikelihood';
 const CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME = 'connectionLikelihoodSpread';
+const BROADCAST_LIKELIHOOD_PROPERTY_NAME = 'broadcastLikelihood';
 const INDIVIDUALS_PROPERTY_NAME = 'individuals';
 const MARKED_PROPERTY_NAME = 'marked';
 const EPSILON_PROPERTY_NAME = 'epsilon';
@@ -60,6 +61,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const avgConnectionLikelihood = simOptions[COLLABORATORS_PROPERTY_NAME][AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME];
 		const connectionLikelihoodSpread = simOptions[COLLABORATORS_PROPERTY_NAME][CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME];
 		const defaultCompellingValue = simOptions[COLLABORATORS_PROPERTY_NAME][COMPELLING_PROPERTY_NAME];
+		const broadcastLikelihood = simOptions[COLLABORATORS_PROPERTY_NAME][BROADCAST_LIKELIHOOD_PROPERTY_NAME];
 		//Assign basic values to projects.
 		let projects = [];
 		for (let i = 0; i < projectsCount; i++) {
@@ -88,6 +90,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				emoji: DEFAULT_EMOJIS[i % DEFAULT_EMOJIS.length],
 				epsilon: collaboratorEpsilonValue,
 				beliefs: personalBeliefs,
+				[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: broadcastLikelihood,
 				[COMPELLING_PROPERTY_NAME]: defaultCompellingValue,
 				[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: avgConnectionLikelihood,
 				[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: connectionLikelihoodSpread
@@ -195,30 +198,38 @@ class SchellingOrgSimulator extends BaseSimulator {
 		}
 		const connectionIndex = urn.pick();
 
-		const connection = connections[connectionIndex];
-		connection.active = true;
-
+		const primaryConnection = connections[connectionIndex];
+		
 		const collaborators = [...frame[COLLABORATORS_PROPERTY_NAME]];
 
 		//Which project to communicate about.
 		//TODO: allow overriding this based on different strategies.
 		const projectIndex = Math.floor(rnd() * frame[PROJECTS_PROPERTY_NAME].length);
 
-		const senderBeliefs = collaborators[connection.i][BELIEFS_PROPERTY_NAME];
-		const recieverBeliefs = collaborators[connection.j][BELIEFS_PROPERTY_NAME];
+		const doBroadcast = rnd() <= collaborators[primaryConnection.i][BROADCAST_LIKELIHOOD_PROPERTY_NAME];
 
-		const senderCompelling = collaborators[connection.i][COMPELLING_PROPERTY_NAME];
+		//If we do broadcast, then we'll transmit to each connection where sender is the sender, and the value is greater than the primaryConnection value.
+		const connectionsToSend = doBroadcast ? connections.filter(connection => connection.i == primaryConnection.i && connection.strength >= primaryConnection.strength) : [primaryConnection];
 
-		const senderProjectBelief = senderBeliefs[projectIndex];
-		const receiverProjectBelief = recieverBeliefs[projectIndex];
+		const senderCompelling = collaborators[primaryConnection.i][COMPELLING_PROPERTY_NAME];
+		
+		for (const connection of connectionsToSend) {
+			connection.active = true;
 
-		//The receiver should update their current belief to be halfway between their previous belief and the sender's belief.
-		const updatedBelief = ((senderProjectBelief - receiverProjectBelief) * senderCompelling) + receiverProjectBelief;
+			const senderBeliefs = collaborators[connection.i][BELIEFS_PROPERTY_NAME];
+			const recieverBeliefs = collaborators[connection.j][BELIEFS_PROPERTY_NAME];
 
-		const receiverUpdatedBeliefs = [...recieverBeliefs];
-		receiverUpdatedBeliefs[projectIndex] = updatedBelief;
+			const senderProjectBelief = senderBeliefs[projectIndex];
+			const receiverProjectBelief = recieverBeliefs[projectIndex];
 
-		collaborators[connection.j] = {...collaborators[connection.j], beliefs: receiverUpdatedBeliefs};
+			//The receiver should update their current belief to be halfway between their previous belief and the sender's belief.
+			const updatedBelief = ((senderProjectBelief - receiverProjectBelief) * senderCompelling) + receiverProjectBelief;
+
+			const receiverUpdatedBeliefs = [...recieverBeliefs];
+			receiverUpdatedBeliefs[projectIndex] = updatedBelief;
+
+			collaborators[connection.j] = {...collaborators[connection.j], beliefs: receiverUpdatedBeliefs};
+		}
 
 		return {
 			...frame,
@@ -258,6 +269,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		if (!rawSimOptions[COLLABORATORS_PROPERTY_NAME][AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]) rawSimOptions[COLLABORATORS_PROPERTY_NAME][AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME] = 0.5;
 		if (!rawSimOptions[COLLABORATORS_PROPERTY_NAME][CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]) rawSimOptions[COLLABORATORS_PROPERTY_NAME][CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] = 0.5;
 		if (!rawSimOptions[COLLABORATORS_PROPERTY_NAME][COMPELLING_PROPERTY_NAME]) rawSimOptions[COLLABORATORS_PROPERTY_NAME][COMPELLING_PROPERTY_NAME] = DEFAULT_COMPELLING_VALUE;
+		if (!rawSimOptions[COLLABORATORS_PROPERTY_NAME][BROADCAST_LIKELIHOOD_PROPERTY_NAME]) rawSimOptions[COLLABORATORS_PROPERTY_NAME][BROADCAST_LIKELIHOOD_PROPERTY_NAME] = 0.0;
 		return rawSimOptions;
 	}
 
@@ -385,6 +397,14 @@ class SchellingOrgSimulator extends BaseSimulator {
 						step: 0.05,
 						optional: true,
 					},
+					[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: {
+						example: 0.0,
+						description: 'For each time a speaker is selected to present, how likely are they are they to broadcast to multiple people, with any individual with a connection equal to or stronger than the selected connection is communicated with at once?',
+						min: 0.0,
+						max: 1.0,
+						step: 0.05,
+						optional: true,
+					},
 					[INDIVIDUALS_PROPERTY_NAME]: {
 						optional: true,
 						example: [
@@ -427,6 +447,14 @@ class SchellingOrgSimulator extends BaseSimulator {
 										min: 0.0,
 										step: 0.05,
 										optional:true,
+									},
+									[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: {
+										example: 0.0,
+										description: 'For each time a speaker is selected to present, how likely are they are they to broadcast to multiple people, with any individual with a connection equal to or stronger than the selected connection is communicated with at once?',
+										min: 0.0,
+										max: 1.0,
+										step: 0.05,
+										optional: true,
 									}
 								},
 								description: "An individual",
