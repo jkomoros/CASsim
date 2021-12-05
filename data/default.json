@@ -18,6 +18,9 @@
 		"extraFinalFrameCount": 10,
 		"sim": "schelling-org",
 		"simOptions": {
+			"display": {
+				"beliefs": true
+			},
 			"communication": 15,
 			"collaborators": {
 				"count": 8,

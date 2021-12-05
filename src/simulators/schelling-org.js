@@ -372,8 +372,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 	defaultValueForPath(path, simOptions) {
 		const parts = path.split('.');
-		const lastPart = parts[parts.length -1];
-		if (lastPart == BELIEFS_PROPERTY_NAME){
+		if (parts.length == 4 && parts[3] == BELIEFS_PROPERTY_NAME){
 			const base = super.defaultValueForPath(path, simOptions);
 			const length = simOptions[PROJECTS_PROPERTY_NAME].count;
 			const result = [];
@@ -394,6 +393,11 @@ class SchellingOrgSimulator extends BaseSimulator {
 						description: "If true, then the SVG will render debug information",
 						advanced: true,
 						optional: true,
+					},
+					[BELIEFS_PROPERTY_NAME]: {
+						example: false,
+						description: "If true, then each individuals' beliefs about the value of a project will be rendered as a tick mark",
+						optional: true
 					}
 				},
 				optional: true,
@@ -653,6 +657,12 @@ class SchellingOrgRenderer extends LitElement {
 		return displayValue[DEBUG_PROPERTY_NAME] || false;
 	}
 
+	get _renderBeliefTicks() {
+		if (!this.frame) return false;
+		const displayValue = this.frame[DISPLAY_PROPERTY_NAME] || {};
+		return displayValue[BELIEFS_PROPERTY_NAME] || false;
+	}
+
 	_debugRender() {
 		if (!this._debug) return '';
 		const collaboratorPosition = this._collaboratorPosition(0);
@@ -753,7 +763,7 @@ class SchellingOrgRenderer extends LitElement {
 
 		return svg`<rect class='project ${project.selected ? 'selected' : 'not-selected'} ${project[MARKED_PROPERTY_NAME] ? 'marked' : ''}' x=${x} y=${y} width=${width} height=${height}></rect>
 					${hasError ? svg`<path class='error' d='M ${errorStartX}, ${errorStartY} H ${errorEndX} M ${position[0]}, ${errorStartY} V ${errorEndY} M ${errorStartX}, ${errorEndY} H ${errorEndX}' stroke-width=${errorStrokeWidth}></path>
-						${this._collaborators.map(collaborator => svg`<path class='belief' d='M ${beliefStartX},${position[1] - verticalScaleFactor * collaborator.beliefs[project.index]} h ${beliefWidth}' stroke-width='${errorStrokeWidth / 2}'></path>`)}
+						${this._renderBeliefTicks ? html`${this._collaborators.map(collaborator => svg`<path class='belief' d='M ${beliefStartX},${position[1] - verticalScaleFactor * collaborator.beliefs[project.index]} h ${beliefWidth}' stroke-width='${errorStrokeWidth / 2}'></path>`)}` : ''}
 					` : ''}`;
 	}
 
