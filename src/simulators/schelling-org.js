@@ -367,7 +367,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[DEBUG_PROPERTY_NAME]: {
 						example: false,
 						description: "If true, then the SVG will render debug information",
-						advanced: true,
 						optional: true,
 					},
 					[BELIEFS_PROPERTY_NAME]: {
