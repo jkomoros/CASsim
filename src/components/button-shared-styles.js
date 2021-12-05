@@ -2,8 +2,8 @@ import { css, html } from 'lit-element';
 import { HELP_ICON } from './my-icons.js';
 
 //if you use help, also make sure to include ButtonSharedStyles
-export const help = (message) => {
-	return html`<button class='small help' title="${message}">${HELP_ICON}</span>`;
+export const help = (message, disabled = false) => {
+	return html`<button class='small help' title="${message}" .disabled=${disabled}>${HELP_ICON}</span>`;
 };
 
 export const ButtonSharedStyles = css`
