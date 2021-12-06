@@ -49,6 +49,10 @@ const DEFAULT_EMOJIS = [
 
 const DEFAULT_NORTH_STAR_EMOJI = '🌟';
 
+const randomValueWithBias = (rnd, min, max) => {
+	return (max - min) * rnd() + min;
+};
+
 class SchellingOrgSimulator extends BaseSimulator {
 
 	get name() {
@@ -83,15 +87,13 @@ class SchellingOrgSimulator extends BaseSimulator {
 		}
 		projects = projects.map((item, index) => individualProjectOverrides[index] ? {...item, ...individualProjectOverrides[index]} : item);
 
-		//The default beliefs for each individual.
-		const baseBeliefs = projects.map(item => item.value);
-
 		//Assign basic values to collaborators.
 		let collaborators = [];
 		for (let i = 0; i < collaboratorsCount; i++) {
-			const personalBeliefs = [...baseBeliefs];
+			const personalBeliefs = new Array(projects.length);
 			for (let j = 0; j < personalBeliefs.length; j++) {
-				personalBeliefs[j] += (rnd() < 0.5 ? -1 : 1) * (rnd() * projects[j].error);
+				const project = projects[j];
+				personalBeliefs[j] = randomValueWithBias(rnd, project.value - project.error, project.value + project.error);
 			}
 			collaborators.push({
 				index: i,
