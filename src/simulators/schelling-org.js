@@ -49,8 +49,30 @@ const DEFAULT_EMOJIS = [
 
 const DEFAULT_NORTH_STAR_EMOJI = '🌟';
 
-const randomValueWithBias = (rnd, min, max) => {
-	return (max - min) * rnd() + min;
+//bias is where in the range of min to max the value will be. 0.5 will be
+//equally likely across whole range, whereas a bias of 0.0 will be very
+//pessimistic (very bottom edge of range, and bias of 1.0 will be extremely
+//optimistic)
+const randomValueWithBias = (rnd, min, max, bias = 0.5) => {
+	if (bias < 0.0) bias = 0.0;
+	if (bias > 1.0) bias = 1.0;
+
+	//Effectively what we'll do is make it so the percentage between max and min
+	//we do will be clipped based on bias, to between 0.0 and 1.0.
+	//bias -> minPercentage, maxPercentage
+	//0.5 -> 0.0, 1.0
+	//1.0 -> 1.0, 1.0
+	//0.0 -> 0.0, 0.0
+	//0.75 -> 0.5, 1.0
+	//0.25 -> 0.0, 0.5
+
+	//Convert bias to a convenient range
+	//0.5 -> 0.0, 1.0 -> 1.0, 0.0 -> -1.0, 0.75 -> 0.5, 0.25 -> -0.5
+	const normalizedBias = (bias * 2 - 1);
+	const percentMin = normalizedBias > 0.0 ? normalizedBias : 0.0;
+	const percentMax = normalizedBias < 0.0 ? 1.0 + normalizedBias : 1.0;
+	let percentage = (percentMax - percentMin) * rnd() + percentMin;
+	return (max - min) * percentage + min;
 };
 
 class SchellingOrgSimulator extends BaseSimulator {
