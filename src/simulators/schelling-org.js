@@ -1,5 +1,6 @@
 import {
-	Urn
+	Urn,
+	deepCopy
 } from '../util.js';
 
 import {
@@ -103,7 +104,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const projectErrorValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_ERROR_VALUE_PROPERTY_NAME];
 		const communicationValue = simOptions[COMMUNICATION_PROPERTY_NAME];
 		const displayValue = simOptions[DISPLAY_PROPERTY_NAME];
-		const northStarValue = simOptions[NORTH_STAR_PROPERTY_NAME];
+		const northStarValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? deepCopy(simOptions[NORTH_STAR_PROPERTY_NAME]) : undefined;
 		const collaboratorEpsilonValue = simOptions[COLLABORATORS_PROPERTY_NAME][EPSILON_PROPERTY_NAME];
 		const individualProjectOverrides = simOptions[PROJECTS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
 		const individualCollaboratorOverrides = simOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
@@ -111,6 +112,13 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const connectionLikelihoodSpread = simOptions[COLLABORATORS_PROPERTY_NAME][CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME];
 		const defaultCompellingValue = simOptions[COLLABORATORS_PROPERTY_NAME][COMPELLING_PROPERTY_NAME];
 		const broadcastLikelihood = simOptions[COLLABORATORS_PROPERTY_NAME][BROADCAST_LIKELIHOOD_PROPERTY_NAME];
+
+		if (northStarValue && northStarValue[OFFSET_TYPE_PROPERTY_NAME] != OFFSET_TYPE_MANUAL) {
+			const minOffset = northStarValue[MIN_OFFSET_PROPERTY_NAME];
+			const maxOffset = northStarValue[MAX_OFFSET_PROPERTY_NAME];
+			northStarValue[OFFSET_PROPERTY_NAME] = (maxOffset - minOffset) * rnd() + minOffset;
+		}
+
 		//Assign basic values to projects.
 		let projects = [];
 		for (let i = 0; i < projectsCount; i++) {
