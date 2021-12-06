@@ -479,10 +479,16 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[MIN_OFFSET_PROPERTY_NAME]: {
 						example: 0.0,
 						description: 'The lowest random offset to choose if ' + OFFSET_TYPE_PROPERTY_NAME + ' is randomly selected (not ' + OFFSET_TYPE_MANUAL + ')',
+						min: 0.0,
+						max: 1.0,
+						step: 0.05,
 					},
 					[MAX_OFFSET_PROPERTY_NAME]: {
 						example: 1.0,
 						description: 'The highest random offset to choose if ' + OFFSET_TYPE_PROPERTY_NAME + ' is randomly selected (not ' + OFFSET_TYPE_MANUAL + ')',
+						min: 0.0,
+						max: 1.0,
+						step: 0.05,
 					},
 					[OFFSET_PROPERTY_NAME]: {
 						example: 0.5,
