@@ -465,7 +465,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 						step: 0.05,
 					},
 					[STRENGTH_PROPERTY_NAME]: {
-						example: 1.0,
+						example: 0.5,
 						description: "How strong is the north star effect?",
 						min: 0.0,
 						max: 1.0,
