@@ -34,10 +34,16 @@ const OFFSET_TYPE_PROPERTY_NAME = 'offsetType';
 const MIN_OFFSET_PROPERTY_NAME = 'minOffset';
 const MAX_OFFSET_PROPERTY_NAME = 'maxOffset';
 const OPTIMISM_PROPERTY_NAME = 'optimism';
+const COMMUNICATION_STRATEGY_PROPERTY_NAME = 'communicationStrategy';
 
 const OFFSET_TYPE_MANUAL = 'manual';
 const OFFSET_TYPE_RANDOM = 'random';
 const OFFSET_TYPE_RANDOM_PROJECT = 'random-project';
+
+const COMMUNICATION_STRATEGY_RANDOM = 'random';
+const COMMUNICATION_STRATEGY_MIN = 'min';
+const COMMUNICATION_STRATEGY_MAX = 'max';
+const COMMUNICATION_STRATEGY_DISAGREEMENT = 'disagreement';
 
 const DEFAULT_COMPELLING_VALUE = 0.5;
 
@@ -114,6 +120,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const connectionLikelihoodSpread = simOptions[COLLABORATORS_PROPERTY_NAME][CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME];
 		const defaultCompellingValue = simOptions[COLLABORATORS_PROPERTY_NAME][COMPELLING_PROPERTY_NAME];
 		const broadcastLikelihood = simOptions[COLLABORATORS_PROPERTY_NAME][BROADCAST_LIKELIHOOD_PROPERTY_NAME];
+		const communicationStrategy = simOptions[COLLABORATORS_PROPERTY_NAME][COMMUNICATION_STRATEGY_PROPERTY_NAME];
 		//This might be undefined if not provided
 		const optimismValue = simOptions[COLLABORATORS_PROPERTY_NAME][OPTIMISM_PROPERTY_NAME];
 
@@ -198,6 +205,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: avgConnectionLikelihood,
 				[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: connectionLikelihoodSpread,
 				[OPTIMISM_PROPERTY_NAME]: optimismValue,
+				[COMMUNICATION_STRATEGY_PROPERTY_NAME]: communicationStrategy,
 			});
 		}
 		//Override individuals' values
@@ -329,14 +337,50 @@ class SchellingOrgSimulator extends BaseSimulator {
 		
 		const collaborators = [...frame[COLLABORATORS_PROPERTY_NAME]];
 
-		//Which project to communicate about.
-		//TODO: allow overriding this based on different strategies.
-		const projectIndex = Math.floor(rnd() * frame[PROJECTS_PROPERTY_NAME].length);
-
 		const doBroadcast = rnd() <= collaborators[primaryConnection.i][BROADCAST_LIKELIHOOD_PROPERTY_NAME];
 
 		//If we do broadcast, then we'll transmit to each connection where sender is the sender, and the value is greater than the primaryConnection value.
 		const connectionsToSend = doBroadcast ? connections.filter(connection => connection.i == primaryConnection.i && connection[STRENGTH_PROPERTY_NAME] >= primaryConnection[STRENGTH_PROPERTY_NAME]) : [primaryConnection];
+
+
+		//Which project to communicate about.
+		const communicationStrategy = collaborators[primaryConnection.i][COMMUNICATION_STRATEGY_PROPERTY_NAME];
+
+		//By default we do COMMUNCATION_STRATEGY_RANDOM
+		let projectIndex = Math.floor(rnd() * frame[PROJECTS_PROPERTY_NAME].length);
+
+		if (communicationStrategy !== COMMUNICATION_STRATEGY_RANDOM) {
+			let extremeValue = communicationStrategy == COMMUNICATION_STRATEGY_MIN ? Number.MAX_SAFE_INTEGER : -1 * Number.MAX_SAFE_INTEGER;
+			for (let connection of connectionsToSend) {
+				const senderBeliefs = collaborators[connection.i][BELIEFS_PROPERTY_NAME];
+				const recieverBeliefs = collaborators[connection.j][BELIEFS_PROPERTY_NAME];
+				for (let i = 0; i < senderBeliefs.length; i++) {
+					const senderProjectBelief = senderBeliefs[i];
+					const receiverProjectBelief = recieverBeliefs[i];
+					switch (communicationStrategy) {
+					case COMMUNICATION_STRATEGY_MIN:
+						if (senderProjectBelief < extremeValue) {
+							extremeValue = senderProjectBelief;
+							projectIndex = i;
+						}
+						break;
+					case COMMUNICATION_STRATEGY_MAX:
+						if (senderProjectBelief > extremeValue) {
+							extremeValue = senderProjectBelief;
+							projectIndex = i;
+						}
+						break;
+					case COMMUNICATION_STRATEGY_DISAGREEMENT:
+						const disagreement = Math.abs(senderProjectBelief - receiverProjectBelief);
+						if (disagreement > extremeValue) {
+							extremeValue = disagreement;
+							projectIndex = i;
+						}
+						break;
+					}
+				}
+			}
+		}
 
 		const senderCompelling = collaborators[primaryConnection.i][COMPELLING_PROPERTY_NAME];
 		
@@ -403,6 +447,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		if (collaborators[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] == undefined) collaborators[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] = 0.5;
 		if (collaborators[COMPELLING_PROPERTY_NAME] == undefined) collaborators[COMPELLING_PROPERTY_NAME] = DEFAULT_COMPELLING_VALUE;
 		if (collaborators[BROADCAST_LIKELIHOOD_PROPERTY_NAME] == undefined) collaborators[BROADCAST_LIKELIHOOD_PROPERTY_NAME] = 0.0;
+		if (collaborators[COMMUNICATION_STRATEGY_PROPERTY_NAME] == undefined) collaborators[COMMUNICATION_STRATEGY_PROPERTY_NAME] = COMMUNICATION_STRATEGY_RANDOM;
 
 		return rawSimOptions;
 	}
@@ -608,6 +653,29 @@ class SchellingOrgSimulator extends BaseSimulator {
 						step: 0.05,
 						optional: true
 					},
+					[COMMUNICATION_STRATEGY_PROPERTY_NAME]: {
+						example: COMMUNICATION_STRATEGY_RANDOM,
+						description: 'The communication strategy the individual will use when deciding which project to communicate about',
+						options: [
+							{
+								value: COMMUNICATION_STRATEGY_RANDOM,
+								description: 'A random project',
+							},
+							{
+								value: COMMUNICATION_STRATEGY_MIN,
+								description: 'The project the speaker is most pessimistic about'
+							},
+							{
+								value: COMMUNICATION_STRATEGY_MAX,
+								description: 'The project the speaker is most optimistic about'
+							},
+							{
+								value: COMMUNICATION_STRATEGY_DISAGREEMENT,
+								description: 'The project the speaker and receiver disagree most about'
+							}
+						],
+						optional: true
+					},
 					[INDIVIDUALS_PROPERTY_NAME]: {
 						optional: true,
 						example: [
@@ -666,7 +734,30 @@ class SchellingOrgSimulator extends BaseSimulator {
 										max: 1.0,
 										step: 0.05,
 										optional: true
-									}
+									},
+									[COMMUNICATION_STRATEGY_PROPERTY_NAME]: {
+										example: COMMUNICATION_STRATEGY_RANDOM,
+										description: 'The communication strategy the individual will use when deciding which project to communicate about',
+										options: [
+											{
+												value: COMMUNICATION_STRATEGY_RANDOM,
+												description: 'A random project',
+											},
+											{
+												value: COMMUNICATION_STRATEGY_MIN,
+												description: 'The project the speaker is most pessimistic about'
+											},
+											{
+												value: COMMUNICATION_STRATEGY_MAX,
+												description: 'The project the speaker is most optimistic about'
+											},
+											{
+												value: COMMUNICATION_STRATEGY_DISAGREEMENT,
+												description: 'The project the speaker and receiver disagree most about'
+											}
+										],
+										optional: true
+									},
 								},
 								description: "An individual",
 								optional: true
