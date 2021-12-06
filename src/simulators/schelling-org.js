@@ -105,6 +105,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				selected: false,
 				value: 1.0 + (rnd() * projectExtraValue),
 				error: 0.0 + (rnd() * projectErrorValue),
+				northStarBias: 0.5,
 			});
 		}
 		projects = projects.map((item, index) => individualProjectOverrides[index] ? {...item, ...individualProjectOverrides[index]} : item);
@@ -115,7 +116,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 			const personalBeliefs = new Array(projects.length);
 			for (let j = 0; j < personalBeliefs.length; j++) {
 				const project = projects[j];
-				personalBeliefs[j] = randomValueWithBias(rnd, project.value - project.error, project.value + project.error);
+				personalBeliefs[j] = randomValueWithBias(rnd, project.value - project.error, project.value + project.error, project.northStarBias);
 			}
 			collaborators.push({
 				index: i,
