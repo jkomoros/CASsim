@@ -36,6 +36,7 @@ const MAX_OFFSET_PROPERTY_NAME = 'maxOffset';
 
 const OFFSET_TYPE_MANUAL = 'manual';
 const OFFSET_TYPE_RANDOM = 'random';
+const OFFSET_TYPE_RANDOM_PROJECT = 'random-project';
 
 const DEFAULT_COMPELLING_VALUE = 0.5;
 
@@ -116,7 +117,22 @@ class SchellingOrgSimulator extends BaseSimulator {
 		if (northStarValue && northStarValue[OFFSET_TYPE_PROPERTY_NAME] != OFFSET_TYPE_MANUAL) {
 			const minOffset = northStarValue[MIN_OFFSET_PROPERTY_NAME];
 			const maxOffset = northStarValue[MAX_OFFSET_PROPERTY_NAME];
-			northStarValue[OFFSET_PROPERTY_NAME] = (maxOffset - minOffset) * rnd() + minOffset;
+			if (northStarValue[OFFSET_PROPERTY_NAME] == OFFSET_TYPE_RANDOM) {
+				northStarValue[OFFSET_PROPERTY_NAME] = (maxOffset - minOffset) * rnd() + minOffset;
+			} else {
+				//Random choce of projects
+				const choices = [];
+				for (let i = 0; i < projectsCount; i++) {
+					const projectXOffset = projectX(i, projectsCount);
+					if (projectXOffset < minOffset) continue;
+					if (projectXOffset > maxOffset) continue;
+					choices.push(projectXOffset);
+				}
+				if (choices.length) {
+					//If there are no choices, falling back on the value of offset is a reasonable thing to do
+					northStarValue[OFFSET_PROPERTY_NAME] = choices[Math.floor(choices.length * rnd())];
+				}
+			}
 		}
 
 		//Assign basic values to projects.
@@ -481,7 +497,11 @@ class SchellingOrgSimulator extends BaseSimulator {
 							{
 								value: OFFSET_TYPE_RANDOM,
 								description: 'The offset is a random value per run, between ' + MIN_OFFSET_PROPERTY_NAME + ' and ' + MAX_OFFSET_PROPERTY_NAME,
-							}
+							},
+							{
+								value: OFFSET_TYPE_RANDOM_PROJECT,
+								description: 'The offset is a random value per run, between ' + MIN_OFFSET_PROPERTY_NAME + ' and ' + MAX_OFFSET_PROPERTY_NAME + ', but snapped to be precisely above a project',
+							},
 						]
 					},
 					[MIN_OFFSET_PROPERTY_NAME]: {
