@@ -75,6 +75,15 @@ const randomValueWithBias = (rnd, min, max, bias = 0.5) => {
 	return (max - min) * percentage + min;
 };
 
+const projectWidth = (projectCount, stageWidth = 1.0) => {
+	return stageWidth / (projectCount * 3 - 1);
+};
+
+const projectX = (index, projectCount, stageWidth = 1.0) => {
+	const width = projectWidth(projectCount, stageWidth);
+	return index * (width * 3) + width;
+};
+
 class SchellingOrgSimulator extends BaseSimulator {
 
 	get name() {
@@ -99,15 +108,49 @@ class SchellingOrgSimulator extends BaseSimulator {
 		//Assign basic values to projects.
 		let projects = [];
 		for (let i = 0; i < projectsCount; i++) {
+
+			//Default of no northStar bias
+			let northStarBias = 0.5;
+			if (northStarValue) {
+				//There is a north star. Conceptually we'll calulate the bias to
+				//be a triangle centered on north star offset, trailing off
+				//linearly on either side of offset by spread. And the lowest
+				//and highest values at the extremes are given by strength,
+				//where strength of 1.0 will have the extremes be 0.0..1.0
+				const northStarOffset = northStarValue[OFFSET_PROPERTY_NAME];
+				const northStarSpread = northStarValue[SPREAD_PROPERTY_NAME];
+				const northStarStrength = northStarValue[STRENGTH_PROPERTY_NAME];
+				const minNorthStarBias = 0.5 - (0.5 * northStarStrength);
+				const maxNorthStarBias = 0.5 + (0.5 * northStarStrength);
+				const projectXOffset = projectX(i, projectsCount);
+				if (projectXOffset < northStarOffset - northStarSpread) {
+					northStarBias = minNorthStarBias;
+				} else if (projectXOffset > northStarOffset + northStarSpread) {
+					northStarBias = minNorthStarBias;
+				} else if (projectXOffset > northStarOffset) {
+					//Linear
+					const percentage = (projectXOffset - northStarOffset) / northStarSpread;
+					northStarBias = (maxNorthStarBias - minNorthStarBias) * (1.0 - percentage) + minNorthStarBias;
+				} else if (projectXOffset < northStarOffset) {
+					//Linear fall off
+					const percentage = (northStarOffset - projectXOffset) / northStarSpread;
+					northStarBias = (maxNorthStarBias - minNorthStarBias) * (1.0 - percentage) + minNorthStarBias;
+				} else {
+					//Precisely the same
+					northStarBias = maxNorthStarBias;
+				}
+			}
+
 			projects.push({
 				index: i,
 				//We'll select this later based on which ones were actually selected.
 				selected: false,
 				value: 1.0 + (rnd() * projectExtraValue),
 				error: 0.0 + (rnd() * projectErrorValue),
-				northStarBias: 0.5,
+				northStarBias
 			});
 		}
+
 		projects = projects.map((item, index) => individualProjectOverrides[index] ? {...item, ...individualProjectOverrides[index]} : item);
 
 		//Assign basic values to collaborators.
@@ -598,16 +641,6 @@ export default SchellingOrgSimulator;
 import { LitElement, html, css, svg} from "lit-element";
 
 const COLLABORATOR_CIRCLE_FACTOR = 7;
-
-
-const projectWidth = (projectCount, stageWidth = 1.0) => {
-	return stageWidth / (projectCount * 3 - 1);
-};
-
-const projectX = (index, projectCount, stageWidth = 1.0) => {
-	const width = projectWidth(projectCount, stageWidth);
-	return index * (width * 3) + width;
-};
 
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you
