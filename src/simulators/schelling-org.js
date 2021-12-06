@@ -33,6 +33,7 @@ const SPREAD_PROPERTY_NAME = 'spread';
 const OFFSET_TYPE_PROPERTY_NAME = 'offsetType';
 const MIN_OFFSET_PROPERTY_NAME = 'minOffset';
 const MAX_OFFSET_PROPERTY_NAME = 'maxOffset';
+const OPTIMISM_PROPERTY_NAME = 'optimism';
 
 const OFFSET_TYPE_MANUAL = 'manual';
 const OFFSET_TYPE_RANDOM = 'random';
@@ -113,6 +114,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const connectionLikelihoodSpread = simOptions[COLLABORATORS_PROPERTY_NAME][CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME];
 		const defaultCompellingValue = simOptions[COLLABORATORS_PROPERTY_NAME][COMPELLING_PROPERTY_NAME];
 		const broadcastLikelihood = simOptions[COLLABORATORS_PROPERTY_NAME][BROADCAST_LIKELIHOOD_PROPERTY_NAME];
+		//This might be undefined if not provided
+		const optimismValue = simOptions[COLLABORATORS_PROPERTY_NAME][OPTIMISM_PROPERTY_NAME];
 
 		if (northStarValue && northStarValue[OFFSET_TYPE_PROPERTY_NAME] != OFFSET_TYPE_MANUAL) {
 			const minOffset = northStarValue[MIN_OFFSET_PROPERTY_NAME];
@@ -140,7 +143,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		for (let i = 0; i < projectsCount; i++) {
 
 			//Default of no northStar bias
-			let northStarBias = 0.5;
+			let northStarBias;
 			if (northStarValue) {
 				//There is a north star. Conceptually we'll calulate the bias to
 				//be a triangle centered on north star offset, trailing off
@@ -186,23 +189,40 @@ class SchellingOrgSimulator extends BaseSimulator {
 		//Assign basic values to collaborators.
 		let collaborators = [];
 		for (let i = 0; i < collaboratorsCount; i++) {
-			const personalBeliefs = new Array(projects.length);
-			for (let j = 0; j < personalBeliefs.length; j++) {
-				const project = projects[j];
-				personalBeliefs[j] = randomValueWithBias(rnd, project.value - project.error, project.value + project.error, project.northStarBias);
-			}
 			collaborators.push({
 				index: i,
 				[EMOJI_PROPERTY_NAME]: DEFAULT_EMOJIS[i % DEFAULT_EMOJIS.length],
 				[EPSILON_PROPERTY_NAME]: collaboratorEpsilonValue,
-				[BELIEFS_PROPERTY_NAME]: personalBeliefs,
 				[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: broadcastLikelihood,
 				[COMPELLING_PROPERTY_NAME]: defaultCompellingValue,
 				[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: avgConnectionLikelihood,
-				[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: connectionLikelihoodSpread
+				[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: connectionLikelihoodSpread,
+				[OPTIMISM_PROPERTY_NAME]: optimismValue,
 			});
 		}
+		//Override individuals' values
 		collaborators = collaborators.map((item, index) => individualCollaboratorOverrides[index] ? {...item, ...individualCollaboratorOverrides[index]} : item);
+
+		//Set basic beliefs
+		for (let i = 0; i < collaboratorsCount; i++) {
+			const personalBeliefs = new Array(projects.length);
+			for (let j = 0; j < personalBeliefs.length; j++) {
+				const project = projects[j];
+				const northStarBias = project.northStarBias;
+				const optimismBias = collaborators[i][OPTIMISM_PROPERTY_NAME];
+				let bias = 0.5;
+				if (northStarBias === undefined && optimismBias !== undefined) {
+					bias = optimismBias;
+				} else if (northStarBias !== undefined && optimismBias === undefined) {
+					bias = northStarBias;
+				} else if (northStarBias !== undefined && optimismBias !== undefined) {
+					bias = (northStarBias + optimismBias) / 2;
+				}
+
+				personalBeliefs[j] = randomValueWithBias(rnd, project.value - project.error, project.value + project.error, bias);
+			}
+			collaborators[i][BELIEFS_PROPERTY_NAME] = personalBeliefs;
+		}
 
 		//connections is array of objs, {i, j, strength, index}, where i is the
 		//speaker, j is the listener, and strength is between 0.0 to 1.0 about
@@ -580,6 +600,14 @@ class SchellingOrgSimulator extends BaseSimulator {
 						step: 0.05,
 						optional: true,
 					},
+					[OPTIMISM_PROPERTY_NAME]: {
+						example: 0.5,
+						description: 'How optimistic or pessimistic the individual is. 1.0 is extremely optimistic--every value will be at the top of the possible range. 0.0 is extremely pessimistic--every value will be at the bottom of the possible range.',
+						min: 0.0,
+						max: 1.0,
+						step: 0.05,
+						optional: true
+					},
 					[INDIVIDUALS_PROPERTY_NAME]: {
 						optional: true,
 						example: [
@@ -630,6 +658,14 @@ class SchellingOrgSimulator extends BaseSimulator {
 										max: 1.0,
 										step: 0.05,
 										optional: true,
+									},
+									[OPTIMISM_PROPERTY_NAME]: {
+										example: 0.5,
+										description: 'How optimistic or pessimistic the individual is. 1.0 is extremely optimistic--every value will be at the top of the possible range. 0.0 is extremely pessimistic--every value will be at the bottom of the possible range.',
+										min: 0.0,
+										max: 1.0,
+										step: 0.05,
+										optional: true
 									}
 								},
 								description: "An individual",
