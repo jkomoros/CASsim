@@ -29,6 +29,12 @@ const NORTH_STAR_PROPERTY_NAME = 'northStar';
 const OFFSET_PROPERTY_NAME = 'offset';
 const STRENGTH_PROPERTY_NAME = 'strength';
 const SPREAD_PROPERTY_NAME = 'spread';
+const OFFSET_TYPE_PROPERTY_NAME = 'offsetType';
+const MIN_OFFSET_PROPERTY_NAME = 'minOffset';
+const MAX_OFFSET_PROPERTY_NAME = 'maxOffset';
+
+const OFFSET_TYPE_MANUAL = 'manual';
+const OFFSET_TYPE_RANDOM = 'random';
 
 const DEFAULT_COMPELLING_VALUE = 0.5;
 
@@ -456,6 +462,27 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[EMOJI_PROPERTY_NAME]: {
 						example: DEFAULT_NORTH_STAR_EMOJI,
 						description: "The emoji to render for that item",
+					},
+					[OFFSET_TYPE_PROPERTY_NAME]: {
+						example: OFFSET_TYPE_MANUAL,
+						options: [
+							{
+								value: OFFSET_TYPE_MANUAL,
+								description: 'The offset is specifically the value of ' + OFFSET_TYPE_PROPERTY_NAME
+							},
+							{
+								value: OFFSET_TYPE_RANDOM,
+								description: 'The offset is a random value per run, between ' + MIN_OFFSET_PROPERTY_NAME + ' and ' + MAX_OFFSET_PROPERTY_NAME,
+							}
+						]
+					},
+					[MIN_OFFSET_PROPERTY_NAME]: {
+						example: 0.0,
+						description: 'The lowest random offset to choose if ' + OFFSET_TYPE_PROPERTY_NAME + ' is randomly selected (not ' + OFFSET_TYPE_MANUAL + ')',
+					},
+					[MAX_OFFSET_PROPERTY_NAME]: {
+						example: 0.0,
+						description: 'The highest random offset to choose if ' + OFFSET_TYPE_PROPERTY_NAME + ' is randomly selected (not ' + OFFSET_TYPE_MANUAL + ')',
 					},
 					[OFFSET_PROPERTY_NAME]: {
 						example: 0.5,
