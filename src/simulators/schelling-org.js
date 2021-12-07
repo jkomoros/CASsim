@@ -35,6 +35,8 @@ const MIN_OFFSET_PROPERTY_NAME = 'minOffset';
 const MAX_OFFSET_PROPERTY_NAME = 'maxOffset';
 const OPTIMISM_PROPERTY_NAME = 'optimism';
 const COMMUNICATION_STRATEGY_PROPERTY_NAME = 'communicationStrategy';
+const BELIEVABILITY_PROPERTY_NAME = 'believability';
+const BELIEVES_PROPERTY_NAME = 'believes';
 
 const OFFSET_TYPE_MANUAL = 'manual';
 const OFFSET_TYPE_RANDOM = 'random';
@@ -123,6 +125,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const communicationStrategy = simOptions[COLLABORATORS_PROPERTY_NAME][COMMUNICATION_STRATEGY_PROPERTY_NAME];
 		//This might be undefined if not provided
 		const optimismValue = simOptions[COLLABORATORS_PROPERTY_NAME][OPTIMISM_PROPERTY_NAME];
+		const believabilityValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? simOptions[NORTH_STAR_PROPERTY_NAME][BELIEVABILITY_PROPERTY_NAME] : 1.0;
 
 		if (northStarValue && northStarValue[OFFSET_TYPE_PROPERTY_NAME] != OFFSET_TYPE_MANUAL) {
 			const minOffset = northStarValue[MIN_OFFSET_PROPERTY_NAME];
@@ -206,17 +209,24 @@ class SchellingOrgSimulator extends BaseSimulator {
 				[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: connectionLikelihoodSpread,
 				[OPTIMISM_PROPERTY_NAME]: optimismValue,
 				[COMMUNICATION_STRATEGY_PROPERTY_NAME]: communicationStrategy,
+				[BELIEVES_PROPERTY_NAME]: rnd() < believabilityValue
 			});
 		}
 		//Override individuals' values
 		collaborators = collaborators.map((item, index) => individualCollaboratorOverrides[index] ? {...item, ...individualCollaboratorOverrides[index]} : item);
+
+		if (northStarValue) northStarValue[BELIEVABILITY_PROPERTY_NAME] = collaborators.filter(collaborator => collaborator[BELIEVES_PROPERTY_NAME]).length / collaboratorsCount;
 
 		//Set basic beliefs
 		for (let i = 0; i < collaboratorsCount; i++) {
 			const personalBeliefs = new Array(projects.length);
 			for (let j = 0; j < personalBeliefs.length; j++) {
 				const project = projects[j];
-				const northStarBias = project.northStarBias;
+				//Only count the northStarBias if the user believes. But if
+				//there is a north star bias we'll treat it as 0.5 (otherwise
+				//the mix with optimism/northStarBias might be out of whack for
+				//this one collababorator compared to their peers)
+				const northStarBias = collaborators[i][BELIEVES_PROPERTY_NAME] ? project.northStarBias : (project.northStarBias !== undefined ? 0.5 : undefined);
 				const optimismBias = collaborators[i][OPTIMISM_PROPERTY_NAME];
 				let bias = 0.5;
 				if (northStarBias === undefined && optimismBias !== undefined) {
@@ -603,6 +613,13 @@ class SchellingOrgSimulator extends BaseSimulator {
 						min: 0.0,
 						max: 1.0,
 						step: 0.05,
+					},
+					[BELIEVABILITY_PROPERTY_NAME]: {
+						example: 1.0,
+						description: 'The proportion of collaborators who will believe in this north star (witll have their ' + BELIEVES_PROPERTY_NAME + ' set to true).',
+						min: 0.0,
+						max: 1.0,
+						step: 0.05
 					}
 				},
 				description: "Information on an (optional) north star, which people will tend to pick towards",
@@ -733,6 +750,11 @@ class SchellingOrgSimulator extends BaseSimulator {
 										min: 0.0,
 										max: 1.0,
 										step: 0.05,
+										optional: true
+									},
+									[BELIEVES_PROPERTY_NAME]: {
+										example: true,
+										description: 'Whether this person believes in the north star or not. If they don\'t believe then they will not be influenced by the effect.',
 										optional: true
 									},
 									[COMMUNICATION_STRATEGY_PROPERTY_NAME]: {
@@ -884,6 +906,10 @@ class SchellingOrgRenderer extends LitElement {
 				stroke: black;
 			}
 
+			.non-believer {
+				opacity: 0.5;
+			}
+
 			.debug {
 				stroke: var(--disabled-color);
 				stroke-width: 1px;
@@ -986,7 +1012,7 @@ class SchellingOrgRenderer extends LitElement {
 		const width = this._northStarWidth();
 		const x = this.width * northStar[OFFSET_PROPERTY_NAME];
 		const y = (this.height / 40) + (width / 2);
-		return svg`<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width}'>${northStar[EMOJI_PROPERTY_NAME]}</text>`;
+		return svg`<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width}' opacity='${northStar[BELIEVABILITY_PROPERTY_NAME]}'>${northStar[EMOJI_PROPERTY_NAME]}</text>`;
 	}
 
 	_collaboratorVerticalLine() {
@@ -1032,7 +1058,7 @@ class SchellingOrgRenderer extends LitElement {
 
 		return svg`
 		${projectPosition ? svg`<path class='selected-project' d='M ${projectPosition[0]},${projectPosition[1]} L ${x}, ${y}'></path>` : ''}
-		<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width * 0.8}'>${collaborator[EMOJI_PROPERTY_NAME]}</text>
+		<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width * 0.8}' class='${collaborator[BELIEVES_PROPERTY_NAME] ? 'believer' : 'non-believer'}'>${collaborator[EMOJI_PROPERTY_NAME]}</text>
 		${this._communication ? '' : svg`<path class='wall' d='M ${x + width},${y - width / 2} L ${x + width},${y + width /2}' stroke-width='${width / 10}'></path>`}`;
 	}
 
