@@ -554,13 +554,13 @@ class SchellingOrgSimulator extends BaseSimulator {
 			},
 			[COMMUNICATION_PROPERTY_NAME]: {
 				example: 0,
-				description: "How many rounds of communication should be allowed between agents before they decide. 0 is no communication."
+				description: "How many rounds of communication should be allowed between agents before they decide. 0 is no communication and will render a line of collaborators with walls between them."
 			},
 			[NORTH_STAR_PROPERTY_NAME]: {
 				example: {
 					[EMOJI_PROPERTY_NAME]: {
 						example: DEFAULT_NORTH_STAR_EMOJI,
-						description: "The emoji to render for that item",
+						description: "The emoji to render for the north star",
 					},
 					[OFFSET_TYPE_PROPERTY_NAME]: {
 						example: OFFSET_TYPE_MANUAL,
@@ -595,7 +595,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[OFFSET_PROPERTY_NAME]: {
 						example: 0.5,
-						description: "How far from fully at left to fully at right is the northstar?",
+						description: "How far from fully at left to fully at right is the northstar? This value will be used directly if " + OFFSET_TYPE_PROPERTY_NAME + " is " + OFFSET_TYPE_MANUAL + ", otherwise it will be set implicitly.",
 						min: 0.0,
 						max: 1.0,
 						step: 0.05,
@@ -609,14 +609,14 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[SPREAD_PROPERTY_NAME]: {
 						example: 0.25,
-						description: 'How far is the positive effect of the northstar affect, from plus or minus the offset position?',
+						description: 'How wide is the positive effect of the northstar affect (trading off linearly from the offset position to plus or minus by this amount)',
 						min: 0.0,
 						max: 1.0,
 						step: 0.05,
 					},
 					[BELIEVABILITY_PROPERTY_NAME]: {
 						example: 1.0,
-						description: 'The proportion of collaborators who will believe in this north star (witll have their ' + BELIEVES_PROPERTY_NAME + ' set to true).',
+						description: 'The proportion of collaborators who will believe in this north star (will have their ' + BELIEVES_PROPERTY_NAME + ' set to true).',
 						min: 0.0,
 						max: 1.0,
 						step: 0.05
