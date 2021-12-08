@@ -1077,8 +1077,8 @@ class SchellingOrgRenderer extends LitElement {
 	_projectSVG(project) {
 
 		const width = this._projectWidth();
-		//Size is so the largest bar goes to the top of the area
-		const maxVerticalRelativeSize = Math.max(...this._projects.map(project => project.value + project.error));
+		//Size is so the largest bar goes to the top of the area, or smaller if under 2.0 total size
+		const maxVerticalRelativeSize = Math.max(Math.max(...this._projects.map(project => project.value + project.error)), 2.0);
 
 		//Spread it across the size avaialble; this.height/3 - some padding to not go all the way to the top
 		let projectAvailableHeight = this.height / 3;
