@@ -68,10 +68,10 @@ class DiceRollDemoSimulator extends BaseSimulator {
 	}
 
 	frameValidator(frame) {
-		if (frame.busted === undefined) return ['No busted property'];
-		if (frame.score === undefined) return ['No score property'];
-		if (frame.lastRoll === undefined) return ['No last roll property'];
-		if (frame.success === undefined) return ['No success property'];
+		if (frame.busted === undefined) throw new Error('No busted property');
+		if (frame.score === undefined) throw new Error('No score property');
+		if (frame.lastRoll === undefined) throw new Error('No last roll property');
+		if (frame.success === undefined) throw new Error('No success property');
 		return [];
 	}
 	

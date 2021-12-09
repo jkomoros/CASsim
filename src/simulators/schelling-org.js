@@ -465,14 +465,14 @@ class SchellingOrgSimulator extends BaseSimulator {
 	optionsValidator(normalizedSimOptions) {
 		//Our validations are mainly served by the config in optionsConfig.
 		const individuals = normalizedSimOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
-		if (!individuals) return [];
+		if (!individuals) return;
 		const numProjects = normalizedSimOptions[PROJECTS_PROPERTY_NAME].count;
 		for (const [i, individual] of individuals.entries()) {
 			if (!individual) continue;
 			if (!individual[BELIEFS_PROPERTY_NAME]) continue;
-			if (individual[BELIEFS_PROPERTY_NAME].length != numProjects) return ['Collaborator ' + i + ' had beliefs provided but they didn\'t match the number of projects'];
+			if (individual[BELIEFS_PROPERTY_NAME].length != numProjects) throw new Error('Collaborator ' + i + ' had beliefs provided but they didn\'t match the number of projects');
 		}
-		return [];
+		return;
 	}
 
 	frameScorer(frame, simOptions) {
@@ -487,36 +487,34 @@ class SchellingOrgSimulator extends BaseSimulator {
 	}
 
 	frameValidator(frame) {
-		const problems = [];
 		const projects = frame[PROJECTS_PROPERTY_NAME];
 		const collaborators = frame[COLLABORATORS_PROPERTY_NAME];
 		const connections = frame[CONNECTIONS_PROPERTY_NAME];
 		if (projects) {
 			for (const [index, project] of projects.entries()) {
-				if (project.index != index) problems.push('Project ' + index + ' has an invalid index');
+				if (project.index != index) throw new Error('Project ' + index + ' has an invalid index');
 			}
 		} else {
-			problems.push('Projects is not provided');
+			throw new Error('Projects is not provided');
 		}
 		if (collaborators) {
 			for (const [index, collaborator] of collaborators.entries()) {
-				if (collaborator.index != index) problems.push('Collaborator ' + index + ' has an invalid index');
-				if (typeof collaborator[BELIEFS_PROPERTY_NAME] != 'object' || !Array.isArray(collaborator[BELIEFS_PROPERTY_NAME]) || collaborator[BELIEFS_PROPERTY_NAME].length != projects.length) problems.push('Collaborator ' + index + ' has an invalid beliefs');
+				if (collaborator.index != index) throw new Error('Collaborator ' + index + ' has an invalid index');
+				if (typeof collaborator[BELIEFS_PROPERTY_NAME] != 'object' || !Array.isArray(collaborator[BELIEFS_PROPERTY_NAME]) || collaborator[BELIEFS_PROPERTY_NAME].length != projects.length) throw new Error('Collaborator ' + index + ' has an invalid beliefs');
 			}
 		} else {
-			problems.push('Collaborators is not provided');
+			throw new Error('Collaborators is not provided');
 		}
 		if (connections) {
 			for (const [index, connection] of connections.entries()) {
-				if (connection.index != index) problems.push('Connection ' + index + ' has an invalid index');
-				if (connection.i < 0 || connection.i >= collaborators.length) problems.push('Connection ' + index + ' has an invalid index for i');
-				if (connection.j < 0 || connection.j >= collaborators.length) problems.push('Connection ' + index + ' has an invalid index for j');
-				if (connection[STRENGTH_PROPERTY_NAME] < 0 || connection[STRENGTH_PROPERTY_NAME] > 1.0) problems.push('Connection ' + index + ' has an invalid strength');
+				if (connection.index != index) throw new Error('Connection ' + index + ' has an invalid index');
+				if (connection.i < 0 || connection.i >= collaborators.length) throw new Error('Connection ' + index + ' has an invalid index for i');
+				if (connection.j < 0 || connection.j >= collaborators.length) throw new Error('Connection ' + index + ' has an invalid index for j');
+				if (connection[STRENGTH_PROPERTY_NAME] < 0 || connection[STRENGTH_PROPERTY_NAME] > 1.0) throw new Error('Connection ' + index + ' has an invalid strength');
 			}
 		} else {
-			problems.push('Connections is not provided');
+			throw new Error('Connections is not provided');
 		}
-		return problems;
 	}
 
 	defaultValueForPath(path, simOptions) {
@@ -567,7 +565,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 						options: [
 							{
 								value: OFFSET_TYPE_MANUAL,
-								description: 'The offset is specifically the value of ' + OFFSET_TYPE_PROPERTY_NAME
+								description: 'The offset is specifically the value of ' + OFFSET_PROPERTY_NAME
 							},
 							{
 								value: OFFSET_TYPE_RANDOM,

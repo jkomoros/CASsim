@@ -32,7 +32,7 @@ export class BaseSimulator {
 	//return from optionsConfig. This method is only necessary to override if
 	//you need additional validation not handled by that default machinery.
 	optionsValidator(normalizedSimOptions) {
-		return [];
+		return;
 	}
 
 	//The score for the frame. Typically the first number is the 'main' score,
@@ -41,18 +41,24 @@ export class BaseSimulator {
 		return [0.0];
 	}
 
+	//This behavior is almost always what you want and can be left alone
 	successScorer(frameScore) {
 		return frameScore[0];
 	}
 
 	frameValidator(frame) {
-		return [];
+		return;
 	}
 	
 	get optionsConfig() {
 		return {};
 	}
 
+	//This behavior is almost always what you want and can typically be left
+	//alone. You might override it if there are some paths where you would set a
+	//default that the basic machinery won't generate automatically, in which
+	//case you'd override this, and call super.defaultValueForPath() for the
+	//non-special cases.
 	defaultValueForPath(path, simOptions) {
 		const result = defaultValueForConfig(configForPath(this.optionsConfig, path));
 		return result;

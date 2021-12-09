@@ -183,9 +183,10 @@ const SimulationRun = class {
 				this._maxFrameIndex = this._frames.length - 1;
 				return null;
 			}
-			const problems = this._simulation.simulator.frameValidator(result, this._simulation.simOptions);
-			if (problems.length) {
-				throw new Error('Couldn\'t generate frame at index ' + this.frameIndex + ' problem: ' + problems.join(', '));
+			try {
+				this._simulation.simulator.frameValidator(result, this._simulation.simOptions);
+			} catch(err) {
+				throw new Error('Couldn\'t generate frame at index ' + this.frameIndex + ' problem: ' + err);
 			}
 			//By freezing this, we'll make sure that others don't accidentally mutate a property in an old frame when creating a later one.
 			//Because modules are `use strict`, trying to modify one will give a descriptive TypeError instead of failing silently.
@@ -228,11 +229,12 @@ const Simulation = class {
 		const configCopy = deepCopy(config);
 		const rawSimOptions = configCopy[SIM_OPTIONS_PROPERTY] || this._simulator.defaultValueForPath('', null);
 		configCopy[SIM_OPTIONS_PROPERTY] = this._simulator.normalizeOptions(rawSimOptions);
-		const simProblems = this._simulator.optionsValidator(configCopy[SIM_OPTIONS_PROPERTY]) || [];
-		if (simProblems.length) {
-			return ['Sim problems: ' + simProblems.join(', ')];
+		try {
+			this._simulator.optionsValidator(configCopy[SIM_OPTIONS_PROPERTY]);
+		} catch (err) {
+			throw new Error('Sim problems: ' + err);
 		}
-	
+
 		deepFreeze(configCopy);
 		this._config = configCopy;
 		deepFreeze(config);

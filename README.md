@@ -147,11 +147,12 @@ specific to this simulator, their legal values, and what they mean. This
 generates the UI and also drives a lot of validation behavior. See the
 optionsConfig section below for more.
 
-`optionsValidator(normalizedSimOptions) => array of problem strings, or [] if
-OK.` Note that the harness will already check for config problems against
-`optionsConfig` before this, so you only need to do validation that isn't
-possible to do declaratively via optionsConfig (e.g. checking a text field
-against a regular expression, etc.)
+`optionsValidator(normalizedSimOptions) => (no return value)` This method will
+be called as an opportunity to do further validation on the options. Throw an
+error if the options don't validate. Note that the harness will already check
+for config problems against `optionsConfig` before this, so you only need to do
+validation that isn't possible to do declaratively via optionsConfig (e.g.
+checking a text field against a regular expression, etc.)
 
 `normalizeOptions(rawSimOptions) => normalizedSimOptions`. An opportunity for
 the simulator to take a raw simOptions and return a fully normalized
@@ -184,9 +185,9 @@ passed the result of a frame's frameScorer, and tells the harness if it was a
 success (1.0), a failure (0.0), inbetween (0.0 to 1.0) or indeterminate / not
 yet finished (a negative number).
 
-`frameValidator(frame, normalizedSimOptions) => array of strings defining
-problems, or [] if OK` - This method is optional, just to ensure for yourself
-that your generator hasn't output invalid frames.
+`frameValidator(frame, normalizedSimOptions) => (no return value)` - This method
+is optional, just to ensure for yourself that your generator hasn't output
+invalid frames. Throw an error if the frame is incorrectly structured.
 
 `defaultValueForPath(path, normalizedSimOptions) => value` - Returns the default
 value for the property at path, where path is something like
