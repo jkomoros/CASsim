@@ -36,6 +36,7 @@ class OptionsControl extends LitElement {
 			value: {type: Object},
 			readonly: {type: Boolean},
 			disallowDelete: {type:Boolean},
+			pathExpanded: {type:Object},
 		};
 	}
 
@@ -108,7 +109,7 @@ class OptionsControl extends LitElement {
 		if (typeof example == 'object') {
 			if (Array.isArray(example)) {
 				//If we're at min size already, disallow deleting for sub-items.
-				return html`${this.value.map((item, index) => html`<options-control .readonly=${this.readonly} .disallowDelete=${config.min === this.value.length} .value=${item} .config=${example[0]} .name=${index} .path=${this._dottedPath(index)}></options-control>`)}`;
+				return html`${this.value.map((item, index) => html`<options-control .readonly=${this.readonly} .disallowDelete=${config.min === this.value.length} .value=${item} .config=${example[0]} .name=${index} .path=${this._dottedPath(index)} .pathExpanded=${this.pathExpanded}></options-control>`)}`;
 			}
 			//value might be null
 			const nonNullValue = this.value || {};
@@ -116,10 +117,10 @@ class OptionsControl extends LitElement {
 			const advancedEntries = Object.entries(nonNullValue).filter(entry => example[entry[0]].advanced);
 			return html`
 				${this.value == null ? html`<em>null</em>` : ''}
-				${nonAdvancedEntries.map(entry => html`<options-control .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}
-				${advancedEntries.length ? html`<details>
+				${nonAdvancedEntries.map(entry => html`<options-control .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded}></options-control>`)}
+				${advancedEntries.length ? html`<details .open=${this.pathExpanded[this.path]} @toggle=${this._handleDetailsToggle}>
 					<summary><label>Advanced</label></summary>
-					${advancedEntries.map(entry => html`<options-control .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])}></options-control>`)}
+					${advancedEntries.map(entry => html`<options-control .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded}></options-control>`)}
 				</details>` : ''}`;
 		}
 		if (config.options) {
@@ -149,6 +150,11 @@ class OptionsControl extends LitElement {
 		const subPath = this.path + '.' + this.value.length;
 		let value = DEFAULT_SENTINEL;
 		this.dispatchEvent(new CustomEvent('option-changed', {composed: true, detail: {path: subPath, value: value}}));
+	}
+
+	_handleDetailsToggle(e) {
+		const ele = e.composedPath()[0];
+		this.dispatchEvent(new CustomEvent('path-toggled', {composed: true, detail: {path: this.path, open:ele.open}}));
 	}
 
 	_handleAddNulledClicked() {

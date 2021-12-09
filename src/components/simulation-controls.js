@@ -15,6 +15,7 @@ import {
 	selectPlaying,
 	selectShowControls,
 	selectConfigurationExpanded,
+	selectPathExpanded,
 } from "../selectors.js";
 
 import {
@@ -58,6 +59,7 @@ class SimulationControls extends connect(store)(LitElement) {
 			_runIndex: {type: Number},
 			_runStatuses: { type:Array },
 			_playing: {type: Boolean},
+			_pathExpanded: {type:Object},
 		};
 	}
 
@@ -142,7 +144,7 @@ class SimulationControls extends connect(store)(LitElement) {
 				<div>
 					<details .open=${this._configurationExpanded} @toggle=${this._handleConfigurationExpandedToggled}>
 						<summary><label>Simulation Configuration</label></summary>
-						<options-control .readonly=${this._playing} @option-changed=${this._handleOptionChanged} @open-dialog=${this._handleOpenDialog} .config=${this._simulation ? this._simulation.optionsConfig : null} .value=${this._simulation ? this._simulation.rawConfig : null} .name=${''}></options-control>
+						<options-control .readonly=${this._playing} @option-changed=${this._handleOptionChanged} @open-dialog=${this._handleOpenDialog} @path-toggled=${this._handlePathToggled} .config=${this._simulation ? this._simulation.optionsConfig : null} .value=${this._simulation ? this._simulation.rawConfig : null} .name=${''} .pathExpanded=${this._pathExpanded}></options-control>
 					</details>
 				</div>
 			</div>
@@ -153,6 +155,7 @@ class SimulationControls extends connect(store)(LitElement) {
 	stateChanged(state) {
 		this._showControls = selectShowControls(state);
 		this._configurationExpanded = selectConfigurationExpanded(state);
+		this._pathExpanded = selectPathExpanded(state);
 		this._simulationsMap = selectSimulationsMap(state);
 		this._simulationIndex = selectSimulationIndex(state);
 		this._simulationMaxRunIndex = selectCurrentSimulationMaxRunIndex(state);
@@ -177,6 +180,10 @@ class SimulationControls extends connect(store)(LitElement) {
 
 	_handleStatusClicked(e) {
 		store.dispatch(updateRunIndex(e.detail.index));
+	}
+
+	_handlePathToggled(e) {
+		store.dispatch(updatePathExpanded(e.detail.path, e.detail.open));
 	}
 
 	_handleShowJSONClicked() {
