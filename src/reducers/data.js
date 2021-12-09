@@ -11,6 +11,7 @@ import {
 	UPDATE_DELAY_COUNT,
 	UPDATE_SHOW_CONTROLS,
 	UPDATE_SCALE,
+	UPDATE_CONFIGURATION_EXPANDED,
 	UPDATE_PATH_EXPANDED,
 	SIMULATOR_LOADED,
 	UPDATE_KNOWN_DATAFILES,
@@ -42,6 +43,7 @@ const INITIAL_STATE = {
 	scale: 1.0,
 	//Whether the whole controls is visible or not
 	showControls: true,
+	configurationExpanded: false,
 	//The options-paths whose "Advanced" zippy should be shown as expanded. ''
 	//is the top level 
 	pathExpanded: {},
@@ -111,6 +113,11 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			showControls: action.show,
+		};
+	case UPDATE_CONFIGURATION_EXPANDED:
+		return {
+			...state,
+			configurationExpanded: action.expanded
 		};
 	case UPDATE_PATH_EXPANDED:
 		return {

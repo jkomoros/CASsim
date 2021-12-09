@@ -28,6 +28,7 @@ import {
 	resetSimulation,
 	advanceToLastFrameInRun,
 	updatePathExpanded,
+	updateConfigurationExpanded,
 	DIALOG_TYPE_JSON
 } from '../actions/data.js';
 
@@ -175,7 +176,7 @@ class SimulationControls extends connect(store)(LitElement) {
 
 	_handleConfigurationExpandedToggled(e) {
 		const ele = e.composedPath()[0];
-		store.dispatch(updatePathExpanded('', ele.open));
+		store.dispatch(updateConfigurationExpanded( ele.open));
 	}
 
 	_handleStatusClicked(e) {

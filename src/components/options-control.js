@@ -118,7 +118,7 @@ class OptionsControl extends LitElement {
 			return html`
 				${this.value == null ? html`<em>null</em>` : ''}
 				${nonAdvancedEntries.map(entry => html`<options-control .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded}></options-control>`)}
-				${advancedEntries.length ? html`<details .open=${this.pathExpanded[this.path]} @toggle=${this._handleDetailsToggle}>
+				${advancedEntries.length ? html`<details .open=${this.pathExpanded[this.path || '']} @toggle=${this._handleDetailsToggle}>
 					<summary><label>Advanced</label></summary>
 					${advancedEntries.map(entry => html`<options-control .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded}></options-control>`)}
 				</details>` : ''}`;
@@ -154,7 +154,7 @@ class OptionsControl extends LitElement {
 
 	_handleDetailsToggle(e) {
 		const ele = e.composedPath()[0];
-		this.dispatchEvent(new CustomEvent('path-toggled', {composed: true, detail: {path: this.path, open:ele.open}}));
+		this.dispatchEvent(new CustomEvent('path-toggled', {composed: true, detail: {path: this.path || '', open:ele.open}}));
 	}
 
 	_handleAddNulledClicked() {
