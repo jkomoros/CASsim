@@ -400,11 +400,11 @@ export const updateCurrentSimulationOptions = (path, value) => (dispatch, getSta
 	dispatch(verifyValidIndexes());
 };
 
-export const openDialog = (optType, optExtras) => {
+export const openDialog = (typ, optExtras) => {
 	return {
 		type: UPDATE_DIALOG_OPEN,
 		open: true,
-		dialogType: optType,
+		dialogType: typ,
 		extras: optExtras
 	};
 };

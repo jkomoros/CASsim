@@ -26,7 +26,8 @@ import {
 	updatePlaying,
 	resetSimulation,
 	advanceToLastFrameInRun,
-	updateConfigurationExpanded
+	updateConfigurationExpanded,
+	DIALOG_TYPE_JSON
 } from '../actions/data.js';
 
 import {
@@ -179,7 +180,7 @@ class SimulationControls extends connect(store)(LitElement) {
 	}
 
 	_handleShowJSONClicked() {
-		store.dispatch(openDialog());
+		store.dispatch(openDialog(DIALOG_TYPE_JSON));
 	}
 
 	_handlePlayClicked() {
