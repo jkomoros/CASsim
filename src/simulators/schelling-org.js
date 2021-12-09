@@ -38,6 +38,7 @@ const COMMUNICATION_STRATEGY_PROPERTY_NAME = 'communicationStrategy';
 const BELIEVABILITY_PROPERTY_NAME = 'believability';
 const BELIEVES_PROPERTY_NAME = 'believes';
 const DISABLE_SELECTION_PROPERTY_NAME = 'disableSelection';
+const LAST_COMMUNICATED_PROJECT_PROPERTY_NAME = 'lastCommunicatedProject';
 
 const OFFSET_TYPE_MANUAL = 'manual';
 const OFFSET_TYPE_RANDOM = 'random';
@@ -269,6 +270,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 		return {
 			[DISPLAY_PROPERTY_NAME]: displayValue,
+			[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME]: -1,
 			[NORTH_STAR_PROPERTY_NAME]: northStarValue,
 			[COMMUNICATION_PROPERTY_NAME]: communicationValue,
 			[CONNECTIONS_PROPERTY_NAME]: connections,
@@ -324,6 +326,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 		return {
 			...frame,
+			[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME]: -1,
 			[PROJECTS_PROPERTY_NAME]: projects,
 			[COLLABORATORS_PROPERTY_NAME]: collaborators,
 			[CONNECTIONS_PROPERTY_NAME]: newConnections
@@ -415,6 +418,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 		return {
 			...frame,
+			[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME]: projectIndex,
 			[COLLABORATORS_PROPERTY_NAME]: collaborators,
 			[CONNECTIONS_PROPERTY_NAME]: connections
 		};
@@ -910,6 +914,14 @@ class SchellingOrgRenderer extends LitElement {
 				stroke: black;
 			}
 
+			.belief.sender {
+				stroke: var(--primary-color);
+			}
+
+			.belief.receiver {
+				stroke: var(--secondary-color);
+			}
+
 			.non-believer {
 				opacity: 0.5;
 			}
@@ -985,6 +997,11 @@ class SchellingOrgRenderer extends LitElement {
 		if (!this.frame) return false;
 		const displayValue = this.frame[DISPLAY_PROPERTY_NAME] || {};
 		return displayValue[DISABLE_SELECTION_PROPERTY_NAME] || false;
+	}
+
+	get _lastCommunicatedProject() {
+		if (!this.frame) return -1;
+		return this.frame[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME];
 	}
 
 	get _renderBeliefTicks() {
@@ -1123,10 +1140,15 @@ class SchellingOrgRenderer extends LitElement {
 		const markStartY = markCenterY - (height / 12);
 		const markEndY = markCenterY + (height / 18);
 
+		const isCurrentProject = project.index == this._lastCommunicatedProject;
+		const activeConnections = this._connections.filter(connection => connection.active);
+		const senderIndex = activeConnections.map(connection => connection.i)[0];
+		const receiverIndexes = Object.fromEntries(activeConnections.map(connection => [connection.j, true]));
+
 		return svg`<rect class='project ${project.selected ? 'selected' : 'not-selected'}' x=${x} y=${y} width=${width} height=${height}></rect>
 					${marked ?  svg`<path class='mark' d='M ${markStartX}, ${markStartY} L ${markEndX}, ${markEndY}' stroke-width=${errorStrokeWidth}></path>` : ''}
 					${hasError ? svg`<path class='error' d='M ${errorStartX}, ${errorStartY} H ${errorEndX} M ${position[0]}, ${errorStartY} V ${errorEndY} M ${errorStartX}, ${errorEndY} H ${errorEndX}' stroke-width=${errorStrokeWidth}></path>
-						${this._renderBeliefTicks ? html`${this._collaborators.map(collaborator => svg`<path class='belief' d='M ${beliefStartX},${position[1] - verticalScaleFactor * collaborator.beliefs[project.index]} h ${beliefWidth}' stroke-width='${errorStrokeWidth / 2}'></path>`)}` : ''}
+						${this._renderBeliefTicks ? html`${this._collaborators.map(collaborator => svg`<path class='belief ${isCurrentProject ? (senderIndex == collaborator.index ? 'sender' : (receiverIndexes[collaborator.index] ? 'receiver' : '')) : ''}' d='M ${beliefStartX},${position[1] - verticalScaleFactor * collaborator.beliefs[project.index]} h ${beliefWidth}' stroke-width='${errorStrokeWidth / 2}'></path>`)}` : ''}
 					` : ''}`;
 	}
 
