@@ -156,7 +156,7 @@ export const configObjectIsValid = (optionsConfig, value) => {
 			}
 		}
 	}
-	if (optionsConfig[OPTIONS_PROPERTY_NAME]) {
+	if (optionsConfig[OPTIONS_PROPERTY_NAME] && value) {
 		if (!optionsConfig[OPTIONS_PROPERTY_NAME].some(item => item.value == value)) return OPTIONS_PROPERTY_NAME + ' was set but the value ' + value + ' was not one of the allowed options';
 	}
 	if (typeof value == 'number') {
