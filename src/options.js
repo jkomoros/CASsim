@@ -27,9 +27,9 @@ import {
 
 //See README.md for more about the canonical shape of optionsLeaf objects.
 
-//Returns an array of strings describing the problems in it or [] if no problems.
+//Returns a string describing the problem, or '' if no problem
 export const optionsConfigValidator = (config) => {
-	if (!config) return ['Config must be an object'];
+	if (!config) return 'Config must be an object';
 	//The top-level expectation is basically an object with examples.
 	return optionsLeafValidator({
 		[EXAMPLE_PROPERTY_NAME]: config,
@@ -37,141 +37,142 @@ export const optionsConfigValidator = (config) => {
 };
 
 const optionsLeafValidator = (config) => {
-	if (!config || typeof config != 'object') return ['Config must be an object'];
+	if (!config || typeof config != 'object') return 'Config must be an object';
 	const example = config[EXAMPLE_PROPERTY_NAME];
 	if (example === undefined) {
 		//It's a multi-level nested object I guess
-		if (Object.keys(config).length == 0) return ['example is a required property'];
+		if (Object.keys(config).length == 0) return 'example is a required property';
 		for (const [key, value] of Object.entries(config)) {
-			const problems = optionsLeafValidator(value);
-			if (problems.length) {
-				return ["sub-object of " + key + " didn't validate: " + problems.join(', ')];
+			const problem = optionsLeafValidator(value);
+			if (problem) {
+				return "sub-object of " + key + " didn't validate: " + problem;
 			}
 		}
 	}
 	if (typeof example == 'object') {
 		if (Array.isArray(example)) {
 			if (!example.length) {
-				return ['example is an array but needs at least one property'];
+				return 'example is an array but needs at least one property';
 			}
-			const problems = optionsLeafValidator(example[0]);
-			if (problems.length) {
-				return ["example's array first item didn't validate: " + problems.join(', ')];
+			const problem = optionsLeafValidator(example[0]);
+			if (problem) {
+				return "example's array first item didn't validate: " + problem;
 			}
 		}
 		for (const [key, value] of Object.entries(example)) {
-			const problems = optionsLeafValidator(value);
-			if (problems.length) {
-				return ["example's sub-object of " + key + " didn't validate: " + problems.join(', ')];
+			const problem = optionsLeafValidator(value);
+			if (problem) {
+				return "example's sub-object of " + key + " didn't validate: " + problem;
 			}
 		}
 	}
 
-	if (config[DESCRIPTION_PROPERTY_NAME] !== undefined && typeof config[DESCRIPTION_PROPERTY_NAME] != 'string') return [DESCRIPTION_PROPERTY_NAME + ' must be a string if provided'];
-	if (config[OPTIONAL_PROPERTY_NAME] !== undefined && typeof config[OPTIONAL_PROPERTY_NAME] != 'boolean') return [OPTIONAL_PROPERTY_NAME + ' must be a boolean if provided'];
-	if (config[ADVANCED_PROPERTY_NAME] !== undefined && typeof config[ADVANCED_PROPERTY_NAME] != 'boolean') return [ADVANCED_PROPERTY_NAME + ' must be a boolean if provided'];
+	if (config[DESCRIPTION_PROPERTY_NAME] !== undefined && typeof config[DESCRIPTION_PROPERTY_NAME] != 'string') return DESCRIPTION_PROPERTY_NAME + ' must be a string if provided';
+	if (config[OPTIONAL_PROPERTY_NAME] !== undefined && typeof config[OPTIONAL_PROPERTY_NAME] != 'boolean') return OPTIONAL_PROPERTY_NAME + ' must be a boolean if provided';
+	if (config[ADVANCED_PROPERTY_NAME] !== undefined && typeof config[ADVANCED_PROPERTY_NAME] != 'boolean') return ADVANCED_PROPERTY_NAME + ' must be a boolean if provided';
 
-	if (config[MIN_PROPERTY_NAME] !== undefined && typeof config[MIN_PROPERTY_NAME] != 'number') return [MIN_PROPERTY_NAME + ' must be a number if provided'];
-	if (config[MAX_PROPERTY_NAME] !== undefined && typeof config[MAX_PROPERTY_NAME] != 'number') return [MAX_PROPERTY_NAME + ' must be a number if provided'];
-	if (config[STEP_PROPERTY_NAME] !== undefined && typeof config[STEP_PROPERTY_NAME] != 'number') return [STEP_PROPERTY_NAME + ' must be a number if provided'];
+	if (config[MIN_PROPERTY_NAME] !== undefined && typeof config[MIN_PROPERTY_NAME] != 'number') return MIN_PROPERTY_NAME + ' must be a number if provided';
+	if (config[MAX_PROPERTY_NAME] !== undefined && typeof config[MAX_PROPERTY_NAME] != 'number') return MAX_PROPERTY_NAME + ' must be a number if provided';
+	if (config[STEP_PROPERTY_NAME] !== undefined && typeof config[STEP_PROPERTY_NAME] != 'number') return STEP_PROPERTY_NAME + ' must be a number if provided';
 
-	if (config[BEHAVIOR_PROPERTY_NAME] !== undefined && (typeof config[BEHAVIOR_PROPERTY_NAME] != 'string' || !ALLOWED_BEHAVIOR_NAMES[config[BEHAVIOR_PROPERTY_NAME]])) return [BEHAVIOR_PROPERTY_NAME + ' was provided ' + config[BEHAVIOR_PROPERTY_NAME] + ' but only allows ' + Object.keys(ALLOWED_BEHAVIOR_NAMES).join(', ')];
+	if (config[BEHAVIOR_PROPERTY_NAME] !== undefined && (typeof config[BEHAVIOR_PROPERTY_NAME] != 'string' || !ALLOWED_BEHAVIOR_NAMES[config[BEHAVIOR_PROPERTY_NAME]])) return BEHAVIOR_PROPERTY_NAME + ' was provided ' + config[BEHAVIOR_PROPERTY_NAME] + ' but only allows ' + Object.keys(ALLOWED_BEHAVIOR_NAMES).join(', ');
 
-	if (config[MIN_PROPERTY_NAME] !== undefined && config[MAX_PROPERTY_NAME] !== undefined && config[MIN_PROPERTY_NAME] > config[MAX_PROPERTY_NAME]) return ['max is less than min'];
+	if (config[MIN_PROPERTY_NAME] !== undefined && config[MAX_PROPERTY_NAME] !== undefined && config[MIN_PROPERTY_NAME] > config[MAX_PROPERTY_NAME]) return 'max is less than min';
 	if (typeof config[EXAMPLE_PROPERTY_NAME] !== 'number' && typeof config[EXAMPLE_PROPERTY_NAME] !== 'object' && !Array.isArray(config[EXAMPLE_PROPERTY_NAME])) {
-		if (config[MIN_PROPERTY_NAME] !== undefined) return [MIN_PROPERTY_NAME + ' may only be provided for numbers or array examples'];
-		if (config[MAX_PROPERTY_NAME] !== undefined) return [MAX_PROPERTY_NAME + ' may only be provided for numbers or array examples'];
-		if (config[STEP_PROPERTY_NAME] !== undefined) return [STEP_PROPERTY_NAME + ' may only be provided for numbers examples'];
+		if (config[MIN_PROPERTY_NAME] !== undefined) return MIN_PROPERTY_NAME + ' may only be provided for numbers or array examples';
+		if (config[MAX_PROPERTY_NAME] !== undefined) return MAX_PROPERTY_NAME + ' may only be provided for numbers or array examples';
+		if (config[STEP_PROPERTY_NAME] !== undefined) return STEP_PROPERTY_NAME + ' may only be provided for numbers examples';
 	}
-	if (typeof config[EXAMPLE_PROPERTY_NAME] !== 'number' && config[STEP_PROPERTY_NAME]) return [STEP_PROPERTY_NAME + ' may only be provided for number examples'];
+	if (typeof config[EXAMPLE_PROPERTY_NAME] !== 'number' && config[STEP_PROPERTY_NAME]) return STEP_PROPERTY_NAME + ' may only be provided for number examples';
 	if (config[OPTIONS_PROPERTY_NAME] !== undefined) {
-		if (typeof config[OPTIONS_PROPERTY_NAME] !== 'object' || !Array.isArray(config[OPTIONS_PROPERTY_NAME])) return [OPTIONS_PROPERTY_NAME + ' must be an array if provided'];
-		if (!config[OPTIONS_PROPERTY_NAME].length) return [OPTIONS_PROPERTY_NAME + ' was an array without any options'];
+		if (typeof config[OPTIONS_PROPERTY_NAME] !== 'object' || !Array.isArray(config[OPTIONS_PROPERTY_NAME])) return OPTIONS_PROPERTY_NAME + ' must be an array if provided';
+		if (!config[OPTIONS_PROPERTY_NAME].length) return OPTIONS_PROPERTY_NAME + ' was an array without any options';
 		for (const [i, value] of config[OPTIONS_PROPERTY_NAME].entries()) {
-			if (value[VALUE_PROPERTY_NAME] === undefined) return ['option ' + i + ' did not have ' + VALUE_PROPERTY_NAME + ' provided'];
-			if (value[DISPLAY_PROPERTY_NAME] !== undefined && typeof value[DISPLAY_PROPERTY_NAME] !== 'string') return ['option ' + i + ' had a non string ' + DISPLAY_PROPERTY_NAME + ' provided'];
-			if (value[DESCRIPTION_PROPERTY_NAME] !== undefined && typeof value[DESCRIPTION_PROPERTY_NAME] !== 'string') return ['option ' + i + ' had a non string ' + DESCRIPTION_PROPERTY_NAME + ' provided'];
+			if (value[VALUE_PROPERTY_NAME] === undefined) return 'option ' + i + ' did not have ' + VALUE_PROPERTY_NAME + ' provided';
+			if (value[DISPLAY_PROPERTY_NAME] !== undefined && typeof value[DISPLAY_PROPERTY_NAME] !== 'string') return 'option ' + i + ' had a non string ' + DISPLAY_PROPERTY_NAME + ' provided';
+			if (value[DESCRIPTION_PROPERTY_NAME] !== undefined && typeof value[DESCRIPTION_PROPERTY_NAME] !== 'string') return 'option ' + i + ' had a non string ' + DESCRIPTION_PROPERTY_NAME + ' provided';
 		}
 	}
 
-	return [];
+	return '';
 };
 
+//Returns a string describing problems, or '' if no problems
 export const configObjectIsValid = (optionsConfig, value) => {
 	//Note: this is tested implicitly via tests for maySetPropertyInConfigObject 
-	if (!optionsConfig) return ['no optionsConfig provided'];
+	if (!optionsConfig) return 'no optionsConfig provided';
 	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
 	if (typeof value == 'object' && !example) {
 		//This happens if it's a naked object. Verify each sub-property matches
 		const seenKeys = {};
 		for (const [valueKey, valueValue] of Object.entries(value)) {
 			seenKeys[valueKey] = true;
-			if (typeof optionsConfig !== 'object') return [valueKey + ' still remained in path but no object'];
+			if (typeof optionsConfig !== 'object') return valueKey + ' still remained in path but no object';
 			//recurse into sub-objects or array
 			//Basic value recursion
-			const problems = configObjectIsValid(optionsConfig[valueKey], valueValue);
-			if (problems.length) {
-				return [valueKey + ' property returned error: ' + problems.join(', ')];
+			const problem = configObjectIsValid(optionsConfig[valueKey], valueValue);
+			if (problem) {
+				return valueKey + ' property returned error: ' + problem;
 			}
 		}
 		//Verify that if there were more keys expected to be there they are valid (i.e. they might be optional)
 		for (const configKey of Object.keys(optionsConfig)) {
 			if (seenKeys[configKey]) continue;
-			const problems = configObjectIsValid(optionsConfig[configKey], value[configKey]);
-			if (problems.length) {
-				return [configKey + ' property returned error: ' + problems.join(', ')];
+			const problem = configObjectIsValid(optionsConfig[configKey], value[configKey]);
+			if (problem) {
+				return configKey + ' property returned error: ' + problem;
 			} 
 		}
-		return [];
+		return '';
 	}
 
-	if (example == undefined) return ['No example provided'];
-	if (value == null && !optionsConfig[OPTIONAL_PROPERTY_NAME]) return ['value was null but ' + OPTIONAL_PROPERTY_NAME + ' was not set'];
+	if (example == undefined) return 'No example provided';
+	if (value == null && !optionsConfig[OPTIONAL_PROPERTY_NAME]) return 'value was null but ' + OPTIONAL_PROPERTY_NAME + ' was not set';
 	//Base case. optionsConfig should be an optionLeaf.
-	if (value != null && typeof example != typeof value) return ['Example was of type ' + typeof optionsConfig[EXAMPLE_PROPERTY_NAME] + ' but value was of type ' + typeof value];
-	if (value && Array.isArray(example) != Array.isArray(value)) return ['Example was an array but value was not or vice versa'];
+	if (value != null && typeof example != typeof value) return 'Example was of type ' + typeof optionsConfig[EXAMPLE_PROPERTY_NAME] + ' but value was of type ' + typeof value;
+	if (value && Array.isArray(example) != Array.isArray(value)) return 'Example was an array but value was not or vice versa';
 
 	if (typeof example == 'object' && value) {
 		if (Array.isArray(example)) {
 			for (const [valueKey, valueValue] of value.entries()) {
-				const problems = configObjectIsValid(example[0], valueValue);
-				if (problems.length) {
-					return [valueKey + ' property returned error: ' + problems.join(', ')];
+				const problem = configObjectIsValid(example[0], valueValue);
+				if (problem) {
+					return valueKey + ' property returned error: ' + problem;
 				}
 			}
 		} else {
 			const seenKeys = {};
 			for (const [exampleKey, exampleValue] of Object.entries(example)) {
 				seenKeys[exampleKey] = true;
-				const problems = configObjectIsValid(exampleValue, value[exampleKey]);
-				if (problems.length) {
-					return [exampleKey + ' property within example returned error: ' + problems.join(', ')];
+				const problem = configObjectIsValid(exampleValue, value[exampleKey]);
+				if (problem) {
+					return exampleKey + ' property within example returned error: ' + problem;
 				}	
 			}
 			//Make sure we also check for any illegal keys not expected
 			for (const valueKey of Object.keys(value)) {
 				if (seenKeys[valueKey]) continue;
-				return [valueKey + ' existed but was not expected to be there in example'];
+				return valueKey + ' existed but was not expected to be there in example';
 			}
 		}
 	}
 	if (optionsConfig[OPTIONS_PROPERTY_NAME]) {
-		if (!optionsConfig[OPTIONS_PROPERTY_NAME].some(item => item.value == value)) return [OPTIONS_PROPERTY_NAME + ' was set but the value ' + value + ' was not one of the allowed options'];
+		if (!optionsConfig[OPTIONS_PROPERTY_NAME].some(item => item.value == value)) return OPTIONS_PROPERTY_NAME + ' was set but the value ' + value + ' was not one of the allowed options';
 	}
 	if (typeof value == 'number') {
-		if (optionsConfig[MIN_PROPERTY_NAME] !== undefined && optionsConfig[MIN_PROPERTY_NAME] > value) return [MIN_PROPERTY_NAME + ' was set and the value was less than it'];
-		if (optionsConfig[MAX_PROPERTY_NAME] !== undefined && optionsConfig[MAX_PROPERTY_NAME] < value) return [MAX_PROPERTY_NAME + ' was set and the value was more than it'];
-		if (optionsConfig[STEP_PROPERTY_NAME] !== undefined && !isStep(value, optionsConfig[STEP_PROPERTY_NAME])) return [STEP_PROPERTY_NAME + ' was set but the value was not a multiple of it'];
+		if (optionsConfig[MIN_PROPERTY_NAME] !== undefined && optionsConfig[MIN_PROPERTY_NAME] > value) return MIN_PROPERTY_NAME + ' was set and the value was less than it';
+		if (optionsConfig[MAX_PROPERTY_NAME] !== undefined && optionsConfig[MAX_PROPERTY_NAME] < value) return MAX_PROPERTY_NAME + ' was set and the value was more than it';
+		if (optionsConfig[STEP_PROPERTY_NAME] !== undefined && !isStep(value, optionsConfig[STEP_PROPERTY_NAME])) return STEP_PROPERTY_NAME + ' was set but the value was not a multiple of it';
 	}
 	//Skip null values, we already checked above if it was OK they were null.
 	if (typeof value == 'object'  && value && Array.isArray(value)) {
-		if (optionsConfig[MIN_PROPERTY_NAME] !== undefined && optionsConfig[MIN_PROPERTY_NAME] > value.length) return [MIN_PROPERTY_NAME + ' was set and the array value had a length less than it'];
-		if (optionsConfig[MAX_PROPERTY_NAME] !== undefined && optionsConfig[MAX_PROPERTY_NAME] < value.length) return [MAX_PROPERTY_NAME + ' was set and the array value had a length more than it'];
+		if (optionsConfig[MIN_PROPERTY_NAME] !== undefined && optionsConfig[MIN_PROPERTY_NAME] > value.length) return MIN_PROPERTY_NAME + ' was set and the array value had a length less than it';
+		if (optionsConfig[MAX_PROPERTY_NAME] !== undefined && optionsConfig[MAX_PROPERTY_NAME] < value.length) return MAX_PROPERTY_NAME + ' was set and the array value had a length more than it';
 	}
-	return [];
+	return '';
 };
 
-//Returns [] if OK, or a list of problems if not
+//Returns a string describing the problem, or an empty string if no problem
 export const maySetPropertyInConfigObject = (optionsConfig, obj, path, value) => {
 	const updatedObj = setPropertyInObject(obj, path, value);
 	return configObjectIsValid(optionsConfig, updatedObj);

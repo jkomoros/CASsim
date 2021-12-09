@@ -386,9 +386,9 @@ export const updateCurrentSimulationOptions = (path, value) => (dispatch, getSta
 	if (value == DEFAULT_SENTINEL) {
 		value = simulation.defaultValueForOptionsPath(path);
 	}
-	const problems = maySetPropertyInConfigObject(simulation.optionsConfig, simulation.config, path, value);
-	if (problems.length) {
-		alert('Invalid modification proposed: ' + path + ': ' + value + ': ' + problems.join(', '));
+	const problem = maySetPropertyInConfigObject(simulation.optionsConfig, simulation.config, path, value);
+	if (problem) {
+		alert('Invalid modification proposed: ' + path + ': ' + value + ': ' + problem);
 		return;
 	}
 	dispatch({

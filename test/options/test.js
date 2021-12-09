@@ -257,8 +257,8 @@ describe('optionsConfigValidator', () => {
 	it('handles null object', async () => {
 		const config = null;
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 1;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object missing example property', async () => {
@@ -268,8 +268,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 1;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with incorrect description', async () => {
@@ -280,8 +280,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 1;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with incorrect advanced', async () => {
@@ -292,8 +292,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 1;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with incorrect optional', async () => {
@@ -304,8 +304,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 1;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with incorrect min', async () => {
@@ -316,8 +316,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 1;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with incorrect max', async () => {
@@ -328,8 +328,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 1;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with max less than min', async () => {
@@ -341,8 +341,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 1;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with incorrect step', async () => {
@@ -353,8 +353,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 1;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with step on array ', async () => {
@@ -369,8 +369,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 1;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with min not on array or number', async () => {
@@ -381,8 +381,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 1;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with max not on array or number', async () => {
@@ -393,8 +393,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 1;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with min and max on array', async () => {
@@ -410,8 +410,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 0;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = false;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with step not on array or number', async () => {
@@ -422,8 +422,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 1;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with invalid options', async () => {
@@ -434,8 +434,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 1;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with invalid zero option', async () => {
@@ -446,8 +446,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 1;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with invalid first option', async () => {
@@ -460,8 +460,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 1;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with multi-level-nested object', async () => {
@@ -477,8 +477,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 0;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = false;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with lots of properties example', async () => {
@@ -504,8 +504,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 0;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = false;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with invalid behavior', async () => {
@@ -516,8 +516,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 1;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with number example', async () => {
@@ -527,8 +527,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 0;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = false;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with string example', async () => {
@@ -538,8 +538,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 0;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = false;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with boolean example', async () => {
@@ -549,8 +549,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 0;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = false;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with valid array example', async () => {
@@ -564,8 +564,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 0;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = false;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with invalid array example', async () => {
@@ -575,8 +575,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 1;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 	it('handles basic object with valid sub-object example', async () => {
@@ -590,8 +590,8 @@ describe('optionsConfigValidator', () => {
 			}
 		};
 		const result = optionsConfigValidator(config);
-		const expectedProblemLength = 0;
-		assert.strictEqual(result.length, expectedProblemLength);
+		const expectedProblem = false;
+		assert.strictEqual(result != '', expectedProblem);
 	});
 
 });
@@ -606,9 +606,9 @@ describe('maySetPropertyInConfigObject', () => {
 		const path = '';
 		const value = 4;
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 0;
+		const expectedProblem = false;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -624,9 +624,9 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = 'not-a-number';
 		const obj = 4;
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 1;
+		const expectedProblem = true;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -650,9 +650,9 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = 2;
 		const obj = 5;
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 0;
+		const expectedProblem = false;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -676,9 +676,9 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = 4;
 		const obj = 3;
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 1;
+		const expectedProblem = true;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -695,9 +695,9 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = 1;
 		const obj = 3;
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 1;
+		const expectedProblem = true;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -714,9 +714,9 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = 2;
 		const obj = 3;
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 0;
+		const expectedProblem = false;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -733,9 +733,9 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = 10;
 		const obj = 3;
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 1;
+		const expectedProblem = true;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -752,9 +752,9 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = 2;
 		const obj = 3;
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 0;
+		const expectedProblem = false;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -774,9 +774,9 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = 4;
 		const obj = [3];
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 1;
+		const expectedProblem = true;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -797,9 +797,9 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = [2,3,4];
 		const obj = [2,2,2];
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 1;
+		const expectedProblem = true;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -820,9 +820,9 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = [2,3,4];
 		const obj = [2,2,2];
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 0;
+		const expectedProblem = false;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -843,9 +843,9 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = [2];
 		const obj = [2,2];
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 1;
+		const expectedProblem = true;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -866,9 +866,9 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = [2,3,4];
 		const obj = [2,2];
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 0;
+		const expectedProblem = false;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -888,9 +888,9 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = ['a',3,4];
 		const obj = [2,2];
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 1;
+		const expectedProblem = true;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -911,9 +911,9 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = [null,3,4];
 		const obj = [2, 2];
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 0;
+		const expectedProblem = false;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -933,9 +933,9 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = [null,3,4];
 		const obj = [2, 2];
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 1;
+		const expectedProblem = true;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -966,9 +966,9 @@ describe('maySetPropertyInConfigObject', () => {
 			}
 		};
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 0;
+		const expectedProblem = false;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -999,9 +999,9 @@ describe('maySetPropertyInConfigObject', () => {
 			}
 		};
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 0;
+		const expectedProblem = false;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1032,9 +1032,9 @@ describe('maySetPropertyInConfigObject', () => {
 			}
 		};
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 1;
+		const expectedProblem = true;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1066,9 +1066,9 @@ describe('maySetPropertyInConfigObject', () => {
 			}
 		};
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 0;
+		const expectedProblem = false;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1099,9 +1099,9 @@ describe('maySetPropertyInConfigObject', () => {
 			}
 		};
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 1;
+		const expectedProblem = true;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1133,9 +1133,9 @@ describe('maySetPropertyInConfigObject', () => {
 			}
 		};
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 1;
+		const expectedProblem = true;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1152,9 +1152,9 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = 1;
 		const obj = 3;
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 1;
+		const expectedProblem = true;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1171,9 +1171,9 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = 4.5;
 		const obj = 3;
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 0;
+		const expectedProblem = false;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1189,7 +1189,7 @@ describe('maySetPropertyInConfigObject', () => {
 		};
 		const validatorResult = optionsConfigValidator(config);
 		try {
-			assert.strictEqual(validatorResult.length, 0);
+			assert.strictEqual(validatorResult, '');
 		} catch(err) {
 			console.warn('Basic config not valid', validatorResult);
 			throw err;
@@ -1198,9 +1198,9 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = 4;
 		const obj = 3;
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 1;
+		const expectedProblem = true;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1215,7 +1215,7 @@ describe('maySetPropertyInConfigObject', () => {
 		};
 		const validatorResult = optionsConfigValidator(config);
 		try {
-			assert.strictEqual(validatorResult.length, 0);
+			assert.strictEqual(validatorResult, '');
 		} catch(err) {
 			console.warn('Basic config not valid', validatorResult);
 			throw err;
@@ -1224,9 +1224,9 @@ describe('maySetPropertyInConfigObject', () => {
 		const value = 4;
 		const obj = 3;
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 0;
+		const expectedProblem = false;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1241,7 +1241,7 @@ describe('maySetPropertyInConfigObject', () => {
 		};
 		const validatorResult = optionsConfigValidator(config);
 		try {
-			assert.strictEqual(validatorResult.length, 0);
+			assert.strictEqual(validatorResult, '');
 		} catch(err) {
 			console.warn('Basic config not valid', validatorResult);
 			throw err;
@@ -1252,9 +1252,9 @@ describe('maySetPropertyInConfigObject', () => {
 			foo: 3
 		};
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 1;
+		const expectedProblem = true;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1273,7 +1273,7 @@ describe('maySetPropertyInConfigObject', () => {
 		};
 		const validatorResult = optionsConfigValidator(config);
 		try {
-			assert.strictEqual(validatorResult.length, 0);
+			assert.strictEqual(validatorResult, '');
 		} catch(err) {
 			console.warn('Basic config not valid', validatorResult);
 			throw err;
@@ -1284,9 +1284,9 @@ describe('maySetPropertyInConfigObject', () => {
 			foo: [2, 2, 2]
 		};
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 0;
+		const expectedProblem = false;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1305,7 +1305,7 @@ describe('maySetPropertyInConfigObject', () => {
 		};
 		const validatorResult = optionsConfigValidator(config);
 		try {
-			assert.strictEqual(validatorResult.length, 0);
+			assert.strictEqual(validatorResult, '');
 		} catch(err) {
 			console.warn('Basic config not valid', validatorResult);
 			throw err;
@@ -1318,9 +1318,9 @@ describe('maySetPropertyInConfigObject', () => {
 			}
 		};
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 0;
+		const expectedProblem = false;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1339,7 +1339,7 @@ describe('maySetPropertyInConfigObject', () => {
 		};
 		const validatorResult = optionsConfigValidator(config);
 		try {
-			assert.strictEqual(validatorResult.length, 0);
+			assert.strictEqual(validatorResult, '');
 		} catch(err) {
 			console.warn('Basic config not valid', validatorResult);
 			throw err;
@@ -1352,9 +1352,9 @@ describe('maySetPropertyInConfigObject', () => {
 			}
 		};
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 1;
+		const expectedProblem = true;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1388,7 +1388,7 @@ describe('maySetPropertyInConfigObject', () => {
 		};
 		const validatorResult = optionsConfigValidator(config);
 		try {
-			assert.strictEqual(validatorResult.length, 0);
+			assert.strictEqual(validatorResult, '');
 		} catch(err) {
 			console.warn('Basic config not valid', validatorResult);
 			throw err;
@@ -1408,9 +1408,9 @@ describe('maySetPropertyInConfigObject', () => {
 			communication: 2
 		};
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 0;
+		const expectedProblem = false;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1444,7 +1444,7 @@ describe('maySetPropertyInConfigObject', () => {
 		};
 		const validatorResult = optionsConfigValidator(config);
 		try {
-			assert.strictEqual(validatorResult.length, 0);
+			assert.strictEqual(validatorResult, '');
 		} catch(err) {
 			console.warn('Basic config not valid', validatorResult);
 			throw err;
@@ -1466,9 +1466,9 @@ describe('maySetPropertyInConfigObject', () => {
 			communication: 2
 		};
 		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblemLength = 0;
+		const expectedProblem = false;
 		try {
-			assert.strictEqual(result.length, expectedProblemLength);
+			assert.strictEqual(result != '', expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;

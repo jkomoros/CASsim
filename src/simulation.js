@@ -239,9 +239,9 @@ const Simulation = class {
 		this._config = configCopy;
 		deepFreeze(config);
 		this._rawConfig = config;
-		const configProblems = configObjectIsValid(this.optionsConfig, this._config);
-		if (configProblems.length) {
-			throw new Error('Invalid config: ' + configProblems.join(', '));
+		const configProblem = configObjectIsValid(this.optionsConfig, this._config);
+		if (configProblem) {
+			throw new Error('Invalid config: ' + configProblem);
 		}
 		this._altName = (index || 0).toString();
 		this._seed = this._config[SEED_PROPERTY] || '' + Date.now();
@@ -353,9 +353,9 @@ const Simulation = class {
 	get optionsConfig() {
 		if (this._optionConfig) return this._optionConfig;
 		const simOptionsConfig = this._simulator.optionsConfig;
-		const problems = optionsConfigValidator(simOptionsConfig);
-		if (problems.length) {
-			throw new Error('Invalid simOptions: ' + problems.join(', '));
+		const problem = optionsConfigValidator(simOptionsConfig);
+		if (problem) {
+			throw new Error('Invalid simOptions: ' + problem);
 		}
 		const result = {
 			example: {
