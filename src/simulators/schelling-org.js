@@ -37,6 +37,7 @@ const OPTIMISM_PROPERTY_NAME = 'optimism';
 const COMMUNICATION_STRATEGY_PROPERTY_NAME = 'communicationStrategy';
 const BELIEVABILITY_PROPERTY_NAME = 'believability';
 const BELIEVES_PROPERTY_NAME = 'believes';
+const DISABLE_SELECTION_PROPERTY_NAME = 'disableSelection';
 
 const OFFSET_TYPE_MANUAL = 'manual';
 const OFFSET_TYPE_RANDOM = 'random';
@@ -544,6 +545,11 @@ class SchellingOrgSimulator extends BaseSimulator {
 						example: false,
 						description: "If true, then each individuals' beliefs about the value of a project will be rendered as a tick mark",
 						optional: true
+					},
+					[DISABLE_SELECTION_PROPERTY_NAME]: {
+						example: false,
+						description: 'If true, then the line connecting each collaborator to the project they pick won\'t be rendered',
+						optional: true
 					}
 				},
 				optional: true,
@@ -975,6 +981,12 @@ class SchellingOrgRenderer extends LitElement {
 		return displayValue[DEBUG_PROPERTY_NAME] || false;
 	}
 
+	get _disableSelection() {
+		if (!this.frame) return false;
+		const displayValue = this.frame[DISPLAY_PROPERTY_NAME] || {};
+		return displayValue[DISABLE_SELECTION_PROPERTY_NAME] || false;
+	}
+
 	get _renderBeliefTicks() {
 		if (!this.frame) return false;
 		const displayValue = this.frame[DISPLAY_PROPERTY_NAME] || {};
@@ -1055,7 +1067,7 @@ class SchellingOrgRenderer extends LitElement {
 		const projectPosition = this._projectPosition(collaborator.project);
 
 		return svg`
-		${projectPosition ? svg`<path class='selected-project' d='M ${projectPosition[0]},${projectPosition[1]} L ${x}, ${y}'></path>` : ''}
+		${projectPosition && !this._disableSelection ? svg`<path class='selected-project' d='M ${projectPosition[0]},${projectPosition[1]} L ${x}, ${y}'></path>` : ''}
 		<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width * 0.8}' class='${collaborator[BELIEVES_PROPERTY_NAME] ? 'believer' : 'non-believer'}'>${collaborator[EMOJI_PROPERTY_NAME]}</text>
 		${this._communication ? '' : svg`<path class='wall' d='M ${x + width},${y - width / 2} L ${x + width},${y + width /2}' stroke-width='${width / 10}'></path>`}`;
 	}
