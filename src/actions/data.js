@@ -66,6 +66,8 @@ import {
 } from '../selectors.js';
 
 import {
+	configForPath,
+	configIsAdvanced,
 	maySetPropertyInConfigObject
 } from '../options.js';
 
@@ -397,6 +399,13 @@ export const updateCurrentSimulationOptions = (path, value) => (dispatch, getSta
 		path,
 		value
 	});
+	//If the thing we just modified was advanced, then make sure hte advanced zippy in the PARENT is expanded.
+	const config = configForPath(simulation.optionsConfig, path);
+	if (configIsAdvanced(config)) {
+		const parts = path.split('.');
+		parts.pop();
+		dispatch(updatePathExpanded(parts.join('.'), true));
+	}
 	dispatch(fetchNeededSimulators());
 	dispatch(verifyValidIndexes());
 };

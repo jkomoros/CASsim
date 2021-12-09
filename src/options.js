@@ -27,6 +27,10 @@ import {
 
 //See README.md for more about the canonical shape of optionsLeaf objects.
 
+export const configIsAdvanced = (config) => {
+	return config && config[ADVANCED_PROPERTY_NAME];
+};
+
 //Returns a string describing the problem, or '' if no problem
 export const optionsConfigValidator = (config) => {
 	if (!config) return 'Config must be an object';
