@@ -101,7 +101,7 @@ export const selectCurrentSimulationHeight = createSelector(
 
 export const selectMaxSimulationIndex = createSelector(
 	selectRawConfigData,
-	(configData) => (configData || [' ']).length - 1
+	(configData) => Math.max(configData.length - 1, 0)
 );
 
 export const selectCurrentSimulationMaxRunIndex = createSelector(
