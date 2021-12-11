@@ -78,9 +78,20 @@ import {
 	extractSimulatorNamesFromRawConfig
 } from '../simulation.js';
 
+import {
+	unpackConfigJSON
+} from '../config.js';
+
 const SIMULATORS_DIRECTORY = 'simulators';
 
-export const loadData = (data) => (dispatch) => {
+export const loadData = (blob) => (dispatch) => {
+	let data;
+	try {
+		data = unpackConfigJSON(blob);
+	} catch(err) {
+		console.warn('Couldn\'t load data:' + err);
+		return;
+	}
 	dispatch({
 		type: LOAD_DATA,
 		data,

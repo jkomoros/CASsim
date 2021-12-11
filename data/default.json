@@ -1,44 +1,47 @@
-[
-	{
-		"name": "first-config",
-		"title": "First config",
-		"description": "This is the first config. This is a longer description about the config",
-		"seed": "abc",
-		"width": 800,
-		"height": 450,
-		"runs": 10,
-		"colors": {
-			"primary": "#fb8c00",
-			"secondary": "#51b9a3",
-			"disabled": "#CCCCCC",
-			"background": "white"
-		},
-		"autoGenerate": true,
-		"repeat": true,
-		"extraFinalFrameCount": 10,
-		"sim": "schelling-org",
-		"simOptions": {
-			"display": {
-				"beliefs": true
+{
+	"version": 1,
+	"configs": [
+		{
+			"name": "first-config",
+			"title": "First config",
+			"description": "This is the first config. This is a longer description about the config",
+			"seed": "abc",
+			"width": 800,
+			"height": 450,
+			"runs": 10,
+			"colors": {
+				"primary": "#fb8c00",
+				"secondary": "#51b9a3",
+				"disabled": "#CCCCCC",
+				"background": "white"
 			},
-			"communication": 15,
-			"collaborators": {
-				"count": 8,
-				"epsilon": 0.05,
-				"avgConnectionLikelihood": 0.25,
-				"connectionLikelihoodSpread": 0.25
-			},
-			"projects": {
-				"count": 4,
-				"maxExtraValue": 1.0,
-				"maxErrorValue": 0.5,
-				"individuals": [
-					null,
-					{
-						"marked": true
-					}
-				]
+			"autoGenerate": true,
+			"repeat": true,
+			"extraFinalFrameCount": 10,
+			"sim": "schelling-org",
+			"simOptions": {
+				"display": {
+					"beliefs": true
+				},
+				"communication": 15,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05,
+					"avgConnectionLikelihood": 0.25,
+					"connectionLikelihoodSpread": 0.25
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 1.0,
+					"maxErrorValue": 0.5,
+					"individuals": [
+						null,
+						{
+							"marked": true
+						}
+					]
+				}
 			}
-		}
-	}	
-]
+		}	
+	]
+}

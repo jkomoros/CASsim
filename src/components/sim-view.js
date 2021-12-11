@@ -95,6 +95,10 @@ import {
 
 import { PLUS_ICON } from "./my-icons.js";
 
+import {
+	packConfigJSON
+} from "../config.js";
+
 //Size in px that we want to allow around the visualization edge. Pixels per 100
 //px of width.
 const VISUALIZATION_PADDING = 8;
@@ -123,9 +127,9 @@ const fetchData = async(filename) => {
 		console.warn('Couldn\'t fetch ' + path + ': ' + err);
 	}
 
-	const data = await res.json();
+	const blob = await res.json();
 
-	store.dispatch(loadData(data));
+	store.dispatch(loadData(blob));
 };
 
 class SimView extends connect(store)(PageViewElement) {
@@ -252,7 +256,7 @@ class SimView extends connect(store)(PageViewElement) {
 
 	// This is called every time something is updated in the store.
 	stateChanged(state) {
-		this._rawConfigData = selectRawConfigData(state);
+		this._rawConfigData = packConfigJSON(selectRawConfigData(state));
 		this._currentSimulation = selectCurrentSimulation(state);
 		this._currentSimulationName = this._currentSimulation ? this._currentSimulation.name : '';
 		this._dialogOpen = selectDialogOpen(state);
