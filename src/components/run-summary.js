@@ -1,6 +1,11 @@
 import { LitElement, html, css } from "lit-element";
 import { SharedStyles } from "./shared-styles.js";
 
+//This number is the point at which compact versions of runSummary should have no-border.
+//These numbers are tied to the border size below, as well as the var(--controls-width);
+const NO_BORDER_COMPACT_COUNT_THRESHOLD = 25;
+const NO_BORDER_COUNT_THRESHOLD = 100;
+
 class RunSummary extends LitElement {
 	static get properties() {
 		return {
@@ -9,6 +14,7 @@ class RunSummary extends LitElement {
 			//If true, then statuses beyond the selectedIndex will be rendered as indeterminate
 			clipFuture: {type:Boolean},
 			centerPercentage: {type:Boolean},
+			compact: {type:Boolean},
 		};
 	}
 
@@ -44,7 +50,7 @@ class RunSummary extends LitElement {
 				display: flex;
 				flex-direction: row;
 			}
-			
+
 			.status {
 				border: 0.000625em solid white;
 				height: 1.5em;
@@ -52,6 +58,10 @@ class RunSummary extends LitElement {
 				cursor: pointer;
 				flex-grow:1;
 				box-sizing: border-box;
+			}
+
+			.no-border .status {
+				border: none;
 			}
 
 			.status.selected {
@@ -76,7 +86,7 @@ class RunSummary extends LitElement {
 		const successPercentage = '' + Math.floor(100 * successCount / (denominator || 1)) + '%';
 
 		return html`
-				<div class='statuses ${this.centerPercentage ? 'center-percentage' : ''}'>
+				<div class='statuses ${this.centerPercentage ? 'center-percentage' : ''} ${statuses.length > (this.compact ? NO_BORDER_COMPACT_COUNT_THRESHOLD : NO_BORDER_COUNT_THRESHOLD) ? 'no-border' : ''}'>
 					<span>${successPercentage}</span>
 					<div class='output'>${statuses.map((status, index) => html`<div class='status ${this.selectedIndex == index ? 'selected' : ''} ${status < 0 ? 'indeterminate' : (status == 1.0 ? 'success' : 'failure')}' @click=${this._handleStatusClicked} .index=${index}></div>`)}</div>
 				</div>

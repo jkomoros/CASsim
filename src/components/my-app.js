@@ -21,7 +21,8 @@ import {
 // These are the elements needed by this element.
 import "./snack-bar.js";
 
-//Note: also hard-coded in styles() below as --controls-width
+//Note: also hard-coded in styles() below as --controls-width.
+//You might also want to tweak run-summmary.NO_BORDER threshold values too
 const CONTROLS_WIDTH = '18em';
 
 class MyApp extends connect(store)(LitElement) {
