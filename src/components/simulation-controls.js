@@ -39,7 +39,9 @@ import {
 	PLAY_ICON,
 	REPLAY_ICON,
 	PAUSE_ICON,
-	FAST_FORWARD_ICON
+	FAST_FORWARD_ICON,
+	INFO_ICON,
+	SETTINGS_ICON
 } from "./my-icons.js";
 
 import { ButtonSharedStyles } from "./button-shared-styles.js";
@@ -145,13 +147,13 @@ class SimulationControls extends connect(store)(LitElement) {
 				</div>
 				<div class='description' ?hidden=${!rawDescription}>
 					<details .open=${this._descriptionExpanded} @toggle=${this._handleDescriptionExpandedToggled}>
-						<summary><label>Description</label></summary>
+						<summary><label><button class='small'>${INFO_ICON}</button> Description</label></summary>
 						<div class='label'>${rawDescription}</div>
 					</details>
 				</div>
 				<div>
 					<details .open=${this._configurationExpanded} @toggle=${this._handleConfigurationExpandedToggled}>
-						<summary><label>Simulation Configuration</label></summary>
+						<summary><label><button class='small'>${SETTINGS_ICON}</button> Simulation Configuration</label></summary>
 						<options-control .readonly=${this._playing} @option-changed=${this._handleOptionChanged} @open-dialog=${this._handleOpenDialog} @path-toggled=${this._handlePathToggled} .config=${this._simulation ? this._simulation.optionsConfig : null} .value=${this._simulation ? this._simulation.rawConfig : null} .name=${''} .pathExpanded=${this._pathExpanded}></options-control>
 					</details>
 				</div>
