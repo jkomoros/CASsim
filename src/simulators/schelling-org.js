@@ -424,11 +424,11 @@ class SchellingOrgSimulator extends BaseSimulator {
 		};
 	}
 
-	generator(previousFrames, simOptions, rnd) {
+	generator(frameIndex, previousFrame, simOptions, rnd) {
 		const communicationRounds = simOptions[COMMUNICATION_PROPERTY_NAME];
-		if (previousFrames.length > communicationRounds) return null;
-		let frame = previousFrames.length ? previousFrames[previousFrames.length - 1] : this._firstFrameGenerator(simOptions, rnd);
-		frame = {...frame, index: previousFrames.length};
+		if (frameIndex > communicationRounds) return null;
+		let frame = previousFrame || this._firstFrameGenerator(simOptions, rnd);
+		frame = {...frame, index: frameIndex};
 		if (frame.index < communicationRounds) frame = this._communicationRound(frame, rnd);
 		if (frame.index == communicationRounds) frame = this._selectFinalProject(frame, simOptions, rnd);
 		return frame;

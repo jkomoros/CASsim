@@ -53,11 +53,14 @@ class DiceRollDemoSimulator extends BaseSimulator {
 		}
 	}
 
-	generator(previousFrames, simOptions, rnd) {
-		if (!previousFrames.length) return this._firstFrameGenerator(simOptions);
-		const lastFrame = previousFrames[previousFrames.length - 1];
-		if (this._frameSimulationComplete(lastFrame)) return null;
-		const frame = {...lastFrame, index: previousFrames.length};
+	generator(frameIndex, previousFrame, simOptions, rnd) {
+		if (!previousFrame) return this._firstFrameGenerator(simOptions);
+		if (this._frameSimulationComplete(previousFrame)) return null;
+		//Note: because this is only a shallow copy, if we were to change any
+		//nested values in sub-generators we'd need to also copy them. previousFrame
+		//is frozen, which will make it easier to detect when we are erroneously
+		//trying to modify it.
+		const frame = {...previousFrame, index: frameIndex};
 		this._diceRoll(frame, rnd);
 		return frame;
 	}

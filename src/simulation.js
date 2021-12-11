@@ -201,10 +201,10 @@ const SimulationRun = class {
 
 	//Will only be called when all lower frames exist
 	_calculateFrameAt(frameIndex) {
-		const previousFrames = frameIndex == 0 ? [] : this._frames.slice(0, frameIndex);
+		const previousFrame = frameIndex == 0 ? null : this._frames[frameIndex - 1];
 		const rnd = makeSeededRandom('' + this._simulation.seed + this._index + frameIndex);
 		const sim = this._simulation.simulator;
-		return sim.generator(previousFrames, this._simulation.simOptions, rnd, this._index);
+		return sim.generator(frameIndex, previousFrame, this._simulation.simOptions, rnd, this._index);
 	}
 };
 

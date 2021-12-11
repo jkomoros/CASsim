@@ -20,7 +20,7 @@ export class BaseSimulator {
 		return 'INVALID-NAME';
 	}
 
-	generator(previousFrames, simOptions, rnd) {
+	generator(frameIndex, previousFrame, simOptions, rnd) {
 		return {};
 	}
 
