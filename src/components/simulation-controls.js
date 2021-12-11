@@ -127,7 +127,7 @@ class SimulationControls extends connect(store)(LitElement) {
 				<div class='row'>
 					<label for='simulationIndex'>Simulation</label>
 					<select id='simulationIndex' .value=${this._simulationIndex} @change=${this._handleSimulationIndexChanged} .readonly=${this._playing}>
-						${Object.entries(this._simulationsMap || {}).map((entry, index) => html`<option .value=${index} .title=${entry[1].description}>${entry[1].title}</option>`)}
+						${Object.entries(this._simulationsMap || {}).map((entry, index) => html`<option .value=${index} .selected=${index == this._simulationIndex} .title=${entry[1].description}>${entry[1].title}</option>`)}
 					</select>
 					<div>
 						<button class='small' .disabled=${this._playing} @click=${this._handleShowJSONClicked}>${CODE_ICON}</button>
