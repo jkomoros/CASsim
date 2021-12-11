@@ -39,6 +39,7 @@ const BELIEVABILITY_PROPERTY_NAME = 'believability';
 const BELIEVES_PROPERTY_NAME = 'believes';
 const DISABLE_SELECTION_PROPERTY_NAME = 'disableSelection';
 const LAST_COMMUNICATED_PROJECT_PROPERTY_NAME = 'lastCommunicatedProject';
+const DISABLE_BELIEFS_PROPERTY_NAME = 'disableBeliefs';
 
 const OFFSET_TYPE_MANUAL = 'manual';
 const OFFSET_TYPE_RANDOM = 'random';
@@ -545,7 +546,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 						description: "If true, then the SVG will render debug information",
 						optional: true,
 					},
-					[BELIEFS_PROPERTY_NAME]: {
+					[DISABLE_BELIEFS_PROPERTY_NAME]: {
 						example: false,
 						description: "If true, then each individuals' beliefs about the value of a project will be rendered as a tick mark",
 						optional: true
@@ -1007,7 +1008,8 @@ class SchellingOrgRenderer extends LitElement {
 	get _renderBeliefTicks() {
 		if (!this.frame) return false;
 		const displayValue = this.frame[DISPLAY_PROPERTY_NAME] || {};
-		return displayValue[BELIEFS_PROPERTY_NAME] || false;
+		const val = displayValue[DISABLE_BELIEFS_PROPERTY_NAME] || false;
+		return !val;
 	}
 
 	get _northStar() {
