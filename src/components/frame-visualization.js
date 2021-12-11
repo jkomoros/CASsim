@@ -41,6 +41,27 @@ class FrameVisualization extends LitElement {
 					top:0;
 					left:0;
 				}
+
+				.message {
+					display: flex;
+					height: 100%;
+					width: 100%;
+					justify-content: center;
+					align-items: center;
+					text-align: center;
+					font-size: 1.5em;
+				}
+
+				.message > div {
+
+					display: flex;
+					flex-direction: column;
+				}
+
+				.message span {
+					font-size: 0.6em;
+					color: var(--dark-gray-color);
+				}
 			
 			`
 		];
@@ -60,7 +81,7 @@ class FrameVisualization extends LitElement {
 
 	_renderer() {
 		const ele = memoizedRenderer(this.simulation, this);
-		if (!ele) return html`<em>Unknown renderer</em>`;
+		if (!ele) return html`<div class='message'><div><div><em>Loading...</em></div><div><span>If this message doesn't go away soon, check the console for errors.</span></div></div></div>`;
 		ele.frame = this.frame;
 		ele.width = this.width;
 		ele.height = this.height;
