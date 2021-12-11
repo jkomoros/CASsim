@@ -311,8 +311,12 @@ const Simulation = class {
 		return this._config[TITLE_PROPERTY] || this.name;
 	}
 
+	get rawDescription() {
+		return this._config[DESCRIPTION_PROPERTY] || '';
+	}
+
 	get description() {
-		return this._config[DESCRIPTION_PROPERTY] || this.title;
+		return this.rawDescription || this.title;
 	}
 
 	get simOptions() {

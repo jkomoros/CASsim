@@ -83,10 +83,6 @@ class SimulationControls extends connect(store)(LitElement) {
 					width: 3.0em;
 				}
 
-				[hidden] {
-					display:none;
-				}
-
 				.row {
 					display:flex;
 					flex-direction:row;
@@ -105,6 +101,9 @@ class SimulationControls extends connect(store)(LitElement) {
 
 
 	render() {
+
+		const rawDescription = this._simulation ? this._simulation.rawDescription : '';
+
 		return html`
 			<div class='container' ?hidden=${!this._showControls}>
 				<div class='row'>
@@ -137,6 +136,9 @@ class SimulationControls extends connect(store)(LitElement) {
 					<div>
 						<button class='small' .disabled=${this._playing} @click=${this._handleReplayClicked}>${REPLAY_ICON}</button>
 					</div>
+				</div>
+				<div class='row description' ?hidden=${!rawDescription}>
+					<span class='label'><strong>Description</strong> ${rawDescription}</span>
 				</div>
 				<div>
 					<run-summary .statuses=${this._runStatuses} .selectedIndex=${this._runIndex} @run-clicked=${this._handleStatusClicked} .compact=${true}></run-summary>
