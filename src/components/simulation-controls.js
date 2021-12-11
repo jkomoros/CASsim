@@ -137,11 +137,14 @@ class SimulationControls extends connect(store)(LitElement) {
 						<button class='small' .disabled=${this._playing} @click=${this._handleReplayClicked}>${REPLAY_ICON}</button>
 					</div>
 				</div>
-				<div class='row description' ?hidden=${!rawDescription}>
-					<span class='label'><strong>Description</strong> ${rawDescription}</span>
-				</div>
 				<div>
 					<run-summary .statuses=${this._runStatuses} .selectedIndex=${this._runIndex} @run-clicked=${this._handleStatusClicked} .compact=${true}></run-summary>
+				</div>
+				<div class='description' ?hidden=${!rawDescription}>
+					<details>
+						<summary><label>Description</label></summary>
+						<div class='label'>${rawDescription}</div>
+					</details>
 				</div>
 				<div>
 					<details .open=${this._configurationExpanded} @toggle=${this._handleConfigurationExpandedToggled}>

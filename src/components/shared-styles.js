@@ -10,9 +10,10 @@ export const SharedStyles = css`
 		display:none !important;
 	}
 
-	label, span.label {
+	label, .label {
 		font-size: 0.8em;
 		color: var(--dark-gray-color);
+		line-height: 1.1em;
 	}
 
 	details {
