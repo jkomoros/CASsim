@@ -113,13 +113,15 @@ class SimulationControls extends connect(store)(LitElement) {
 	render() {
 
 		const rawDescription = this._simulation ? this._simulation.rawDescription : '';
-
+		const datafiles = [...this._datafiles] || [];
+		const datafilesMap = Object.fromEntries(datafiles.map(file => [file, true]));
+		if (!datafilesMap[this._filename]) datafiles.push(this._filename);
 		return html`
 			<div class='container' ?hidden=${!this._showControls}>
-			<div class='row' ?hidden=${!(this._datafiles && this._datafiles.length > 1)}>
+			<div class='row' ?hidden=${datafiles.length < 2}>
 					<label for='file'>File</label>
 					<select id='file' .value=${this._filename} @change=${this._handleFilenameChanged} .readonly=${this._playing}>
-						${(this._datafiles || []).map(item => html`<option .value=${item} .title=${item}>${item}</option>`)}
+						${datafiles.map(item => html`<option .value=${item} .title=${item}>${item}</option>`)}
 					</select>
 				</div>
 				<div class='row'>
