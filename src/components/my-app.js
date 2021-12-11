@@ -18,6 +18,9 @@ import {
 // These are the elements needed by this element.
 import "./snack-bar.js";
 
+//Note: also hard-coded in styles() below as --controls-width
+const CONTROLS_WIDTH = '18em';
+
 class MyApp extends connect(store)(LitElement) {
 	static get properties() {
 		return {
@@ -63,6 +66,7 @@ class MyApp extends connect(store)(LitElement) {
 					--dark-gray-color: #666;
 					--app-primary-color: #51b9a3;
 					--app-light-text-color: white;
+					/* Also encoded as CONTROLS_WIDTH above */
 					--controls-width: 18em;
 				}
 
@@ -106,8 +110,9 @@ class MyApp extends connect(store)(LitElement) {
 	firstUpdated() {
 		installRouter((location) => store.dispatch(navigate(decodeURIComponent(location.pathname))));
 		installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
-		installMediaQueryWatcher("(min-width: 460px)",
-			(matches) => store.dispatch(updateLayout(matches)));
+		//Consider the layout to be 'large' (auto expand the simulation controls) if there's at least 2.5x the controls width left over for the stage, and the height is at least 2x the controls width.
+		const query = "(min-width: calc(" + CONTROLS_WIDTH + " + calc(2.5 * " + CONTROLS_WIDTH +"))) and (min-height: calc(" + CONTROLS_WIDTH + " * 2))";
+		installMediaQueryWatcher(query ,(matches) => store.dispatch(updateLayout(matches)));
 	}
 
 	updated(changedProps) {
