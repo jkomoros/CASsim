@@ -197,6 +197,13 @@ properties, you need custom logic to generate a legal default. For example, if
 there's extra validation you do in optionsValidator then you might need to do
 special case behavior in this.
 
+`maxFrameIndex(normalizedSimOptions) => integer` - Should return the maximum
+allowable frame count. This is a saftey mechanism to verify that if your
+generator forgets to return a null frame (signaling end of sequence) that there
+is SOME maximum. BaseSimulator returns 10,000 for this which is a reasonable
+extreme; if you have a longer-running sim, override it to return a higher
+number.
+
 `renderer() => CustomElementInstance` - Should return a new custom element ready to be inserted into the
 DOM. The result will be cached and typically reused many times. See more about
 renderers below.

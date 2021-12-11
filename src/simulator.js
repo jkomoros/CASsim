@@ -49,6 +49,10 @@ export class BaseSimulator {
 	frameValidator(frame) {
 		return;
 	}
+
+	maxFrameIndex(normalizedSimOptions) {
+		return 10000;
+	}
 	
 	get optionsConfig() {
 		return {};

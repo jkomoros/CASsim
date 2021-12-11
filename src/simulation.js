@@ -107,7 +107,7 @@ const SimulationRun = class {
 		this._frames = [];
 		this._frameScores = [];
 		this._successScores = [];
-		this._maxFrameIndex = Number.MAX_SAFE_INTEGER;
+		this._maxFrameIndex = this._simulation.maxFrameIndex;
 	}
 
 	get simulation() {
@@ -144,14 +144,14 @@ const SimulationRun = class {
 
 	//Ensure that we know the state of all frames
 	run() {
-		this._ensureFrameDataUpTo(Number.MAX_SAFE_INTEGER);
+		this._ensureFrameDataUpTo(this._simulation.maxFrameIndex);
 	}
 
 	//Whether this has been run to completion (the state of all frames up to the
 	//null frame is known), either directly via run() or indirectly by having
 	//requested all frames up to and past the end.
 	get complete() {
-		return this._maxFrameIndex != Number.MAX_SAFE_INTEGER;
+		return this._maxFrameIndex != this._simulation.maxFrameIndex;
 	}
 	
 	//Returns 0.0 for complete failure, 1.0 for complete success, inbetween for
@@ -248,6 +248,7 @@ const Simulation = class {
 		this._runs = [];
 		this._optionConfig = null;
 		this._index = index;
+		this._maxFrameIndex = this._simulator.maxFrameIndex(this.simOptions);
 		this._colors = Object.fromEntries(Object.entries(this._config[COLORS_PROPERTY] || {}).map(entry => [entry[0], color(entry[1])]));
 		for (let i = 0; i < config[RUNS_PROPERTY]; i++) {
 			const run = new SimulationRun(this, i);
@@ -336,6 +337,10 @@ const Simulation = class {
 
 	get repeat() {
 		return this._config[REPEAT_PROPERTY] || DEFAULT_REPEAT;
+	}
+
+	get maxFrameIndex() {
+		return this._maxFrameIndex;
 	}
 
 	defaultValueForOptionsPath(path) {
