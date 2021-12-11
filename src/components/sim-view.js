@@ -365,7 +365,8 @@ class SimView extends connect(store)(PageViewElement) {
 			store.dispatch(canonicalizePath());
 		}
 		if (changedProps.has('_height') || changedProps.has('_width') || changedProps.has('_configurationExpanded') || changedProps.has('_resizeVisualization')) {
-			this.resizeVisualization();
+			//This method requires the layout to have been rendered, so wait a tick until it has settled and then calculate
+			setTimeout(() => this.resizeVisualization(), 0);
 		}
 	}
 }
