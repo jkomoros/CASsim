@@ -11,15 +11,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import {
 	UPDATE_PAGE,
 	UPDATE_OFFLINE,
-	OPEN_SNACKBAR,
-	CLOSE_SNACKBAR,
 } from "../actions/app.js";
 
 const INITIAL_STATE = {
 	page: "",
 	pageExtra: "",
 	offline: false,
-	snackbarOpened: false,
 };
 
 const app = (state = INITIAL_STATE, action) => {
@@ -34,16 +31,6 @@ const app = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			offline: action.offline
-		};
-	case OPEN_SNACKBAR:
-		return {
-			...state,
-			snackbarOpened: true
-		};
-	case CLOSE_SNACKBAR:
-		return {
-			...state,
-			snackbarOpened: false
 		};
 	default:
 		return state;

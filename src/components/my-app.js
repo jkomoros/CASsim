@@ -18,9 +18,6 @@ import {
 	updateLayout
 } from "../actions/data.js";
 
-// These are the elements needed by this element.
-import "./snack-bar.js";
-
 //Note: also hard-coded in styles() below as --controls-width.
 //You might also want to tweak run-summmary.NO_BORDER threshold values too
 const CONTROLS_WIDTH = '18em';
@@ -30,7 +27,6 @@ class MyApp extends connect(store)(LitElement) {
 		return {
 			appTitle: { type: String },
 			_page: { type: String },
-			_snackbarOpened: { type: Boolean },
 			_offline: { type: Boolean }
 		};
 	}
@@ -105,9 +101,6 @@ class MyApp extends connect(store)(LitElement) {
 				<sim-view class="page" ?active="${this._page === "sim"}"></sim-view>
 				<my-view404 class="page" ?active="${this._page === "view404"}"></my-view404>
 			</main>
-			<snack-bar ?active="${this._snackbarOpened}">
-				You are now ${this._offline ? "offline" : "online"}.
-			</snack-bar>
 		`;
 	}
 
@@ -133,7 +126,6 @@ class MyApp extends connect(store)(LitElement) {
 	stateChanged(state) {
 		this._page = state.app.page;
 		this._offline = state.app.offline;
-		this._snackbarOpened = state.app.snackbarOpened;
 	}
 }
 

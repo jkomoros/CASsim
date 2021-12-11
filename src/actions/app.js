@@ -1,7 +1,5 @@
 export const UPDATE_PAGE = "UPDATE_PAGE";
 export const UPDATE_OFFLINE = "UPDATE_OFFLINE";
-export const OPEN_SNACKBAR = "OPEN_SNACKBAR";
-export const CLOSE_SNACKBAR = "CLOSE_SNACKBAR";
 
 import {
 	selectPage,
@@ -76,22 +74,7 @@ const updatePage = (page, pageExtra) => {
 	};
 };
 
-let snackbarTimer;
-
-export const showSnackbar = () => (dispatch) => {
-	dispatch({
-		type: OPEN_SNACKBAR
-	});
-	window.clearTimeout(snackbarTimer);
-	snackbarTimer = window.setTimeout(() =>
-		dispatch({ type: CLOSE_SNACKBAR }), 3000);
-};
-
-export const updateOffline = (offline) => (dispatch, getState) => {
-	// Show the snackbar only if offline status changes.
-	if (offline !== getState().app.offline) {
-		dispatch(showSnackbar());
-	}
+export const updateOffline = (offline) => (dispatch) => {
 	dispatch({
 		type: UPDATE_OFFLINE,
 		offline
