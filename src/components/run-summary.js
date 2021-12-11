@@ -72,7 +72,8 @@ class RunSummary extends LitElement {
 	render() {
 		const statuses = this.clipFuture ? this.statuses.map((value, index) => index <= this.selectedIndex ? value : -1) : this.statuses;
 		const successCount = statuses.map(value => value == 1.0 ? 1.0 : 0.0).reduce((prev, curr) => prev + curr, 0);
-		const successPercentage = '' + Math.floor(100 * successCount / (statuses.length || 1)) + '%';
+		const denominator = statuses.map(value => value < 0.0 ? 0 : 1).reduce((prev, curr) => prev + curr, 0);
+		const successPercentage = '' + Math.floor(100 * successCount / (denominator || 1)) + '%';
 
 		return html`
 				<div class='statuses ${this.centerPercentage ? 'center-percentage' : ''}'>
