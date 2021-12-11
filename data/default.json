@@ -39,6 +39,45 @@
 					]
 				}
 			}
+		},
+		{
+			"name": "second-config",
+			"title": "Second config",
+			"description": "This is the second config. This is a longer description about the config",
+			"seed": "abc",
+			"width": 800,
+			"height": 450,
+			"runs": 20,
+			"colors": {
+				"primary": "#fb8c00",
+				"secondary": "#51b9a3",
+				"disabled": "#CCCCCC",
+				"background": "white"
+			},
+			"autoGenerate": true,
+			"repeat": true,
+			"extraFinalFrameCount": 10,
+			"sim": "schelling-org",
+			"simOptions": {
+				"communication": 5,
+				"collaborators": {
+					"count": 4,
+					"epsilon": 0.05,
+					"avgConnectionLikelihood": 0.25,
+					"connectionLikelihoodSpread": 0.25
+				},
+				"projects": {
+					"count": 3,
+					"maxExtraValue": 1.0,
+					"maxErrorValue": 0.5,
+					"individuals": [
+						null,
+						{
+							"marked": true
+						}
+					]
+				}
+			}
 		}	
 	]
 }
