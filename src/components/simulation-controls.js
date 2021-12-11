@@ -153,7 +153,7 @@ class SimulationControls extends connect(store)(LitElement) {
 				</div>
 				<div>
 					<details .open=${this._configurationExpanded} @toggle=${this._handleConfigurationExpandedToggled}>
-						<summary><label><button class='small'>${SETTINGS_ICON}</button> Simulation Configuration</label></summary>
+						<summary><label><button class='small'>${SETTINGS_ICON}</button> Configuration</label></summary>
 						<options-control .readonly=${this._playing} @option-changed=${this._handleOptionChanged} @open-dialog=${this._handleOpenDialog} @path-toggled=${this._handlePathToggled} .config=${this._simulation ? this._simulation.optionsConfig : null} .value=${this._simulation ? this._simulation.rawConfig : null} .name=${''} .pathExpanded=${this._pathExpanded}></options-control>
 					</details>
 				</div>
