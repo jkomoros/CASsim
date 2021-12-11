@@ -121,7 +121,7 @@ class SimulationControls extends connect(store)(LitElement) {
 			<div class='row' ?hidden=${datafiles.length < 2}>
 					<label for='file'>File</label>
 					<select id='file' .value=${this._filename} @change=${this._handleFilenameChanged} .readonly=${this._playing}>
-						${datafiles.map(item => html`<option .value=${item} .title=${item}>${item}</option>`)}
+						${datafiles.map(item => html`<option .value=${item} .title=${item} .selected=${item == this._filename}>${item}</option>`)}
 					</select>
 				</div>
 				<div class='row'>
