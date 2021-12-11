@@ -12,8 +12,11 @@ import { store } from "../store.js";
 import {
 	navigate,
 	updateOffline,
-	updateLayout
 } from "../actions/app.js";
+
+import {
+	updateLayout
+} from "../actions/data.js";
 
 // These are the elements needed by this element.
 import "./snack-bar.js";

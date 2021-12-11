@@ -97,7 +97,3 @@ export const updateOffline = (offline) => (dispatch, getState) => {
 		offline
 	});
 };
-
-export const updateLayout = (wide) => () => {
-	console.log(`The window changed to a ${wide ? "wide" : "narrow"} layout`);
-};

@@ -527,3 +527,7 @@ export const updateResizeVisualization = (resize) => {
 		resize,
 	};
 };
+
+export const updateLayout = (wide) => (dispatch) => {
+	dispatch(updateConfigurationExpanded(wide));
+};
