@@ -47,7 +47,8 @@ import {
 	selectRunIndex,
 	selectScale,
 	selectConfigurationExpanded,
-	selectResizeVisualization
+	selectResizeVisualization,
+	selectDescriptionExpanded
 } from "../selectors.js";
 
 // We are lazy loading its reducer.
@@ -152,6 +153,7 @@ class SimView extends connect(store)(PageViewElement) {
 			_width: {type: Number},
 			_scale: {type: Number},
 			_configurationExpanded: {type:Boolean},
+			_descriptionExpanded: {type:Boolean},
 			_runStatues: {type:Object},
 			//Note: this is calculated in this._resizeVisualzation, NOT in state
 			_needsMarginLeft : {type:Boolean},
@@ -271,6 +273,7 @@ class SimView extends connect(store)(PageViewElement) {
 		this._filename = selectFilename(state);
 		this._scale = selectScale(state);
 		this._configurationExpanded = selectConfigurationExpanded(state);
+		this._descriptionExpanded = selectDescriptionExpanded(state);
 		this._resizeVisualization = selectResizeVisualization(state);
 
 		this._runStatuses = this._currentSimulation && this._currentSimulation.displayStatus ? this._currentSimulation.runs.map(run => run.finalStatus) : null;
@@ -281,7 +284,7 @@ class SimView extends connect(store)(PageViewElement) {
 	}
 
 	//Should be called any time the scale of visualization might need to change.
-	//width, height, configurationExpanded, or page resizes
+	//width, height, configurationExpanded, descriptionExpanded or page resizes
 	resizeVisualization() {
 
 		if (!this._resizeVisualization) {
@@ -364,7 +367,7 @@ class SimView extends connect(store)(PageViewElement) {
 		if (changedProps.has('_currentFrame')) {
 			store.dispatch(canonicalizePath());
 		}
-		if (changedProps.has('_height') || changedProps.has('_width') || changedProps.has('_configurationExpanded') || changedProps.has('_resizeVisualization')) {
+		if (changedProps.has('_height') || changedProps.has('_width') || changedProps.has('_configurationExpanded') || changedProps.has('_resizeVisualization') || changedProps.has('_descriptionExpanded')) {
 			//This method requires the layout to have been rendered, so wait a tick until it has settled and then calculate
 			setTimeout(() => this.resizeVisualization(), 0);
 		}

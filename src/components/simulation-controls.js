@@ -16,6 +16,7 @@ import {
 	selectShowControls,
 	selectConfigurationExpanded,
 	selectPathExpanded,
+	selectDescriptionExpanded,
 } from "../selectors.js";
 
 import {
@@ -29,6 +30,7 @@ import {
 	advanceToLastFrameInRun,
 	updatePathExpanded,
 	updateConfigurationExpanded,
+	updateDescriptionExpanded,
 	DIALOG_TYPE_JSON
 } from '../actions/data.js';
 
@@ -51,6 +53,7 @@ class SimulationControls extends connect(store)(LitElement) {
 		return {
 			_showControsl : {type:Boolean},
 			_configurationExpanded: {type:Boolean},
+			_descriptionExpanded: {type:Boolean},
 			_simulationsMap: { type:Object },
 			_simulationIndex: { type:Number },
 			_simulationMaxRunIndex: { type:Number },
@@ -141,7 +144,7 @@ class SimulationControls extends connect(store)(LitElement) {
 					<run-summary .statuses=${this._runStatuses} .selectedIndex=${this._runIndex} @run-clicked=${this._handleStatusClicked} .compact=${true}></run-summary>
 				</div>
 				<div class='description' ?hidden=${!rawDescription}>
-					<details>
+					<details .open=${this._descriptionExpanded} @toggle=${this._handleDescriptionExpandedToggled}>
 						<summary><label>Description</label></summary>
 						<div class='label'>${rawDescription}</div>
 					</details>
@@ -160,6 +163,7 @@ class SimulationControls extends connect(store)(LitElement) {
 	stateChanged(state) {
 		this._showControls = selectShowControls(state);
 		this._configurationExpanded = selectConfigurationExpanded(state);
+		this._descriptionExpanded = selectDescriptionExpanded(state);
 		this._pathExpanded = selectPathExpanded(state);
 		this._simulationsMap = selectSimulationsMap(state);
 		this._simulationIndex = selectSimulationIndex(state);
@@ -181,6 +185,11 @@ class SimulationControls extends connect(store)(LitElement) {
 	_handleConfigurationExpandedToggled(e) {
 		const ele = e.composedPath()[0];
 		store.dispatch(updateConfigurationExpanded( ele.open));
+	}
+
+	_handleDescriptionExpandedToggled(e) {
+		const ele = e.composedPath()[0];
+		store.dispatch(updateDescriptionExpanded( ele.open));
 	}
 
 	_handleStatusClicked(e) {

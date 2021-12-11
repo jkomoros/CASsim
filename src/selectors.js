@@ -16,6 +16,7 @@ export const selectPlaying = state => state.data ? state.data.playing : false;
 export const selectDelayCount = state => state.data ? state.data.delayCount : 0;
 export const selectShowControls = state => state.data ? state.data.showControls : true;
 const selectRawConfigurationExpanded = state => state.data ? state.data.configurationExpanded : false;
+const selectRawDescriptionExpanded = state => state.data ? state.data.descriptionExpanded : false;
 export const selectPathExpanded = state => state.data ? state.data.pathExpanded : {};
 export const selectScale = state => state.data ? state.data.scale : 1.0;
 export const selectLoadedSimulators = state => state.data ? state.data.loadedSimulators : {};
@@ -33,6 +34,12 @@ export const selectPageExtra = state => state.app ? state.app.pageExtra : '';
 export const selectConfigurationExpanded = createSelector(
 	selectShowControls,
 	selectRawConfigurationExpanded,
+	(showControls, rawExpanded) => showControls && rawExpanded
+);
+
+export const selectDescriptionExpanded = createSelector(
+	selectShowControls,
+	selectRawDescriptionExpanded,
 	(showControls, rawExpanded) => showControls && rawExpanded
 );
 
