@@ -16,6 +16,10 @@ export const SharedStyles = css`
 		line-height: 1.1em;
 	}
 
+	summary label {
+		font-weight:bold;
+	}
+
 	details {
 		color: var(--dark-gray-color);
 	}
