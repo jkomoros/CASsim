@@ -153,7 +153,8 @@ export const updateWithSimPageExtra = (pageExtra) => (dispatch, getState) => {
 
 	const simulationsMap = selectSimulationsMap(getState());
 	const fallbackIndex = parseInt(simulationName);
-	const simulationIndex = simulationsMap[simulationName] || (isNaN(fallbackIndex) ? 0 : fallbackIndex);
+	const simulation = simulationsMap[simulationName];
+	const simulationIndex = simulation ? simulation.index : (isNaN(fallbackIndex) ? 0 : fallbackIndex);
 
 	//Each of these will return if a no op
 	dispatch(updateFilename(filename, true));
