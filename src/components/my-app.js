@@ -63,6 +63,7 @@ class MyApp extends connect(store)(LitElement) {
 					--dark-gray-color: #666;
 					--app-primary-color: #51b9a3;
 					--app-light-text-color: white;
+					--controls-width: 18em;
 				}
 
 				.page {

@@ -73,8 +73,7 @@ class SimulationControls extends connect(store)(LitElement) {
 					position:absolute;
 					top: 0;
 					left: 0;
-					/* Note: same value as set in the sim-view styles */
-					width: 18em;
+					width: var(--controls-width);
 					background-color: white;
 					padding: 0.5em;
 					z-index: 1;

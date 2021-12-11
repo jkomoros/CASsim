@@ -181,8 +181,7 @@ class SimView extends connect(store)(PageViewElement) {
 				}
 
 				.container.needs-margin-left frame-visualization {
-					/* Note: same value as set in the simulation-controls styles */
-					margin-left: 18em;
+					margin-left: var(--controls-width);
 				}
 
 				.row {
