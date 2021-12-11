@@ -5,7 +5,8 @@ import {
 	selectPage,
 	selectPageExtra,
 	selectCurrentSimulationName,
-	selectFilename
+	selectFilename,
+	selectDataIsFullyLoaded
 } from '../selectors.js';
 
 //if silent is true, then just passively updates the URL to reflect what it should be.
@@ -21,7 +22,11 @@ export const navigatePathTo = (path, silent) => (dispatch) => {
 };
 
 export const canonicalizePath = () => (dispatch ,getState) => {
+
 	const state = getState();
+
+	//We don't have the necessary information to canonicalize until we have all data loaded
+	if (!selectDataIsFullyLoaded(state)) return;
 	const page = selectPage(state);
 	const pageExtra = selectPageExtra(state);
 

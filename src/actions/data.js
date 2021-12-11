@@ -63,7 +63,8 @@ import {
 	selectDelayCount,
 	selectLoadedSimulators,
 	selectRawConfigData,
-	selectScale
+	selectScale,
+	selectDataIsFullyLoaded
 } from '../selectors.js';
 
 import {
@@ -156,7 +157,7 @@ export const updateWithSimPageExtra = (pageExtra) => (dispatch, getState) => {
 
 	//Each of these will return if a no op
 	dispatch(updateFilename(filename, true));
-	dispatch(updateSimulationIndex(simulationIndex, true));
+	if (selectDataIsFullyLoaded(getState())) dispatch(updateSimulationIndex(simulationIndex, true));
 };
 
 export const resetSimulation = () => (dispatch) => {
