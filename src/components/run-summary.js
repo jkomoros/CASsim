@@ -46,7 +46,7 @@ class RunSummary extends LitElement {
 			}
 			
 			.status {
-				border: 0.0625em solid white;
+				border: 0.000625em solid white;
 				height: 1.5em;
 				background-color: gray;
 				cursor: pointer;
