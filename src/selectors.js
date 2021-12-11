@@ -55,6 +55,12 @@ const selectRequiredSimulatorsLoaded = createSelector(
 	}
 );
 
+export const selectDataIsFullyLoaded = createSelector(
+	selectRawConfigData,
+	selectRequiredSimulatorsLoaded,
+	(data, simsLoaded) => data.length > 0 && simsLoaded
+);
+
 const selectSimulationCollection = createSelector(
 	selectRawConfigData,
 	selectRequiredSimulatorsLoaded,
