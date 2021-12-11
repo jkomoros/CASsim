@@ -48,7 +48,8 @@ import {
 	selectScale,
 	selectConfigurationExpanded,
 	selectResizeVisualization,
-	selectDescriptionExpanded
+	selectDescriptionExpanded,
+	selectDataIsFullyLoaded
 } from "../selectors.js";
 
 // We are lazy loading its reducer.
@@ -154,6 +155,7 @@ class SimView extends connect(store)(PageViewElement) {
 			_scale: {type: Number},
 			_configurationExpanded: {type:Boolean},
 			_descriptionExpanded: {type:Boolean},
+			_dataIsFullyLoaded: {type:Boolean},
 			_runStatues: {type:Object},
 			//Note: this is calculated in this._resizeVisualzation, NOT in state
 			_needsMarginLeft : {type:Boolean},
@@ -275,6 +277,7 @@ class SimView extends connect(store)(PageViewElement) {
 		this._configurationExpanded = selectConfigurationExpanded(state);
 		this._descriptionExpanded = selectDescriptionExpanded(state);
 		this._resizeVisualization = selectResizeVisualization(state);
+		this._dataIsFullyLoaded = selectDataIsFullyLoaded(state);
 
 		this._runStatuses = this._currentSimulation && this._currentSimulation.displayStatus ? this._currentSimulation.runs.map(run => run.finalStatus) : null;
 
@@ -349,7 +352,11 @@ class SimView extends connect(store)(PageViewElement) {
 		if (changedProps.has('_filename') && this._filename) {
 			fetchData(this._filename);
 		}
-		if (changedProps.has('_pageExtra') && this._pageExtra) {
+		//We're responsible for calling updateWithSimPageExtra. It has to be
+		//called early to figure out what data file to load... but
+		//simulationIndex wont' be able to be resolved until data is fully
+		//loaded, so we'll need to call it again once that happens.
+		if ((changedProps.has('_pageExtra') || changedProps.has('_dataIsFullyLoaded')) && this._pageExtra) {
 			store.dispatch(updateWithSimPageExtra(this._pageExtra));
 		}
 		if (changedProps.has('_simulationIndex')) {
