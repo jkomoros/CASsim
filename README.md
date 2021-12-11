@@ -226,7 +226,10 @@ declarative format that has the following shape, called an optionsLeaf:
 	// - a string
 	// - an array containing precisely one optionsLeaf object (any others will be ignored)
 	// - an object, which is itself an optionsLeaf, or where each of its keys points to an optionsLeaf
-	// for numbers, booleans, and strings, this value will also be used as the default
+	// for numbers, booleans, and strings, this value will also be used as the default.
+	// One exception: if you also set 'optional' to true, then this value will not be included by default 
+	//but only if a user explicitly adds it, so the example should be the 'on' version of the value,
+	//so that when a user explicitly adds it, they don't have to then change the value to the 'on' value.
 	"example": 1.0,
 	//A help string to show in the UI to explain what it does
 	"description": "A string to show in the UI"

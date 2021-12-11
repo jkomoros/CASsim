@@ -542,17 +542,17 @@ class SchellingOrgSimulator extends BaseSimulator {
 			[DISPLAY_PROPERTY_NAME]: {
 				example: {
 					[DEBUG_PROPERTY_NAME]: {
-						example: false,
+						example: true,
 						description: "If true, then the SVG will render debug information",
 						optional: true,
 					},
 					[DISABLE_BELIEFS_PROPERTY_NAME]: {
-						example: false,
+						example: true,
 						description: "If true, then each individuals' beliefs about the value of a project will be rendered as a tick mark",
 						optional: true
 					},
 					[DISABLE_SELECTION_PROPERTY_NAME]: {
-						example: false,
+						example: true,
 						description: 'If true, then the line connecting each collaborator to the project they pick won\'t be rendered',
 						optional: true
 					}
