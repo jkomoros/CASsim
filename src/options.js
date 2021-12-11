@@ -116,7 +116,7 @@ export const configObjectIsValid = (optionsConfig, value) => {
 			//Basic value recursion
 			const problem = configObjectIsValid(optionsConfig[valueKey], valueValue);
 			if (problem) {
-				return valueKey + ' property returned error: ' + problem;
+				return valueKey + ': ' + problem;
 			}
 		}
 		//Verify that if there were more keys expected to be there they are valid (i.e. they might be optional)
@@ -124,7 +124,7 @@ export const configObjectIsValid = (optionsConfig, value) => {
 			if (seenKeys[configKey]) continue;
 			const problem = configObjectIsValid(optionsConfig[configKey], value[configKey]);
 			if (problem) {
-				return configKey + ' property returned error: ' + problem;
+				return configKey + ': ' + problem;
 			} 
 		}
 		return '';
@@ -141,7 +141,7 @@ export const configObjectIsValid = (optionsConfig, value) => {
 			for (const [valueKey, valueValue] of value.entries()) {
 				const problem = configObjectIsValid(example[0], valueValue);
 				if (problem) {
-					return valueKey + ' property returned error: ' + problem;
+					return valueKey + ': ' + problem;
 				}
 			}
 		} else {
@@ -150,7 +150,7 @@ export const configObjectIsValid = (optionsConfig, value) => {
 				seenKeys[exampleKey] = true;
 				const problem = configObjectIsValid(exampleValue, value[exampleKey]);
 				if (problem) {
-					return exampleKey + ' property within example returned error: ' + problem;
+					return exampleKey + ': ' + problem;
 				}	
 			}
 			//Make sure we also check for any illegal keys not expected
