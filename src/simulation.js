@@ -409,19 +409,19 @@ const Simulation = class {
 					optional: true
 				},
 				[AUTO_GENERATE_PROPERTY]: {
-					example: false,
+					example: true,
 					description: 'if true, then it will automatically generate all frames for all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.',
 					advanced: true,
 					optional: true
 				},
 				[AUTO_PLAY_PROPERTY]: {
-					example: false,
+					example: true,
 					description: 'If set, will automatically start playing when simulation is loaded',
 					advanced: true,
 					optional: true
 				},
 				[REPEAT_PROPERTY]: {
-					example: false,
+					example: true,
 					description: 'If true, will loop back around to the beginning of the round when being played. Gif screenshotting also respects this value',
 					advanced: true,
 					optional: true
@@ -435,7 +435,7 @@ const Simulation = class {
 				[DISPLAY_PROPERTY]: {
 					example: {
 						[STATUS_DISPLAY_PROPERTY]: {
-							example: false,
+							example: true,
 							description: "If provided, will render a status line of runs summary beneath the visuazliation, including in the screenshot output",
 							optional: true,
 						}
