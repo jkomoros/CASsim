@@ -17,6 +17,8 @@ import {
 	selectConfigurationExpanded,
 	selectPathExpanded,
 	selectDescriptionExpanded,
+	selectFilename,
+	selectKnownDatafiles,
 } from "../selectors.js";
 
 import {
@@ -31,6 +33,7 @@ import {
 	updatePathExpanded,
 	updateConfigurationExpanded,
 	updateDescriptionExpanded,
+	updateFilename,
 	DIALOG_TYPE_JSON
 } from '../actions/data.js';
 
@@ -56,6 +59,8 @@ class SimulationControls extends connect(store)(LitElement) {
 			_showControsl : {type:Boolean},
 			_configurationExpanded: {type:Boolean},
 			_descriptionExpanded: {type:Boolean},
+			_filename: {type:String},
+			_datafiles: {type:Array},
 			_simulationsMap: { type:Object },
 			_simulationIndex: { type:Number },
 			_simulationMaxRunIndex: { type:Number },
@@ -111,6 +116,12 @@ class SimulationControls extends connect(store)(LitElement) {
 
 		return html`
 			<div class='container' ?hidden=${!this._showControls}>
+			<div class='row' ?hidden=${!(this._datafiles && this._datafiles.length > 1)}>
+					<label for='file'>File</label>
+					<select id='file' .value=${this._filename} @change=${this._handleFilenameChanged} .readonly=${this._playing}>
+						${(this._datafiles || []).map(item => html`<option .value=${item} .title=${item}>${item}</option>`)}
+					</select>
+				</div>
 				<div class='row'>
 					<label for='simulationIndex'>Simulation</label>
 					<select id='simulationIndex' .value=${this._simulationIndex} @change=${this._handleSimulationIndexChanged} .readonly=${this._playing}>
@@ -167,6 +178,8 @@ class SimulationControls extends connect(store)(LitElement) {
 		this._configurationExpanded = selectConfigurationExpanded(state);
 		this._descriptionExpanded = selectDescriptionExpanded(state);
 		this._pathExpanded = selectPathExpanded(state);
+		this._filename = selectFilename(state);
+		this._datafiles = selectKnownDatafiles(state);
 		this._simulationsMap = selectSimulationsMap(state);
 		this._simulationIndex = selectSimulationIndex(state);
 		this._simulationMaxRunIndex = selectCurrentSimulationMaxRunIndex(state);
@@ -220,6 +233,11 @@ class SimulationControls extends connect(store)(LitElement) {
 
 	_handleReplayClicked() {
 		store.dispatch(resetSimulation());
+	}
+
+	_handleFilenameChanged(e) {
+		const ele = e.composedPath()[0];
+		store.dispatch(updateFilename(ele.value));
 	}
 
 	_handleSimulationIndexChanged(e) {
