@@ -41,6 +41,7 @@ const BELIEVES_PROPERTY_NAME = 'believes';
 const DISABLE_SELECTION_PROPERTY_NAME = 'disableSelection';
 const LAST_COMMUNICATED_PROJECT_PROPERTY_NAME = 'lastCommunicatedProject';
 const DISABLE_BELIEFS_PROPERTY_NAME = 'disableBeliefs';
+const RANDOM_INDIVIDUAL_PROPERTY_NAME = 'randomIndividual';
 
 const OFFSET_TYPE_MANUAL = 'manual';
 const OFFSET_TYPE_RANDOM = 'random';
@@ -122,7 +123,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const northStarValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? deepCopy(simOptions[NORTH_STAR_PROPERTY_NAME]) : undefined;
 		const collaboratorEpsilonValue = simOptions[COLLABORATORS_PROPERTY_NAME][EPSILON_PROPERTY_NAME];
 		const individualProjectOverrides = simOptions[PROJECTS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
-		const individualCollaboratorOverrides = simOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
+		let individualCollaboratorOverrides = simOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
+		const randomIndividualValues = simOptions[COLLABORATORS_PROPERTY_NAME][RANDOM_INDIVIDUAL_PROPERTY_NAME];
 		const avgConnectionLikelihood = simOptions[COLLABORATORS_PROPERTY_NAME][AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME];
 		const connectionLikelihoodSpread = simOptions[COLLABORATORS_PROPERTY_NAME][CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME];
 		const defaultCompellingValue = simOptions[COLLABORATORS_PROPERTY_NAME][COMPELLING_PROPERTY_NAME];
@@ -225,6 +227,13 @@ class SchellingOrgSimulator extends BaseSimulator {
 				[BELIEVES_PROPERTY_NAME]: rnd() < believabilityValue
 			});
 		}
+
+		if (randomIndividualValues) {
+			individualCollaboratorOverrides = new Array(collaboratorsCount);
+			const index = Math.floor(rnd() * collaboratorsCount);
+			individualCollaboratorOverrides[index] = randomIndividualValues;
+		}
+
 		//Override individuals' values
 		collaborators = collaborators.map((item, index) => individualCollaboratorOverrides[index] ? {...item, ...individualCollaboratorOverrides[index]} : item);
 
@@ -712,6 +721,94 @@ class SchellingOrgSimulator extends BaseSimulator {
 							}
 						],
 						optional: true
+					},
+					[RANDOM_INDIVIDUAL_PROPERTY_NAME]: {
+						example: {
+							[BELIEFS_PROPERTY_NAME]: {
+								example: [
+									{
+										example: 0.0,
+									}
+								],
+								description: "The starter beliefs of this individual of the values of projects. Must be an array of the same length as number of projects",
+								optional: true,
+							},
+							[EPSILON_PROPERTY_NAME]: {
+								example: 0.5,
+								step: 0.05,
+								description: "The epsilon for this specific individual",
+								optional:true,
+							},
+							[EMOJI_PROPERTY_NAME]: {
+								example: 'A',
+								description: 'The specific emoji',
+								optional:true,
+							},
+							[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: {
+								example: 0.5,
+								description: AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME + ' for this individual',
+								optional:true,
+							},
+							[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: {
+								example: 0.5,
+								description: CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME + ' for this individual',
+								optional:true,
+							},
+							[COMPELLING_PROPERTY_NAME]: {
+								example: DEFAULT_COMPELLING_VALUE,
+								description: 'When this person speaks to another person, how much does the receiver update their beliefs? 0.5 means the receiver would move their belief to be halfway between their previous belief and the speaker\'s belief',
+								max: 1.0,
+								min: 0.0,
+								step: 0.05,
+								optional:true,
+							},
+							[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: {
+								example: 0.0,
+								description: 'For each time a speaker is selected to present, how likely are they are they to broadcast to multiple people, with any individual with a connection equal to or stronger than the selected connection is communicated with at once?',
+								min: 0.0,
+								max: 1.0,
+								step: 0.05,
+								optional: true,
+							},
+							[OPTIMISM_PROPERTY_NAME]: {
+								example: 0.5,
+								description: 'How optimistic or pessimistic the individual is. 1.0 is extremely optimistic--every value will be at the top of the possible range. 0.0 is extremely pessimistic--every value will be at the bottom of the possible range.',
+								min: 0.0,
+								max: 1.0,
+								step: 0.05,
+								optional: true
+							},
+							[BELIEVES_PROPERTY_NAME]: {
+								example: true,
+								description: 'Whether this person believes in the north star or not. If they don\'t believe then they will not be influenced by the effect.',
+								optional: true
+							},
+							[COMMUNICATION_STRATEGY_PROPERTY_NAME]: {
+								example: COMMUNICATION_STRATEGY_RANDOM,
+								description: 'The communication strategy the individual will use when deciding which project to communicate about',
+								options: [
+									{
+										value: COMMUNICATION_STRATEGY_RANDOM,
+										description: 'A random project',
+									},
+									{
+										value: COMMUNICATION_STRATEGY_MIN,
+										description: 'The project the speaker is most pessimistic about'
+									},
+									{
+										value: COMMUNICATION_STRATEGY_MAX,
+										description: 'The project the speaker is most optimistic about'
+									},
+									{
+										value: COMMUNICATION_STRATEGY_DISAGREEMENT,
+										description: 'The project the speaker and receiver disagree most about'
+									}
+								],
+								optional:true
+							}
+						},
+						description: "If set, then the individuals array will be set so that a random individual has this configuration provided",
+						optional: true,
 					},
 					[INDIVIDUALS_PROPERTY_NAME]: {
 						optional: true,
