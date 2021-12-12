@@ -138,6 +138,13 @@ export const selectCurrentSimulationMaxRunIndex = createSelector(
 	(sim) => sim ? sim.maxRunIndex : Number.MAX_SAFE_INTEGER
 );
 
+export const selectCurrentSimulationRunStatuses = createSelector(
+	selectCurrentSimulation,
+	//We'll cheat for a second and have this always generate a new one
+	() => Date.now(),
+	(sim) => sim ? sim.runs.map(run => run.finalStatus) : []
+);
+
 export const selectCurrentSimulationRun = createSelector(
 	selectCurrentSimulation,
 	selectRunIndex,

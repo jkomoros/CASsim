@@ -49,7 +49,8 @@ import {
 	selectConfigurationExpanded,
 	selectResizeVisualization,
 	selectDescriptionExpanded,
-	selectDataIsFullyLoaded
+	selectDataIsFullyLoaded,
+	selectCurrentSimulationRunStatuses
 } from "../selectors.js";
 
 // We are lazy loading its reducer.
@@ -238,7 +239,7 @@ class SimView extends connect(store)(PageViewElement) {
 			</dialog-element>
 			<simulation-controls></simulation-controls>
 			<div class='container ${this._needsMarginLeft ? 'needs-margin-left' : ''}' style='${colors}'>
-				<frame-visualization .simulation=${this._currentSimulation} .frame=${this._currentFrame} .width=${this._width} .height=${this._height} .scale=${this._scale} .runStatuses=${this._runStatuses} .runIndex=${this._runIndex}></frame-visualization>
+				<frame-visualization .simulation=${this._currentSimulation} .frame=${this._currentFrame} .width=${this._width} .height=${this._height} .scale=${this._scale} .runStatuses=${this._currentSimulation && this._currentSimulation.displayStatus ? this._runStatuses : null} .runIndex=${this._runIndex}></frame-visualization>
 			</div>
 		`;
 	}
@@ -278,8 +279,7 @@ class SimView extends connect(store)(PageViewElement) {
 		this._descriptionExpanded = selectDescriptionExpanded(state);
 		this._resizeVisualization = selectResizeVisualization(state);
 		this._dataIsFullyLoaded = selectDataIsFullyLoaded(state);
-
-		this._runStatuses = this._currentSimulation && this._currentSimulation.displayStatus ? this._currentSimulation.runs.map(run => run.finalStatus) : null;
+		this._runStatuses = selectCurrentSimulationRunStatuses(state);
 
 		this.updateComplete.then(() => {
 			window[RENDER_COMPLETE_VARIABLE] = true;
