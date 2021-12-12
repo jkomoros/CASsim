@@ -122,9 +122,10 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const displayValue = simOptions[DISPLAY_PROPERTY_NAME];
 		const northStarValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? deepCopy(simOptions[NORTH_STAR_PROPERTY_NAME]) : undefined;
 		const collaboratorEpsilonValue = simOptions[COLLABORATORS_PROPERTY_NAME][EPSILON_PROPERTY_NAME];
-		const individualProjectOverrides = simOptions[PROJECTS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
+		let individualProjectOverrides = simOptions[PROJECTS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
 		let individualCollaboratorOverrides = simOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
-		const randomIndividualValues = simOptions[COLLABORATORS_PROPERTY_NAME][RANDOM_INDIVIDUAL_PROPERTY_NAME];
+		const randomCollaboratorIndividualValues = simOptions[COLLABORATORS_PROPERTY_NAME][RANDOM_INDIVIDUAL_PROPERTY_NAME];
+		const randomProjectIndividualValues = simOptions[PROJECTS_PROPERTY_NAME][RANDOM_INDIVIDUAL_PROPERTY_NAME];
 		const avgConnectionLikelihood = simOptions[COLLABORATORS_PROPERTY_NAME][AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME];
 		const connectionLikelihoodSpread = simOptions[COLLABORATORS_PROPERTY_NAME][CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME];
 		const defaultCompellingValue = simOptions[COLLABORATORS_PROPERTY_NAME][COMPELLING_PROPERTY_NAME];
@@ -202,6 +203,12 @@ class SchellingOrgSimulator extends BaseSimulator {
 			});
 		}
 
+		if (randomProjectIndividualValues) {
+			individualProjectOverrides = new Array(projectsCount);
+			const index = Math.floor(rnd() * projectsCount);
+			individualProjectOverrides[index] = randomProjectIndividualValues;
+		}
+
 		projects = projects.map((item, index) => individualProjectOverrides[index] ? {...item, ...individualProjectOverrides[index]} : item);
 
 		//Assign final value/error values now that we know each one's extra/error
@@ -228,10 +235,10 @@ class SchellingOrgSimulator extends BaseSimulator {
 			});
 		}
 
-		if (randomIndividualValues) {
+		if (randomCollaboratorIndividualValues) {
 			individualCollaboratorOverrides = new Array(collaboratorsCount);
 			const index = Math.floor(rnd() * collaboratorsCount);
-			individualCollaboratorOverrides[index] = randomIndividualValues;
+			individualCollaboratorOverrides[index] = randomCollaboratorIndividualValues;
 		}
 
 		//Override individuals' values
@@ -928,6 +935,47 @@ class SchellingOrgSimulator extends BaseSimulator {
 						optional: true,
 						step: 0.01,
 						description: "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number."
+					},
+					[RANDOM_INDIVIDUAL_PROPERTY_NAME]: {
+						example: {
+							[MARKED_PROPERTY_NAME]: {
+								example: false,
+								description: "A marked project shows up distinctively; collaborators, when deciding between two projects that look like the same value, will prefer the marked one.",
+								optional: true
+							},
+							[MAX_EXTRA_VALUE_PROPERTY_NAME]: {
+								example: 0.0,
+								step: 0.05,
+								optional: true,
+								description: "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value"
+							},
+							[MAX_ERROR_VALUE_PROPERTY_NAME]: {
+								example: 0.0,
+								step: 0.05,
+								optional: true,
+								description: 'Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.'
+							},
+							[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: {
+								example: 0.0,
+								optional: true,
+								step: 0.01,
+								description: "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number."
+							},
+							value: {
+								example: 1.0,
+								step: 0.05,
+								description: "Value is the height of the project, in units of 1.0 = width",
+								optional: true
+							},
+							error: {
+								example: 0.0,
+								step: 0.05,
+								description: "The error bars for this value; collaborators will consider the true value to be somewhere within value +/- this value",
+								optional: true
+							}
+						},
+						optional:true,
+						description: "If provided, each run the individuals overrides will have a random individual provided precisely these overrides"
 					},
 					[INDIVIDUALS_PROPERTY_NAME]: {
 						example: [
