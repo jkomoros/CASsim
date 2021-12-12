@@ -191,13 +191,19 @@ class SchellingOrgSimulator extends BaseSimulator {
 				index: i,
 				//We'll select this later based on which ones were actually selected.
 				selected: false,
-				value: 1.0 + (rnd() * projectExtraValue),
-				error: 0.0 + (rnd() * projectErrorValue),
+				[MAX_EXTRA_VALUE_PROPERTY_NAME]: projectExtraValue,
+				[MAX_ERROR_VALUE_PROPERTY_NAME]: projectErrorValue,
 				northStarBias
 			});
 		}
 
 		projects = projects.map((item, index) => individualProjectOverrides[index] ? {...item, ...individualProjectOverrides[index]} : item);
+
+		//Assign final value/error values now that we know each one's extra/error
+		for (let i = 0; i < projectsCount; i++) {
+			if (projects[i].value === undefined) projects[i].value = 1.0 + (rnd() * projects[i][MAX_EXTRA_VALUE_PROPERTY_NAME]);
+			if (projects[i].error === undefined) projects[i].error = 0.0 + (rnd() * projects[i][MAX_ERROR_VALUE_PROPERTY_NAME]);
+		}
 
 		//Assign basic values to collaborators.
 		let collaborators = [];
@@ -823,6 +829,18 @@ class SchellingOrgSimulator extends BaseSimulator {
 										example: false,
 										description: "A marked project shows up distinctively; collaborators, when deciding between two projects that look like the same value, will prefer the marked one.",
 										optional: true
+									},
+									[MAX_EXTRA_VALUE_PROPERTY_NAME]: {
+										example: 0.0,
+										step: 0.05,
+										optional: true,
+										description: "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value"
+									},
+									[MAX_ERROR_VALUE_PROPERTY_NAME]: {
+										example: 0.0,
+										step: 0.05,
+										optional: true,
+										description: 'Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.'
 									},
 									value: {
 										example: 1.0,
