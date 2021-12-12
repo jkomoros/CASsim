@@ -153,10 +153,12 @@
 					"individuals":[
 						null,
 						{
-							"value": 2.0
+							"value": 2.0,
+							"twiddleValueAmount": 0.02
 						},
 						{
-							"value": 2.05
+							"value": 2.0,
+							"twiddleValueAmount": 0.02
 						}
 					]
 				}
