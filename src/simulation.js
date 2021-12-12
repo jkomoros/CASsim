@@ -185,7 +185,8 @@ const SimulationRun = class {
 		//see the end of the run of frames happening one index before we
 		//actually get there. This prevents a problem where we allow the UI to
 		//select a frameIndex, only later to realize it's past the end.
-		frameIndex++;
+		//We do get MAX_SAFE_INTEGER somtimes, so we need to check for that.
+		if (frameIndex != Number.MAX_SAFE_INTEGER) frameIndex++;
 		while(frameIndex > this._frames.length - 1) {
 			const result = this._calculateFrameAt(this._frames.length);
 			if (!result) {
