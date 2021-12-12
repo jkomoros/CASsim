@@ -394,6 +394,44 @@
 					"maxErrorValue": 2.0
 				}
 			}
+		},
+		{
+			"name": "shared-mental-models",
+			"title": "Shared Mental Models",
+			"description": "Everyone is more likely to judge projects similarly because they share mental models.",
+			"seed": "abc",
+			"width": 800,
+			"height": 450,
+			"runs": 10,
+			"colors": {
+				"primary": "#fb8c00",
+				"secondary": "#51b9a3",
+				"disabled": "#CCCCCC",
+				"background": "white"
+			},
+			"autoGenerate": true,
+			"repeat": true,
+			"extraFinalFrameCount": 10,
+			"display": {
+				"status": true
+			},
+			"sim": "schelling-org",
+			"simOptions": {
+				"communication": 30,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05,
+					"avgConnectionLikelihood": 0.25,
+					"connectionLikelihoodSpread": 0.5,
+					"compelling": 0.75,
+					"communicationStrategy": "max"
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 2.0,
+					"maxErrorValue": 0.25
+				}
+			}
 		}
 	]
 }
