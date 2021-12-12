@@ -183,9 +183,10 @@ const frameIsFinalInRound = (firstFileName, secondFileName) => {
 	const secondFile = path.basename(secondFileName, '.png');
 	const firstFileParts = firstFile.split('_');
 	const secondFileParts = secondFile.split('_');
-	const firstFileFrame = parseInt(firstFileParts[firstFileParts.length - 1]);
-	const secondFileFrame = parseInt(secondFileParts[secondFileParts.length - 1]);
-	return secondFileFrame < firstFileFrame;
+	const firstFileRound = parseInt(firstFileParts[firstFileParts.length - 2]);
+	const secondFileRound = parseInt(secondFileParts[secondFileParts.length - 2]);
+	if (secondFileRound != firstFileRound) return true;
+	return false;
 };
 
 const generateGifs = async (infos) => {
