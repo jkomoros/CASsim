@@ -134,13 +134,13 @@ class SimulationControls extends connect(store)(LitElement) {
 			<div class='container' ?hidden=${!this._showControls}>
 			<div class='row' ?hidden=${datafiles.length < 2}>
 					<label for='file'>File</label>
-					<select id='file' .value=${this._filename} @change=${this._handleFilenameChanged} .readonly=${this._playing}>
+					<select id='file' .value=${this._filename} @change=${this._handleFilenameChanged} .disabled=${this._playing}>
 						${datafiles.map(item => html`<option .value=${item} .title=${item} .selected=${item == this._filename}>${item}</option>`)}
 					</select>
 				</div>
 				<div class='row'>
 					<label for='simulationIndex'>Simulation</label>
-					<select class='flex' id='simulationIndex' .value=${this._simulationIndex} @change=${this._handleSimulationIndexChanged} .readonly=${this._playing}>
+					<select class='flex' id='simulationIndex' .value=${this._simulationIndex} @change=${this._handleSimulationIndexChanged} .disabled=${this._playing}>
 						${Object.entries(this._simulationsMap || {}).map((entry, index) => html`<option .value=${index} .selected=${index == this._simulationIndex} .title=${entry[1].description}>${entry[1].title}</option>`)}
 					</select>
 					<div>
