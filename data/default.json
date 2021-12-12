@@ -18,6 +18,9 @@
 			"autoGenerate": true,
 			"repeat": true,
 			"extraFinalFrameCount": 10,
+			"display": {
+				"status": true
+			},
 			"sim": "schelling-org",
 			"simOptions": {
 				"communication": 0,
@@ -49,6 +52,9 @@
 			"autoGenerate": true,
 			"repeat": true,
 			"extraFinalFrameCount": 10,
+			"display": {
+				"status": true
+			},
 			"sim": "schelling-org",
 			"simOptions": {
 				"communication": 0,
@@ -86,6 +92,9 @@
 			"autoGenerate": true,
 			"repeat": true,
 			"extraFinalFrameCount": 10,
+			"display": {
+				"status": true
+			},
 			"sim": "schelling-org",
 			"simOptions": {
 				"communication": 0,
