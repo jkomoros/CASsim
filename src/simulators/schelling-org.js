@@ -829,7 +829,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: {
 						example: 0.0,
 						optional: true,
-						step: 0.05,
+						step: 0.01,
 						description: "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number."
 					},
 					[INDIVIDUALS_PROPERTY_NAME]: {
@@ -856,7 +856,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 									[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: {
 										example: 0.0,
 										optional: true,
-										step: 0.05,
+										step: 0.01,
 										description: "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number."
 									},
 									value: {
