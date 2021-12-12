@@ -100,9 +100,7 @@
 				"communication": 0,
 				"collaborators": {
 					"count": 8,
-					"epsilon": 0.05,
-					"avgConnectionLikelihood": 0.25,
-					"connectionLikelihoodSpread": 0.25
+					"epsilon": 0.05
 				},
 				"projects": {
 					"count": 4,
@@ -142,9 +140,7 @@
 				"communication": 0,
 				"collaborators": {
 					"count": 8,
-					"epsilon": 0.05,
-					"avgConnectionLikelihood": 0.25,
-					"connectionLikelihoodSpread": 0.25
+					"epsilon": 0.05
 				},
 				"projects": {
 					"count": 4,
@@ -189,9 +185,7 @@
 				"communication": 0,
 				"collaborators": {
 					"count": 8,
-					"epsilon": 0.05,
-					"avgConnectionLikelihood": 0.25,
-					"connectionLikelihoodSpread": 0.25
+					"epsilon": 0.05
 				},
 				"projects": {
 					"count": 4,
@@ -229,8 +223,8 @@
 				"collaborators": {
 					"count": 8,
 					"epsilon": 0.05,
-					"avgConnectionLikelihood": 0.25,
-					"connectionLikelihoodSpread": 0.25,
+					"avgConnectionLikelihood": 1.0,
+					"connectionLikelihoodSpread": 0.0,
 					"compelling": 0.75,
 					"communicationStrategy": "max"
 				},
