@@ -93,6 +93,14 @@ class SimulationControls extends connect(store)(LitElement) {
 					z-index: 1;
 				}
 
+				.flex {
+					flex-grow: 1.0;
+				}
+
+				select {
+					overflow: hidden;
+				}
+
 				input {
 					width: 3.0em;
 				}
@@ -100,6 +108,7 @@ class SimulationControls extends connect(store)(LitElement) {
 				.row {
 					display:flex;
 					flex-direction:row;
+					align-items: center;
 				}
 
 				input, select {
@@ -130,11 +139,13 @@ class SimulationControls extends connect(store)(LitElement) {
 				</div>
 				<div class='row'>
 					<label for='simulationIndex'>Simulation</label>
-					<select id='simulationIndex' .value=${this._simulationIndex} @change=${this._handleSimulationIndexChanged} .readonly=${this._playing}>
+					<select class='flex' id='simulationIndex' .value=${this._simulationIndex} @change=${this._handleSimulationIndexChanged} .readonly=${this._playing}>
 						${Object.entries(this._simulationsMap || {}).map((entry, index) => html`<option .value=${index} .selected=${index == this._simulationIndex} .title=${entry[1].description}>${entry[1].title}</option>`)}
 					</select>
 					<div>
 						<button class='small' .disabled=${this._playing} @click=${this._handleShowJSONClicked}>${CODE_ICON}</button>
+					</div>
+					<div>
 						<button class='small' .disabled=${!this._hasModifications} @click=${this._handleRemoveModificationsClicked} title="Remove modifications you've made">${UNDO_ICON}</button>
 					</div>
 				</div>
