@@ -108,7 +108,8 @@ const SimulationRun = class {
 		this._frames = [];
 		this._frameScores = [];
 		this._successScores = [];
-		this._maxFrameIndex = this._simulation.maxFrameIndex;
+		this._simulatorMaxFrameIndex = this._simulation.maxFrameIndex;
+		this._maxFrameIndex = Number.MAX_SAFE_INTEGER;
 		this._lastChanged = Date.now();
 	}
 
@@ -181,6 +182,7 @@ const SimulationRun = class {
 
 	_ensureFrameDataUpTo(frameIndex) {
 		if (frameIndex > this._maxFrameIndex) return;
+		if (frameIndex > this._simulatorMaxFrameIndex) frameIndex = this._simulatorMaxFrameIndex;
 		//We deliberately try to fetch one more frame than requested, so we'll
 		//see the end of the run of frames happening one index before we
 		//actually get there. This prevents a problem where we allow the UI to
