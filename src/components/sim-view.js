@@ -38,7 +38,7 @@ import {
 	selectCurrentSimulationHeight,
 	selectCurrentSimulationWidth,
 	selectDialogOpen,
-	selectRawConfigData,
+	selectConfigData,
 	selectDialogType,
 	selectDialogExtras,
 	selectFilename,
@@ -149,7 +149,7 @@ class SimView extends connect(store)(PageViewElement) {
 			_dialogOpen: {type: Boolean},
 			_dialogType: {type: String},
 			_dialogExtras: {type:Object},
-			_rawConfigData: {type: Object},
+			_configData: {type: Object},
 			_height: {type: Number},
 			_width: {type: Number},
 			_scale: {type: Number},
@@ -250,7 +250,7 @@ class SimView extends connect(store)(PageViewElement) {
 
 	_dialogInner() {
 		if (!this._dialogOpen) return html``;
-		if (this._dialogType == DIALOG_TYPE_JSON) return html`<textarea readonly style='height:100%; width:100%'>${JSON.stringify(this._rawConfigData, '', '\t')}</textarea>`;
+		if (this._dialogType == DIALOG_TYPE_JSON) return html`<textarea readonly style='height:100%; width:100%'>${JSON.stringify(this._configData, '', '\t')}</textarea>`;
 		return html`
 			${this._dialogExtras.options.map((item, index) => html`<div class='row'><input id=${item.value} type='radio' name='add' .checked=${index == 0} .value=${item.value} .path=${item.path}><label for=${item.value}><strong>${item.value}</strong>${item.description ? html`: ${item.description}` : ''}</label></div>`)}
 			<div class='row right'><button class='round' @click=${this._handleAddFieldButtonClicked}>${PLUS_ICON}</button></div>
@@ -259,7 +259,7 @@ class SimView extends connect(store)(PageViewElement) {
 
 	// This is called every time something is updated in the store.
 	stateChanged(state) {
-		this._rawConfigData = packConfigJSON(selectRawConfigData(state));
+		this._configData = packConfigJSON(selectConfigData(state));
 		this._currentSimulation = selectCurrentSimulation(state);
 		this._currentSimulationName = this._currentSimulation ? this._currentSimulation.name : '';
 		this._dialogOpen = selectDialogOpen(state);

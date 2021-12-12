@@ -24,16 +24,14 @@ import {
 	PLAY_TYPE_ROUND,
 } from "../actions/data.js";
 
-import {
-	setSimPropertyInConfig
-} from '../options.js';
-
 const INITIAL_STATE = {
 	filename: DEFAULT_FILE_NAME,
 	loadedSimulators: {},
 	knownDatafiles: [],
 	knownSimulatorNames: [],
 	data: [],
+	//A list of objects with {simulationIndex: <index>, path: <dottedPath>, value}
+	modifications: [],
 	simulationIndex: 0,
 	runIndex: 0,
 	frameIndex: 0,
@@ -82,12 +80,9 @@ const data = (state = INITIAL_STATE, action) => {
 			frameIndex: action.index,
 		};
 	case UPDATE_CURRENT_SIMULATION_CONFIG:
-		const newData = [...state.data];
-		let index = state.simulationIndex;
-		newData[index] = setSimPropertyInConfig(newData[index], action.path, action.value);
 		return {
 			...state,
-			data: newData
+			modifications: [...state.modifications, {simulationIndex: state.simulationIndex, path: action.path, value: action.value}]
 		};
 	case UPDATE_DIALOG_OPEN:
 		return {

@@ -5,7 +5,12 @@ import {
 	extractSimulatorNamesFromRawConfig
 } from "./simulation.js";
 
-export const selectRawConfigData = state => state.data ? state.data.data : [];
+import {
+	setSimPropertyInConfig
+} from './options.js';
+
+const selectRawConfigData = state => state.data ? state.data.data : [];
+const selectModifications = state => state.data ? state.data.modifications : [];
 export const selectFilename = state => state.data ? state.data.filename : '';
 export const selectSimulationIndex = state => state.data ? state.data.simulationIndex : 0;
 export const selectFrameIndex = state => state.data ? state.data.frameIndex : 0;
@@ -43,8 +48,21 @@ export const selectDescriptionExpanded = createSelector(
 	(showControls, rawExpanded) => showControls && rawExpanded
 );
 
-const selectRequiredSimulatorsLoaded = createSelector(
+export const selectConfigData = createSelector(
 	selectRawConfigData,
+	selectModifications,
+	(rawConfigData, modifications) => {
+		let data = rawConfigData;
+		for (const modification of modifications) {
+			data = [...data];
+			data[modification.simulationIndex] = setSimPropertyInConfig(data[modification.simulationIndex], modification.path, modification.value);
+		}
+		return data;
+	}
+);
+
+const selectRequiredSimulatorsLoaded = createSelector(
+	selectConfigData,
 	selectLoadedSimulators,
 	(data, loadedSimulators) => {
 		const requiredSimulatorNames = extractSimulatorNamesFromRawConfig(data);
@@ -62,7 +80,7 @@ export const selectDataIsFullyLoaded = createSelector(
 );
 
 const selectSimulationCollection = createSelector(
-	selectRawConfigData,
+	selectConfigData,
 	selectRequiredSimulatorsLoaded,
 	selectKnownSimulatorNames,
 	(rawConfig, simulatorsLoaded, knownSimulatorNames) => simulatorsLoaded ? new SimulationCollection(rawConfig, knownSimulatorNames) : null
@@ -106,7 +124,7 @@ export const selectCurrentSimulationHeight = createSelector(
 );
 
 export const selectMaxSimulationIndex = createSelector(
-	selectRawConfigData,
+	selectConfigData,
 	(configData) => Math.max(configData.length - 1, 0)
 );
 
