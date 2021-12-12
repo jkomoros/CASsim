@@ -348,6 +348,52 @@
 					"maxErrorValue": 2.0
 				}
 			}
+		},
+		{
+			"name": "charismatic-leader",
+			"title": "Charismatic Leader",
+			"description": "One very well connected person",
+			"seed": "abc",
+			"width": 800,
+			"height": 450,
+			"runs": 10,
+			"colors": {
+				"primary": "#fb8c00",
+				"secondary": "#51b9a3",
+				"disabled": "#CCCCCC",
+				"background": "white"
+			},
+			"autoGenerate": true,
+			"repeat": true,
+			"extraFinalFrameCount": 10,
+			"display": {
+				"status": true
+			},
+			"sim": "schelling-org",
+			"simOptions": {
+				"communication": 30,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05,
+					"avgConnectionLikelihood": 0.1,
+					"connectionLikelihoodSpread": 0.25,
+					"compelling": 0.5,
+					"communicationStrategy": "max",
+					"individuals": [
+						{
+							"compelling": 1.0,
+							"avgConnectionLikelihood": 1.0,
+							"connectionLikelihoodSpread": 0.0,
+							"broadcastLikelihood": 0.75
+						}
+					]
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 2.0,
+					"maxErrorValue": 2.0
+				}
+			}
 		}
 	]
 }
