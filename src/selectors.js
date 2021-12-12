@@ -22,6 +22,7 @@ export const selectDelayCount = state => state.data ? state.data.delayCount : 0;
 export const selectShowControls = state => state.data ? state.data.showControls : true;
 const selectRawConfigurationExpanded = state => state.data ? state.data.configurationExpanded : false;
 const selectRawDescriptionExpanded = state => state.data ? state.data.descriptionExpanded : false;
+const selectSimulationLastChanged = state => state.data ? state.data.simulationLastChanged : 0;
 export const selectPathExpanded = state => state.data ? state.data.pathExpanded : {};
 export const selectScale = state => state.data ? state.data.scale : 1.0;
 export const selectLoadedSimulators = state => state.data ? state.data.loadedSimulators : {};
@@ -140,8 +141,9 @@ export const selectCurrentSimulationMaxRunIndex = createSelector(
 
 export const selectCurrentSimulationRunStatuses = createSelector(
 	selectCurrentSimulation,
-	//We'll cheat for a second and have this always generate a new one
+	//TODO: remove this once we actually update simulationLastChanged.
 	() => Date.now(),
+	selectSimulationLastChanged,
 	(sim) => sim ? sim.runs.map(run => run.finalStatus) : []
 );
 

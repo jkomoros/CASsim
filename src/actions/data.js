@@ -18,6 +18,7 @@ export const UPDATE_KNOWN_SIMULATOR_NAMES = 'UPDATE_KNOWN_SIMULATOR_NAMES';
 export const UPDATE_KNOWN_DATAFILES = 'UPDATE_KNOWN_DATAFILES';
 export const UPDATE_RESIZE_VISUALIZATION = 'UPDATE_RESIZE_VISUALIZATION';
 export const CLEAR_MODIFICATIONS = 'CLEAR_MODIFICATIONS';
+export const SIMULATION_CHANGED = 'SIMULATION_CHANGED';
 
 export const DIALOG_TYPE_JSON = 'json';
 export const DIALOG_TYPE_ADD_FIELD = 'add-field';
@@ -550,4 +551,10 @@ export const clearModifications = () => (dispatch, getState) => {
 	dispatch({
 		type: CLEAR_MODIFICATIONS,
 	});
+};
+
+export const simulationChanged = () => {
+	return {
+		type: SIMULATION_CHANGED
+	};
 };

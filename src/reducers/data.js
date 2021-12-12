@@ -19,6 +19,7 @@ import {
 	UPDATE_KNOWN_SIMULATOR_NAMES,
 	UPDATE_RESIZE_VISUALIZATION,
 	CLEAR_MODIFICATIONS,
+	SIMULATION_CHANGED,
 
 	DIALOG_TYPE_JSON,
 	DEFAULT_FILE_NAME,
@@ -41,6 +42,9 @@ const INITIAL_STATE = {
 	delayCount: 0,
 	resizeVisualization: true,
 	scale: 1.0,
+	//A thing that will change when a simulation has changed, e.g. they have
+	//calculated new frames.
+	simulationLastChanged: Date.now(),
 	//Whether the whole controls is visible or not
 	showControls: true,
 	configurationExpanded: false,
@@ -156,6 +160,11 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			modifications: []
+		};
+	case SIMULATION_CHANGED:
+		return {
+			...state,
+			simulationLastChanged: Date.now()
 		};
 	default:
 		return state;
