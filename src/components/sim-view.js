@@ -47,7 +47,8 @@ import {
 	selectResizeVisualization,
 	selectDescriptionExpanded,
 	selectDataIsFullyLoaded,
-	selectCurrentSimulationRunStatuses
+	selectCurrentSimulationRunStatuses,
+	selectScrenshotting
 } from "../selectors.js";
 
 // We are lazy loading its reducer.
@@ -152,6 +153,7 @@ class SimView extends connect(store)(PageViewElement) {
 			_configurationExpanded: {type:Boolean},
 			_descriptionExpanded: {type:Boolean},
 			_dataIsFullyLoaded: {type:Boolean},
+			_screenshotting: {type:Boolean},
 			_runStatues: {type:Object},
 			//Note: this is calculated in this._resizeVisualzation, NOT in state
 			_needsMarginLeft : {type:Boolean},
@@ -228,13 +230,14 @@ class SimView extends connect(store)(PageViewElement) {
 
 	render() {
 		const colors = this._currentSimulation ? Object.entries(this._currentSimulation.colors || {}).map(entry => '--' + entry[0] + '-color: ' + entry[1].hex + ';').join(' ') : '';
+		const includeRunStatuses = this._currentSimulation && (this._screenshotting ? this._currentSimulation.screenshotDisplayStatus : this._currentSimulation.displayStatus);
 		return html`
 			<dialog-element .open=${this._dialogOpen} .title=${this._dialogTitle()} @dialog-should-close=${this._handleDialogShouldClose}>
 				${this._dialogInner()}
 			</dialog-element>
 			<simulation-controls></simulation-controls>
 			<div class='container ${this._needsMarginLeft ? 'needs-margin-left' : ''}' style='${colors}'>
-				<frame-visualization .simulation=${this._currentSimulation} .frame=${this._currentFrame} .width=${this._width} .height=${this._height} .scale=${this._scale} .runStatuses=${this._currentSimulation && this._currentSimulation.displayStatus ? this._runStatuses : null} .runIndex=${this._runIndex}></frame-visualization>
+				<frame-visualization .simulation=${this._currentSimulation} .frame=${this._currentFrame} .width=${this._width} .height=${this._height} .scale=${this._scale} .runStatuses=${includeRunStatuses ? this._runStatuses : null} .runIndex=${this._runIndex}></frame-visualization>
 			</div>
 		`;
 	}
@@ -270,6 +273,7 @@ class SimView extends connect(store)(PageViewElement) {
 		this._width = selectCurrentSimulationWidth(state);
 		this._filename = selectFilename(state);
 		this._scale = selectScale(state);
+		this._screenshotting = selectScrenshotting(state);
 		this._configurationExpanded = selectConfigurationExpanded(state);
 		this._descriptionExpanded = selectDescriptionExpanded(state);
 		this._resizeVisualization = selectResizeVisualization(state);

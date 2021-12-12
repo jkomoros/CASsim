@@ -34,6 +34,7 @@ const AUTO_GENERATE_PROPERTY = 'autoGenerate';
 const AUTO_PLAY_PROPERTY = 'autoPlay';
 const DISPLAY_PROPERTY = 'display';
 const STATUS_DISPLAY_PROPERTY = 'status';
+const SCREENSHOT_STATUS_DISPLAY_PROPERTY = 'screenshotStatus';
 const CLIP_STATUS_PROPERTY = 'clipStatus';
 const TITLE_PROPERTY = 'title';
 
@@ -314,6 +315,12 @@ const Simulation = class {
 		return this.display[STATUS_DISPLAY_PROPERTY] ? true : false;
 	}
 
+	get screenshotDisplayStatus() {
+		const result = this.display[SCREENSHOT_STATUS_DISPLAY_PROPERTY];
+		if (result != undefined) return result;
+		return this.displayStatus;
+	}
+
 	get clipStatus() {
 		return this.display[CLIP_STATUS_PROPERTY] ? true : false;
 	}
@@ -476,6 +483,11 @@ const Simulation = class {
 						[STATUS_DISPLAY_PROPERTY]: {
 							example: true,
 							description: "If provided, will render a status line of runs summary beneath the visuazliation, including in the screenshot output",
+							optional: true,
+						},
+						[SCREENSHOT_STATUS_DISPLAY_PROPERTY]: {
+							example: true,
+							description: "If true, then the status line will be included (as in " + STATUS_DISPLAY_PROPERTY + ") but only in the screenshot output",
 							optional: true,
 						},
 						[CLIP_STATUS_PROPERTY]: {
