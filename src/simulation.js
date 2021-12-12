@@ -109,6 +109,7 @@ const SimulationRun = class {
 		this._frameScores = [];
 		this._successScores = [];
 		this._maxFrameIndex = this._simulation.maxFrameIndex;
+		this._lastChanged = Date.now();
 	}
 
 	get simulation() {
@@ -146,6 +147,14 @@ const SimulationRun = class {
 	//Ensure that we know the state of all frames
 	run() {
 		this._ensureFrameDataUpTo(this._simulation.maxFrameIndex);
+	}
+
+	get lastChanged() {
+		return this._lastChanged;
+	}
+
+	_changed() {
+		this._lastChanged = Date.now();
 	}
 
 	//Whether this has been run to completion (the state of all frames up to the
@@ -197,6 +206,7 @@ const SimulationRun = class {
 			this._frameScores.push(frameScores);
 			const successScore = this._simulation.simulator.successScorer(frameScores, this._simulation.simOptions);
 			this._successScores.push(successScore);
+			this._changed();
 		}
 	}
 
@@ -251,11 +261,16 @@ const Simulation = class {
 		this._index = index;
 		this._maxFrameIndex = this._simulator.maxFrameIndex(this.simOptions);
 		this._colors = Object.fromEntries(Object.entries(this._config[COLORS_PROPERTY] || {}).map(entry => [entry[0], color(entry[1])]));
+		this._lastChanged = Date.now();
 		for (let i = 0; i < config[RUNS_PROPERTY]; i++) {
 			const run = new SimulationRun(this, i);
 			if (config[AUTO_GENERATE_PROPERTY]) run.run();
 			this._runs.push(run);
 		}
+	}
+
+	get lastChanged() {
+		return Math.max(this._lastChanged, ...this._runs.map(run => run.lastChanged));
 	}
 
 	get simulatorName() {
