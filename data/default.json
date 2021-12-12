@@ -66,12 +66,9 @@
 					"count": 4,
 					"maxExtraValue": 0.0,
 					"maxErrorValue": 0.0,
-					"individuals":[
-						null,
-						{
-							"marked": true
-						}
-					]
+					"randomIndividual": {
+						"marked": true
+					}
 				}
 			}
 		},
@@ -106,12 +103,9 @@
 					"count": 4,
 					"maxExtraValue": 0.25,
 					"maxErrorValue": 0.0,
-					"individuals":[
-						null,
-						{
-							"value": 2.0
-						}
-					]
+					"randomIndividual": {
+						"value": 2.0
+					}
 				}
 			}
 		},
@@ -379,14 +373,12 @@
 					"connectionLikelihoodSpread": 0.25,
 					"compelling": 0.5,
 					"communicationStrategy": "max",
-					"individuals": [
-						{
-							"compelling": 1.0,
-							"avgConnectionLikelihood": 1.0,
-							"connectionLikelihoodSpread": 0.0,
-							"broadcastLikelihood": 0.75
-						}
-					]
+					"randomIndividual": {
+						"compelling": 1.0,
+						"avgConnectionLikelihood": 1.0,
+						"connectionLikelihoodSpread": 0.0,
+						"broadcastLikelihood": 0.75
+					}
 				},
 				"projects": {
 					"count": 4,
