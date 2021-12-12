@@ -424,6 +424,49 @@
 					"maxErrorValue": 0.25
 				}
 			}
+		},
+		{
+			"name": "convincing-argument",
+			"title": "Convincing Argument",
+			"description": "A convincing argument about one project in particular",
+			"seed": "abc",
+			"width": 800,
+			"height": 450,
+			"runs": 10,
+			"colors": {
+				"primary": "#fb8c00",
+				"secondary": "#51b9a3",
+				"disabled": "#CCCCCC",
+				"background": "white"
+			},
+			"autoGenerate": true,
+			"repeat": true,
+			"extraFinalFrameCount": 10,
+			"display": {
+				"status": true
+			},
+			"sim": "schelling-org",
+			"simOptions": {
+				"communication": 30,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05,
+					"avgConnectionLikelihood": 0.25,
+					"connectionLikelihoodSpread": 0.5,
+					"compelling": 0.75,
+					"communicationStrategy": "max"
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 0.75,
+					"maxErrorValue": 0.75,
+					"randomIndividual": {
+						"value": 2.0,
+						"twiddleValueAmount": 0.1,
+						"error": 0.1
+					}
+				}
+			}
 		}
 	]
 }
