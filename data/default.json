@@ -231,7 +231,7 @@
 					"epsilon": 0.05,
 					"avgConnectionLikelihood": 0.25,
 					"connectionLikelihoodSpread": 0.25,
-					"compelling": 1.0,
+					"compelling": 0.75,
 					"communicationStrategy": "max"
 				},
 				"projects": {
