@@ -162,7 +162,7 @@ const SimulationRun = class {
 	//null frame is known), either directly via run() or indirectly by having
 	//requested all frames up to and past the end.
 	get complete() {
-		return this._maxFrameIndex != this._simulation.maxFrameIndex;
+		return this._maxFrameIndex != Number.MAX_SAFE_INTEGER;
 	}
 	
 	//Returns 0.0 for complete failure, 1.0 for complete success, inbetween for
