@@ -18,6 +18,7 @@ import {
 	UPDATE_KNOWN_DATAFILES,
 	UPDATE_KNOWN_SIMULATOR_NAMES,
 	UPDATE_RESIZE_VISUALIZATION,
+	CLEAR_MODIFICATIONS,
 
 	DIALOG_TYPE_JSON,
 	DEFAULT_FILE_NAME,
@@ -150,6 +151,11 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			resizeVisualization: action.resize,
+		};
+	case CLEAR_MODIFICATIONS:
+		return {
+			...state,
+			modifications: []
 		};
 	default:
 		return state;

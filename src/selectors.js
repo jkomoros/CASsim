@@ -36,6 +36,11 @@ export const selectDialogExtras = state => state.data ? state.data.dialogExtras 
 export const selectPage = state => state.app ? state.app.page : '';
 export const selectPageExtra = state => state.app ? state.app.pageExtra : '';
 
+export const selectHasModifications = createSelector(
+	selectModifications,
+	(modifications) => modifications.length > 0
+);
+
 export const selectConfigurationExpanded = createSelector(
 	selectShowControls,
 	selectRawConfigurationExpanded,

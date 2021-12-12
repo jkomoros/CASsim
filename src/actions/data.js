@@ -17,6 +17,7 @@ export const SIMULATOR_LOADED = 'SIMULATOR_LOADED';
 export const UPDATE_KNOWN_SIMULATOR_NAMES = 'UPDATE_KNOWN_SIMULATOR_NAMES';
 export const UPDATE_KNOWN_DATAFILES = 'UPDATE_KNOWN_DATAFILES';
 export const UPDATE_RESIZE_VISUALIZATION = 'UPDATE_RESIZE_VISUALIZATION';
+export const CLEAR_MODIFICATIONS = 'CLEAR_MODIFICATIONS';
 
 export const DIALOG_TYPE_JSON = 'json';
 export const DIALOG_TYPE_ADD_FIELD = 'add-field';
@@ -64,7 +65,8 @@ import {
 	selectLoadedSimulators,
 	selectConfigData,
 	selectScale,
-	selectDataIsFullyLoaded
+	selectDataIsFullyLoaded,
+	selectHasModifications
 } from '../selectors.js';
 
 import {
@@ -540,4 +542,12 @@ export const updateResizeVisualization = (resize) => {
 
 export const updateLayout = (wide) => (dispatch) => {
 	dispatch(updateConfigurationExpanded(wide));
+};
+
+export const clearModifications = () => (dispatch, getState) => {
+	if (!selectHasModifications(getState())) return;
+	if (!confirm('OK to throw away modifications you have made? This cannot be undone')) return;
+	dispatch({
+		type: CLEAR_MODIFICATIONS,
+	});
 };
