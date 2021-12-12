@@ -2,9 +2,9 @@
 	"version": 1,
 	"configs": [
 		{
-			"name": "first-config",
-			"title": "First config",
-			"description": "This is the first config. This is a longer description about the config",
+			"name": "base-situation",
+			"title": "Base Situation",
+			"description": "No communication or difference in projects. A hopeless situation.",
 			"seed": "abc",
 			"width": 800,
 			"height": 450,
@@ -20,7 +20,7 @@
 			"extraFinalFrameCount": 10,
 			"sim": "schelling-org",
 			"simOptions": {
-				"communication": 15,
+				"communication": 0,
 				"collaborators": {
 					"count": 8,
 					"epsilon": 0.05,
@@ -29,25 +29,19 @@
 				},
 				"projects": {
 					"count": 4,
-					"maxExtraValue": 1.0,
-					"maxErrorValue": 0.5,
-					"individuals": [
-						null,
-						{
-							"marked": true
-						}
-					]
+					"maxExtraValue": 0.0,
+					"maxErrorValue": 0.0
 				}
 			}
 		},
 		{
-			"name": "second-config",
-			"title": "Second config",
-			"description": "This is the second config. This is a longer description about the config",
+			"name": "single-marked-project",
+			"title": "Single Marked Project",
+			"description": "Base situation, but with one project slightly marked. A huge difference!",
 			"seed": "abc",
 			"width": 800,
 			"height": 450,
-			"runs": 20,
+			"runs": 10,
 			"colors": {
 				"primary": "#fb8c00",
 				"secondary": "#51b9a3",
@@ -59,18 +53,18 @@
 			"extraFinalFrameCount": 10,
 			"sim": "schelling-org",
 			"simOptions": {
-				"communication": 5,
+				"communication": 0,
 				"collaborators": {
-					"count": 4,
+					"count": 8,
 					"epsilon": 0.05,
 					"avgConnectionLikelihood": 0.25,
 					"connectionLikelihoodSpread": 0.25
 				},
 				"projects": {
-					"count": 3,
-					"maxExtraValue": 1.0,
-					"maxErrorValue": 0.5,
-					"individuals": [
+					"count": 4,
+					"maxExtraValue": 0.0,
+					"maxErrorValue": 0.0,
+					"individuals":[
 						null,
 						{
 							"marked": true
@@ -78,6 +72,6 @@
 					]
 				}
 			}
-		}	
+		}
 	]
 }
