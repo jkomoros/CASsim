@@ -308,7 +308,8 @@ const Simulation = class {
 	}
 
 	get title() {
-		return this._config[TITLE_PROPERTY] || this.name;
+		if (this._config[TITLE_PROPERTY]) return this._config[TITLE_PROPERTY];
+		return this.name.split('_').join('-').split('-').map(w => (w[0] || '').toUpperCase() + w.substr(1).toLowerCase()).join(' ');
 	}
 
 	get rawDescription() {
@@ -375,7 +376,7 @@ const Simulation = class {
 				},
 				[TITLE_PROPERTY]: {
 					example: '',
-					description: 'The human-readable version of name, with pretty formatting. If omitted, defaults to ' + NAME_PROPERTY + '.',
+					description: 'The human-readable version of name, with pretty formatting. Will use a transformation of ' + NAME_PROPERTY + 'like "two-words" -> "Two Words" if not provided.',
 					advanced: true,
 					optional: true
 				},

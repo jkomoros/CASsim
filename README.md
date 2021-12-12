@@ -83,7 +83,7 @@ these by hand in the JSON, by carefully reading the documentation for simulatorO
 {
 	//Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL. May be omitted.
 	"name": "this-is-a-name",
-	//The human-readable description of the config. Optional. Will use name if not provided.
+	//The human-readable description of the config. Optional. Will use a transformation of name like "two-words" -> "Two Words" if not provided.
 	"title": "This is the name",
 	//A longer description of the simulation. If not provided will use title or name.
 	"description": "This is a longer description of what you'll notice in this particular configuration of the simulation.",
