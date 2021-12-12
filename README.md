@@ -200,6 +200,11 @@ properties, you need custom logic to generate a legal default. For example, if
 there's extra validation you do in optionsValidator then you might need to do
 special case behavior in this.
 
+`get version => integer` - Should return a constant value for the version of
+your simulator. You would increment this whenever the properties in your
+optionsConfig change in incompatible ways, such that modifications that users
+might have made in an old version might no longer work in the new version.
+
 `maxFrameIndex(normalizedSimOptions) => integer` - Should return the maximum
 allowable frame count. This is a saftey mechanism to verify that if your
 generator forgets to return a null frame (signaling end of sequence) that there

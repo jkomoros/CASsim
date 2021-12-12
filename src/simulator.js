@@ -68,6 +68,10 @@ export class BaseSimulator {
 		return result;
 	}
 
+	get version() {
+		return 0;
+	}
+
 	renderer() {
 		return new StubSimulatorRenderer();
 	}
