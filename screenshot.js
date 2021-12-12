@@ -29,6 +29,8 @@ const DEFAULT_FRAME_DELAY = 100;
 const DEFAULT_EXTRA_FINAL_FRAME_COUNT = 0;
 const DEFAULT_REPEAT = false;
 
+//Duplicated in config.js
+const CONFIGS_PROPERTY_NAME = 'configs';
 
 const clearScreenshotsDir = () => {
 	if (fs.existsSync(SCREENSHOT_DIR)) {
@@ -168,8 +170,9 @@ const gifInfos = async () => {
 	}
 	const rawConfigData = fs.readFileSync(CONFIG_DATA_FILE);
 	const configData = JSON.parse(rawConfigData);
+	const configs = configData[CONFIGS_PROPERTY_NAME];
 	for (const name of Object.keys(result)) {
-		result[name] = {...result[name], ...configForGif(configData, name)};
+		result[name] = {...result[name], ...configForGif(configs, name)};
 	}
 	return result;
 };

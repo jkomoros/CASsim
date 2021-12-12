@@ -3,6 +3,7 @@
 //this when large, breaking changes in how the data is packed are created.
 export const FORMAT_VERSION = 1;
 const VERSION_PROPERTY_NAME = 'version';
+//Recreated in screenshot.js
 const CONFIGS_PROPERTY_NAME = 'configs';
 
 //Given a raw JSON blob, unpacks and returns the array of different configs.
