@@ -202,6 +202,44 @@
 					"disableBeliefs": true
 				}
 			}
+		},
+		{
+			"name": "communication",
+			"title": "Communication",
+			"description": "Now individuals can communicate with each other over multiple rounds, helping align beliefs (somewhat).",
+			"seed": "abc",
+			"width": 800,
+			"height": 450,
+			"runs": 10,
+			"colors": {
+				"primary": "#fb8c00",
+				"secondary": "#51b9a3",
+				"disabled": "#CCCCCC",
+				"background": "white"
+			},
+			"autoGenerate": true,
+			"repeat": true,
+			"extraFinalFrameCount": 10,
+			"display": {
+				"status": true
+			},
+			"sim": "schelling-org",
+			"simOptions": {
+				"communication": 30,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05,
+					"avgConnectionLikelihood": 0.25,
+					"connectionLikelihoodSpread": 0.25,
+					"compelling": 1.0,
+					"communicationStrategy": "max"
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 2.0,
+					"maxErrorValue": 2.0
+				}
+			}
 		}
 	]
 }
