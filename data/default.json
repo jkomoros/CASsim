@@ -18,7 +18,7 @@
 			"repeat": true,
 			"extraFinalFrameCount": 10,
 			"display": {
-				"status": true
+				"screenshotStatus": true
 			},
 			"sim": "schelling-org",
 			"simOptions": {
@@ -51,7 +51,7 @@
 			"repeat": true,
 			"extraFinalFrameCount": 10,
 			"display": {
-				"status": true
+				"screenshotStatus": true
 			},
 			"sim": "schelling-org",
 			"simOptions": {
@@ -87,7 +87,7 @@
 			"repeat": true,
 			"extraFinalFrameCount": 10,
 			"display": {
-				"status": true
+				"screenshotStatus": true
 			},
 			"sim": "schelling-org",
 			"simOptions": {
@@ -123,7 +123,7 @@
 			"repeat": true,
 			"extraFinalFrameCount": 10,
 			"display": {
-				"status": true
+				"screenshotStatus": true
 			},
 			"sim": "schelling-org",
 			"simOptions": {
@@ -167,7 +167,7 @@
 			"repeat": true,
 			"extraFinalFrameCount": 10,
 			"display": {
-				"status": true
+				"screenshotStatus": true
 			},
 			"sim": "schelling-org",
 			"simOptions": {
@@ -203,7 +203,7 @@
 			"repeat": true,
 			"extraFinalFrameCount": 10,
 			"display": {
-				"status": true
+				"screenshotStatus": true
 			},
 			"sim": "schelling-org",
 			"simOptions": {
@@ -240,7 +240,7 @@
 			"repeat": true,
 			"extraFinalFrameCount": 10,
 			"display": {
-				"status": true
+				"screenshotStatus": true
 			},
 			"sim": "schelling-org",
 			"simOptions": {
@@ -277,7 +277,7 @@
 			"repeat": true,
 			"extraFinalFrameCount": 10,
 			"display": {
-				"status": true
+				"screenshotStatus": true
 			},
 			"sim": "schelling-org",
 			"simOptions": {
@@ -314,7 +314,7 @@
 			"repeat": true,
 			"extraFinalFrameCount": 10,
 			"display": {
-				"status": true
+				"screenshotStatus": true
 			},
 			"sim": "schelling-org",
 			"simOptions": {
@@ -351,7 +351,7 @@
 			"repeat": true,
 			"extraFinalFrameCount": 10,
 			"display": {
-				"status": true
+				"screenshotStatus": true
 			},
 			"sim": "schelling-org",
 			"simOptions": {
@@ -394,7 +394,7 @@
 			"repeat": true,
 			"extraFinalFrameCount": 10,
 			"display": {
-				"status": true
+				"screenshotStatus": true
 			},
 			"sim": "schelling-org",
 			"simOptions": {
@@ -431,7 +431,7 @@
 			"repeat": true,
 			"extraFinalFrameCount": 10,
 			"display": {
-				"status": true
+				"screenshotStatus": true
 			},
 			"sim": "schelling-org",
 			"simOptions": {
@@ -473,7 +473,7 @@
 			"repeat": true,
 			"extraFinalFrameCount": 10,
 			"display": {
-				"status": true
+				"screenshotStatus": true
 			},
 			"sim": "schelling-org",
 			"simOptions": {
@@ -514,7 +514,7 @@
 			"repeat": true,
 			"extraFinalFrameCount": 10,
 			"display": {
-				"status": true
+				"screenshotStatus": true
 			},
 			"sim": "schelling-org",
 			"simOptions": {
@@ -561,7 +561,7 @@
 			"repeat": true,
 			"extraFinalFrameCount": 10,
 			"display": {
-				"status": true
+				"screenshotStatus": true
 			},
 			"sim": "schelling-org",
 			"simOptions": {
@@ -608,7 +608,7 @@
 			"repeat": true,
 			"extraFinalFrameCount": 10,
 			"display": {
-				"status": true
+				"screenshotStatus": true
 			},
 			"sim": "schelling-org",
 			"simOptions": {
