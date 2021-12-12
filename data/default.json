@@ -557,6 +557,54 @@
 					"believability": 1
 				}
 			}
+		},
+		{
+			"name": "unconvincing-north-star",
+			"title": "Unconvincing North Star",
+			"description": "A north star that isn't very believable",
+			"seed": "abc",
+			"width": 800,
+			"height": 450,
+			"runs": 10,
+			"colors": {
+				"primary": "#fb8c00",
+				"secondary": "#51b9a3",
+				"disabled": "#CCCCCC",
+				"background": "white"
+			},
+			"autoGenerate": true,
+			"repeat": true,
+			"extraFinalFrameCount": 10,
+			"display": {
+				"status": true
+			},
+			"sim": "schelling-org",
+			"simOptions": {
+				"communication": 30,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05,
+					"avgConnectionLikelihood": 0.25,
+					"connectionLikelihoodSpread": 0.5,
+					"compelling": 0.75,
+					"communicationStrategy": "max"
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 1.0,
+					"maxErrorValue": 1.0
+				},
+				"northStar": {
+					"emoji": "🌟",
+					"offsetType": "random",
+					"minOffset": 0,
+					"maxOffset": 1,
+					"offset": 0.5,
+					"strength": 0.75,
+					"spread": 0.5,
+					"believability": 0.5
+				}
+			}
 		}
 	]
 }
