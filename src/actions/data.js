@@ -19,6 +19,7 @@ export const UPDATE_KNOWN_DATAFILES = 'UPDATE_KNOWN_DATAFILES';
 export const UPDATE_RESIZE_VISUALIZATION = 'UPDATE_RESIZE_VISUALIZATION';
 export const CLEAR_MODIFICATIONS = 'CLEAR_MODIFICATIONS';
 export const SIMULATION_CHANGED = 'SIMULATION_CHANGED';
+export const UPDATE_SCREENSHOTTING = 'UPDATE_SCREENSHOTTING';
 
 export const DIALOG_TYPE_JSON = 'json';
 export const DIALOG_TYPE_ADD_FIELD = 'add-field';
@@ -132,6 +133,21 @@ export const fetchNeededSimulators = () => (dispatch, getState) => {
 			}
 		})();
 	}
+};
+
+const updateScreenshotting = (on) => {
+	return {
+		type: UPDATE_SCREENSHOTTING,
+		on
+	};
+};
+
+export const enableScreenshotting = () => (dispatch) => {
+	dispatch(updateScreenshotting(true));
+	dispatch(updateShowControls(false));
+	dispatch(updateResizeVisualization(false));
+	dispatch(updatePlayType(PLAY_TYPE_SIMULATION));
+	dispatch(advanceToLastFrameInConfig());
 };
 
 export const verifyValidIndexes = () => (dispatch, getState) => {

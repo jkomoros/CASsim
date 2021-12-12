@@ -20,6 +20,7 @@ import {
 	UPDATE_RESIZE_VISUALIZATION,
 	CLEAR_MODIFICATIONS,
 	SIMULATION_CHANGED,
+	UPDATE_SCREENSHOTTING,
 
 	DIALOG_TYPE_JSON,
 	DEFAULT_FILE_NAME,
@@ -39,6 +40,7 @@ const INITIAL_STATE = {
 	frameIndex: 0,
 	playType: PLAY_TYPE_ROUND,
 	playing: false,
+	screenshotting: false,
 	delayCount: 0,
 	resizeVisualization: true,
 	scale: 1.0,
@@ -165,6 +167,11 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			simulationLastChanged: Date.now()
+		};
+	case UPDATE_SCREENSHOTTING:
+		return {
+			...state,
+			screenshotting: action.on
 		};
 	default:
 		return state;

@@ -12,20 +12,16 @@ import {
 	updateWithSimPageExtra,
 	closeDialog,
 	updateCurrentSimulationOptions,
-	advanceToLastFrameInConfig,
 	DIALOG_TYPE_JSON,
 	DATA_DIRECTORY,
 	LISTINGS_JSON_PATH,
-	updatePlayType,
-	updateShowControls,
-	PLAY_TYPE_SIMULATION,
 	togglePlaying,
 	updateScale,
 	updateKnownDatafiles,
 	updateKnownSimulatorNames,
 	DEFAULT_SENTINEL,
-	updateResizeVisualization,
-	simulationChanged
+	simulationChanged,
+	enableScreenshotting
 } from "../actions/data.js";
 
 import {
@@ -79,10 +75,7 @@ window[PREVIOUS_FRAME_METHOD_VARIABLE] = () => {
 
 window[SETUP_METHOD_VARIABLE] = () => {
 	//This is the setup that the screenshot service will call before starting screenshots
-	store.dispatch(updateShowControls(false));
-	store.dispatch(updateResizeVisualization(false));
-	store.dispatch(updatePlayType(PLAY_TYPE_SIMULATION));
-	store.dispatch(advanceToLastFrameInConfig());
+	store.dispatch(enableScreenshotting());
 };
 
 

@@ -15,6 +15,7 @@ export const selectFilename = state => state.data ? state.data.filename : '';
 export const selectSimulationIndex = state => state.data ? state.data.simulationIndex : 0;
 export const selectFrameIndex = state => state.data ? state.data.frameIndex : 0;
 export const selectRunIndex = state => state.data ? state.data.runIndex : 0;
+export const selectScrenshotting = state => state.data ? state.data.screenshotting : false;
 //TODO: actually have this be the real constant for PLAY_TYPE_FRAME;
 export const selectPlayType = state => state.data ? state.data.playType : 'frame';
 export const selectPlaying = state => state.data ? state.data.playing : false;
