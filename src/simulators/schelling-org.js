@@ -17,6 +17,7 @@ const DEBUG_PROPERTY_NAME = 'debug';
 const COMMUNICATION_PROPERTY_NAME = 'communication';
 const MAX_EXTRA_VALUE_PROPERTY_NAME = 'maxExtraValue';
 const MAX_ERROR_VALUE_PROPERTY_NAME = 'maxErrorValue';
+const TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME = 'twiddleValueAmount';
 const AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME = 'avgConnectionLikelihood';
 const CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME = 'connectionLikelihoodSpread';
 const BROADCAST_LIKELIHOOD_PROPERTY_NAME = 'broadcastLikelihood';
@@ -115,6 +116,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
 		const projectExtraValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_EXTRA_VALUE_PROPERTY_NAME];
 		const projectErrorValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_ERROR_VALUE_PROPERTY_NAME];
+		const projectTwiddleValueAmount = simOptions[PROJECTS_PROPERTY_NAME][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME];
 		const communicationValue = simOptions[COMMUNICATION_PROPERTY_NAME];
 		const displayValue = simOptions[DISPLAY_PROPERTY_NAME];
 		const northStarValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? deepCopy(simOptions[NORTH_STAR_PROPERTY_NAME]) : undefined;
@@ -193,6 +195,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				selected: false,
 				[MAX_EXTRA_VALUE_PROPERTY_NAME]: projectExtraValue,
 				[MAX_ERROR_VALUE_PROPERTY_NAME]: projectErrorValue,
+				[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: projectTwiddleValueAmount,
 				northStarBias
 			});
 		}
@@ -203,6 +206,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		for (let i = 0; i < projectsCount; i++) {
 			if (projects[i].value === undefined) projects[i].value = 1.0 + (rnd() * projects[i][MAX_EXTRA_VALUE_PROPERTY_NAME]);
 			if (projects[i].error === undefined) projects[i].error = 0.0 + (rnd() * projects[i][MAX_ERROR_VALUE_PROPERTY_NAME]);
+			projects[i].value += (rnd() * projects[i][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] * 2) - projects[i][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME];
 		}
 
 		//Assign basic values to collaborators.
@@ -460,6 +464,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const projects = rawSimOptions[PROJECTS_PROPERTY_NAME];
 		if (projects[MAX_EXTRA_VALUE_PROPERTY_NAME] == undefined) projects[MAX_EXTRA_VALUE_PROPERTY_NAME] = 0.0;
 		if (projects[MAX_ERROR_VALUE_PROPERTY_NAME] == undefined) projects[MAX_ERROR_VALUE_PROPERTY_NAME] = 0.0;
+		if (projects[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] == undefined) projects[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] = 0.0;
 		if (projects[INDIVIDUALS_PROPERTY_NAME] == undefined) projects[INDIVIDUALS_PROPERTY_NAME] = [];
 
 		const collaborators = rawSimOptions[COLLABORATORS_PROPERTY_NAME];
@@ -821,6 +826,12 @@ class SchellingOrgSimulator extends BaseSimulator {
 						step: 0.05,
 						description: 'Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.'
 					},
+					[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: {
+						example: 0.0,
+						optional: true,
+						step: 0.05,
+						description: "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number."
+					},
 					[INDIVIDUALS_PROPERTY_NAME]: {
 						example: [
 							{
@@ -841,6 +852,12 @@ class SchellingOrgSimulator extends BaseSimulator {
 										step: 0.05,
 										optional: true,
 										description: 'Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.'
+									},
+									[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: {
+										example: 0.0,
+										optional: true,
+										step: 0.05,
+										description: "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number."
 									},
 									value: {
 										example: 1.0,
