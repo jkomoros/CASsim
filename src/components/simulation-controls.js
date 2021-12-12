@@ -19,6 +19,7 @@ import {
 	selectDescriptionExpanded,
 	selectFilename,
 	selectKnownDatafiles,
+	selectHasModifications,
 } from "../selectors.js";
 
 import {
@@ -34,7 +35,8 @@ import {
 	updateConfigurationExpanded,
 	updateDescriptionExpanded,
 	updateFilename,
-	DIALOG_TYPE_JSON
+	DIALOG_TYPE_JSON,
+	clearModifications
 } from '../actions/data.js';
 
 import {
@@ -44,7 +46,8 @@ import {
 	PAUSE_ICON,
 	FAST_FORWARD_ICON,
 	INFO_ICON,
-	SETTINGS_ICON
+	SETTINGS_ICON,
+	UNDO_ICON
 } from "./my-icons.js";
 
 import { ButtonSharedStyles } from "./button-shared-styles.js";
@@ -57,6 +60,7 @@ class SimulationControls extends connect(store)(LitElement) {
 	static get properties() {
 		return {
 			_showControsl : {type:Boolean},
+			_hasModifications: {type:Boolean},
 			_configurationExpanded: {type:Boolean},
 			_descriptionExpanded: {type:Boolean},
 			_filename: {type:String},
@@ -131,6 +135,7 @@ class SimulationControls extends connect(store)(LitElement) {
 					</select>
 					<div>
 						<button class='small' .disabled=${this._playing} @click=${this._handleShowJSONClicked}>${CODE_ICON}</button>
+						<button class='small' .disabled=${!this._hasModifications} @click=${this._handleRemoveModificationsClicked} title="Remove modifications you've made">${UNDO_ICON}</button>
 					</div>
 				</div>
 				<div class='row'>
@@ -177,6 +182,7 @@ class SimulationControls extends connect(store)(LitElement) {
 	// This is called every time something is updated in the store.
 	stateChanged(state) {
 		this._showControls = selectShowControls(state);
+		this._hasModifications = selectHasModifications(state);
 		this._configurationExpanded = selectConfigurationExpanded(state);
 		this._descriptionExpanded = selectDescriptionExpanded(state);
 		this._pathExpanded = selectPathExpanded(state);
@@ -197,6 +203,10 @@ class SimulationControls extends connect(store)(LitElement) {
 		this._simulation = selectCurrentSimulation(state);
 		this._runStatuses = this._simulation ? this._simulation.runs.map(run => run.finalStatus) : [];
 		
+	}
+
+	_handleRemoveModificationsClicked() {
+		store.dispatch(clearModifications());
 	}
 
 	_handleConfigurationExpandedToggled(e) {
