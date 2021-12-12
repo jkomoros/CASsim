@@ -141,8 +141,6 @@ export const selectCurrentSimulationMaxRunIndex = createSelector(
 
 export const selectCurrentSimulationRunStatuses = createSelector(
 	selectCurrentSimulation,
-	//TODO: remove this once we actually update simulationLastChanged.
-	() => Date.now(),
 	selectSimulationLastChanged,
 	(sim) => sim ? sim.runs.map(run => run.finalStatus) : []
 );

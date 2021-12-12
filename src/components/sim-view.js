@@ -24,7 +24,8 @@ import {
 	updateKnownDatafiles,
 	updateKnownSimulatorNames,
 	DEFAULT_SENTINEL,
-	updateResizeVisualization
+	updateResizeVisualization,
+	simulationChanged
 } from "../actions/data.js";
 
 import {
@@ -142,6 +143,7 @@ class SimView extends connect(store)(PageViewElement) {
 			_currentFrame: { type: Object },
 			_currentSimulation: { type: Object },
 			_currentSimulationName: {type: String},
+			_currentSimulationLastChanged: {type:Number},
 			_pageExtra: { type: String },
 			_simulationIndex: { type: Number },
 			_runIndex: { type: Number },
@@ -280,6 +282,7 @@ class SimView extends connect(store)(PageViewElement) {
 		this._resizeVisualization = selectResizeVisualization(state);
 		this._dataIsFullyLoaded = selectDataIsFullyLoaded(state);
 		this._runStatuses = selectCurrentSimulationRunStatuses(state);
+		this._currentSimulationLastChanged = this._currentSimulation ? this._currentSimulation.lastChanged : 0;
 
 		this.updateComplete.then(() => {
 			window[RENDER_COMPLETE_VARIABLE] = true;
@@ -370,6 +373,15 @@ class SimView extends connect(store)(PageViewElement) {
 		}
 		if (changedProps.has('_currentSimulationName')) {
 			window[CURRENT_SIMULATION_NAME_VARIABLE] = this._currentSimulationName;
+		}
+		if (changedProps.has('_currentSimulation') && this._currentSimulation) {
+			//Activate, which might generate mroe state in the simulation that needs to be rendered
+			if(this._currentSimulation.activate()) store.dispatch(simulationChanged());
+		}
+		if (changedProps.has('_currentSimulationLastChanged')) {
+			//If we notice the simulation seems to have changed since last time we saw it, update the
+			//state so downstream properties can be regenerated.
+			store.dispatch(simulationChanged());
 		}
 		if (changedProps.has('_currentFrame')) {
 			store.dispatch(canonicalizePath());

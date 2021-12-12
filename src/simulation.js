@@ -262,9 +262,9 @@ const Simulation = class {
 		this._maxFrameIndex = this._simulator.maxFrameIndex(this.simOptions);
 		this._colors = Object.fromEntries(Object.entries(this._config[COLORS_PROPERTY] || {}).map(entry => [entry[0], color(entry[1])]));
 		this._lastChanged = Date.now();
+		this._activated = false;
 		for (let i = 0; i < config[RUNS_PROPERTY]; i++) {
 			const run = new SimulationRun(this, i);
-			if (config[AUTO_GENERATE_PROPERTY]) run.run();
 			this._runs.push(run);
 		}
 	}
@@ -366,6 +366,17 @@ const Simulation = class {
 
 	get maxFrameIndex() {
 		return this._maxFrameIndex;
+	}
+
+	//Called when the simulation is active in the view. Might be called multiple
+	//times. Will return true if it did something.
+	activate() {
+		if (! this.config[AUTO_GENERATE_PROPERTY]) return false;
+		if (this._activated) return false;
+		if (!this._runs.some(run => !run.complete)) return false;
+		this._runs.forEach(run => run.run());
+		this._activated = true;
+		return true;
 	}
 
 	defaultValueForOptionsPath(path) {
