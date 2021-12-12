@@ -234,6 +234,44 @@
 					"maxErrorValue": 2.0
 				}
 			}
+		},
+		{
+			"name": "communication-strength",
+			"title": "Communication Strength",
+			"description": "Different individuals have different amounts of connection strength to others",
+			"seed": "abc",
+			"width": 800,
+			"height": 450,
+			"runs": 10,
+			"colors": {
+				"primary": "#fb8c00",
+				"secondary": "#51b9a3",
+				"disabled": "#CCCCCC",
+				"background": "white"
+			},
+			"autoGenerate": true,
+			"repeat": true,
+			"extraFinalFrameCount": 10,
+			"display": {
+				"status": true
+			},
+			"sim": "schelling-org",
+			"simOptions": {
+				"communication": 30,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05,
+					"avgConnectionLikelihood": 0.25,
+					"connectionLikelihoodSpread": 0.5,
+					"compelling": 0.75,
+					"communicationStrategy": "max"
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 2.0,
+					"maxErrorValue": 2.0
+				}
+			}
 		}
 	]
 }
