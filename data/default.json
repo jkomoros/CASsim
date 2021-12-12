@@ -3,7 +3,6 @@
 	"configs": [
 		{
 			"name": "base-situation",
-			"title": "Base Situation",
 			"description": "No communication or difference in projects. A hopeless situation.",
 			"seed": "abc",
 			"width": 800,
@@ -37,7 +36,6 @@
 		},
 		{
 			"name": "single-marked-project",
-			"title": "Single Marked Project",
 			"description": "Base situation, but with one project slightly marked. A huge difference!",
 			"seed": "abc",
 			"width": 800,
@@ -74,7 +72,6 @@
 		},
 		{
 			"name": "single-obviously-better",
-			"title": "Single Obviously Better",
 			"description": "One project is unambiguously better than the others. Another easy situation!",
 			"seed": "abc",
 			"width": 800,
@@ -111,7 +108,6 @@
 		},
 		{
 			"name": "two-standouts",
-			"title": "Two Standouts",
 			"description": "Two projects that are signficantly better, but very similar. Another hard situation!",
 			"seed": "abc",
 			"width": 800,
@@ -156,7 +152,6 @@
 		},
 		{
 			"name": "error-bars",
-			"title": "Error Bars",
 			"description": "Adding error bars... doesn't help. Shocker!",
 			"seed": "abc",
 			"width": 800,
@@ -193,7 +188,6 @@
 		},
 		{
 			"name": "communication",
-			"title": "Communication",
 			"description": "Now individuals can communicate with each other over multiple rounds, helping align beliefs (somewhat).",
 			"seed": "abc",
 			"width": 800,
@@ -231,7 +225,6 @@
 		},
 		{
 			"name": "communication-strength",
-			"title": "Communication Strength",
 			"description": "Different individuals have different amounts of connection strength to others",
 			"seed": "abc",
 			"width": 800,
@@ -269,7 +262,6 @@
 		},
 		{
 			"name": "fewer-collaborators",
-			"title": "Fewer Collaborators",
 			"description": "A smaller number of collaborators helps considerably",
 			"seed": "abc",
 			"width": 800,
@@ -307,7 +299,6 @@
 		},
 		{
 			"name": "fewer-projects",
-			"title": "Fewer Projects",
 			"description": "Reducing the number of projects to pick from also helps a lot",
 			"seed": "abc",
 			"width": 800,
@@ -345,7 +336,6 @@
 		},
 		{
 			"name": "charismatic-leader",
-			"title": "Charismatic Leader",
 			"description": "One very well connected person",
 			"seed": "abc",
 			"width": 800,
@@ -389,7 +379,6 @@
 		},
 		{
 			"name": "shared-mental-models",
-			"title": "Shared Mental Models",
 			"description": "Everyone is more likely to judge projects similarly because they share mental models.",
 			"seed": "abc",
 			"width": 800,
@@ -427,7 +416,6 @@
 		},
 		{
 			"name": "convincing-argument",
-			"title": "Convincing Argument",
 			"description": "A convincing argument about one project in particular",
 			"seed": "abc",
 			"width": 800,
@@ -470,7 +458,6 @@
 		},
 		{
 			"name": "existential-threat",
-			"title": "Existential Threat",
 			"description": "Something that makes one item stand out obviously compared to others",
 			"seed": "abc",
 			"width": 800,
@@ -511,8 +498,7 @@
 			}
 		},
 		{
-			"name": "north-star",
-			"title": "Compelling North Star",
+			"name": "compelling-north-star",
 			"description": "A compelling shared north star",
 			"seed": "abc",
 			"width": 800,
@@ -560,7 +546,6 @@
 		},
 		{
 			"name": "unconvincing-north-star",
-			"title": "Unconvincing North Star",
 			"description": "A north star that isn't very believable",
 			"seed": "abc",
 			"width": 800,
@@ -608,7 +593,6 @@
 		},
 		{
 			"name": "random-choice",
-			"title": "Random Choice",
 			"description": "Everyone just agrees to a procedure where we randomly pick one and commit",
 			"seed": "abc",
 			"width": 800,
