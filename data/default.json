@@ -335,7 +335,7 @@
 			}
 		},
 		{
-			"name": "charismatic-leader",
+			"name": "compelling-leader",
 			"description": "One very well connected person",
 			"seed": "abc",
 			"width": 800,
@@ -363,12 +363,14 @@
 					"connectionLikelihoodSpread": 0.25,
 					"compelling": 0.5,
 					"communicationStrategy": "max",
-					"randomIndividual": {
+					"individuals": [
+						{
 						"compelling": 1.0,
 						"avgConnectionLikelihood": 1.0,
 						"connectionLikelihoodSpread": 0.0,
 						"broadcastLikelihood": 0.75
-					}
+						}
+					]
 				},
 				"projects": {
 					"count": 4,
