@@ -34,6 +34,7 @@ const AUTO_GENERATE_PROPERTY = 'autoGenerate';
 const AUTO_PLAY_PROPERTY = 'autoPlay';
 const DISPLAY_PROPERTY = 'display';
 const STATUS_DISPLAY_PROPERTY = 'status';
+const CLIP_STATUS_PROPERTY = 'clipStatus';
 const TITLE_PROPERTY = 'title';
 
 //Also duplicated into screenshot.js
@@ -295,6 +296,10 @@ const Simulation = class {
 		return this.display[STATUS_DISPLAY_PROPERTY] ? true : false;
 	}
 
+	get clipStatus() {
+		return this.display[CLIP_STATUS_PROPERTY] ? true : false;
+	}
+
 	get width() {
 		return this._config[WIDTH_PROPERTY];
 	}
@@ -443,6 +448,11 @@ const Simulation = class {
 							example: true,
 							description: "If provided, will render a status line of runs summary beneath the visuazliation, including in the screenshot output",
 							optional: true,
+						},
+						[CLIP_STATUS_PROPERTY]: {
+							example: true,
+							description: "If provided, and " + STATUS_DISPLAY_PROPERTY + " is true, then it will hide future runs in the rendered status bar.",
+							optional: true
 						}
 					},
 					description: 'Properties to configure optional display characteristics',

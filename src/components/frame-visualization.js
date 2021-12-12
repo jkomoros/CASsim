@@ -67,6 +67,11 @@ class FrameVisualization extends LitElement {
 		];
 	}
 
+	get _clipStatus() {
+		if (!this.simulation) return false;
+		return this.simulation.clipStatus;
+	}
+
 	render() {
 		const scale = this.scale || 1.0;
 		return html`
@@ -74,7 +79,7 @@ class FrameVisualization extends LitElement {
 			<div class='renderer' style='height:${this.height * scale}px; width: ${this.width * scale}px; font-size:${DEFAULT_FONT_SIZE_PX_HEIGHT * scale}px'>
 				${this._renderer()}
 			</div>
-			${this.runStatuses ? html`<run-summary .statuses=${this.runStatuses} .selectedIndex=${this.runIndex} .clipFuture=${true} .centerPercentage=${true}></run-summary>` : ''}
+			${this.runStatuses ? html`<run-summary .statuses=${this.runStatuses} .selectedIndex=${this.runIndex} .clipFuture=${this._clipStatus} .centerPercentage=${true}></run-summary>` : ''}
 		</div>
 		`;
 	}
