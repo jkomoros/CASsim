@@ -138,7 +138,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		if (northStarValue && northStarValue[OFFSET_TYPE_PROPERTY_NAME] != OFFSET_TYPE_MANUAL) {
 			const minOffset = northStarValue[MIN_OFFSET_PROPERTY_NAME];
 			const maxOffset = northStarValue[MAX_OFFSET_PROPERTY_NAME];
-			if (northStarValue[OFFSET_PROPERTY_NAME] == OFFSET_TYPE_RANDOM) {
+			if (northStarValue[OFFSET_TYPE_PROPERTY_NAME] == OFFSET_TYPE_RANDOM) {
 				northStarValue[OFFSET_PROPERTY_NAME] = (maxOffset - minOffset) * rnd() + minOffset;
 			} else {
 				//Random choce of projects
