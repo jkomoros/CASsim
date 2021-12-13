@@ -248,6 +248,7 @@
 				"collaborators": {
 					"count": 8,
 					"epsilon": 0.05,
+					"broadcastLikelihood": 0.5,
 					"avgConnectionLikelihood": 0.25,
 					"connectionLikelihoodSpread": 0.5,
 					"compelling": 0.75,
@@ -285,6 +286,7 @@
 				"collaborators": {
 					"count": 4,
 					"epsilon": 0.05,
+					"broadcastLikelihood": 0.5,
 					"avgConnectionLikelihood": 0.25,
 					"connectionLikelihoodSpread": 0.5,
 					"compelling": 0.75,
@@ -323,6 +325,7 @@
 					"count": 8,
 					"epsilon": 0.05,
 					"avgConnectionLikelihood": 0.25,
+					"broadcastLikelihood": 0.5,
 					"connectionLikelihoodSpread": 0.5,
 					"compelling": 0.75,
 					"communicationStrategy": "max"
@@ -405,6 +408,7 @@
 					"count": 8,
 					"epsilon": 0.05,
 					"avgConnectionLikelihood": 0.25,
+					"broadcastLikelihood": 0.5,
 					"connectionLikelihoodSpread": 0.5,
 					"compelling": 0.75,
 					"communicationStrategy": "max"
@@ -442,6 +446,7 @@
 					"count": 8,
 					"epsilon": 0.05,
 					"avgConnectionLikelihood": 0.25,
+					"broadcastLikelihood": 0.5,
 					"connectionLikelihoodSpread": 0.5,
 					"compelling": 0.75,
 					"communicationStrategy": "max"
@@ -484,6 +489,7 @@
 					"count": 8,
 					"epsilon": 0.05,
 					"avgConnectionLikelihood": 0.25,
+					"broadcastLikelihood": 0.5,
 					"connectionLikelihoodSpread": 0.5,
 					"compelling": 0.75,
 					"communicationStrategy": "max"
@@ -525,6 +531,7 @@
 					"count": 8,
 					"epsilon": 0.05,
 					"avgConnectionLikelihood": 0.25,
+					"broadcastLikelihood": 0.5,
 					"connectionLikelihoodSpread": 0.5,
 					"compelling": 0.75,
 					"communicationStrategy": "max"
@@ -572,6 +579,7 @@
 					"count": 8,
 					"epsilon": 0.05,
 					"avgConnectionLikelihood": 0.25,
+					"broadcastLikelihood": 0.5,
 					"connectionLikelihoodSpread": 0.5,
 					"compelling": 0.75,
 					"communicationStrategy": "max"
@@ -619,6 +627,7 @@
 					"count": 8,
 					"epsilon": 0.05,
 					"avgConnectionLikelihood": 0.25,
+					"broadcastLikelihood": 0.5,
 					"connectionLikelihoodSpread": 0.5,
 					"compelling": 0.75,
 					"communicationStrategy": "max"
