@@ -592,75 +592,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 				example: 0,
 				description: "How many rounds of communication should be allowed between agents before they decide. 0 is no communication and will render a line of collaborators with walls between them."
 			},
-			[NORTH_STAR_PROPERTY_NAME]: {
-				example: {
-					[EMOJI_PROPERTY_NAME]: {
-						example: DEFAULT_NORTH_STAR_EMOJI,
-						description: "The emoji to render for the north star",
-					},
-					[OFFSET_TYPE_PROPERTY_NAME]: {
-						example: OFFSET_TYPE_MANUAL,
-						options: [
-							{
-								value: OFFSET_TYPE_MANUAL,
-								description: 'The offset is specifically the value of ' + OFFSET_PROPERTY_NAME
-							},
-							{
-								value: OFFSET_TYPE_RANDOM,
-								description: 'The offset is a random value per run, between ' + MIN_OFFSET_PROPERTY_NAME + ' and ' + MAX_OFFSET_PROPERTY_NAME,
-							},
-							{
-								value: OFFSET_TYPE_RANDOM_PROJECT,
-								description: 'The offset is a random value per run, between ' + MIN_OFFSET_PROPERTY_NAME + ' and ' + MAX_OFFSET_PROPERTY_NAME + ', but snapped to be precisely above a project',
-							},
-						]
-					},
-					[MIN_OFFSET_PROPERTY_NAME]: {
-						example: 0.0,
-						description: 'The lowest random offset to choose if ' + OFFSET_TYPE_PROPERTY_NAME + ' is randomly selected (not ' + OFFSET_TYPE_MANUAL + ')',
-						min: 0.0,
-						max: 1.0,
-						step: 0.05,
-					},
-					[MAX_OFFSET_PROPERTY_NAME]: {
-						example: 1.0,
-						description: 'The highest random offset to choose if ' + OFFSET_TYPE_PROPERTY_NAME + ' is randomly selected (not ' + OFFSET_TYPE_MANUAL + ')',
-						min: 0.0,
-						max: 1.0,
-						step: 0.05,
-					},
-					[OFFSET_PROPERTY_NAME]: {
-						example: 0.5,
-						description: "How far from fully at left to fully at right is the northstar? This value will be used directly if " + OFFSET_TYPE_PROPERTY_NAME + " is " + OFFSET_TYPE_MANUAL + ", otherwise it will be set implicitly.",
-						min: 0.0,
-						max: 1.0,
-						step: 0.05,
-					},
-					[STRENGTH_PROPERTY_NAME]: {
-						example: 0.5,
-						description: "How strong is the north star effect?",
-						min: 0.0,
-						max: 1.0,
-						step: 0.05
-					},
-					[SPREAD_PROPERTY_NAME]: {
-						example: 0.25,
-						description: 'How wide is the positive effect of the northstar affect (trading off linearly from the offset position to plus or minus by this amount)',
-						min: 0.0,
-						max: 1.0,
-						step: 0.05,
-					},
-					[BELIEVABILITY_PROPERTY_NAME]: {
-						example: 1.0,
-						description: 'The proportion of collaborators who will believe in this north star (will have their ' + BELIEVES_PROPERTY_NAME + ' set to true).',
-						min: 0.0,
-						max: 1.0,
-						step: 0.05
-					}
-				},
-				description: "Information on an (optional) north star, which people will tend to pick towards",
-				optional: true
-			},
 			[COLLABORATORS_PROPERTY_NAME]: {
 				example: {
 					count: {
@@ -1026,6 +957,75 @@ class SchellingOrgSimulator extends BaseSimulator {
 					}
 				},
 				description: "Information on projects"
+			},
+			[NORTH_STAR_PROPERTY_NAME]: {
+				example: {
+					[EMOJI_PROPERTY_NAME]: {
+						example: DEFAULT_NORTH_STAR_EMOJI,
+						description: "The emoji to render for the north star",
+					},
+					[OFFSET_TYPE_PROPERTY_NAME]: {
+						example: OFFSET_TYPE_MANUAL,
+						options: [
+							{
+								value: OFFSET_TYPE_MANUAL,
+								description: 'The offset is specifically the value of ' + OFFSET_PROPERTY_NAME
+							},
+							{
+								value: OFFSET_TYPE_RANDOM,
+								description: 'The offset is a random value per run, between ' + MIN_OFFSET_PROPERTY_NAME + ' and ' + MAX_OFFSET_PROPERTY_NAME,
+							},
+							{
+								value: OFFSET_TYPE_RANDOM_PROJECT,
+								description: 'The offset is a random value per run, between ' + MIN_OFFSET_PROPERTY_NAME + ' and ' + MAX_OFFSET_PROPERTY_NAME + ', but snapped to be precisely above a project',
+							},
+						]
+					},
+					[MIN_OFFSET_PROPERTY_NAME]: {
+						example: 0.0,
+						description: 'The lowest random offset to choose if ' + OFFSET_TYPE_PROPERTY_NAME + ' is randomly selected (not ' + OFFSET_TYPE_MANUAL + ')',
+						min: 0.0,
+						max: 1.0,
+						step: 0.05,
+					},
+					[MAX_OFFSET_PROPERTY_NAME]: {
+						example: 1.0,
+						description: 'The highest random offset to choose if ' + OFFSET_TYPE_PROPERTY_NAME + ' is randomly selected (not ' + OFFSET_TYPE_MANUAL + ')',
+						min: 0.0,
+						max: 1.0,
+						step: 0.05,
+					},
+					[OFFSET_PROPERTY_NAME]: {
+						example: 0.5,
+						description: "How far from fully at left to fully at right is the northstar? This value will be used directly if " + OFFSET_TYPE_PROPERTY_NAME + " is " + OFFSET_TYPE_MANUAL + ", otherwise it will be set implicitly.",
+						min: 0.0,
+						max: 1.0,
+						step: 0.05,
+					},
+					[STRENGTH_PROPERTY_NAME]: {
+						example: 0.5,
+						description: "How strong is the north star effect?",
+						min: 0.0,
+						max: 1.0,
+						step: 0.05
+					},
+					[SPREAD_PROPERTY_NAME]: {
+						example: 0.25,
+						description: 'How wide is the positive effect of the northstar affect (trading off linearly from the offset position to plus or minus by this amount)',
+						min: 0.0,
+						max: 1.0,
+						step: 0.05,
+					},
+					[BELIEVABILITY_PROPERTY_NAME]: {
+						example: 1.0,
+						description: 'The proportion of collaborators who will believe in this north star (will have their ' + BELIEVES_PROPERTY_NAME + ' set to true).',
+						min: 0.0,
+						max: 1.0,
+						step: 0.05
+					}
+				},
+				description: "Information on an (optional) north star, which people will tend to pick towards",
+				optional: true
 			}
 		};
 	}
