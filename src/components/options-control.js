@@ -113,8 +113,9 @@ class OptionsControl extends LitElement {
 			}
 			//value might be null
 			const nonNullValue = this.value || {};
-			const nonAdvancedEntries = Object.entries(nonNullValue).filter(entry => !example[entry[0]].advanced);
-			const advancedEntries = Object.entries(nonNullValue).filter(entry => example[entry[0]].advanced);
+			//We iterate through in the order the EXAMPLE defines them so they show up in order.
+			const nonAdvancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined).filter(entry => !entry[1].advanced).map(entry => [entry[0], nonNullValue[entry[0]]]);
+			const advancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined).filter(entry => entry[1].advanced).map(entry => [entry[0], nonNullValue[entry[0]]]);
 			return html`
 				${this.value == null ? html`<em>null</em>` : ''}
 				${nonAdvancedEntries.map(entry => html`<options-control .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded}></options-control>`)}
