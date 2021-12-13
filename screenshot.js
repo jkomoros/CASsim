@@ -214,14 +214,13 @@ const generateGifs = async (infos) => {
 		for (const [index, match] of matches.entries()) {
 			console.log('Loading png ' + match);
 			let nextMatch = index + 1 < matches.length ? matches[index + 1] : '';
-			if (index == 0) {
-				//Also add a delay for the first frame.
-				encoder.setDelay(frameIsFinalInRound(match, nextMatch) ? finalFrameDelay : normalDelay);
-			}
+			encoder.setDelay(frameIsFinalInRound(match, nextMatch) ? finalFrameDelay : normalDelay);
 			const png = PNG.sync.read(fs.readFileSync(match));
 			encoder.addFrame(png.data);
-			//We set the delay AFTER the frame in question; it's the delay to START the next frame
-			encoder.setDelay(frameIsFinalInRound(match, nextMatch) ? finalFrameDelay : normalDelay);
+			if (index == matches.length - 1) {
+				//Also set an extra delay after the last frame to pause before the first item
+				encoder.setDelay(frameIsFinalInRound(match, nextMatch) ? finalFrameDelay : normalDelay);
+			}
 		}
 		encoder.finish();
 
