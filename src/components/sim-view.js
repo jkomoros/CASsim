@@ -101,6 +101,12 @@ import {
 	packConfigJSON
 } from "../config.js";
 
+const updateHashWithURLDiff = (urlDiff) => {
+	const hash = urlDiff ? '#d=' + urlDiff : '';
+	if (window.location.hash == hash) return;
+	window.location.hash = hash;
+};
+
 //Size in px that we want to allow around the visualization edge. Pixels per 100
 //px of width.
 const VISUALIZATION_PADDING = 8;
@@ -390,8 +396,7 @@ class SimView extends connect(store)(PageViewElement) {
 			store.dispatch(canonicalizePath());
 		}
 		if (changedProps.has('_urlDiffHash')) {
-			//TODO: actually update the hash with this if appropriate
-			console.log('URL diff changed: ', this._urlDiffHash);
+			updateHashWithURLDiff(this._urlDiffHash);
 		}
 		if (changedProps.has('_height') || changedProps.has('_width') || changedProps.has('_configurationExpanded') || changedProps.has('_resizeVisualization') || changedProps.has('_descriptionExpanded')) {
 			//This method requires the layout to have been rendered, so wait a tick until it has settled and then calculate
