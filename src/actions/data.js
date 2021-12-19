@@ -421,10 +421,11 @@ export const updateRunIndex = (index) => (dispatch, getState) => {
 export const updateCurrentSimulationOptions = (path, value) => (dispatch, getState) => {
 	const state = getState();
 	const simulation = selectCurrentSimulation(state);
-	if (value == DEFAULT_SENTINEL) {
-		value = simulation.defaultValueForOptionsPath(path);
-	}
-	const problem = maySetPropertyInConfigObject(simulation.optionsConfig, simulation.config, path, value);
+	const valueOrDefault = value == DEFAULT_SENTINEL ? simulation.defaultValueForOptionsPath(path) : value;
+	//If it's default, we want the state to store that it was the default
+	//value... but we still need to test that the default value is legal (it
+	//almost without question should be).
+	const problem = maySetPropertyInConfigObject(simulation.optionsConfig, simulation.config, path, valueOrDefault);
 	if (problem) {
 		alert('Invalid modification proposed: ' + path + ': ' + value + ': ' + problem);
 		return;
