@@ -21,6 +21,7 @@ import {
 	CLEAR_MODIFICATIONS,
 	SIMULATION_CHANGED,
 	UPDATE_SCREENSHOTTING,
+	UPDATE_HASH,
 
 	DIALOG_TYPE_JSON,
 	DEFAULT_FILE_NAME,
@@ -44,6 +45,8 @@ const INITIAL_STATE = {
 	delayCount: 0,
 	resizeVisualization: true,
 	scale: 1.0,
+	//The entire contents of window.location.hash as last seen or set by us
+	hash: '',
 	//A thing that will change when a simulation has changed, e.g. they have
 	//calculated new frames.
 	simulationLastChanged: Date.now(),
@@ -172,6 +175,11 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			screenshotting: action.on
+		};
+	case UPDATE_HASH:
+		return {
+			...state,
+			hash: action.hash
 		};
 	default:
 		return state;

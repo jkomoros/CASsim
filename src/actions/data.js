@@ -20,6 +20,7 @@ export const UPDATE_RESIZE_VISUALIZATION = 'UPDATE_RESIZE_VISUALIZATION';
 export const CLEAR_MODIFICATIONS = 'CLEAR_MODIFICATIONS';
 export const SIMULATION_CHANGED = 'SIMULATION_CHANGED';
 export const UPDATE_SCREENSHOTTING = 'UPDATE_SCREENSHOTTING';
+export const UPDATE_HASH = 'UPDATE_HASH';
 
 export const DIALOG_TYPE_JSON = 'json';
 export const DIALOG_TYPE_ADD_FIELD = 'add-field';
@@ -66,7 +67,9 @@ import {
 	selectConfigData,
 	selectScale,
 	selectDataIsFullyLoaded,
-	selectHasModifications
+	selectHasModifications,
+	selectHash,
+	selectURLDiffHash
 } from '../selectors.js';
 
 import {
@@ -577,4 +580,20 @@ export const simulationChanged = () => {
 	return {
 		type: SIMULATION_CHANGED
 	};
+};
+
+export const canonicalizeHash = () => (dispatch, getState) => {
+	const urlDiff = selectURLDiffHash(getState());
+	const hash = urlDiff ? 'd=' + urlDiff : '';
+	dispatch(updateHash(hash));
+};
+
+const updateHash = (hash) => (dispatch, getState) => {
+	const currentHash = selectHash(getState());
+	if (hash == currentHash) return;
+	window.location.hash = hash;
+	dispatch({
+		type: UPDATE_HASH,
+		hash
+	});
 };

@@ -20,7 +20,8 @@ import {
 	updateKnownDatafiles,
 	updateKnownSimulatorNames,
 	simulationChanged,
-	enableScreenshotting
+	enableScreenshotting,
+	canonicalizeHash
 } from "../actions/data.js";
 
 import {
@@ -100,12 +101,6 @@ import { PLUS_ICON } from "./my-icons.js";
 import {
 	packConfigJSON
 } from "../config.js";
-
-const updateHashWithURLDiff = (urlDiff) => {
-	const hash = urlDiff ? '#d=' + urlDiff : '';
-	if (window.location.hash == hash) return;
-	window.location.hash = hash;
-};
 
 //Size in px that we want to allow around the visualization edge. Pixels per 100
 //px of width.
@@ -396,7 +391,7 @@ class SimView extends connect(store)(PageViewElement) {
 			store.dispatch(canonicalizePath());
 		}
 		if (changedProps.has('_urlDiffHash')) {
-			updateHashWithURLDiff(this._urlDiffHash);
+			store.dispatch(canonicalizeHash());
 		}
 		if (changedProps.has('_height') || changedProps.has('_width') || changedProps.has('_configurationExpanded') || changedProps.has('_resizeVisualization') || changedProps.has('_descriptionExpanded')) {
 			//This method requires the layout to have been rendered, so wait a tick until it has settled and then calculate

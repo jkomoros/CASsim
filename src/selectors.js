@@ -17,6 +17,7 @@ import {
 
 const selectRawConfigData = state => state.data ? state.data.data : [];
 const selectModifications = state => state.data ? state.data.modifications : [];
+export const selectHash = state => state.data ? state.data.hash : '';
 export const selectFilename = state => state.data ? state.data.filename : '';
 export const selectSimulationIndex = state => state.data ? state.data.simulationIndex : 0;
 export const selectFrameIndex = state => state.data ? state.data.frameIndex : 0;
