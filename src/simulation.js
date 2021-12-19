@@ -228,7 +228,7 @@ const makeSeededRandom = seed => {
 	return () => rnd.quick();
 };
 
-const Simulation = class {
+export const Simulation = class {
 	constructor(config, index, knownSimulatorNames = []) {
 
 		const name = config[NAME_PROPERTY];
