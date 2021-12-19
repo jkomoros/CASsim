@@ -11,7 +11,7 @@ import {
 } from './options.js';
 
 import {
-	DEFAULT_SENTINEL
+	DEFAULT_SENTINEL, packModificationsForURL
 } from './util.js';
 
 const selectRawConfigData = state => state.data ? state.data.data : [];
@@ -121,6 +121,13 @@ const selectSimulationCollection = createSelector(
 	selectRequiredSimulatorsLoaded,
 	selectKnownSimulatorNames,
 	(rawConfig, simulatorsLoaded, knownSimulatorNames) => simulatorsLoaded ? new SimulationCollection(rawConfig, knownSimulatorNames) : null
+);
+
+export const selectURLDiffHash = createSelector(
+	selectModifications,
+	selectSimulationCollection,
+	selectSimulationIndex,
+	(modifications, simulationCollection, simIndex) => packModificationsForURL(modifications, simulationCollection, simIndex)
 );
 
 export const selectSimulationsMap = createSelector(
