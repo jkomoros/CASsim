@@ -17,6 +17,7 @@ export const SIMULATOR_LOADED = 'SIMULATOR_LOADED';
 export const UPDATE_KNOWN_SIMULATOR_NAMES = 'UPDATE_KNOWN_SIMULATOR_NAMES';
 export const UPDATE_KNOWN_DATAFILES = 'UPDATE_KNOWN_DATAFILES';
 export const UPDATE_RESIZE_VISUALIZATION = 'UPDATE_RESIZE_VISUALIZATION';
+export const REPLACE_MODIFICATIONS = 'REPLACE_MODIFICATIONS';
 export const CLEAR_MODIFICATIONS = 'CLEAR_MODIFICATIONS';
 export const SIMULATION_CHANGED = 'SIMULATION_CHANGED';
 export const UPDATE_SCREENSHOTTING = 'UPDATE_SCREENSHOTTING';
@@ -612,4 +613,12 @@ export const updateHash = (hash, unpack) => (dispatch, getState) => {
 		type: UPDATE_HASH,
 		hash
 	});
+};
+
+//eslint-disable-next-line
+const replaceModifications = (modifications) => {
+	return {
+		type: REPLACE_MODIFICATIONS,
+		modifications,
+	};
 };

@@ -18,6 +18,7 @@ import {
 	UPDATE_KNOWN_DATAFILES,
 	UPDATE_KNOWN_SIMULATOR_NAMES,
 	UPDATE_RESIZE_VISUALIZATION,
+	REPLACE_MODIFICATIONS,
 	CLEAR_MODIFICATIONS,
 	SIMULATION_CHANGED,
 	UPDATE_SCREENSHOTTING,
@@ -165,6 +166,11 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			modifications: []
+		};
+	case REPLACE_MODIFICATIONS:
+		return {
+			...state,
+			modifications: action.modifications
 		};
 	case SIMULATION_CHANGED:
 		return {
