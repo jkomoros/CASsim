@@ -11,7 +11,8 @@ import {
 } from './options.js';
 
 import {
-	DEFAULT_SENTINEL, packModificationsForURL
+	DEFAULT_SENTINEL,
+	packModificationsForURL
 } from './util.js';
 
 const selectRawConfigData = state => state.data ? state.data.data : [];

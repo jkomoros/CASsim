@@ -51,7 +51,8 @@ import {
 	selectDescriptionExpanded,
 	selectDataIsFullyLoaded,
 	selectCurrentSimulationRunStatuses,
-	selectScrenshotting
+	selectScrenshotting,
+	selectURLDiffHash
 } from "../selectors.js";
 
 // We are lazy loading its reducer.
@@ -158,6 +159,7 @@ class SimView extends connect(store)(PageViewElement) {
 			_dataIsFullyLoaded: {type:Boolean},
 			_screenshotting: {type:Boolean},
 			_runStatues: {type:Object},
+			_urlDiffHash: {type:String},
 			//Note: this is calculated in this._resizeVisualzation, NOT in state
 			_needsMarginLeft : {type:Boolean},
 			_resizeVisualization: {type:Boolean},
@@ -282,6 +284,7 @@ class SimView extends connect(store)(PageViewElement) {
 		this._resizeVisualization = selectResizeVisualization(state);
 		this._dataIsFullyLoaded = selectDataIsFullyLoaded(state);
 		this._runStatuses = selectCurrentSimulationRunStatuses(state);
+		this._urlDiffHash = selectURLDiffHash(state);
 		this._currentSimulationLastChanged = this._currentSimulation ? this._currentSimulation.lastChanged : 0;
 
 		this.updateComplete.then(() => {
@@ -385,6 +388,10 @@ class SimView extends connect(store)(PageViewElement) {
 		}
 		if (changedProps.has('_currentFrame')) {
 			store.dispatch(canonicalizePath());
+		}
+		if (changedProps.has('_urlDiffHash')) {
+			//TODO: actually update the hash with this if appropriate
+			console.log('URL diff changed: ', this._urlDiffHash);
 		}
 		if (changedProps.has('_height') || changedProps.has('_width') || changedProps.has('_configurationExpanded') || changedProps.has('_resizeVisualization') || changedProps.has('_descriptionExpanded')) {
 			//This method requires the layout to have been rendered, so wait a tick until it has settled and then calculate
