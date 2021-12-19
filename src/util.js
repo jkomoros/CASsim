@@ -148,3 +148,40 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 	}
 	return result.join(';');
 };
+
+export const unpackModificationsFromURL = (url, currentSimIndex = -1) => {
+	const modifications = [];
+	const urlParts = url.split(';');
+	//For now, we just completely ignore simulator version number
+	for (const urlPart of urlParts) {
+		const versionParts = urlPart.split('@');
+		//the version number might be ommited.
+		const keyValuesPart = versionParts[versionParts.length - 1];
+		const simulationIndex = versionParts.length == 2 ? parseInt(versionParts[0]) : currentSimIndex;
+		const keyValuesParts = keyValuesPart.split(',');
+		for (const [index, part] of keyValuesParts.entries()) {
+			if (index == 0) {
+				//This is the version number, which we just ignore
+				if (!part.includes(':')) continue;
+			}
+			let [key, value] = part.split(':');
+			if (value == 'd') value = DEFAULT_SENTINEL;
+			if (value == 'x') value = DELETE_SENTINEL;
+			if (value == 'n') value = null;
+			if (value == 'u') value = undefined;
+			if (value == 't') value = true;
+			if (value == 'f') value = false;
+
+			if (value && value.startsWith("'")) {
+				//Value is a string.
+				value = value.split("'").join('');
+				value = decodeURIComponent(value);
+			} else {
+				const numValue = parseFloat(value);
+				if (!isNaN(numValue)) value = numValue;
+			}
+			modifications.push({simulationIndex, path:key, value});
+		}
+	}
+	return modifications;
+};
