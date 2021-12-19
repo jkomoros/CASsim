@@ -102,3 +102,21 @@ export const memoizedRenderer = (simulation, frameVisualizer) => {
 	}
 	return map.get(frameVisualizer);
 };
+
+export const packModificationsForURL = (modifications, simCollection, currentSimIndex) => {
+	//Allowed characters in URL based on this answer: https://stackoverflow.com/questions/26088849/url-fragment-allowed-characters
+	//We avoid '=' and '&' in the hash, since those will be used for other parameters
+	//URL looks like: 
+	//1@34,simOptions.northStar:d,display.debug:t;3@12,simOptions.northStar:x,description:'a%20b',runs:5
+	//Where:
+	//1 and 3 are examples of the index of the simulationIndex we're referring to
+	//@ is the delimiter for the concatenated, in order, list of modifications
+	//34, 12 are examples of the version number of the simulator for that simIndex WITH ALL MODIFICATIONS APPLIED (sim=OTHER could be sent)
+	//the dotted path is the modification.path
+	//: is the delimiter to the value and , is the delimeter for values
+	//'' delimits strings, which are URL-endcoded inside
+	//Naked numbers are just numbers
+	//t is true, f is false, n is null, u is undefined, x is delete sentinel, d is delete sentinel
+	//As a special case, the simIndex and '@' at the beginning of a simIndexes's list of modifications may be fully omitted if it equals currentSimIndex.
+	return 'NOTIMPLEMENTED';
+};
