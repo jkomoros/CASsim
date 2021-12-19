@@ -366,6 +366,7 @@ export const updateFilename = (filename, skipCanonicalize) => (dispatch, getStat
 };
 
 export const updateSimulationIndex = (index, skipCanonicalize) => (dispatch, getState) => {
+	index = parseInt(index);
 	const currentIndex = selectSimulationIndex(getState());
 	if (index < 0) index = 0;
 	const maxIndex = selectMaxSimulationIndex(getState());
