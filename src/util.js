@@ -103,7 +103,7 @@ export const memoizedRenderer = (simulation, frameVisualizer) => {
 	return map.get(frameVisualizer);
 };
 
-export const packModificationsForURL = (modifications, simCollection, currentSimIndex) => {
+export const packModificationsForURL = (modifications = [], simCollection, currentSimIndex = -1) => {
 	//Allowed characters in URL based on this answer: https://stackoverflow.com/questions/26088849/url-fragment-allowed-characters
 	//We avoid '=' and '&' in the hash, since those will be used for other parameters
 	//URL looks like: 
@@ -118,5 +118,33 @@ export const packModificationsForURL = (modifications, simCollection, currentSim
 	//Naked numbers are just numbers
 	//t is true, f is false, n is null, u is undefined, x is delete sentinel, d is delete sentinel
 	//As a special case, the simIndex and '@' at the beginning of a simIndexes's list of modifications may be fully omitted if it equals currentSimIndex.
-	return 'NOTIMPLEMENTED';
+	//As a special case, if the simulatorVersion is 0, it may be omitted
+	if (!simCollection) return '';
+	let result = [];
+	const simIndexes = Array.from(new Set(modifications.map(mod => mod.simulationIndex)));
+	for (const simIndex of simIndexes) {
+		let simPiece = '';
+		if (simIndex != currentSimIndex) simPiece = '' + simIndex + '@';
+		const simulation = simCollection.simulations[simIndex];
+		if (!simulation) return '';
+		const keyValuePairs = [];
+		const version = simulation.simulator.version;
+		if (version) keyValuePairs.push('' + version);
+		for (const mod of modifications) {
+			if (mod.simulationIndex != simIndex) continue;
+			let value = mod.value;
+			if (typeof value == 'string') value = encodeURIComponent(value);
+			if (value == DEFAULT_SENTINEL) value = 'd';
+			if (value == DELETE_SENTINEL) value ='x';
+			if (value === null) value = 'n';
+			if (value === undefined) value = 'u';
+			if (value === true) value = 't';
+			if (value === false) value = 'f';
+			//numbers will be encoded to string value automatically via coercion.
+			keyValuePairs.push(mod.path + ':' + value);
+		}
+		simPiece += keyValuePairs.join(',');
+		result.push(simPiece);
+	}
+	return result.join(';');
 };
