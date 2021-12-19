@@ -21,7 +21,8 @@ import {
 	updateKnownSimulatorNames,
 	simulationChanged,
 	enableScreenshotting,
-	canonicalizeHash
+	canonicalizeHash,
+	updateHash
 } from "../actions/data.js";
 
 import {
@@ -210,6 +211,13 @@ class SimView extends connect(store)(PageViewElement) {
 		window.addEventListener('resize', () => this.resizeVisualization());
 		this.resizeVisualization();
 		fetchListings();
+		window.addEventListener('hashchange', () => this._handleHashChange());
+		//On first load process hash
+		this._handleHashChange();
+	}
+
+	_handleHashChange() {
+		store.dispatch(updateHash(window.location.hash, true));
 	}
 
 	_handleKeyDown(e) {

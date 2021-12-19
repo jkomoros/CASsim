@@ -90,7 +90,8 @@ import {
 } from '../config.js';
 
 import {
-	DEFAULT_SENTINEL
+	DEFAULT_SENTINEL,
+	unpackModificationsFromURL
 } from '../util.js';
 
 const SIMULATORS_DIRECTORY = 'simulators';
@@ -582,16 +583,31 @@ export const simulationChanged = () => {
 	};
 };
 
+const DIFF_URL_KEY = 'd';
+
 export const canonicalizeHash = () => (dispatch, getState) => {
 	const urlDiff = selectURLDiffHash(getState());
-	const hash = urlDiff ? 'd=' + urlDiff : '';
+	const hash = urlDiff ? DIFF_URL_KEY + '=' + urlDiff : '';
 	dispatch(updateHash(hash));
 };
 
-const updateHash = (hash) => (dispatch, getState) => {
+export const updateHash = (hash, unpack) => (dispatch, getState) => {
+	if (hash.startsWith('#')) hash = hash.substring(1);
 	const currentHash = selectHash(getState());
 	if (hash == currentHash) return;
-	window.location.hash = hash;
+	if (unpack) {
+		const args = {};
+		for (const part of hash.split('&')) {
+			const [key, val] = part.split('=');
+			args[key] = val;
+		}
+		if (args[DIFF_URL_KEY]) {
+			const mods = unpackModificationsFromURL(args[DIFF_URL_KEY], selectSimulationIndex(getState()));
+			console.log('TODO: set mods: ', mods);
+		}
+	} else {
+		window.location.hash = hash;
+	}
 	dispatch({
 		type: UPDATE_HASH,
 		hash
