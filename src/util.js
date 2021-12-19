@@ -53,6 +53,7 @@ export const isStep = (value, step) => {
 };
 
 export const DELETE_SENTINEL = {DELETE:true};
+export const DEFAULT_SENTINEL = {default: true};
 
 //path is a dotted list of accessors in the object, returns a new object with
 //the modifications. If value is DELETE_SENTINEL then it will delete the implied

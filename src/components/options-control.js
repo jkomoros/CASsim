@@ -5,7 +5,8 @@ import {
 } from "../options.js";
 
 import {
-	DELETE_SENTINEL
+	DELETE_SENTINEL,
+	DEFAULT_SENTINEL
 } from '../util.js';
 
 import {
@@ -23,8 +24,7 @@ import {
 } from './my-icons.js';
 
 import {
-	DIALOG_TYPE_ADD_FIELD,
-	DEFAULT_SENTINEL
+	DIALOG_TYPE_ADD_FIELD
 } from '../actions/data.js';
 
 class OptionsControl extends LitElement {

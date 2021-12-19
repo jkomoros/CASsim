@@ -19,7 +19,6 @@ import {
 	updateScale,
 	updateKnownDatafiles,
 	updateKnownSimulatorNames,
-	DEFAULT_SENTINEL,
 	simulationChanged,
 	enableScreenshotting
 } from "../actions/data.js";
@@ -27,6 +26,10 @@ import {
 import {
 	canonicalizePath
 } from "../actions/app.js";
+
+import {
+	DEFAULT_SENTINEL
+} from "../util.js";
 
 import {
 	selectCurrentFrame,

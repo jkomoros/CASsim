@@ -30,8 +30,6 @@ export const LISTINGS_JSON_PATH = 'src/listings.json';
 
 export const DEFAULT_FILE_NAME = 'default';
 
-export const DEFAULT_SENTINEL = {default: true};
-
 //When playing forward into the next frame, where do we stop?
 //Frame == stop at the end of a round
 export const PLAY_TYPE_FRAME = 'frame';
@@ -87,6 +85,10 @@ import {
 import {
 	unpackConfigJSON
 } from '../config.js';
+
+import {
+	DEFAULT_SENTINEL
+} from '../util.js';
 
 const SIMULATORS_DIRECTORY = 'simulators';
 
