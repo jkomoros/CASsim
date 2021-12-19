@@ -133,7 +133,7 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 		for (const mod of modifications) {
 			if (mod.simulationIndex != simIndex) continue;
 			let value = mod.value;
-			if (typeof value == 'string') value = encodeURIComponent(value);
+			if (typeof value == 'string') value = "'" + encodeURIComponent(value) + "'";
 			if (value == DEFAULT_SENTINEL) value = 'd';
 			if (value == DELETE_SENTINEL) value ='x';
 			if (value === null) value = 'n';
