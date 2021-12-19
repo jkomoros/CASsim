@@ -604,7 +604,7 @@ export const updateHash = (hash, unpack) => (dispatch, getState) => {
 		}
 		if (args[DIFF_URL_KEY]) {
 			const mods = unpackModificationsFromURL(args[DIFF_URL_KEY], selectSimulationIndex(getState()));
-			console.log('TODO: set mods: ', mods);
+			dispatch(replaceModifications(mods));
 		}
 	} else {
 		window.location.hash = hash;
@@ -615,7 +615,6 @@ export const updateHash = (hash, unpack) => (dispatch, getState) => {
 	});
 };
 
-//eslint-disable-next-line
 const replaceModifications = (modifications) => {
 	return {
 		type: REPLACE_MODIFICATIONS,
