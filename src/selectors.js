@@ -66,6 +66,7 @@ const modfifiedConfigData = (rawConfigData, modifications, simulatorsLoaded = tr
 	if (!simulatorsLoaded) return rawConfigData;
 	let data = rawConfigData;
 	for (const modification of modifications) {
+		if (data[modification.simulationIndex] === undefined) continue;
 		data = [...data];
 		let value = modification.value;
 		if (value == DEFAULT_SENTINEL) {
