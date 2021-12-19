@@ -130,9 +130,13 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 		const keyValuePairs = [];
 		const version = simulation.simulator.version;
 		if (version) keyValuePairs.push('' + version);
+		const mods = new Map();
+		//Only keep the last modification of path
 		for (const mod of modifications) {
 			if (mod.simulationIndex != simIndex) continue;
-			let value = mod.value;
+			mods.set(mod.path, mod.value);
+		}
+		for (let [path, value] of mods.entries()) {
 			if (typeof value == 'string') value = "'" + encodeURIComponent(value) + "'";
 			if (value == DEFAULT_SENTINEL) value = 'd';
 			if (value == DELETE_SENTINEL) value ='x';
@@ -141,7 +145,7 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 			if (value === true) value = 't';
 			if (value === false) value = 'f';
 			//numbers will be encoded to string value automatically via coercion.
-			keyValuePairs.push(mod.path + ':' + value);
+			keyValuePairs.push(path + ':' + value);
 		}
 		simPiece += keyValuePairs.join(',');
 		result.push(simPiece);
