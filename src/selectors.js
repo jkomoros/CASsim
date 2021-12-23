@@ -86,7 +86,7 @@ const modfifiedConfigData = (rawConfigData, modifications, simulatorsLoaded = tr
 	return data;
 };
 
-const selectModififedConfigDataNoDefaults = createSelector(
+export const selectModififedConfigDataNoDefaults = createSelector(
 	selectRawConfigData,
 	selectModifications,
 	(rawConfigData, modifications) => modfifiedConfigData(rawConfigData, modifications)

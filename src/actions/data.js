@@ -65,7 +65,7 @@ import {
 	selectFrameDelay,
 	selectDelayCount,
 	selectLoadedSimulators,
-	selectConfigData,
+	selectModififedConfigDataNoDefaults,
 	selectScale,
 	selectDataIsFullyLoaded,
 	selectHasModifications,
@@ -118,7 +118,7 @@ export const loadData = (blob) => (dispatch) => {
 export const fetchNeededSimulators = () => (dispatch, getState) => {
 	const state = getState();
 	const loadedSimulators = selectLoadedSimulators(state);
-	const rawConfig = selectConfigData(state);
+	const rawConfig = selectModififedConfigDataNoDefaults(state);
 	const neededSimulatorNames = extractSimulatorNamesFromRawConfig(rawConfig);
 	for (const name of neededSimulatorNames) {
 		if (loadedSimulators[name]) continue;
