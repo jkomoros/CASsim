@@ -20,7 +20,8 @@ import {
 	selectFilename,
 	selectKnownDatafiles,
 	selectHasModifications,
-	selectCurrentSimulationRunStatuses
+	selectCurrentSimulationRunStatuses,
+	selectCurrentSimulatorShadowedModifications
 } from "../selectors.js";
 
 import {
@@ -62,6 +63,7 @@ class SimulationControls extends connect(store)(LitElement) {
 		return {
 			_showControsl : {type:Boolean},
 			_hasModifications: {type:Boolean},
+			_modifiedPaths: {type:Object},
 			_configurationExpanded: {type:Boolean},
 			_descriptionExpanded: {type:Boolean},
 			_filename: {type:String},
@@ -184,7 +186,7 @@ class SimulationControls extends connect(store)(LitElement) {
 				<div>
 					<details .open=${this._configurationExpanded} @toggle=${this._handleConfigurationExpandedToggled}>
 						<summary><label><button class='small'>${SETTINGS_ICON}</button> Configuration</label></summary>
-						<options-control .readonly=${this._playing} @option-changed=${this._handleOptionChanged} @open-dialog=${this._handleOpenDialog} @path-toggled=${this._handlePathToggled} .config=${this._simulation ? this._simulation.optionsConfig : null} .value=${this._simulation ? this._simulation.rawConfig : null} .name=${''} .pathExpanded=${this._pathExpanded}></options-control>
+						<options-control .readonly=${this._playing} @option-changed=${this._handleOptionChanged} @open-dialog=${this._handleOpenDialog} @path-toggled=${this._handlePathToggled} .config=${this._simulation ? this._simulation.optionsConfig : null} .value=${this._simulation ? this._simulation.rawConfig : null} .name=${''} .pathExpanded=${this._pathExpanded} .modifiedPaths=${this._modifiedPaths}></options-control>
 					</details>
 				</div>
 			</div>
@@ -195,6 +197,7 @@ class SimulationControls extends connect(store)(LitElement) {
 	stateChanged(state) {
 		this._showControls = selectShowControls(state);
 		this._hasModifications = selectHasModifications(state);
+		this._modifiedPaths = selectCurrentSimulatorShadowedModifications(state);
 		this._configurationExpanded = selectConfigurationExpanded(state);
 		this._descriptionExpanded = selectDescriptionExpanded(state);
 		this._pathExpanded = selectPathExpanded(state);

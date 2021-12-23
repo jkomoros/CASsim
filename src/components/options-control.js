@@ -35,6 +35,7 @@ class OptionsControl extends LitElement {
 			config: {type: Object},
 			value: {type: Object},
 			readonly: {type: Boolean},
+			modifiedPaths: {type:Object},
 			disallowDelete: {type:Boolean},
 			pathExpanded: {type:Object},
 		};
@@ -49,6 +50,11 @@ class OptionsControl extends LitElement {
 					line-height: 1.0em;
 					padding-left: 0.3em;
 					border-left: 1px solid var(--disabled-color);
+				}
+
+				.container.modified {
+					font-style: italic;
+					background-color: var(--app-background-color);
 				}
 
 				details {
@@ -72,9 +78,13 @@ class OptionsControl extends LitElement {
 
 	render() {
 		return html`
-		<div class='container'>
+		<div class='container ${this._modified ? 'modified' : ''}'>
 			${this._inner()}
 		</div>`;
+	}
+
+	get _modified() {
+		return this.modifiedPaths ? this.modifiedPaths[this.path] != undefined : false;
 	}
 
 	_dottedPath(nextPart) {
@@ -109,7 +119,7 @@ class OptionsControl extends LitElement {
 		if (typeof example == 'object') {
 			if (Array.isArray(example)) {
 				//If we're at min size already, disallow deleting for sub-items.
-				return html`${this.value.map((item, index) => html`<options-control .readonly=${this.readonly} .disallowDelete=${config.min === this.value.length} .value=${item} .config=${example[0]} .name=${index} .path=${this._dottedPath(index)} .pathExpanded=${this.pathExpanded}></options-control>`)}`;
+				return html`${this.value.map((item, index) => html`<options-control .readonly=${this.readonly} .disallowDelete=${config.min === this.value.length} .value=${item} .config=${example[0]} .name=${index} .path=${this._dottedPath(index)} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}`;
 			}
 			//value might be null
 			const nonNullValue = this.value || {};
@@ -118,10 +128,10 @@ class OptionsControl extends LitElement {
 			const advancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined).filter(entry => entry[1].advanced).map(entry => [entry[0], nonNullValue[entry[0]]]);
 			return html`
 				${this.value == null ? html`<em>null</em>` : ''}
-				${nonAdvancedEntries.map(entry => html`<options-control .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded}></options-control>`)}
+				${nonAdvancedEntries.map(entry => html`<options-control .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}
 				${advancedEntries.length ? html`<details .open=${this.pathExpanded[this.path || '']} @toggle=${this._handleDetailsToggle}>
 					<summary><label>Advanced</label></summary>
-					${advancedEntries.map(entry => html`<options-control .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded}></options-control>`)}
+					${advancedEntries.map(entry => html`<options-control .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}
 				</details>` : ''}`;
 		}
 		if (config.options) {
