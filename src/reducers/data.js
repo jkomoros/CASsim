@@ -24,6 +24,7 @@ import {
 	SIMULATION_CHANGED,
 	UPDATE_SCREENSHOTTING,
 	UPDATE_HASH,
+	UPDATE_WARNING,
 
 	DIALOG_TYPE_JSON,
 	DEFAULT_FILE_NAME,
@@ -49,6 +50,7 @@ const INITIAL_STATE = {
 	playing: false,
 	screenshotting: false,
 	delayCount: 0,
+	warning: '',
 	resizeVisualization: true,
 	scale: 1.0,
 	//The entire contents of window.location.hash as last seen or set by us
@@ -211,6 +213,11 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			hash: action.hash
+		};
+	case UPDATE_WARNING:
+		return {
+			...state,
+			warning: action.message
 		};
 	default:
 		return state;
