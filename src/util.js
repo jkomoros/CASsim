@@ -165,7 +165,9 @@ export const unpackModificationsFromURL = (url, currentSimIndex = -1) => {
 		const keyValuesParts = keyValuesPart.split(',');
 		for (const [index, part] of keyValuesParts.entries()) {
 			if (index == 0) {
-				//This is the version number, which we just ignore
+				//This is the version number, which we just ignore for now;
+				//later we should show a warning message in the UI but try to
+				//continue.
 				if (!part.includes(':')) continue;
 			}
 			let [key, value] = part.split(':');
