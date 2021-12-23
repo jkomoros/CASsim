@@ -135,7 +135,7 @@ export const selectURLDiffHash = createSelector(
 
 export const selectSimulationsMap = createSelector(
 	selectSimulationCollection,
-	(collection) => collection ? collection.simulationsMap : null
+	(collection) => collection ? collection.simulationsMap : {}
 );
 
 export const selectCurrentSimulation = createSelector(
