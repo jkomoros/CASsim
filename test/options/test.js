@@ -11,7 +11,8 @@ import {
 	maySetPropertyInConfigObject,
 	optionsConfigValidator,
 	defaultValueForConfig,
-	configForPath
+	configForPath,
+	shortenPathWithConfig
 } from '../../src/options.js';
 
 import assert from 'assert';
@@ -1944,4 +1945,188 @@ describe('configForPath', () => {
 		assert.deepEqual(result, golden);
 	});
 
+});
+
+
+describe('configForPath', () => {
+	it('handles null object', async () => {
+		const config = null;
+		const result = shortenPathWithConfig(config, 'foo');
+		const golden = 'foo';
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles no op single path', async () => {
+		const config = {
+			foo: {
+				example: {
+					bar: {
+						example: false,
+					},
+					baz: {
+						example: [
+							{
+								foo: {
+									example: 5,
+								}
+							}
+						],
+					}
+				}
+			},
+		};
+		const result = shortenPathWithConfig(config, 'foo');
+		const golden = 'foo';
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles no op double path', async () => {
+		const config = {
+			foo: {
+				example: {
+					bar: {
+						example: false,
+					},
+					baz: {
+						example: [
+							{
+								foo: {
+									example: 5,
+								}
+							}
+						],
+					}
+				}
+			},
+		};
+		const result = shortenPathWithConfig(config, 'foo.bar');
+		const golden = 'foo.bar';
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles no op with array path', async () => {
+		const config = {
+			foo: {
+				example: {
+					bar: {
+						example: false,
+					},
+					baz: {
+						example: [
+							{
+								foo: {
+									example: 5,
+								}
+							}
+						],
+					}
+				}
+			},
+		};
+		const result = shortenPathWithConfig(config, 'foo.bar.0');
+		const golden = 'foo.bar.0';
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles no op with array sub path', async () => {
+		const config = {
+			foo: {
+				example: {
+					bar: {
+						example: false,
+					},
+					baz: {
+						example: [
+							{
+								foo: {
+									example: 5,
+								}
+							}
+						],
+					}
+				}
+			},
+		};
+		const result = shortenPathWithConfig(config, 'foo.bar.0.foo');
+		const golden = 'foo.bar.0.foo';
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles single level replace', async () => {
+		const config = {
+			foo: {
+				example: {
+					bar: {
+						example: false,
+					},
+					baz: {
+						example: [
+							{
+								foo: {
+									example: 5,
+								}
+							}
+						],
+					}
+				},
+				shortName: 'f'
+			},
+		};
+		const result = shortenPathWithConfig(config, 'foo');
+		const golden = 'f';
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles double level replace', async () => {
+		const config = {
+			foo: {
+				example: {
+					bar: {
+						example: false,
+						shortName: 'b',
+					},
+					baz: {
+						example: [
+							{
+								foo: {
+									example: 5,
+								}
+							}
+						],
+					}
+				},
+				shortName: 'f'
+			},
+		};
+		const result = shortenPathWithConfig(config, 'foo.bar');
+		const golden = 'f.b';
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles triple level replace with array in the middle', async () => {
+		const config = {
+			foo: {
+				example: {
+					bar: {
+						example: false,
+						shortName: 'b',
+					},
+					baz: {
+						example: [
+							{
+								foo: {
+									example: 5,
+									shortName: 'f'
+								}
+							}
+						],
+					}
+				},
+				shortName: 'f'
+			},
+		};
+		const result = shortenPathWithConfig(config, 'foo.baz.0.foo');
+		const golden = 'f.baz.0.f';
+		assert.deepEqual(result, golden);
+	});
 });

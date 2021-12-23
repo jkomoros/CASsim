@@ -237,6 +237,19 @@ export const defaultValueForConfig = (optionsConfig, skipOptional) => {
 	return example;
 };
 
+//Returns a path like path, but with and valid shortNames replacing long names
+export const shortenPathWithConfig = (optionsConfig, path) => {
+	const parts = path.split('.');
+	const firstPart = parts[0];
+	const restParts = parts.slice(1).join('.');
+	if (!firstPart) return '';
+	const config = configForPath(optionsConfig, firstPart);
+	const shortName = shortNameForOptionsLeaf(config);
+	const firstPartResult = shortName || firstPart;
+	if (!restParts) return firstPartResult;
+	return firstPartResult + '.' + shortenPathWithConfig(config, restParts);
+};
+
 export const configForPath = (optionsConfig, path) => {
 	const parts = path.split('.');
 	const firstPart = parts[0];
