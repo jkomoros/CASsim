@@ -594,6 +594,121 @@ describe('optionsConfigValidator', () => {
 		assert.strictEqual(result != '', expectedProblem);
 	});
 
+	it('allows legal shortName', async () => {
+		const config = {
+			foo: {
+				example: {
+					bar: {
+						example: false,
+						shortName: 'b',
+					},
+					baz: {
+						example: true,
+						shortName: 'bz',
+					}
+				},
+				shortName: 'f',
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblem = false;
+		assert.strictEqual(result != '', expectedProblem);
+	});
+
+	it('disallows non-string shortName', async () => {
+		const config = {
+			foo: {
+				example: {
+					bar: {
+						example: false,
+						shortName: 9,
+					},
+				},
+				shortName: 'f',
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
+	});
+
+	it('disallows empty shortName', async () => {
+		const config = {
+			foo: {
+				example: {
+					bar: {
+						example: false,
+						shortName: '',
+					},
+				},
+				shortName: 'f',
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
+	});
+
+	it('disallows duplicate shortName', async () => {
+		const config = {
+			foo: {
+				example: {
+					bar: {
+						example: false,
+						shortName: 'b',
+					},
+					baz: {
+						example: true,
+						shortName: 'b',
+					}
+				},
+				shortName: 'f',
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
+	});
+
+	it('disallows duplicate shortName in non-example', async () => {
+		const config = {
+			foo: {
+				bar: {
+					example: false,
+					shortName: 'b',
+				},
+				baz: {
+					example: true,
+					shortName: 'b',
+				}
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
+	});
+
+	it('allows duplicate shortName at different level', async () => {
+		const config = {
+			foo: {
+				example: {
+					bar: {
+						example: false,
+						shortName: 'b',
+					},
+					baz: {
+						example: true,
+						shortName: 'f',
+					}
+				},
+				shortName: 'f',
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblem = false;
+		assert.strictEqual(result != '', expectedProblem);
+	});
+
 });
 
 describe('maySetPropertyInConfigObject', () => {

@@ -12,6 +12,7 @@ const OPTIONS_PROPERTY_NAME = 'options';
 const BEHAVIOR_PROPERTY_NAME = 'behavior';
 const VALUE_PROPERTY_NAME = 'value';
 const DISPLAY_PROPERTY_NAME = 'display';
+const SHORT_NAME_PROPERTY_NAME = 'shortName';
 
 export const COLOR_BEHAVIOR_NAME = 'color';
 
@@ -40,16 +41,31 @@ export const optionsConfigValidator = (config) => {
 	});
 };
 
+const shortNameForOptionsLeaf = (leaf) => {
+	if (!leaf || typeof leaf != 'object') return '';
+	//Only read out shortName on objects that are actually leafs
+	if (leaf[EXAMPLE_PROPERTY_NAME] == undefined) return '';
+	return leaf[SHORT_NAME_PROPERTY_NAME] || '';
+};
+
 const optionsLeafValidator = (config) => {
 	if (!config || typeof config != 'object') return 'Config must be an object';
 	const example = config[EXAMPLE_PROPERTY_NAME];
 	if (example === undefined) {
 		//It's a multi-level nested object I guess
 		if (Object.keys(config).length == 0) return 'example is a required property';
+		const shortNameMap = {};
 		for (const [key, value] of Object.entries(config)) {
 			const problem = optionsLeafValidator(value);
 			if (problem) {
 				return "sub-object of " + key + " didn't validate: " + problem;
+			}
+			const shortName = shortNameForOptionsLeaf(value);
+			if (shortName) {
+				if (shortNameMap[shortName]) {
+					return "found duplicate shortName peer: " + shortName;
+				}
+				shortNameMap[shortName] = true;
 			}
 		}
 	}
@@ -63,10 +79,18 @@ const optionsLeafValidator = (config) => {
 				return "example's array first item didn't validate: " + problem;
 			}
 		}
+		const shortNameMap = {};
 		for (const [key, value] of Object.entries(example)) {
 			const problem = optionsLeafValidator(value);
 			if (problem) {
 				return "example's sub-object of " + key + " didn't validate: " + problem;
+			}
+			const shortName = shortNameForOptionsLeaf(value);
+			if (shortName) {
+				if (shortNameMap[shortName]) {
+					return "found duplicate shortName peer: " + shortName;
+				}
+				shortNameMap[shortName] = true;
 			}
 		}
 	}
@@ -80,6 +104,9 @@ const optionsLeafValidator = (config) => {
 	if (config[STEP_PROPERTY_NAME] !== undefined && typeof config[STEP_PROPERTY_NAME] != 'number') return STEP_PROPERTY_NAME + ' must be a number if provided';
 
 	if (config[BEHAVIOR_PROPERTY_NAME] !== undefined && (typeof config[BEHAVIOR_PROPERTY_NAME] != 'string' || !ALLOWED_BEHAVIOR_NAMES[config[BEHAVIOR_PROPERTY_NAME]])) return BEHAVIOR_PROPERTY_NAME + ' was provided ' + config[BEHAVIOR_PROPERTY_NAME] + ' but only allows ' + Object.keys(ALLOWED_BEHAVIOR_NAMES).join(', ');
+
+	if (config[SHORT_NAME_PROPERTY_NAME] !== undefined && typeof config[SHORT_NAME_PROPERTY_NAME] != 'string') return SHORT_NAME_PROPERTY_NAME + ' was provided but was not a string';
+	if (config[SHORT_NAME_PROPERTY_NAME] !== undefined && !config[SHORT_NAME_PROPERTY_NAME]) return SHORT_NAME_PROPERTY_NAME + ' may not be the empty string';
 
 	if (config[MIN_PROPERTY_NAME] !== undefined && config[MAX_PROPERTY_NAME] !== undefined && config[MIN_PROPERTY_NAME] > config[MAX_PROPERTY_NAME]) return 'max is less than min';
 	if (typeof config[EXAMPLE_PROPERTY_NAME] !== 'number' && typeof config[EXAMPLE_PROPERTY_NAME] !== 'object' && !Array.isArray(config[EXAMPLE_PROPERTY_NAME])) {
