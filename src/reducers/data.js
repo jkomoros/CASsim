@@ -5,6 +5,7 @@ import {
 	UPDATE_RUN_INDEX,
 	UPDATE_FRAME_INDEX,
 	UPDATE_CURRENT_SIMULATION_CONFIG,
+	REMOVE_LAST_MODIFICATION_FOR_PATH,
 	UPDATE_DIALOG_OPEN,
 	UPDATE_PLAY_TYPE,
 	UPDATE_PLAYING,
@@ -161,6 +162,22 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			resizeVisualization: action.resize,
+		};
+	case REMOVE_LAST_MODIFICATION_FOR_PATH:
+		let modificationFiltered = false;
+		let reversedModifications = [...state.modifications];
+		reversedModifications.reverse();
+		const filteredModifications = reversedModifications.filter(mod => {
+			if (modificationFiltered) return true;
+			if (mod.path != action.path) return true;
+			if (mod.simulationIndex != state.simulationIndex) return true;
+			modificationFiltered = true;
+			return false;
+		});
+		filteredModifications.reverse();
+		return {
+			...state,
+			modifications: filteredModifications,
 		};
 	case CLEAR_MODIFICATIONS:
 		return {
