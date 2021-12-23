@@ -36,6 +36,7 @@ import {
 	updatePathExpanded,
 	updateConfigurationExpanded,
 	updateDescriptionExpanded,
+	removeLastModificationForPath,
 	updateFilename,
 	DIALOG_TYPE_JSON,
 	clearModifications
@@ -186,7 +187,7 @@ class SimulationControls extends connect(store)(LitElement) {
 				<div>
 					<details .open=${this._configurationExpanded} @toggle=${this._handleConfigurationExpandedToggled}>
 						<summary><label><button class='small'>${SETTINGS_ICON}</button> Configuration</label></summary>
-						<options-control .readonly=${this._playing} @option-changed=${this._handleOptionChanged} @open-dialog=${this._handleOpenDialog} @path-toggled=${this._handlePathToggled} .config=${this._simulation ? this._simulation.optionsConfig : null} .value=${this._simulation ? this._simulation.rawConfig : null} .name=${''} .pathExpanded=${this._pathExpanded} .modifiedPaths=${this._modifiedPaths}></options-control>
+						<options-control .readonly=${this._playing} @option-changed=${this._handleOptionChanged} @undo-clicked=${this._handleUndoClicked} @open-dialog=${this._handleOpenDialog} @path-toggled=${this._handlePathToggled} .config=${this._simulation ? this._simulation.optionsConfig : null} .value=${this._simulation ? this._simulation.rawConfig : null} .name=${''} .pathExpanded=${this._pathExpanded} .modifiedPaths=${this._modifiedPaths}></options-control>
 					</details>
 				</div>
 			</div>
@@ -218,6 +219,10 @@ class SimulationControls extends connect(store)(LitElement) {
 		this._simulation = selectCurrentSimulation(state);
 		this._runStatuses = selectCurrentSimulationRunStatuses(state);
 		
+	}
+
+	_handleUndoClicked(e) {
+		store.dispatch(removeLastModificationForPath(e.detail.path));
 	}
 
 	_handleRemoveModificationsClicked() {

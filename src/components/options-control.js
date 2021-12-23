@@ -20,7 +20,8 @@ import {
 
 import {
 	CANCEL_ICON,
-	PLUS_ICON
+	PLUS_ICON,
+	UNDO_ICON
 } from './my-icons.js';
 
 import {
@@ -100,6 +101,7 @@ class OptionsControl extends LitElement {
 				${config.optional ? html`<button class='small' @click=${this._handleNullableClicked} .disabled=${this.readonly || this.disallowDelete} title='Remove'>${CANCEL_ICON}</button>` : ''}
 				${config.example && Array.isArray(config.example) ? html`<button class='small' .disabled=${this.readonly || config.max === this.value.length} @click=${this._handleAddArrayItem} title='Add additional item'>${PLUS_ICON}</button>` : ''}
 				${this._nulledEntries().length ? html`<button class='small' .disabled=${this.readonly} @click=${this._handleAddNulledClicked} title='Add field...'>${PLUS_ICON}</button>` : ''}
+				${this._modified ? html`<button class='small' .disabled=${this.readonly} @click=${this._handleUndoClicked} title='Undo modification...'>${UNDO_ICON}</button>` : ''}
 			</span>`: ''}
 			${this._innerControl()}
 		`;
@@ -143,6 +145,10 @@ class OptionsControl extends LitElement {
 		if (config.behavior == COLOR_BEHAVIOR_NAME) type = 'color';
 
 		return html`<input .disabled=${this.readonly} @change=${this._handleInputChanged} .type=${type} .min=${config.min || 0.0} .max=${config.max || Number.MAX_SAFE_INTEGER} .step=${config.step || 1.0} .value=${this.value} .checked=${this.value}></input>`;
+	}
+
+	_handleUndoClicked() {
+		this.dispatchEvent(new CustomEvent('undo-clicked', {composed: true, detail: {path:this.path}}));
 	}
 
 	_handleNullableClicked() {
