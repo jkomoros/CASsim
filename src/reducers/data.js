@@ -166,7 +166,7 @@ const data = (state = INITIAL_STATE, action) => {
 	case REMOVE_MODIFICATIONS_FOR_PATH:
 		return {
 			...state,
-			modifications: state.modifications.filter(mod => mod.path != action.path && mod.simulationIndex != state.simulationIndex),
+			modifications: state.modifications.filter(mod => !(mod.path == action.path && mod.simulationIndex == state.simulationIndex)),
 		};
 	case CLEAR_MODIFICATIONS:
 		return {
