@@ -115,9 +115,9 @@ class OptionsControl extends LitElement {
 		const config = this.config || {};
 		return html`
 			${this.name !== undefined ? html`<span class='label ${this.value === undefined ? 'deleted' : ''}'>${this.name} ${config.description ? html`${help(config.description, this.readonly)}` : ''} 
-				${config.optional ? html`<button class='small' @click=${this._handleNullableClicked} .disabled=${this.readonly || this.disallowDelete} title='Remove'>${CANCEL_ICON}</button>` : ''}
-				${config.example && Array.isArray(config.example) ? html`<button class='small' .disabled=${this.readonly || config.max === (this.value || []).length} @click=${this._handleAddArrayItem} title='Add additional item'>${PLUS_ICON}</button>` : ''}
-				${this._nulledEntries().length ? html`<button class='small' .disabled=${this.readonly} @click=${this._handleAddNulledClicked} title='Add field...'>${PLUS_ICON}</button>` : ''}
+				${config.optional && this.value !== undefined ? html`<button class='small' @click=${this._handleNullableClicked} .disabled=${this.readonly || this.disallowDelete} title='Remove'>${CANCEL_ICON}</button>` : ''}
+				${config.example && Array.isArray(config.example) && this.value !== undefined ? html`<button class='small' .disabled=${this.readonly || config.max === (this.value || []).length} @click=${this._handleAddArrayItem} title='Add additional item'>${PLUS_ICON}</button>` : ''}
+				${this._nulledEntries().length && this.value !== undefined ? html`<button class='small' .disabled=${this.readonly} @click=${this._handleAddNulledClicked} title='Add field...'>${PLUS_ICON}</button>` : ''}
 				${this._modified ? html`<button class='small' .disabled=${this.readonly} @click=${this._handleUndoClicked} title='Undo modification...'>${UNDO_ICON}</button>` : ''}
 			</span>`: ''}
 			${this._innerControl()}
