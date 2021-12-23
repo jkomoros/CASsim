@@ -184,7 +184,7 @@ class SimulationControls extends connect(store)(LitElement) {
 					<run-summary .statuses=${this._runStatuses} .selectedIndex=${this._runIndex} @run-clicked=${this._handleStatusClicked} .compact=${true}></run-summary>
 				</div>
 				<div>
-					${this._warning ? html`<label><button class='small'>${WARNING_ICON}</button><strong>Warning</strong> ${this._warning} <button class='small' @click=${this._handleClearWarningClicked} title='Clear warning'>${CANCEL_ICON}</button></label>` : ''}
+					${this._warning ? html`<label><button class='small'>${WARNING_ICON}</button><strong>Warning</strong><button class='small' @click=${this._handleClearWarningClicked} title='Clear warning'>${CANCEL_ICON}</button></label><div class='label'>${this._warning}</div>` : ''}
 				</div>
 				<div class='description' ?hidden=${!rawDescription}>
 					<details .open=${this._descriptionExpanded} @toggle=${this._handleDescriptionExpandedToggled}>
