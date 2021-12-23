@@ -250,6 +250,33 @@ export const shortenPathWithConfig = (optionsConfig, path) => {
 	return firstPartResult + '.' + shortenPathWithConfig(config, restParts);
 };
 
+//returns a path like shortPath, but with all shortNames expanded to long names
+export const expandPathWithConfig = (optionsConfig, shortPath) => {
+	const parts = shortPath.split('.');
+	const firstPart = parts[0];
+	const restParts = parts.slice(1).join('.');
+	if (!firstPart) return '';
+	let config = configForPath(optionsConfig, firstPart);
+	let firstPartResult = firstPart;
+	if (!config) {
+		//Try looking it up as a short path
+		if (!optionsConfig) return firstPart;
+		if (typeof optionsConfig != 'object') return firstPart;
+		const obj = optionsConfig[EXAMPLE_PROPERTY_NAME] ? optionsConfig[EXAMPLE_PROPERTY_NAME] : optionsConfig;
+		for (const [key, value] of Object.entries(obj)) {
+			const shortName = shortNameForOptionsLeaf(value);
+			if (!shortName) continue;
+			if (shortName != firstPart) continue;
+			//Found it!
+			firstPartResult = key;
+			config = value;
+			break;
+		}
+	}
+	if (!restParts) return firstPartResult;
+	return firstPartResult + '.' + expandPathWithConfig(config, restParts);
+};
+
 export const configForPath = (optionsConfig, path) => {
 	const parts = path.split('.');
 	const firstPart = parts[0];
