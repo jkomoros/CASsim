@@ -614,7 +614,8 @@ export const updateHash = (hash, comesFromURL) => (dispatch, getState) => {
 			args[key] = val;
 		}
 		if (args[DIFF_URL_KEY]) {
-			const mods = unpackModificationsFromURL(args[DIFF_URL_KEY], selectSimulationCollection(state), selectSimulationIndex(state));
+			const [mods, warning] = unpackModificationsFromURL(args[DIFF_URL_KEY], selectSimulationCollection(state), selectSimulationIndex(state));
+			if (warning) dispatch(updateWarning(warning));
 			dispatch(replaceModifications(mods));
 		}
 	} else {

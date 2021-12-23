@@ -358,6 +358,7 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 export const unpackModificationsFromURL = (url, simCollection, currentSimIndex = -1) => {
 	const modifications = [];
 	const urlParts = url.split(';');
+	let warning = '';
 	//For now, we just completely ignore simulator version number
 	for (const urlPart of urlParts) {
 		const versionParts = urlPart.split('@');
@@ -368,10 +369,11 @@ export const unpackModificationsFromURL = (url, simCollection, currentSimIndex =
 		const keyValuesParts = keyValuesPart.split(',');
 		for (const [index, part] of keyValuesParts.entries()) {
 			if (index == 0) {
-				//This is the version number, which we just ignore for now;
-				//later we should show a warning message in the UI but try to
-				//continue.
-				if (!part.includes(':')) continue;
+				let simulatorVersion = !part.includes(':') ? parseInt(part) : 0;
+				//This is the version number. For now we'll try to continue but raise it in warning.
+				if (simulatorVersion != simulation.simulator.version) warning = 'The version differed from when the URL was saved. The behavior of the diff might not work.';
+				//This is not a normal path, don't try to process it
+				if (!part.includes(":")) continue;
 			}
 			let [key, value] = part.split(':');
 			//expand short names
@@ -401,5 +403,5 @@ export const unpackModificationsFromURL = (url, simCollection, currentSimIndex =
 			modifications.push({simulationIndex, path:key, value});
 		}
 	}
-	return modifications;
+	return [modifications, warning];
 };
