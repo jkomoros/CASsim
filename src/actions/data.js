@@ -618,6 +618,8 @@ export const updateHash = (hash, comesFromURL) => (dispatch, getState) => {
 		}
 	} else {
 		window.location.hash = hash;
+		//Clear the '#'
+		if (!hash) history.replaceState('', '', window.location.pathname + window.location.search);
 	}
 	dispatch({
 		type: UPDATE_HASH,
