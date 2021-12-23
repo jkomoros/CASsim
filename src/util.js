@@ -104,17 +104,17 @@ export const memoizedRenderer = (simulation, frameVisualizer) => {
 };
 
 export const shadowedModificationsForSimIndex = (modifications, simIndex) => {
-	const mods = new Map();
+	const mods = {};
 	for (const mod of modifications) {
 		if (mod.simulationIndex != simIndex) continue;
-		mods.set(mod.path, mod.value);
+		mods[mod.path] = mod.value;
 		//Deletes 'shadow' all earlier sets or modifications of paths whose
 		//have our path as a prefix so clear them out.
 		if (mod.value == DELETE_SENTINEL) {
-			for (const key of mods.keys()) {
+			for (const key of Object.keys(mods)) {
 				//Add a '.' to make sure that paths like 'a.f' don't match 'a.foo'
 				if (!key.startsWith(mod.path + '.')) continue;
-				mods.delete(key);
+				delete mods[key];
 			}
 		}
 	}

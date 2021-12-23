@@ -330,7 +330,7 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 		if (version) keyValuePairs.push('' + version);
 		const mods = shadowedModificationsForSimIndex(modifications, simIndex);
 		//Only keep the last modification of path
-		for (let [path, value] of mods.entries()) {
+		for (let [path, value] of Object.entries(mods)) {
 			//Shorten short names
 			path = shortenPathWithConfig(simulation.optionsConfig, path);
 			if (typeof value == 'string') value = "'" + encodeURIComponent(value) + "'";
