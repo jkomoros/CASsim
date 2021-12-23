@@ -30,6 +30,10 @@ import {
 	PLAY_TYPE_ROUND,
 } from "../actions/data.js";
 
+import {
+	DEFAULT_SENTINEL
+} from "../util.js";
+
 const INITIAL_STATE = {
 	filename: DEFAULT_FILE_NAME,
 	loadedSimulators: {},
@@ -165,8 +169,18 @@ const data = (state = INITIAL_STATE, action) => {
 		};
 	case REMOVE_MODIFICATIONS_FOR_PATH:
 		const modifications = [];
+		let isDefault = false;
+		//If the item we're removing is a default sentinel (the only sentinel
+		//that says 'intentionally create an object') then all modifications
+		//after that that are for a sub path should also be cleared, because
+		//otherwise they'd imply into existence the parent again which would
+		//lead to invalid states.
 		for (const mod of state.modifications) {
-			if (mod.path == action.path && mod.simulationIndex == state.simulationIndex) continue;
+			if (mod.path == action.path && mod.simulationIndex == state.simulationIndex) {
+				isDefault = mod.value == DEFAULT_SENTINEL;
+				continue;
+			}
+			if (mod.path.startsWith(action.path + '.') && isDefault) continue;
 			modifications.push(mod);
 		}
 		return {
