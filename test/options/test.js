@@ -1948,7 +1948,7 @@ describe('configForPath', () => {
 });
 
 
-describe('configForPath', () => {
+describe('shortenPathWithConfig', () => {
 	it('handles null object', async () => {
 		const config = null;
 		const result = shortenPathWithConfig(config, 'foo');
