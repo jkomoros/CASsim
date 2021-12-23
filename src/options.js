@@ -344,6 +344,8 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 			}
 		}
 		for (let [path, value] of mods.entries()) {
+			//Shorten short names
+			path = shortenPathWithConfig(simulation.optionsConfig, path);
 			if (typeof value == 'string') value = "'" + encodeURIComponent(value) + "'";
 			if (value == DEFAULT_SENTINEL) value = 'd';
 			if (value == DELETE_SENTINEL) value ='x';
@@ -375,6 +377,7 @@ export const unpackModificationsFromURL = (url, simCollection, currentSimIndex =
 		//the version number might be ommited.
 		const keyValuesPart = versionParts[versionParts.length - 1];
 		const simulationIndex = versionParts.length == 2 ? parseInt(versionParts[0]) : currentSimIndex;
+		const simulation = simCollection ? simCollection.simulations[simulationIndex] : null;
 		const keyValuesParts = keyValuesPart.split(',');
 		for (const [index, part] of keyValuesParts.entries()) {
 			if (index == 0) {
@@ -384,6 +387,8 @@ export const unpackModificationsFromURL = (url, simCollection, currentSimIndex =
 				if (!part.includes(':')) continue;
 			}
 			let [key, value] = part.split(':');
+			//expand short names
+			if (simulation) key = expandPathWithConfig(simulation.optionsConfig, key);
 			if (value == 'd') value = DEFAULT_SENTINEL;
 			if (value == 'x') value = DELETE_SENTINEL;
 			if (value == 'n') value = null;
