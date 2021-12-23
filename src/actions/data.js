@@ -1,6 +1,6 @@
 export const LOAD_DATA = "LOAD_DATA";
 export const UPDATE_CURRENT_SIMULATION_CONFIG = "UPDATE_CURRENT_SIMULATION_CONFIG";
-export const REMOVE_LAST_MODIFICATION_FOR_PATH = 'REMOVE_LAST_MODIFICATION_FOR_PATH';
+export const REMOVE_MODIFICATIONS_FOR_PATH = 'REMOVE_MODIFICATIONS_FOR_PATH';
 export const UPDATE_FILENAME = 'UPDATE_FILENAME';
 export const UPDATE_SIMULATION_INDEX = 'UPDATE_SIMULATION_INDEX';
 export const UPDATE_RUN_INDEX = 'UPDATE_RUN_INDEX';
@@ -454,9 +454,9 @@ export const updateCurrentSimulationOptions = (path, value) => (dispatch, getSta
 	dispatch(verifyValidIndexes());
 };
 
-export const removeLastModificationForPath = (path) => {
+export const removeModificationsForPath = (path) => {
 	return {
-		type: REMOVE_LAST_MODIFICATION_FOR_PATH,
+		type: REMOVE_MODIFICATIONS_FOR_PATH,
 		path
 	};
 };

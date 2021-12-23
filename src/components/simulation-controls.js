@@ -36,7 +36,7 @@ import {
 	updatePathExpanded,
 	updateConfigurationExpanded,
 	updateDescriptionExpanded,
-	removeLastModificationForPath,
+	removeModificationsForPath,
 	updateFilename,
 	DIALOG_TYPE_JSON,
 	clearModifications
@@ -222,7 +222,7 @@ class SimulationControls extends connect(store)(LitElement) {
 	}
 
 	_handleUndoClicked(e) {
-		store.dispatch(removeLastModificationForPath(e.detail.path));
+		store.dispatch(removeModificationsForPath(e.detail.path));
 	}
 
 	_handleRemoveModificationsClicked() {
