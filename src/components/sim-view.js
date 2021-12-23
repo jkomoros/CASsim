@@ -212,8 +212,6 @@ class SimView extends connect(store)(PageViewElement) {
 		this.resizeVisualization();
 		fetchListings();
 		window.addEventListener('hashchange', () => this._handleHashChange());
-		//On first load process hash
-		this._handleHashChange();
 	}
 
 	_handleHashChange() {
@@ -397,6 +395,10 @@ class SimView extends connect(store)(PageViewElement) {
 		}
 		if (changedProps.has('_currentFrame')) {
 			store.dispatch(canonicalizePath());
+		}
+		if (changedProps.has('_dataIsFullyLoaded') && this._dataIsFullyLoaded) {
+			//On first load process hash, but wait until we know the simulationIndex, since the meaning of the packed data diff can't be interpreted until then.
+			this._handleHashChange();
 		}
 		if (changedProps.has('_urlDiffHash')) {
 			store.dispatch(canonicalizeHash());
