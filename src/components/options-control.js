@@ -95,7 +95,7 @@ class OptionsControl extends LitElement {
 	get _deletedSubPaths() {
 		if (!this.modifiedPaths) return {};
 		const result = {};
-		const pathPrefix = this.path + '.';
+		const pathPrefix = this.path ? this.path + '.' : '';
 		for (const [key, value] of Object.entries(this.modifiedPaths)) {
 			if (!key.startsWith(pathPrefix)) continue;
 			if (value != DELETE_SENTINEL) continue;
