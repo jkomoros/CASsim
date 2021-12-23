@@ -412,33 +412,39 @@ export const Simulation = class {
 			example: {
 				[NAME_PROPERTY]: {
 					example: '',
+					shortName: 'n',
 					description: 'Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL.',
 					advanced: true
 				},
 				[TITLE_PROPERTY]: {
 					example: '',
+					shortName: 't',
 					description: 'The human-readable version of name, with pretty formatting. Will use a transformation of ' + NAME_PROPERTY + 'like "two-words" -> "Two Words" if not provided.',
 					advanced: true,
 					optional: true
 				},
 				[DESCRIPTION_PROPERTY]: {
 					example: '',
+					shortName: 'd',
 					description: 'The human-readable description of the config. Optional. Will use name if not provided.',
 					advanced: true,
 					optional: true
 				},
 				[WIDTH_PROPERTY]: {
 					example: 800,
+					shortName: 'w',
 					description: 'The width of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal width in pixels.',
 					advanced: true
 				},
 				[HEIGHT_PROPERTY]: {
 					example: 450,
+					shortName: 'h',
 					description: 'The height of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal height in pixels--although if ' + DISPLAY_PROPERTY + '.' + STATUS_DISPLAY_PROPERTY + ' is true then it will be slightly taller.',
 					advanced: true
 				},
 				[FRAME_DELAY_PROPERTY]: {
 					example: DEFAULT_FRAME_DELAY,
+					shortName: 'fD',
 					step: 50,
 					description: 'How many milliseconds to wait before advancing to next frame when playing',
 					optional: true,
@@ -446,34 +452,40 @@ export const Simulation = class {
 				},
 				[RUNS_PROPERTY]: {
 					example: 10,
+					shortName: 'r',
 					description: 'How many runs in the simulation to run',
 				},
 				[SEED_PROPERTY]: {
 					example: '',
+					shortName: 'sd',
 					description: 'If omitted, will use a value derived from current time. The deterministic value to feed to seed.',
 					advanced: true,
 					optional: true
 				},
 				[AUTO_GENERATE_PROPERTY]: {
 					example: true,
+					shortName: 'aG',
 					description: 'if true, then it will automatically generate all frames for all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.',
 					advanced: true,
 					optional: true
 				},
 				[AUTO_PLAY_PROPERTY]: {
 					example: true,
+					shortName: 'aP',
 					description: 'If set, will automatically start playing when simulation is loaded',
 					advanced: true,
 					optional: true
 				},
 				[REPEAT_PROPERTY]: {
 					example: true,
+					shortName: 'rpt',
 					description: 'If true, will loop back around to the beginning of the round when being played. Gif screenshotting also respects this value',
 					advanced: true,
 					optional: true
 				},
 				[EXTRA_FINAL_FRAME_COUNT_PROPERTY]: {
 					example: DEFAULT_EXTRA_FINAL_FRAME_COUNT,
+					shortName: 'eFFC',
 					description: 'The number of additional frames to pause at the end of a round',
 					advanced: true,
 					optional: true
@@ -482,20 +494,24 @@ export const Simulation = class {
 					example: {
 						[STATUS_DISPLAY_PROPERTY]: {
 							example: true,
+							shortName: 's',
 							description: "If provided, will render a status line of runs summary beneath the visuazliation, including in the screenshot output",
 							optional: true,
 						},
 						[SCREENSHOT_STATUS_DISPLAY_PROPERTY]: {
 							example: true,
+							shortName: 'sS',
 							description: "If true, then the status line will be included (as in " + STATUS_DISPLAY_PROPERTY + ") but only in the screenshot output",
 							optional: true,
 						},
 						[CLIP_STATUS_PROPERTY]: {
 							example: true,
+							shortName: 'cS',
 							description: "If provided, and " + STATUS_DISPLAY_PROPERTY + " is true, then it will hide future runs in the rendered status bar.",
 							optional: true
 						}
 					},
+					shortName: 'dsp',
 					description: 'Properties to configure optional display characteristics',
 					optional: true,
 					advanced: true,
@@ -504,29 +520,34 @@ export const Simulation = class {
 					example: {
 						[COLOR_PRIMARY_PROPERTY]: {
 							example: "#fb8c00",
+							shortName: 'p',
 							description: "Primary color",
 							behavior: "color",
 							optional: true,
 						},
 						[COLOR_SECONDARY_PROPERTY]: {
 							example: "#51b9a3",
+							shortName: 's',
 							description: "Secondary color",
 							behavior: "color",
 							optional: true
 						},
 						[COLOR_DISABLED_PROPERTY]: {
 							example: "ECCCCCC",
+							shortName: 'd',
 							description: "Disabled color",
 							behavior: "color",
 							optional: true
 						},
 						[COLOR_BACKGROUND_PROPERTY]: {
 							example: "transparent",
+							shortName: 'b',
 							description: "Background color",
 							behavior: "color",
 							optional: true
 						}
 					},
+					shortName: 'clrs',
 					advanced: true,
 					description: "Colors",
 					optional: true,
@@ -534,6 +555,7 @@ export const Simulation = class {
 				[SIM_PROPERTY]: {
 					//TODO: use the constant
 					example: this._knownSimulatorNames.length ? this._knownSimulatorNames[0] : '',
+					shortName: 'sm',
 					options: this._knownSimulatorNames.map(name => ({value: name})),
 					description: 'The simulator type to run. Only simulators in the simulators directory are supported',
 					//Advanced while this is the only option
@@ -541,6 +563,7 @@ export const Simulation = class {
 				},
 				[SIM_OPTIONS_PROPERTY]: {
 					example: simOptionsConfig,
+					shortName: 'o',
 					description: 'Settings specific to this simulator',
 					//If not provided, the main harness will generate a default based on the simConfig
 					optional: true
