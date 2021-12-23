@@ -670,6 +670,27 @@ describe('optionsConfigValidator', () => {
 		assert.strictEqual(result != '', expectedProblem);
 	});
 
+	it('disallows shortName that conflicts with long name', async () => {
+		const config = {
+			foo: {
+				example: {
+					bar: {
+						example: false,
+						shortName: 'b',
+					},
+					baz: {
+						example: true,
+						shortName: 'bar',
+					}
+				},
+				shortName: 'f',
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
+	});
+
 	it('disallows duplicate shortName in non-example', async () => {
 		const config = {
 			foo: {
@@ -680,6 +701,24 @@ describe('optionsConfigValidator', () => {
 				baz: {
 					example: true,
 					shortName: 'b',
+				}
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
+	});
+
+	it('disallows shortName that conflicts with long name in non-example', async () => {
+		const config = {
+			foo: {
+				bar: {
+					example: false,
+					shortName: 'b',
+				},
+				baz: {
+					example: true,
+					shortName: 'bar',
 				}
 			}
 		};

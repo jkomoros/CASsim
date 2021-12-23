@@ -54,7 +54,8 @@ const optionsLeafValidator = (config) => {
 	if (example === undefined) {
 		//It's a multi-level nested object I guess
 		if (Object.keys(config).length == 0) return 'example is a required property';
-		const shortNameMap = {};
+		//shortNames also may not conflict with any non-short name
+		const shortNameMap = Object.fromEntries(Object.keys(config).map(key => [key, true]));
 		for (const [key, value] of Object.entries(config)) {
 			const problem = optionsLeafValidator(value);
 			if (problem) {
@@ -79,7 +80,8 @@ const optionsLeafValidator = (config) => {
 				return "example's array first item didn't validate: " + problem;
 			}
 		}
-		const shortNameMap = {};
+		//shortNames also may not conflict with any non-short name
+		const shortNameMap = Object.fromEntries(Object.keys(example).map(key => [key, true]));
 		for (const [key, value] of Object.entries(example)) {
 			const problem = optionsLeafValidator(value);
 			if (problem) {
