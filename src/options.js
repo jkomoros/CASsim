@@ -366,7 +366,7 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 	return result.join(';');
 };
 
-export const unpackModificationsFromURL = (url, currentSimIndex = -1) => {
+export const unpackModificationsFromURL = (url, simCollection, currentSimIndex = -1) => {
 	const modifications = [];
 	const urlParts = url.split(';');
 	//For now, we just completely ignore simulator version number

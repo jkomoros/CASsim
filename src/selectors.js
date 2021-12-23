@@ -119,7 +119,7 @@ export const selectDataIsFullyLoaded = createSelector(
 	(data, simsLoaded) => data.length > 0 && simsLoaded
 );
 
-const selectSimulationCollection = createSelector(
+export const selectSimulationCollection = createSelector(
 	selectConfigData,
 	selectRequiredSimulatorsLoaded,
 	selectKnownSimulatorNames,

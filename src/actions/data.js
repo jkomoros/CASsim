@@ -70,7 +70,8 @@ import {
 	selectDataIsFullyLoaded,
 	selectHasModifications,
 	selectHash,
-	selectURLDiffHash
+	selectURLDiffHash,
+	selectSimulationCollection
 } from '../selectors.js';
 
 import {
@@ -604,7 +605,7 @@ export const updateHash = (hash, comesFromURL) => (dispatch, getState) => {
 			args[key] = val;
 		}
 		if (args[DIFF_URL_KEY]) {
-			const mods = unpackModificationsFromURL(args[DIFF_URL_KEY], selectSimulationIndex(state));
+			const mods = unpackModificationsFromURL(args[DIFF_URL_KEY], selectSimulationCollection(state), selectSimulationIndex(state));
 			dispatch(replaceModifications(mods));
 		}
 	} else {
