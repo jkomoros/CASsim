@@ -82,14 +82,17 @@ class DiceRollDemoSimulator extends BaseSimulator {
 		return {
 			'die': {
 				example: 6,
+				shortName: 'd',
 				description: 'The maximum number on the die face',
 			},
 			'targetScore': {
 				example: 20,
+				shortName: 'tS',
 				description: 'The score we try to hit to win'
 			},
 			'bust': {
 				example: 1,
+				shortName: 'b',
 				description: 'The die number that, if it comes up, will bust'
 			}
 		};
