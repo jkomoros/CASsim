@@ -164,9 +164,14 @@ const data = (state = INITIAL_STATE, action) => {
 			resizeVisualization: action.resize,
 		};
 	case REMOVE_MODIFICATIONS_FOR_PATH:
+		const modifications = [];
+		for (const mod of state.modifications) {
+			if (mod.path == action.path && mod.simulationIndex == state.simulationIndex) continue;
+			modifications.push(mod);
+		}
 		return {
 			...state,
-			modifications: state.modifications.filter(mod => !(mod.path == action.path && mod.simulationIndex == state.simulationIndex)),
+			modifications: modifications,
 		};
 	case CLEAR_MODIFICATIONS:
 		return {
