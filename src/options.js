@@ -24,7 +24,8 @@ import {
 	DELETE_SENTINEL,
 	DEFAULT_SENTINEL,
 	isStep,
-	setPropertyInObject
+	setPropertyInObject,
+	shadowedModificationsForSimIndex
 } from './util.js';
 
 //See README.md for more about the canonical shape of optionsLeaf objects.
@@ -327,22 +328,8 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 		const keyValuePairs = [];
 		const version = simulation.simulator.version;
 		if (version) keyValuePairs.push('' + version);
-
+		const mods = shadowedModificationsForSimIndex(modifications, simIndex);
 		//Only keep the last modification of path
-		const mods = new Map();
-		for (const mod of modifications) {
-			if (mod.simulationIndex != simIndex) continue;
-			mods.set(mod.path, mod.value);
-			//Deletes 'shadow' all earlier sets or modifications of paths whose
-			//have our path as a prefix so clear them out.
-			if (mod.value == DELETE_SENTINEL) {
-				for (const key of mods.keys()) {
-					//Add a '.' to make sure that paths like 'a.f' don't match 'a.foo'
-					if (!key.startsWith(mod.path + '.')) continue;
-					mods.delete(key);
-				}
-			}
-		}
 		for (let [path, value] of mods.entries()) {
 			//Shorten short names
 			path = shortenPathWithConfig(simulation.optionsConfig, path);
