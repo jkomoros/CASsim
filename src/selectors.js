@@ -7,12 +7,12 @@ import {
 } from "./simulation.js";
 
 import {
-	setSimPropertyInConfig
+	setSimPropertyInConfig,
+	packModificationsForURL
 } from './options.js';
 
 import {
 	DEFAULT_SENTINEL,
-	packModificationsForURL
 } from './util.js';
 
 const selectRawConfigData = state => state.data ? state.data.data : [];

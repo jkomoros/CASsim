@@ -76,7 +76,8 @@ import {
 import {
 	configForPath,
 	configIsAdvanced,
-	maySetPropertyInConfigObject
+	maySetPropertyInConfigObject,
+	unpackModificationsFromURL
 } from '../options.js';
 
 import { store } from '../store.js';
@@ -92,7 +93,6 @@ import {
 
 import {
 	DEFAULT_SENTINEL,
-	unpackModificationsFromURL
 } from '../util.js';
 
 const SIMULATORS_DIRECTORY = 'simulators';
