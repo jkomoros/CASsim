@@ -195,18 +195,20 @@ export const unpackModificationsFromURL = (url, currentSimIndex = -1) => {
 			if (value == 't') value = true;
 			if (value == 'f') value = false;
 
-			if (value && value.startsWith("'")) {
-				//Value is a string.
-				value = value.split("'").join('');
-				value = decodeURIComponent(value);
-			} else if (value && value.startsWith('o')) {
-				//An object.
-				value = value.substring(1);
-				value = decodeURIComponent(value);
-				value = JSON.parse(value);
-			} else {
-				const numValue = parseFloat(value);
-				if (!isNaN(numValue)) value = numValue;
+			if (value && typeof value == 'string') {
+				if (value.startsWith("'")) {
+					//Value is a string.
+					value = value.split("'").join('');
+					value = decodeURIComponent(value);
+				} else if (value.startsWith('o')) {
+					//An object.
+					value = value.substring(1);
+					value = decodeURIComponent(value);
+					value = JSON.parse(value);
+				} else {
+					const numValue = parseFloat(value);
+					if (!isNaN(numValue)) value = numValue;
+				}
 			}
 			modifications.push({simulationIndex, path:key, value});
 		}
