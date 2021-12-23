@@ -13,6 +13,7 @@ import {
 
 import {
 	DEFAULT_SENTINEL,
+	shadowedModificationsForSimIndex
 } from './util.js';
 
 const selectRawConfigData = state => state.data ? state.data.data : [];
@@ -103,6 +104,12 @@ const selectRequiredSimulatorsLoaded = createSelector(
 		}
 		return true;
 	}
+);
+
+export const selectCurrentSimulatorShadowedModifications = createSelector(
+	selectSimulationIndex,
+	selectModifications,
+	(index, modifications) => shadowedModificationsForSimIndex(modifications, index)
 );
 
 export const selectConfigData = createSelector(
