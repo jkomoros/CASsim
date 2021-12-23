@@ -592,18 +592,19 @@ export const canonicalizeHash = () => (dispatch, getState) => {
 	dispatch(updateHash(hash));
 };
 
-export const updateHash = (hash, unpack) => (dispatch, getState) => {
+export const updateHash = (hash, comesFromURL) => (dispatch, getState) => {
 	if (hash.startsWith('#')) hash = hash.substring(1);
-	const currentHash = selectHash(getState());
+	const state = getState();
+	const currentHash = selectHash(state);
 	if (hash == currentHash) return;
-	if (unpack) {
+	if (comesFromURL) {
 		const args = {};
 		for (const part of hash.split('&')) {
 			const [key, val] = part.split('=');
 			args[key] = val;
 		}
 		if (args[DIFF_URL_KEY]) {
-			const mods = unpackModificationsFromURL(args[DIFF_URL_KEY], selectSimulationIndex(getState()));
+			const mods = unpackModificationsFromURL(args[DIFF_URL_KEY], selectSimulationIndex(state));
 			dispatch(replaceModifications(mods));
 		}
 	} else {
