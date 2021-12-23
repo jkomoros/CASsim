@@ -117,6 +117,7 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 	//'' delimits strings, which are URL-endcoded inside
 	//Naked numbers are just numbers
 	//t is true, f is false, n is null, u is undefined, x is delete sentinel, d is delete sentinel
+	//Objects are encoded with an 'o' followed by a URL-encoded JSON blob
 	//As a special case, the simIndex and '@' at the beginning of a simIndexes's list of modifications may be fully omitted if it equals currentSimIndex.
 	//As a special case, if the simulatorVersion is 0, it may be omitted
 	if (!simCollection) return '';
@@ -144,6 +145,12 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 			if (value === undefined) value = 'u';
 			if (value === true) value = 't';
 			if (value === false) value = 'f';
+			if (typeof value == 'object') {
+				//Objects should be very rare (the UI never allows adding them;
+				//they're always added by default sentinel) but we should handle
+				//them.
+				value = 'o' + encodeURIComponent(JSON.stringify(value));
+			}
 			//numbers will be encoded to string value automatically via coercion.
 			keyValuePairs.push(path + ':' + value);
 		}
@@ -182,6 +189,11 @@ export const unpackModificationsFromURL = (url, currentSimIndex = -1) => {
 				//Value is a string.
 				value = value.split("'").join('');
 				value = decodeURIComponent(value);
+			} else if (value && value.startsWith('o')) {
+				//An object.
+				value = value.substring(1);
+				value = decodeURIComponent(value);
+				value = JSON.parse(value);
 			} else {
 				const numValue = parseFloat(value);
 				if (!isNaN(numValue)) value = numValue;
