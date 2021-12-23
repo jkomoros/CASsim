@@ -21,7 +21,8 @@ import {
 	selectKnownDatafiles,
 	selectHasModifications,
 	selectCurrentSimulationRunStatuses,
-	selectCurrentSimulatorShadowedModifications
+	selectCurrentSimulatorShadowedModifications,
+	selectWarning
 } from "../selectors.js";
 
 import {
@@ -39,7 +40,8 @@ import {
 	removeModificationsForPath,
 	updateFilename,
 	DIALOG_TYPE_JSON,
-	clearModifications
+	clearModifications,
+	updateWarning
 } from '../actions/data.js';
 
 import {
@@ -48,6 +50,8 @@ import {
 	REPLAY_ICON,
 	PAUSE_ICON,
 	FAST_FORWARD_ICON,
+	WARNING_ICON,
+	CANCEL_ICON,
 	INFO_ICON,
 	SETTINGS_ICON,
 	UNDO_ICON
@@ -63,6 +67,7 @@ class SimulationControls extends connect(store)(LitElement) {
 	static get properties() {
 		return {
 			_showControsl : {type:Boolean},
+			_warning: {type:String},
 			_hasModifications: {type:Boolean},
 			_modifiedPaths: {type:Object},
 			_configurationExpanded: {type:Boolean},
@@ -178,6 +183,9 @@ class SimulationControls extends connect(store)(LitElement) {
 				<div>
 					<run-summary .statuses=${this._runStatuses} .selectedIndex=${this._runIndex} @run-clicked=${this._handleStatusClicked} .compact=${true}></run-summary>
 				</div>
+				<div>
+					${this._warning ? html`<label><button class='small'>${WARNING_ICON}</button><strong>Warning</strong> ${this._warning} <button class='small' @click=${this._handleClearWarningClicked} title='Clear warning'>${CANCEL_ICON}</button></label>` : ''}
+				</div>
 				<div class='description' ?hidden=${!rawDescription}>
 					<details .open=${this._descriptionExpanded} @toggle=${this._handleDescriptionExpandedToggled}>
 						<summary><label><button class='small'>${INFO_ICON}</button> Description</label></summary>
@@ -197,6 +205,7 @@ class SimulationControls extends connect(store)(LitElement) {
 	// This is called every time something is updated in the store.
 	stateChanged(state) {
 		this._showControls = selectShowControls(state);
+		this._warning = selectWarning(state);
 		this._hasModifications = selectHasModifications(state);
 		this._modifiedPaths = selectCurrentSimulatorShadowedModifications(state);
 		this._configurationExpanded = selectConfigurationExpanded(state);
@@ -219,6 +228,10 @@ class SimulationControls extends connect(store)(LitElement) {
 		this._simulation = selectCurrentSimulation(state);
 		this._runStatuses = selectCurrentSimulationRunStatuses(state);
 		
+	}
+
+	_handleClearWarningClicked() {
+		store.dispatch(updateWarning(''));
 	}
 
 	_handleUndoClicked(e) {
