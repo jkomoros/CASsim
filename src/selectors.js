@@ -131,7 +131,8 @@ export const selectSimulationCollection = createSelector(
 	selectConfigData,
 	selectRequiredSimulatorsLoaded,
 	selectKnownSimulatorNames,
-	(rawConfig, simulatorsLoaded, knownSimulatorNames) => simulatorsLoaded ? new SimulationCollection(rawConfig, knownSimulatorNames) : null
+	selectRawConfigData,
+	(rawConfig, simulatorsLoaded, knownSimulatorNames, unmodifiedConfigData) => simulatorsLoaded ? new SimulationCollection(rawConfig, knownSimulatorNames, unmodifiedConfigData) : null
 );
 
 export const selectURLDiffHash = createSelector(

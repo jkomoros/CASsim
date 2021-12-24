@@ -60,15 +60,16 @@ export const extractSimulatorNamesFromRawConfig = data => {
 };
 
 export const SimulationCollection = class {
-	constructor(configs, knownSimulatorNames) {
+	constructor(configs, knownSimulatorNames, unmodifiedConfigs) {
 		if (!configs) configs = [];
+		if (!unmodifiedConfigs) unmodifiedConfigs = [];
 		const seenNames = {};
 		const arr = [];
 		for (let i = 0; i < configs.length; i++) {
 			let sim;
 			const config = configs[i];
 			try {
-				sim = new Simulation(config, i, knownSimulatorNames);
+				sim = new Simulation(config, i, knownSimulatorNames, unmodifiedConfigs[i]);
 			} catch(err) {
 				throw new Error('Config #' + i + ' errored: ' + err);
 			}
@@ -229,7 +230,7 @@ const makeSeededRandom = seed => {
 };
 
 export const Simulation = class {
-	constructor(config, index, knownSimulatorNames = []) {
+	constructor(config, index, knownSimulatorNames = [], unmodifiedConfig) {
 
 		const name = config[NAME_PROPERTY];
 		if (name) {
@@ -249,7 +250,8 @@ export const Simulation = class {
 		} catch (err) {
 			throw new Error('Sim problems: ' + err);
 		}
-
+		deepFreeze(unmodifiedConfig);
+		this._unmodifiedConfig = unmodifiedConfig;
 		deepFreeze(configCopy);
 		this._config = configCopy;
 		deepFreeze(config);
