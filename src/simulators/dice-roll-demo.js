@@ -2,6 +2,9 @@ import {
 	BaseSimulator
 } from '../simulator.js';
 
+//Remember that the name must be the same as the filename of this file
+const SIMULATOR_NAME = 'dice-roll-demo';
+
 /*
 Sim options shape:
 
@@ -18,9 +21,8 @@ Sim options shape:
 
 class DiceRollDemoSimulator extends BaseSimulator {
 
-	//Remember that the name must be the same as the filename of this file
 	get name() {
-		return 'dice-roll-demo';
+		return SIMULATOR_NAME;
 	}
 
 	_firstFrameGenerator(simOptions) {
@@ -162,4 +164,4 @@ class DiceRollDemoRenderer extends LitElement {
 	}
 }
 
-window.customElements.define("dice-roll-demo-renderer", DiceRollDemoRenderer);
+window.customElements.define(SIMULATOR_NAME + "-renderer", DiceRollDemoRenderer);
