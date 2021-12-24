@@ -4,7 +4,8 @@ import {
 
 import {
 	deepFreeze,
-	deepCopy
+	deepCopy,
+	hash
 } from './util.js';
 
 import {
@@ -262,6 +263,7 @@ export const Simulation = class {
 		}
 		this._altName = (index || 0).toString();
 		this._seed = this._config[SEED_PROPERTY] || '' + Date.now();
+		this._fingerprint = '';
 		this._runs = [];
 		this._optionConfig = null;
 		this._index = index;
@@ -378,6 +380,14 @@ export const Simulation = class {
 
 	get maxFrameIndex() {
 		return this._maxFrameIndex;
+	}
+
+	get baseFingerprint() {
+		if (!this._fingerprint) {
+			const config = this._unmodifiedConfig || this._config;
+			this._fingerprint = Math.abs(hash(JSON.stringify(config))).toString(16);
+		}
+		return this._fingerprint;
 	}
 
 	//Called when the simulation is active in the view. Might be called multiple
