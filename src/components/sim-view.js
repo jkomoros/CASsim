@@ -19,14 +19,19 @@ import {
 	updateScale,
 	updateKnownDatafiles,
 	updateKnownSimulatorNames,
-	DEFAULT_SENTINEL,
 	simulationChanged,
-	enableScreenshotting
+	enableScreenshotting,
+	canonicalizeHash,
+	updateHash
 } from "../actions/data.js";
 
 import {
 	canonicalizePath
 } from "../actions/app.js";
+
+import {
+	DEFAULT_SENTINEL
+} from "../util.js";
 
 import {
 	selectCurrentFrame,
@@ -48,7 +53,8 @@ import {
 	selectDescriptionExpanded,
 	selectDataIsFullyLoaded,
 	selectCurrentSimulationRunStatuses,
-	selectScrenshotting
+	selectScrenshotting,
+	selectURLDiffHash
 } from "../selectors.js";
 
 // We are lazy loading its reducer.
@@ -155,6 +161,7 @@ class SimView extends connect(store)(PageViewElement) {
 			_dataIsFullyLoaded: {type:Boolean},
 			_screenshotting: {type:Boolean},
 			_runStatues: {type:Object},
+			_urlDiffHash: {type:String},
 			//Note: this is calculated in this._resizeVisualzation, NOT in state
 			_needsMarginLeft : {type:Boolean},
 			_resizeVisualization: {type:Boolean},
@@ -204,6 +211,11 @@ class SimView extends connect(store)(PageViewElement) {
 		window.addEventListener('resize', () => this.resizeVisualization());
 		this.resizeVisualization();
 		fetchListings();
+		window.addEventListener('hashchange', () => this._handleHashChange());
+	}
+
+	_handleHashChange() {
+		store.dispatch(updateHash(window.location.hash, true));
 	}
 
 	_handleKeyDown(e) {
@@ -279,6 +291,7 @@ class SimView extends connect(store)(PageViewElement) {
 		this._resizeVisualization = selectResizeVisualization(state);
 		this._dataIsFullyLoaded = selectDataIsFullyLoaded(state);
 		this._runStatuses = selectCurrentSimulationRunStatuses(state);
+		this._urlDiffHash = selectURLDiffHash(state);
 		this._currentSimulationLastChanged = this._currentSimulation ? this._currentSimulation.lastChanged : 0;
 
 		this.updateComplete.then(() => {
@@ -382,6 +395,13 @@ class SimView extends connect(store)(PageViewElement) {
 		}
 		if (changedProps.has('_currentFrame')) {
 			store.dispatch(canonicalizePath());
+		}
+		if (changedProps.has('_dataIsFullyLoaded') && this._dataIsFullyLoaded) {
+			//On first load process hash, but wait until we know the simulationIndex, since the meaning of the packed data diff can't be interpreted until then.
+			this._handleHashChange();
+		}
+		if (changedProps.has('_urlDiffHash')) {
+			store.dispatch(canonicalizeHash());
 		}
 		if (changedProps.has('_height') || changedProps.has('_width') || changedProps.has('_configurationExpanded') || changedProps.has('_resizeVisualization') || changedProps.has('_descriptionExpanded')) {
 			//This method requires the layout to have been rendered, so wait a tick until it has settled and then calculate

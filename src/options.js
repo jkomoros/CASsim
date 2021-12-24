@@ -12,6 +12,7 @@ const OPTIONS_PROPERTY_NAME = 'options';
 const BEHAVIOR_PROPERTY_NAME = 'behavior';
 const VALUE_PROPERTY_NAME = 'value';
 const DISPLAY_PROPERTY_NAME = 'display';
+const SHORT_NAME_PROPERTY_NAME = 'shortName';
 
 export const COLOR_BEHAVIOR_NAME = 'color';
 
@@ -21,8 +22,10 @@ const ALLOWED_BEHAVIOR_NAMES = {
 
 import {
 	DELETE_SENTINEL,
+	DEFAULT_SENTINEL,
 	isStep,
-	setPropertyInObject
+	setPropertyInObject,
+	shadowedModificationsForSimIndex
 } from './util.js';
 
 //See README.md for more about the canonical shape of optionsLeaf objects.
@@ -40,16 +43,32 @@ export const optionsConfigValidator = (config) => {
 	});
 };
 
+const shortNameForOptionsLeaf = (leaf) => {
+	if (!leaf || typeof leaf != 'object') return '';
+	//Only read out shortName on objects that are actually leafs
+	if (leaf[EXAMPLE_PROPERTY_NAME] == undefined) return '';
+	return leaf[SHORT_NAME_PROPERTY_NAME] || '';
+};
+
 const optionsLeafValidator = (config) => {
 	if (!config || typeof config != 'object') return 'Config must be an object';
 	const example = config[EXAMPLE_PROPERTY_NAME];
 	if (example === undefined) {
 		//It's a multi-level nested object I guess
 		if (Object.keys(config).length == 0) return 'example is a required property';
+		//shortNames also may not conflict with any non-short name
+		const shortNameMap = Object.fromEntries(Object.keys(config).map(key => [key, true]));
 		for (const [key, value] of Object.entries(config)) {
 			const problem = optionsLeafValidator(value);
 			if (problem) {
 				return "sub-object of " + key + " didn't validate: " + problem;
+			}
+			const shortName = shortNameForOptionsLeaf(value);
+			if (shortName) {
+				if (shortNameMap[shortName]) {
+					return "found duplicate shortName peer: " + shortName;
+				}
+				shortNameMap[shortName] = true;
 			}
 		}
 	}
@@ -63,10 +82,19 @@ const optionsLeafValidator = (config) => {
 				return "example's array first item didn't validate: " + problem;
 			}
 		}
+		//shortNames also may not conflict with any non-short name
+		const shortNameMap = Object.fromEntries(Object.keys(example).map(key => [key, true]));
 		for (const [key, value] of Object.entries(example)) {
 			const problem = optionsLeafValidator(value);
 			if (problem) {
 				return "example's sub-object of " + key + " didn't validate: " + problem;
+			}
+			const shortName = shortNameForOptionsLeaf(value);
+			if (shortName) {
+				if (shortNameMap[shortName]) {
+					return "found duplicate shortName peer: " + shortName;
+				}
+				shortNameMap[shortName] = true;
 			}
 		}
 	}
@@ -80,6 +108,9 @@ const optionsLeafValidator = (config) => {
 	if (config[STEP_PROPERTY_NAME] !== undefined && typeof config[STEP_PROPERTY_NAME] != 'number') return STEP_PROPERTY_NAME + ' must be a number if provided';
 
 	if (config[BEHAVIOR_PROPERTY_NAME] !== undefined && (typeof config[BEHAVIOR_PROPERTY_NAME] != 'string' || !ALLOWED_BEHAVIOR_NAMES[config[BEHAVIOR_PROPERTY_NAME]])) return BEHAVIOR_PROPERTY_NAME + ' was provided ' + config[BEHAVIOR_PROPERTY_NAME] + ' but only allows ' + Object.keys(ALLOWED_BEHAVIOR_NAMES).join(', ');
+
+	if (config[SHORT_NAME_PROPERTY_NAME] !== undefined && typeof config[SHORT_NAME_PROPERTY_NAME] != 'string') return SHORT_NAME_PROPERTY_NAME + ' was provided but was not a string';
+	if (config[SHORT_NAME_PROPERTY_NAME] !== undefined && !config[SHORT_NAME_PROPERTY_NAME]) return SHORT_NAME_PROPERTY_NAME + ' may not be the empty string';
 
 	if (config[MIN_PROPERTY_NAME] !== undefined && config[MAX_PROPERTY_NAME] !== undefined && config[MIN_PROPERTY_NAME] > config[MAX_PROPERTY_NAME]) return 'max is less than min';
 	if (typeof config[EXAMPLE_PROPERTY_NAME] !== 'number' && typeof config[EXAMPLE_PROPERTY_NAME] !== 'object' && !Array.isArray(config[EXAMPLE_PROPERTY_NAME])) {
@@ -208,6 +239,46 @@ export const defaultValueForConfig = (optionsConfig, skipOptional) => {
 	return example;
 };
 
+//Returns a path like path, but with and valid shortNames replacing long names
+export const shortenPathWithConfig = (optionsConfig, path) => {
+	const parts = path.split('.');
+	const firstPart = parts[0];
+	const restParts = parts.slice(1).join('.');
+	if (!firstPart) return '';
+	const config = configForPath(optionsConfig, firstPart);
+	const shortName = shortNameForOptionsLeaf(config);
+	const firstPartResult = shortName || firstPart;
+	if (!restParts) return firstPartResult;
+	return firstPartResult + '.' + shortenPathWithConfig(config, restParts);
+};
+
+//returns a path like shortPath, but with all shortNames expanded to long names
+export const expandPathWithConfig = (optionsConfig, shortPath) => {
+	const parts = shortPath.split('.');
+	const firstPart = parts[0];
+	const restParts = parts.slice(1).join('.');
+	if (!firstPart) return '';
+	let config = configForPath(optionsConfig, firstPart);
+	let firstPartResult = firstPart;
+	if (!config) {
+		//Try looking it up as a short path
+		if (!optionsConfig) return firstPart;
+		if (typeof optionsConfig != 'object') return firstPart;
+		const obj = optionsConfig[EXAMPLE_PROPERTY_NAME] ? optionsConfig[EXAMPLE_PROPERTY_NAME] : optionsConfig;
+		for (const [key, value] of Object.entries(obj)) {
+			const shortName = shortNameForOptionsLeaf(value);
+			if (!shortName) continue;
+			if (shortName != firstPart) continue;
+			//Found it!
+			firstPartResult = key;
+			config = value;
+			break;
+		}
+	}
+	if (!restParts) return firstPartResult;
+	return firstPartResult + '.' + expandPathWithConfig(config, restParts);
+};
+
 export const configForPath = (optionsConfig, path) => {
 	const parts = path.split('.');
 	const firstPart = parts[0];
@@ -227,4 +298,120 @@ export const setSimPropertyInConfig = (obj, path, value) => {
 	//simOptions for the old one definitely won't be valid for the new one.
 	if (path == SIM_PROPERTY) obj = setPropertyInObject(obj, SIM_OPTIONS_PROPERTY, DELETE_SENTINEL);
 	return setPropertyInObject(obj, path, value);
+};
+
+//How many characters of the fingerprint for each sim to put in the URL.
+//Balancing short while also making it likely to detect when the underlying
+//thing changed. 3 balances that, while also giving a 1/4096 chance of colliding.
+const FINGERPRINT_CHARACTER_LENGTH = 3;
+
+export const packModificationsForURL = (modifications = [], simCollection, currentSimIndex = -1) => {
+	//Allowed characters in URL based on this answer: https://stackoverflow.com/questions/26088849/url-fragment-allowed-characters
+	//We avoid '=' and '&' in the hash, since those will be used for other parameters
+	//URL looks like: 
+	//1@a12:34,simOptions.northStar:d,display.debug:t;3@b3a:12,simOptions.northStar:x,description:'a%20b',runs:5
+	//Where:
+	//1 and 3 are examples of the index of the simulationIndex we're referring to
+	//@ is the delimiter for the concatenated, in order, list of modifications
+	//34, 12 are examples of the version number of the simulator for that simIndex WITH ALL MODIFICATIONS APPLIED (sim=OTHER could be sent)
+	//a12, b3a are examples of the first 3 digits of the hash of the underlying config
+	//the dotted path is the modification.path
+	//: is the delimiter to the value and , is the delimeter for values
+	//'' delimits strings, which are URL-endcoded inside
+	//Naked numbers are just numbers
+	//t is true, f is false, n is null, u is undefined, x is delete sentinel, d is delete sentinel
+	//Objects are encoded with an 'o' followed by a URL-encoded JSON blob
+	//As a special case, the simIndex and '@' at the beginning of a simIndexes's list of modifications may be fully omitted if it equals currentSimIndex.
+	//As a special case, if the simulatorVersion is 0, it may be omitted (as well as the ':')
+	if (!simCollection) return '';
+	let result = [];
+	const simIndexes = Array.from(new Set(modifications.map(mod => mod.simulationIndex)));
+	for (const simIndex of simIndexes) {
+		let simPiece = '';
+		if (simIndex != currentSimIndex) simPiece = '' + simIndex + '@';
+		const simulation = simCollection.simulations[simIndex];
+		if (!simulation) return '';
+		const keyValuePairs = [];
+		const version = simulation.simulator.version;
+		let firstPiece = simulation.baseFingerprint.substring(0,FINGERPRINT_CHARACTER_LENGTH);
+		if (version) firstPiece += ':' + version;
+		keyValuePairs.push(firstPiece);
+		const mods = shadowedModificationsForSimIndex(modifications, simIndex);
+		//Only keep the last modification of path
+		for (let [path, value] of Object.entries(mods)) {
+			//Shorten short names
+			path = shortenPathWithConfig(simulation.optionsConfig, path);
+			if (typeof value == 'string') value = "'" + encodeURIComponent(value) + "'";
+			if (value == DEFAULT_SENTINEL) value = 'd';
+			if (value == DELETE_SENTINEL) value ='x';
+			if (value === null) value = 'n';
+			if (value === undefined) value = 'u';
+			if (value === true) value = 't';
+			if (value === false) value = 'f';
+			if (typeof value == 'object') {
+				//Objects should be very rare (the UI never allows adding them;
+				//they're always added by default sentinel) but we should handle
+				//them.
+				value = 'o' + encodeURIComponent(JSON.stringify(value));
+			}
+			//numbers will be encoded to string value automatically via coercion.
+			keyValuePairs.push(path + ':' + value);
+		}
+		simPiece += keyValuePairs.join(',');
+		result.push(simPiece);
+	}
+	return result.join(';');
+};
+
+export const unpackModificationsFromURL = (url, simCollection, currentSimIndex = -1) => {
+	const modifications = [];
+	const urlParts = url.split(';');
+	let warning = '';
+	//For now, we just completely ignore simulator version number
+	for (const urlPart of urlParts) {
+		const versionParts = urlPart.split('@');
+		//the version number might be ommited.
+		const keyValuesPart = versionParts[versionParts.length - 1];
+		const simulationIndex = versionParts.length == 2 ? parseInt(versionParts[0]) : currentSimIndex;
+		const simulation = simCollection ? simCollection.simulations[simulationIndex] : null;
+		const keyValuesParts = keyValuesPart.split(',');
+		for (const [index, part] of keyValuesParts.entries()) {
+			if (index == 0) {
+				const [fingerprint, versionString] = part.split(':');
+				const simulatorVersion = versionString ? parseInt(versionString) : 0;
+				if (fingerprint != simulation.baseFingerprint.slice(0, fingerprint.length)) warning = 'The diff was generated on a config that has now changed, so the diff might not work.';
+				//This is the version number. For now we'll try to continue but raise it in warning.
+				if (simulatorVersion != simulation.simulator.version) warning = 'The version differed from when the URL was saved. The behavior of the diff might not work.';
+				//The first pair is always the version section, don't process it
+				continue;
+			}
+			let [key, value] = part.split(':');
+			//expand short names
+			if (simulation) key = expandPathWithConfig(simulation.optionsConfig, key);
+			if (value == 'd') value = DEFAULT_SENTINEL;
+			if (value == 'x') value = DELETE_SENTINEL;
+			if (value == 'n') value = null;
+			if (value == 'u') value = undefined;
+			if (value == 't') value = true;
+			if (value == 'f') value = false;
+
+			if (value && typeof value == 'string') {
+				if (value.startsWith("'")) {
+					//Value is a string.
+					value = value.split("'").join('');
+					value = decodeURIComponent(value);
+				} else if (value.startsWith('o')) {
+					//An object.
+					value = value.substring(1);
+					value = decodeURIComponent(value);
+					value = JSON.parse(value);
+				} else {
+					const numValue = parseFloat(value);
+					if (!isNaN(numValue)) value = numValue;
+				}
+			}
+			modifications.push({simulationIndex, path:key, value});
+		}
+	}
+	return [modifications, warning];
 };

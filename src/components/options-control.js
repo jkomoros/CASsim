@@ -5,7 +5,8 @@ import {
 } from "../options.js";
 
 import {
-	DELETE_SENTINEL
+	DELETE_SENTINEL,
+	DEFAULT_SENTINEL
 } from '../util.js';
 
 import {
@@ -19,12 +20,12 @@ import {
 
 import {
 	CANCEL_ICON,
-	PLUS_ICON
+	PLUS_ICON,
+	UNDO_ICON
 } from './my-icons.js';
 
 import {
-	DIALOG_TYPE_ADD_FIELD,
-	DEFAULT_SENTINEL
+	DIALOG_TYPE_ADD_FIELD
 } from '../actions/data.js';
 
 class OptionsControl extends LitElement {
@@ -35,6 +36,7 @@ class OptionsControl extends LitElement {
 			config: {type: Object},
 			value: {type: Object},
 			readonly: {type: Boolean},
+			modifiedPaths: {type:Object},
 			disallowDelete: {type:Boolean},
 			pathExpanded: {type:Object},
 		};
@@ -49,6 +51,15 @@ class OptionsControl extends LitElement {
 					line-height: 1.0em;
 					padding-left: 0.3em;
 					border-left: 1px solid var(--disabled-color);
+				}
+
+				.container.modified {
+					font-style: italic;
+					background-color: var(--app-background-color);
+				}
+
+				.deleted {
+					text-decoration: line-through;
 				}
 
 				details {
@@ -72,9 +83,26 @@ class OptionsControl extends LitElement {
 
 	render() {
 		return html`
-		<div class='container'>
+		<div class='container ${this._modified ? 'modified' : ''}'>
 			${this._inner()}
 		</div>`;
+	}
+
+	get _modified() {
+		return this.modifiedPaths ? this.modifiedPaths[this.path] != undefined : false;
+	}
+
+	get _deletedSubPaths() {
+		if (!this.modifiedPaths) return {};
+		const result = {};
+		const pathPrefix = this.path ? this.path + '.' : '';
+		for (const [key, value] of Object.entries(this.modifiedPaths)) {
+			if (!key.startsWith(pathPrefix)) continue;
+			if (value != DELETE_SENTINEL) continue;
+			const subKey = key.slice(pathPrefix.length);
+			result[subKey] = true;
+		}
+		return result;
 	}
 
 	_dottedPath(nextPart) {
@@ -86,10 +114,11 @@ class OptionsControl extends LitElement {
 	_inner() {
 		const config = this.config || {};
 		return html`
-			${this.name !== undefined ? html`<span class='label'>${this.name} ${config.description ? html`${help(config.description, this.readonly)}` : ''} 
-				${config.optional ? html`<button class='small' @click=${this._handleNullableClicked} .disabled=${this.readonly || this.disallowDelete} title='Remove'>${CANCEL_ICON}</button>` : ''}
-				${config.example && Array.isArray(config.example) ? html`<button class='small' .disabled=${this.readonly || config.max === this.value.length} @click=${this._handleAddArrayItem} title='Add additional item'>${PLUS_ICON}</button>` : ''}
-				${this._nulledEntries().length ? html`<button class='small' .disabled=${this.readonly} @click=${this._handleAddNulledClicked} title='Add field...'>${PLUS_ICON}</button>` : ''}
+			${this.name !== undefined ? html`<span class='label ${this.value === undefined ? 'deleted' : ''}'>${this.name} ${config.description ? html`${help(config.description, this.readonly)}` : ''} 
+				${config.optional && this.value !== undefined ? html`<button class='small' @click=${this._handleNullableClicked} .disabled=${this.readonly || this.disallowDelete} title='Remove'>${CANCEL_ICON}</button>` : ''}
+				${config.example && Array.isArray(config.example) && this.value !== undefined ? html`<button class='small' .disabled=${this.readonly || config.max === (this.value || []).length} @click=${this._handleAddArrayItem} title='Add additional item'>${PLUS_ICON}</button>` : ''}
+				${this._nulledEntries().length && this.value !== undefined ? html`<button class='small' .disabled=${this.readonly} @click=${this._handleAddNulledClicked} title='Add field...'>${PLUS_ICON}</button>` : ''}
+				${this._modified ? html`<button class='small' .disabled=${this.readonly} @click=${this._handleUndoClicked} title='Undo modification...'>${UNDO_ICON}</button>` : ''}
 			</span>`: ''}
 			${this._innerControl()}
 		`;
@@ -108,22 +137,25 @@ class OptionsControl extends LitElement {
 		const example = config.example;
 		if (typeof example == 'object') {
 			if (Array.isArray(example)) {
+				const val = this.value || [];
 				//If we're at min size already, disallow deleting for sub-items.
-				return html`${this.value.map((item, index) => html`<options-control .readonly=${this.readonly} .disallowDelete=${config.min === this.value.length} .value=${item} .config=${example[0]} .name=${index} .path=${this._dottedPath(index)} .pathExpanded=${this.pathExpanded}></options-control>`)}`;
+				return html`${val.map((item, index) => html`<options-control .readonly=${this.readonly} .disallowDelete=${config.min === val.length} .value=${item} .config=${example[0]} .name=${index} .path=${this._dottedPath(index)} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}`;
 			}
+			const deletedSubPaths = this._deletedSubPaths;
 			//value might be null
 			const nonNullValue = this.value || {};
 			//We iterate through in the order the EXAMPLE defines them so they show up in order.
-			const nonAdvancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined).filter(entry => !entry[1].advanced).map(entry => [entry[0], nonNullValue[entry[0]]]);
-			const advancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined).filter(entry => entry[1].advanced).map(entry => [entry[0], nonNullValue[entry[0]]]);
+			const nonAdvancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined || deletedSubPaths[entry[0]]).filter(entry => !entry[1].advanced).map(entry => [entry[0], nonNullValue[entry[0]]]);
+			const advancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined || deletedSubPaths[entry[0]]).filter(entry => entry[1].advanced).map(entry => [entry[0], nonNullValue[entry[0]]]);
 			return html`
-				${this.value == null ? html`<em>null</em>` : ''}
-				${nonAdvancedEntries.map(entry => html`<options-control .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded}></options-control>`)}
+				${nonAdvancedEntries.map(entry => html`<options-control .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}
 				${advancedEntries.length ? html`<details .open=${this.pathExpanded[this.path || '']} @toggle=${this._handleDetailsToggle}>
 					<summary><label>Advanced</label></summary>
-					${advancedEntries.map(entry => html`<options-control .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded}></options-control>`)}
+					${advancedEntries.map(entry => html`<options-control .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}
 				</details>` : ''}`;
 		}
+		//We might have this.value === undefined if we were deleted
+		if (this.value === undefined) return html``;
 		if (config.options) {
 			return html`<select @change=${this._handleInputChanged} .disabled=${this.readonly} .value=${this.value}>${config.options.map(opt => html`<option .value=${opt.value} .selected=${opt.value == this.value} .title=${opt.description || opt.display || opt.value}>${opt.display || opt.value}</option>`)}</select>`;
 		}
@@ -133,6 +165,10 @@ class OptionsControl extends LitElement {
 		if (config.behavior == COLOR_BEHAVIOR_NAME) type = 'color';
 
 		return html`<input .disabled=${this.readonly} @change=${this._handleInputChanged} .type=${type} .min=${config.min || 0.0} .max=${config.max || Number.MAX_SAFE_INTEGER} .step=${config.step || 1.0} .value=${this.value} .checked=${this.value}></input>`;
+	}
+
+	_handleUndoClicked() {
+		this.dispatchEvent(new CustomEvent('undo-clicked', {composed: true, detail: {path:this.path}}));
 	}
 
 	_handleNullableClicked() {

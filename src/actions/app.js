@@ -13,6 +13,9 @@ import {
 export const navigatePathTo = (path, silent) => (dispatch) => {
 	//If we're already pointed there, no need to navigate
 	if ('/' + path === window.location.pathname) return;
+	//Don't replace search or hash if they exist. If htey don't exist, these
+	//will be '', but if they do exist they will have the '?' and '#' prepended.
+	path = path + window.location.search + window.location.hash;
 	if (silent) {
 		window.history.replaceState({}, '', path);
 		return;

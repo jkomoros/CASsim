@@ -1,5 +1,6 @@
 export const LOAD_DATA = "LOAD_DATA";
 export const UPDATE_CURRENT_SIMULATION_CONFIG = "UPDATE_CURRENT_SIMULATION_CONFIG";
+export const REMOVE_MODIFICATIONS_FOR_PATH = 'REMOVE_MODIFICATIONS_FOR_PATH';
 export const UPDATE_FILENAME = 'UPDATE_FILENAME';
 export const UPDATE_SIMULATION_INDEX = 'UPDATE_SIMULATION_INDEX';
 export const UPDATE_RUN_INDEX = 'UPDATE_RUN_INDEX';
@@ -17,9 +18,12 @@ export const SIMULATOR_LOADED = 'SIMULATOR_LOADED';
 export const UPDATE_KNOWN_SIMULATOR_NAMES = 'UPDATE_KNOWN_SIMULATOR_NAMES';
 export const UPDATE_KNOWN_DATAFILES = 'UPDATE_KNOWN_DATAFILES';
 export const UPDATE_RESIZE_VISUALIZATION = 'UPDATE_RESIZE_VISUALIZATION';
+export const REPLACE_MODIFICATIONS = 'REPLACE_MODIFICATIONS';
 export const CLEAR_MODIFICATIONS = 'CLEAR_MODIFICATIONS';
 export const SIMULATION_CHANGED = 'SIMULATION_CHANGED';
 export const UPDATE_SCREENSHOTTING = 'UPDATE_SCREENSHOTTING';
+export const UPDATE_HASH = 'UPDATE_HASH';
+export const UPDATE_WARNING = 'UPDATE_WARNING';
 
 export const DIALOG_TYPE_JSON = 'json';
 export const DIALOG_TYPE_ADD_FIELD = 'add-field';
@@ -29,8 +33,6 @@ export const DATA_DIRECTORY = 'data';
 export const LISTINGS_JSON_PATH = 'src/listings.json';
 
 export const DEFAULT_FILE_NAME = 'default';
-
-export const DEFAULT_SENTINEL = {default: true};
 
 //When playing forward into the next frame, where do we stop?
 //Frame == stop at the end of a round
@@ -65,16 +67,20 @@ import {
 	selectFrameDelay,
 	selectDelayCount,
 	selectLoadedSimulators,
-	selectConfigData,
+	selectModififedConfigDataNoDefaults,
 	selectScale,
 	selectDataIsFullyLoaded,
-	selectHasModifications
+	selectHasModifications,
+	selectHash,
+	selectURLDiffHash,
+	selectSimulationCollection
 } from '../selectors.js';
 
 import {
 	configForPath,
 	configIsAdvanced,
-	maySetPropertyInConfigObject
+	maySetPropertyInConfigObject,
+	unpackModificationsFromURL
 } from '../options.js';
 
 import { store } from '../store.js';
@@ -87,6 +93,10 @@ import {
 import {
 	unpackConfigJSON
 } from '../config.js';
+
+import {
+	DEFAULT_SENTINEL,
+} from '../util.js';
 
 const SIMULATORS_DIRECTORY = 'simulators';
 
@@ -110,7 +120,7 @@ export const loadData = (blob) => (dispatch) => {
 export const fetchNeededSimulators = () => (dispatch, getState) => {
 	const state = getState();
 	const loadedSimulators = selectLoadedSimulators(state);
-	const rawConfig = selectConfigData(state);
+	const rawConfig = selectModififedConfigDataNoDefaults(state);
 	const neededSimulatorNames = extractSimulatorNamesFromRawConfig(rawConfig);
 	for (const name of neededSimulatorNames) {
 		if (loadedSimulators[name]) continue;
@@ -364,6 +374,7 @@ export const updateFilename = (filename, skipCanonicalize) => (dispatch, getStat
 };
 
 export const updateSimulationIndex = (index, skipCanonicalize) => (dispatch, getState) => {
+	index = parseInt(index);
 	const currentIndex = selectSimulationIndex(getState());
 	if (index < 0) index = 0;
 	const maxIndex = selectMaxSimulationIndex(getState());
@@ -419,10 +430,11 @@ export const updateRunIndex = (index) => (dispatch, getState) => {
 export const updateCurrentSimulationOptions = (path, value) => (dispatch, getState) => {
 	const state = getState();
 	const simulation = selectCurrentSimulation(state);
-	if (value == DEFAULT_SENTINEL) {
-		value = simulation.defaultValueForOptionsPath(path);
-	}
-	const problem = maySetPropertyInConfigObject(simulation.optionsConfig, simulation.config, path, value);
+	const valueOrDefault = value == DEFAULT_SENTINEL ? simulation.defaultValueForOptionsPath(path) : value;
+	//If it's default, we want the state to store that it was the default
+	//value... but we still need to test that the default value is legal (it
+	//almost without question should be).
+	const problem = maySetPropertyInConfigObject(simulation.optionsConfig, simulation.config, path, valueOrDefault);
 	if (problem) {
 		alert('Invalid modification proposed: ' + path + ': ' + value + ': ' + problem);
 		return;
@@ -441,6 +453,13 @@ export const updateCurrentSimulationOptions = (path, value) => (dispatch, getSta
 	}
 	dispatch(fetchNeededSimulators());
 	dispatch(verifyValidIndexes());
+};
+
+export const removeModificationsForPath = (path) => {
+	return {
+		type: REMOVE_MODIFICATIONS_FOR_PATH,
+		path
+	};
 };
 
 export const openDialog = (typ, optExtras) => {
@@ -572,5 +591,54 @@ export const clearModifications = () => (dispatch, getState) => {
 export const simulationChanged = () => {
 	return {
 		type: SIMULATION_CHANGED
+	};
+};
+
+const DIFF_URL_KEY = 'd';
+
+export const canonicalizeHash = () => (dispatch, getState) => {
+	const urlDiff = selectURLDiffHash(getState());
+	const hash = urlDiff ? DIFF_URL_KEY + '=' + urlDiff : '';
+	dispatch(updateHash(hash));
+};
+
+export const updateHash = (hash, comesFromURL) => (dispatch, getState) => {
+	if (hash.startsWith('#')) hash = hash.substring(1);
+	const state = getState();
+	const currentHash = selectHash(state);
+	if (hash == currentHash) return;
+	if (comesFromURL) {
+		const args = {};
+		for (const part of hash.split('&')) {
+			const [key, val] = part.split('=');
+			args[key] = val;
+		}
+		if (args[DIFF_URL_KEY]) {
+			const [mods, warning] = unpackModificationsFromURL(args[DIFF_URL_KEY], selectSimulationCollection(state), selectSimulationIndex(state));
+			if (warning) dispatch(updateWarning(warning));
+			dispatch(replaceModifications(mods));
+		}
+	} else {
+		window.location.hash = hash;
+		//Clear the '#'
+		if (!hash) history.replaceState('', '', window.location.pathname + window.location.search);
+	}
+	dispatch({
+		type: UPDATE_HASH,
+		hash
+	});
+};
+
+const replaceModifications = (modifications) => {
+	return {
+		type: REPLACE_MODIFICATIONS,
+		modifications,
+	};
+};
+
+export const updateWarning = (message) => {
+	return {
+		type: UPDATE_WARNING,
+		message
 	};
 };

@@ -5,6 +5,7 @@ import {
 	UPDATE_RUN_INDEX,
 	UPDATE_FRAME_INDEX,
 	UPDATE_CURRENT_SIMULATION_CONFIG,
+	REMOVE_MODIFICATIONS_FOR_PATH,
 	UPDATE_DIALOG_OPEN,
 	UPDATE_PLAY_TYPE,
 	UPDATE_PLAYING,
@@ -18,14 +19,21 @@ import {
 	UPDATE_KNOWN_DATAFILES,
 	UPDATE_KNOWN_SIMULATOR_NAMES,
 	UPDATE_RESIZE_VISUALIZATION,
+	REPLACE_MODIFICATIONS,
 	CLEAR_MODIFICATIONS,
 	SIMULATION_CHANGED,
 	UPDATE_SCREENSHOTTING,
+	UPDATE_HASH,
+	UPDATE_WARNING,
 
 	DIALOG_TYPE_JSON,
 	DEFAULT_FILE_NAME,
 	PLAY_TYPE_ROUND,
 } from "../actions/data.js";
+
+import {
+	DEFAULT_SENTINEL
+} from "../util.js";
 
 const INITIAL_STATE = {
 	filename: DEFAULT_FILE_NAME,
@@ -42,8 +50,11 @@ const INITIAL_STATE = {
 	playing: false,
 	screenshotting: false,
 	delayCount: 0,
+	warning: '',
 	resizeVisualization: true,
 	scale: 1.0,
+	//The entire contents of window.location.hash as last seen or set by us
+	hash: '',
 	//A thing that will change when a simulation has changed, e.g. they have
 	//calculated new frames.
 	simulationLastChanged: Date.now(),
@@ -158,10 +169,35 @@ const data = (state = INITIAL_STATE, action) => {
 			...state,
 			resizeVisualization: action.resize,
 		};
+	case REMOVE_MODIFICATIONS_FOR_PATH:
+		const modifications = [];
+		let isDefault = false;
+		//If the item we're removing is a default sentinel (the only sentinel
+		//that says 'intentionally create an object') then all modifications
+		//after that that are for a sub path should also be cleared, because
+		//otherwise they'd imply into existence the parent again which would
+		//lead to invalid states.
+		for (const mod of state.modifications) {
+			if (mod.path == action.path && mod.simulationIndex == state.simulationIndex) {
+				isDefault = mod.value == DEFAULT_SENTINEL;
+				continue;
+			}
+			if (mod.path.startsWith(action.path + '.') && isDefault) continue;
+			modifications.push(mod);
+		}
+		return {
+			...state,
+			modifications: modifications,
+		};
 	case CLEAR_MODIFICATIONS:
 		return {
 			...state,
 			modifications: []
+		};
+	case REPLACE_MODIFICATIONS:
+		return {
+			...state,
+			modifications: action.modifications
 		};
 	case SIMULATION_CHANGED:
 		return {
@@ -172,6 +208,16 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			screenshotting: action.on
+		};
+	case UPDATE_HASH:
+		return {
+			...state,
+			hash: action.hash
+		};
+	case UPDATE_WARNING:
+		return {
+			...state,
+			warning: action.message
 		};
 	default:
 		return state;

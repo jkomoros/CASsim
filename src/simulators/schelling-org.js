@@ -9,6 +9,9 @@ import {
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
+const COUNT_PROPERTY_NAME = 'count';
+const VALUE_PROPERTY_NAME = 'value';
+const ERROR_PROPERTY_NAME = 'error';
 const COLLABORATORS_PROPERTY_NAME = 'collaborators';
 const PROJECTS_PROPERTY_NAME = 'projects';
 const CONNECTIONS_PROPERTY_NAME = 'connections';
@@ -42,6 +45,45 @@ const DISABLE_SELECTION_PROPERTY_NAME = 'disableSelection';
 const LAST_COMMUNICATED_PROJECT_PROPERTY_NAME = 'lastCommunicatedProject';
 const DISABLE_BELIEFS_PROPERTY_NAME = 'disableBeliefs';
 const RANDOM_INDIVIDUAL_PROPERTY_NAME = 'randomIndividual';
+
+const SHORT_NAMES = {
+	[VALUE_PROPERTY_NAME]: 'v',
+	[ERROR_PROPERTY_NAME]: 'e',
+	[COUNT_PROPERTY_NAME]: 'n',
+	[COLLABORATORS_PROPERTY_NAME]: 'c',
+	[PROJECTS_PROPERTY_NAME]: 'p',
+	[CONNECTIONS_PROPERTY_NAME]: 'c',
+	[DISPLAY_PROPERTY_NAME]: 'dsp',
+	[DEBUG_PROPERTY_NAME]: 'dbg',
+	[COMMUNICATION_PROPERTY_NAME]: 'o',
+	[MAX_EXTRA_VALUE_PROPERTY_NAME]: 'mExtV',
+	[MAX_ERROR_VALUE_PROPERTY_NAME]: 'mErrV',
+	[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: 'tVA',
+	[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: 'aCL',
+	[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: 'cLS',
+	[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: 'bL',
+	[INDIVIDUALS_PROPERTY_NAME]: 'i',
+	[MARKED_PROPERTY_NAME]: 'mrkd',
+	[EPSILON_PROPERTY_NAME]:'eps',
+	[BELIEFS_PROPERTY_NAME]: 'blfs',
+	[COMPELLING_PROPERTY_NAME]: 'cmp',
+	[EMOJI_PROPERTY_NAME]: 'em',
+	[NORTH_STAR_PROPERTY_NAME]: 'nS',
+	[OFFSET_PROPERTY_NAME]: 'ofst',
+	[STRENGTH_PROPERTY_NAME]: 'str',
+	[SPREAD_PROPERTY_NAME]: 'sprd',
+	[OFFSET_TYPE_PROPERTY_NAME]: 'oT',
+	[MIN_OFFSET_PROPERTY_NAME]: 'minO',
+	[MAX_OFFSET_PROPERTY_NAME]: 'maxO',
+	[OPTIMISM_PROPERTY_NAME]: 'opt',
+	[COMMUNICATION_STRATEGY_PROPERTY_NAME]: 'cS',
+	[BELIEVABILITY_PROPERTY_NAME]: 'blv',
+	[BELIEVES_PROPERTY_NAME]: 'blv',
+	[DISABLE_SELECTION_PROPERTY_NAME]: 'dSel',
+	[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME]: 'lCP',
+	[DISABLE_BELIEFS_PROPERTY_NAME]: 'dBlf',
+	[RANDOM_INDIVIDUAL_PROPERTY_NAME]: 'rI',
+};
 
 const OFFSET_TYPE_MANUAL = 'manual';
 const OFFSET_TYPE_RANDOM = 'random';
@@ -113,8 +155,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 	}
 
 	_firstFrameGenerator(simOptions, rnd) {
-		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
-		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
+		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME][COUNT_PROPERTY_NAME];
+		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME][COUNT_PROPERTY_NAME];
 		const projectExtraValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_EXTRA_VALUE_PROPERTY_NAME];
 		const projectErrorValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_ERROR_VALUE_PROPERTY_NAME];
 		const projectTwiddleValueAmount = simOptions[PROJECTS_PROPERTY_NAME][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME];
@@ -213,9 +255,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 		//Assign final value/error values now that we know each one's extra/error
 		for (let i = 0; i < projectsCount; i++) {
-			if (projects[i].value === undefined) projects[i].value = 1.0 + (rnd() * projects[i][MAX_EXTRA_VALUE_PROPERTY_NAME]);
-			if (projects[i].error === undefined) projects[i].error = 0.0 + (rnd() * projects[i][MAX_ERROR_VALUE_PROPERTY_NAME]);
-			projects[i].value += (rnd() * projects[i][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] * 2) - projects[i][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME];
+			if (projects[i][VALUE_PROPERTY_NAME] === undefined) projects[i][VALUE_PROPERTY_NAME] = 1.0 + (rnd() * projects[i][MAX_EXTRA_VALUE_PROPERTY_NAME]);
+			if (projects[i][ERROR_PROPERTY_NAME] === undefined) projects[i][ERROR_PROPERTY_NAME] = 0.0 + (rnd() * projects[i][MAX_ERROR_VALUE_PROPERTY_NAME]);
+			projects[i][VALUE_PROPERTY_NAME] += (rnd() * projects[i][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] * 2) - projects[i][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME];
 		}
 
 		//Assign basic values to collaborators.
@@ -266,7 +308,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					bias = (northStarBias + optimismBias) / 2;
 				}
 
-				personalBeliefs[j] = randomValueWithBias(rnd, project.value - project.error, project.value + project.error, bias);
+				personalBeliefs[j] = randomValueWithBias(rnd, project[VALUE_PROPERTY_NAME] - project[ERROR_PROPERTY_NAME], project[VALUE_PROPERTY_NAME] + project[ERROR_PROPERTY_NAME], bias);
 			}
 			collaborators[i][BELIEFS_PROPERTY_NAME] = personalBeliefs;
 		}
@@ -307,8 +349,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 	}
 
 	_selectFinalProject(frame, simOptions, rnd) {
-		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
-		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
+		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME][COUNT_PROPERTY_NAME];
+		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME][COUNT_PROPERTY_NAME];
 		let projects = [...frame[PROJECTS_PROPERTY_NAME]];
 		let collaborators = [...frame[COLLABORATORS_PROPERTY_NAME]];
 		//Go through each collaborator and pick a project for them.
@@ -554,7 +596,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const parts = path.split('.');
 		if (parts.length == 4 && parts[3] == BELIEFS_PROPERTY_NAME){
 			const base = super.defaultValueForPath(path, simOptions);
-			const length = simOptions[PROJECTS_PROPERTY_NAME].count;
+			const length = simOptions[PROJECTS_PROPERTY_NAME][COUNT_PROPERTY_NAME];
 			const result = [];
 			for (let i = 0; i < length; i++) {
 				result.push(base[0]);
@@ -570,51 +612,61 @@ class SchellingOrgSimulator extends BaseSimulator {
 				example: {
 					[DEBUG_PROPERTY_NAME]: {
 						example: true,
+						shortName: SHORT_NAMES[DEBUG_PROPERTY_NAME] || '',
 						description: "If true, then the SVG will render debug information",
 						optional: true,
 					},
 					[DISABLE_BELIEFS_PROPERTY_NAME]: {
 						example: true,
+						shortName: SHORT_NAMES[DISABLE_BELIEFS_PROPERTY_NAME] || '',
 						description: "If true, then each individuals' beliefs about the value of a project will be rendered as a tick mark",
 						optional: true
 					},
 					[DISABLE_SELECTION_PROPERTY_NAME]: {
 						example: true,
+						shortName: SHORT_NAMES[DISABLE_SELECTION_PROPERTY_NAME] || '',
 						description: 'If true, then the line connecting each collaborator to the project they pick won\'t be rendered',
 						optional: true
 					}
 				},
+				shortName: SHORT_NAMES[DISPLAY_PROPERTY_NAME] || '',
 				optional: true,
 				description: "An optional object that controls how things render. If not provided, will be interpreted as though it enables no optional rendering.",
 				advanced: true
 			},
 			[COMMUNICATION_PROPERTY_NAME]: {
 				example: 0,
+				shortName: SHORT_NAMES[COMMUNICATION_PROPERTY_NAME] || '',
 				description: "How many rounds of communication should be allowed between agents before they decide. 0 is no communication and will render a line of collaborators with walls between them."
 			},
 			[COLLABORATORS_PROPERTY_NAME]: {
 				example: {
-					count: {
+					[COUNT_PROPERTY_NAME]: {
 						example: 5,
+						shortName: SHORT_NAMES[COUNT_PROPERTY_NAME] || '',
 						description: "How many collaborators there should be"
 					},
 					[EPSILON_PROPERTY_NAME]: {
 						example: 0.05,
+						shortName: SHORT_NAMES[EPSILON_PROPERTY_NAME] || '',
 						step: 0.05,
 						description: "Project values within this amount of each other will be considered to be the same"
 					},
 					[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: {
 						example: 0.5,
+						shortName: SHORT_NAMES[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME] || '',
 						step: 0.05,
 						description: "We compute a range of possible connection likelihoods based on [avgConnectionLikelihood - connectionLikelihoodSpread, avgConnectionLikelihood + connectionLikelihoodSpread] Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength."
 					},
 					[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: {
 						example: 0.5,
+						shortName: SHORT_NAMES[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] || '',
 						step: 0.05,
 						description: "We compute a range of possible connection likelihoods based on [avgConnectionLikelihood - connectionLikelihoodSpread, avgConnectionLikelihood + connectionLikelihoodSpread] Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength."
 					},
 					[COMPELLING_PROPERTY_NAME]: {
 						example: 0.5,
+						shortName: SHORT_NAMES[COMPELLING_PROPERTY_NAME] || '',
 						description: 'When each individual speaks to another, how much does the receiver update their beliefs, between their old belief and new belief? 0.5 would be moving halfway from old belief to new belief',
 						min: 0.0,
 						max: 1.0,
@@ -623,6 +675,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: {
 						example: 0.0,
+						shortName: SHORT_NAMES[BROADCAST_LIKELIHOOD_PROPERTY_NAME] || '',
 						description: 'For each time a speaker is selected to present, how likely are they are they to broadcast to multiple people, with any individual with a connection equal to or stronger than the selected connection is communicated with at once?',
 						min: 0.0,
 						max: 1.0,
@@ -631,6 +684,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[OPTIMISM_PROPERTY_NAME]: {
 						example: 0.5,
+						shortName: SHORT_NAMES[OPTIMISM_PROPERTY_NAME] || '',
 						description: 'How optimistic or pessimistic the individual is. 1.0 is extremely optimistic--every value will be at the top of the possible range. 0.0 is extremely pessimistic--every value will be at the bottom of the possible range.',
 						min: 0.0,
 						max: 1.0,
@@ -639,6 +693,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[COMMUNICATION_STRATEGY_PROPERTY_NAME]: {
 						example: COMMUNICATION_STRATEGY_RANDOM,
+						shortName: SHORT_NAMES[COMMUNICATION_STRATEGY_PROPERTY_NAME] || '',
 						description: 'The communication strategy the individual will use when deciding which project to communicate about',
 						options: [
 							{
@@ -668,32 +723,38 @@ class SchellingOrgSimulator extends BaseSimulator {
 										example: 0.0,
 									}
 								],
+								shortName: SHORT_NAMES[BELIEFS_PROPERTY_NAME] || '',
 								description: "The starter beliefs of this individual of the values of projects. Must be an array of the same length as number of projects",
 								optional: true,
 							},
 							[EPSILON_PROPERTY_NAME]: {
 								example: 0.5,
+								shortName: SHORT_NAMES[EPSILON_PROPERTY_NAME] || '',
 								step: 0.05,
 								description: "The epsilon for this specific individual",
 								optional:true,
 							},
 							[EMOJI_PROPERTY_NAME]: {
 								example: 'A',
+								shortName: SHORT_NAMES[EMOJI_PROPERTY_NAME] || '',
 								description: 'The specific emoji',
 								optional:true,
 							},
 							[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: {
 								example: 0.5,
+								shortName: SHORT_NAMES[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME] || '',
 								description: AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME + ' for this individual',
 								optional:true,
 							},
 							[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: {
 								example: 0.5,
+								shortName: SHORT_NAMES[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] || '',
 								description: CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME + ' for this individual',
 								optional:true,
 							},
 							[COMPELLING_PROPERTY_NAME]: {
 								example: DEFAULT_COMPELLING_VALUE,
+								shortName: SHORT_NAMES[COMPELLING_PROPERTY_NAME] || '',
 								description: 'When this person speaks to another person, how much does the receiver update their beliefs? 0.5 means the receiver would move their belief to be halfway between their previous belief and the speaker\'s belief',
 								max: 1.0,
 								min: 0.0,
@@ -702,6 +763,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 							},
 							[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: {
 								example: 0.0,
+								shortName: SHORT_NAMES[BROADCAST_LIKELIHOOD_PROPERTY_NAME] || '',
 								description: 'For each time a speaker is selected to present, how likely are they are they to broadcast to multiple people, with any individual with a connection equal to or stronger than the selected connection is communicated with at once?',
 								min: 0.0,
 								max: 1.0,
@@ -710,6 +772,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 							},
 							[OPTIMISM_PROPERTY_NAME]: {
 								example: 0.5,
+								shortName: SHORT_NAMES[OPTIMISM_PROPERTY_NAME] || '',
 								description: 'How optimistic or pessimistic the individual is. 1.0 is extremely optimistic--every value will be at the top of the possible range. 0.0 is extremely pessimistic--every value will be at the bottom of the possible range.',
 								min: 0.0,
 								max: 1.0,
@@ -718,11 +781,13 @@ class SchellingOrgSimulator extends BaseSimulator {
 							},
 							[BELIEVES_PROPERTY_NAME]: {
 								example: true,
+								shortName: SHORT_NAMES[BELIEVES_PROPERTY_NAME] || '',
 								description: 'Whether this person believes in the north star or not. If they don\'t believe then they will not be influenced by the effect.',
 								optional: true
 							},
 							[COMMUNICATION_STRATEGY_PROPERTY_NAME]: {
 								example: COMMUNICATION_STRATEGY_RANDOM,
+								shortName: SHORT_NAMES[COMMUNICATION_STRATEGY_PROPERTY_NAME] || '',
 								description: 'The communication strategy the individual will use when deciding which project to communicate about',
 								options: [
 									{
@@ -745,6 +810,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 								optional:true
 							}
 						},
+						shortName: SHORT_NAMES[RANDOM_INDIVIDUAL_PROPERTY_NAME] || '',
 						description: "If set, then the individuals array will be set so that a random individual has this configuration provided",
 						optional: true,
 					},
@@ -759,32 +825,38 @@ class SchellingOrgSimulator extends BaseSimulator {
 												example: 0.0,
 											}
 										],
+										shortName: SHORT_NAMES[BELIEFS_PROPERTY_NAME] || '',
 										description: "The starter beliefs of this individual of the values of projects. Must be an array of the same length as number of projects",
 										optional: true,
 									},
 									[EPSILON_PROPERTY_NAME]: {
 										example: 0.5,
+										shortName: SHORT_NAMES[EPSILON_PROPERTY_NAME] || '',
 										step: 0.05,
 										description: "The epsilon for this specific individual",
 										optional:true,
 									},
 									[EMOJI_PROPERTY_NAME]: {
 										example: 'A',
+										shortName: SHORT_NAMES[EMOJI_PROPERTY_NAME] || '',
 										description: 'The specific emoji',
 										optional:true,
 									},
 									[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: {
 										example: 0.5,
+										shortName: SHORT_NAMES[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME] || '',
 										description: AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME + ' for this individual',
 										optional:true,
 									},
 									[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: {
 										example: 0.5,
+										shortName: SHORT_NAMES[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] || '',
 										description: CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME + ' for this individual',
 										optional:true,
 									},
 									[COMPELLING_PROPERTY_NAME]: {
 										example: DEFAULT_COMPELLING_VALUE,
+										shortName: SHORT_NAMES[COMPELLING_PROPERTY_NAME] || '',
 										description: 'When this person speaks to another person, how much does the receiver update their beliefs? 0.5 means the receiver would move their belief to be halfway between their previous belief and the speaker\'s belief',
 										max: 1.0,
 										min: 0.0,
@@ -793,6 +865,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 									},
 									[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: {
 										example: 0.0,
+										shortName: SHORT_NAMES[BROADCAST_LIKELIHOOD_PROPERTY_NAME] || '',
 										description: 'For each time a speaker is selected to present, how likely are they are they to broadcast to multiple people, with any individual with a connection equal to or stronger than the selected connection is communicated with at once?',
 										min: 0.0,
 										max: 1.0,
@@ -801,6 +874,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 									},
 									[OPTIMISM_PROPERTY_NAME]: {
 										example: 0.5,
+										shortName: SHORT_NAMES[OPTIMISM_PROPERTY_NAME] || '',
 										description: 'How optimistic or pessimistic the individual is. 1.0 is extremely optimistic--every value will be at the top of the possible range. 0.0 is extremely pessimistic--every value will be at the bottom of the possible range.',
 										min: 0.0,
 										max: 1.0,
@@ -809,11 +883,13 @@ class SchellingOrgSimulator extends BaseSimulator {
 									},
 									[BELIEVES_PROPERTY_NAME]: {
 										example: true,
+										shortName: SHORT_NAMES[BELIEVES_PROPERTY_NAME] || '',
 										description: 'Whether this person believes in the north star or not. If they don\'t believe then they will not be influenced by the effect.',
 										optional: true
 									},
 									[COMMUNICATION_STRATEGY_PROPERTY_NAME]: {
 										example: COMMUNICATION_STRATEGY_RANDOM,
+										shortName: SHORT_NAMES[COMMUNICATION_STRATEGY_PROPERTY_NAME] || '',
 										description: 'The communication strategy the individual will use when deciding which project to communicate about',
 										options: [
 											{
@@ -840,29 +916,35 @@ class SchellingOrgSimulator extends BaseSimulator {
 								optional: true
 							}
 						],
+						shortName: SHORT_NAMES[INDIVIDUALS_PROPERTY_NAME] || '',
 						description: "individuals is set to override the computed individuals with the given properties. null values will be ignored, and keys not in the override will be left in place."
 					}
 				},
+				shortName: SHORT_NAMES[COLLABORATORS_PROPERTY_NAME] || '',
 				description: "Information on the collaborators"
 			},
 			[PROJECTS_PROPERTY_NAME]: {
 				example: {
-					count: {
+					[COUNT_PROPERTY_NAME]: {
 						example: 3,
+						shortName: SHORT_NAMES[COUNT_PROPERTY_NAME] || '',
 						description: "How many projects there are"
 					},
 					[MAX_EXTRA_VALUE_PROPERTY_NAME]: {
 						example: 0.0,
+						shortName: SHORT_NAMES[MAX_EXTRA_VALUE_PROPERTY_NAME] || '',
 						step: 0.05,
 						description: "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value"
 					},
 					[MAX_ERROR_VALUE_PROPERTY_NAME]: {
 						example: 0.0,
+						shortName: SHORT_NAMES[MAX_ERROR_VALUE_PROPERTY_NAME] || '',
 						step: 0.05,
 						description: 'Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.'
 					},
 					[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: {
 						example: 0.0,
+						shortName: SHORT_NAMES[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] || '',
 						optional: true,
 						step: 0.01,
 						description: "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number."
@@ -871,40 +953,47 @@ class SchellingOrgSimulator extends BaseSimulator {
 						example: {
 							[MARKED_PROPERTY_NAME]: {
 								example: false,
+								shortName: SHORT_NAMES[MARKED_PROPERTY_NAME] || '',
 								description: "A marked project shows up distinctively; collaborators, when deciding between two projects that look like the same value, will prefer the marked one.",
 								optional: true
 							},
 							[MAX_EXTRA_VALUE_PROPERTY_NAME]: {
 								example: 0.0,
+								shortName: SHORT_NAMES[MAX_EXTRA_VALUE_PROPERTY_NAME] || '',
 								step: 0.05,
 								optional: true,
 								description: "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value"
 							},
 							[MAX_ERROR_VALUE_PROPERTY_NAME]: {
 								example: 0.0,
+								shortName: SHORT_NAMES[MAX_ERROR_VALUE_PROPERTY_NAME] || '',
 								step: 0.05,
 								optional: true,
 								description: 'Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.'
 							},
 							[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: {
 								example: 0.0,
+								shortName: SHORT_NAMES[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] || '',
 								optional: true,
 								step: 0.01,
 								description: "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number."
 							},
-							value: {
+							[VALUE_PROPERTY_NAME]: {
 								example: 1.0,
+								shortName: SHORT_NAMES[VALUE_PROPERTY_NAME] || '',
 								step: 0.05,
 								description: "Value is the height of the project, in units of 1.0 = width",
 								optional: true
 							},
-							error: {
+							[ERROR_PROPERTY_NAME]: {
 								example: 0.0,
+								shortName: SHORT_NAMES[ERROR_PROPERTY_NAME] || '',
 								step: 0.05,
 								description: "The error bars for this value; collaborators will consider the true value to be somewhere within value +/- this value",
 								optional: true
 							}
 						},
+						shortName: SHORT_NAMES[RANDOM_INDIVIDUAL_PROPERTY_NAME] || '',
 						optional:true,
 						description: "If provided, each run the individuals overrides will have a random individual provided precisely these overrides"
 					},
@@ -914,58 +1003,69 @@ class SchellingOrgSimulator extends BaseSimulator {
 								example: {
 									[MARKED_PROPERTY_NAME]: {
 										example: false,
+										shortName: SHORT_NAMES[MARKED_PROPERTY_NAME] || '',
 										description: "A marked project shows up distinctively; collaborators, when deciding between two projects that look like the same value, will prefer the marked one.",
 										optional: true
 									},
 									[MAX_EXTRA_VALUE_PROPERTY_NAME]: {
 										example: 0.0,
+										shortName: SHORT_NAMES[MAX_EXTRA_VALUE_PROPERTY_NAME] || '',
 										step: 0.05,
 										optional: true,
 										description: "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value"
 									},
 									[MAX_ERROR_VALUE_PROPERTY_NAME]: {
 										example: 0.0,
+										shortName: SHORT_NAMES[MAX_ERROR_VALUE_PROPERTY_NAME] || '',
 										step: 0.05,
 										optional: true,
 										description: 'Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.'
 									},
 									[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: {
 										example: 0.0,
+										shortName: SHORT_NAMES[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] || '',
 										optional: true,
 										step: 0.01,
 										description: "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number."
 									},
-									value: {
+									[VALUE_PROPERTY_NAME]: {
 										example: 1.0,
+										shortName: SHORT_NAMES[VALUE_PROPERTY_NAME] || '',
 										step: 0.05,
 										description: "Value is the height of the project, in units of 1.0 = width",
 										optional: true
 									},
-									error: {
+									[ERROR_PROPERTY_NAME]: {
 										example: 0.0,
+										shortName: SHORT_NAMES[ERROR_PROPERTY_NAME] || '',
 										step: 0.05,
 										description: "The error bars for this value; collaborators will consider the true value to be somewhere within value +/- this value",
 										optional: true
 									}
 								},
+								shortName: SHORT_NAMES[DISPLAY_PROPERTY_NAME] || '',
 								description: "A specific project",
 								optional:true,
 							}
 						],
+						shortName: SHORT_NAMES[INDIVIDUALS_PROPERTY_NAME] || '',
 						optional: true,
 						description: "individuals is set to override the computed individuals with the given properties. null values will be ignored, and keys not in the override will be left in place."
 					}
 				},
+				shortName: SHORT_NAMES[PROJECTS_PROPERTY_NAME] || '',
 				description: "Information on projects"
 			},
 			[NORTH_STAR_PROPERTY_NAME]: {
 				example: {
 					[EMOJI_PROPERTY_NAME]: {
 						example: DEFAULT_NORTH_STAR_EMOJI,
+						shortName: SHORT_NAMES[EMOJI_PROPERTY_NAME] || '',
 						description: "The emoji to render for the north star",
 					},
 					[OFFSET_TYPE_PROPERTY_NAME]: {
 						example: OFFSET_TYPE_MANUAL,
+						shortName: SHORT_NAMES[OFFSET_TYPE_PROPERTY_NAME] || '',
 						options: [
 							{
 								value: OFFSET_TYPE_MANUAL,
@@ -983,6 +1083,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[MIN_OFFSET_PROPERTY_NAME]: {
 						example: 0.0,
+						shortName: SHORT_NAMES[MIN_OFFSET_PROPERTY_NAME] || '',
 						description: 'The lowest random offset to choose if ' + OFFSET_TYPE_PROPERTY_NAME + ' is randomly selected (not ' + OFFSET_TYPE_MANUAL + ')',
 						min: 0.0,
 						max: 1.0,
@@ -990,6 +1091,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[MAX_OFFSET_PROPERTY_NAME]: {
 						example: 1.0,
+						shortName: SHORT_NAMES[MAX_OFFSET_PROPERTY_NAME] || '',
 						description: 'The highest random offset to choose if ' + OFFSET_TYPE_PROPERTY_NAME + ' is randomly selected (not ' + OFFSET_TYPE_MANUAL + ')',
 						min: 0.0,
 						max: 1.0,
@@ -997,6 +1099,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[OFFSET_PROPERTY_NAME]: {
 						example: 0.5,
+						shortName: SHORT_NAMES[OFFSET_PROPERTY_NAME] || '',
 						description: "How far from fully at left to fully at right is the northstar? This value will be used directly if " + OFFSET_TYPE_PROPERTY_NAME + " is " + OFFSET_TYPE_MANUAL + ", otherwise it will be set implicitly.",
 						min: 0.0,
 						max: 1.0,
@@ -1004,6 +1107,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[STRENGTH_PROPERTY_NAME]: {
 						example: 0.5,
+						shortName: SHORT_NAMES[STRENGTH_PROPERTY_NAME] || '',
 						description: "How strong is the north star effect?",
 						min: 0.0,
 						max: 1.0,
@@ -1011,6 +1115,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[SPREAD_PROPERTY_NAME]: {
 						example: 0.25,
+						shortName: SHORT_NAMES[SPREAD_PROPERTY_NAME] || '',
 						description: 'How wide is the positive effect of the northstar affect (trading off linearly from the offset position to plus or minus by this amount)',
 						min: 0.0,
 						max: 1.0,
@@ -1018,12 +1123,14 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[BELIEVABILITY_PROPERTY_NAME]: {
 						example: 1.0,
+						shortName: SHORT_NAMES[BELIEVABILITY_PROPERTY_NAME] || '',
 						description: 'The proportion of collaborators who will believe in this north star (will have their ' + BELIEVES_PROPERTY_NAME + ' set to true).',
 						min: 0.0,
 						max: 1.0,
 						step: 0.05
 					}
 				},
+				shortName: SHORT_NAMES[NORTH_STAR_PROPERTY_NAME] || '',
 				description: "Information on an (optional) north star, which people will tend to pick towards",
 				optional: true
 			}
@@ -1287,7 +1394,7 @@ class SchellingOrgRenderer extends LitElement {
 
 		const width = this._projectWidth();
 		//Size is so the largest bar goes to the top of the area, or smaller if under 2.0 total size
-		const maxVerticalRelativeSize = Math.max(Math.max(...this._projects.map(project => project.value + project.error)), 2.0);
+		const maxVerticalRelativeSize = Math.max(Math.max(...this._projects.map(project => project[VALUE_PROPERTY_NAME] + project[ERROR_PROPERTY_NAME])), 2.0);
 
 		//Spread it across the size avaialble; this.height/3 - some padding to not go all the way to the top
 		let projectAvailableHeight = this.height / 3;
@@ -1296,7 +1403,7 @@ class SchellingOrgRenderer extends LitElement {
 		projectAvailableHeight -= this._northStarWidth();
 
 		const verticalScaleFactor = projectAvailableHeight / maxVerticalRelativeSize;
-		const height = project.value * verticalScaleFactor;
+		const height = project[VALUE_PROPERTY_NAME] * verticalScaleFactor;
 		const position = this._projectPosition(project.index);
 
 		const x = position[0] - (width / 2);
@@ -1304,13 +1411,13 @@ class SchellingOrgRenderer extends LitElement {
 
 		const ERROR_BAR_CAP_WIDTH = 8;
 
-		const hasError = project.error != 0.0;
+		const hasError = project[ERROR_PROPERTY_NAME] != 0.0;
 		const errorStartX = position[0] - (width / ERROR_BAR_CAP_WIDTH);
 		const errorEndX = position[0] + (width / ERROR_BAR_CAP_WIDTH);
 		const beliefStartX = position[0] - (width / ERROR_BAR_CAP_WIDTH / 2);
 		const beliefWidth = width / ERROR_BAR_CAP_WIDTH;
-		const errorStartY = y - (project.error * verticalScaleFactor);
-		const errorEndY = y + (project.error * verticalScaleFactor);
+		const errorStartY = y - (project[ERROR_PROPERTY_NAME] * verticalScaleFactor);
+		const errorEndY = y + (project[ERROR_PROPERTY_NAME] * verticalScaleFactor);
 
 		const errorStrokeWidth = width / 40;
 

@@ -2,15 +2,24 @@ import { createSelector } from "reselect";
 
 import {
 	SimulationCollection,
-	extractSimulatorNamesFromRawConfig
+	extractSimulatorNamesFromRawConfig,
+	Simulation
 } from "./simulation.js";
 
 import {
-	setSimPropertyInConfig
+	setSimPropertyInConfig,
+	packModificationsForURL
 } from './options.js';
+
+import {
+	DEFAULT_SENTINEL,
+	shadowedModificationsForSimIndex
+} from './util.js';
 
 const selectRawConfigData = state => state.data ? state.data.data : [];
 const selectModifications = state => state.data ? state.data.modifications : [];
+export const selectHash = state => state.data ? state.data.hash : '';
+export const selectWarning = state => state.data ? state.data.warning : '';
 export const selectFilename = state => state.data ? state.data.filename : '';
 export const selectSimulationIndex = state => state.data ? state.data.simulationIndex : 0;
 export const selectFrameIndex = state => state.data ? state.data.frameIndex : 0;
@@ -55,21 +64,39 @@ export const selectDescriptionExpanded = createSelector(
 	(showControls, rawExpanded) => showControls && rawExpanded
 );
 
-export const selectConfigData = createSelector(
+const modfifiedConfigData = (rawConfigData, modifications, simulatorsLoaded = true, simulatorNames = [], expandDefault = false) => {
+	if (!simulatorsLoaded) return rawConfigData;
+	let data = rawConfigData;
+	for (const modification of modifications) {
+		if (data[modification.simulationIndex] === undefined) continue;
+		data = [...data];
+		let value = modification.value;
+		if (value == DEFAULT_SENTINEL) {
+			if (!expandDefault) {
+				continue;
+			}
+			try {
+				const simulation = new Simulation(data[modification.simulationIndex], 0, simulatorNames);
+				value = simulation.defaultValueForOptionsPath(modification.path);
+			} catch(err) {
+				console.warn('Couldn\'t fetch default value from simulator: ' + err);
+				return data;
+			}
+		}
+		data[modification.simulationIndex] = setSimPropertyInConfig(data[modification.simulationIndex], modification.path, value);
+	}
+	return data;
+};
+
+export const selectModififedConfigDataNoDefaults = createSelector(
 	selectRawConfigData,
 	selectModifications,
-	(rawConfigData, modifications) => {
-		let data = rawConfigData;
-		for (const modification of modifications) {
-			data = [...data];
-			data[modification.simulationIndex] = setSimPropertyInConfig(data[modification.simulationIndex], modification.path, modification.value);
-		}
-		return data;
-	}
+	(rawConfigData, modifications) => modfifiedConfigData(rawConfigData, modifications)
 );
 
 const selectRequiredSimulatorsLoaded = createSelector(
-	selectConfigData,
+	//We do want to see if there are modifications to change sim on any config item, but don't need any default expansion (default expansion relies on this value)
+	selectModififedConfigDataNoDefaults,
 	selectLoadedSimulators,
 	(data, loadedSimulators) => {
 		const requiredSimulatorNames = extractSimulatorNamesFromRawConfig(data);
@@ -80,22 +107,44 @@ const selectRequiredSimulatorsLoaded = createSelector(
 	}
 );
 
+export const selectCurrentSimulatorShadowedModifications = createSelector(
+	selectSimulationIndex,
+	selectModifications,
+	(index, modifications) => shadowedModificationsForSimIndex(modifications, index)
+);
+
+export const selectConfigData = createSelector(
+	selectRawConfigData,
+	selectModifications,
+	selectRequiredSimulatorsLoaded, 
+	selectKnownSimulatorNames,
+	(rawConfigData, modifications, simulatorsLoaded, simulatorNames) => modfifiedConfigData(rawConfigData, modifications, simulatorsLoaded, simulatorNames, true)
+);
+
 export const selectDataIsFullyLoaded = createSelector(
 	selectRawConfigData,
 	selectRequiredSimulatorsLoaded,
 	(data, simsLoaded) => data.length > 0 && simsLoaded
 );
 
-const selectSimulationCollection = createSelector(
+export const selectSimulationCollection = createSelector(
 	selectConfigData,
 	selectRequiredSimulatorsLoaded,
 	selectKnownSimulatorNames,
-	(rawConfig, simulatorsLoaded, knownSimulatorNames) => simulatorsLoaded ? new SimulationCollection(rawConfig, knownSimulatorNames) : null
+	selectRawConfigData,
+	(rawConfig, simulatorsLoaded, knownSimulatorNames, unmodifiedConfigData) => simulatorsLoaded ? new SimulationCollection(rawConfig, knownSimulatorNames, unmodifiedConfigData) : null
+);
+
+export const selectURLDiffHash = createSelector(
+	selectModifications,
+	selectSimulationCollection,
+	selectSimulationIndex,
+	(modifications, simulationCollection, simIndex) => packModificationsForURL(modifications, simulationCollection, simIndex)
 );
 
 export const selectSimulationsMap = createSelector(
 	selectSimulationCollection,
-	(collection) => collection ? collection.simulationsMap : null
+	(collection) => collection ? collection.simulationsMap : {}
 );
 
 export const selectCurrentSimulation = createSelector(
