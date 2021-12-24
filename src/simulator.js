@@ -20,7 +20,7 @@ export class BaseSimulator {
 		return 'INVALID-NAME';
 	}
 
-	//The default generator will call this.firstFrameGenerator(simOptions, rnd)
+	//The default generator will call this.generateFirstFrame(simOptions, rnd)
 	//for the first frame, then for every subsequent frame call
 	//generateFrame(frame, rnd) (you can modify the top-level properties of
 	//frame, but if you modify any sub-properties you should clone them). When
@@ -32,7 +32,7 @@ export class BaseSimulator {
 	//typically a good starting point to use for your own method.
 	generator(frameIndex, previousFrame, simOptions, rnd) {
 		if (!previousFrame) {
-			const firstFrame = this.firstFrameGenerator(simOptions, rnd) || {};
+			const firstFrame = this.generateFirstFrame(simOptions, rnd) || {};
 			firstFrame.index = frameIndex;
 			firstFrame.simOptions = simOptions;
 			return firstFrame;
@@ -45,7 +45,7 @@ export class BaseSimulator {
 	}
 
 	//This is called by the default generator to 
-	firstFrameGenerator(simOptions, rnd) {
+	generateFirstFrame(simOptions, rnd) {
 		return {};
 	}
 
