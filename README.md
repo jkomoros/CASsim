@@ -270,11 +270,11 @@ declarative format that has the following shape, called an optionsLeaf:
 			"description": "This option is a string"
 		},
 	],
-	//For array and object types, whether a given item is allowed to be set explicitly to null.
-	//Defaults to false
+	//Whether the field is allowed to just not be provided. Defaults to false
 	"optional": false,
 	//If default is true, then if the value is not provided by the user (which is only allowed if optional:false), then the
 	//example value will automatically be normalized into the simOptions object before it's provided to the simulator's normalizeOptions.
+	//This can make sure that downstream parts of your simulator can assume the value exists, even if it wasn't explicitly provided by the user.
 	"default": false,
 	//Advanced options will only render UI if the user has enabled advanced mode. This is useful to hide infrequently needed options.
 	"advanced": false,
