@@ -217,6 +217,53 @@ export const maySetPropertyInConfigObject = (optionsConfig, obj, path, value) =>
 	return configObjectIsValid(optionsConfig, updatedObj);
 };
 
+//Will return an object like obj, but with any missing properties that are set
+//to optional: true, default:true filled in with their defaults. It will copy in
+//place any objects that must be modified, and might return obj if no
+//modifications have to be made. It returns an array: the object, and a boolean
+//for whether changes were made.
+export const ensureDefaults = (optionsConfig, obj) => {
+	if (!optionsConfig) return [obj, false];
+	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
+	if (example == undefined) {
+		if (!obj) return [defaultValueForConfig(optionsConfig), true];
+		const result = {};
+		let changesMade = false;
+		for (const [key, value] of Object.entries(optionsConfig)) {
+			const [newValue, changed] = ensureDefaults(value, obj[key]);
+			result[key] = newValue;
+			if (changed) changesMade = true;
+		}
+		return changesMade ? [result, true] : [obj, false];
+	}
+	if (typeof example == 'object') {
+		if (!obj) {
+			return optionsConfig[DEFAULT_PROPERTY_NAME] ? [defaultValueForConfig(optionsConfig), true] : [obj, false];
+		}
+		if (Array.isArray(example)) {
+			//obj's shape hasn't yet been validated; this won't validate but let's just leave it for now, so it is noticed to be invalid later
+			if (!Array.isArray(obj)) return [obj, false];
+			const results = obj.map(item => ensureDefaults(example[0], item));
+			const changesMade = results.some(arr => arr[1]);
+			return changesMade ? [results.map(arr => arr[0]), true] : [obj, false];
+		}
+		const result = {};
+		let changesMade = false;
+		for (const [key, value] of Object.entries(example)) {
+			const [newValue, changed] = ensureDefaults(value, obj[key]);
+			result[key] = newValue;
+			if (changed) changesMade = true;
+		}
+		return changesMade ? [result, true] : [obj, false];
+	}
+	//If the value is already provided, no need to do anything
+	if (obj !== undefined) return [obj, false];
+	//Base case
+	if (!optionsConfig[DEFAULT_PROPERTY_NAME]) return [obj, false];
+	return [defaultValueForConfig(optionsConfig, false), true];
+
+};
+
 //if skipOptional is true then optional items will be skipped. Things that
 //recurse into subObjects will have skipOptional true. This leads to behavior
 //where the top-level item requested will be returned even if optional (which is
