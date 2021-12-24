@@ -94,7 +94,7 @@ export const selectModififedConfigDataNoDefaults = createSelector(
 	(rawConfigData, modifications) => modfifiedConfigData(rawConfigData, modifications)
 );
 
-const selectRequiredSimulatorsLoaded = createSelector(
+export const selectRequiredSimulatorsLoaded = createSelector(
 	//We do want to see if there are modifications to change sim on any config item, but don't need any default expansion (default expansion relies on this value)
 	selectModififedConfigDataNoDefaults,
 	selectLoadedSimulators,

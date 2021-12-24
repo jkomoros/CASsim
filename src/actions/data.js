@@ -112,7 +112,7 @@ export const loadData = (blob) => (dispatch) => {
 		type: LOAD_DATA,
 		data,
 	});
-	dispatch(fetchNeededSimulators());
+	//We don't dispatch fetchNeededSimulators; sim-view will notice and call it for us.
 	dispatch(verifyValidIndexes());
 	dispatch(simulationActivated());
 };
@@ -451,7 +451,7 @@ export const updateCurrentSimulationOptions = (path, value) => (dispatch, getSta
 		parts.pop();
 		dispatch(updatePathExpanded(parts.join('.'), true));
 	}
-	dispatch(fetchNeededSimulators());
+	//We don't dispatch fetchNeededSimulators; sim-view will notice and call it for us.
 	dispatch(verifyValidIndexes());
 };
 
