@@ -20,8 +20,48 @@ export class BaseSimulator {
 		return 'INVALID-NAME';
 	}
 
+	//The default generator will call this.firstFrameGenerator(simOptions, rnd)
+	//for the first frame, then for every subsequent frame call
+	//generateFrame(frame, rnd) (you can modify the top-level properties of
+	//frame, but if you modify any sub-properties you should clone them). When
+	//simulationComplete(lastFrame) returns true, it will start returning null
+	//frames, signifying the simulation is over. This generator will also ensure
+	//that each frame has a 'index' property set to the frameIndex, and
+	//`simOptions` property set to simOptions, so generateFrame can retrieve
+	//those from the frame if necessary. The behavior of this function is
+	//typically a good starting point to use for your own method.
 	generator(frameIndex, previousFrame, simOptions, rnd) {
+		if (!previousFrame) {
+			const firstFrame = this.firstFrameGenerator(simOptions, rnd) || {};
+			firstFrame.index = frameIndex;
+			firstFrame.simOptions = simOptions;
+			return firstFrame;
+		}
+		if (this.simulationComplete(previousFrame)) return null;
+		//Note: frame is only a shallow copy, so sub-generators will need to clone sub options.
+		const frame = {...previousFrame, index: frameIndex, simOptions: simOptions};
+		this.generateFrame(frame, rnd);
+		return frame;
+	}
+
+	//This is called by the default generator to 
+	firstFrameGenerator(simOptions, rnd) {
 		return {};
+	}
+
+	//This is called by the default generator. If you need frame index or
+	//simOptions you can inspect frame.index or frame.simOptions. It should
+	//modify frame directly, but if it changes any sub-objects it should clone
+	//them first.
+	generateFrame(frame, rnd) {
+		//Your own logic should go here.
+	}
+
+	//This is called by the default generator to know when to stop generating
+	//frames. frame.index and frame.simOptions can be inspected to get those
+	//values.
+	simulationComplete(frame) {
+		//Your own termination logic should go here.
 	}
 
 	//An opportunity to make sure that simOptions is set with reasonable
