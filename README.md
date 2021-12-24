@@ -156,12 +156,16 @@ for config problems against `optionsConfig` before this, so you only need to do
 validation that isn't possible to do declaratively via optionsConfig (e.g.
 checking a text field against a regular expression, etc.)
 
-`normalizeOptions(rawSimOptions) => normalizedSimOptions`. An opportunity for
-the simulator to take a raw simOptions and return a fully normalized
-options, e.g. with all defaults set, so that all other methods can assume
-that all relevant properties are set. All other methods that receive
+`normalizeOptions(rawDefaultedSimOptions) => normalizedSimOptions`. An
+opportunity for the simulator to take a raw simOptions and return a fully
+normalized options, e.g. with all defaults set, so that all other methods can
+assume that all relevant properties are set. All other methods that receive
 simOptions will receive the normalized result of this. normalizeOptions may
-mutate the rawSimOptions and also return it.
+mutate the rawSimOptions and also return it. Before normalizeOptions is called,
+the harness will automatically set any missing config properties with
+`optional:true` and `default:true` to the example value. In practice, this means
+that a number of optional values can be defaulted automatically and don't
+require you to do much in this method, if anything.
 
 `generator(frameIndex, previousFrame, normalizedSimOptions, randomGenerator,
 runIndex) => nextFrameData, or null if the simulation run is terminated` This is
@@ -269,6 +273,9 @@ declarative format that has the following shape, called an optionsLeaf:
 	//For array and object types, whether a given item is allowed to be set explicitly to null.
 	//Defaults to false
 	"optional": false,
+	//If default is true, then if the value is not provided by the user (which is only allowed if optional:false), then the
+	//example value will automatically be normalized into the simOptions object before it's provided to the simulator's normalizeOptions.
+	"default": false,
 	//Advanced options will only render UI if the user has enabled advanced mode. This is useful to hide infrequently needed options.
 	"advanced": false,
 }

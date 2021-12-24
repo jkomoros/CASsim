@@ -310,6 +310,44 @@ describe('optionsConfigValidator', () => {
 		assert.strictEqual(result != '', expectedProblem);
 	});
 
+	it('handles basic object with incorrect default typeof', async () => {
+		const config = {
+			foo: {
+				example: 3,
+				optional: true,
+				default: 3,
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
+	});
+
+	it('handles basic object with default true optional false', async () => {
+		const config = {
+			foo: {
+				example: 3,
+				default: true,
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
+	});
+
+	it('handles basic object with legal default and optional', async () => {
+		const config = {
+			foo: {
+				example: 3,
+				default: true,
+				optional: true,
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblem = false;
+		assert.strictEqual(result != '', expectedProblem);
+	});
+
 	it('handles basic object with incorrect min', async () => {
 		const config = {
 			foo: {

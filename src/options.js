@@ -13,6 +13,7 @@ const BEHAVIOR_PROPERTY_NAME = 'behavior';
 const VALUE_PROPERTY_NAME = 'value';
 const DISPLAY_PROPERTY_NAME = 'display';
 const SHORT_NAME_PROPERTY_NAME = 'shortName';
+const DEFAULT_PROPERTY_NAME = 'default';
 
 export const COLOR_BEHAVIOR_NAME = 'color';
 
@@ -101,7 +102,10 @@ const optionsLeafValidator = (config) => {
 
 	if (config[DESCRIPTION_PROPERTY_NAME] !== undefined && typeof config[DESCRIPTION_PROPERTY_NAME] != 'string') return DESCRIPTION_PROPERTY_NAME + ' must be a string if provided';
 	if (config[OPTIONAL_PROPERTY_NAME] !== undefined && typeof config[OPTIONAL_PROPERTY_NAME] != 'boolean') return OPTIONAL_PROPERTY_NAME + ' must be a boolean if provided';
+	if (config[DEFAULT_PROPERTY_NAME] !== undefined && typeof config[DEFAULT_PROPERTY_NAME] != 'boolean') return DEFAULT_PROPERTY_NAME + ' must be a boolean if provided';
 	if (config[ADVANCED_PROPERTY_NAME] !== undefined && typeof config[ADVANCED_PROPERTY_NAME] != 'boolean') return ADVANCED_PROPERTY_NAME + ' must be a boolean if provided';
+
+	if (config[DEFAULT_PROPERTY_NAME] && !config[OPTIONAL_PROPERTY_NAME]) return 'If ' + DEFAULT_PROPERTY_NAME + ' is true, then ' + OPTIONAL_PROPERTY_NAME + 'must also be true';
 
 	if (config[MIN_PROPERTY_NAME] !== undefined && typeof config[MIN_PROPERTY_NAME] != 'number') return MIN_PROPERTY_NAME + ' must be a number if provided';
 	if (config[MAX_PROPERTY_NAME] !== undefined && typeof config[MAX_PROPERTY_NAME] != 'number') return MAX_PROPERTY_NAME + ' must be a number if provided';
