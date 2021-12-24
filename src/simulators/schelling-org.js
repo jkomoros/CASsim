@@ -503,40 +503,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 		return frame;
 	}
 
-	normalizeOptions(rawSimOptions) {
-		rawSimOptions[COMMUNICATION_PROPERTY_NAME] = rawSimOptions[COMMUNICATION_PROPERTY_NAME] || 0.0;
-		if (!rawSimOptions[COLLABORATORS_PROPERTY_NAME]) {
-			rawSimOptions[COLLABORATORS_PROPERTY_NAME] = {
-				count: 0,
-			};
-		}
-
-		if (!rawSimOptions[PROJECTS_PROPERTY_NAME]) {
-			rawSimOptions[PROJECTS_PROPERTY_NAME] = {
-				count: 0,
-			};
-		}
-
-		if (!rawSimOptions[DISPLAY_PROPERTY_NAME]) rawSimOptions[DISPLAY_PROPERTY_NAME] = {};
-
-		const projects = rawSimOptions[PROJECTS_PROPERTY_NAME];
-		if (projects[MAX_EXTRA_VALUE_PROPERTY_NAME] == undefined) projects[MAX_EXTRA_VALUE_PROPERTY_NAME] = 0.0;
-		if (projects[MAX_ERROR_VALUE_PROPERTY_NAME] == undefined) projects[MAX_ERROR_VALUE_PROPERTY_NAME] = 0.0;
-		if (projects[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] == undefined) projects[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] = 0.0;
-		if (projects[INDIVIDUALS_PROPERTY_NAME] == undefined) projects[INDIVIDUALS_PROPERTY_NAME] = [];
-
-		const collaborators = rawSimOptions[COLLABORATORS_PROPERTY_NAME];
-		if (collaborators[EPSILON_PROPERTY_NAME] == undefined) collaborators[EPSILON_PROPERTY_NAME] = 0.0;
-		if (collaborators[INDIVIDUALS_PROPERTY_NAME] == undefined) collaborators[INDIVIDUALS_PROPERTY_NAME] = [];
-		if (collaborators[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME] == undefined) collaborators[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME] = 0.5;
-		if (collaborators[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] == undefined) collaborators[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] = 0.5;
-		if (collaborators[COMPELLING_PROPERTY_NAME] == undefined) collaborators[COMPELLING_PROPERTY_NAME] = DEFAULT_COMPELLING_VALUE;
-		if (collaborators[BROADCAST_LIKELIHOOD_PROPERTY_NAME] == undefined) collaborators[BROADCAST_LIKELIHOOD_PROPERTY_NAME] = 0.0;
-		if (collaborators[COMMUNICATION_STRATEGY_PROPERTY_NAME] == undefined) collaborators[COMMUNICATION_STRATEGY_PROPERTY_NAME] = COMMUNICATION_STRATEGY_RANDOM;
-
-		return rawSimOptions;
-	}
-
 	optionsValidator(normalizedSimOptions) {
 		//Our validations are mainly served by the config in optionsConfig.
 		const individuals = normalizedSimOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
@@ -631,47 +597,59 @@ class SchellingOrgSimulator extends BaseSimulator {
 				},
 				shortName: SHORT_NAMES[DISPLAY_PROPERTY_NAME] || '',
 				optional: true,
+				default: true,
 				description: "An optional object that controls how things render. If not provided, will be interpreted as though it enables no optional rendering.",
 				advanced: true
 			},
 			[COMMUNICATION_PROPERTY_NAME]: {
 				example: 0,
+				optional: true,
+				default: true,
 				shortName: SHORT_NAMES[COMMUNICATION_PROPERTY_NAME] || '',
 				description: "How many rounds of communication should be allowed between agents before they decide. 0 is no communication and will render a line of collaborators with walls between them."
 			},
 			[COLLABORATORS_PROPERTY_NAME]: {
 				example: {
 					[COUNT_PROPERTY_NAME]: {
-						example: 5,
+						example: 0,
+						optional: true,
+						default: true,
 						shortName: SHORT_NAMES[COUNT_PROPERTY_NAME] || '',
 						description: "How many collaborators there should be"
 					},
 					[EPSILON_PROPERTY_NAME]: {
-						example: 0.05,
+						example: 0.0,
+						optional: true,
+						default: true,
 						shortName: SHORT_NAMES[EPSILON_PROPERTY_NAME] || '',
 						step: 0.05,
 						description: "Project values within this amount of each other will be considered to be the same"
 					},
 					[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: {
 						example: 0.5,
+						optional: true,
+						default: true,
 						shortName: SHORT_NAMES[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME] || '',
 						step: 0.05,
 						description: "We compute a range of possible connection likelihoods based on [avgConnectionLikelihood - connectionLikelihoodSpread, avgConnectionLikelihood + connectionLikelihoodSpread] Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength."
 					},
 					[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: {
 						example: 0.5,
+						optional: true,
+						default: true,
 						shortName: SHORT_NAMES[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] || '',
 						step: 0.05,
 						description: "We compute a range of possible connection likelihoods based on [avgConnectionLikelihood - connectionLikelihoodSpread, avgConnectionLikelihood + connectionLikelihoodSpread] Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength."
 					},
 					[COMPELLING_PROPERTY_NAME]: {
-						example: 0.5,
+						example: DEFAULT_COMPELLING_VALUE,
 						shortName: SHORT_NAMES[COMPELLING_PROPERTY_NAME] || '',
 						description: 'When each individual speaks to another, how much does the receiver update their beliefs, between their old belief and new belief? 0.5 would be moving halfway from old belief to new belief',
 						min: 0.0,
 						max: 1.0,
 						step: 0.05,
 						optional: true,
+						default: true,
 					},
 					[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: {
 						example: 0.0,
@@ -681,6 +659,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 						max: 1.0,
 						step: 0.05,
 						optional: true,
+						default: true,
 					},
 					[OPTIMISM_PROPERTY_NAME]: {
 						example: 0.5,
@@ -713,7 +692,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 								description: 'The project the speaker and receiver disagree most about'
 							}
 						],
-						optional: true
+						optional: true,
+						default: true,
 					},
 					[RANDOM_INDIVIDUAL_PROPERTY_NAME]: {
 						example: {
@@ -816,6 +796,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[INDIVIDUALS_PROPERTY_NAME]: {
 						optional: true,
+						default: true,
 						example: [
 							{
 								example: {
@@ -920,24 +901,32 @@ class SchellingOrgSimulator extends BaseSimulator {
 						description: "individuals is set to override the computed individuals with the given properties. null values will be ignored, and keys not in the override will be left in place."
 					}
 				},
+				optional: true,
+				default: true,
 				shortName: SHORT_NAMES[COLLABORATORS_PROPERTY_NAME] || '',
 				description: "Information on the collaborators"
 			},
 			[PROJECTS_PROPERTY_NAME]: {
 				example: {
 					[COUNT_PROPERTY_NAME]: {
-						example: 3,
+						example: 0,
+						default: true,
+						optional: true,
 						shortName: SHORT_NAMES[COUNT_PROPERTY_NAME] || '',
 						description: "How many projects there are"
 					},
 					[MAX_EXTRA_VALUE_PROPERTY_NAME]: {
 						example: 0.0,
+						optional: true,
+						default: true,
 						shortName: SHORT_NAMES[MAX_EXTRA_VALUE_PROPERTY_NAME] || '',
 						step: 0.05,
 						description: "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value"
 					},
 					[MAX_ERROR_VALUE_PROPERTY_NAME]: {
 						example: 0.0,
+						optional: true,
+						default: true,
 						shortName: SHORT_NAMES[MAX_ERROR_VALUE_PROPERTY_NAME] || '',
 						step: 0.05,
 						description: 'Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.'
@@ -946,6 +935,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 						example: 0.0,
 						shortName: SHORT_NAMES[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] || '',
 						optional: true,
+						default: true,
 						step: 0.01,
 						description: "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number."
 					},
@@ -1050,9 +1040,12 @@ class SchellingOrgSimulator extends BaseSimulator {
 						],
 						shortName: SHORT_NAMES[INDIVIDUALS_PROPERTY_NAME] || '',
 						optional: true,
+						default: true,
 						description: "individuals is set to override the computed individuals with the given properties. null values will be ignored, and keys not in the override will be left in place."
 					}
 				},
+				optional: true,
+				default: true,
 				shortName: SHORT_NAMES[PROJECTS_PROPERTY_NAME] || '',
 				description: "Information on projects"
 			},
