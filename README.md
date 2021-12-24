@@ -165,7 +165,9 @@ mutate the rawSimOptions and also return it. Before normalizeOptions is called,
 the harness will automatically set any missing config properties with
 `optional:true` and `default:true` to the example value. In practice, this means
 that a number of optional values can be defaulted automatically and don't
-require you to do much in this method, if anything.
+require you to do much in this method, if anything. Note that when setting
+defaults for values, it uses the built-in defaulting machinery and does NOT call
+out into the simulator.defaultValueForPath.
 
 `generator(frameIndex, previousFrame, normalizedSimOptions, randomGenerator,
 runIndex) => nextFrameData, or null if the simulation run is terminated` This is

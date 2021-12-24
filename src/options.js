@@ -221,7 +221,8 @@ export const maySetPropertyInConfigObject = (optionsConfig, obj, path, value) =>
 //to optional: true, default:true filled in with their defaults. It will copy in
 //place any objects that must be modified, and might return obj if no
 //modifications have to be made. It returns an array: the object, and a boolean
-//for whether changes were made.
+//for whether changes were made. Note that when setting defaults, it uses
+//defaultValueForConfig and does NOT use simulator.defaultValueForPath.
 export const ensureDefaults = (optionsConfig, obj) => {
 	if (!optionsConfig) return [obj, false];
 	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
