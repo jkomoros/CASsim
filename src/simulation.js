@@ -14,7 +14,8 @@ import {
 	defaultValueForConfig,
 	configForPath,
 	SIM_PROPERTY,
-	SIM_OPTIONS_PROPERTY
+	SIM_OPTIONS_PROPERTY,
+	ensureDefaults
 } from './options.js';
 
 import {
@@ -245,7 +246,8 @@ export const Simulation = class {
 		this._knownSimulatorNames = knownSimulatorNames;
 		const configCopy = deepCopy(config);
 		const rawSimOptions = configCopy[SIM_OPTIONS_PROPERTY] || this._simulator.defaultValueForPath('', null);
-		configCopy[SIM_OPTIONS_PROPERTY] = this._simulator.normalizeOptions(rawSimOptions);
+		const [updatedSimOptionsConfig] = ensureDefaults(this._simulator.optionsConfig, rawSimOptions);
+		configCopy[SIM_OPTIONS_PROPERTY] = this._simulator.normalizeOptions(updatedSimOptionsConfig);
 		try {
 			this._simulator.optionsValidator(configCopy[SIM_OPTIONS_PROPERTY]);
 		} catch (err) {
