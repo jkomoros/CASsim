@@ -13,7 +13,8 @@ import {
 	defaultValueForConfig,
 	configForPath,
 	shortenPathWithConfig,
-	expandPathWithConfig
+	expandPathWithConfig,
+	ensureDefaults,
 } from '../../src/options.js';
 
 import assert from 'assert';
@@ -2351,4 +2352,189 @@ describe('expandPathWithConfig', () => {
 		const golden = 'foo.baz.0.foo';
 		assert.deepEqual(result, golden);
 	});
+});
+
+describe('expandDefaults', () => {
+	it('handles basic object', async () => {
+		const config = {
+			foo: {
+				example: 5,
+				optional: true,
+				default: true,
+			}
+		};
+		deepFreeze(config);
+		const obj = {};
+		const [result, changed] = ensureDefaults(config, obj);
+		const golden = {
+			foo: 5,
+		};
+		const goldenChanged = true;
+		assert.deepEqual(result, golden);
+		assert.deepEqual(changed, goldenChanged);
+	});
+
+	it('handles basic object that doesn\'t need a change', async () => {
+		const config = {
+			foo: {
+				example: 5,
+				optional: true,
+				default: true,
+			}
+		};
+		deepFreeze(config);
+		const obj = {
+			foo: 3,
+		};
+		const [result, changed] = ensureDefaults(config, obj);
+		const golden = {
+			foo: 3,
+		};
+		const goldenChanged = false;
+		assert.deepEqual(result, golden);
+		assert.deepEqual(changed, goldenChanged);
+	});
+
+	it('handles example object that doesn\'t need a change', async () => {
+		const config = {
+			example: {
+				foo: {
+					example: 5,
+					optional: true,
+					default: true,
+				}
+			},
+			optional:true,
+			default: true,
+		};
+		deepFreeze(config);
+		const obj = {
+			foo: 3,
+		};
+		const [result, changed] = ensureDefaults(config, obj);
+		const golden = {
+			foo: 3,
+		};
+		const goldenChanged = false;
+		assert.deepEqual(result, golden);
+		assert.deepEqual(changed, goldenChanged);
+	});
+
+	it('handles example object that does need a change', async () => {
+		const config = {
+			example: {
+				foo: {
+					example: 5,
+					optional: true,
+					default: true,
+				}
+			},
+			optional:true,
+			default: true,
+		};
+		deepFreeze(config);
+		const obj = {};
+		const [result, changed] = ensureDefaults(config, obj);
+		const golden = {
+			foo: 5,
+		};
+		const goldenChanged = true;
+		assert.deepEqual(result, golden);
+		assert.deepEqual(changed, goldenChanged);
+	});
+
+	it('handles example object that does need a change nested', async () => {
+		const config = {
+			example: {
+				foo: {
+					example: {
+						bar: {
+							example: 3,
+						}
+					},
+					optional: true,
+					default: true,
+				}
+			},
+			optional:true,
+			default: true,
+		};
+		deepFreeze(config);
+		const obj = {};
+		const [result, changed] = ensureDefaults(config, obj);
+		const golden = {
+			foo: {
+				bar: 3,
+			},
+		};
+		const goldenChanged = true;
+		assert.deepEqual(result, golden);
+		assert.deepEqual(changed, goldenChanged);
+	});
+
+	it('handles example object that has a nested optional non default object', async () => {
+		const config = {
+			example: {
+				foo: {
+					example: {
+						bar: {
+							example: 3,
+						}
+					},
+					optional: true,
+				}
+			},
+			optional:true,
+			default: true,
+		};
+		deepFreeze(config);
+		const obj = {};
+		const [result, changed] = ensureDefaults(config, obj);
+		const golden = {};
+		const goldenChanged = false;
+		assert.deepEqual(result, golden);
+		assert.deepEqual(changed, goldenChanged);
+	});
+
+	it('handles example object that has a nested array', async () => {
+		const config = {
+			example: {
+				foo: {
+					example: {
+						bar:{
+							example: [
+								{
+									example: 3,
+								}
+							]
+						}
+					},
+					optional: true,
+					default: true,
+				},
+				bar: {
+					example: 'baz',
+					default: true,
+					optional: true,
+				}
+			},
+			optional:true,
+			default: true,
+		};
+		deepFreeze(config);
+		const obj = {};
+		const [result, changed] = ensureDefaults(config, obj);
+		const golden = {
+			foo: {
+				bar: [
+					3,
+				]
+			},
+			bar: 'baz'
+		};
+		const goldenChanged = true;
+		assert.deepEqual(result, golden);
+		assert.deepEqual(changed, goldenChanged);
+	});
+
 });
