@@ -22,7 +22,8 @@ import {
 	selectHasModifications,
 	selectCurrentSimulationRunStatuses,
 	selectCurrentSimulatorShadowedModifications,
-	selectWarning
+	selectWarning,
+	selectChartExpanded
 } from "../selectors.js";
 
 import {
@@ -37,6 +38,7 @@ import {
 	updatePathExpanded,
 	updateConfigurationExpanded,
 	updateDescriptionExpanded,
+	updateChartExpanded,
 	removeModificationsForPath,
 	updateFilename,
 	DIALOG_TYPE_JSON,
@@ -63,6 +65,9 @@ import { SharedStyles } from "./shared-styles.js";
 import './run-summary.js';
 import './options-control.js';
 
+//TODO: remove this when done working on #22.
+const ENABLE_CHARTS = false;
+
 class SimulationControls extends connect(store)(LitElement) {
 	static get properties() {
 		return {
@@ -71,6 +76,7 @@ class SimulationControls extends connect(store)(LitElement) {
 			_hasModifications: {type:Boolean},
 			_modifiedPaths: {type:Object},
 			_configurationExpanded: {type:Boolean},
+			_chartExpanded: {type:Boolean},
 			_descriptionExpanded: {type:Boolean},
 			_filename: {type:String},
 			_datafiles: {type:Array},
@@ -193,6 +199,14 @@ class SimulationControls extends connect(store)(LitElement) {
 					</details>
 				</div>
 				<div>
+					${ENABLE_CHARTS ? html`
+						<details .open=${this._chartExpanded} @toggle=${this._handleChartExpandedToggled}>
+							<summary><label><button class='small'>${INFO_ICON}</button> Chart</label></summary>
+							<div class='label'><em>Not yet implemented</em></div>
+						</details>
+					` : ''}
+				</div>
+				<div>
 					<details .open=${this._configurationExpanded} @toggle=${this._handleConfigurationExpandedToggled}>
 						<summary><label><button class='small'>${SETTINGS_ICON}</button> Configuration</label></summary>
 						<options-control .readonly=${this._playing} @option-changed=${this._handleOptionChanged} @undo-clicked=${this._handleUndoClicked} @open-dialog=${this._handleOpenDialog} @path-toggled=${this._handlePathToggled} .config=${this._simulation ? this._simulation.optionsConfig : null} .value=${this._simulation ? this._simulation.rawConfig : null} .name=${''} .pathExpanded=${this._pathExpanded} .modifiedPaths=${this._modifiedPaths}></options-control>
@@ -210,6 +224,7 @@ class SimulationControls extends connect(store)(LitElement) {
 		this._modifiedPaths = selectCurrentSimulatorShadowedModifications(state);
 		this._configurationExpanded = selectConfigurationExpanded(state);
 		this._descriptionExpanded = selectDescriptionExpanded(state);
+		this._chartExpanded = selectChartExpanded(state);
 		this._pathExpanded = selectPathExpanded(state);
 		this._filename = selectFilename(state);
 		this._datafiles = selectKnownDatafiles(state);
@@ -245,6 +260,11 @@ class SimulationControls extends connect(store)(LitElement) {
 	_handleConfigurationExpandedToggled(e) {
 		const ele = e.composedPath()[0];
 		store.dispatch(updateConfigurationExpanded( ele.open));
+	}
+
+	_handleChartExpandedToggled(e) {
+		const ele = e.composedPath()[0];
+		store.dispatch(updateChartExpanded(ele.open));	
 	}
 
 	_handleDescriptionExpandedToggled(e) {
