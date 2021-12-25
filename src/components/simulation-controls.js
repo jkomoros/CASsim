@@ -56,7 +56,8 @@ import {
 	CANCEL_ICON,
 	INFO_ICON,
 	SETTINGS_ICON,
-	UNDO_ICON
+	UNDO_ICON,
+	AREA_CHART_ICON
 } from "./my-icons.js";
 
 import { ButtonSharedStyles } from "./button-shared-styles.js";
@@ -201,7 +202,7 @@ class SimulationControls extends connect(store)(LitElement) {
 				<div>
 					${ENABLE_CHARTS ? html`
 						<details .open=${this._chartExpanded} @toggle=${this._handleChartExpandedToggled}>
-							<summary><label><button class='small'>${INFO_ICON}</button> Chart</label></summary>
+							<summary><label><button class='small'>${AREA_CHART_ICON}</button> Chart</label></summary>
 							<div class='label'><em>Not yet implemented</em></div>
 						</details>
 					` : ''}
