@@ -270,6 +270,8 @@ export const Simulation = class {
 		this._optionConfig = null;
 		this._index = index;
 		this._maxFrameIndex = this._simulator.maxFrameIndex(this.simOptions);
+		this._scoreConfig = this._simulator.scoreConfig(this.simOptions);
+		deepFreeze(this._scoreConfig);
 		this._colors = Object.fromEntries(Object.entries(this._config[COLORS_PROPERTY] || {}).map(entry => [entry[0], color(entry[1])]));
 		this._lastChanged = Date.now();
 		this._activated = false;
@@ -382,6 +384,10 @@ export const Simulation = class {
 
 	get maxFrameIndex() {
 		return this._maxFrameIndex;
+	}
+
+	get scoreConfig() {
+		return this._scoreConfig;
 	}
 
 	get baseFingerprint() {
