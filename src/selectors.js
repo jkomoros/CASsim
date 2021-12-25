@@ -32,6 +32,7 @@ export const selectDelayCount = state => state.data ? state.data.delayCount : 0;
 export const selectShowControls = state => state.data ? state.data.showControls : true;
 const selectRawConfigurationExpanded = state => state.data ? state.data.configurationExpanded : false;
 const selectRawDescriptionExpanded = state => state.data ? state.data.descriptionExpanded : false;
+const selectRawChartExpanded = state => state.data ? state.data.chartExpanded : false;
 const selectSimulationLastChanged = state => state.data ? state.data.simulationLastChanged : 0;
 export const selectPathExpanded = state => state.data ? state.data.pathExpanded : {};
 export const selectScale = state => state.data ? state.data.scale : 1.0;
@@ -61,6 +62,12 @@ export const selectConfigurationExpanded = createSelector(
 export const selectDescriptionExpanded = createSelector(
 	selectShowControls,
 	selectRawDescriptionExpanded,
+	(showControls, rawExpanded) => showControls && rawExpanded
+);
+
+export const selectChartExpanded = createSelector(
+	selectShowControls,
+	selectRawChartExpanded,
 	(showControls, rawExpanded) => showControls && rawExpanded
 );
 

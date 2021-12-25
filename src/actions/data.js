@@ -12,6 +12,7 @@ export const UPDATE_DELAY_COUNT = 'UPDATE_DELAY_COUNT';
 export const UPDATE_SHOW_CONTROLS = 'UPDATE_SHOW_CONTROLS';
 export const UPDATE_CONFIGURATION_EXPANDED = 'UPDATE_CONFIGURATION_EXPANDED';
 export const UPDATE_DESCRIPTION_EXPANDED = 'UPDATE_DESCRIPTION_EXPANDED';
+export const UPDATE_CHART_EXPANDED = 'UPDATE_CHART_EXPANDED';
 export const UPDATE_PATH_EXPANDED = 'UPDATE_PATH_EXPANDED';
 export const UPDATE_SCALE = 'UPDATE_SCALE';
 export const SIMULATOR_LOADED = 'SIMULATOR_LOADED';
@@ -513,6 +514,13 @@ export const updateConfigurationExpanded = (expanded) => {
 export const updateDescriptionExpanded = (expanded) => {
 	return {
 		type: UPDATE_DESCRIPTION_EXPANDED,
+		expanded
+	};
+};
+
+export const updateChartExpanded = (expanded) => {
+	return {
+		type: UPDATE_CHART_EXPANDED,
 		expanded
 	};
 };

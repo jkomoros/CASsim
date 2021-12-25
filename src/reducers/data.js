@@ -14,6 +14,7 @@ import {
 	UPDATE_SCALE,
 	UPDATE_CONFIGURATION_EXPANDED,
 	UPDATE_DESCRIPTION_EXPANDED,
+	UPDATE_CHART_EXPANDED,
 	UPDATE_PATH_EXPANDED,
 	SIMULATOR_LOADED,
 	UPDATE_KNOWN_DATAFILES,
@@ -60,6 +61,7 @@ const INITIAL_STATE = {
 	simulationLastChanged: Date.now(),
 	//Whether the whole controls is visible or not
 	showControls: true,
+	chartExpanded: false,
 	configurationExpanded: false,
 	descriptionExpanded: true,
 	//The options-paths whose "Advanced" zippy should be shown as expanded. ''
@@ -133,6 +135,11 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			configurationExpanded: action.expanded
+		};
+	case UPDATE_CHART_EXPANDED:
+		return {
+			...state,
+			chartExpanded: action.expanded
 		};
 	case UPDATE_DESCRIPTION_EXPANDED:
 		return {
