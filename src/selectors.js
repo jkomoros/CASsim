@@ -196,6 +196,11 @@ export const selectCurrentSimulationMaxRunIndex = createSelector(
 	(sim) => sim ? sim.maxRunIndex : Number.MAX_SAFE_INTEGER
 );
 
+export const selectCurrentSimulationHasChartableData = createSelector(
+	selectCurrentSimulation,
+	(sim) => sim ? (sim.scoreConfig || []).some(obj => obj) : false
+);
+
 export const selectCurrentSimulationRunStatuses = createSelector(
 	selectCurrentSimulation,
 	selectSimulationLastChanged,
