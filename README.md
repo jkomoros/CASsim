@@ -187,8 +187,14 @@ results.
 1.0 or below 0 to signal indeterminate` This method takes a frame and scores it,
 returning an array of numbers. What the numbers mean is up to you; your
 `successScorer` method will be the thing that extracts whether a run was
-successful or not for the harness. Future iterations of the harness will allow
-you to chart these numbers over time.
+successful or not for the harness. scoreConfig is an override point for you to
+describe what your score means. Future iterations of the harness will allow you
+to chart these numbers over time.
+
+`scoreConfig(normalizedSimOptions) => an array of info objects describing what
+the score at each index of frameScorer means. A null or undefined entry means
+'do not show this to a user'. If not null, it should be an object with: `id`: a
+consistent ID, `title` for displaying what that runs means to a user.
 
 `successScorer(frameScore, normalizedSimOptions) => 0.0 if failure, 1.0 if full
 success, negative numbers to say indeterminate` This is the method that is

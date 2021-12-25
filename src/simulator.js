@@ -85,6 +85,12 @@ export class BaseSimulator {
 		return [0.0];
 	}
 
+	//By retuning null we will communicate that none of the scores for this
+	//simulator should be offered to be shown to a user.
+	scoreConfig(normalizedSimOptions) {
+		return [null];
+	}
+
 	//This behavior is almost always what you want and can be left alone
 	successScorer(frameScore) {
 		return frameScore[0];
