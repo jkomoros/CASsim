@@ -110,7 +110,7 @@ const SimulationRun = class {
 		this._simulation = simulation;
 		this._index = index;
 		this._frames = [];
-		this._frameScores = [];
+		this._scoreData = Object.fromEntries(this._simulation.scoreConfig.map(config => config ? config.id : '').filter(id => id).map(id => [id, []]));
 		this._successScores = [];
 		this._simulatorMaxFrameIndex = this._simulation.maxFrameIndex;
 		this._maxFrameIndex = Number.MAX_SAFE_INTEGER;
@@ -127,10 +127,8 @@ const SimulationRun = class {
 		return this._frames[frameIndex];
 	}
 
-	frameScore(frameIndex) {
-		this._ensureFrameDataUpTo(frameIndex);
-		if (frameIndex >= this._frames.length) return null;
-		return this._frameScores[frameIndex];
+	get scoreData() {
+		return this._scoreData;	
 	}
 
 	successScore(frameIndex) {
@@ -210,7 +208,10 @@ const SimulationRun = class {
 			deepFreeze(result);
 			this._frames.push(result);
 			const frameScores = this._simulation.simulator.frameScorer(result, this._simulation.simOptions);
-			this._frameScores.push(frameScores);
+			for (const [index, scoreConfig] of this._simulation.scoreConfig.entries()) {
+				if (!scoreConfig) continue;
+				this._scoreData[scoreConfig.id].push(frameScores[index]);
+			}
 			const successScore = this._simulation.simulator.successScorer(frameScores, this._simulation.simOptions);
 			this._successScores.push(successScore);
 			this._changed();
