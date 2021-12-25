@@ -5,30 +5,18 @@ import {
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'dice-roll-demo';
 
-/*
-Sim options shape:
-
-{
-	//The largest number the die can be
-	die: 6,
-	//The score we try to get to see if we win
-	targetScore: 20,
-	//The number that if the die comes up the round goes bust
-	bust: 1,
-}
-
-*/
-
 class DiceRollDemoSimulator extends BaseSimulator {
 
 	get name() {
 		return SIMULATOR_NAME;
 	}
 
-	_firstFrameGenerator(simOptions) {
+	//We use the default generator, which will call generateFirstFrame,
+	//simulationComplete, and generateFrame.
+
+	generateFirstFrame() {
+		//The default generator will expand this with index and simOptions.
 		return {
-			...simOptions,
-			index: 0,
 			busted: false,
 			score: 0,
 			lastRoll: 0,
@@ -36,13 +24,13 @@ class DiceRollDemoSimulator extends BaseSimulator {
 		};
 	}
 
-	_frameSimulationComplete(frame) {
+	simulationComplete(frame) {
 		return frame.success || frame.busted;
 	}
 
-	_diceRoll(frame, rnd) {
+	generateFrame(frame, rnd) {
 		//We want numbers 1 .. frame.die (inclusive)
-		const newRoll = Math.floor(rnd() * frame.die) + 1;
+		const newRoll = Math.floor(rnd() * frame.simOptions.die) + 1;
 		frame.lastRoll = newRoll;
 		if (newRoll == frame.bust) {
 			frame.score = 0;
@@ -50,25 +38,13 @@ class DiceRollDemoSimulator extends BaseSimulator {
 			return;
 		}
 		frame.score += newRoll;
-		if (frame.score >= frame.targetScore) {
+		if (frame.score >= frame.simOptions.targetScore) {
 			frame.success = true;
 		}
 	}
 
-	generator(frameIndex, previousFrame, simOptions, rnd) {
-		if (!previousFrame) return this._firstFrameGenerator(simOptions);
-		if (this._frameSimulationComplete(previousFrame)) return null;
-		//Note: because this is only a shallow copy, if we were to change any
-		//nested values in sub-generators we'd need to also copy them. previousFrame
-		//is frozen, which will make it easier to detect when we are erroneously
-		//trying to modify it.
-		const frame = {...previousFrame, index: frameIndex};
-		this._diceRoll(frame, rnd);
-		return frame;
-	}
-
 	frameScorer(frame) {
-		const finalScore = this._frameSimulationComplete(frame) ? (frame.success ? 1.0 : 0.0) : -1;
+		const finalScore = this.simulationComplete(frame) ? (frame.success ? 1.0 : 0.0) : -1;
 		return [finalScore, frame.score];
 	}
 
@@ -159,8 +135,8 @@ class DiceRollDemoRenderer extends LitElement {
 		return html`
 			<div class='container'>
 				${this._safeFrame.busted ? html`<span class='busted'>Busted!</span>` : (this._safeFrame.success ? html`<span class='success'>Success!</span>` : html`<em>Playing...</em>`)}
-				<div><span>Score: <strong>${this._safeFrame.score}</strong> / ${this._safeFrame.targetScore}</span></div>
-				<div><span>Roll: <strong>${this._safeFrame.lastRoll}</strong> / ${this._safeFrame.die} </span></div>
+				<div><span>Score: <strong>${this._safeFrame.score}</strong> / ${this._safeFrame.simOptions.targetScore}</span></div>
+				<div><span>Roll: <strong>${this._safeFrame.lastRoll}</strong> / ${this._safeFrame.simOptions.die} </span></div>
 			</div>
 		`;
 	}
