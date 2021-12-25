@@ -272,6 +272,11 @@ export const Simulation = class {
 		this._maxFrameIndex = this._simulator.maxFrameIndex(this.simOptions);
 		this._scoreConfig = this._simulator.scoreConfig(this.simOptions);
 		deepFreeze(this._scoreConfig);
+		if (!Array.isArray(this._scoreConfig)) throw new Error('scoreConfig must return an array');
+		for (const [index, config] of this._scoreConfig.entries()) {
+			if (!config) continue;
+			if (!config.id) throw new Error('scoreConfig #' + index + ' is missing id, a requried property');
+		}
 		this._colors = Object.fromEntries(Object.entries(this._config[COLORS_PROPERTY] || {}).map(entry => [entry[0], color(entry[1])]));
 		this._lastChanged = Date.now();
 		this._activated = false;
