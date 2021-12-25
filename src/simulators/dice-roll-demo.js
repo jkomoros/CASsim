@@ -48,6 +48,16 @@ class DiceRollDemoSimulator extends BaseSimulator {
 		return [finalScore, frame.score];
 	}
 
+	scoreConfig() {
+		return [
+			null,
+			{
+				id: 'score',
+				title: 'Score',
+			},
+		];
+	}
+
 	frameValidator(frame) {
 		if (frame.busted === undefined) throw new Error('No busted property');
 		if (frame.score === undefined) throw new Error('No score property');
