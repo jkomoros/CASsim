@@ -64,6 +64,7 @@ import { ButtonSharedStyles } from "./button-shared-styles.js";
 import { SharedStyles } from "./shared-styles.js";
 
 import './run-summary.js';
+import './run-chart.js';
 import './options-control.js';
 
 //TODO: remove this when done working on #22.
@@ -203,7 +204,7 @@ class SimulationControls extends connect(store)(LitElement) {
 					${ENABLE_CHARTS ? html`
 						<details .open=${this._chartExpanded} @toggle=${this._handleChartExpandedToggled}>
 							<summary><label><button class='small'>${AREA_CHART_ICON}</button> Chart</label></summary>
-							<div class='label'><em>Not yet implemented</em></div>
+							<run-chart></run-chart>
 						</details>
 					` : ''}
 				</div>
