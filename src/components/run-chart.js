@@ -93,28 +93,20 @@ class RunChart extends LitElement {
 
 	_xTicks() {
 		const maxX = this._maxX;
-		return [
-			{
-				value: 0,
-			},
-			{
-				value: maxX,
-				title: '' + maxX,
-			}
-		];
+		const middle = [];
+		for (let i = 1; i < Math.floor(maxX); i++) {
+			middle.push({value: i});
+		}
+		return [{value: 0}, ...middle, {value:maxX, title: ''+maxX}];
 	}
 
 	_yTicks() {
 		const maxY = this._maxY;
-		return [
-			{
-				value: 0,
-			},
-			{
-				value: maxY,
-				title: '' + maxY,
-			}
-		];
+		const middle = [];
+		for (let i = 1; i < Math.floor(maxY); i++) {
+			middle.push({value: i});
+		}
+		return [{value: 0}, ...middle, {value:maxY, title: ''+maxY}];
 	}
 
 	_colorForRun(run) {
