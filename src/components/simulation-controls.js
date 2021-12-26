@@ -74,7 +74,7 @@ import './run-chart.js';
 import './options-control.js';
 
 //TODO: remove this when done working on #22.
-const ENABLE_CHARTS = false;
+const ENABLE_CHARTS = true;
 
 class SimulationControls extends connect(store)(LitElement) {
 	static get properties() {
