@@ -22,6 +22,10 @@ class RunChart extends LitElement {
 					height: 100%;
 					width: 100%;
 				}
+
+				svg rect {
+					stroke: var(--dark-gray-color);
+				}
 			`
 		];
 	}
@@ -40,7 +44,7 @@ class RunChart extends LitElement {
 		const rect = this.getBoundingClientRect();
 		return html`
 			<svg viewBox='0 0 ${rect.width} ${rect.height}'>
-				<rect x='0' y='0' width='${rect.width}' height='${rect.height}' fill='blue'></rect>
+				<rect x='0' y='0' width='${rect.width}' height='${rect.height}' fill-opacity='0.0' stroke-width='1px'></rect>
 			</svg>
 		`;
 	}
