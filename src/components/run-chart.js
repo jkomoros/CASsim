@@ -21,6 +21,8 @@ class RunChart extends LitElement {
 				svg {
 					height: 100%;
 					width: 100%;
+					/* positioned absolutely to make sure we don't affect the layout of host, since we read back that layout each time */
+					position: absolute;
 				}
 
 				svg rect {
