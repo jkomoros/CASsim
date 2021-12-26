@@ -76,26 +76,32 @@ class RunChart extends LitElement {
 		return Object.values(this.data).map(run => run.data.reduce((prev, next) => Math.max(prev, next), 0)).reduce((prev, next) => Math.max(prev, next), 1);
 	}
 
-	_renderRun(run, chartWidth, chartHeight, chartOriginX, chartOriginY) {
-		const xFactor = chartWidth / (this._maxX - 1);
-		const yFactor = chartHeight / this._maxY;
+	_colorForRun(run) {
 		let color = run.config.color;
 		if (!color) {
 			const h = Math.abs(hash(run.config.id));
 			const colorIndex = Math.floor(h % DEFAULT_RUN_COLORS.length);
 			color = DEFAULT_RUN_COLORS[colorIndex];
 		}
-		return svg`<path class='run' stroke='${color}' d='${run.data.map((value, index) => (index == 0 ? 'M ' : 'L ') + ((index * xFactor) + chartOriginX) + ', ' + (chartOriginY - (value * yFactor)) + ' ')}'>
-						<title>${run.config.title || run.config.id}</title>
-					</path>`;
+		return color;
 	}
 
 	render() {
 		const rect = this.getBoundingClientRect();
+		const chartWidth = rect.width;
+		const chartHeight = rect.height;
+		const chartOriginX = 0;
+		const chartOriginY = rect.height;
+		const xFactor = chartWidth / (this._maxX - 1);
+		const yFactor = chartHeight / this._maxY;
+
 		return html`
 			<svg viewBox='0 0 ${rect.width} ${rect.height}'>
 				<rect x='0' y='0' width='${rect.width}' height='${rect.height}' fill-opacity='0.0' stroke-width='1px'></rect>
-				${Object.values(this.data).map(run => this._renderRun(run, rect.width, rect.height, 0, rect.height))}
+				${Object.values(this.data).map(run => 
+		svg`<path class='run' stroke='${this._colorForRun(run)}' d='${run.data.map((value, index) => (index == 0 ? 'M ' : 'L ') + ((index * xFactor) + chartOriginX) + ', ' + (chartOriginY - (value * yFactor)) + ' ')}'>
+						<title>${run.config.title || run.config.id}</title>
+					</path>`)}
 			</svg>
 		`;
 	}
