@@ -142,6 +142,10 @@ class SimulationControls extends connect(store)(LitElement) {
 					margin-right: 0.5em;
 				}
 
+				input[type=checkbox] {
+					width: unset;
+				}
+
 				select {
 					margin-left: 0.5em;
 				}
@@ -216,8 +220,8 @@ class SimulationControls extends connect(store)(LitElement) {
 							<summary><label><button class='small'>${AREA_CHART_ICON}</button> Chart</label></summary>
 							<run-chart .data=${this._chartData} .configID=${this._chartConfigID}></run-chart>
 							<div>
-								<input id='singleRun' type='checkbox' .checked=${this._chartSingleRun} @change=${this._handleChartSingleRunUpdated}><label for='singleRun'>Current Run Only</label>
-								${this._chartData && Object.keys(this._chartData).length > 1 ? html`<select id='configID' @change=${this._handleChartConfigIDUpdated}>${['', ...Object.keys(this._chartData)].map(key => html`<option .value=${key} .selected=${key == this._chartConfigID}>${key ? (this._chartData[key] && this._chartData[key].length > 0 && this._chartData[key][0].config.title) || key : 'All data'}</option>></option>`)}</select>` : ''}
+								${this._chartData && Object.keys(this._chartData).length > 1 ? html`<select id='configID' @change=${this._handleChartConfigIDUpdated}>${['', ...Object.keys(this._chartData)].map(key => html`<option .value=${key} .selected=${key == this._chartConfigID}>${key ? (this._chartData[key] && this._chartData[key].length > 0 && this._chartData[key][0].config.title) || key : 'All data'}</option>></option>`)}</select>` : ''}	
+								<input id='singleRun' type='checkbox' .checked=${this._chartSingleRun} @change=${this._handleChartSingleRunUpdated}><label for='singleRun'>Current run only</label>
 							</div>
 						</details>
 					` : ''}
