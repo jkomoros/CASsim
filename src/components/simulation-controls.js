@@ -24,7 +24,8 @@ import {
 	selectCurrentSimulatorShadowedModifications,
 	selectWarning,
 	selectChartExpanded,
-	selectCurrentSimulationHasChartableData
+	selectCurrentSimulationHasChartableData,
+	selectCurrentSimulationChartData
 } from "../selectors.js";
 
 import {
@@ -80,6 +81,7 @@ class SimulationControls extends connect(store)(LitElement) {
 			_modifiedPaths: {type:Object},
 			_configurationExpanded: {type:Boolean},
 			_chartExpanded: {type:Boolean},
+			_chartData: {type:Object},
 			_currentSimulationHasChartableData: {type:Boolean},
 			_descriptionExpanded: {type:Boolean},
 			_filename: {type:String},
@@ -206,7 +208,7 @@ class SimulationControls extends connect(store)(LitElement) {
 					${ENABLE_CHARTS && this._currentSimulationHasChartableData ? html`
 						<details .open=${this._chartExpanded} @toggle=${this._handleChartExpandedToggled}>
 							<summary><label><button class='small'>${AREA_CHART_ICON}</button> Chart</label></summary>
-							<run-chart></run-chart>
+							<run-chart .data=${this._chartData}></run-chart>
 						</details>
 					` : ''}
 				</div>
@@ -230,6 +232,7 @@ class SimulationControls extends connect(store)(LitElement) {
 		this._descriptionExpanded = selectDescriptionExpanded(state);
 		this._chartExpanded = selectChartExpanded(state);
 		this._currentSimulationHasChartableData = selectCurrentSimulationHasChartableData(state);
+		this._chartData = this._chartExpanded && this._currentSimulationHasChartableData ? selectCurrentSimulationChartData(state) : {};
 		this._pathExpanded = selectPathExpanded(state);
 		this._filename = selectFilename(state);
 		this._datafiles = selectKnownDatafiles(state);
