@@ -172,8 +172,13 @@ class RunChart extends LitElement {
 		const middle = [];
 		const interval = this._interval(maxX - minX);
 		let index = minX + interval;
+		let startedNegative = index < 0.0;
 		while (index < maxX) {
 			middle.push({value: index});
+			if (startedNegative && index > 0.0) {
+				startedNegative = false;
+				middle.push({value: 0.0, title: '0'});
+			}
 			index += interval;
 		}
 		return [{value: minX}, ...middle, {value:maxX, title: ''+maxX}];
@@ -185,8 +190,13 @@ class RunChart extends LitElement {
 		const middle = [];
 		const interval = this._interval(maxY - minY);
 		let index = minY + interval;
+		let startedNegative = index < 0.0;
 		while (index < maxY) {
 			middle.push({value: index});
+			if (startedNegative && index > 0.0) {
+				startedNegative = false;
+				middle.push({value: 0.0, title: '0'});
+			}
 			index += interval;
 		}
 		return [{value: minY}, ...middle, {value:maxY, title: ''+maxY}];
