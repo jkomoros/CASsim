@@ -218,6 +218,15 @@ export const selectCurrentSimulationRun = createSelector(
 	}
 );
 
+export const selectCurrentSimulationChartData = createSelector(
+	selectCurrentSimulationRun,
+	//Detect when the downstream layer has more data that has changed and
+	//recalc, even though we don't need the lastchanged value
+	selectSimulationLastChanged,
+	//TODO: munge in multpiple runs of data, etc.
+	(run) => run ? run.scoreData : {}
+);
+
 export const selectCurrentFrame = createSelector(
 	selectCurrentSimulationRun,
 	selectFrameIndex,
