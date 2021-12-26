@@ -26,6 +26,7 @@ import {
 	UPDATE_SCREENSHOTTING,
 	UPDATE_HASH,
 	UPDATE_WARNING,
+	UPDATE_CHART_SINGLE_RUN,
 
 	DIALOG_TYPE_JSON,
 	DEFAULT_FILE_NAME,
@@ -64,6 +65,7 @@ const INITIAL_STATE = {
 	chartExpanded: false,
 	configurationExpanded: false,
 	descriptionExpanded: true,
+	chartSingleRun: false,
 	//The options-paths whose "Advanced" zippy should be shown as expanded. ''
 	//is the top level 
 	pathExpanded: {},
@@ -225,6 +227,11 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			warning: action.message
+		};
+	case UPDATE_CHART_SINGLE_RUN:
+		return {
+			...state,
+			chartSingleRun: action.singleRun,
 		};
 	default:
 		return state;

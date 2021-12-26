@@ -25,6 +25,7 @@ export const SIMULATION_CHANGED = 'SIMULATION_CHANGED';
 export const UPDATE_SCREENSHOTTING = 'UPDATE_SCREENSHOTTING';
 export const UPDATE_HASH = 'UPDATE_HASH';
 export const UPDATE_WARNING = 'UPDATE_WARNING';
+export const UPDATE_CHART_SINGLE_RUN = 'UPDATE_CHART_SINGLE_RUN';
 
 export const DIALOG_TYPE_JSON = 'json';
 export const DIALOG_TYPE_ADD_FIELD = 'add-field';
@@ -648,5 +649,12 @@ export const updateWarning = (message) => {
 	return {
 		type: UPDATE_WARNING,
 		message
+	};
+};
+
+export const updateChartSingleRun = (singleRun) => {
+	return {
+		type: UPDATE_CHART_SINGLE_RUN,
+		singleRun,
 	};
 };
