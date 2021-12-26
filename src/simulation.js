@@ -291,6 +291,19 @@ export const Simulation = class {
 		return Math.max(this._lastChanged, ...this._runs.map(run => run.lastChanged));
 	}
 
+	get scoreData() {
+		//TODO memoize somehow
+		const result = {};
+		for (const run of this._runs) {
+			const data = run.scoreData;
+			for (const [key, value] of Object.entries(data)) {
+				if (!result[key]) result[key] = [];
+				result[key] = [...result.key, ...value];
+			}
+		}
+		return result;
+	}
+
 	get simulatorName() {
 		return this._config.sim;
 	}
