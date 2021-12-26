@@ -71,7 +71,7 @@ class RunChart extends LitElement {
 
 	get _maxX() {
 		//The run with the longest number of frameValues, or 1.
-		return Object.values(this.data).map(run => run.data.length).reduce((prev, next) => Math.max(prev, next), 1);
+		return Object.values(this.data).map(run => run.data.length - 1).reduce((prev, next) => Math.max(prev, next), 1);
 	}
 
 	get _maxY() {
@@ -116,7 +116,7 @@ class RunChart extends LitElement {
 		const chartHeight = rect.height - padding;
 		const chartOriginX = padding;
 		const chartOriginY = rect.height - padding;
-		const xFactor = chartWidth / (this._maxX - 1);
+		const xFactor = chartWidth / this._maxX;
 		const yFactor = chartHeight / this._maxY;
 	
 		return html`
