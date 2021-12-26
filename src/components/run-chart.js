@@ -1,4 +1,4 @@
-import { LitElement, html, css } from "lit-element";
+import { LitElement, html, css, svg } from "lit-element";
 import { SharedStyles } from "./shared-styles.js";
 
 class RunChart extends LitElement {
@@ -26,6 +26,11 @@ class RunChart extends LitElement {
 				svg rect {
 					stroke: var(--dark-gray-color);
 				}
+
+				path.run {
+					stroke: black;
+					fill: transparent;
+				}
 			`
 		];
 	}
@@ -40,11 +45,18 @@ class RunChart extends LitElement {
 		return Object.values(this.data).map(line => line.reduce((prev, next) => Math.max(prev, next), 0)).reduce((prev, next) => Math.max(prev, next), 1);
 	}
 
+	_renderRun(run, chartWidth, chartHeight, chartOriginX, chartOriginY) {
+		const xFactor = chartWidth / (this._maxX - 1);
+		const yFactor = chartHeight / this._maxY;
+		return svg`<path class='run' stroke-width='2' d='${run.map((value, index) => (index == 0 ? 'M ' : 'L ') + ((index * xFactor) + chartOriginX) + ', ' + (chartOriginY - (value * yFactor)) + ' ')}'></path>`;
+	}
+
 	render() {
 		const rect = this.getBoundingClientRect();
 		return html`
 			<svg viewBox='0 0 ${rect.width} ${rect.height}'>
 				<rect x='0' y='0' width='${rect.width}' height='${rect.height}' fill-opacity='0.0' stroke-width='1px'></rect>
+				${Object.values(this.data).map(run => this._renderRun(run, rect.width, rect.height, 0, rect.height))}
 			</svg>
 		`;
 	}
