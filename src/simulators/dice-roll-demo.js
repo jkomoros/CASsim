@@ -32,7 +32,7 @@ class DiceRollDemoSimulator extends BaseSimulator {
 		//We want numbers 1 .. frame.die (inclusive)
 		const newRoll = Math.floor(rnd() * frame.simOptions.die) + 1;
 		frame.lastRoll = newRoll;
-		if (newRoll == frame.bust) {
+		if (newRoll == frame.simOptions.bust) {
 			frame.score = 0;
 			frame.busted = true;
 			return;
