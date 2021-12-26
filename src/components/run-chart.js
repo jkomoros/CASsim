@@ -91,6 +91,9 @@ class RunChart extends LitElement {
 		const maxX = this._maxX;
 		return [
 			{
+				value: 0,
+			},
+			{
 				value: maxX,
 				title: '' + maxX,
 			}
@@ -100,6 +103,9 @@ class RunChart extends LitElement {
 	_yTicks() {
 		const maxY = this._maxY;
 		return [
+			{
+				value: 0,
+			},
 			{
 				value: maxY,
 				title: '' + maxY,
