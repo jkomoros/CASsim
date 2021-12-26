@@ -25,7 +25,8 @@ import {
 	selectWarning,
 	selectChartExpanded,
 	selectCurrentSimulationHasChartableData,
-	selectCurrentSimulationChartData
+	selectCurrentSimulationChartData,
+	selectChartSingleRun
 } from "../selectors.js";
 
 import {
@@ -45,7 +46,8 @@ import {
 	updateFilename,
 	DIALOG_TYPE_JSON,
 	clearModifications,
-	updateWarning
+	updateWarning,
+	updateChartSingleRun
 } from '../actions/data.js';
 
 import {
@@ -82,6 +84,7 @@ class SimulationControls extends connect(store)(LitElement) {
 			_configurationExpanded: {type:Boolean},
 			_chartExpanded: {type:Boolean},
 			_chartData: {type:Object},
+			_chartSingleRun: {type:Boolean},
 			_currentSimulationHasChartableData: {type:Boolean},
 			_descriptionExpanded: {type:Boolean},
 			_filename: {type:String},
@@ -209,6 +212,9 @@ class SimulationControls extends connect(store)(LitElement) {
 						<details .open=${this._chartExpanded} @toggle=${this._handleChartExpandedToggled}>
 							<summary><label><button class='small'>${AREA_CHART_ICON}</button> Chart</label></summary>
 							<run-chart .data=${this._chartData}></run-chart>
+							<div>
+								<input id='singleRun' type='checkbox' .checked=${this._chartSingleRun} @change=${this._handleChartSingleRunUpdated}><label for='singleRun'>Current Run Only</label>
+							</div>
 						</details>
 					` : ''}
 				</div>
@@ -233,6 +239,7 @@ class SimulationControls extends connect(store)(LitElement) {
 		this._chartExpanded = selectChartExpanded(state);
 		this._currentSimulationHasChartableData = selectCurrentSimulationHasChartableData(state);
 		this._chartData = this._chartExpanded && this._currentSimulationHasChartableData ? selectCurrentSimulationChartData(state) : {};
+		this._chartSingleRun = selectChartSingleRun(state);
 		this._pathExpanded = selectPathExpanded(state);
 		this._filename = selectFilename(state);
 		this._datafiles = selectKnownDatafiles(state);
@@ -259,6 +266,11 @@ class SimulationControls extends connect(store)(LitElement) {
 
 	_handleUndoClicked(e) {
 		store.dispatch(removeModificationsForPath(e.detail.path));
+	}
+
+	_handleChartSingleRunUpdated(e) {
+		const ele = e.composedPath()[0];
+		store.dispatch(updateChartSingleRun(ele.checked));
 	}
 
 	_handleRemoveModificationsClicked() {
