@@ -110,7 +110,7 @@ const SimulationRun = class {
 		this._simulation = simulation;
 		this._index = index;
 		this._frames = [];
-		this._scoreData = Object.fromEntries(this._simulation.scoreConfig.filter(config => config && config.id).map(config => [config.id, {data: [], config: config}]));
+		this._scoreData = Object.fromEntries(this._simulation.scoreConfig.filter(config => config && config.id).map(config => [config.id, [{data: [], config: config}]]));
 		this._successScores = [];
 		this._simulatorMaxFrameIndex = this._simulation.maxFrameIndex;
 		this._maxFrameIndex = Number.MAX_SAFE_INTEGER;
@@ -210,7 +210,7 @@ const SimulationRun = class {
 			const frameScores = this._simulation.simulator.frameScorer(result, this._simulation.simOptions);
 			for (const [index, scoreConfig] of this._simulation.scoreConfig.entries()) {
 				if (!scoreConfig) continue;
-				this._scoreData[scoreConfig.id].data.push(frameScores[index]);
+				this._scoreData[scoreConfig.id][0].data.push(frameScores[index]);
 			}
 			const successScore = this._simulation.simulator.successScorer(frameScores, this._simulation.simOptions);
 			this._successScores.push(successScore);

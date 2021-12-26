@@ -90,12 +90,26 @@ class RunChart extends LitElement {
 
 	get _maxX() {
 		//The run with the longest number of frameValues, or 1.
-		return Object.values(this.data).map(run => run.data.length - 1).reduce((prev, next) => Math.max(prev, next), 1);
+		let max = 1;
+		for (const runs of Object.values(this.data)) {
+			for (const run of runs) {
+				const value = run.data.length - 1;
+				if (value > max) max = value;
+			}
+		}
+		return max;
 	}
 
 	get _maxY() {
 		//The highest value seen in the entire data run, or 1
-		return Object.values(this.data).map(run => run.data.reduce((prev, next) => Math.max(prev, next), 0)).reduce((prev, next) => Math.max(prev, next), 1);
+		let max = 1;
+		for (const runs of Object.values(this.data)) {
+			for (const run of runs) {
+				const value = run.data.reduce((prev, next) => Math.max(prev, next));
+				if (value > max) max = value;
+			}
+		}
+		return max;
 	}
 
 	_interval(max) {
@@ -172,10 +186,10 @@ class RunChart extends LitElement {
 				<rect x='${padding}' y='0' width='${chartWidth}' height='${chartHeight}' fill-opacity='0.0'></rect>
 				${this._xTicks().map((tick, index, ticks) => svg`<path class='tick xTick' d='M${chartOriginX + tick.value * xFactor},${chartOriginY} v ${tickLength}'></path><path class='tick line xTick' d='M${chartOriginX + tick.value * xFactor},${chartOriginY} v ${-1 * chartHeight}'></path>${tick.title ? svg`<text class='label' text-anchor='${index == ticks.length - 1 ? 'end' : 'middle'}' x='${chartOriginX + tick.value * xFactor}' y='${rect.height}' font-size='${tickLength * 1.5}px'>${tick.title}</text>` : ''}`)}
 				${this._yTicks().map((tick, index, ticks) => svg`<path class='tick yTick' d='M${chartOriginX},${chartOriginY - (tick.value * yFactor)} h ${-1.0 * tickLength}'></path><path class='tick line yTick' d='M${chartOriginX},${chartOriginY - (tick.value * yFactor)} h ${chartWidth}'></path>${tick.title ? svg`<text class='label' dominant-baseline='center' x='0' y='${chartOriginY - (tick.value * yFactor) + (index == ticks.length - 1 ? tickLength * 1.5 : 0)}' font-size='${tickLength * 1.5}px'>${tick.title}</text>` : ''}`)}
-				${Object.values(this.data).map(run => 
+				${Object.values(this.data).map(runs => runs.map(run => 
 		svg`<path class='run' stroke='${this._colorForRun(run)}' d='${run.data.map((value, index) => (index == 0 ? 'M ' : 'L ') + ((index * xFactor) + chartOriginX) + ', ' + (chartOriginY - (value * yFactor)) + ' ')}'>
 						<title>${run.config.title || run.config.id}</title>
-					</path>`)}
+					</path>`))}
 			</svg>
 		`;
 	}
