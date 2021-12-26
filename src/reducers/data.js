@@ -27,6 +27,7 @@ import {
 	UPDATE_HASH,
 	UPDATE_WARNING,
 	UPDATE_CHART_SINGLE_RUN,
+	UPDATE_CHART_CONFIG_ID,
 
 	DIALOG_TYPE_JSON,
 	DEFAULT_FILE_NAME,
@@ -66,6 +67,8 @@ const INITIAL_STATE = {
 	configurationExpanded: false,
 	descriptionExpanded: true,
 	chartSingleRun: false,
+	//'' means 'all configs'
+	chartConfigID: '',
 	//The options-paths whose "Advanced" zippy should be shown as expanded. ''
 	//is the top level 
 	pathExpanded: {},
@@ -232,6 +235,11 @@ const data = (state = INITIAL_STATE, action) => {
 		return {
 			...state,
 			chartSingleRun: action.singleRun,
+		};
+	case UPDATE_CHART_CONFIG_ID:
+		return {
+			...state,
+			chartConfigID: action.id
 		};
 	default:
 		return state;
