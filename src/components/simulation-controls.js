@@ -73,9 +73,6 @@ import './run-summary.js';
 import './run-chart.js';
 import './options-control.js';
 
-//TODO: remove this when done working on #22.
-const ENABLE_CHARTS = true;
-
 class SimulationControls extends connect(store)(LitElement) {
 	static get properties() {
 		return {
@@ -215,7 +212,7 @@ class SimulationControls extends connect(store)(LitElement) {
 					</details>
 				</div>
 				<div>
-					${ENABLE_CHARTS && this._currentSimulationHasChartableData ? html`
+					${this._currentSimulationHasChartableData ? html`
 						<details .open=${this._chartExpanded} @toggle=${this._handleChartExpandedToggled}>
 							<summary><label><button class='small'>${AREA_CHART_ICON}</button> Chart</label></summary>
 							<run-chart .data=${this._chartData} .configID=${this._chartConfigID}></run-chart>
