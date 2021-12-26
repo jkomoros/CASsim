@@ -76,6 +76,26 @@ class RunChart extends LitElement {
 		return Object.values(this.data).map(run => run.data.reduce((prev, next) => Math.max(prev, next), 0)).reduce((prev, next) => Math.max(prev, next), 1);
 	}
 
+	_xTicks() {
+		const maxX = this._maxX;
+		return [
+			{
+				value: maxX,
+				title: '' + maxX,
+			}
+		];
+	}
+
+	_yTicks() {
+		const maxY = this._maxY;
+		return [
+			{
+				value: maxY,
+				title: '' + maxY,
+			}
+		];
+	}
+
 	_colorForRun(run) {
 		let color = run.config.color;
 		if (!color) {
@@ -94,7 +114,7 @@ class RunChart extends LitElement {
 		const chartOriginY = rect.height;
 		const xFactor = chartWidth / (this._maxX - 1);
 		const yFactor = chartHeight / this._maxY;
-
+	
 		return html`
 			<svg viewBox='0 0 ${rect.width} ${rect.height}'>
 				<rect x='0' y='0' width='${rect.width}' height='${rect.height}' fill-opacity='0.0' stroke-width='1px'></rect>
