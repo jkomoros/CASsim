@@ -28,6 +28,8 @@ const DEFAULT_RUN_COLORS = [
 
 //In percent of width
 const PADDING_PROPORTION = 0.1;
+//In percent of padding
+const TICK_PROPORTION = 0.3;
 
 class RunChart extends LitElement {
 	static get properties() {
@@ -55,6 +57,12 @@ class RunChart extends LitElement {
 
 				svg rect {
 					stroke: var(--dark-gray-color);
+					stroke-width: 1px;
+				}
+
+				.tick {
+					stroke: var(--dark-gray-color);
+					stroke-width: 1px;
 				}
 
 				path.run {
@@ -112,6 +120,7 @@ class RunChart extends LitElement {
 	render() {
 		const rect = this.getBoundingClientRect();
 		const padding = rect.width * PADDING_PROPORTION;
+		const tickLength = padding * TICK_PROPORTION;
 		const chartWidth = rect.width - padding;
 		const chartHeight = rect.height - padding;
 		const chartOriginX = padding;
@@ -121,7 +130,9 @@ class RunChart extends LitElement {
 	
 		return html`
 			<svg viewBox='0 0 ${rect.width} ${rect.height}'>
-				<rect x='${padding}' y='0' width='${chartWidth}' height='${chartHeight}' fill-opacity='0.0' stroke-width='1px'></rect>
+				<rect x='${padding}' y='0' width='${chartWidth}' height='${chartHeight}' fill-opacity='0.0'></rect>
+				${this._xTicks().map(tick => svg`<path class='tick xTick' d='M${chartOriginX + tick.value * xFactor},${chartOriginY} v ${tickLength}'></path>`)}
+				${this._yTicks().map(tick => svg`<path class='tick yTick' d='M${chartOriginX},${chartOriginY - (tick.value * yFactor)} h ${-1.0 * tickLength}'></path>`)}
 				${Object.values(this.data).map(run => 
 		svg`<path class='run' stroke='${this._colorForRun(run)}' d='${run.data.map((value, index) => (index == 0 ? 'M ' : 'L ') + ((index * xFactor) + chartOriginX) + ', ' + (chartOriginY - (value * yFactor)) + ' ')}'>
 						<title>${run.config.title || run.config.id}</title>
