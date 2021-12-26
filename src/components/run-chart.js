@@ -1,6 +1,31 @@
 import { LitElement, html, css, svg } from "lit-element";
 import { SharedStyles } from "./shared-styles.js";
 
+import {
+	hash
+} from '../util.js';
+
+const DEFAULT_RUN_COLORS = [
+	//Indianred
+	'#CD5C5C',
+	//darkkhahki
+	'#BDB76B',
+	//limegreen
+	'#32CD32',
+	//darkcyan
+	'#008B8B',
+	//navy
+	'#000080',
+	//sandybrown
+	'#F4A460',
+	//gold
+	'#FFD700',
+	//darkmagenta
+	'#8B008B',
+	//royalblue
+	'#4169E1',
+];
+
 class RunChart extends LitElement {
 	static get properties() {
 		return {
@@ -31,7 +56,6 @@ class RunChart extends LitElement {
 
 				path.run {
 					stroke-width: 2px;
-					stroke: black;
 					fill: transparent;
 				}
 
@@ -55,7 +79,10 @@ class RunChart extends LitElement {
 	_renderRun(run, chartWidth, chartHeight, chartOriginX, chartOriginY) {
 		const xFactor = chartWidth / (this._maxX - 1);
 		const yFactor = chartHeight / this._maxY;
-		return svg`<path class='run' d='${run.data.map((value, index) => (index == 0 ? 'M ' : 'L ') + ((index * xFactor) + chartOriginX) + ', ' + (chartOriginY - (value * yFactor)) + ' ')}'>
+		const h = Math.abs(hash(run.config.id));
+		const colorIndex = Math.floor(h % DEFAULT_RUN_COLORS.length);
+		const color = DEFAULT_RUN_COLORS[colorIndex];
+		return svg`<path class='run' stroke='${color}' d='${run.data.map((value, index) => (index == 0 ? 'M ' : 'L ') + ((index * xFactor) + chartOriginX) + ', ' + (chartOriginY - (value * yFactor)) + ' ')}'>
 						<title>${run.config.title || run.config.id}</title>
 					</path>`;
 	}
