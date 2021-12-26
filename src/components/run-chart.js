@@ -31,6 +31,9 @@ const PADDING_PROPORTION = 0.1;
 //In percent of padding
 const TICK_PROPORTION = 0.3;
 
+const TICK_INTERVALS = [0.05, 0.25, 0.5, 1.0, 5.0, 10.0, 25.0, 50.0, 100.0, 500.0, 1000.0, 5000.0, 10000.0];
+const INTERMEDIATE_TICK_COUNT = 5;
+
 class RunChart extends LitElement {
 	static get properties() {
 		return {
@@ -95,11 +98,38 @@ class RunChart extends LitElement {
 		return Object.values(this.data).map(run => run.data.reduce((prev, next) => Math.max(prev, next), 0)).reduce((prev, next) => Math.max(prev, next), 1);
 	}
 
+	_interval(max) {
+		let low = 0;
+		let high = TICK_INTERVALS.length - 1;
+
+		if (max < 1.0) return 1.0;
+
+		while (low != high) {
+			const index = Math.floor((high - low) / 2 + low);
+
+			if (index == low) return TICK_INTERVALS[high];
+			if (index == high) return TICK_INTERVALS[low];
+		
+			const interval = TICK_INTERVALS[index];
+			const count = max / interval;
+			if (count == INTERMEDIATE_TICK_COUNT) return interval;
+			if (count > INTERMEDIATE_TICK_COUNT) {
+				low = index;
+			} else {
+				high = index;
+			}
+		}
+		return TICK_INTERVALS[low];
+	}
+
 	_xTicks() {
 		const maxX = this._maxX;
 		const middle = [];
-		for (let i = 1; i < Math.floor(maxX); i++) {
-			middle.push({value: i});
+		const interval = this._interval(maxX);
+		let index = interval;
+		while (index < maxX) {
+			middle.push({value: index});
+			index += interval;
 		}
 		return [{value: 0}, ...middle, {value:maxX, title: ''+maxX}];
 	}
@@ -107,8 +137,11 @@ class RunChart extends LitElement {
 	_yTicks() {
 		const maxY = this._maxY;
 		const middle = [];
-		for (let i = 1; i < Math.floor(maxY); i++) {
-			middle.push({value: i});
+		const interval = this._interval(maxY);
+		let index = interval;
+		while (index < maxY) {
+			middle.push({value: index});
+			index += interval;
 		}
 		return [{value: 0}, ...middle, {value:maxY, title: ''+maxY}];
 	}
