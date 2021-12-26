@@ -31,8 +31,8 @@ const PADDING_PROPORTION = 0.1;
 //In percent of padding
 const TICK_PROPORTION = 0.3;
 
-const TICK_INTERVALS = [0.05, 0.25, 0.5, 1.0, 5.0, 10.0, 25.0, 50.0, 100.0, 500.0, 1000.0, 5000.0, 10000.0];
-const INTERMEDIATE_TICK_COUNT = 5;
+const TICK_INTERVALS = [0.05, 0.10, 0.25, 0.5, 1.0, 2.5, 5.0, 10.0, 25.0, 50.0, 100.0, 250.0, 500.0, 1000.0, 2500.0, 5000.0, 10000.0];
+const INTERMEDIATE_TICK_COUNT = 6;
 
 class RunChart extends LitElement {
 	static get properties() {
