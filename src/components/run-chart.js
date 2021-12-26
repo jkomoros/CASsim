@@ -89,6 +89,32 @@ class RunChart extends LitElement {
 		];
 	}
 
+	get _minX() {
+		//The run with the longest number of frameValues, or 1.
+		let min = 0;
+		for (const [id, runs] of Object.entries(this.data)) {
+			if (this.configID && this.configID != id) continue;
+			for (const run of runs) {
+				const value = run.data.length - 1;
+				if (value < min) min = value;
+			}
+		}
+		return min;
+	}
+
+	get _minY() {
+		//The highest value seen in the entire data run, or 1
+		let min = 0;
+		for (const [id, runs] of Object.entries(this.data)) {
+			if (this.configID && this.configID != id) continue;
+			for (const run of runs) {
+				const value = run.data.reduce((prev, next) => Math.min(prev, next));
+				if (value < min) min = value;
+			}
+		}
+		return min;
+	}
+
 	get _maxX() {
 		//The run with the longest number of frameValues, or 1.
 		let max = 1;
@@ -115,11 +141,12 @@ class RunChart extends LitElement {
 		return max;
 	}
 
-	_interval(max) {
+	//max - min
+	_interval(range) {
 		let low = 0;
 		let high = TICK_INTERVALS.length - 1;
 
-		if (max < 1.0) return 1.0;
+		if (range < 1.0) return 1.0;
 
 		while (low != high) {
 			const index = Math.floor((high - low) / 2 + low);
@@ -128,7 +155,7 @@ class RunChart extends LitElement {
 			if (index == high) return TICK_INTERVALS[low];
 		
 			const interval = TICK_INTERVALS[index];
-			const count = max / interval;
+			const count = range / interval;
 			if (count == INTERMEDIATE_TICK_COUNT) return interval;
 			if (count > INTERMEDIATE_TICK_COUNT) {
 				low = index;
@@ -141,26 +168,28 @@ class RunChart extends LitElement {
 
 	_xTicks() {
 		const maxX = this._maxX;
+		const minX = this._minX;
 		const middle = [];
-		const interval = this._interval(maxX);
-		let index = interval;
+		const interval = this._interval(maxX - minX);
+		let index = minX + interval;
 		while (index < maxX) {
 			middle.push({value: index});
 			index += interval;
 		}
-		return [{value: 0}, ...middle, {value:maxX, title: ''+maxX}];
+		return [{value: minX}, ...middle, {value:maxX, title: ''+maxX}];
 	}
 
 	_yTicks() {
 		const maxY = this._maxY;
+		const minY = this._minY;
 		const middle = [];
-		const interval = this._interval(maxY);
-		let index = interval;
+		const interval = this._interval(maxY - minY);
+		let index = minY + interval;
 		while (index < maxY) {
 			middle.push({value: index});
 			index += interval;
 		}
-		return [{value: 0}, ...middle, {value:maxY, title: ''+maxY}];
+		return [{value: minY}, ...middle, {value:maxY, title: ''+maxY}];
 	}
 
 	_colorForRun(run) {
@@ -181,16 +210,22 @@ class RunChart extends LitElement {
 		const chartHeight = rect.height - padding;
 		const chartOriginX = padding;
 		const chartOriginY = rect.height - padding;
-		const xFactor = chartWidth / this._maxX;
-		const yFactor = chartHeight / this._maxY;
+		const maxX = this._maxX;
+		const maxY = this._maxY;
+		const minX = this._minX;
+		const minY = this._minY;
+		const xRange = maxX - minX;
+		const yRange = maxY - minY;
+		const xFactor = chartWidth / xRange;
+		const yFactor = chartHeight / yRange;
 	
 		return html`
 			<svg viewBox='0 0 ${rect.width} ${rect.height}'>
 				<rect x='${padding}' y='0' width='${chartWidth}' height='${chartHeight}' fill-opacity='0.0'></rect>
-				${this._xTicks().map((tick, index, ticks) => svg`<path class='tick xTick' d='M${chartOriginX + tick.value * xFactor},${chartOriginY} v ${tickLength}'></path><path class='tick line xTick' d='M${chartOriginX + tick.value * xFactor},${chartOriginY} v ${-1 * chartHeight}'></path>${tick.title ? svg`<text class='label' text-anchor='${index == ticks.length - 1 ? 'end' : 'middle'}' x='${chartOriginX + tick.value * xFactor}' y='${rect.height}' font-size='${tickLength * 1.5}px'>${tick.title}</text>` : ''}`)}
-				${this._yTicks().map((tick, index, ticks) => svg`<path class='tick yTick' d='M${chartOriginX},${chartOriginY - (tick.value * yFactor)} h ${-1.0 * tickLength}'></path><path class='tick line yTick' d='M${chartOriginX},${chartOriginY - (tick.value * yFactor)} h ${chartWidth}'></path>${tick.title ? svg`<text class='label' dominant-baseline='center' x='0' y='${chartOriginY - (tick.value * yFactor) + (index == ticks.length - 1 ? tickLength * 1.5 : 0)}' font-size='${tickLength * 1.5}px'>${tick.title}</text>` : ''}`)}
+				${this._xTicks().map((tick, index, ticks) => svg`<path class='tick xTick' d='M${chartOriginX - minX + tick.value * xFactor},${chartOriginY} v ${tickLength}'></path><path class='tick line xTick' d='M${chartOriginX - minX + tick.value * xFactor},${chartOriginY} v ${-1 * chartHeight}'></path>${tick.title ? svg`<text class='label' text-anchor='${index == ticks.length - 1 ? 'end' : 'middle'}' x='${chartOriginX - minX + tick.value * xFactor}' y='${rect.height}' font-size='${tickLength * 1.5}px'>${tick.title}</text>` : ''}`)}
+				${this._yTicks().map((tick, index, ticks) => svg`<path class='tick yTick' d='M${chartOriginX},${chartOriginY  - ((tick.value - minY) * yFactor)} h ${-1.0 * tickLength}'></path><path class='tick line yTick' d='M${chartOriginX},${chartOriginY - ((tick.value - minY) * yFactor)} h ${chartWidth}'></path>${tick.title ? svg`<text class='label' dominant-baseline='center' x='0' y='${chartOriginY - ((tick.value - minY) * yFactor) + (index == ticks.length - 1 ? tickLength * 1.5 : 0)}' font-size='${tickLength * 1.5}px'>${tick.title}</text>` : ''}`)}
 				${Object.entries(this.data).filter(entry => !this.configID || this.configID == entry[0]).map(entry => entry[1]).map(runs => runs.map((run,index,runs) => 
-		svg`<path class='run' stroke='${this._colorForRun(run)}' stroke-opacity='${1.0 - (index / runs.length / 1.1)}' d='${run.data.map((value, index) => (index == 0 ? 'M ' : 'L ') + ((index * xFactor) + chartOriginX) + ', ' + (chartOriginY - (value * yFactor)) + ' ')}'>
+		svg`<path class='run' stroke='${this._colorForRun(run)}' stroke-opacity='${1.0 - (index / runs.length / 1.1)}' d='${run.data.map((value, index) => (index == 0 ? 'M ' : 'L ') + ((index * xFactor) - minX + chartOriginX) + ', ' + (chartOriginY - ((value - minY) * yFactor)) + ' ')}'>
 						<title>${(run.config.title || run.config.id) + (runs.length > 1 ? ' - Run ' + index : '')}</title>
 					</path>`))}
 			</svg>
