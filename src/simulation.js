@@ -298,7 +298,7 @@ export const Simulation = class {
 			const data = run.scoreData;
 			for (const [key, value] of Object.entries(data)) {
 				if (!result[key]) result[key] = [];
-				result[key] = [...result.key, ...value];
+				result[key] = [...result[key], ...value];
 			}
 		}
 		return result;
