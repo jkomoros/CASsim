@@ -26,6 +26,16 @@ class RunChart extends LitElement {
 		];
 	}
 
+	get _maxX() {
+		//The run with the longest number of frameValues, or 1.
+		return Object.values(this.data).map(line => line.length).reduce((prev, next) => Math.max(prev, next), 1);
+	}
+
+	get _maxY() {
+		//The highest value seen in the entire data run, or 1
+		return Object.values(this.data).map(line => line.reduce((prev, next) => Math.max(prev, next), 0)).reduce((prev, next) => Math.max(prev, next), 1);
+	}
+
 	render() {
 		const rect = this.getBoundingClientRect();
 		return html`
