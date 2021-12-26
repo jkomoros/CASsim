@@ -79,9 +79,12 @@ class RunChart extends LitElement {
 	_renderRun(run, chartWidth, chartHeight, chartOriginX, chartOriginY) {
 		const xFactor = chartWidth / (this._maxX - 1);
 		const yFactor = chartHeight / this._maxY;
-		const h = Math.abs(hash(run.config.id));
-		const colorIndex = Math.floor(h % DEFAULT_RUN_COLORS.length);
-		const color = DEFAULT_RUN_COLORS[colorIndex];
+		let color = run.config.color;
+		if (!color) {
+			const h = Math.abs(hash(run.config.id));
+			const colorIndex = Math.floor(h % DEFAULT_RUN_COLORS.length);
+			color = DEFAULT_RUN_COLORS[colorIndex];
+		}
 		return svg`<path class='run' stroke='${color}' d='${run.data.map((value, index) => (index == 0 ? 'M ' : 'L ') + ((index * xFactor) + chartOriginX) + ', ' + (chartOriginY - (value * yFactor)) + ' ')}'>
 						<title>${run.config.title || run.config.id}</title>
 					</path>`;
