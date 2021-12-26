@@ -26,6 +26,9 @@ const DEFAULT_RUN_COLORS = [
 	'#4169E1',
 ];
 
+//In percent of width
+const PADDING_PROPORTION = 0.1;
+
 class RunChart extends LitElement {
 	static get properties() {
 		return {
@@ -108,16 +111,17 @@ class RunChart extends LitElement {
 
 	render() {
 		const rect = this.getBoundingClientRect();
-		const chartWidth = rect.width;
-		const chartHeight = rect.height;
-		const chartOriginX = 0;
-		const chartOriginY = rect.height;
+		const padding = rect.width * PADDING_PROPORTION;
+		const chartWidth = rect.width - padding;
+		const chartHeight = rect.height - padding;
+		const chartOriginX = padding;
+		const chartOriginY = rect.height - padding;
 		const xFactor = chartWidth / (this._maxX - 1);
 		const yFactor = chartHeight / this._maxY;
 	
 		return html`
 			<svg viewBox='0 0 ${rect.width} ${rect.height}'>
-				<rect x='0' y='0' width='${rect.width}' height='${rect.height}' fill-opacity='0.0' stroke-width='1px'></rect>
+				<rect x='${padding}' y='0' width='${chartWidth}' height='${chartHeight}' fill-opacity='0.0' stroke-width='1px'></rect>
 				${Object.values(this.data).map(run => 
 		svg`<path class='run' stroke='${this._colorForRun(run)}' d='${run.data.map((value, index) => (index == 0 ? 'M ' : 'L ') + ((index * xFactor) + chartOriginX) + ', ' + (chartOriginY - (value * yFactor)) + ' ')}'>
 						<title>${run.config.title || run.config.id}</title>
