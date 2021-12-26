@@ -37,18 +37,18 @@ class RunChart extends LitElement {
 
 	get _maxX() {
 		//The run with the longest number of frameValues, or 1.
-		return Object.values(this.data).map(line => line.length).reduce((prev, next) => Math.max(prev, next), 1);
+		return Object.values(this.data).map(run => run.data.length).reduce((prev, next) => Math.max(prev, next), 1);
 	}
 
 	get _maxY() {
 		//The highest value seen in the entire data run, or 1
-		return Object.values(this.data).map(line => line.reduce((prev, next) => Math.max(prev, next), 0)).reduce((prev, next) => Math.max(prev, next), 1);
+		return Object.values(this.data).map(run => run.data.reduce((prev, next) => Math.max(prev, next), 0)).reduce((prev, next) => Math.max(prev, next), 1);
 	}
 
 	_renderRun(run, chartWidth, chartHeight, chartOriginX, chartOriginY) {
 		const xFactor = chartWidth / (this._maxX - 1);
 		const yFactor = chartHeight / this._maxY;
-		return svg`<path class='run' stroke-width='2' d='${run.map((value, index) => (index == 0 ? 'M ' : 'L ') + ((index * xFactor) + chartOriginX) + ', ' + (chartOriginY - (value * yFactor)) + ' ')}'></path>`;
+		return svg`<path class='run' stroke-width='2' d='${run.data.map((value, index) => (index == 0 ? 'M ' : 'L ') + ((index * xFactor) + chartOriginX) + ', ' + (chartOriginY - (value * yFactor)) + ' ')}'></path>`;
 	}
 
 	render() {
