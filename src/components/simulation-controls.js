@@ -26,7 +26,8 @@ import {
 	selectChartExpanded,
 	selectCurrentSimulationHasChartableData,
 	selectCurrentSimulationChartData,
-	selectChartSingleRun
+	selectChartSingleRun,
+	selectChartConfigID
 } from "../selectors.js";
 
 import {
@@ -85,6 +86,7 @@ class SimulationControls extends connect(store)(LitElement) {
 			_chartExpanded: {type:Boolean},
 			_chartData: {type:Object},
 			_chartSingleRun: {type:Boolean},
+			_chartConfigID: {type:String},
 			_currentSimulationHasChartableData: {type:Boolean},
 			_descriptionExpanded: {type:Boolean},
 			_filename: {type:String},
@@ -211,7 +213,7 @@ class SimulationControls extends connect(store)(LitElement) {
 					${ENABLE_CHARTS && this._currentSimulationHasChartableData ? html`
 						<details .open=${this._chartExpanded} @toggle=${this._handleChartExpandedToggled}>
 							<summary><label><button class='small'>${AREA_CHART_ICON}</button> Chart</label></summary>
-							<run-chart .data=${this._chartData}></run-chart>
+							<run-chart .data=${this._chartData} .configID=${this._chartConfigID}></run-chart>
 							<div>
 								<input id='singleRun' type='checkbox' .checked=${this._chartSingleRun} @change=${this._handleChartSingleRunUpdated}><label for='singleRun'>Current Run Only</label>
 							</div>
@@ -240,6 +242,7 @@ class SimulationControls extends connect(store)(LitElement) {
 		this._currentSimulationHasChartableData = selectCurrentSimulationHasChartableData(state);
 		this._chartData = this._chartExpanded && this._currentSimulationHasChartableData ? selectCurrentSimulationChartData(state) : {};
 		this._chartSingleRun = selectChartSingleRun(state);
+		this._chartConfigID = selectChartConfigID(state);
 		this._pathExpanded = selectPathExpanded(state);
 		this._filename = selectFilename(state);
 		this._datafiles = selectKnownDatafiles(state);

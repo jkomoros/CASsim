@@ -37,7 +37,8 @@ const INTERMEDIATE_TICK_COUNT = 5;
 class RunChart extends LitElement {
 	static get properties() {
 		return {
-			data: {type:Object}
+			data: {type:Object},
+			configID: {type:String},
 		};
 	}
 
