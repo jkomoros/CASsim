@@ -28,8 +28,13 @@ class RunChart extends LitElement {
 				}
 
 				path.run {
+					stroke-width: 2px;
 					stroke: black;
 					fill: transparent;
+				}
+
+				path.run:hover {
+					stroke-width: 4px;
 				}
 			`
 		];
@@ -48,7 +53,7 @@ class RunChart extends LitElement {
 	_renderRun(run, chartWidth, chartHeight, chartOriginX, chartOriginY) {
 		const xFactor = chartWidth / (this._maxX - 1);
 		const yFactor = chartHeight / this._maxY;
-		return svg`<path class='run' stroke-width='2' d='${run.data.map((value, index) => (index == 0 ? 'M ' : 'L ') + ((index * xFactor) + chartOriginX) + ', ' + (chartOriginY - (value * yFactor)) + ' ')}'>
+		return svg`<path class='run' d='${run.data.map((value, index) => (index == 0 ? 'M ' : 'L ') + ((index * xFactor) + chartOriginX) + ', ' + (chartOriginY - (value * yFactor)) + ' ')}'>
 						<title>${run.config.title || run.config.id}</title>
 					</path>`;
 	}
