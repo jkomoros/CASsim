@@ -91,6 +91,8 @@ export class Graph {
 	//that you can only rely on value equality for nodes if changesMade is
 	//false. Instead, use Graph.same()
 	node(identifier) {
+		//Note: this is an override point for subclasses, do not assume it has the same signature
+
 		//_nodeObject will pack identifier
 		const node = this._nodeObject(identifier);
 		if (!node) return undefined;
@@ -101,6 +103,9 @@ export class Graph {
 	//exist. Note that you can only rely on value equality for edges if
 	//changesMade is false. Instead use Graph.same()
 	edge(fromIdentifier, toIdentifier) {
+
+		//Note: this is an override point for subclasses, do not assume it has the same signature
+
 		const node = this._nodeObject(fromIdentifier);
 		if (!node) return undefined;
 		const toID = Graph.packID(toIdentifier);
@@ -218,8 +223,12 @@ export class RectangleGraph extends Graph {
 		return result;
 	}
 
-	cell(row, col) {
-		return this.node(RectangleGraph.identifier(row, col));
+	node(row, col) {
+		return super.node(RectangleGraph.identifier(row, col));
+	}
+
+	edge(fromRow, fromCol, toRow, toCol) {
+		return super.edge(RectangleGraph.identifier(fromRow, fromCol), RectangleGraph.identifier(toRow, toCol));
 	}
 
 	get rows() {
