@@ -7,6 +7,10 @@ import {
 	BaseSimulator
 } from '../simulator.js';
 
+import {
+	PROFESSIONAL_PEOPLE_EMOJIS
+} from '../emojis.js';
+
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 const COUNT_PROPERTY_NAME = 'count';
@@ -95,21 +99,6 @@ const COMMUNICATION_STRATEGY_MAX = 'max';
 const COMMUNICATION_STRATEGY_DISAGREEMENT = 'disagreement';
 
 const DEFAULT_COMPELLING_VALUE = 0.5;
-
-const DEFAULT_EMOJIS = [
-	'🧑‍⚕️',
-	'🧑‍🎓',
-	'🧑‍🏫',
-	'🧑‍⚖️',
-	'🧑‍🌾',
-	'🧑‍🍳',
-	'🧑‍🔧',
-	'🧑‍🔬',
-	'🧑‍🎨',
-	'🧑‍✈️',
-	'🧑‍🚒',
-	'👮'
-];
 
 const DEFAULT_NORTH_STAR_EMOJI = '🌟';
 
@@ -265,7 +254,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		for (let i = 0; i < collaboratorsCount; i++) {
 			collaborators.push({
 				index: i,
-				[EMOJI_PROPERTY_NAME]: DEFAULT_EMOJIS[i % DEFAULT_EMOJIS.length],
+				[EMOJI_PROPERTY_NAME]: PROFESSIONAL_PEOPLE_EMOJIS[i % PROFESSIONAL_PEOPLE_EMOJIS.length],
 				[EPSILON_PROPERTY_NAME]: collaboratorEpsilonValue,
 				[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: broadcastLikelihood,
 				[COMPELLING_PROPERTY_NAME]: defaultCompellingValue,
