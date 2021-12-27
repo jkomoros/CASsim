@@ -33,7 +33,7 @@ export class Graph {
 		if (typeof identifier == 'string') return identifier;
 		if (Array.isArray(identifier)) {
 			const strs = identifier.map(part => '' + part);
-			if (strs.some(str => str.contains(Graph.ID_DELIMITER))) throw new Error('An unpacked ID part contained the ID_DELIMITER');
+			if (strs.some(str => str.includes(Graph.ID_DELIMITER))) throw new Error('An unpacked ID part contained the ID_DELIMITER');
 			return strs.join(Graph.ID_DELIMITER);
 		}
 		if (typeof identifier == 'object') {
