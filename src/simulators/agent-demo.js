@@ -6,6 +6,10 @@ import {
 	RectangleGraph
 } from '../graph.js';
 
+import {
+	PROFESSIONAL_PEOPLE_EMOJIS
+} from '../emojis.js';
+
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'agent-demo';
 
@@ -25,7 +29,10 @@ class AgentDemoSimulator extends BaseSimulator {
 		const nodes = Object.keys(graph.nodes());
 		for (let i = 0; i < simOptions.agents; i++) {
 			const node = nodes[Math.floor(rnd() * nodes.length)];
-			agents.push({node});
+			agents.push({
+				emoji: PROFESSIONAL_PEOPLE_EMOJIS[Math.floor(PROFESSIONAL_PEOPLE_EMOJIS.length * rnd())],
+				node
+			});
 		}
 		return {
 			agents,
