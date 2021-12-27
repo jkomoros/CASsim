@@ -46,6 +46,16 @@ export class Graph {
 		return packedID.split(Graph.ID_DELIMITER).map(item => isNaN(parseFloat(item)) ? item : parseFloat(item));
 	}
 
+	static packEdgeID(fromIdentifier, toIdentifier) {
+		const fromID = Graph.packID(fromIdentifier);
+		const toID = Graph.packID(toIdentifier);
+		return fromID + Graph.ID_DELIMITER + Graph.ID_DELIMITER + toID;
+	}
+
+	static unpackEdgeID(packedEdgeID) {
+		return packedEdgeID.split(Graph.ID_DELIMITER + Graph.ID_DELIMITER).map(id => Graph.unpackID(id));
+	}
+
 	//Whether modifications have been made since the object was created or saved
 	//was called.
 	get changesMade() {
