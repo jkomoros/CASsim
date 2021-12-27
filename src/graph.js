@@ -10,6 +10,10 @@ Graph.ID_DELIMITER.
 unpackID will reverse the packing of an ID, by splitting on Graph.ID_DELIMITER
 and then converting any number-like parts to numbers.
 
+Methods or arguiments have ID in the name will return or expect a packedID.
+Methods or arguments that have 'Identifier' in the name will return or expect an
+unpackedID
+
 */
 export class Graph {
 
@@ -128,5 +132,12 @@ export class Graph {
 		this._data[fromID] = {...node, edges: newEdges};
 	}
 
+	lastNodeID() {
+		const keys = Object.keys(this._data);
+		return keys[keys.length - 1];
+	}
 
+	lastNodeIdentifier() {
+		return Graph.unpackID(this.lastNodeID());
+	}
 }
