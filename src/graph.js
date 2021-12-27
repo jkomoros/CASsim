@@ -247,6 +247,10 @@ export class RectangleGraph extends Graph {
 		return [row, col];
 	}
 
+	static rowColFromIdentifier(identifier) {
+		return identifier;
+	}
+
 	static make(rows, cols, starterValues = {}) {
 		if (typeof rows != 'number' || rows < 1.0) throw new Error('Rows must be a positive integer');
 		if (typeof cols != 'number' || cols < 1.0) throw new Error('Cols must be a positive integer');
@@ -265,18 +269,6 @@ export class RectangleGraph extends Graph {
 			}
 		}
 		return result;
-	}
-
-	node(row, col) {
-		return super.node(RectangleGraph.identifier(row, col));
-	}
-
-	edge(fromRow, fromCol, toRow, toCol) {
-		return super.edge(RectangleGraph.identifier(fromRow, fromCol), RectangleGraph.identifier(toRow, toCol));
-	}
-
-	edges(row, col) {
-		return super.edges(RectangleGraph.identifier(row, col));
 	}
 
 	get rows() {
