@@ -1,4 +1,16 @@
+/*
 
+Graph is a graph with nodes and edges, and values for each node/edge.
+
+Canonical IDs are represented in strings. However, every method that takes an
+identifer may take any of the packedID (the string), a node object that contains
+an ID, or an 'unpackedID', which is an array of parts that will be joined by
+Graph.ID_DELIMITER.
+
+unpackID will reverse the packing of an ID, by splitting on Graph.ID_DELIMITER
+and then converting any number-like parts to numbers.
+
+*/
 export class Graph {
 
 	//data is the starter data. We will never modify data passed to us, but
@@ -13,6 +25,23 @@ export class Graph {
 		return ':';
 	}
 
+	static packID(identifier) {
+		if (typeof identifier == 'string') return identifier;
+		if (Array.isArray(identifier)) {
+			const strs = identifier.map(part => '' + part);
+			if (strs.some(str => str.contains(Graph.ID_DELIMITER))) throw new Error('An unpacked ID part contained the ID_DELIMITER');
+			return strs.join(Graph.ID_DELIMITER);
+		}
+		if (typeof identifier == 'object') {
+			if (identifier.id) return identifier.id;
+		}
+		throw new Error('Identifier was not a known type to pack: ', identifier);
+	}
+
+	static unpackID(packedID) {
+		return packedID.split(Graph.ID_DELIMITER).map(item => isNaN(parseFloat(item)) ? item : parseFloat(item));
+	}
+
 	//Whether modifications have been made since the object was created or saved
 	//was called.
 	get changesMade() {
@@ -25,7 +54,8 @@ export class Graph {
 	}
 
 	_nodeObject(identifier) {
-		return this._data[identifier];
+		const id = Graph.packID(identifier);
+		return this._data[id];
 	}
 
 	get data() {
@@ -33,12 +63,14 @@ export class Graph {
 	}
 
 	node(identifier) {
+		//_nodeObject will pack identifier
 		const node = this._nodeObject(identifier);
 		if (!node) return undefined;
 		return node.values;
 	}
 
 	edges(identifier) {
+		//_nodeObject will pack identifier
 		const node = this._nodeObject(identifier);
 		if (!node) return undefined;
 		return node.edges;
@@ -52,42 +84,48 @@ export class Graph {
 	}
 
 	setNode(identifier, values) {
-		let node = this._nodeObject(identifier);
+		const id = Graph.packID(identifier);
+		let node = this._nodeObject(id);
 		if (!node) node = {edges:{}};
 		if (node.values == values) return;
 		if (!values) values = {};
-		if (values.id != identifier) values.id = identifier;
+		if (values.id != id) values.id = id;
 		node.values = values;
 		this._prepareForModifications();
-		this._data[identifier] = node;
+		this._data[id] = node;
 		return node;
 	}
 
 	deleteNode(identifier) {
-		let node = this._nodeObject(identifier);
+		const id = Graph.packID(identifier);
+		let node = this._nodeObject(id);
 		if (!node) return;
 		this._prepareForModifications();
-		delete this._data[identifier];
+		delete this._data[id];
 	}
 
 	setEdge(fromIdentifier, toIdentifier, values = {}) {
-		let node = this._nodeObject(fromIdentifier);
+		const fromID = Graph.packID(fromIdentifier);
+		const toID = Graph.packID(toIdentifier);
+		let node = this._nodeObject(fromID);
 		if (!node) {
-			node = this.setNode(fromIdentifier);
+			node = this.setNode(fromID);
 		}
 		this._prepareForModifications();
-		this._data[fromIdentifier] = {...node, edges:{...node.edges, [toIdentifier]: values}};
+		this._data[fromID] = {...node, edges:{...node.edges, [toID]: values}};
 	}
 
 	deleteEdge(fromIdentifier, toIdentifier) {
-		let node = this._nodeObject(fromIdentifier);
+		const fromID = Graph.packID(fromIdentifier);
+		const toID = Graph.packID(toIdentifier);
+		let node = this._nodeObject(fromID);
 		if (!node) return;
-		let edge = node.edges[toIdentifier];
+		let edge = node.edges[toID];
 		if (!edge) return;
 		this._prepareForModifications();
 		const newEdges = {...node.edges};
-		delete newEdges[toIdentifier];
-		this._data[fromIdentifier] = {...node, edges: newEdges};
+		delete newEdges[toID];
+		this._data[fromID] = {...node, edges: newEdges};
 	}
 
 
