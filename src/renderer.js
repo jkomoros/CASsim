@@ -1,6 +1,8 @@
 
 import { LitElement, html, css} from "lit-element";
 
+import { styleMap } from "lit-html/directives/style-map.js";
+
 import {
 	RectangleGraph
 } from './graph.js';
@@ -70,6 +72,16 @@ export class RectangleGraphRenderer extends BaseRenderer {
 					background-color: var(--primary-color);
 					border: 1px solid black;
 				}
+
+				.agent {
+					position: absolute;
+					height: var(--node-size);
+					width: var(--node-size);
+					display: flex;
+					font-size: 2.0em;
+					align-items: center;
+					justify-content: center;
+				}
 			`
 		];
 	}
@@ -79,18 +91,49 @@ export class RectangleGraphRenderer extends BaseRenderer {
 		return frame.graph;
 	}
 
-	innerRender() {
+	//This is an override point for your renderer, to tell the renderer where the information on each agent is.
+	agentData(frame) {
+		return frame.agents;
+	}
+
+	agentEmoji(agent) {
+		return agent.emoji || '🧑‍⚕️';
+	}
+
+	agentNodeID(agent) {
+		return agent.node;
+	}
+
+	renderAgent(agent, graph) {
+		const node = graph.node(this.agentNodeID(agent));
+		return html`<div class='agent' style=${styleMap(this._positionForNode(node))}>${this.agentEmoji(agent)}</div>`;
+	}
+
+	_positionForNode(node) {
+		const size = this._size;
+		return {
+			left: '' + node.col * size + 'px',
+			top: '' + node.row * size + 'px',
+		};
+	}
+
+	get _size() {
 		//TODO: calculate this based on rows/cols of graph and size
-		const size = 50;
+		return 50;
+	}
+
+	innerRender() {
 		const data = this.rectangleGraphData(this.frame);
 		if (!data) return html`<em>Loading...</em>`;
 		const graph = new RectangleGraph(data);
 		return html`
 			<style>
 				:host {
-					--node-size: ${size}px;
+					--node-size: ${this._size}px;
 				}
 			</style>
-			${Object.values(graph.nodes()).map(nodeValues => html`<div class='node' style=${'left:' + nodeValues.col * size + 'px; top:' + nodeValues.row * size + 'px;'}></div>`)}`;
+			${Object.values(graph.nodes()).map(nodeValues => html`<div class='node' style=${styleMap(this._positionForNode(nodeValues))}></div>`)}
+			${Object.values(this.agentData(this.frame)).map(agent => this.renderAgent(agent, graph))}
+			`;
 	}
 }
