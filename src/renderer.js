@@ -74,6 +74,10 @@ export class RectangleGraphRenderer extends BaseRenderer {
 					border: 1px solid black;
 				}
 
+				.nodes {
+					position: relative;
+				}
+
 				.agent {
 					position: absolute;
 					height: var(--node-size);
@@ -133,14 +137,12 @@ export class RectangleGraphRenderer extends BaseRenderer {
 
 	innerRender() {
 		const graph = this._rectangleGraph();
+		const size = this._size;
 		return html`
-			<style>
-				:host {
-					--node-size: ${this._size}px;
-				}
-			</style>
-			${Object.values(graph.nodes()).map(nodeValues => html`<div class='node' style=${styleMap(this._positionForNode(nodeValues))}></div>`)}
-			${Object.values(this.agentData(this.frame)).map(agent => this.renderAgent(agent, graph))}
+			<div class='nodes' style=${styleMap({'--node-size': size + 'px', height: size * graph.rows + 'px', width: size * graph.cols + 'px'})}>
+				${Object.values(graph.nodes()).map(nodeValues => html`<div class='node' style=${styleMap(this._positionForNode(nodeValues))}></div>`)}
+				${Object.values(this.agentData(this.frame)).map(agent => this.renderAgent(agent, graph))}
+			</div>
 			`;
 	}
 }
