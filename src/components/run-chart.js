@@ -39,6 +39,7 @@ class RunChart extends LitElement {
 		return {
 			data: {type:Object},
 			configID: {type:String},
+			runIndex: {type:Number},
 		};
 	}
 
@@ -91,8 +92,13 @@ class RunChart extends LitElement {
 					fill: transparent;
 				}
 
+				path.run.bold {
+					stroke-width: 3px;
+				}
+
 				path.run:hover {
 					stroke-width: 4px;
+					opacity: 1.0;
 				}
 			`
 		];
@@ -244,7 +250,7 @@ class RunChart extends LitElement {
 				${this._xTicks().map((tick, index, ticks) => svg`<path class='tick xTick ${tick.bold ? 'bold' : ''}' d='M${chartOriginX - minX + tick.value * xFactor},${chartOriginY} v ${tickLength}'></path><path class='tick line xTick ${tick.bold ? 'bold' : ''}' d='M${chartOriginX - minX + tick.value * xFactor},${chartOriginY} v ${-1 * chartHeight}'></path>${tick.title ? svg`<text class='label' text-anchor='${index == ticks.length - 1 ? 'end' : 'middle'}' x='${chartOriginX - minX + tick.value * xFactor}' y='${rect.height}' font-size='${tickLength * 1.5}px'>${tick.title}</text>` : ''}`)}
 				${this._yTicks().map((tick, index, ticks) => svg`<path class='tick yTick ${tick.bold ? 'bold' : ''}' d='M${chartOriginX},${chartOriginY  - ((tick.value - minY) * yFactor)} h ${-1.0 * tickLength}'></path><path class='tick line yTick ${tick.bold ? 'bold' : ''}' d='M${chartOriginX},${chartOriginY - ((tick.value - minY) * yFactor)} h ${chartWidth}'></path>${tick.title ? svg`<text class='label' dominant-baseline='center' x='0' y='${chartOriginY - ((tick.value - minY) * yFactor) + (index == ticks.length - 1 ? tickLength * 1.5 : 0)}' font-size='${tickLength * 1.5}px'>${tick.title}</text>` : ''}`)}
 				${Object.entries(this.data).filter(entry => !this.configID || this.configID == entry[0]).map(entry => entry[1]).map(runs => runs.map((run,index,runs) => 
-		svg`<path class='run' stroke='${this._colorForRun(run)}' stroke-opacity='${1.0 - (index / runs.length / 1.1)}' d='${run.data.map((value, index) => (index == 0 ? 'M ' : 'L ') + ((index * xFactor) - minX + chartOriginX) + ', ' + (chartOriginY - ((value - minY) * yFactor)) + ' ')}'>
+		svg`<path class='run ${index === this.runIndex && runs.length > 1 ? 'bold' : ''}' stroke='${this._colorForRun(run)}' stroke-opacity='${1.0 - (index / runs.length / 1.1)}' d='${run.data.map((value, index) => (index == 0 ? 'M ' : 'L ') + ((index * xFactor) - minX + chartOriginX) + ', ' + (chartOriginY - ((value - minY) * yFactor)) + ' ')}'>
 						<title>${(run.config.title || run.config.id) + (runs.length > 1 ? ' - Run ' + index : '')}</title>
 					</path>`))}
 			</svg>
