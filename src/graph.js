@@ -119,6 +119,7 @@ export class Graph {
 		return node.edges[toID];
 	}
 
+	//Returns a map of toIdentifier, and the EDGE values.
 	edges(identifier) {
 		//Note: this can be overriden in subclasses, so don't rely on it to have this signature
 		return this._edges(identifier);
@@ -133,6 +134,30 @@ export class Graph {
 
 	nodes() {
 		return Object.fromEntries(Object.entries(this._data).map(entry => [entry[0], entry[1].values]));
+	}
+
+	//Returns the values objects for all neighbors 
+	neighbors(identifier, ply = 1) {
+		const result = {};
+		const id = Graph.packID(identifier);
+		const nodesToProcess = Object.fromEntries(Object.entries(this.edges(identifier)).map(entry => [entry[0], 1]));
+		while (Object.keys(nodesToProcess).length) {
+			const [otherID, distance] = Object.entries(nodesToProcess)[0];
+			const values = this._node(otherID);
+			result[otherID] = values;
+			//Only add more items to the queue if we haven't already hit the ply limit
+			if (distance >= ply) continue;
+			for (const newID of Object.keys(this._edges(otherID))) {
+				//Don't revisit the one we started from
+				if (newID == id) continue;
+				//Don't revisit ones we've already processed
+				if (result[newID]) continue;
+				//Don't add another entry for one we're already planning to process
+				if (nodesToProcess[newID]) continue;
+				nodesToProcess[newID] = distance + 1;
+			}
+		}
+		return result;
 	}
 
 	_prepareForModifications() {
