@@ -28,6 +28,12 @@ export class BaseRenderer extends LitElement {
 				align-items: center;
 				flex-direction: column;
 			}
+
+			pre {
+				height: 100%;
+				width: 100%;
+				overflow: scroll;
+			}
 			`
 		];
 	}
