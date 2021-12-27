@@ -66,6 +66,8 @@ export class Graph {
 		return this._data;
 	}
 
+	//Get the values stored on the node, or undefined if it doesn't exist. Note
+	//that you can only rely on value equality for nodes if changesMade is false.
 	node(identifier) {
 		//_nodeObject will pack identifier
 		const node = this._nodeObject(identifier);
@@ -73,6 +75,9 @@ export class Graph {
 		return node.values;
 	}
 
+	//Get the values stored on the edge, or undefined if that edge doesnt'
+	//exist. Note that you can only rely on value equality for edges if
+	//changesMade is false.
 	edge(fromIdentifier, toIdentifier) {
 		const node = this._nodeObject(fromIdentifier);
 		if (!node) return undefined;
