@@ -67,6 +67,17 @@ export class Graph {
 		this._changesMade = false;
 	}
 
+	//same checks for logical equality, since you can't rely on values objects
+	//being strictly equaly if changesMade is false.
+	same(left, right) {
+		if (left == right) return true;
+		if (!left || !right) return false;
+		if (typeof left != 'object') return false;
+		if (typeof right != 'object') return false;
+		if (!left.id || !right.id) return false;
+		return left.id == right.id;
+	}
+
 	_nodeObject(identifier) {
 		const id = Graph.packID(identifier);
 		return this._data[id];
@@ -77,7 +88,8 @@ export class Graph {
 	}
 
 	//Get the values stored on the node, or undefined if it doesn't exist. Note
-	//that you can only rely on value equality for nodes if changesMade is false.
+	//that you can only rely on value equality for nodes if changesMade is
+	//false. Instead, use Graph.same()
 	node(identifier) {
 		//_nodeObject will pack identifier
 		const node = this._nodeObject(identifier);
@@ -87,7 +99,7 @@ export class Graph {
 
 	//Get the values stored on the edge, or undefined if that edge doesnt'
 	//exist. Note that you can only rely on value equality for edges if
-	//changesMade is false.
+	//changesMade is false. Instead use Graph.same()
 	edge(fromIdentifier, toIdentifier) {
 		const node = this._nodeObject(fromIdentifier);
 		if (!node) return undefined;
