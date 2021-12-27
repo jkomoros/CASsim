@@ -1,10 +1,6 @@
 import {
-	BaseSimulator
-} from '../simulator.js';
-
-import {
-	RectangleGraph
-} from '../graph.js';
+	AgentSimulator
+} from '../agent-simulator.js';
 
 import {
 	PROFESSIONAL_PEOPLE_EMOJIS
@@ -13,7 +9,7 @@ import {
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'agent-demo';
 
-class AgentDemoSimulator extends BaseSimulator {
+class AgentDemoSimulator extends AgentSimulator {
 
 	get name() {
 		return SIMULATOR_NAME;
@@ -22,9 +18,7 @@ class AgentDemoSimulator extends BaseSimulator {
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	generateFirstFrame(simOptions, rnd) {
-		//The default generator will expand this with index and simOptions.
-		const graph = RectangleGraph.make(simOptions.rows, simOptions.cols);
+	generateAgents(graph, simOptions, rnd) {
 		const agents = [];
 		const nodes = Object.keys(graph.nodes());
 		for (let i = 0; i < simOptions.agents; i++) {
@@ -34,24 +28,16 @@ class AgentDemoSimulator extends BaseSimulator {
 				node
 			});
 		}
-		return {
-			agents,
-			graph: graph.data
-		};
+		return agents;
 	}
 
 	simulationComplete(frame) {
 		return frame.index >= frame.simOptions.rounds;
 	}
 
-	generateFrame(frame, rnd) {
-		const graph = new RectangleGraph(frame.graph);
-		const newAgents = [];
-		for (const [index, agent] of frame.agents.entries()) {
-			const neighbors = Object.keys(graph.neighbors(agent.node));
-			newAgents[index] = {...agent, node: neighbors[Math.floor(neighbors.length * rnd())]};
-		}
-		frame.agents = newAgents;
+	agentTick(agent, graph, frame, rnd) {
+		const neighbors = Object.keys(graph.neighbors(agent.node));
+		return {...agent, node: neighbors[Math.floor(neighbors.length * rnd())]};
 	}
 
 	frameScorer(frame) {
