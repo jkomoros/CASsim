@@ -83,7 +83,7 @@ export class RectangleGraphRenderer extends BaseRenderer {
 					height: var(--node-size);
 					width: var(--node-size);
 					display: flex;
-					font-size: 2.0em;
+					font-size: calc(var(--node-size) * 0.7);
 					align-items: center;
 					justify-content: center;
 				}
