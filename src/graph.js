@@ -144,6 +144,8 @@ export class Graph {
 		if (!node) {
 			node = this.setNode(fromID);
 		}
+		const edgeID = Graph.packEdgeID(fromIdentifier, toIdentifier);
+		if (values.id != edgeID) values.id = edgeID;
 		this._prepareForModifications();
 		this._data[fromID] = {...node, edges:{...node.edges, [toID]: values}};
 	}
