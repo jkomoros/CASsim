@@ -119,6 +119,10 @@ export class Graph {
 		return node.edges;
 	}
 
+	nodes() {
+		return Object.fromEntries(Object.entries(this._data).map(entry => [entry[0], entry[1].values]));
+	}
+
 	_prepareForModifications() {
 		if (!this.changesMade) {
 			this._data = {...this._data};
