@@ -96,12 +96,12 @@ class AgentDemoSimulator extends BaseSimulator {
 	}
 
 	renderer() {
-		return new BaseRenderer();
+		return new RectangleGraphRenderer();
 	}
 }
 
 export default AgentDemoSimulator;
 
-import { BaseRenderer } from '../renderer.js';
+import { RectangleGraphRenderer } from '../renderer.js';
 
-window.customElements.define(SIMULATOR_NAME + "-renderer", BaseRenderer);
+window.customElements.define(SIMULATOR_NAME + "-renderer", RectangleGraphRenderer);
