@@ -143,6 +143,7 @@ export class Graph {
 		const nodesToProcess = Object.fromEntries(Object.entries(this._edges(identifier)).map(entry => [entry[0], 1]));
 		while (Object.keys(nodesToProcess).length) {
 			const [otherID, distance] = Object.entries(nodesToProcess)[0];
+			delete nodesToProcess[otherID];
 			const values = this._node(otherID);
 			result[otherID] = values;
 			//Only add more items to the queue if we haven't already hit the ply limit
