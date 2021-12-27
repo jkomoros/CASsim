@@ -99,37 +99,15 @@ class DiceRollDemoSimulator extends BaseSimulator {
 
 export default DiceRollDemoSimulator;
 
-import { LitElement, html, css} from "lit-element";
+import { BaseRenderer } from '../renderer.js';
+import { html, css } from "lit-element";
 
-
-class DiceRollDemoRenderer extends LitElement {
-	static get properties() {
-		return {
-			frame: { type: Object },
-			width: {type:Number},
-			height: {type:Number},
-		};
-	} 
+class DiceRollDemoRenderer extends BaseRenderer {
 
 	static get styles() {
 		return [
+			BaseRenderer.styles,
 			css`
-
-			:host {
-				width: 100%;
-				height: 100%;
-				position: relative;
-			}
-
-			.container {
-				height: 100%;
-				width: 100%;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				flex-direction: column;
-			}
-
 			.busted {
 				color: var(--secondary-color);
 			}
@@ -141,13 +119,11 @@ class DiceRollDemoRenderer extends LitElement {
 		];
 	}
 
-	render() {
+	innerRender() {
 		return html`
-			<div class='container'>
-				${this._safeFrame.busted ? html`<span class='busted'>Busted!</span>` : (this._safeFrame.success ? html`<span class='success'>Success!</span>` : html`<em>Playing...</em>`)}
-				<div><span>Score: <strong>${this._safeFrame.score}</strong> / ${this._safeFrame.simOptions.targetScore}</span></div>
-				<div><span>Roll: <strong>${this._safeFrame.lastRoll}</strong> / ${this._safeFrame.simOptions.die} </span></div>
-			</div>
+			${this._safeFrame.busted ? html`<span class='busted'>Busted!</span>` : (this._safeFrame.success ? html`<span class='success'>Success!</span>` : html`<em>Playing...</em>`)}
+			<div><span>Score: <strong>${this._safeFrame.score}</strong> / ${this._safeFrame.simOptions.targetScore}</span></div>
+			<div><span>Roll: <strong>${this._safeFrame.lastRoll}</strong> / ${this._safeFrame.simOptions.die} </span></div>
 		`;
 	}
 
