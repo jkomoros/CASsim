@@ -73,6 +73,13 @@ export class Graph {
 		return node.values;
 	}
 
+	edge(fromIdentifier, toIdentifier) {
+		const node = this._nodeObject(fromIdentifier);
+		if (!node) return undefined;
+		const toID = Graph.packID(toIdentifier);
+		return node.edges[toID];
+	}
+
 	edges(identifier) {
 		//_nodeObject will pack identifier
 		const node = this._nodeObject(identifier);
