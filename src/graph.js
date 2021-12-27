@@ -107,6 +107,13 @@ export class Graph {
 		return node;
 	}
 
+	setNodeProperty(identifier, property, value) {
+		let values = this.node(identifier);
+		values = values ? {...values} : {};
+		values[property] = value;
+		return this.setNode(identifier, values);
+	}
+
 	deleteNode(identifier) {
 		const id = Graph.packID(identifier);
 		let node = this._nodeObject(id);
@@ -124,6 +131,13 @@ export class Graph {
 		}
 		this._prepareForModifications();
 		this._data[fromID] = {...node, edges:{...node.edges, [toID]: values}};
+	}
+
+	setEdgeProperty(fromIdentifier, toIdentifier, property, value) {
+		let values = this.edge(fromIdentifier, toIdentifier);
+		values = values ? {...values} : {};
+		values[property] = value;
+		this.setEdge(fromIdentifier, toIdentifier, values);
 	}
 
 	deleteEdge(fromIdentifier, toIdentifier) {
