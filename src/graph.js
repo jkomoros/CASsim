@@ -191,3 +191,43 @@ export class Graph {
 		return Graph.unpackID(this.lastNodeID());
 	}
 }
+
+export class RectangleGraph extends Graph {
+
+	static identifier(row, col) {
+		return [row, col];
+	}
+
+	static make(rows, cols, starterValues = {}) {
+		if (typeof rows != 'number' || rows < 1.0) throw new Error('Rows must be a positive integer');
+		if (typeof cols != 'number' || cols < 1.0) throw new Error('Cols must be a positive integer');
+
+		const result = new RectangleGraph();
+		for (let r = 0; r < rows; r++) {
+			for (let c = 0; c < cols; c++) {
+				const values = {...starterValues, row: r, col: c};
+				const identifier = RectangleGraph.identifier(r, c);
+				result.setNode(identifier, values);
+				if (r > 0) result.setEdge(identifier, RectangleGraph.identifier(r - 1, c), {distance: 1.0});
+				if (c > 0) result.setEdge(identifier, RectangleGraph.identifier(r, c - 1), {distance: 1.0});
+				if (r < rows - 1) result.setEdge(identifier, RectangleGraph.identifier(r + 1, c), {distance: 1.0});
+				if (c < cols - 1) result.setEdge(identifier, RectangleGraph.identifier(r, c + 1), {distance: 1.0});
+				//TODO set diagonals too if desired
+			}
+		}
+		return result;
+	}
+
+	cell(row, col) {
+		return this.node(RectangleGraph.identifier(row, col));
+	}
+
+	get rows() {
+		return this.lastNodeIdentifier()[0] + 1;
+	}
+
+	get cols() {
+		return this.lastNodeIdentifier()[1] + 1;
+	}
+
+}
