@@ -140,7 +140,7 @@ export class Graph {
 	neighbors(identifier, ply = 1) {
 		const result = {};
 		const id = Graph.packID(identifier);
-		const nodesToProcess = Object.fromEntries(Object.entries(this.edges(identifier)).map(entry => [entry[0], 1]));
+		const nodesToProcess = Object.fromEntries(Object.entries(this._edges(identifier)).map(entry => [entry[0], 1]));
 		while (Object.keys(nodesToProcess).length) {
 			const [otherID, distance] = Object.entries(nodesToProcess)[0];
 			const values = this._node(otherID);
