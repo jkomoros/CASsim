@@ -10,6 +10,7 @@ import {
 export class BaseRenderer extends LitElement {
 	static get properties() {
 		return {
+			scale: { type: Number},
 			frame: { type: Object },
 			width: {type:Number},
 			height: {type:Number},

@@ -378,6 +378,9 @@ Your simulator custom element will receive the following properties:
 simulator, the thing that `generator()` emits. Anything you need to render your
 simulation deterministically should be included in the frame.
 
+`scale` - A float that says how much bigger or larger the actual pixel size is
+compared to width/height
+
 Your renderer will have a `font-size` targeted at it that will keep the font the
 same notional size to scale with the overal visualization as it scales.
 

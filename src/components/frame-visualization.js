@@ -77,19 +77,20 @@ class FrameVisualization extends LitElement {
 		return html`
 		<div class='container' style='font-size:${DEFAULT_FONT_SIZE_PX_HEIGHT * scale}px'>
 			<div class='renderer' style='height:${this.height * scale}px; width: ${this.width * scale}px; font-size:${DEFAULT_FONT_SIZE_PX_HEIGHT * scale}px'>
-				${this._renderer()}
+				${this._renderer(scale)}
 			</div>
 			${this.runStatuses ? html`<run-summary .statuses=${this.runStatuses} .selectedIndex=${this.runIndex} .clipFuture=${this._clipStatus} .centerPercentage=${true}></run-summary>` : ''}
 		</div>
 		`;
 	}
 
-	_renderer() {
+	_renderer(scale) {
 		const ele = memoizedRenderer(this.simulation, this);
 		if (!ele) return html`<div class='message'><div><div><em>Loading...</em></div><div><span>If this message doesn't go away soon, check the console for errors.</span></div></div></div>`;
 		ele.frame = this.frame;
 		ele.width = this.width;
 		ele.height = this.height;
+		ele.scale = scale;
 		return ele;
 	}
 }
