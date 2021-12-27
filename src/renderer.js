@@ -92,6 +92,11 @@ export class RectangleGraphRenderer extends BaseRenderer {
 		return frame.graph;
 	}
 
+	_rectangleGraph() {
+		const data = this.rectangleGraphData(this.frame);
+		return new RectangleGraph(data);
+	}
+
 	//This is an override point for your renderer, to tell the renderer where the information on each agent is.
 	agentData(frame) {
 		return frame.agents;
@@ -119,14 +124,15 @@ export class RectangleGraphRenderer extends BaseRenderer {
 	}
 
 	get _size() {
-		//TODO: calculate this based on rows/cols of graph and size
-		return 50;
+		if (!this.frame) return 50;
+		const graph = this._rectangleGraph();
+		const colSize = this.width * this.scale / graph.cols;
+		const rowSize = this.height * this.scale / graph.rows;
+		return Math.min(rowSize, colSize);
 	}
 
 	innerRender() {
-		const data = this.rectangleGraphData(this.frame);
-		if (!data) return html`<em>Loading...</em>`;
-		const graph = new RectangleGraph(data);
+		const graph = this._rectangleGraph();
 		return html`
 			<style>
 				:host {
