@@ -91,8 +91,12 @@ export class Graph {
 	//that you can only rely on value equality for nodes if changesMade is
 	//false. Instead, use Graph.same()
 	node(identifier) {
-		//Note: this is an override point for subclasses, do not assume it has the same signature
+		//Note: this is an override point for subclasses, so use _node(identifer)
+		return this._node(identifier);
 
+	}
+
+	_node(identifier) {
 		//_nodeObject will pack identifier
 		const node = this._nodeObject(identifier);
 		if (!node) return undefined;
@@ -105,7 +109,10 @@ export class Graph {
 	edge(fromIdentifier, toIdentifier) {
 
 		//Note: this is an override point for subclasses, do not assume it has the same signature
+		return this._edge(fromIdentifier, toIdentifier);
+	}
 
+	_edge(fromIdentifier, toIdentifier) {
 		const node = this._nodeObject(fromIdentifier);
 		if (!node) return undefined;
 		const toID = Graph.packID(toIdentifier);
@@ -113,6 +120,11 @@ export class Graph {
 	}
 
 	edges(identifier) {
+		//Note: this can be overriden in subclasses, so don't rely on it to have this signature
+		return this._edges(identifier);
+	}
+
+	_edges(identifier) {
 		//_nodeObject will pack identifier
 		const node = this._nodeObject(identifier);
 		if (!node) return undefined;
@@ -233,6 +245,10 @@ export class RectangleGraph extends Graph {
 
 	edge(fromRow, fromCol, toRow, toCol) {
 		return super.edge(RectangleGraph.identifier(fromRow, fromCol), RectangleGraph.identifier(toRow, toCol));
+	}
+
+	edges(row, col) {
+		return super.edges(RectangleGraph.identifier(row, col));
 	}
 
 	get rows() {
