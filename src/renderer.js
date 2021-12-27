@@ -114,6 +114,11 @@ export class RectangleGraphRenderer extends BaseRenderer {
 		return agent.node;
 	}
 
+	/* eslint-disable-next-line */
+	renderNode(node, graph) {
+		return html`<div class='node' style=${styleMap(this._positionForNode(node))}></div>`;
+	}
+
 	renderAgent(agent, graph) {
 		const node = graph.node(this.agentNodeID(agent));
 		return html`<div class='agent' style=${styleMap(this._positionForNode(node))}>${this.agentEmoji(agent)}</div>`;
@@ -140,7 +145,7 @@ export class RectangleGraphRenderer extends BaseRenderer {
 		const size = this._size;
 		return html`
 			<div class='nodes' style=${styleMap({'--node-size': size + 'px', height: size * graph.rows + 'px', width: size * graph.cols + 'px'})}>
-				${Object.values(graph.nodes()).map(nodeValues => html`<div class='node' style=${styleMap(this._positionForNode(nodeValues))}></div>`)}
+				${Object.values(graph.nodes()).map(node => this.renderNode(node, graph))}
 				${Object.values(this.agentData(this.frame)).map(agent => this.renderAgent(agent, graph))}
 			</div>
 			`;
