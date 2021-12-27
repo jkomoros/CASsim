@@ -62,6 +62,7 @@ export class BaseSimulator {
 	//values.
 	simulationComplete(frame) {
 		//Your own termination logic should go here.
+		return true;
 	}
 
 	//An opportunity to make sure that simOptions is set with reasonable
