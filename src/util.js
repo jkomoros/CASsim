@@ -22,6 +22,20 @@ export class Urn {
 	}
 }
 
+export const shuffle = (array, rnd = Math.random) => {
+	let currentIndex = array.length;
+	let randomIndex;
+
+	while (currentIndex != 0) {
+		randomIndex = Math.floor(rnd() * currentIndex);
+		currentIndex--;
+  
+		[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+	}
+  
+	return array;
+};
+
 export const deepFreeze = (obj) => {
 	if (!obj) return;
 	if (typeof obj != 'object') return;
