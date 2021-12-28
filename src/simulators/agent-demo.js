@@ -18,7 +18,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	generateAgent(node, graph, simOptions, rnd) {
+	generateAgent(index, graph, simOptions, rnd) {
 		return {
 			emoji: PROFESSIONAL_PEOPLE_EMOJIS[Math.floor(PROFESSIONAL_PEOPLE_EMOJIS.length * rnd())]
 		};

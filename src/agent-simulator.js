@@ -26,7 +26,7 @@ export class AgentSimulator extends BaseSimulator {
 		decided a location to generate an agent.
 	*/
 	//eslint-disable-next-line
-	generateAgent(node, graph, simOptions, rnd) {
+	generateAgent(index, graph, simOptions, rnd) {
 		return {};
 	}
 
@@ -40,10 +40,12 @@ export class AgentSimulator extends BaseSimulator {
 
 	/*
 		An override point to allow multiple agents to exist in a given cell at a
-		time.
+		time. It is called for each pair of agents that might overlap. For
+		example, you could return true unless the type property of each was the
+		same.
 	*/
 	//eslint-disable-next-line no-unused-vars
-	allowOverlappingAgents(graph, simOptions, rnd) {
+	allowOverlappingAgents(primaryAgent, secondaryAgent, graph, simOptions, rnd) {
 		return false;
 	}
 
@@ -54,14 +56,18 @@ export class AgentSimulator extends BaseSimulator {
 	*/
 	generateAgents(graph, simOptions, rnd) {
 		const agents = [];
-		const availableNodes = {...graph.nodes()};
+		const baseAvailableNodes = {...graph.nodes()};
 		const agentCount = this.numStarterAgents(graph, simOptions, rnd);
 		for (let i = 0; i < agentCount; i++) {
+			const agent = this.generateAgent(i, graph, simOptions, rnd) || {};
+			const availableNodes = {...baseAvailableNodes};
+			for (const existingAgent of agents) {
+				if (this.allowOverlappingAgents(existingAgent, agent, graph, simOptions, rnd)) continue;
+				delete availableNodes[existingAgent.node];
+			}
 			const nodeList = Object.keys(availableNodes);
 			if (nodeList.length <= 0) throw new Error('There are no new unocuppied nodes for new agents to occupy');
 			const node = nodeList[Math.floor(rnd() * nodeList.length)];
-			if (!this.allowOverlappingAgents(graph, simOptions, rnd)) delete availableNodes[node];
-			const agent = this.generateAgent(node, graph, simOptions, rnd) || {};
 			agent.node = node;
 			agents.push(agent);
 		}
