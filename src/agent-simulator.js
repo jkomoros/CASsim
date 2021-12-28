@@ -39,14 +39,19 @@ export class AgentSimulator extends BaseSimulator {
 	}
 
 	/*
-		Emit your starter set of agents.
+		Emit your starter set of agents. This will generate
+		this.numStarterAgents() number of agents by calling this.generateAgent()
+		and randomly place them in the graph with no overlap.
 	*/
 	generateAgents(graph, simOptions, rnd) {
 		const agents = [];
-		const nodes = Object.keys(graph.nodes());
+		const unoccupiedNodes = {...graph.nodes()};
 		const agentCount = this.numStarterAgents(graph, simOptions, rnd);
 		for (let i = 0; i < agentCount; i++) {
-			const node = nodes[Math.floor(rnd() * nodes.length)];
+			const nodeList = Object.keys(unoccupiedNodes);
+			if (nodeList.length <= 0) throw new Error('There are no new unocuppied nodes for new agents to occupy');
+			const node = nodeList[Math.floor(rnd() * nodeList.length)];
+			delete unoccupiedNodes[node];
 			const agent = this.generateAgent(node, graph, simOptions, rnd) || {};
 			agent.node = node;
 			agents.push(agent);
