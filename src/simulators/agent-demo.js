@@ -18,17 +18,14 @@ class AgentDemoSimulator extends AgentSimulator {
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	generateAgents(graph, simOptions, rnd) {
-		const agents = [];
-		const nodes = Object.keys(graph.nodes());
-		for (let i = 0; i < simOptions.agents; i++) {
-			const node = nodes[Math.floor(rnd() * nodes.length)];
-			agents.push({
-				emoji: PROFESSIONAL_PEOPLE_EMOJIS[Math.floor(PROFESSIONAL_PEOPLE_EMOJIS.length * rnd())],
-				node
-			});
-		}
-		return agents;
+	generateAgent(node, graph, simOptions, rnd) {
+		return {
+			emoji: PROFESSIONAL_PEOPLE_EMOJIS[Math.floor(PROFESSIONAL_PEOPLE_EMOJIS.length * rnd())]
+		};
+	}
+
+	numStarterAgents(graph, simOptions) {
+		return simOptions.agents;
 	}
 
 	simulationComplete(frame) {
