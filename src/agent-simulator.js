@@ -22,16 +22,34 @@ export class AgentSimulator extends BaseSimulator {
 	}
 
 	/*
+		An override point, the default generateAgents will call this when it's
+		decided a location to generate an agent.
+	*/
+	//eslint-disable-next-line
+	generateAgent(node, graph, simOptions, rnd) {
+		return {};
+	}
+
+	/*
+		An override point for how many agents to generate by default.
+	*/
+	//eslint-disable-next-line
+	numStarterAgents(graph, simOptions, rnd) {
+		return 0;
+	}
+
+	/*
 		Emit your starter set of agents.
 	*/
 	generateAgents(graph, simOptions, rnd) {
 		const agents = [];
 		const nodes = Object.keys(graph.nodes());
-		for (let i = 0; i < simOptions.agents; i++) {
+		const agentCount = this.numStarterAgents(graph, simOptions, rnd);
+		for (let i = 0; i < agentCount; i++) {
 			const node = nodes[Math.floor(rnd() * nodes.length)];
-			agents.push({
-				node
-			});
+			const agent = this.generateAgent(node, graph, simOptions, rnd) || {};
+			agent.node = node;
+			agents.push(agent);
 		}
 		return agents;
 	}
