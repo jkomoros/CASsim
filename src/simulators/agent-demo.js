@@ -32,7 +32,7 @@ class AgentDemoSimulator extends AgentSimulator {
 		return frame.index >= frame.simOptions.rounds;
 	}
 
-	agentTick(agent, graph, frame, rnd) {
+	defaultAgentTick(agent, graph, frame, rnd) {
 		const neighbors = Object.keys(graph.neighbors(agent.node));
 		return {...agent, node: neighbors[Math.floor(neighbors.length * rnd())]};
 	}

@@ -68,12 +68,26 @@ export class AgentSimulator extends BaseSimulator {
 	}
 
 	/*
-		Called on every frame for every agent. Return the new agent to store in
+		Called on every frame for every agent. It dispatches to the right ticker
+		based on the agent.type, calling <agent.type>AgentTick(). (So agent.type
+		= 'ant' would call 'antAgentTick()'). For agents who don't have a type,
+		or whose type doesn't have a ticker for it, it calls defaultAgentTick().
+	*/
+	agentTick(agent, graph, frame, rnd) {
+		const typ = agent.type || '';
+		const typeMethod = typ + 'AgentTick';
+		if (this[typeMethod]) return this[typeMethod](agent, graph, frame, rnd);
+		return this.defaultAgentTick(agent, graph, frame, rnd);
+	}
+
+	/*
+		Called on each agent that doesn't have their own [type]AgentTick method.
+		This will get called for every other agent. Return the new agent to store in
 		frame. If no modifications you can return the agent as is. IF
 		modifications, make a modified copy of agent and return that.
 	*/
 	//eslint-disable-next-line
-	agentTick(agent, graph, frame, rnd) {
+	defaultAgentTick(agent, graph, frame, rnd) {
 		return agent;
 	}
 
