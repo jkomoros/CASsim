@@ -33,9 +33,18 @@ export class AgentSimulator extends BaseSimulator {
 	/*
 		An override point for how many agents to generate by default.
 	*/
-	//eslint-disable-next-line
+	//eslint-disable-next-line no-unused-vars
 	numStarterAgents(graph, simOptions, rnd) {
 		return 0;
+	}
+
+	/*
+		An override point to allow multiple agents to exist in a given cell at a
+		time.
+	*/
+	//eslint-disable-next-line no-unused-vars
+	allowOverlappingAgents(graph, simOptions, rnd) {
+		return false;
 	}
 
 	/*
@@ -45,13 +54,13 @@ export class AgentSimulator extends BaseSimulator {
 	*/
 	generateAgents(graph, simOptions, rnd) {
 		const agents = [];
-		const unoccupiedNodes = {...graph.nodes()};
+		const availableNodes = {...graph.nodes()};
 		const agentCount = this.numStarterAgents(graph, simOptions, rnd);
 		for (let i = 0; i < agentCount; i++) {
-			const nodeList = Object.keys(unoccupiedNodes);
+			const nodeList = Object.keys(availableNodes);
 			if (nodeList.length <= 0) throw new Error('There are no new unocuppied nodes for new agents to occupy');
 			const node = nodeList[Math.floor(rnd() * nodeList.length)];
-			delete unoccupiedNodes[node];
+			if (!this.allowOverlappingAgents(graph, simOptions, rnd)) delete availableNodes[node];
 			const agent = this.generateAgent(node, graph, simOptions, rnd) || {};
 			agent.node = node;
 			agents.push(agent);
