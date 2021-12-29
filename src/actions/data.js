@@ -98,6 +98,7 @@ import {
 
 import {
 	DEFAULT_SENTINEL,
+	parseHash,
 } from '../util.js';
 
 const SIMULATORS_DIRECTORY = 'simulators';
@@ -620,13 +621,9 @@ export const updateHash = (hash, comesFromURL) => (dispatch, getState) => {
 	if (hash == currentHash && dataFullyLoaded && !comesFromURL) return;
 	//Only try to parse the hash if fully loaded
 	if (comesFromURL && dataFullyLoaded) {
-		const args = {};
-		for (const part of hash.split('&')) {
-			const [key, val] = part.split('=');
-			args[key] = val;
-		}
-		if (args[DIFF_URL_KEY]) {
-			const [mods, warning] = unpackModificationsFromURL(args[DIFF_URL_KEY], selectSimulationCollection(state), selectSimulationIndex(state));
+		const diff = parseHash(hash)[DIFF_URL_KEY];
+		if (diff) {
+			const [mods, warning] = unpackModificationsFromURL(diff, selectSimulationCollection(state), selectSimulationIndex(state));
 			if (warning) dispatch(updateWarning(warning));
 			dispatch(replaceModifications(mods));
 		}

@@ -102,6 +102,16 @@ export const setPropertyInObject = (obj, path, value) => {
 	return {...obj, [firstPart]: innerResult};
 };
 
+export const parseHash = (hash) => {
+	if (hash.startsWith('#')) hash = hash.substring(1);
+	const args = {};
+	for (const part of hash.split('&')) {
+		const [key, val] = part.split('=');
+		args[key] = val;
+	}
+	return args;
+};
+
 const memoizedRendererMaps = {};
 
 export const memoizedRenderer = (simulation, frameVisualizer) => {
