@@ -6,6 +6,10 @@ import {
 	PROFESSIONAL_PEOPLE_EMOJIS
 } from '../emojis.js';
 
+import {
+	RectangleGraph
+}from '../graph.js';
+
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'agent-demo';
 
@@ -24,6 +28,10 @@ class AgentDemoSimulator extends AgentSimulator {
 		};
 	}
 
+	generateGraph(simOptions) {
+		return RectangleGraph.make(simOptions.rows, simOptions.cols, {value:0.0, growthRate: 0.05});
+	}
+
 	numStarterAgents(graph, simOptions) {
 		return simOptions.agents;
 	}
@@ -35,6 +43,10 @@ class AgentDemoSimulator extends AgentSimulator {
 	defaultAgentTick(agent, graph, frame, rnd) {
 		const neighbors = Object.keys(graph.neighbors(agent.node));
 		return {...agent, node: neighbors[Math.floor(neighbors.length * rnd())]};
+	}
+
+	defaultNodeTick(node) {
+		return {...node, value: node.value + node.growthRate};
 	}
 
 	frameScorer(frame) {
@@ -81,6 +93,13 @@ class AgentDemoSimulator extends AgentSimulator {
 				default: true,
 				shortName: 'n',
 				description: 'The number of rounds'
+			},
+			'growthRate': {
+				example: 0.05,
+				optional: true,
+				default: true,
+				shortName: 'gR',
+				description: "How quickly value grows in each cell"
 			}
 		};
 	}
