@@ -40,6 +40,9 @@ const SCREENSHOT_STATUS_DISPLAY_PROPERTY = 'screenshotStatus';
 const CLIP_STATUS_PROPERTY = 'clipStatus';
 const TITLE_PROPERTY = 'title';
 
+//Other machinery will need to rely on this
+export const SIM_PROPERTY_SHORT_NAME = 'sm';
+
 //Also duplicated into screenshot.js
 const NAME_PROPERTY = 'name';
 const REPEAT_PROPERTY = 'repeat';
@@ -594,7 +597,7 @@ export const Simulation = class {
 				[SIM_PROPERTY]: {
 					//TODO: use the constant
 					example: this._knownSimulatorNames.length ? this._knownSimulatorNames[0] : '',
-					shortName: 'sm',
+					shortName: SIM_PROPERTY_SHORT_NAME,
 					options: this._knownSimulatorNames.map(name => ({value: name})),
 					description: 'The simulator type to run. Only simulators in the simulators directory are supported',
 					//Advanced while this is the only option
