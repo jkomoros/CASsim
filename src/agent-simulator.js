@@ -2,6 +2,8 @@ import { BaseSimulator } from "./simulator.js";
 
 import { RectangleGraph }from './graph.js';
 
+import { Urn } from './util.js';
+
 export class AgentSimulator extends BaseSimulator {
 
 	/*
@@ -129,16 +131,24 @@ export class AgentSimulator extends BaseSimulator {
 		return this.defaultNodeTick(node, graph, frame, rnd);
 	}
 
-	selectNodeToMoveTo(agent, agents, graph, frame, rnd) {
-		const neighborsMap = graph.neighbors(agent.node);
+	//ply is how far afield to explore. nodeScorer(neighborNode, length, path)
+	//should return a float. edgeScorer is passed to graph.shortestPath and may
+	//be undefined. All candidates will be put in an urn with their floats as
+	//their probability of being picked.
+	selectNodeToMoveTo(agent, agents, graph, frame, rnd, ply = 1, nodeScorer = () => 1.0, edgeScorer) {
+		const neighborsMap = graph.neighbors(agent.node, ply);
 		const agentsByNode = Object.fromEntries(agents.map(agent => [agent.node, agent]));
 		for (const neighbor of Object.keys(neighborsMap)) {
 			if (this.allowAgentToOverlapWith(agent, agentsByNode[neighbor], graph, frame.simOptions, rnd)) continue;
 			delete neighborsMap[neighbor];
 		}
-		const neighbors = Object.keys(neighborsMap);
-		const node = neighbors[Math.floor(neighbors.length * rnd())];
-		return node;
+		const urn = new Urn(rnd);
+		for (const neighbor of Object.values(neighborsMap)) {
+			const [length, shortestPath] = graph.shortestPath(agent.node, neighbor, edgeScorer);
+			const score = nodeScorer(neighbor, length, shortestPath);
+			urn.add(neighbor, score);
+		}
+		return urn.pick();
 	}
 
 	/*
