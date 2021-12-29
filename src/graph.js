@@ -276,6 +276,13 @@ export class RectangleGraph extends Graph {
 
 	/*
 		options is a dict that may have the following keys set to true:
+		noLeft - Don't connect directly to the left
+		noRight - Don't connect directly to the right
+		noUp - Don't connect directly up
+		noDown - Don't connect directly down
+		noHorizontal - Equivalent to noLeft, noRight
+		noVertical - Equivalent to noUp, noDown
+		noRightAngle - Equivalent to noHorizontal, noVertical
 		diagonalUpLeft - Also connect diagonal up and left
 		diagonalDownLeft - Also connect diagonals down and left
 		diagonalUpRight - Also connect diagonals up and right
@@ -296,10 +303,18 @@ export class RectangleGraph extends Graph {
 				const values = {...starterValues, row: r, col: c};
 				const identifier = RectangleGraph.identifier(r, c);
 				result.setNode(identifier, values);
-				if (r > 0) result.setEdge(identifier, RectangleGraph.identifier(r - 1, c), {distance: 1.0});
-				if (c > 0) result.setEdge(identifier, RectangleGraph.identifier(r, c - 1), {distance: 1.0});
-				if (r < rows - 1) result.setEdge(identifier, RectangleGraph.identifier(r + 1, c), {distance: 1.0});
-				if (c < cols - 1) result.setEdge(identifier, RectangleGraph.identifier(r, c + 1), {distance: 1.0});
+				if (!options.noUp && !options.noVertical && !options.noRightAngle) {
+					if (r > 0) result.setEdge(identifier, RectangleGraph.identifier(r - 1, c), {distance: 1.0});
+				}
+				if (!options.noLeft && !options.noHorizontal && !options.noRightAngle) {
+					if (c > 0) result.setEdge(identifier, RectangleGraph.identifier(r, c - 1), {distance: 1.0});
+				}
+				if (!options.noDown && !options.noVertical && !options.noRightAngle) {
+					if (r < rows - 1) result.setEdge(identifier, RectangleGraph.identifier(r + 1, c), {distance: 1.0});
+				}
+				if (!options.noRight && !options.noHorizontal && !options.noRightAngle) {
+					if (c < cols - 1) result.setEdge(identifier, RectangleGraph.identifier(r, c + 1), {distance: 1.0});
+				}
 				if (options.diagonalUpLeft || options.diagonalUp || options.diagonalLeft || options.diagonal) {
 					if (r > 0 && c > 0) {
 						result.setEdge(identifier, RectangleGraph.identifier(r - 1, c - 1), {distance: Math.sqrt(2)});
