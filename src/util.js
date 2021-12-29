@@ -17,7 +17,7 @@ export class Urn {
 		}
 		const val = this._rnd() * this._sum;
 		let sum = 0.0;
-		const entries = this._items.entries();
+		const entries = [...this._items.entries()];
 		for (let [item, count] of entries) {
 			sum += count;
 			if (sum > val) return item;
