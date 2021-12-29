@@ -151,6 +151,16 @@ const NAMED_COLORS = {
 	"yellowgreen": "#9acd32"
 };
 
+export const gradient = (one, two, percentage) => {
+	if (typeof one != 'object') one = color(one);
+	if (typeof two != 'object') two = color(two);
+	const r = Math.round((two.r - one.r) * percentage + one.r);
+	const g = Math.round((two.g - one.g) * percentage + one.g);
+	const b = Math.round((two.b - one.b) * percentage + one.b);
+	const a = Math.round((two.a - one.a) * percentage + one.a);
+	return 'rgba(' + [r,g,b,a].join(', ') + ')';
+};
+
 export const color = (arg) => {
 	let r = 0;
 	let g = 0;
