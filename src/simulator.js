@@ -7,6 +7,10 @@ import {
 	configForPath
 } from './options.js';
 
+import {
+	stringHash
+} from './util.js';
+
 //See README.md for more on each of these methods.
 export class BaseSimulator {
 
@@ -125,6 +129,10 @@ export class BaseSimulator {
 
 	renderer() {
 		return new StubSimulatorRenderer();
+	}
+
+	fingerprint() {
+		return stringHash(JSON.stringify(this.optionsConfig) + this.version);
 	}
 }
 

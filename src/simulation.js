@@ -5,7 +5,7 @@ import {
 import {
 	deepFreeze,
 	deepCopy,
-	hash
+	stringHash
 } from './util.js';
 
 import {
@@ -430,7 +430,7 @@ export const Simulation = class {
 	get baseFingerprint() {
 		if (!this._fingerprint) {
 			const config = this._unmodifiedConfig || this._config;
-			this._fingerprint = Math.abs(hash(JSON.stringify(config))).toString(16);
+			this._fingerprint = stringHash(JSON.stringify(config));
 		}
 		return this._fingerprint;
 	}

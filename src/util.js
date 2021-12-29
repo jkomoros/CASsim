@@ -129,3 +129,5 @@ export const memoizedRenderer = (simulation, frameVisualizer) => {
 
 //From https://blog.trannhat.xyz/generate-a-hash-from-string-in-javascript/
 export const hash = (s) => s.split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a;},0);
+
+export const stringHash = (s) => Math.abs(hash(s)).toString(16);
