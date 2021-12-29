@@ -7,6 +7,10 @@ import {
 	RectangleGraph
 } from './graph.js';
 
+import {
+	gradient
+} from './color.js';
+
 export class BaseRenderer extends LitElement {
 	static get properties() {
 		return {
@@ -116,7 +120,23 @@ export class RectangleGraphRenderer extends BaseRenderer {
 
 	/* eslint-disable-next-line */
 	renderNode(node, graph) {
-		return html`<div class='node' style=${styleMap(this._positionForNode(node))}></div>`;
+		let styles = this._positionForNode(node);
+		styles = {...styles, ['background-color']: this.colorForNode(node, graph)};
+		return html`<div class='node' style=${styleMap(styles)}></div>`;
+	}
+
+	//eslint-disable-next-line
+	colorGradientPercentageForNode(node, graph) {
+		return node.value;
+	}
+
+	//eslint-disable-next-line no-unused-vars
+	colorForNode(node, graph) {
+		const style = getComputedStyle(this);
+		const primaryColor = style.getPropertyValue('--primary-color');
+		const secondaryColor = style.getPropertyValue('--secondary-color');
+		const color =  gradient(primaryColor, secondaryColor, this.colorGradientPercentageForNode(node));
+		return color;
 	}
 
 	renderAgent(agent, graph) {
