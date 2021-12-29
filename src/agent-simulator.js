@@ -147,9 +147,10 @@ export class AgentSimulator extends BaseSimulator {
 		}
 		frame.agents = newAgents;
 		for (const [id, node] of Object.entries(graph.nodes())) {
+			const newNode = this.nodeTick(node, graph, frame, rnd);
 			//If we set the node to the same values as it was, then the graph
 			//will detect no changes were made.
-			graph.setNode(id, node);
+			graph.setNode(id, newNode);
 		}
 		if (graph.changesMade) {
 			frame.graph = graph.data;
