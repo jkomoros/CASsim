@@ -18,6 +18,8 @@ const DEFAULT_PROPERTY_NAME = 'default';
 
 export const COLOR_BEHAVIOR_NAME = 'color';
 
+export const DIFF_URL_KEY = 'd';
+
 const ALLOWED_BEHAVIOR_NAMES = {
 	[COLOR_BEHAVIOR_NAME]: true,
 };
@@ -417,6 +419,7 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 };
 
 export const unpackSimNamesFromURL = (url) => {
+	if (!url) return [];
 	//Can unpack a URL modifications packed with packModificationsFromURL and
 	//detect items that include a packed or unpacked modification of the sim
 	//name. Returns an array of any it finds.

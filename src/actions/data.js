@@ -83,7 +83,8 @@ import {
 	configForPath,
 	configIsAdvanced,
 	maySetPropertyInConfigObject,
-	unpackModificationsFromURL
+	unpackModificationsFromURL,
+	DIFF_URL_KEY
 } from '../options.js';
 
 import { store } from '../store.js';
@@ -602,8 +603,6 @@ export const simulationChanged = () => {
 		type: SIMULATION_CHANGED
 	};
 };
-
-const DIFF_URL_KEY = 'd';
 
 export const canonicalizeHash = () => (dispatch, getState) => {
 	const state = getState();

@@ -62,6 +62,15 @@ export const extractSimulatorNamesFromRawConfig = data => {
 	return Object.keys(result);
 };
 
+export const extractSimulatorNamesFromModifications = modifications => {
+	const result = {};
+	for (const mod of modifications) {
+		if (mod.path != SIM_PROPERTY) continue;
+		result[mod.value] = true;
+	}
+	return Object.keys(result);
+};
+
 export const SimulationCollection = class {
 	constructor(configs, knownSimulatorNames, unmodifiedConfigs) {
 		if (!configs) configs = [];

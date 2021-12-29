@@ -3,17 +3,21 @@ import { createSelector } from "reselect";
 import {
 	SimulationCollection,
 	extractSimulatorNamesFromRawConfig,
+	extractSimulatorNamesFromModifications,
 	Simulation
 } from "./simulation.js";
 
 import {
 	setSimPropertyInConfig,
-	packModificationsForURL
+	packModificationsForURL,
+	unpackSimNamesFromURL,
+	DIFF_URL_KEY
 } from './options.js';
 
 import {
 	DEFAULT_SENTINEL,
-	shadowedModificationsForSimIndex
+	shadowedModificationsForSimIndex,
+	parseHash
 } from './util.js';
 
 const selectRawConfigData = state => state.data ? state.data.data : [];
@@ -97,16 +101,20 @@ const modfifiedConfigData = (rawConfigData, modifications, simulatorsLoaded = tr
 	return data;
 };
 
-const selectModififedConfigDataNoDefaults = createSelector(
-	selectRawConfigData,
-	selectModifications,
-	(rawConfigData, modifications) => modfifiedConfigData(rawConfigData, modifications)
-);
-
 export const selectRequiredSimulatorNames = createSelector(
 	//We do want to see if there are modifications to change sim on any config item, but don't need any default expansion (default expansion relies on this value)
-	selectModififedConfigDataNoDefaults,
-	(data) => extractSimulatorNamesFromRawConfig(data)
+	selectRawConfigData,
+	selectModifications,
+	selectHash,
+	(data, modifications, hash) => {
+		//Modifications and hash TYPICALLY have similar information. But
+		//modifications might not yet be populated by hash, and hash might miss
+		//some shadowed modifications.
+		const rawConfigNames = extractSimulatorNamesFromRawConfig(data);
+		const modificationNames = extractSimulatorNamesFromModifications(modifications);
+		const hashNames = unpackSimNamesFromURL(parseHash(hash)[DIFF_URL_KEY]);
+		return [...new Set([...rawConfigNames, ...modificationNames, ...hashNames])];
+	}
 );
 
 export const selectRequiredSimulatorsLoaded = createSelector(
