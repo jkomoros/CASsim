@@ -297,6 +297,10 @@ export const Simulation = class {
 		}
 	}
 
+	get knownSimulatorNames() {
+		return this._knownSimulatorNames;
+	}
+
 	get lastChanged() {
 		return Math.max(this._lastChanged, ...this._runs.map(run => run.lastChanged));
 	}
