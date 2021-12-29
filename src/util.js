@@ -22,7 +22,7 @@ export class Urn {
 	}
 }
 
-export const shuffle = (array, rnd = Math.random) => {
+export const shuffleInPlace = (array, rnd = Math.random) => {
 	let currentIndex = array.length;
 	let randomIndex;
 
@@ -48,14 +48,6 @@ export const deepFreeze = (obj) => {
 //Only works for POJOs
 export const deepCopy = (obj) => {
 	return JSON.parse(JSON.stringify(obj));
-};
-
-export const shuffleArrayInPlace = (array, rnd) => {
-	//based on the answer at https://stackoverflow.com/a/12646864
-	for (let i = array.length - 1; i > 0; i--) {
-		const j = Math.floor(rnd() * (i + 1));
-		[array[i], array[j]] = [array[j], array[i]];
-	}
 };
 
 const IS_STEP_EPSILON = 0.0000001;

@@ -1,3 +1,6 @@
+import {
+	shuffleInPlace
+} from './util.js';
 /*
 
 Graph is a graph with nodes and edges, and values for each node/edge.
@@ -159,6 +162,40 @@ export class Graph {
 			}
 		}
 		return result;
+	}
+
+	//shortestPath returns [length, path] where length is the shortest path
+	//lengh, and path is an array of edges to go from fromNode to
+	//toNode. The length of each edge is given by edgeScorer, which typically
+	//returns a value like edge.distance. The default simply counts each edge as
+	//length 1. If there is no path from from to to, will return [-1 * MAX_SAFE_INTEGER, null];
+	shortestPath(fromNodeIdentifier, toNodeIdentifer, edgeScorer = () => 1, rnd = Math.random) {
+		//TODO: memoize
+		const fromID = Graph.packID(fromNodeIdentifier);
+		const toID = Graph.packID(toNodeIdentifer);
+		const visitedNodes = {
+			fromID: true,
+		};
+		//Each one should be {path: [...previousNodes, node], length: 1, node: node}
+		const itemsToVisit = [{path: [], length: 0, node: fromID}];
+		while (itemsToVisit.length) {
+			const item = itemsToVisit.shift();
+			if (visitedNodes[item.node]) continue;
+			visitedNodes[item.node] = true;
+			const edges = this.edges(item.node);
+			//Since we only return one path, we should visit equivalent items in a random order.
+			const edgeKeys = shuffleInPlace(Object.keys(edges), rnd);
+			for (const edgeToID of edgeKeys) {
+				const edge = edges[edgeToID];
+				const path = [...item.path, edgeToID];
+				const length = item.length + edgeScorer(edge);
+				if (edgeToID == toID) return [length, path];
+				if (visitedNodes[edgeToID]) continue;
+				itemsToVisit.push({path, length, node: edgeToID});
+			}
+			itemsToVisit.sort((a, b) => a.length - b.length);
+		}
+		return [-1 * Math.MAX_SAFE_INTEGER, null];
 	}
 
 	_prepareForModifications() {
