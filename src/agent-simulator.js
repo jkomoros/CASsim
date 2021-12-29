@@ -93,11 +93,11 @@ export class AgentSimulator extends BaseSimulator {
 		= 'ant' would call 'antAgentTick()'). For agents who don't have a type,
 		or whose type doesn't have a ticker for it, it calls defaultAgentTick().
 	*/
-	agentTick(agent, graph, frame, rnd) {
+	agentTick(agent, agents, graph, frame, rnd) {
 		const typ = agent.type || '';
 		const typeMethod = typ + 'AgentTick';
 		if (this[typeMethod]) return this[typeMethod](agent, graph, frame, rnd);
-		return this.defaultAgentTick(agent, graph, frame, rnd);
+		return this.defaultAgentTick(agent, agents, graph, frame, rnd);
 	}
 
 	/*
@@ -107,7 +107,7 @@ export class AgentSimulator extends BaseSimulator {
 		modifications, make a modified copy of agent and return that.
 	*/
 	//eslint-disable-next-line
-	defaultAgentTick(agent, graph, frame, rnd) {
+	defaultAgentTick(agent, agents, graph, frame, rnd) {
 		return agent;
 	}
 
@@ -140,10 +140,10 @@ export class AgentSimulator extends BaseSimulator {
 	*/
 	generateFrame(frame, rnd) {
 		const graph = new (this.graphConstructor())(frame.graph);
-		const newAgents = [];
+		const newAgents = [...frame.agents];
 		//TODO: go through agents in random order
 		for (const [index, agent] of frame.agents.entries()) {
-			newAgents[index] = this.agentTick(agent, graph, frame, rnd);
+			newAgents[index] = this.agentTick(agent, newAgents, graph, frame, rnd);
 		}
 		frame.agents = newAgents;
 		for (const [id, node] of Object.entries(graph.nodes())) {
