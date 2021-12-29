@@ -350,6 +350,8 @@ export const setSimPropertyInConfig = (obj, path, value) => {
 	//When we switch sim name, we should wipe away all of simOptions, allowing
 	//it to be set to the default based on the simOptionsConfig, because the
 	//simOptions for the old one definitely won't be valid for the new one.
+
+	//NOte: shadowedModificationsForSimIndex basically reimplemnts this behavior
 	if (path == SIM_PROPERTY) obj = setPropertyInObject(obj, SIM_OPTIONS_PROPERTY, DELETE_SENTINEL);
 	return setPropertyInObject(obj, path, value);
 };
@@ -522,6 +524,15 @@ export const shadowedModificationsForSimIndex = (modifications, simIndex) => {
 			for (const key of Object.keys(mods)) {
 				//Add a '.' to make sure that paths like 'a.f' don't match 'a.foo'
 				if (!key.startsWith(mod.path + '.')) continue;
+				delete mods[key];
+			}
+		}
+		//If the sim property is changed, any mods on simOptions from before
+		//this are removed. This effectively mirrors the behavior of setSimPropertyInConfig. 
+		if (mod.path == SIM_PROPERTY) {
+			for (const key of Object.keys(mods)) {
+				//Add a '.' to make sure that paths like 'a.f' don't match 'a.foo'
+				if (!key.startsWith(SIM_OPTIONS_PROPERTY + '.')) continue;
 				delete mods[key];
 			}
 		}
