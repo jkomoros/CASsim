@@ -175,6 +175,7 @@ export class Graph {
 		if (node.values == values) return;
 		if (!values) values = {};
 		if (values.id != id) values.id = id;
+		node = {...node};
 		node.values = values;
 		this._prepareForModifications();
 		this._data[id] = node;
