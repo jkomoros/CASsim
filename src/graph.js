@@ -94,12 +94,6 @@ export class Graph {
 	//that you can only rely on value equality for nodes if changesMade is
 	//false. Instead, use Graph.same()
 	node(identifier) {
-		//Note: this is an override point for subclasses, so use _node(identifer)
-		return this._node(identifier);
-
-	}
-
-	_node(identifier) {
 		//_nodeObject will pack identifier
 		const node = this._nodeObject(identifier);
 		if (!node) return undefined;
@@ -110,12 +104,6 @@ export class Graph {
 	//exist. Note that you can only rely on value equality for edges if
 	//changesMade is false. Instead use Graph.same()
 	edge(fromIdentifier, toIdentifier) {
-
-		//Note: this is an override point for subclasses, do not assume it has the same signature
-		return this._edge(fromIdentifier, toIdentifier);
-	}
-
-	_edge(fromIdentifier, toIdentifier) {
 		const node = this._nodeObject(fromIdentifier);
 		if (!node) return undefined;
 		const toID = Graph.packID(toIdentifier);
@@ -124,11 +112,6 @@ export class Graph {
 
 	//Returns a map of toIdentifier, and the EDGE values.
 	edges(identifier) {
-		//Note: this can be overriden in subclasses, so don't rely on it to have this signature
-		return this._edges(identifier);
-	}
-
-	_edges(identifier) {
 		//_nodeObject will pack identifier
 		const node = this._nodeObject(identifier);
 		if (!node) return undefined;
@@ -143,15 +126,15 @@ export class Graph {
 	neighbors(identifier, ply = 1) {
 		const result = {};
 		const id = Graph.packID(identifier);
-		const nodesToProcess = Object.fromEntries(Object.entries(this._edges(identifier)).map(entry => [entry[0], 1]));
+		const nodesToProcess = Object.fromEntries(Object.entries(this.edges(identifier)).map(entry => [entry[0], 1]));
 		while (Object.keys(nodesToProcess).length) {
 			const [otherID, distance] = Object.entries(nodesToProcess)[0];
 			delete nodesToProcess[otherID];
-			const values = this._node(otherID);
+			const values = this.node(otherID);
 			result[otherID] = values;
 			//Only add more items to the queue if we haven't already hit the ply limit
 			if (distance >= ply) continue;
-			for (const newID of Object.keys(this._edges(otherID))) {
+			for (const newID of Object.keys(this.edges(otherID))) {
 				//Don't revisit the one we started from
 				if (newID == id) continue;
 				//Don't revisit ones we've already processed
