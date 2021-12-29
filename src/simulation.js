@@ -427,6 +427,10 @@ export const Simulation = class {
 		return this._scoreConfig;
 	}
 
+	get unmodifiedConfig() {
+		return this._unmodifiedConfig;
+	}
+
 	get baseFingerprint() {
 		if (!this._fingerprint) {
 			const config = this._unmodifiedConfig || this._config;

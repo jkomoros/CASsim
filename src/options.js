@@ -370,7 +370,7 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 	//1 and 3 are examples of the index of the simulationIndex we're referring to
 	//@ is the delimiter for the concatenated, in order, list of modifications
 	//cde, def are examples of the fingerprint of version, the first one
-	//a12, b3a are examples of the first 3 digits of the hash of the underlying config
+	//a12, b3a are examples of the first 3 digits of the hash of the underlying config. If the config changes, multiples should be saved
 	//the dotted path is the modification.path
 	//: is the delimiter to the value and , is the delimeter for values
 	//'' delimits strings, which are URL-endcoded inside
@@ -387,16 +387,17 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 		const simulation = simCollection.simulations[simIndex];
 		if (!simulation) return '';
 		//The simulator could change partway through, which would make the shortNames change.
-		let diffedSimulation = simulation.cloneWithConfig(simulation.rawConfig);
+		let diffedSimulation = simulation.cloneWithConfig(simulation.unmodifiedConfig);
 		const keyValuePairs = [];
-		const firstPiece = diffedSimulation.baseFingerprint.substring(0,FINGERPRINT_CHARACTER_LENGTH);
-		const simulatorPiece = diffedSimulation.simulator.fingerprint.substring(0, FINGERPRINT_CHARACTER_LENGTH);
-		keyValuePairs.push(firstPiece + ':' + simulatorPiece);
+		const fingerprintPieces = [];
+		fingerprintPieces.push(diffedSimulation.baseFingerprint.substring(0,FINGERPRINT_CHARACTER_LENGTH));
+		fingerprintPieces.push(diffedSimulation.simulator.fingerprint.substring(0, FINGERPRINT_CHARACTER_LENGTH));
 		const mods = shadowedModificationsForSimIndex(modifications, simIndex);
 		//Only keep the last modification of path
 		for (let [path, value] of Object.entries(mods)) {
 			if (path == SIM_PROPERTY) {
 				diffedSimulation = diffedSimulation.cloneWithConfig(setSimPropertyInConfig(diffedSimulation.config, path, value));
+				fingerprintPieces.push(diffedSimulation.simulator.fingerprint.substring(0, FINGERPRINT_CHARACTER_LENGTH));
 			}
 			//Shorten short names
 			path = shortenPathWithConfig(diffedSimulation.optionsConfig, path);
@@ -416,7 +417,7 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 			//numbers will be encoded to string value automatically via coercion.
 			keyValuePairs.push(path + ':' + value);
 		}
-		simPiece += keyValuePairs.join(',');
+		simPiece += [fingerprintPieces.join(':'), ...keyValuePairs].join(',');
 		result.push(simPiece);
 	}
 	return result.join(';');
@@ -463,14 +464,17 @@ export const unpackModificationsFromURL = (url, simCollection, currentSimIndex =
 		const simulationIndex = versionParts.length == 2 ? parseInt(versionParts[0]) : currentSimIndex;
 		const simulation = simCollection ? simCollection.simulations[simulationIndex] : null;
 		//The simulator might change in the middle, so we'l lhave to clone copies...
-		let diffedSimulation = simulation.cloneWithConfig(simulation.rawConfig);
+		let diffedSimulation = simulation.cloneWithConfig(simulation.unmodifiedConfig);
 		const keyValuesParts = keyValuesPart.split(',');
+		let simulatorFingerprints = [];
+		let simulatorIndex = 0;
 		for (const [index, part] of keyValuesParts.entries()) {
 			if (index == 0) {
-				const [fingerprint, simulatorFingerprint] = part.split(':');
+				const [fingerprint, ...unpackedSimulatorFingerprints] = part.split(':');
+				simulatorFingerprints = unpackedSimulatorFingerprints;
 				if (fingerprint != diffedSimulation.baseFingerprint.slice(0, fingerprint.length)) warning = 'The diff was generated on a config that has now changed, so the diff might not work.';
 				//This is the version number. For now we'll try to continue but raise it in warning.
-				if (simulatorFingerprint != diffedSimulation.simulator.fingerprint.slice(0, simulatorFingerprint.length)) warning = 'The simulator has been updated since the diff was saved. The behavior of the diff might not work.';
+				if (simulatorFingerprints[simulatorIndex] != diffedSimulation.simulator.fingerprint.slice(0, simulatorFingerprints[simulatorIndex].length)) warning = 'The simulator #' + simulatorIndex + ' has been updated since the diff was saved. The behavior of the diff might not work.';
 				//The first pair is always the version section, don't process it
 				continue;
 			}
@@ -500,6 +504,8 @@ export const unpackModificationsFromURL = (url, simCollection, currentSimIndex =
 
 			if (key == SIM_PROPERTY_SHORT_NAME) {
 				diffedSimulation = diffedSimulation.cloneWithConfig(setSimPropertyInConfig(diffedSimulation.config, SIM_PROPERTY, value));
+				simulatorIndex++;
+				if (simulatorFingerprints[simulatorIndex] != diffedSimulation.simulator.fingerprint.slice(0, simulatorFingerprints[simulatorIndex].length)) warning = 'The simulator #' + simulatorIndex + ' has been updated since the diff was saved. The behavior of the diff might not work.';
 			}
 			//expand short names
 			key = expandPathWithConfig(diffedSimulation.optionsConfig, key);
