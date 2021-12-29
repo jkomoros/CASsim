@@ -15,6 +15,7 @@ export const UPDATE_DESCRIPTION_EXPANDED = 'UPDATE_DESCRIPTION_EXPANDED';
 export const UPDATE_CHART_EXPANDED = 'UPDATE_CHART_EXPANDED';
 export const UPDATE_PATH_EXPANDED = 'UPDATE_PATH_EXPANDED';
 export const UPDATE_SCALE = 'UPDATE_SCALE';
+export const SIMULATOR_LOADING = 'SIMULATOR_LOADING';
 export const SIMULATOR_LOADED = 'SIMULATOR_LOADED';
 export const UPDATE_KNOWN_SIMULATOR_NAMES = 'UPDATE_KNOWN_SIMULATOR_NAMES';
 export const UPDATE_KNOWN_DATAFILES = 'UPDATE_KNOWN_DATAFILES';
@@ -76,7 +77,8 @@ import {
 	selectHasModifications,
 	selectHash,
 	selectURLDiffHash,
-	selectSimulationCollection
+	selectSimulationCollection,
+	selectLoadingSimulators
 } from '../selectors.js';
 
 import {
@@ -124,9 +126,15 @@ export const loadData = (blob) => (dispatch) => {
 export const fetchNeededSimulators = () => (dispatch, getState) => {
 	const state = getState();
 	const loadedSimulators = selectLoadedSimulators(state);
+	const loadingSimulators = selectLoadingSimulators(state);
 	const neededSimulatorNames =  selectRequiredSimulatorNames(state);
 	for (const name of neededSimulatorNames) {
 		if (loadedSimulators[name]) continue;
+		if (loadingSimulators[name]) continue;
+		dispatch({
+			type: SIMULATOR_LOADING,
+			name,
+		});
 		(async () => {
 			try {
 				const mod = await import('../' + SIMULATORS_DIRECTORY + '/' + name + '.js');

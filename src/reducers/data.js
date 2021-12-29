@@ -17,6 +17,7 @@ import {
 	UPDATE_CHART_EXPANDED,
 	UPDATE_PATH_EXPANDED,
 	SIMULATOR_LOADED,
+	SIMULATOR_LOADING,
 	UPDATE_KNOWN_DATAFILES,
 	UPDATE_KNOWN_SIMULATOR_NAMES,
 	UPDATE_RESIZE_VISUALIZATION,
@@ -40,6 +41,7 @@ import {
 
 const INITIAL_STATE = {
 	filename: DEFAULT_FILE_NAME,
+	loadingSimulators: {},
 	loadedSimulators: {},
 	knownDatafiles: [],
 	knownSimulatorNames: [],
@@ -162,9 +164,16 @@ const data = (state = INITIAL_STATE, action) => {
 			scale: action.scale
 		};
 	case SIMULATOR_LOADED:
+		const loading = state.loadingSimulators[action.name] ? Object.fromEntries(Object.entries(state.loadingSimulators).filter(entry => entry[0] != action.name)) : state.loadingSimulators;
 		return {
 			...state,
+			loadingSimulators: loading,
 			loadedSimulators: {...state.loadedSimulators, [action.name]: true},
+		};
+	case SIMULATOR_LOADING:
+		return {
+			...state,
+			loadingSimulators: {...state.loadingSimulators, [action.name]: true},
 		};
 	case UPDATE_KNOWN_DATAFILES:
 		return {

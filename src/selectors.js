@@ -41,6 +41,7 @@ const selectSimulationLastChanged = state => state.data ? state.data.simulationL
 export const selectPathExpanded = state => state.data ? state.data.pathExpanded : {};
 export const selectScale = state => state.data ? state.data.scale : 1.0;
 export const selectLoadedSimulators = state => state.data ? state.data.loadedSimulators : {};
+export const selectLoadingSimulators = state => state.data ? state.data.loadingSimulators : {};
 export const selectKnownDatafiles = state => state.data ? state.data.knownDatafiles : [];
 export const selectKnownSimulatorNames = state => state.data ? state.data.knownSimulatorNames : [];
 export const selectResizeVisualization = state => state.data ? state.data.resizeVisualization : false;
