@@ -15,7 +15,7 @@ export class Urn {
 		if (this._sum == 0.0) {
 			return this._items.size ? this._items.keys()[0] : undefined;
 		}
-		const val = Math.floor(this._rnd() * this._sum);
+		const val = this._rnd() * this._sum;
 		let sum = 0.0;
 		const entries = this._items.entries();
 		for (let [item, count] of entries) {
