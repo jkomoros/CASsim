@@ -70,7 +70,7 @@ import {
 	selectFrameDelay,
 	selectDelayCount,
 	selectLoadedSimulators,
-	selectModififedConfigDataNoDefaults,
+	selectRequiredSimulatorNames,
 	selectScale,
 	selectDataIsFullyLoaded,
 	selectHasModifications,
@@ -90,7 +90,6 @@ import { store } from '../store.js';
 
 import {
 	SIMULATORS,
-	extractSimulatorNamesFromRawConfig
 } from '../simulation.js';
 
 import {
@@ -123,8 +122,7 @@ export const loadData = (blob) => (dispatch) => {
 export const fetchNeededSimulators = () => (dispatch, getState) => {
 	const state = getState();
 	const loadedSimulators = selectLoadedSimulators(state);
-	const rawConfig = selectModififedConfigDataNoDefaults(state);
-	const neededSimulatorNames = extractSimulatorNamesFromRawConfig(rawConfig);
+	const neededSimulatorNames =  selectRequiredSimulatorNames(state);
 	for (const name of neededSimulatorNames) {
 		if (loadedSimulators[name]) continue;
 		(async () => {
