@@ -274,7 +274,19 @@ export class RectangleGraph extends Graph {
 		return identifier;
 	}
 
-	static make(rows, cols, starterValues = {}) {
+	/*
+		options is a dict that may have the following keys set to true:
+		diagonalUpLeft - Also connect diagonal up and left
+		diagonalDownLeft - Also connect diagonals down and left
+		diagonalUpRight - Also connect diagonals up and right
+		diagonalDownRight - Also connect diagonals down and right
+		diagonalRight - equivalent to diagonalUpRight, diagonalDownRight
+		diagonalLeft - equilvalent to diagonalUpLeft, diagonalDownLeft
+		diagonalUp - equivalent to diagonalUpLeft, diagonalUpRight
+		diagonalDown - equivalent to diagonalDownLeft, diagonalDownRight
+		diagonal - equivalent to diagonalUp, diagonalDown
+	*/
+	static make(rows, cols, starterValues = {}, options = {}) {
 		if (typeof rows != 'number' || rows < 1.0) throw new Error('Rows must be a positive integer');
 		if (typeof cols != 'number' || cols < 1.0) throw new Error('Cols must be a positive integer');
 
@@ -288,7 +300,27 @@ export class RectangleGraph extends Graph {
 				if (c > 0) result.setEdge(identifier, RectangleGraph.identifier(r, c - 1), {distance: 1.0});
 				if (r < rows - 1) result.setEdge(identifier, RectangleGraph.identifier(r + 1, c), {distance: 1.0});
 				if (c < cols - 1) result.setEdge(identifier, RectangleGraph.identifier(r, c + 1), {distance: 1.0});
-				//TODO set diagonals too if desired
+				if (options.diagonalUpLeft || options.diagonalUp || options.diagonalLeft || options.diagonal) {
+					if (r > 0 && c > 0) {
+						result.setEdge(identifier, RectangleGraph.identifier(r - 1, c - 1), {distance: Math.sqrt(2)});
+					}
+				}
+				if (options.diagonalDownLeft || options.diagonalDown || options.diagonalLeft || options.diagonal) {
+					if (r > 0 && c < cols - 1) {
+						result.setEdge(identifier, RectangleGraph.identifier(r - 1, c + 1), {distance: Math.sqrt(2)});
+					}
+				}
+				if (options.diagonalUpRight || options.diagonalUp || options.diagonalRight || options.diagonal) {
+					if (r > 0 && c < cols - 1) {
+						result.setEdge(identifier, RectangleGraph.identifier(r - 1, c + 1), {distance: Math.sqrt(2)});
+					}
+				}
+				if (options.diagonalDownRight || options.diagonalDown || options.diagonalRight || options.diagonal) {
+					if (r < rows - 1 && c < cols - 1) {
+						result.setEdge(identifier, RectangleGraph.identifier(r + 1, c + 1), {distance: Math.sqrt(2)});
+					}
+				}
+				//TODO set wraps too if desired
 			}
 		}
 		return result;
