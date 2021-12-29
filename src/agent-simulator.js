@@ -112,7 +112,31 @@ export class AgentSimulator extends BaseSimulator {
 	}
 
 	/*
-		Ticks all agents 
+		Called on each node on each frame. By default it dispatches to methods
+		called typNodeTick() if node has a type:typ. If no type is set, or no
+		method matches the type, it dispatches to defaultNodeTick instead.
+		Typically you leave this as is and change defaultNodeTick's behavior.
+	*/
+	nodeTick(node, graph, frame, rnd) {
+		const typ = node.type || '';
+		const typeMethod = typ + 'NodeTick';
+		if (this[typeMethod]) return this[typeMethod](node, graph, frame, rnd);
+		return this.defaultNodeTick(node, graph, frame, rnd);
+	}
+
+	/*
+		defaultNodeTick is the node ticker that is called each frame if there
+		isn't an override ticker for this node type. Return the new node to
+		store in the frame. If no modifications you can return node as is. If
+		modifications, make a copy to modify and return that.
+	*/
+	//eslint-disable-next-line no-unused-vars
+	defaultNodeTick(node, graph, frame, rnd) {
+		return node;
+	}
+
+	/*
+		Ticks all agents, and all nodes.
 	*/
 	generateFrame(frame, rnd) {
 		const graph = new (this.graphConstructor())(frame.graph);
@@ -122,5 +146,14 @@ export class AgentSimulator extends BaseSimulator {
 			newAgents[index] = this.agentTick(agent, graph, frame, rnd);
 		}
 		frame.agents = newAgents;
+		for (const [id, node] of Object.entries(graph.nodes())) {
+			//If we set the node to the same values as it was, then the graph
+			//will detect no changes were made.
+			graph.setNode(id, node);
+		}
+		if (graph.changesMade) {
+			frame.graph = graph.data;
+			graph.saved();
+		}
 	}
 }
