@@ -3,7 +3,7 @@ import {
 } from '../agent-simulator.js';
 
 import {
-	PROFESSIONAL_PEOPLE_EMOJIS
+	GRAZING_FARM_ANIMALS_EMOJIS
 } from '../emojis.js';
 
 import {
@@ -23,7 +23,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	//simulationComplete, and generateFrame.
 
 	generateAgent(index, graph, simOptions, rnd) {
-		const emojiValues = Object.values(PROFESSIONAL_PEOPLE_EMOJIS);
+		const emojiValues = Object.values(GRAZING_FARM_ANIMALS_EMOJIS);
 		return {
 			emoji: emojiValues[Math.floor(emojiValues.length * rnd())]
 		};
