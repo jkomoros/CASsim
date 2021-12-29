@@ -56,7 +56,8 @@ import {
 	selectCurrentSimulationRunStatuses,
 	selectScrenshotting,
 	selectURLDiffHash,
-	selectRequiredSimulatorsLoaded
+	selectRequiredSimulatorsLoaded,
+	selectRequiredSimulatorNames
 } from "../selectors.js";
 
 // We are lazy loading its reducer.
@@ -144,6 +145,7 @@ class SimView extends connect(store)(PageViewElement) {
 			// This is the data from the store.
 			_currentFrame: { type: Object },
 			_requiredSimulatorsLoaded: {type: Boolean},
+			_requiredSimulatorNames: {type: Object},
 			_currentSimulation: { type: Object },
 			_currentSimulationName: {type: String},
 			_currentSimulationLastChanged: {type:Number},
@@ -279,6 +281,7 @@ class SimView extends connect(store)(PageViewElement) {
 	stateChanged(state) {
 		this._configData = packConfigJSON(selectConfigData(state));
 		this._requiredSimulatorsLoaded = selectRequiredSimulatorsLoaded(state);
+		this._requiredSimulatorNames = selectRequiredSimulatorNames(state);
 		this._currentSimulation = selectCurrentSimulation(state);
 		this._currentSimulationName = this._currentSimulation ? this._currentSimulation.name : '';
 		this._dialogOpen = selectDialogOpen(state);
@@ -401,7 +404,7 @@ class SimView extends connect(store)(PageViewElement) {
 			//state so downstream properties can be regenerated.
 			store.dispatch(simulationChanged());
 		}
-		if (changedProps.has('_requiredSimulatorsLoaded') && !this._requiredSimulatorsLoaded) {
+		if (changedProps.has('_requiredSimulatorNames') && !this._requiredSimulatorsLoaded) {
 			store.dispatch(fetchNeededSimulators());
 		}
 		if (changedProps.has('_currentFrame')) {
