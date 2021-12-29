@@ -2,7 +2,10 @@ import { BaseSimulator } from "./simulator.js";
 
 import { RectangleGraph }from './graph.js';
 
-import { Urn } from './util.js';
+import {
+	shuffleInPlace,
+	Urn
+} from './util.js';
 
 export class AgentSimulator extends BaseSimulator {
 
@@ -163,13 +166,25 @@ export class AgentSimulator extends BaseSimulator {
 	}
 
 	/*
+		If true, agents will be ticked in a random order each frame.
+	*/
+	//eslint-disable-next-line no-unused-vars
+	randomizeAgentTickOrder(simOptions) {
+		return true;
+	}
+
+	/*
 		Ticks all agents, and all nodes.
 	*/
 	generateFrame(frame, rnd) {
 		const graph = new (this.graphConstructor())(frame.graph);
 		const newAgents = [...frame.agents];
-		//TODO: go through agents in random order
-		for (const [index, agent] of frame.agents.entries()) {
+		const agentIterationOrder = [...frame.agents.keys()];
+		if (this.randomizeAgentTickOrder(frame.simOptions)) {
+			shuffleInPlace(agentIterationOrder, rnd);
+		}
+		for (const index of agentIterationOrder) {
+			const agent = frame.agents[index];
 			newAgents[index] = this.agentTick(agent, newAgents, graph, frame, rnd);
 		}
 		frame.agents = newAgents;
