@@ -297,6 +297,10 @@ export const Simulation = class {
 		}
 	}
 
+	cloneWithConfig(config) {
+		return new Simulation(config, this.index, this.knownSimulatorNames, config);
+	}
+
 	get knownSimulatorNames() {
 		return this._knownSimulatorNames;
 	}
