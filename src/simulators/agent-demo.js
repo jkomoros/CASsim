@@ -23,8 +23,9 @@ class AgentDemoSimulator extends AgentSimulator {
 	//simulationComplete, and generateFrame.
 
 	generateAgent(index, graph, simOptions, rnd) {
+		const emojiValues = Object.values(PROFESSIONAL_PEOPLE_EMOJIS);
 		return {
-			emoji: PROFESSIONAL_PEOPLE_EMOJIS[Math.floor(PROFESSIONAL_PEOPLE_EMOJIS.length * rnd())]
+			emoji: emojiValues[Math.floor(emojiValues.length * rnd())]
 		};
 	}
 

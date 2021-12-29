@@ -249,12 +249,14 @@ class SchellingOrgSimulator extends BaseSimulator {
 			projects[i][VALUE_PROPERTY_NAME] += (rnd() * projects[i][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] * 2) - projects[i][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME];
 		}
 
+		const emojiValues = Object.values(PROFESSIONAL_PEOPLE_EMOJIS);
+
 		//Assign basic values to collaborators.
 		let collaborators = [];
 		for (let i = 0; i < collaboratorsCount; i++) {
 			collaborators.push({
 				index: i,
-				[EMOJI_PROPERTY_NAME]: PROFESSIONAL_PEOPLE_EMOJIS[i % PROFESSIONAL_PEOPLE_EMOJIS.length],
+				[EMOJI_PROPERTY_NAME]: emojiValues[i % emojiValues.length],
 				[EPSILON_PROPERTY_NAME]: collaboratorEpsilonValue,
 				[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: broadcastLikelihood,
 				[COMPELLING_PROPERTY_NAME]: defaultCompellingValue,
