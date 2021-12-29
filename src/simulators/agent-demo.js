@@ -43,7 +43,9 @@ class AgentDemoSimulator extends AgentSimulator {
 
 	defaultAgentTick(agent, graph, frame, rnd) {
 		const neighbors = Object.keys(graph.neighbors(agent.node));
-		return {...agent, node: neighbors[Math.floor(neighbors.length * rnd())]};
+		const node = neighbors[Math.floor(neighbors.length * rnd())];
+		graph.setNodeProperty(node, 'value', 0.0);
+		return {...agent, node};
 	}
 
 	defaultNodeTick(node) {
