@@ -29,7 +29,6 @@ import {
 	DEFAULT_SENTINEL,
 	isStep,
 	setPropertyInObject,
-	shadowedModificationsForSimIndex
 } from './util.js';
 
 //See README.md for more about the canonical shape of optionsLeaf objects.
@@ -510,4 +509,22 @@ export const unpackModificationsFromURL = (url, simCollection, currentSimIndex =
 		}
 	}
 	return [modifications, warning];
+};
+
+export const shadowedModificationsForSimIndex = (modifications, simIndex) => {
+	const mods = {};
+	for (const mod of modifications) {
+		if (mod.simulationIndex != simIndex) continue;
+		mods[mod.path] = mod.value;
+		//Deletes 'shadow' all earlier sets or modifications of paths whose
+		//have our path as a prefix so clear them out.
+		if (mod.value == DELETE_SENTINEL) {
+			for (const key of Object.keys(mods)) {
+				//Add a '.' to make sure that paths like 'a.f' don't match 'a.foo'
+				if (!key.startsWith(mod.path + '.')) continue;
+				delete mods[key];
+			}
+		}
+	}
+	return mods;
 };

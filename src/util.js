@@ -127,23 +127,5 @@ export const memoizedRenderer = (simulation, frameVisualizer) => {
 	return map.get(frameVisualizer);
 };
 
-export const shadowedModificationsForSimIndex = (modifications, simIndex) => {
-	const mods = {};
-	for (const mod of modifications) {
-		if (mod.simulationIndex != simIndex) continue;
-		mods[mod.path] = mod.value;
-		//Deletes 'shadow' all earlier sets or modifications of paths whose
-		//have our path as a prefix so clear them out.
-		if (mod.value == DELETE_SENTINEL) {
-			for (const key of Object.keys(mods)) {
-				//Add a '.' to make sure that paths like 'a.f' don't match 'a.foo'
-				if (!key.startsWith(mod.path + '.')) continue;
-				delete mods[key];
-			}
-		}
-	}
-	return mods;
-};
-
 //From https://blog.trannhat.xyz/generate-a-hash-from-string-in-javascript/
 export const hash = (s) => s.split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a;},0);

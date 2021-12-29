@@ -11,12 +11,12 @@ import {
 	setSimPropertyInConfig,
 	packModificationsForURL,
 	unpackSimNamesFromURL,
+	shadowedModificationsForSimIndex,
 	DIFF_URL_KEY
 } from './options.js';
 
 import {
 	DEFAULT_SENTINEL,
-	shadowedModificationsForSimIndex,
 	parseHash
 } from './util.js';
 
