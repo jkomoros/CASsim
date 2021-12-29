@@ -12,6 +12,7 @@ export class Urn {
 	}
 
 	pick() {
+		if (this._sum == 0.0) return undefined;
 		const val = Math.floor(this._rnd() * this._sum);
 		let sum = 0.0;
 		const entries = this._items.entries();
