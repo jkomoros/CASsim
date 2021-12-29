@@ -129,6 +129,18 @@ export class AgentSimulator extends BaseSimulator {
 		return this.defaultNodeTick(node, graph, frame, rnd);
 	}
 
+	selectNodeToMoveTo(agent, agents, graph, frame, rnd) {
+		const neighborsMap = graph.neighbors(agent.node);
+		const agentsByNode = Object.fromEntries(agents.map(agent => [agent.node, agent]));
+		for (const neighbor of Object.keys(neighborsMap)) {
+			if (this.allowAgentToOverlapWith(agent, agentsByNode[neighbor], graph, frame.simOptions, rnd)) continue;
+			delete neighborsMap[neighbor];
+		}
+		const neighbors = Object.keys(neighborsMap);
+		const node = neighbors[Math.floor(neighbors.length * rnd())];
+		return node;
+	}
+
 	/*
 		defaultNodeTick is the node ticker that is called each frame if there
 		isn't an override ticker for this node type. Return the new node to
