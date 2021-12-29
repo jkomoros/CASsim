@@ -1,5 +1,6 @@
 export const SIM_PROPERTY = 'sim';
 export const SIM_OPTIONS_PROPERTY = 'simOptions';
+export const SIM_PROPERTY_SHORT_NAME = 'sm';
 
 const EXAMPLE_PROPERTY_NAME = 'example';
 const DESCRIPTION_PROPERTY_NAME = 'description';
@@ -413,6 +414,34 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 		result.push(simPiece);
 	}
 	return result.join(';');
+};
+
+export const unpackSimNamesFromURL = (url) => {
+	//Can unpack a URL modifications packed with packModificationsFromURL and
+	//detect items that include a packed or unpacked modification of the sim
+	//name. Returns an array of any it finds.
+	const simNames = [];
+	const urlParts = url.split(';');
+	//For now, we just completely ignore simulator version number
+	for (const urlPart of urlParts) {
+		const versionParts = urlPart.split('@');
+		//the version number might be ommited.
+		const keyValuesPart = versionParts[versionParts.length - 1];
+		const keyValuesParts = keyValuesPart.split(',');
+		for (const [index, part] of keyValuesParts.entries()) {
+			if (index == 0) {
+				continue;
+			}
+			let [key, value] = part.split(':');
+			if (key == SIM_PROPERTY || key == SIM_PROPERTY_SHORT_NAME) {
+				//Values is a string, which means it is wrapped in a ''
+				value = value.split("'").join('');
+				value = decodeURIComponent(value);
+				simNames.push(value);
+			}
+		}
+	}
+	return simNames;
 };
 
 export const unpackModificationsFromURL = (url, simCollection, currentSimIndex = -1) => {

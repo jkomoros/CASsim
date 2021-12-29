@@ -15,6 +15,7 @@ import {
 	configForPath,
 	SIM_PROPERTY,
 	SIM_OPTIONS_PROPERTY,
+	SIM_PROPERTY_SHORT_NAME,
 	ensureDefaults
 } from './options.js';
 
@@ -39,9 +40,6 @@ const STATUS_DISPLAY_PROPERTY = 'status';
 const SCREENSHOT_STATUS_DISPLAY_PROPERTY = 'screenshotStatus';
 const CLIP_STATUS_PROPERTY = 'clipStatus';
 const TITLE_PROPERTY = 'title';
-
-//Other machinery will need to rely on this
-export const SIM_PROPERTY_SHORT_NAME = 'sm';
 
 //Also duplicated into screenshot.js
 const NAME_PROPERTY = 'name';
