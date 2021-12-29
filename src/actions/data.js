@@ -605,7 +605,9 @@ export const simulationChanged = () => {
 const DIFF_URL_KEY = 'd';
 
 export const canonicalizeHash = () => (dispatch, getState) => {
-	const urlDiff = selectURLDiffHash(getState());
+	const state = getState();
+	if (!selectDataIsFullyLoaded(state)) return;
+	const urlDiff = selectURLDiffHash(state);
 	const hash = urlDiff ? DIFF_URL_KEY + '=' + urlDiff : '';
 	dispatch(updateHash(hash));
 };
@@ -613,9 +615,11 @@ export const canonicalizeHash = () => (dispatch, getState) => {
 export const updateHash = (hash, comesFromURL) => (dispatch, getState) => {
 	if (hash.startsWith('#')) hash = hash.substring(1);
 	const state = getState();
+	const dataFullyLoaded = selectDataIsFullyLoaded(state);
 	const currentHash = selectHash(state);
-	if (hash == currentHash) return;
-	if (comesFromURL) {
+	if (hash == currentHash && dataFullyLoaded && !comesFromURL) return;
+	//Only try to parse the hash if fully loaded
+	if (comesFromURL && dataFullyLoaded) {
 		const args = {};
 		for (const part of hash.split('&')) {
 			const [key, val] = part.split('=');

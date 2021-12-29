@@ -215,6 +215,10 @@ class SimView extends connect(store)(PageViewElement) {
 		this.resizeVisualization();
 		fetchListings();
 		window.addEventListener('hashchange', () => this._handleHashChange());
+		//We don't yet have all of the information to fully parse this, but the
+		//hash might include information we need to know what simulators to
+		//fetch. We'll also call it again when we're fully loaded.
+		this._handleHashChange();
 	}
 
 	_handleHashChange() {
