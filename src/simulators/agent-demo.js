@@ -42,7 +42,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	}
 
 	defaultAgentTick(agent, agents, graph, frame, rnd) {
-		const node = this.selectNodeToMoveTo(agent, agents, graph, frame, rnd);
+		const node = this.selectNodeToMoveTo(agent, agents, graph, frame, rnd, 1, (node) => node.value);
 		//Sometimes there won't be any open cells next to us.
 		if (!node) return agent;
 		graph.setNodeProperty(node, 'value', 0.0);
