@@ -169,6 +169,7 @@ export const color = (arg) => {
 	if (arg === null || arg === undefined) arg = '#000000';
 	if (typeof arg == 'string') {
 		arg = arg.toLowerCase();
+		arg = arg.trim();
 		arg = NAMED_COLORS[arg] || arg;
 		if (arg.startsWith('#')) {
 			arg = arg.slice(1);
