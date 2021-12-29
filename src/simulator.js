@@ -131,7 +131,7 @@ export class BaseSimulator {
 		return new StubSimulatorRenderer();
 	}
 
-	fingerprint() {
+	get fingerprint() {
 		return stringHash(JSON.stringify(this.optionsConfig) + this.version);
 	}
 }

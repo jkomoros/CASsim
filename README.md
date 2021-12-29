@@ -231,7 +231,7 @@ number.
 DOM. The result will be cached and typically reused many times. See more about
 renderers below.
 
-`fingerprint() => hash` - Should return a fingerprint tied to the optionsConfig
+`get fingerprint() => hash` - Should return a fingerprint tied to the optionsConfig
 and version. The default behavior of BaseSimulator.fingerprint() is fine to just
 leave.
 

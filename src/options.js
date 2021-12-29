@@ -365,11 +365,11 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 	//Allowed characters in URL based on this answer: https://stackoverflow.com/questions/26088849/url-fragment-allowed-characters
 	//We avoid '=' and '&' in the hash, since those will be used for other parameters
 	//URL looks like: 
-	//1@a12:34,simOptions.northStar:d,display.debug:t;3@b3a:12,simOptions.northStar:x,description:'a%20b',runs:5
+	//1@a12:cde,simOptions.northStar:d,display.debug:t;3@b3a:def,simOptions.northStar:x,description:'a%20b',runs:5
 	//Where:
 	//1 and 3 are examples of the index of the simulationIndex we're referring to
 	//@ is the delimiter for the concatenated, in order, list of modifications
-	//34, 12 are examples of the version number of the simulator for that simIndex WITH ALL MODIFICATIONS APPLIED (sim=OTHER could be sent)
+	//cde, def are examples of the fingerprint of version, the first one
 	//a12, b3a are examples of the first 3 digits of the hash of the underlying config
 	//the dotted path is the modification.path
 	//: is the delimiter to the value and , is the delimeter for values
@@ -378,7 +378,6 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 	//t is true, f is false, n is null, u is undefined, x is delete sentinel, d is delete sentinel
 	//Objects are encoded with an 'o' followed by a URL-encoded JSON blob
 	//As a special case, the simIndex and '@' at the beginning of a simIndexes's list of modifications may be fully omitted if it equals currentSimIndex.
-	//As a special case, if the simulatorVersion is 0, it may be omitted (as well as the ':')
 	if (!simCollection) return '';
 	let result = [];
 	const simIndexes = Array.from(new Set(modifications.map(mod => mod.simulationIndex)));
@@ -390,10 +389,9 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 		//The simulator could change partway through, which would make the shortNames change.
 		let diffedSimulation = simulation.cloneWithConfig(simulation.rawConfig);
 		const keyValuePairs = [];
-		const version = diffedSimulation.simulator.version;
-		let firstPiece = diffedSimulation.baseFingerprint.substring(0,FINGERPRINT_CHARACTER_LENGTH);
-		if (version) firstPiece += ':' + version;
-		keyValuePairs.push(firstPiece);
+		const firstPiece = diffedSimulation.baseFingerprint.substring(0,FINGERPRINT_CHARACTER_LENGTH);
+		const simulatorPiece = diffedSimulation.simulator.fingerprint.substring(0, FINGERPRINT_CHARACTER_LENGTH);
+		keyValuePairs.push(firstPiece + ':' + simulatorPiece);
 		const mods = shadowedModificationsForSimIndex(modifications, simIndex);
 		//Only keep the last modification of path
 		for (let [path, value] of Object.entries(mods)) {
@@ -469,11 +467,10 @@ export const unpackModificationsFromURL = (url, simCollection, currentSimIndex =
 		const keyValuesParts = keyValuesPart.split(',');
 		for (const [index, part] of keyValuesParts.entries()) {
 			if (index == 0) {
-				const [fingerprint, versionString] = part.split(':');
-				const simulatorVersion = versionString ? parseInt(versionString) : 0;
+				const [fingerprint, simulatorFingerprint] = part.split(':');
 				if (fingerprint != diffedSimulation.baseFingerprint.slice(0, fingerprint.length)) warning = 'The diff was generated on a config that has now changed, so the diff might not work.';
 				//This is the version number. For now we'll try to continue but raise it in warning.
-				if (simulatorVersion != diffedSimulation.simulator.version) warning = 'The version differed from when the URL was saved. The behavior of the diff might not work.';
+				if (simulatorFingerprint != diffedSimulation.simulator.fingerprint.slice(0, simulatorFingerprint.length)) warning = 'The simulator has been updated since the diff was saved. The behavior of the diff might not work.';
 				//The first pair is always the version section, don't process it
 				continue;
 			}
