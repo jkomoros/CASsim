@@ -1,5 +1,6 @@
 import { LitElement, html, css } from "lit-element";
 import { memoizedRenderer } from "../util.js";
+import { styleMap } from "lit-html/directives/style-map.js";
 
 const DEFAULT_FONT_SIZE_PX_HEIGHT = 16;
 
@@ -14,6 +15,7 @@ class FrameVisualization extends LitElement {
 			width: {type:Number},
 			height: {type:Number},
 			scale: {type:Number},
+			animationLength: {type:Number},
 			runStatuses: {type:Object},
 			runIndex: {type:Number},
 		};
@@ -62,7 +64,6 @@ class FrameVisualization extends LitElement {
 					font-size: 0.6em;
 					color: var(--dark-gray-color);
 				}
-			
 			`
 		];
 	}
@@ -74,9 +75,18 @@ class FrameVisualization extends LitElement {
 
 	render() {
 		const scale = this.scale || 1.0;
+		const containerStyles = {
+			'font-size': '' + DEFAULT_FONT_SIZE_PX_HEIGHT * scale + 'px'
+		};
+		const rendererStyles = {
+			'height': '' + this.height * scale + 'px',
+			'width': '' + this.width * scale + 'px',
+			'font-size': '' + DEFAULT_FONT_SIZE_PX_HEIGHT * scale + 'px',
+			'--animation-delay': '' + this.animationLength + 'ms',
+		};
 		return html`
-		<div class='container' style='font-size:${DEFAULT_FONT_SIZE_PX_HEIGHT * scale}px'>
-			<div class='renderer' style='height:${this.height * scale}px; width: ${this.width * scale}px; font-size:${DEFAULT_FONT_SIZE_PX_HEIGHT * scale}px'>
+		<div class='container' style='${styleMap(containerStyles)}'>
+			<div class='renderer' style='${styleMap(rendererStyles)}'>
 				${this._renderer(scale)}
 			</div>
 			${this.runStatuses ? html`<run-summary .statuses=${this.runStatuses} .selectedIndex=${this.runIndex} .clipFuture=${this._clipStatus} .centerPercentage=${true}></run-summary>` : ''}

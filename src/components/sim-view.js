@@ -57,7 +57,8 @@ import {
 	selectScrenshotting,
 	selectURLDiffHash,
 	selectRequiredSimulatorsLoaded,
-	selectRequiredSimulatorNames
+	selectRequiredSimulatorNames,
+	selectFrameDelay,
 } from "../selectors.js";
 
 // We are lazy loading its reducer.
@@ -149,6 +150,7 @@ class SimView extends connect(store)(PageViewElement) {
 			_currentSimulation: { type: Object },
 			_currentSimulationName: {type: String},
 			_currentSimulationLastChanged: {type:Number},
+			_animationLength: {type:Number},
 			_pageExtra: { type: String },
 			_simulationIndex: { type: Number },
 			_runIndex: { type: Number },
@@ -258,7 +260,7 @@ class SimView extends connect(store)(PageViewElement) {
 			</dialog-element>
 			<simulation-controls></simulation-controls>
 			<div class='container ${this._needsMarginLeft ? 'needs-margin-left' : ''}' style='${colors}'>
-				<frame-visualization .simulation=${this._currentSimulation} .frame=${this._currentFrame} .width=${this._width} .height=${this._height} .scale=${this._scale} .runStatuses=${includeRunStatuses ? this._runStatuses : null} .runIndex=${this._runIndex}></frame-visualization>
+				<frame-visualization .simulation=${this._currentSimulation} .frame=${this._currentFrame} .width=${this._width} .height=${this._height} .scale=${this._scale} .runStatuses=${includeRunStatuses ? this._runStatuses : null} .runIndex=${this._runIndex} .animationLength=${this._animationLength}></frame-visualization>
 			</div>
 		`;
 	}
@@ -297,6 +299,7 @@ class SimView extends connect(store)(PageViewElement) {
 		this._filename = selectFilename(state);
 		this._scale = selectScale(state);
 		this._screenshotting = selectScrenshotting(state);
+		this._animationLength = this._screenshotting ? 0 : selectFrameDelay(state) / 2;
 		this._configurationExpanded = selectConfigurationExpanded(state);
 		this._descriptionExpanded = selectDescriptionExpanded(state);
 		this._resizeVisualization = selectResizeVisualization(state);

@@ -90,6 +90,7 @@ export class RectangleGraphRenderer extends BaseRenderer {
 					font-size: calc(var(--node-size) * 0.7);
 					align-items: center;
 					justify-content: center;
+					transition: left var(--animation-delay), top var(--animation-delay);
 				}
 			`
 		];
