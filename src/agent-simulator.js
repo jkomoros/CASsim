@@ -49,6 +49,11 @@ export class AgentSimulator extends BaseSimulator {
 		return false;
 	}
 
+	allowAgentToOverlapWith(primaryAgent, secondaryAgent, graph, simOptions, rnd) {
+		if (!primaryAgent || !secondaryAgent) return true;
+		return this.allowOverlappingAgents(primaryAgent, secondaryAgent, graph, simOptions, rnd);
+	}
+
 	/*
 		Emit your starter set of agents. This will generate
 		this.numStarterAgents() number of agents by calling this.generateAgent()
@@ -62,7 +67,7 @@ export class AgentSimulator extends BaseSimulator {
 			const agent = this.generateAgent(i, graph, simOptions, rnd) || {};
 			const availableNodes = {...baseAvailableNodes};
 			for (const existingAgent of agents) {
-				if (this.allowOverlappingAgents(existingAgent, agent, graph, simOptions, rnd)) continue;
+				if (this.allowAgentToOverlapWith(existingAgent, agent, graph, simOptions, rnd)) continue;
 				delete availableNodes[existingAgent.node];
 			}
 			const nodeList = Object.keys(availableNodes);
