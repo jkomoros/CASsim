@@ -42,8 +42,16 @@ class AgentDemoSimulator extends AgentSimulator {
 	}
 
 	defaultAgentTick(agent, agents, graph, frame, rnd) {
-		const neighbors = Object.keys(graph.neighbors(agent.node));
+		const neighborsMap = graph.neighbors(agent.node);
+		const agentsByNode = Object.fromEntries(agents.map(agent => [agent.node, agent]));
+		for (const neighbor of Object.keys(neighborsMap)) {
+			if (this.allowAgentToOverlapWith(agent, agentsByNode[neighbor], graph, frame.simOptions, rnd)) continue;
+			delete neighborsMap[neighbor];
+		}
+		const neighbors = Object.keys(neighborsMap);
 		const node = neighbors[Math.floor(neighbors.length * rnd())];
+		//Sometimes there won't be any open cells next to us.
+		if (!node) return agent;
 		graph.setNodeProperty(node, 'value', 0.0);
 		return {...agent, node};
 	}
