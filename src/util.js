@@ -6,6 +6,7 @@ export class Urn {
 	}
 
 	add(item, count = 1) {
+		count = Math.max(count, 0.0);
 		this._sum += count;
 		this._items.set(item, count);
 	}
