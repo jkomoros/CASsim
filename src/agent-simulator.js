@@ -102,6 +102,16 @@ export class AgentSimulator extends BaseSimulator {
 		based on the agent.type, calling <agent.type>AgentTick(). (So agent.type
 		= 'ant' would call 'antAgentTick()'). For agents who don't have a type,
 		or whose type doesn't have a ticker for it, it calls defaultAgentTick().
+
+		agent is the agent that is being ticked. agents is a list of all agents,
+		including this one, with the intermediate state of the unticked agents
+		being in their states from last frame and the ticked agents being in
+		their new state. Note that other agents that have already ticked and are
+		dead might be null.
+
+		Your method should return the agent data to store for agent. If no
+		changes, just return agent. If your agent has changed, return a copy of
+		agent with modifications. If the agent should die, return null.
 	*/
 	agentTick(agent, agents, graph, frame, rnd) {
 		const typ = agent.type || '';
@@ -115,6 +125,8 @@ export class AgentSimulator extends BaseSimulator {
 		This will get called for every other agent. Return the new agent to store in
 		frame. If no modifications you can return the agent as is. IF
 		modifications, make a modified copy of agent and return that.
+
+		see agentTick for more about behavior of arguments and return values.
 	*/
 	//eslint-disable-next-line
 	defaultAgentTick(agent, agents, graph, frame, rnd) {
@@ -140,7 +152,8 @@ export class AgentSimulator extends BaseSimulator {
 	//their probability of being picked.
 	selectNodeToMoveTo(agent, agents, graph, frame, rnd, ply = 1, nodeScorer = () => 1.0, edgeScorer) {
 		const neighborsMap = graph.neighbors(agent.node, ply);
-		const agentsByNode = Object.fromEntries(agents.map(agent => [agent.node, agent]));
+		//Agents might have nulls for agents who have already died this tick.
+		const agentsByNode = Object.fromEntries(agents.filter(agent => agent).map(agent => [agent.node, agent]));
 		for (const neighbor of Object.keys(neighborsMap)) {
 			if (this.allowAgentToOverlapWith(agent, agentsByNode[neighbor], graph, frame.simOptions, rnd)) continue;
 			delete neighborsMap[neighbor];
@@ -187,7 +200,8 @@ export class AgentSimulator extends BaseSimulator {
 			const agent = frame.agents[index];
 			newAgents[index] = this.agentTick(agent, newAgents, graph, frame, rnd);
 		}
-		frame.agents = newAgents;
+		//Filter out agents who died this tick (returned null)
+		frame.agents = newAgents.filter(agent => agent);
 		for (const [id, node] of Object.entries(graph.nodes())) {
 			const newNode = this.nodeTick(node, graph, frame, rnd);
 			//If we set the node to the same values as it was, then the graph
