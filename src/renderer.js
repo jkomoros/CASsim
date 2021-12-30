@@ -1,6 +1,8 @@
 
 import { LitElement, html, css} from "lit-element";
 
+import { repeat } from 'lit-html/directives/repeat';
+
 import { styleMap } from "lit-html/directives/style-map.js";
 
 import {
@@ -185,7 +187,7 @@ export class RectangleGraphRenderer extends BaseRenderer {
 		return html`
 			<div class='nodes' style=${styleMap({'--node-size': size + 'px', height: size * graph.rows + 'px', width: size * graph.cols + 'px'})}>
 				${Object.values(graph.nodes()).map(node => this.renderNode(node, graph))}
-				${Object.values(this.agentData(this.frame)).map(agent => this.renderAgent(agent, graph))}
+				${repeat(Object.values(this.agentData(this.frame)), agent => agent.id, agent => this.renderAgent(agent, graph))}
 			</div>
 			`;
 	}
