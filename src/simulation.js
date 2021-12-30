@@ -23,6 +23,10 @@ import {
 	color
 } from './color.js';
 
+import {
+	NAME_PROPERTY as CONFIG_NAME_PROPERTY
+} from './config.js';
+
 const HEIGHT_PROPERTY = 'height';
 const WIDTH_PROPERTY = 'width';
 const RUNS_PROPERTY = 'runs';
@@ -42,7 +46,7 @@ const CLIP_STATUS_PROPERTY = 'clipStatus';
 const TITLE_PROPERTY = 'title';
 
 //Also duplicated into screenshot.js
-const NAME_PROPERTY = 'name';
+export const NAME_PROPERTY = CONFIG_NAME_PROPERTY;
 const REPEAT_PROPERTY = 'repeat';
 const FRAME_DELAY_PROPERTY = 'frameDelay';
 const EXTRA_FINAL_FRAME_COUNT_PROPERTY = 'extraFinalFrameCount';
