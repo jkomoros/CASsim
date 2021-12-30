@@ -25,7 +25,9 @@ class AgentDemoSimulator extends AgentSimulator {
 	generateAgent(index, graph, simOptions, rnd) {
 		const emojiValues = Object.values(GRAZING_FARM_ANIMALS_EMOJIS);
 		return {
-			emoji: emojiValues[Math.floor(emojiValues.length * rnd())]
+			emoji: emojiValues[Math.floor(emojiValues.length * rnd())],
+			deathLikelihood: 0.03,
+			spawnLikelihood: 0.05,
 		};
 	}
 
@@ -42,11 +44,19 @@ class AgentDemoSimulator extends AgentSimulator {
 	}
 
 	defaultAgentTick(agent, agents, graph, frame, rnd) {
+		if (rnd() < agent.deathLikelihood) return null;
 		const node = this.selectNodeToMoveTo(agent, agents, graph, frame, rnd, 1, (node) => node.value);
 		//Sometimes there won't be any open cells next to us.
 		if (!node) return agent;
 		graph.setNodeProperty(node, 'value', 0.0);
-		return {...agent, node};
+		const newAgent = {...agent, node};
+		if (rnd() < agent.spawnLikelihood) {
+			//Spawn a new agent
+			const spawnedAgent = this.generateAgent(0, graph, frame.simOptions, rnd);
+			spawnedAgent.node = agent.node;
+			return [newAgent, spawnedAgent];
+		}
+		return newAgent;
 	}
 
 	defaultNodeTick(node) {
