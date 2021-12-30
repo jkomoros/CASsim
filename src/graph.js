@@ -316,24 +316,16 @@ export class RectangleGraph extends Graph {
 					if (c < cols - 1) result.setEdge(identifier, RectangleGraph.identifier(r, c + 1), {distance: 1.0});
 				}
 				if (options.diagonalUpLeft || options.diagonalUp || options.diagonalLeft || options.diagonal) {
-					if (r > 0 && c > 0) {
-						result.setEdge(identifier, RectangleGraph.identifier(r - 1, c - 1), {distance: Math.sqrt(2)});
-					}
+					if (r > 0 && c > 0) result.setEdge(identifier, RectangleGraph.identifier(r - 1, c - 1), {distance: Math.sqrt(2)});
 				}
 				if (options.diagonalDownLeft || options.diagonalDown || options.diagonalLeft || options.diagonal) {
-					if (r > 0 && c < cols - 1) {
-						result.setEdge(identifier, RectangleGraph.identifier(r - 1, c + 1), {distance: Math.sqrt(2)});
-					}
+					if (r > 0 && c < cols - 1) result.setEdge(identifier, RectangleGraph.identifier(r - 1, c + 1), {distance: Math.sqrt(2)});
 				}
 				if (options.diagonalUpRight || options.diagonalUp || options.diagonalRight || options.diagonal) {
-					if (r > 0 && c < cols - 1) {
-						result.setEdge(identifier, RectangleGraph.identifier(r - 1, c + 1), {distance: Math.sqrt(2)});
-					}
+					if (r > 0 && c < cols - 1) result.setEdge(identifier, RectangleGraph.identifier(r - 1, c + 1), {distance: Math.sqrt(2)});
 				}
 				if (options.diagonalDownRight || options.diagonalDown || options.diagonalRight || options.diagonal) {
-					if (r < rows - 1 && c < cols - 1) {
-						result.setEdge(identifier, RectangleGraph.identifier(r + 1, c + 1), {distance: Math.sqrt(2)});
-					}
+					if (r < rows - 1 && c < cols - 1) result.setEdge(identifier, RectangleGraph.identifier(r + 1, c + 1), {distance: Math.sqrt(2)});
 				}
 				//TODO set wraps too if desired
 			}
