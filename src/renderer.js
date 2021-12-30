@@ -123,7 +123,20 @@ export class RectangleGraphRenderer extends BaseRenderer {
 	renderNode(node, graph) {
 		let styles = this._positionForNode(node);
 		styles = {...styles, ['background-color']: this.colorForNode(node, graph)};
-		return html`<div class='node' style=${styleMap(styles)}></div>`;
+		const spanStyles = {
+			'opacity': this.opacityForNodeText(node, graph)
+		};
+		return html`<div class='node' style=${styleMap(styles)}><span style='${styleMap(spanStyles)}'>${this.textForNode(node,graph)}</span></div>`;
+	}
+
+	//eslint-disable-next-line no-unused-vars
+	textForNode(node, graph) {
+		return node.emoji || '';
+	}
+
+	//eslint-disable-next-line no-unused-vars
+	opacityForNodeText(node, graph) {
+		return 1.0;
 	}
 
 	//eslint-disable-next-line
