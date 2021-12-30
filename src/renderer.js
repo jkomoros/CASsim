@@ -94,6 +94,7 @@ export class RectangleGraphRenderer extends BaseRenderer {
 					font-size: calc(var(--node-size) * 0.7);
 					align-items: center;
 					justify-content: center;
+					/* TODO: do the animations in a way that won't make Paul Lewis cry */
 					transition: left var(--animation-delay), top var(--animation-delay);
 				}
 			`
