@@ -11,7 +11,7 @@ import {
 }from '../graph.js';
 
 //Remember that the name must be the same as the filename of this file
-const SIMULATOR_NAME = 'agent-demo';
+const SIMULATOR_NAME = 'pasture-demo';
 
 class AgentDemoSimulator extends AgentSimulator {
 
