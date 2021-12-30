@@ -65,7 +65,8 @@ class AgentDemoSimulator extends AgentSimulator {
 
 	frameScorer(frame) {
 		const finalScore = this.simulationComplete(frame) ? 1.0 : -1;
-		return [finalScore, Object.keys(frame.agents).length];
+		const graph = new RectangleGraph(frame.graph);
+		return [finalScore, Object.keys(frame.agents).length, Object.values(graph.nodes()).map(values => values.value).reduce((prev, next) => prev + next, 0)];
 	}
 
 	scoreConfig() {
@@ -74,6 +75,10 @@ class AgentDemoSimulator extends AgentSimulator {
 			{
 				id:'agent-count',
 				title: 'Agent Count'
+			},
+			{
+				id: 'total-node-value',
+				title: 'Total Node Value'
 			}
 		];
 	}
