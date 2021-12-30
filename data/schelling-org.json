@@ -1,0 +1,440 @@
+{
+	"version": 1,
+	"configs": [
+		{
+			"name": "base",
+			"hidden": true,
+			"seed": "abc",
+			"width": 800,
+			"height": 450,
+			"runs": 10,
+			"colors": {
+				"primary": "#fb8c00",
+				"secondary": "#51b9a3",
+				"disabled": "#CCCCCC",
+				"background": "white"
+			},
+			"autoGenerate": true,
+			"repeat": true,
+			"extraFinalFrameCount": 10,
+			"display": {
+				"screenshotStatus": true
+			},
+			"sim": "schelling-org"
+		},
+		{
+			"name": "base-situation",
+			"description": "No communication or difference in projects. A hopeless situation.",
+			"extend": "base",
+			"simOptions": {
+				"communication": 0,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 0.0,
+					"maxErrorValue": 0.0
+				}
+			}
+		},
+		{
+			"name": "single-marked-project",
+			"description": "Base situation, but with one project slightly marked. A huge difference!",
+			"extend": "base",
+			"simOptions": {
+				"communication": 0,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 0.0,
+					"maxErrorValue": 0.0,
+					"randomIndividual": {
+						"marked": true
+					}
+				}
+			}
+		},
+		{
+			"name": "single-obviously-better",
+			"description": "One project is unambiguously better than the others. Another easy situation!",
+			"extend": "base",
+			"simOptions": {
+				"communication": 0,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 0.25,
+					"maxErrorValue": 0.0,
+					"randomIndividual": {
+						"value": 2.0
+					}
+				}
+			}
+		},
+		{
+			"name": "two-standouts",
+			"description": "Two projects that are signficantly better, but very similar. Another hard situation!",
+			"extend": "base",
+			"simOptions": {
+				"communication": 0,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 0.25,
+					"maxErrorValue": 0.0,
+					"individuals":[
+						null,
+						{
+							"value": 2.0,
+							"twiddleValueAmount": 0.02
+						},
+						{
+							"value": 2.0,
+							"twiddleValueAmount": 0.02
+						}
+					]
+				}
+			}
+		},
+		{
+			"name": "error-bars",
+			"description": "Adding error bars... doesn't help. Shocker!",
+			"extend": "base",
+			"simOptions": {
+				"communication": 0,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 2.0,
+					"maxErrorValue": 2.0
+				},
+				"display": {
+					"disableBeliefs": true
+				}
+			}
+		},
+		{
+			"name": "communication",
+			"description": "Now individuals can communicate with each other over multiple rounds, helping align beliefs (somewhat).",
+			"extend": "base",
+			"simOptions": {
+				"communication": 30,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05,
+					"avgConnectionLikelihood": 1.0,
+					"connectionLikelihoodSpread": 0.0,
+					"compelling": 0.75,
+					"communicationStrategy": "max"
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 2.0,
+					"maxErrorValue": 2.0
+				}
+			}
+		},
+		{
+			"name": "communication-strength",
+			"description": "Different individuals have different amounts of connection strength to others",
+			"extend": "base",
+			"simOptions": {
+				"communication": 30,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05,
+					"broadcastLikelihood": 0.5,
+					"avgConnectionLikelihood": 0.25,
+					"connectionLikelihoodSpread": 0.5,
+					"compelling": 0.75,
+					"communicationStrategy": "max"
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 2.0,
+					"maxErrorValue": 2.0
+				}
+			}
+		},
+		{
+			"name": "pattern-baseline",
+			"description": "The baseline simulation that all of the specific patterns are tweaks on",
+			"extend": "base",
+			"simOptions": {
+				"communication": 30,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05,
+					"broadcastLikelihood": 0.5,
+					"avgConnectionLikelihood": 0.25,
+					"connectionLikelihoodSpread": 0.5,
+					"compelling": 0.75,
+					"communicationStrategy": "max"
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 2.0,
+					"maxErrorValue": 2.0
+				}
+			}
+		},
+		{
+			"name": "fewer-collaborators",
+			"description": "A smaller number of collaborators helps considerably",
+			"extend": "base",
+			"simOptions": {
+				"communication": 30,
+				"collaborators": {
+					"count": 4,
+					"epsilon": 0.05,
+					"broadcastLikelihood": 0.5,
+					"avgConnectionLikelihood": 0.25,
+					"connectionLikelihoodSpread": 0.5,
+					"compelling": 0.75,
+					"communicationStrategy": "max"
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 2.0,
+					"maxErrorValue": 2.0
+				}
+			}
+		},
+		{
+			"name": "fewer-projects",
+			"description": "Reducing the number of projects to pick from also helps a lot",
+			"extend": "base",
+			"simOptions": {
+				"communication": 30,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05,
+					"avgConnectionLikelihood": 0.25,
+					"broadcastLikelihood": 0.5,
+					"connectionLikelihoodSpread": 0.5,
+					"compelling": 0.75,
+					"communicationStrategy": "max"
+				},
+				"projects": {
+					"count": 2,
+					"maxExtraValue": 2.0,
+					"maxErrorValue": 2.0
+				}
+			}
+		},
+		{
+			"name": "compelling-leader",
+			"description": "One very well connected person",
+			"extend": "base",
+			"simOptions": {
+				"communication": 30,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05,
+					"avgConnectionLikelihood": 0.1,
+					"connectionLikelihoodSpread": 0.25,
+					"compelling": 0.5,
+					"communicationStrategy": "max",
+					"individuals": [
+						{
+						"compelling": 1.0,
+						"avgConnectionLikelihood": 1.0,
+						"connectionLikelihoodSpread": 0.0,
+						"broadcastLikelihood": 0.75
+						}
+					]
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 2.0,
+					"maxErrorValue": 2.0
+				}
+			}
+		},
+		{
+			"name": "shared-mental-models",
+			"description": "Everyone is more likely to judge projects similarly because they share mental models.",
+			"extend": "base",
+			"simOptions": {
+				"communication": 30,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05,
+					"avgConnectionLikelihood": 0.25,
+					"broadcastLikelihood": 0.5,
+					"connectionLikelihoodSpread": 0.5,
+					"compelling": 0.75,
+					"communicationStrategy": "max"
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 2.0,
+					"maxErrorValue": 0.25
+				}
+			}
+		},
+		{
+			"name": "convincing-argument",
+			"description": "A convincing argument about one project in particular",
+			"extend": "base",
+			"simOptions": {
+				"communication": 30,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05,
+					"avgConnectionLikelihood": 0.25,
+					"broadcastLikelihood": 0.5,
+					"connectionLikelihoodSpread": 0.5,
+					"compelling": 0.75,
+					"communicationStrategy": "max"
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 0.75,
+					"maxErrorValue": 0.75,
+					"randomIndividual": {
+						"value": 2.0,
+						"twiddleValueAmount": 0.1,
+						"error": 0.1
+					}
+				}
+			}
+		},
+		{
+			"name": "existential-threat",
+			"description": "Something that makes one item stand out obviously compared to others",
+			"extend": "base",
+			"simOptions": {
+				"communication": 30,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05,
+					"avgConnectionLikelihood": 0.25,
+					"broadcastLikelihood": 0.5,
+					"connectionLikelihoodSpread": 0.5,
+					"compelling": 0.75,
+					"communicationStrategy": "max"
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 0.25,
+					"maxErrorValue": 0.75,
+					"randomIndividual": {
+						"value": 3.0,
+						"twiddleValueAmount": 0.1
+					}
+				}
+			}
+		},
+		{
+			"name": "compelling-north-star",
+			"description": "A compelling shared north star",
+			"extend": "base",
+			"simOptions": {
+				"communication": 30,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05,
+					"avgConnectionLikelihood": 0.25,
+					"broadcastLikelihood": 0.5,
+					"connectionLikelihoodSpread": 0.5,
+					"compelling": 0.75,
+					"communicationStrategy": "max"
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 1.0,
+					"maxErrorValue": 1.0
+				},
+				"northStar": {
+					"emoji": "🌟",
+					"offsetType": "random",
+					"minOffset": 0,
+					"maxOffset": 1,
+					"offset": 0.5,
+					"strength": 0.75,
+					"spread": 0.5,
+					"believability": 1
+				}
+			}
+		},
+		{
+			"name": "unconvincing-north-star",
+			"description": "A north star that isn't very believable",
+			"extend": "base",
+			"simOptions": {
+				"communication": 30,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05,
+					"avgConnectionLikelihood": 0.25,
+					"broadcastLikelihood": 0.5,
+					"connectionLikelihoodSpread": 0.5,
+					"compelling": 0.75,
+					"communicationStrategy": "max"
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 1.0,
+					"maxErrorValue": 1.0
+				},
+				"northStar": {
+					"emoji": "🌟",
+					"offsetType": "random",
+					"minOffset": 0,
+					"maxOffset": 1,
+					"offset": 0.5,
+					"strength": 0.75,
+					"spread": 0.5,
+					"believability": 0.5
+				}
+			}
+		},
+		{
+			"name": "random-choice",
+			"description": "Everyone just agrees to a procedure where we randomly pick one and commit",
+			"extend": "base",
+			"simOptions": {
+				"communication": 30,
+				"collaborators": {
+					"count": 8,
+					"epsilon": 0.05,
+					"avgConnectionLikelihood": 0.25,
+					"broadcastLikelihood": 0.5,
+					"connectionLikelihoodSpread": 0.5,
+					"compelling": 0.75,
+					"communicationStrategy": "max"
+				},
+				"projects": {
+					"count": 4,
+					"maxExtraValue": 1.0,
+					"maxErrorValue": 1.0
+				},
+				"northStar": {
+					"emoji": "🎲",
+					"offsetType": "random-project",
+					"minOffset": 0,
+					"maxOffset": 1,
+					"offset": 0.5,
+					"strength": 0.5,
+					"spread": 0.1,
+					"believability": 1
+				}
+			}
+		}
+	]
+}
