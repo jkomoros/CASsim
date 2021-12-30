@@ -28,7 +28,8 @@ export class AgentSimulator extends BaseSimulator {
 
 	/*
 		An override point, the default generateAgents will call this when it's
-		decided a location to generate an agent.
+		decided a location to generate an agent. An agent must be an object, not
+		an array.
 	*/
 	//eslint-disable-next-line
 	generateAgent(index, graph, simOptions, rnd) {
@@ -111,7 +112,10 @@ export class AgentSimulator extends BaseSimulator {
 
 		Your method should return the agent data to store for agent. If no
 		changes, just return agent. If your agent has changed, return a copy of
-		agent with modifications. If the agent should die, return null.
+		agent with modifications. If the agent should die, return null. If you
+		want to spawn agents, return an array where the first item is the
+		original agent (or null) and the remaining items are new agents that
+		should be spawned. The newly spawned agents won't be ticked this frame.
 	*/
 	agentTick(agent, agents, graph, frame, rnd) {
 		const typ = agent.type || '';
@@ -198,7 +202,15 @@ export class AgentSimulator extends BaseSimulator {
 		}
 		for (const index of agentIterationOrder) {
 			const agent = frame.agents[index];
-			newAgents[index] = this.agentTick(agent, newAgents, graph, frame, rnd);
+			const result = this.agentTick(agent, newAgents, graph, frame, rnd);
+			const newAgent = Array.isArray(result) ? result[0] : result;
+			newAgents[index] = newAgent;
+			if (Array.isArray(result)) {
+				//We push any newly spawned agents onto the end of newAgents.
+				//They won't be ticked this frame, because we already selected
+				//the indexes to visit in which order, and they don't include these new agents.
+				newAgents.push(...result.slice(1));
+			}
 		}
 		//Filter out agents who died this tick (returned null)
 		frame.agents = newAgents.filter(agent => agent);
