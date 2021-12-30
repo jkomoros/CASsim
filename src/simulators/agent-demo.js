@@ -26,8 +26,8 @@ class AgentDemoSimulator extends AgentSimulator {
 		const emojiValues = Object.values(GRAZING_FARM_ANIMALS_EMOJIS);
 		return {
 			emoji: emojiValues[Math.floor(emojiValues.length * rnd())],
-			deathLikelihood: 0.03,
-			spawnLikelihood: 0.05,
+			deathLikelihood: simOptions.deathLikelihood,
+			spawnLikelihood: simOptions.spawnLikelihood,
 		};
 	}
 
@@ -110,10 +110,33 @@ class AgentDemoSimulator extends AgentSimulator {
 			},
 			'growthRate': {
 				example: 0.05,
+				step: 0.01,
+				max: 1.0,
+				min: 0.0,
 				optional: true,
 				default: true,
 				shortName: 'gR',
 				description: "How quickly value grows in each cell"
+			},
+			'spawnLikelihood': {
+				example: 0.05,
+				step: 0.01,
+				max: 1.0,
+				min: 0.0,
+				optional:true,
+				default: true,
+				shortName: 'sL',
+				description: 'On each frame, how likely a given agent is to spawn a child',
+			},
+			'deathLikelihood': {
+				example: 0.03,
+				step: 0.01,
+				max:  1.0,
+				min: 0.0,
+				optional:true,
+				default:true,
+				shortName: 'dL',
+				description: 'On each frame, how likely a given agent is to die.',
 			}
 		};
 	}
