@@ -109,7 +109,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	}
 
 	renderer() {
-		return new RectangleGraphRenderer();
+		return new AgentDemoRenderer();
 	}
 }
 
@@ -117,4 +117,13 @@ export default AgentDemoSimulator;
 
 import { RectangleGraphRenderer } from '../renderer.js';
 
-window.customElements.define(SIMULATOR_NAME + "-renderer", RectangleGraphRenderer);
+class AgentDemoRenderer extends RectangleGraphRenderer {
+	textForNode() {
+		return '🌿';
+	}
+	opacityForNodeText(node) {
+		return node.value;
+	}
+}
+
+window.customElements.define(SIMULATOR_NAME + "-renderer", AgentDemoRenderer);
