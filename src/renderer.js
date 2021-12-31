@@ -140,7 +140,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		const spanStyles = {
 			'opacity': this.opacityForNodeText(node, graph)
 		};
-		return html`<div class='node' style=${styleMap(styles)}><span style='${styleMap(spanStyles)}'>${this.textForNode(node,graph)}</span></div>`;
+		return html`<div class='node ${node.type ? node.type : ''}' style=${styleMap(styles)}><span style='${styleMap(spanStyles)}'>${this.textForNode(node,graph)}</span></div>`;
 	}
 
 	//eslint-disable-next-line no-unused-vars
@@ -174,7 +174,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 
 	renderAgent(agent, graph) {
 		const node = graph.node(this.agentNodeID(agent));
-		return html`<div class='agent' style=${styleMap(this._positionStylesForNode(node, graph))}>${this.agentEmoji(agent)}</div>`;
+		return html`<div class='agent ${agent.type ? agent.type : ''}' style=${styleMap(this._positionStylesForNode(node, graph))}>${this.agentEmoji(agent)}</div>`;
 	}
 
 	//eslint-disable-next-line no-unused-vars
