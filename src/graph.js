@@ -422,6 +422,7 @@ export class RectangleGraph extends PositionedGraph {
 				//TODO set wraps too if desired
 			}
 		}
+		result.bakeLayout();
 		return result;
 	}
 
