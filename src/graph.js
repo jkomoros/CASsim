@@ -315,7 +315,7 @@ export class PositionedGraph extends Graph {
 	}
 
 	set availableHeight(val) {
-		this.setProperty('avaialableHeight', val);
+		this.setProperty('availableHeight', val);
 	}
 
 	get availableHeight(){
@@ -453,8 +453,8 @@ export class RectangleGraph extends PositionedGraph {
 	get nodeSize() {
 		if(this._nodeSize === undefined) {
 			//Pretned each node is 1.0 + nodeMargin large, but remove one extra margin for the last item.
-			const colSize = this.width / (this.cols * (1.0 + this.nodeMargin) - this.nodeMargin);
-			const rowSize = this.height / (this.rows * (1.0 + this.nodeMargin) - this.nodeMargin);
+			const colSize = this.availableWidth / (this.cols * (1.0 + this.nodeMargin) - this.nodeMargin);
+			const rowSize = this.availableHeight / (this.rows * (1.0 + this.nodeMargin) - this.nodeMargin);
 			this._nodeSize = Math.min(rowSize, colSize);
 		}
 		return this._nodeSize;
@@ -462,11 +462,12 @@ export class RectangleGraph extends PositionedGraph {
 
 	calculateNodePosition(identifier) {
 		const node = this.node(identifier);
+		const nodeSize = this.nodeSize;
 		return {
-			x: (node.col * (this.size * (1.0 + this.nodeMargin))) + (this.nodeSize / 2),
-			y: (node.row * (this.size * (1.0 + this.nodeMargin))) + (this.nodeSize / 2),
-			width: this.nodeSize,
-			height: this.nodeSize,
+			x: (node.col * (nodeSize * (1.0 + this.nodeMargin))) + (nodeSize / 2),
+			y: (node.row * (nodeSize * (1.0 + this.nodeMargin))) + (nodeSize / 2),
+			width: nodeSize,
+			height: nodeSize,
 		};
 	}
 
