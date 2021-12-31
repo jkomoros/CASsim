@@ -379,11 +379,13 @@ export class RectangleGraph extends PositionedGraph {
 		diagonalDown - equivalent to diagonalDownLeft, diagonalDownRight
 		diagonal - equivalent to diagonalUp, diagonalDown
 	*/
-	static make(rows, cols, starterValues = {}, options = {}) {
+	static make(rows, cols, availableWidth, availableHeight, starterValues = {}, options = {}) {
 		if (typeof rows != 'number' || rows < 1.0) throw new Error('Rows must be a positive integer');
 		if (typeof cols != 'number' || cols < 1.0) throw new Error('Cols must be a positive integer');
 
 		const result = new RectangleGraph();
+		result.availableHeight = availableHeight;
+		result.availableWidth = availableWidth;
 		for (let r = 0; r < rows; r++) {
 			for (let c = 0; c < cols; c++) {
 				const values = {...starterValues, row: r, col: c};

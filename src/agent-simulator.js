@@ -24,7 +24,7 @@ export class AgentSimulator extends BaseSimulator {
 	*/
 	//eslint-disable-next-line
 	generateGraph(simOptions, rnd, simWidth, simHeight) {
-		return RectangleGraph.make(simOptions.rows, simOptions.cols);
+		return RectangleGraph.make(simOptions.rows, simOptions.cols, simWidth, simHeight);
 	}
 
 	//baseAgent returns an object with just a random, stable ID 
