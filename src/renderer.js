@@ -128,7 +128,7 @@ export class RectangleGraphRenderer extends BaseRenderer {
 
 	/* eslint-disable-next-line */
 	renderNode(node, graph) {
-		let styles = this._positionForNode(node);
+		let styles = this._positionStylesForNode(node, graph);
 		styles = {...styles, ['background-color']: this.colorForNode(node, graph)};
 		const spanStyles = {
 			'opacity': this.opacityForNodeText(node, graph)
@@ -162,38 +162,24 @@ export class RectangleGraphRenderer extends BaseRenderer {
 
 	renderAgent(agent, graph) {
 		const node = graph.node(this.agentNodeID(agent));
-		return html`<div class='agent' style=${styleMap(this._positionForNode(node))}>${this.agentEmoji(agent)}</div>`;
+		return html`<div class='agent' style=${styleMap(this._positionStylesForNode(node, graph))}>${this.agentEmoji(agent)}</div>`;
 	}
 
-	//The space between nodes, in units of percentage of size of a node.
-	get nodeMargin() {
-		return 0.0;
-	}
-
-	_positionForNode(node) {
-		const size = this._size;
+	_positionStylesForNode(node, graph) {
+		const nodePosition = graph ? graph.nodePosition(node) : {left: '0px', top: '0px'};
 		return {
-			left: '' + node.col * (size * (1.0 + this.nodeMargin)) + 'px',
-			top: '' + node.row * (size * (1.0 + this.nodeMargin)) + 'px',
+			left: '' + (nodePosition.x - (nodePosition.width / 2)) * this.scale + 'px',
+			top: '' + (nodePosition.y - (nodePosition.height / 2)) * this.scale + 'px',
 		};
-	}
-
-	get _size() {
-		if (!this.frame) return 50;
-		const graph = this._rectangleGraph();
-		//Pretned each node is 1.0 + nodeMargin large, but remove one extra margin for the last item.
-		const colSize = this.width * this.scale / (graph.cols * (1.0 + this.nodeMargin) - this.nodeMargin);
-		const rowSize = this.height * this.scale / (graph.rows * (1.0 + this.nodeMargin) - this.nodeMargin);
-		return Math.min(rowSize, colSize);
 	}
 
 	innerRender() {
 		const graph = this._rectangleGraph();
-		const size = this._size;
+		const position = graph.nodePosition(graph.lastNodeIdentifier());
 		const styles = {
-			'--node-size': size + 'px',
-			'height': '' + ((size * (1.0 + this.nodeMargin) * graph.rows) - this.nodeMargin) + 'px',
-			'width': '' + ((size * (1.0 + this.nodeMargin) * graph.cols) - this.nodeMargin) + 'px',
+			'--node-size': position.width * this.scale + 'px',
+			'height': '' + graph.height * this.scale + 'px',
+			'width': '' + graph.width * this.scale + 'px',
 		};
 		return html`
 			<div class='nodes' style=${styleMap(styles)}>
