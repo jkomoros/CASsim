@@ -443,11 +443,11 @@ export class RectangleGraph extends PositionedGraph {
 	}
 
 	get width() {
-		return ((this.size * (1.0 + this.nodeMargin) * this.cols) - this.nodeMargin);
+		return ((this.nodeSize * (1.0 + this.nodeMargin) * this.cols) - this.nodeMargin);
 	}
 
 	get height() {
-		return ((this.size * (1.0 + this.nodeMargin) * this.rows) - this.nodeMargin);
+		return ((this.nodeSize * (1.0 + this.nodeMargin) * this.rows) - this.nodeMargin);
 	}
 
 	get nodeSize() {
