@@ -124,6 +124,32 @@ export class Graph {
 		return Object.fromEntries(Object.entries(this._data.nodes).map(entry => [entry[0], entry[1].values]));
 	}
 
+	properties() {
+		return {...this._data.properties};
+	}
+
+	property(name) {
+		return this._data.properties[name];
+	}
+
+	_prepareForPropertyModifications() {
+		if (!this._propertyChangesMade) {
+			this._data = {...this._data, properties: {...this._data.properties}};
+		}
+		this._propertyChangesMade = true;
+	}
+
+	setProperty(name, value) {
+		this._prepareForPropertyModifications();
+		this._data.properties[name] = value;
+	}
+
+	setProperties(data) {
+		for (const [key, value] of Object.entries(data)) {
+			this.setProperty(key, value);
+		}
+	}
+
 	//Returns the values objects for all neighbors 
 	neighbors(identifier, ply = 1) {
 		const result = {};
