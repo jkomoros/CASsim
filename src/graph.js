@@ -367,7 +367,8 @@ export class RectangleGraph extends PositionedGraph {
 
 	/*
 		nodeMargin is the margin to have between nodes. It is in units of
-		percentage of nodeWidth.
+		percentage of nodeWidth. If you want a different value for x and y,
+		you can set an array with [xMargin, yMargin]
 
 		options is a dict that may have the following keys set to true:
 		noLeft - Don't connect directly to the left
@@ -390,6 +391,15 @@ export class RectangleGraph extends PositionedGraph {
 	static make(rows, cols, availableWidth, availableHeight, nodeMargin = 0, starterValues = {}, options = {}) {
 		if (typeof rows != 'number' || rows < 1.0) throw new Error('Rows must be a positive integer');
 		if (typeof cols != 'number' || cols < 1.0) throw new Error('Cols must be a positive integer');
+
+		if (Array.isArray(nodeMargin)) {
+			if (nodeMargin.length != 2) throw new Error('If nodeMargin is an array it must be two items long');
+		}
+
+		(Array.isArray(nodeMargin) ? nodeMargin : [nodeMargin]).forEach(margin => {
+			if (typeof margin != 'number') throw new Error('nodeMargin must be a number');
+			if (margin < 0.0) throw new Error('nodeMargin must be positive');
+		});
 
 		const result = new RectangleGraph();
 		result.availableHeight = availableHeight;
@@ -439,6 +449,18 @@ export class RectangleGraph extends PositionedGraph {
 		this.setProperty('nodeMargin', val);
 	}
 
+	get xNodeMargin() {
+		const margin = this.nodeMargin;
+		if (Array.isArray(margin)) return margin[0];
+		return margin;
+	}
+
+	get yNodeMargin() {
+		const margin = this.nodeMargin;
+		if (Array.isArray(margin)) return margin[1];
+		return margin;
+	}
+
 	get rows() {
 		return this.lastNodeIdentifier()[0] + 1;
 	}
@@ -448,18 +470,18 @@ export class RectangleGraph extends PositionedGraph {
 	}
 
 	get width() {
-		return ((this.nodeSize * (1.0 + this.nodeMargin) * this.cols) - this.nodeMargin);
+		return ((this.nodeSize * (1.0 + this.xNodeMargin) * this.cols) - this.xNodeMargin);
 	}
 
 	get height() {
-		return ((this.nodeSize * (1.0 + this.nodeMargin) * this.rows) - this.nodeMargin);
+		return ((this.nodeSize * (1.0 + this.yNodeMargin) * this.rows) - this.yNodeMargin);
 	}
 
 	get nodeSize() {
 		if(this._nodeSize === undefined) {
 			//Pretned each node is 1.0 + nodeMargin large, but remove one extra margin for the last item.
-			const colSize = this.availableWidth / (this.cols * (1.0 + this.nodeMargin) - this.nodeMargin);
-			const rowSize = this.availableHeight / (this.rows * (1.0 + this.nodeMargin) - this.nodeMargin);
+			const colSize = this.availableWidth / (this.cols * (1.0 + this.xNodeMargin) - this.xNodeMargin);
+			const rowSize = this.availableHeight / (this.rows * (1.0 + this.yNodeMargin) - this.yNodeMargin);
 			this._nodeSize = Math.min(rowSize, colSize);
 		}
 		return this._nodeSize;
@@ -469,8 +491,8 @@ export class RectangleGraph extends PositionedGraph {
 		const node = this.node(identifier);
 		const nodeSize = this.nodeSize;
 		return {
-			x: (node.col * (nodeSize * (1.0 + this.nodeMargin))) + (nodeSize / 2),
-			y: (node.row * (nodeSize * (1.0 + this.nodeMargin))) + (nodeSize / 2),
+			x: (node.col * (nodeSize * (1.0 + this.xNodeMargin))) + (nodeSize / 2),
+			y: (node.row * (nodeSize * (1.0 + this.yNodeMargin))) + (nodeSize / 2),
 			width: nodeSize,
 			height: nodeSize,
 		};
