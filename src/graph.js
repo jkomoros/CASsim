@@ -23,9 +23,10 @@ export class Graph {
 	//data is the starter data. We will never modify data passed to us, but
 	//rather clone and set.
 	constructor(data) {
-		if (!data) data = {};
+		if (!data) data = {nodes:{}, properties:{}};
 		this._data = data;
-		this._changesMade = false;
+		this._nodeChangesMade = false;
+		this._propertyChangesMade = false;
 	}
 
 	static get ID_DELIMITER() {
@@ -62,12 +63,13 @@ export class Graph {
 	//Whether modifications have been made since the object was created or saved
 	//was called.
 	get changesMade() {
-		return this._changesMade;
+		return this._nodeChangesMade || this._propertyChangesMade;
 	}
 
 	//Should be called when the backing store has been saved.
 	saved() {
-		this._changesMade = false;
+		this._nodeChangesMade = false;
+		this._propertyChangesMade = false;
 	}
 
 	//same checks for logical equality, since you can't rely on values objects
@@ -83,7 +85,7 @@ export class Graph {
 
 	_nodeObject(identifier) {
 		const id = Graph.packID(identifier);
-		return this._data[id];
+		return this._data.nodes[id];
 	}
 
 	get data() {
@@ -119,7 +121,7 @@ export class Graph {
 	}
 
 	nodes() {
-		return Object.fromEntries(Object.entries(this._data).map(entry => [entry[0], entry[1].values]));
+		return Object.fromEntries(Object.entries(this._data.nodes).map(entry => [entry[0], entry[1].values]));
 	}
 
 	//Returns the values objects for all neighbors 
@@ -181,11 +183,11 @@ export class Graph {
 		return [-1 * Math.MAX_SAFE_INTEGER, null];
 	}
 
-	_prepareForModifications() {
-		if (!this.changesMade) {
-			this._data = {...this._data};
+	_prepareForNodeModifications() {
+		if (!this.nodeChangesMade) {
+			this._data = {...this._data, nodes: {...this._data.nodes}};
 		}
-		this._changesMade = true;
+		this._nodeChangesMade = true;
 	}
 
 	setNode(identifier, values) {
@@ -197,8 +199,8 @@ export class Graph {
 		if (values.id != id) values.id = id;
 		node = {...node};
 		node.values = values;
-		this._prepareForModifications();
-		this._data[id] = node;
+		this._prepareForNodeModifications();
+		this._data.nodes[id] = node;
 		return node;
 	}
 
@@ -214,8 +216,8 @@ export class Graph {
 		const id = Graph.packID(identifier);
 		let node = this._nodeObject(id);
 		if (!node) return;
-		this._prepareForModifications();
-		delete this._data[id];
+		this._prepareForNodeModifications();
+		delete this._data.nodes[id];
 	}
 
 	setEdge(fromIdentifier, toIdentifier, values = {}) {
@@ -229,8 +231,8 @@ export class Graph {
 		if (values.id != edgeID) values.id = edgeID;
 		if (values.from != fromID) values.from = fromID;
 		if (values.to != toID) values.to = toID;
-		this._prepareForModifications();
-		this._data[fromID] = {...node, edges:{...node.edges, [toID]: values}};
+		this._prepareForNodeModifications();
+		this._data.nodes[fromID] = {...node, edges:{...node.edges, [toID]: values}};
 	}
 
 	setEdgeProperty(fromIdentifier, toIdentifier, property, value) {
@@ -248,14 +250,14 @@ export class Graph {
 		if (!node) return;
 		let edge = node.edges[toID];
 		if (!edge) return;
-		this._prepareForModifications();
+		this._prepareForNodeModifications();
 		const newEdges = {...node.edges};
 		delete newEdges[toID];
-		this._data[fromID] = {...node, edges: newEdges};
+		this._data.nodes[fromID] = {...node, edges: newEdges};
 	}
 
 	lastNodeID() {
-		const keys = Object.keys(this._data);
+		const keys = Object.keys(this._data.nodes);
 		return keys[keys.length - 1];
 	}
 
