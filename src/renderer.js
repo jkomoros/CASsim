@@ -73,6 +73,7 @@ export class RectangleGraphRenderer extends BaseRenderer {
 			BaseRenderer.styles,
 			css`
 				.node {
+					box-sizing: border-box;
 					position: absolute;
 					height: var(--node-size);
 					width: var(--node-size);
