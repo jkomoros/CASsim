@@ -73,12 +73,10 @@ class AgentDemoSimulator extends AgentSimulator {
 		return [
 			null,
 			{
-				id:'agent-count',
-				title: 'Agent Count'
+				id:'agent-count'
 			},
 			{
-				id: 'total-node-value',
-				title: 'Total Node Value'
+				id: 'total-node-value'
 			}
 		];
 	}

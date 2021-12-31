@@ -52,8 +52,7 @@ class DiceRollDemoSimulator extends BaseSimulator {
 		return [
 			null,
 			{
-				id: 'score',
-				title: 'Score',
+				id: 'score'
 			},
 		];
 	}
