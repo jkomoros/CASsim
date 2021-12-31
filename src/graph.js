@@ -125,7 +125,7 @@ export class Graph {
 	}
 
 	allEdges() {
-		return Object.fromEntries(Object.keys(this.nodes()).map(nodeID => this.edges(nodeID)).flat().map(edge => [edge.id, edge]));
+		return Object.fromEntries(Object.keys(this.nodes()).map(nodeID => Object.values(this.edges(nodeID))).flat().map(edge => [edge.id, edge]));
 	}
 
 	nodes() {
