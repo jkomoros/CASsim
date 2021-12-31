@@ -477,3 +477,21 @@ export class RectangleGraph extends PositionedGraph {
 	}
 
 }
+
+//all graph constructors we know of should be here.
+const graphConstructors = [
+	Graph,
+	PositionedGraph,
+	RectangleGraph,
+];
+
+const graphConstructorsByType = Object.fromEntries(graphConstructors.map(constructor => [constructor.name, constructor]));
+
+export const inflateGraph = (graphData) => {
+	if (!graphData || typeof graphData != 'object') throw new Error('graphData is not an object');
+	const typ = graphData.graphType;
+	if (typ === undefined) throw new Error('No graphType in graph data');
+	const constructor = graphConstructorsByType(typ);
+	if (!constructor) throw new Error('Unknown graphType: ' + typ);
+	return constructor(graphData);
+};
