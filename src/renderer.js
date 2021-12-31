@@ -1,5 +1,5 @@
 
-import { LitElement, html, css} from "lit-element";
+import { LitElement, html, css, svg} from "lit-element";
 
 import { repeat } from 'lit-html/directives/repeat';
 
@@ -101,6 +101,16 @@ export class PositionedGraphRenderer extends BaseRenderer {
 					/* TODO: do the animations in a way that won't make Paul Lewis cry */
 					transition: left var(--animation-delay), top var(--animation-delay);
 				}
+
+				svg {
+					width: 100%;
+					height: 100%;
+				}
+
+				.edge {
+					stroke: black;
+					stroke-width: 1px;
+				}
 			`
 		];
 	}
@@ -154,6 +164,11 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	}
 
 	//eslint-disable-next-line no-unused-vars
+	renderEdges(frame) {
+		return false;
+	}
+
+	//eslint-disable-next-line no-unused-vars
 	colorForNode(node, graph) {
 		const style = getComputedStyle(this);
 		const primaryColor = style.getPropertyValue('--primary-color');
@@ -165,6 +180,15 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	renderAgent(agent, graph) {
 		const node = graph.node(this.agentNodeID(agent));
 		return html`<div class='agent' style=${styleMap(this._positionStylesForNode(node, graph))}>${this.agentEmoji(agent)}</div>`;
+	}
+
+	//must return svg. Note coordinates are viewBoxed so don't need any scaling.
+	renderEdge(edge, graph) {
+		if (!graph) return '';
+		const fromNodePosition = graph.nodePosition(edge.from);
+		const toNodePosition = graph.nodePosition(edge.to);
+		//TODO: allow styling of colors, width, strokeStyle, and opacity
+		return svg`<path id=${edge.id} class='edge' d='M ${fromNodePosition.x}, ${fromNodePosition.y} L ${toNodePosition.x}, ${toNodePosition.y}'></path>`;
 	}
 
 	_positionStylesForNode(node, graph) {
@@ -196,6 +220,10 @@ export class PositionedGraphRenderer extends BaseRenderer {
 			<div class='nodes' style=${styleMap(styles)}>
 				${Object.values(graph.nodes()).map(node => this.renderNode(node, graph))}
 				${repeat(Object.values(this.agentData(this.frame)), agent => agent.id, agent => this.renderAgent(agent, graph))}
+				${graph && this.renderEdges(this.frame) ?
+		html`<svg viewBox='0 0 ${graph.width} ${graph.height}'>
+					${repeat(Object.values(graph.allEdges()), edge => edge.id, edge => this.renderEdge(edge, graph))}
+				</svg>` : ''}
 			</div>
 			`;
 	}
