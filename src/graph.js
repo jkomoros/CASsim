@@ -441,4 +441,24 @@ export class RectangleGraph extends PositionedGraph {
 		return this.lastNodeIdentifier()[1] + 1;
 	}
 
+	get nodeSize() {
+		if(this._nodeSize === undefined) {
+			//Pretned each node is 1.0 + nodeMargin large, but remove one extra margin for the last item.
+			const colSize = this.width / (this.cols * (1.0 + this.nodeMargin) - this.nodeMargin);
+			const rowSize = this.height / (this.rows * (1.0 + this.nodeMargin) - this.nodeMargin);
+			this._nodeSize = Math.min(rowSize, colSize);
+		}
+		return this._nodeSize;
+	}
+
+	calculateNodePosition(identifier) {
+		const node = this.node(identifier);
+		return {
+			x: (node.col * (this.size * (1.0 + this.nodeMargin))) + (this.nodeSize / 2),
+			y: (node.row * (this.size * (1.0 + this.nodeMargin))) + (this.nodeSize / 2),
+			width: this.nodeSize,
+			height: this.nodeSize,
+		};
+	}
+
 }
