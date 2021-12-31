@@ -333,7 +333,7 @@ export class PositionedGraph extends Graph {
 	//Returns an object with x,y,width,height of the node. x,y are at the center of the node.
 	nodePosition(identifier) {
 		const values = this.node(identifier);
-		if (!values || values.x === undefined || values.y === undefined || values.width === undefined || values.height === undefined) {
+		if (!values || values.position) {
 			return this.calculateNodePosition(identifier);
 		}
 		return {x: values.x, y: values.y, width: values.width, height: values.height};
@@ -344,7 +344,7 @@ export class PositionedGraph extends Graph {
 	bakeLayout() {
 		for (const node of Object.values(this.nodes())) {
 			const position = this.calculateNodePosition(node);
-			this.setNodeProperties(node, position);
+			this.setNodeProperty(node, 'position', position);
 		}
 	}
 
