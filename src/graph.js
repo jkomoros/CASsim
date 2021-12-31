@@ -366,11 +366,12 @@ export class RectangleGraph extends PositionedGraph {
 	}
 
 	/*
-		nodeMargin is the margin to have between nodes. It is in units of
+		options is a dict that may have the following keys
+		nodeMargin - the margin to have between nodes. It is in units of
 		percentage of nodeWidth. If you want a different value for x and y,
 		you can set an array with [xMargin, yMargin]
 
-		options is a dict that may have the following keys set to true:
+		The follow keys are boolean and may be set to true on options:
 		noLeft - Don't connect directly to the left
 		noRight - Don't connect directly to the right
 		noUp - Don't connect directly up
@@ -388,9 +389,11 @@ export class RectangleGraph extends PositionedGraph {
 		diagonalDown - equivalent to diagonalDownLeft, diagonalDownRight
 		diagonal - equivalent to diagonalUp, diagonalDown
 	*/
-	static make(rows, cols, availableWidth, availableHeight, nodeMargin = 0, starterValues = {}, options = {}) {
+	static make(rows, cols, availableWidth, availableHeight, starterValues = {}, options = {}) {
 		if (typeof rows != 'number' || rows < 1.0) throw new Error('Rows must be a positive integer');
 		if (typeof cols != 'number' || cols < 1.0) throw new Error('Cols must be a positive integer');
+
+		const nodeMargin = options.nodeMargin || 0;
 
 		if (Array.isArray(nodeMargin)) {
 			if (nodeMargin.length != 2) throw new Error('If nodeMargin is an array it must be two items long');
