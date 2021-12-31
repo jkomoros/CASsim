@@ -250,7 +250,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 			'--node-width': width * this.scale + 'px',
 			'--node-height': height * this.scale + 'px',
 			'--node-size': size * this.scale + 'px',
-			'--node-radius': '' + 100 * graph.nodeRadius + '%',
+			'--node-radius': '' + 100 * graph.nodeBorderRadius + '%',
 			'height': '' + graph.height * this.scale + 'px',
 			'width': '' + graph.width * this.scale + 'px',
 		};
