@@ -198,8 +198,9 @@ to chart these numbers over time.
 `scoreConfig(normalizedSimOptions) => an array of info objects describing what
 the score at each index of frameScorer means. A null or undefined entry means
 'do not show this to a user'. If not null, it should be an object with: `id`: a
-consistent ID, `title`:for displaying what that runs means to a user, `color`: a
-CSS color value for the color of the run in the chart.
+consistent ID, `title`:for displaying what that runs means to a user (if
+omitted, the id will be converted to a reasonable title), `color`: a CSS color
+value for the color of the run in the chart.
 
 `successScorer(frameScore, normalizedSimOptions) => 0.0 if failure, 1.0 if full
 success, negative numbers to say indeterminate` This is the method that is

@@ -125,7 +125,7 @@ const SimulationRun = class {
 		this._simulation = simulation;
 		this._index = index;
 		this._frames = [];
-		this._scoreData = Object.fromEntries(this._simulation.scoreConfig.filter(config => config && config.id).map(config => [config.id, [{data: [], config: config}]]));
+		this._scoreData = Object.fromEntries(this._simulation.scoreConfig.filter(config => config && config.id).map(config => config.title ? config : {...config, title:idToTitle(config.id)}).map(config => [config.id, [{data: [], config: config}]]));
 		this._successScores = [];
 		this._simulatorMaxFrameIndex = this._simulation.maxFrameIndex;
 		this._maxFrameIndex = Number.MAX_SAFE_INTEGER;
