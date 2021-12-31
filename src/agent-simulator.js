@@ -1,6 +1,9 @@
 import { BaseSimulator } from "./simulator.js";
 
-import { RectangleGraph }from './graph.js';
+import { 
+	inflateGraph,
+	RectangleGraph
+}from './graph.js';
 
 import {
 	shuffleInPlace,
@@ -9,13 +12,6 @@ import {
 } from './util.js';
 
 export class AgentSimulator extends BaseSimulator {
-
-	/*
-		An override point if you use change the kind of graph in use.
-	*/
-	graphConstructor() {
-		return RectangleGraph;
-	}
 
 	/*
 		An override point for your generateFirstFrame. You should return the
@@ -217,7 +213,7 @@ export class AgentSimulator extends BaseSimulator {
 		Ticks all agents, and all nodes.
 	*/
 	generateFrame(frame, rnd) {
-		const graph = new (this.graphConstructor())(frame.graph);
+		const graph = inflateGraph(frame.graph);
 		const newAgents = [...frame.agents];
 		const agentIterationOrder = [...frame.agents.keys()];
 		if (this.randomizeAgentTickOrder(frame.simOptions)) {
