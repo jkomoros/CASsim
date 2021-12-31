@@ -140,6 +140,7 @@ export class Graph {
 	}
 
 	setProperty(name, value) {
+		if (this.property(name) == value) return;
 		this._prepareForPropertyModifications();
 		this._data.properties[name] = value;
 	}
