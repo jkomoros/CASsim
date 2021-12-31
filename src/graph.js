@@ -335,6 +335,14 @@ export class PositionedGraph extends Graph {
 		this.setProperty('nodeRadius', val);
 	}
 
+	get nodesSameSize() {
+		const positions = [...Object.values(this.nodes())];
+		if (positions.length == 0) return true;
+		const height = positions[0].height;
+		const width = positions[0].width;
+		return positions.every(position => position.height == height && position.width == width);
+	}
+
 	/*
 		This is an override point to calculate the position
 	*/
