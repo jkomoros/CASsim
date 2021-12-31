@@ -358,10 +358,10 @@ export class PositionedGraph extends Graph {
 	//Returns an object with x,y,width,height of the node. x,y are at the center of the node.
 	nodePosition(identifier) {
 		const values = this.node(identifier);
-		if (!values || values.position) {
+		if (!values || !values.position) {
 			return this.calculateNodePosition(identifier);
 		}
-		return {x: values.x, y: values.y, width: values.width, height: values.height};
+		return values.position;
 	}
 
 	//Goes through and sets the x,y,width,height on all nodes so that future
