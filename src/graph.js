@@ -322,6 +322,32 @@ export class PositionedGraph extends Graph {
 		return this.property('availableHeight');
 	}
 
+	/*
+		This is an override point to calculate the position
+	*/
+	//eslint-disable-next-line no-unused-vars
+	calculateNodePosition(identifier) {
+		return {x:0, y:0, width: 0, height: 0};
+	}
+
+	//Returns an object with x,y,width,height of the node. x,y are at the center of the node.
+	nodePosition(identifier) {
+		const values = this.node(identifier);
+		if (!values || values.x === undefined || values.y === undefined || values.width === undefined || values.height === undefined) {
+			return this.calculateNodePosition(identifier);
+		}
+		return {x: values.x, y: values.y, width: values.width, height: values.height};
+	}
+
+	//Goes through and sets the x,y,width,height on all nodes so that future
+	//nodePosition calls don't require calculations.
+	bakeLayout() {
+		for (const node of Object.values(this.nodes())) {
+			const position = this.calculateNodePosition(node);
+			this.setNodeProperties(node, position);
+		}
+	}
+
 }
 
 export class RectangleGraph extends PositionedGraph {
