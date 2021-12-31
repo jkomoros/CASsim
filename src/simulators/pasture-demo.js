@@ -23,10 +23,12 @@ class AgentDemoSimulator extends AgentSimulator {
 	//simulationComplete, and generateFrame.
 
 	generateAgent(index, graph, simOptions, rnd) {
-		const emojiValues = Object.values(GRAZING_FARM_ANIMALS_EMOJIS);
+		const emojiKeys = Object.keys(GRAZING_FARM_ANIMALS_EMOJIS);
+		const emojiKey = emojiKeys[Math.floor(emojiKeys.length * rnd())];
 		return {
 			...this.baseAgent(rnd),
-			emoji: emojiValues[Math.floor(emojiValues.length * rnd())],
+			emoji: GRAZING_FARM_ANIMALS_EMOJIS[emojiKey],
+			type: emojiKey,
 			deathLikelihood: simOptions.deathLikelihood,
 			spawnLikelihood: simOptions.spawnLikelihood,
 		};
@@ -154,7 +156,21 @@ export default AgentDemoSimulator;
 
 import { PositionedGraphRenderer } from '../renderer.js';
 
+import { css } from "lit-element";
+
 class AgentDemoRenderer extends PositionedGraphRenderer {
+	static get styles() {
+		return [
+			PositionedGraphRenderer.styles,
+			css`
+				/* because our agents have a .type, that className is rendered out so we can style them */
+				.agent.cow {
+					filter: invert(100%);
+				}
+			`
+		];
+	}
+
 	opacityForNodeText(node) {
 		return node.value;
 	}
