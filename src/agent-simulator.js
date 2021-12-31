@@ -191,6 +191,15 @@ export class AgentSimulator extends BaseSimulator {
 	}
 
 	/*
+		An opportunity to spawn new agents in this frame. Return an array of
+		agents to spawn.
+	*/
+	//eslint-disable-next-line no-unused-vars
+	spawnAgents(agents, graph, frame, rnd) {
+		return [];
+	}
+
+	/*
 		Ticks all agents, and all nodes.
 	*/
 	generateFrame(frame, rnd) {
@@ -213,7 +222,8 @@ export class AgentSimulator extends BaseSimulator {
 			}
 		}
 		//Filter out agents who died this tick (returned null)
-		frame.agents = newAgents.filter(agent => agent);
+		const filteredNewAgents = newAgents.filter(agent => agent);
+		frame.agents = [...filteredNewAgents, ...this.spawnAgents(filteredNewAgents, graph, frame, rnd).filter(agent => agent)];
 		for (const [id, node] of Object.entries(graph.nodes())) {
 			const newNode = this.nodeTick(node, graph, frame, rnd);
 			//If we set the node to the same values as it was, then the graph
