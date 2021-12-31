@@ -165,27 +165,38 @@ export class RectangleGraphRenderer extends BaseRenderer {
 		return html`<div class='agent' style=${styleMap(this._positionForNode(node))}>${this.agentEmoji(agent)}</div>`;
 	}
 
+	//The space between nodes, in units of percentage of size of a node.
+	get nodeMargin() {
+		return 0.0;
+	}
+
 	_positionForNode(node) {
 		const size = this._size;
 		return {
-			left: '' + node.col * size + 'px',
-			top: '' + node.row * size + 'px',
+			left: '' + node.col * (size * (1.0 + this.nodeMargin)) + 'px',
+			top: '' + node.row * (size * (1.0 + this.nodeMargin)) + 'px',
 		};
 	}
 
 	get _size() {
 		if (!this.frame) return 50;
 		const graph = this._rectangleGraph();
-		const colSize = this.width * this.scale / graph.cols;
-		const rowSize = this.height * this.scale / graph.rows;
+		//Pretned each node is 1.0 + nodeMargin large, but remove one extra margin for the last item.
+		const colSize = this.width * this.scale / (graph.cols * (1.0 + this.nodeMargin) - this.nodeMargin);
+		const rowSize = this.height * this.scale / (graph.rows * (1.0 + this.nodeMargin) - this.nodeMargin);
 		return Math.min(rowSize, colSize);
 	}
 
 	innerRender() {
 		const graph = this._rectangleGraph();
 		const size = this._size;
+		const styles = {
+			'--node-size': size + 'px',
+			'height': '' + ((size * (1.0 + this.nodeMargin) * graph.rows) - this.nodeMargin) + 'px',
+			'width': '' + ((size * (1.0 + this.nodeMargin) * graph.cols) - this.nodeMargin) + 'px',
+		};
 		return html`
-			<div class='nodes' style=${styleMap({'--node-size': size + 'px', height: size * graph.rows + 'px', width: size * graph.cols + 'px'})}>
+			<div class='nodes' style=${styleMap(styles)}>
 				${Object.values(graph.nodes()).map(node => this.renderNode(node, graph))}
 				${repeat(Object.values(this.agentData(this.frame)), agent => agent.id, agent => this.renderAgent(agent, graph))}
 			</div>
