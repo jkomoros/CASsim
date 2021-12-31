@@ -6,7 +6,7 @@ import { repeat } from 'lit-html/directives/repeat';
 import { styleMap } from "lit-html/directives/style-map.js";
 
 import {
-	RectangleGraph
+	inflateGraph,
 } from './graph.js';
 
 import {
@@ -111,7 +111,7 @@ export class RectangleGraphRenderer extends BaseRenderer {
 
 	_rectangleGraph() {
 		const data = this.rectangleGraphData(this.frame);
-		return new RectangleGraph(data);
+		return inflateGraph(data);
 	}
 
 	//This is an override point for your renderer, to tell the renderer where the information on each agent is.
