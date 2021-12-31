@@ -215,7 +215,7 @@ class SimulationControls extends connect(store)(LitElement) {
 					${this._currentSimulationHasChartableData ? html`
 						<details .open=${this._chartExpanded} @toggle=${this._handleChartExpandedToggled}>
 							<summary><label><button class='small'>${AREA_CHART_ICON}</button> Chart</label></summary>
-							<run-chart .data=${this._chartData} .configID=${this._chartConfigID} .runIndex=${this._runIndex}></run-chart>
+							<run-chart .data=${this._chartData} .configID=${this._chartConfigID} .runIndex=${this._runIndex} .frameIndex=${this._frameIndex}></run-chart>
 							<div>
 								<select id='configID' .disabled=${Object.keys(this._chartData).length == 1} @change=${this._handleChartConfigIDUpdated}>${['', ...Object.keys(this._chartData)].map((key, index, keys) => html`<option .value=${key} .selected=${keys.length == 2 ? key : key == this._chartConfigID}>${key ? (this._chartData[key] && this._chartData[key].length > 0 && this._chartData[key][0].config.title) || key : 'All data'}</option>></option>`)}</select>
 								<input id='singleRun' type='checkbox' .checked=${this._chartSingleRun} @change=${this._handleChartSingleRunUpdated}><label for='singleRun'>Current run only</label>
