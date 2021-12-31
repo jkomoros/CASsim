@@ -152,9 +152,9 @@ class AgentDemoSimulator extends AgentSimulator {
 
 export default AgentDemoSimulator;
 
-import { RectangleGraphRenderer } from '../renderer.js';
+import { PositionedGraphRenderer } from '../renderer.js';
 
-class AgentDemoRenderer extends RectangleGraphRenderer {
+class AgentDemoRenderer extends PositionedGraphRenderer {
 	textForNode() {
 		return '🌿';
 	}

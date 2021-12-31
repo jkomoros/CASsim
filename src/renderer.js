@@ -66,7 +66,7 @@ export class BaseRenderer extends LitElement {
 
 }
 
-export class RectangleGraphRenderer extends BaseRenderer {
+export class PositionedGraphRenderer extends BaseRenderer {
 	
 	static get styles() {
 		return [
@@ -104,13 +104,13 @@ export class RectangleGraphRenderer extends BaseRenderer {
 		];
 	}
 	
-	//This is an override point for your renderer to tell the renderer where the rectangle graph data is
-	rectangleGraphData(frame) {
+	//This is an override point for your renderer to tell the renderer where the positioned graph data is
+	graphData(frame) {
 		return frame.graph;
 	}
 
-	_rectangleGraph() {
-		const data = this.rectangleGraphData(this.frame);
+	_graph() {
+		const data = this.graphData(this.frame);
 		return inflateGraph(data);
 	}
 
@@ -175,7 +175,7 @@ export class RectangleGraphRenderer extends BaseRenderer {
 	}
 
 	innerRender() {
-		const graph = this._rectangleGraph();
+		const graph = this._graph();
 		const position = graph.nodePosition(graph.lastNodeIdentifier());
 		const styles = {
 			'--node-size': position.width * this.scale + 'px',
