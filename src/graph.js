@@ -238,6 +238,12 @@ export class Graph {
 		return this.setNode(identifier, values);
 	}
 
+	setNodeProperties(identifier, values) {
+		for (const [key, value] of Object.entries(values)) {
+			this.setNodeProperty(identifier, key, value);
+		}
+	}
+
 	deleteNode(identifier) {
 		const id = Graph.packID(identifier);
 		let node = this._nodeObject(id);
@@ -267,6 +273,12 @@ export class Graph {
 		if (values[property] === value) return;
 		values[property] = value;
 		this.setEdge(fromIdentifier, toIdentifier, values);
+	}
+
+	setEdgeProperties(identifier, values) {
+		for (const [key, value] of Object.entries(values)) {
+			this.setEdgeProperty(identifier, key, value);
+		}
 	}
 
 	deleteEdge(fromIdentifier, toIdentifier) {
