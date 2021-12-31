@@ -33,7 +33,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	}
 
 	generateGraph(simOptions, rnd, simWidth, simHeight) {
-		return RectangleGraph.make(simOptions.rows, simOptions.cols, simWidth, simHeight, {value:0.0, growthRate: 0.05, emoji:'🌿'}, {nodeMargin: 0.1, diagonal:true});
+		return RectangleGraph.make(simOptions.rows, simOptions.cols, simWidth, simHeight, {starterValues: {value:0.0, growthRate: 0.05, emoji:'🌿'}, nodeMargin: 0.1, diagonal:true});
 	}
 
 	numStarterAgents(graph, simOptions) {

@@ -367,6 +367,7 @@ export class RectangleGraph extends PositionedGraph {
 
 	/*
 		options is a dict that may have the following keys
+		starterValue - the values to clone and set for each cell
 		nodeMargin - the margin to have between nodes. It is in units of
 		percentage of nodeWidth. If you want a different value for x and y,
 		you can set an array with [xMargin, yMargin]
@@ -390,11 +391,12 @@ export class RectangleGraph extends PositionedGraph {
 		diagonalDown - equivalent to diagonalDownLeft, diagonalDownRight
 		diagonal - equivalent to diagonalUp, diagonalDown
 	*/
-	static make(rows, cols, availableWidth, availableHeight, starterValues = {}, options = {}) {
+	static make(rows, cols, availableWidth, availableHeight, options = {}) {
 		if (typeof rows != 'number' || rows < 1.0) throw new Error('Rows must be a positive integer');
 		if (typeof cols != 'number' || cols < 1.0) throw new Error('Cols must be a positive integer');
 
 		const nodeMargin = options.nodeMargin || 0;
+		const starterValues = options.starterValues || {};
 
 		if (Array.isArray(nodeMargin)) {
 			if (nodeMargin.length != 2) throw new Error('If nodeMargin is an array it must be two items long');
