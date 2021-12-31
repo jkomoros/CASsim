@@ -372,6 +372,7 @@ export class RectangleGraph extends PositionedGraph {
 		you can set an array with [xMargin, yMargin]
 
 		The follow keys are boolean and may be set to true on options:
+		rectangular - Allow nodes to have a width and height that differs
 		noLeft - Don't connect directly to the left
 		noRight - Don't connect directly to the right
 		noUp - Don't connect directly up
@@ -408,6 +409,7 @@ export class RectangleGraph extends PositionedGraph {
 		result.availableHeight = availableHeight;
 		result.availableWidth = availableWidth;
 		result.nodeMargin = nodeMargin;
+		if (options.rectangular) result.rectangular = true;
 		for (let r = 0; r < rows; r++) {
 			for (let c = 0; c < cols; c++) {
 				const values = {...starterValues, row: r, col: c};
@@ -452,6 +454,15 @@ export class RectangleGraph extends PositionedGraph {
 		this.setProperty('nodeMargin', val);
 	}
 
+	//By default, the nodes are square, but if this is true they will be rectangular.
+	get rectangular() {
+		return this.property('rectangular');
+	}
+
+	set rectangular(val) {
+		this.setProperty('rectangular', val);
+	}
+
 	get xNodeMargin() {
 		const margin = this.nodeMargin;
 		if (Array.isArray(margin)) return margin[0];
@@ -473,31 +484,51 @@ export class RectangleGraph extends PositionedGraph {
 	}
 
 	get width() {
-		return ((this.nodeSize * (1.0 + this.xNodeMargin) * this.cols) - this.xNodeMargin);
+		return ((this.nodeWidth * (1.0 + this.xNodeMargin) * this.cols) - this.xNodeMargin);
 	}
 
 	get height() {
-		return ((this.nodeSize * (1.0 + this.yNodeMargin) * this.rows) - this.yNodeMargin);
+		return ((this.nodeHeight * (1.0 + this.yNodeMargin) * this.rows) - this.yNodeMargin);
 	}
 
-	get nodeSize() {
-		if(this._nodeSize === undefined) {
-			//Pretned each node is 1.0 + nodeMargin large, but remove one extra margin for the last item.
-			const colSize = this.availableWidth / (this.cols * (1.0 + this.xNodeMargin) - this.xNodeMargin);
-			const rowSize = this.availableHeight / (this.rows * (1.0 + this.yNodeMargin) - this.yNodeMargin);
-			this._nodeSize = Math.min(rowSize, colSize);
+	get _nodeHeight() {
+		if(this._cachedNodeHeight === undefined) {
+			this._cachedNodeHeight = this.availableHeight / (this.rows * (1.0 + this.yNodeMargin) - this.yNodeMargin);
 		}
-		return this._nodeSize;
+		return this._cachedNodeHeight;
+	}
+
+	get nodeHeight() {
+		return this.rectangular ? this._nodeHeight : this._nodeSize;
+	}
+
+	get _nodeWidth() {
+		if(this._cachedNodeWidth === undefined) {
+			this._cachedNodeWidth = this.availableWidth / (this.cols * (1.0 + this.xNodeMargin) - this.xNodeMargin);
+		}
+		return this._cachedNodeWidth;
+	}
+
+	get nodeWidth() {
+		return this.rectangular ? this._nodeWidth : this._nodeSize;
+	}
+
+	get _nodeSize() {
+		if(this._cachedNodeSize === undefined) {
+			this._cachedNodeSize = Math.min(this._nodeHeight, this._nodeWidth);
+		}
+		return this._cachedNodeSize;
 	}
 
 	calculateNodePosition(identifier) {
 		const node = this.node(identifier);
-		const nodeSize = this.nodeSize;
+		const nodeWidth = this.nodeWidth;
+		const nodeHeight = this.nodeHeight;
 		return {
-			x: (node.col * (nodeSize * (1.0 + this.xNodeMargin))) + (nodeSize / 2),
-			y: (node.row * (nodeSize * (1.0 + this.yNodeMargin))) + (nodeSize / 2),
-			width: nodeSize,
-			height: nodeSize,
+			x: (node.col * (nodeWidth * (1.0 + this.xNodeMargin))) + (nodeWidth / 2),
+			y: (node.row * (nodeHeight * (1.0 + this.yNodeMargin))) + (nodeHeight / 2),
+			width: nodeWidth,
+			height: nodeHeight,
 		};
 	}
 

@@ -75,8 +75,8 @@ export class PositionedGraphRenderer extends BaseRenderer {
 				.node {
 					box-sizing: border-box;
 					position: absolute;
-					height: var(--node-size);
-					width: var(--node-size);
+					height: var(--node-height);
+					width: var(--node-width);
 					background-color: var(--primary-color);
 					border: 1px solid black;
 					display: flex;
@@ -91,8 +91,8 @@ export class PositionedGraphRenderer extends BaseRenderer {
 
 				.agent {
 					position: absolute;
-					height: var(--node-size);
-					width: var(--node-size);
+					height: var(--node-height);
+					width: var(--node-width);
 					display: flex;
 					font-size: calc(var(--node-size) * 0.7);
 					align-items: center;
@@ -177,8 +177,11 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	innerRender() {
 		const graph = this._graph();
 		const position = graph.nodePosition(graph.lastNodeIdentifier());
+		const size = Math.min(position.width, position.height);
 		const styles = {
-			'--node-size': position.width * this.scale + 'px',
+			'--node-width': position.width * this.scale + 'px',
+			'--node-height': position.height * this.scale + 'px',
+			'--node-size': size * this.scale + 'px',
 			'height': '' + graph.height * this.scale + 'px',
 			'width': '' + graph.width * this.scale + 'px',
 		};
