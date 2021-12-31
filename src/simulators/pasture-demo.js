@@ -161,9 +161,6 @@ class AgentDemoRenderer extends RectangleGraphRenderer {
 	opacityForNodeText(node) {
 		return node.value;
 	}
-	get nodeMargin() {
-		return 0.1;
-	}
 }
 
 window.customElements.define(SIMULATOR_NAME + "-renderer", AgentDemoRenderer);
