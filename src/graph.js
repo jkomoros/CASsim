@@ -292,7 +292,27 @@ export class Graph {
 	}
 }
 
-export class RectangleGraph extends Graph {
+export class PositionedGraph extends Graph {
+
+	set availableWidth(val) {
+		this.setProperty('availableWidth', val);
+	}
+
+	get availableWidth() {
+		return this.property('availableWidth');
+	}
+
+	set availableHeight(val) {
+		this.setProperty('avaialableHeight', val);
+	}
+
+	get availableHeight(){
+		return this.property('availableHeight');
+	}
+
+}
+
+export class RectangleGraph extends PositionedGraph {
 
 	static identifier(row, col) {
 		return [row, col];
