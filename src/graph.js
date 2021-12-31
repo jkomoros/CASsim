@@ -441,6 +441,14 @@ export class RectangleGraph extends PositionedGraph {
 		return this.lastNodeIdentifier()[1] + 1;
 	}
 
+	get width() {
+		return ((this.size * (1.0 + this.nodeMargin) * this.cols) - this.nodeMargin);
+	}
+
+	get height() {
+		return ((this.size * (1.0 + this.nodeMargin) * this.rows) - this.nodeMargin);
+	}
+
 	get nodeSize() {
 		if(this._nodeSize === undefined) {
 			//Pretned each node is 1.0 + nodeMargin large, but remove one extra margin for the last item.
