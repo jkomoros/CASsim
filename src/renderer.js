@@ -198,6 +198,27 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		return '';
 	}
 
+	/*
+		radiusForNode is used to set width/height if they aren't provided by
+		graph.nodePosition.
+	*/
+	//eslint-disable-next-line no-unused-vars
+	radiusForNode(node, graph) {
+		return 10;
+	}
+
+	widthForNode(node, graph) {
+		const position = graph.nodePosition(node);
+		if (position.width) return position.width;
+		return this.radiusForNode(node, graph) * 2;
+	}
+
+	heightForNode(node, graph) {
+		const position = graph.nodePosition(node);
+		if (position.height) return position.height;
+		return this.radiusForNode(node, graph) * 2;
+	}
+
 	//must return svg. Note coordinates are viewBoxed so don't need any scaling.
 	renderEdge(edge, graph) {
 		if (!graph) return '';
@@ -213,19 +234,21 @@ export class PositionedGraphRenderer extends BaseRenderer {
 			top: '' + (nodePosition.y - (nodePosition.height / 2)) * this.scale + 'px',
 		};
 		if (graph.nodesSameSize) {
-			result.width = '' + nodePosition.width * this.scale + 'px';
-			result.height = '' + nodePosition.height * this.scale + 'px';
+			result.width = '' + this.widthForNode(node, graph) * this.scale + 'px';
+			result.height = '' + this.heightForNode(node, graph) * this.scale + 'px';
 		}
 		return result;
 	}
 
 	innerRender() {
 		const graph = this._graph();
-		const position = graph.nodePosition(graph.lastNodeIdentifier());
-		const size = Math.min(position.width, position.height);
+		const lastNodeIdentifier = graph.lastNodeIdentifier();
+		const width = this.widthForNode(lastNodeIdentifier, graph);
+		const height = this.heightForNode(lastNodeIdentifier, graph);
+		const size = Math.min(width, height);
 		const styles = {
-			'--node-width': position.width * this.scale + 'px',
-			'--node-height': position.height * this.scale + 'px',
+			'--node-width': width * this.scale + 'px',
+			'--node-height': height * this.scale + 'px',
 			'--node-size': size * this.scale + 'px',
 			'--node-radius': '' + 100 * graph.nodeRadius + '%',
 			'height': '' + graph.height * this.scale + 'px',

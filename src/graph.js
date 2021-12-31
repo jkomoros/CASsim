@@ -332,7 +332,7 @@ export class PositionedGraph extends Graph {
 	}
 
 	get nodeRadius() {
-		return this.property('nodeRadius');
+		return this.property('nodeRadius') || 0.0;
 	}
 
 	set nodeRadius(val) {
@@ -344,18 +344,19 @@ export class PositionedGraph extends Graph {
 		if (positions.length == 0) return true;
 		const height = positions[0].height;
 		const width = positions[0].width;
-		return positions.every(position => position.height == height && position.width == width);
+		return positions.every(position => position.height === height && position.width === width);
 	}
 
 	/*
-		This is an override point to calculate the position
+		This is an override point to calculate the position. You must return
+		x,y, but can also return width/height.
 	*/
 	//eslint-disable-next-line no-unused-vars
 	calculateNodePosition(identifier) {
-		return {x:0, y:0, width: 0, height: 0};
+		return {x:0, y:0};
 	}
 
-	//Returns an object with x,y,width,height of the node. x,y are at the center of the node.
+	//Returns an object with x,y of the node, and sometimes a width/height. x,y are at the center of the node.
 	nodePosition(identifier) {
 		const values = this.node(identifier);
 		if (!values || !values.position) {
@@ -548,6 +549,7 @@ export class RectangleGraph extends PositionedGraph {
 		return this._cachedNodeSize;
 	}
 
+	//We return width and height directly.
 	calculateNodePosition(identifier) {
 		const node = this.node(identifier);
 		const nodeWidth = this.nodeWidth;
