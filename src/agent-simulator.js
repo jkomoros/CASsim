@@ -4,6 +4,7 @@ import { RectangleGraph }from './graph.js';
 
 import {
 	shuffleInPlace,
+	randomString,
 	Urn
 } from './util.js';
 
@@ -26,14 +27,26 @@ export class AgentSimulator extends BaseSimulator {
 		return RectangleGraph.make(simOptions.rows, simOptions.cols);
 	}
 
+	//baseAgent returns an object with just a random, stable ID 
+	baseAgent(rnd) {
+		return {
+			//By having a stable ID, animations in lit can happen correctly
+			//because we can detect identity of an agent when stamping templates.
+			id: randomString(6, rnd)
+		};
+	}
+
 	/*
 		An override point, the default generateAgents will call this when it's
 		decided a location to generate an agent. An agent must be an object, not
-		an array.
+		an array. Your return value should extend this.baseAgent(rnd);
 	*/
 	//eslint-disable-next-line
 	generateAgent(index, graph, simOptions, rnd) {
-		return {};
+		return {
+			...this.baseAgent(rnd)
+			//Your own properties would go here in your own generateAgent
+		};
 	}
 
 	/*

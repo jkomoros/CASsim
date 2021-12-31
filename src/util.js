@@ -26,6 +26,18 @@ export class Urn {
 	}
 }
 
+const randomCharSetNumbers = '0123456789';
+const randomCharSetLetters = 'abcdef';
+const randomCharSet = randomCharSetNumbers + randomCharSetLetters;
+
+export const randomString = (length, rnd = Math.random, charSet = randomCharSet) => {
+	let text = '';
+	for (let i = 0; i < length; i++) {
+		text += charSet.charAt(Math.floor(rnd() * charSet.length));
+	}
+	return text;
+};
+
 export const shuffleInPlace = (array, rnd = Math.random) => {
 	let currentIndex = array.length;
 	let randomIndex;

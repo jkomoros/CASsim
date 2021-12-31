@@ -25,6 +25,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	generateAgent(index, graph, simOptions, rnd) {
 		const emojiValues = Object.values(GRAZING_FARM_ANIMALS_EMOJIS);
 		return {
+			...this.baseAgent(rnd),
 			emoji: emojiValues[Math.floor(emojiValues.length * rnd())],
 			deathLikelihood: simOptions.deathLikelihood,
 			spawnLikelihood: simOptions.spawnLikelihood,
