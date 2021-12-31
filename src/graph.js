@@ -361,6 +361,9 @@ export class RectangleGraph extends PositionedGraph {
 	}
 
 	/*
+		nodeMargin is the margin to have between nodes. It is in units of
+		percentage of nodeWidth.
+
 		options is a dict that may have the following keys set to true:
 		noLeft - Don't connect directly to the left
 		noRight - Don't connect directly to the right
@@ -379,13 +382,14 @@ export class RectangleGraph extends PositionedGraph {
 		diagonalDown - equivalent to diagonalDownLeft, diagonalDownRight
 		diagonal - equivalent to diagonalUp, diagonalDown
 	*/
-	static make(rows, cols, availableWidth, availableHeight, starterValues = {}, options = {}) {
+	static make(rows, cols, availableWidth, availableHeight, nodeMargin = 0, starterValues = {}, options = {}) {
 		if (typeof rows != 'number' || rows < 1.0) throw new Error('Rows must be a positive integer');
 		if (typeof cols != 'number' || cols < 1.0) throw new Error('Cols must be a positive integer');
 
 		const result = new RectangleGraph();
 		result.availableHeight = availableHeight;
 		result.availableWidth = availableWidth;
+		result.nodeMargin = nodeMargin;
 		for (let r = 0; r < rows; r++) {
 			for (let c = 0; c < cols; c++) {
 				const values = {...starterValues, row: r, col: c};
@@ -419,6 +423,14 @@ export class RectangleGraph extends PositionedGraph {
 			}
 		}
 		return result;
+	}
+
+	get nodeMargin() {
+		return this.property('nodeMargin');
+	}
+
+	set nodeMargin(val) {
+		this.setProperty('nodeMargin', val);
 	}
 
 	get rows() {
