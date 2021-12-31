@@ -124,6 +124,10 @@ export class Graph {
 		return node.edges;
 	}
 
+	allEdges() {
+		Object.fromEntries(Object.keys(this.nodes()).map(nodeID => this.edges(nodeID)).flat().map(edge => [edge.id, edge]));
+	}
+
 	nodes() {
 		return Object.fromEntries(Object.entries(this._data.nodes).map(entry => [entry[0], entry[1].values]));
 	}
