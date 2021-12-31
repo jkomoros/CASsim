@@ -40,6 +40,10 @@ export const shuffleInPlace = (array, rnd = Math.random) => {
 	return array;
 };
 
+export const idToTitle = (id = '') => {
+	return id.split('_').join('-').split('-').map(w => (w[0] || '').toUpperCase() + w.substr(1).toLowerCase()).join(' ');
+};
+
 export const deepFreeze = (obj) => {
 	if (!obj) return;
 	if (typeof obj != 'object') return;

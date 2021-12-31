@@ -5,7 +5,8 @@ import {
 import {
 	deepFreeze,
 	deepCopy,
-	stringHash
+	stringHash,
+	idToTitle
 } from './util.js';
 
 import {
@@ -388,7 +389,7 @@ export const Simulation = class {
 
 	get title() {
 		if (this._config[TITLE_PROPERTY]) return this._config[TITLE_PROPERTY];
-		return this.name.split('_').join('-').split('-').map(w => (w[0] || '').toUpperCase() + w.substr(1).toLowerCase()).join(' ');
+		return idToTitle(this.name);
 	}
 
 	get rawDescription() {
