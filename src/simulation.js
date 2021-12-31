@@ -238,7 +238,7 @@ const SimulationRun = class {
 		const previousFrame = frameIndex == 0 ? null : this._frames[frameIndex - 1];
 		const rnd = makeSeededRandom('' + this._simulation.seed + this._index + frameIndex);
 		const sim = this._simulation.simulator;
-		return sim.generator(frameIndex, previousFrame, this._simulation.simOptions, rnd, this._index);
+		return sim.generator(frameIndex, previousFrame, this._simulation.simOptions, rnd, this._index, this._simulation.width, this._simulation.height);
 	}
 };
 

@@ -174,14 +174,14 @@ defaults for values, it uses the built-in defaulting machinery and does NOT call
 out into the simulator.defaultValueForPath.
 
 `generator(frameIndex, previousFrame, normalizedSimOptions, randomGenerator,
-runIndex) => nextFrameData, or null if the simulation run is terminated` This is
-the workhorse of your simulator, the thing that actually does the whole body of
-your simulation. previousFrame will be null if frameIndex is 0, otherwise it
-will be precisely the frame object the generator returned for frameIndex - 1.
-This should return null when a run of a simulation is finished. lastFrame will
-be frozen, to ensure you don't accidentally modify any part of it. Typically
-your generator function will call out to helper functions (for example,
-generating the first frame, determining if a simulation is done, etc.)
+runIndex, simWidth, simHeight) => nextFrameData, or null if the simulation run
+is terminated` This is the workhorse of your simulator, the thing that actually
+does the whole body of your simulation. previousFrame will be null if frameIndex
+is 0, otherwise it will be precisely the frame object the generator returned for
+frameIndex - 1. This should return null when a run of a simulation is finished.
+lastFrame will be frozen, to ensure you don't accidentally modify any part of
+it. Typically your generator function will call out to helper functions (for
+example, generating the first frame, determining if a simulation is done, etc.)
 randomGenerator is a fucntion that, when called, will return a number between
 0.0 and 1.0, in a deterministic order for this seed. This generator is based on
 the seeded values; use it instead of Math.random() to generate deterministic

@@ -31,25 +31,29 @@ export class BaseSimulator {
 	//simulationComplete(lastFrame) returns true, it will start returning null
 	//frames, signifying the simulation is over. This generator will also ensure
 	//that each frame has a 'index' property set to the frameIndex, and
-	//`simOptions` property set to simOptions, so generateFrame can retrieve
-	//those from the frame if necessary. The behavior of this function is
-	//typically a good starting point to use for your own method.
-	generator(frameIndex, previousFrame, simOptions, rnd) {
+	//`simOptions` property set to simOptions, and runIndex, width, and height,
+	//so generateFrame can retrieve those from the frame if necessary. The
+	//behavior of this function is typically a good starting point to use for
+	//your own method.
+	generator(frameIndex, previousFrame, simOptions, rnd, runIndex, simWidth, simHeight) {
 		if (!previousFrame) {
-			const firstFrame = this.generateFirstFrame(simOptions, rnd) || {};
+			const firstFrame = this.generateFirstFrame(simOptions, rnd, simWidth, simHeight) || {};
 			firstFrame.index = frameIndex;
 			firstFrame.simOptions = simOptions;
+			firstFrame.runIndex = runIndex;
+			firstFrame.width = simWidth;
+			firstFrame.height = simHeight;
 			return firstFrame;
 		}
 		if (this.simulationComplete(previousFrame)) return null;
 		//Note: frame is only a shallow copy, so sub-generators will need to clone sub options.
-		const frame = {...previousFrame, index: frameIndex, simOptions: simOptions};
+		const frame = {...previousFrame, index: frameIndex};
 		this.generateFrame(frame, rnd);
 		return frame;
 	}
 
-	//This is called by the default generator to 
-	generateFirstFrame(simOptions, rnd) {
+	//This is called by the default generator to generate the first frame.
+	generateFirstFrame(simOptions, rnd, simWidth, simHeight) {
 		return {};
 	}
 

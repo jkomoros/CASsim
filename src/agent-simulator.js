@@ -23,7 +23,7 @@ export class AgentSimulator extends BaseSimulator {
 		graphConstructor.
 	*/
 	//eslint-disable-next-line
-	generateGraph(simOptions, rnd) {
+	generateGraph(simOptions, rnd, simWidth, simHeight) {
 		return RectangleGraph.make(simOptions.rows, simOptions.cols);
 	}
 
@@ -78,7 +78,8 @@ export class AgentSimulator extends BaseSimulator {
 		this.numStarterAgents() number of agents by calling this.generateAgent()
 		and randomly place them in the graph with no overlap.
 	*/
-	generateAgents(graph, simOptions, rnd) {
+	//eslint-disable-next-line no-unused-vars
+	generateAgents(graph, simOptions, rnd, simWidth, simHeight) {
 		const agents = [];
 		const baseAvailableNodes = {...graph.nodes()};
 		const agentCount = this.numStarterAgents(graph, simOptions, rnd);
@@ -101,10 +102,10 @@ export class AgentSimulator extends BaseSimulator {
 	/* 
 		Create the graph and the agents
 	*/
-	generateFirstFrame(simOptions, rnd) {
+	generateFirstFrame(simOptions, rnd, simWidth, simHeight) {
 		//The default generator will expand this with index and simOptions.
-		const graph = this.generateGraph(simOptions, rnd);
-		const agents = this.generateAgents(graph, simOptions, rnd);
+		const graph = this.generateGraph(simOptions, rnd, simWidth, simHeight);
+		const agents = this.generateAgents(graph, simOptions, rnd, simWidth, simHeight);
 		return {
 			agents,
 			graph: graph.data
