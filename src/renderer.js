@@ -106,11 +106,6 @@ export class PositionedGraphRenderer extends BaseRenderer {
 					width: 100%;
 					height: 100%;
 				}
-
-				.edge {
-					stroke: black;
-					stroke-width: 1px;
-				}
 			`
 		];
 	}
@@ -182,13 +177,33 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		return html`<div class='agent' style=${styleMap(this._positionStylesForNode(node, graph))}>${this.agentEmoji(agent)}</div>`;
 	}
 
+	//eslint-disable-next-line no-unused-vars
+	colorForEdge(edge, graph) {
+		return 'var(--secondary-color)';
+	}
+
+	//eslint-disable-next-line no-unused-vars
+	widthForEdge(edge, graph) {
+		return '1';
+	}
+
+	//eslint-disable-next-line no-unused-vars
+	opacityForEdge(edge, graph) {
+		return '1.0';
+	}
+
+	//eslint-disable-next-line no-unused-vars
+	dasharrayForEdge(edge, graph) {
+		//Note: you might not be able to see the dasharray if edges overlap.
+		return '';
+	}
+
 	//must return svg. Note coordinates are viewBoxed so don't need any scaling.
 	renderEdge(edge, graph) {
 		if (!graph) return '';
 		const fromNodePosition = graph.nodePosition(edge.from);
 		const toNodePosition = graph.nodePosition(edge.to);
-		//TODO: allow styling of colors, width, strokeStyle, and opacity
-		return svg`<path id=${edge.id} class='edge' d='M ${fromNodePosition.x}, ${fromNodePosition.y} L ${toNodePosition.x}, ${toNodePosition.y}'></path>`;
+		return svg`<path id=${edge.id} class='edge' d='M ${fromNodePosition.x}, ${fromNodePosition.y} L ${toNodePosition.x}, ${toNodePosition.y}' stroke='${this.colorForEdge(edge, graph)}' stroke-width='${this.widthForEdge(edge, graph)}' stroke-opacity='${this.opacityForEdge(edge, graph)}' stroke-dasharray='${this.dasharrayForEdge(edge, graph)}'></path>`;
 	}
 
 	_positionStylesForNode(node, graph) {
