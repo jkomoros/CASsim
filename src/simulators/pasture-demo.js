@@ -33,7 +33,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	}
 
 	generateGraph(simOptions, rnd, simWidth, simHeight) {
-		return RectangleGraph.make(simOptions.rows, simOptions.cols, simWidth, simHeight, 0.1, {value:0.0, growthRate: 0.05}, {diagonal:true});
+		return RectangleGraph.make(simOptions.rows, simOptions.cols, simWidth, simHeight, 0.1, {value:0.0, growthRate: 0.05, emoji:'🌿'}, {diagonal:true});
 	}
 
 	numStarterAgents(graph, simOptions) {
@@ -155,9 +155,6 @@ export default AgentDemoSimulator;
 import { PositionedGraphRenderer } from '../renderer.js';
 
 class AgentDemoRenderer extends PositionedGraphRenderer {
-	textForNode() {
-		return '🌿';
-	}
 	opacityForNodeText(node) {
 		return node.value;
 	}
