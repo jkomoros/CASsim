@@ -77,6 +77,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 					position: absolute;
 					height: var(--node-height);
 					width: var(--node-width);
+					border-radius: var(--node-radius);
 					background-color: var(--primary-color);
 					border: 1px solid black;
 					display: flex;
@@ -182,6 +183,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 			'--node-width': position.width * this.scale + 'px',
 			'--node-height': position.height * this.scale + 'px',
 			'--node-size': size * this.scale + 'px',
+			'--node-radius': '' + 100 * graph.nodeRadius + '%',
 			'height': '' + graph.height * this.scale + 'px',
 			'width': '' + graph.width * this.scale + 'px',
 		};
