@@ -23,7 +23,7 @@ export class Graph {
 	//data is the starter data. We will never modify data passed to us, but
 	//rather clone and set.
 	constructor(data) {
-		if (!data) data = {nodes:{}, properties:{}};
+		if (!data) data = {nodes:{}, properties:{}, graphType: this.constructor.name};
 		this._data = data;
 		this._nodeChangesMade = false;
 		this._propertyChangesMade = false;
@@ -58,6 +58,10 @@ export class Graph {
 
 	static unpackEdgeID(packedEdgeID) {
 		return packedEdgeID.split(Graph.ID_DELIMITER + Graph.ID_DELIMITER).map(id => Graph.unpackID(id));
+	}
+
+	get graphType() {
+		return this._data.graphType;
 	}
 
 	//Whether modifications have been made since the object was created or saved
