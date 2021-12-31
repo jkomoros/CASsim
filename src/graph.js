@@ -408,6 +408,9 @@ export class RectangleGraph extends PositionedGraph {
 		const starterValues = options.starterValues || {};
 		const nodeRadius = options.nodeRadius || 0;
 
+		if (typeof nodeRadius != 'number') throw new Error('nodeRadius must be a number');
+		if (nodeRadius > 1.0 || nodeRadius < 0.0) throw new Error('nodeRadius must be between 0.0 and 1.0');
+
 		if (Array.isArray(nodeMargin)) {
 			if (nodeMargin.length != 2) throw new Error('If nodeMargin is an array it must be two items long');
 		}
