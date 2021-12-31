@@ -169,10 +169,15 @@ export class PositionedGraphRenderer extends BaseRenderer {
 
 	_positionStylesForNode(node, graph) {
 		const nodePosition = graph ? graph.nodePosition(node) : {left: '0px', top: '0px'};
-		return {
+		const result = {
 			left: '' + (nodePosition.x - (nodePosition.width / 2)) * this.scale + 'px',
 			top: '' + (nodePosition.y - (nodePosition.height / 2)) * this.scale + 'px',
 		};
+		if (graph.nodesSameSize) {
+			result.width = '' + nodePosition.width * this.scale + 'px';
+			result.height = '' + nodePosition.height * this.scale + 'px';
+		}
+		return result;
 	}
 
 	innerRender() {
