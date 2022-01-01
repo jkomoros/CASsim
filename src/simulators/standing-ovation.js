@@ -33,7 +33,8 @@ class StandingOvationSimulator extends AgentSimulator {
 	}
 
 	generateGraph(simOptions, rnd, simWidth, simHeight) {
-		return RectangleGraph.make(simOptions.rows, simOptions.cols, simWidth, simHeight);
+		//Stage is to the left 
+		return RectangleGraph.make(simOptions.rows, simOptions.cols, simWidth, simHeight, {diagonalLeft: true, noVertical: true, noRight: true});
 	}
 
 	generateFirstFrameExtra() {
