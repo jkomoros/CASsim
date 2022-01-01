@@ -76,7 +76,18 @@ class StandingOvationSimulator extends AgentSimulator {
 	}
 
 	frameScorer(frame) {
-		return [this.simulationComplete(frame) ? (frame.agents.every(agent => agent.standing) ? 1.0 : 0.0) : -1];
+		const finalScore = this.simulationComplete(frame) ? (frame.agents.every(agent => agent.standing) ? 1.0 : 0.0) : -1;
+		const proportionStanding = frame.agents.filter(agent => agent.standing).length / frame.agents.length;
+		return [finalScore, proportionStanding];
+	}
+
+	scoreConfig() {
+		return [
+			null,
+			{
+				id: 'proportion-standing',
+			}
+		];
 	}
 	
 	get optionsConfig() {
