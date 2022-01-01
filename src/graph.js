@@ -445,28 +445,28 @@ export class RectangleGraph extends PositionedGraph {
 				const identifier = RectangleGraph.identifier(r, c);
 				result.setNode(identifier, values);
 				if (!options.noUp && !options.noVertical && !options.noRightAngle) {
-					if (r > 0) result.setEdge(identifier, RectangleGraph.identifier(r - 1, c), {distance: 1.0});
+					if (r > 0) result.setEdge(identifier, RectangleGraph.identifier(r - 1, c), {distance: 1.0, type: 'up'});
 				}
 				if (!options.noLeft && !options.noHorizontal && !options.noRightAngle) {
-					if (c > 0) result.setEdge(identifier, RectangleGraph.identifier(r, c - 1), {distance: 1.0});
+					if (c > 0) result.setEdge(identifier, RectangleGraph.identifier(r, c - 1), {distance: 1.0, type: 'left'});
 				}
 				if (!options.noDown && !options.noVertical && !options.noRightAngle) {
-					if (r < rows - 1) result.setEdge(identifier, RectangleGraph.identifier(r + 1, c), {distance: 1.0});
+					if (r < rows - 1) result.setEdge(identifier, RectangleGraph.identifier(r + 1, c), {distance: 1.0, type: 'down'});
 				}
 				if (!options.noRight && !options.noHorizontal && !options.noRightAngle) {
-					if (c < cols - 1) result.setEdge(identifier, RectangleGraph.identifier(r, c + 1), {distance: 1.0});
+					if (c < cols - 1) result.setEdge(identifier, RectangleGraph.identifier(r, c + 1), {distance: 1.0, type: 'cols'});
 				}
 				if (options.diagonalUpLeft || options.diagonalUp || options.diagonalLeft || options.diagonal) {
-					if (r > 0 && c > 0) result.setEdge(identifier, RectangleGraph.identifier(r - 1, c - 1), {distance: Math.sqrt(2)});
+					if (r > 0 && c > 0) result.setEdge(identifier, RectangleGraph.identifier(r - 1, c - 1), {distance: Math.sqrt(2), type: 'diagonalUpLeft'});
 				}
 				if (options.diagonalDownLeft || options.diagonalDown || options.diagonalLeft || options.diagonal) {
-					if (r > 0 && c < cols - 1) result.setEdge(identifier, RectangleGraph.identifier(r - 1, c + 1), {distance: Math.sqrt(2)});
+					if (r > 0 && c < cols - 1) result.setEdge(identifier, RectangleGraph.identifier(r - 1, c + 1), {distance: Math.sqrt(2), type: 'diagonalDownLeft'});
 				}
 				if (options.diagonalUpRight || options.diagonalUp || options.diagonalRight || options.diagonal) {
-					if (r > 0 && c < cols - 1) result.setEdge(identifier, RectangleGraph.identifier(r - 1, c + 1), {distance: Math.sqrt(2)});
+					if (r > 0 && c < cols - 1) result.setEdge(identifier, RectangleGraph.identifier(r - 1, c + 1), {distance: Math.sqrt(2), type: 'diagonalUpRight'});
 				}
 				if (options.diagonalDownRight || options.diagonalDown || options.diagonalRight || options.diagonal) {
-					if (r < rows - 1 && c < cols - 1) result.setEdge(identifier, RectangleGraph.identifier(r + 1, c + 1), {distance: Math.sqrt(2)});
+					if (r < rows - 1 && c < cols - 1) result.setEdge(identifier, RectangleGraph.identifier(r + 1, c + 1), {distance: Math.sqrt(2), type: 'diagonalDownRight'});
 				}
 				//TODO set wraps too if desired
 			}
