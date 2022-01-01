@@ -6,6 +6,10 @@ import {
 	RectangleGraph
 }from '../graph.js';
 
+import {
+	linearDistribution
+} from '../distribution.js';
+
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'standing-ovation';
 
@@ -19,16 +23,12 @@ class StandingOvationSimulator extends AgentSimulator {
 	//simulationComplete, and generateFrame.
 
 	generateAgent(index, graph, simOptions, rnd) {
-		const maxOvationPropensity = Math.min(simOptions.averageOvationPropensity + simOptions.ovationPropensitySpread, 1.0);
-		const minOvationPropensity = Math.max(simOptions.averageOvationPropensity - simOptions.ovationPropensitySpread, 0.0);
-		const maxPerformanceQuality = Math.min(simOptions.averagePerformanceQuality + simOptions.performanceQualitySpread, 1.0);
-		const minPerformanceQuality = Math.max(simOptions.averagePerformanceQuality - simOptions.performanceQualitySpread, 0.0);
 		return {
 			...this.baseAgent(rnd),
 			standing: false,
-			ovationPropensity: (rnd() * (maxOvationPropensity - minOvationPropensity)) + minOvationPropensity,
+			ovationPropensity: linearDistribution(simOptions.averageOvationPropensity, simOptions.ovationPropensitySpread, rnd),
 			//how good this person thought the performance was
-			performanceQuality: (rnd() * (maxPerformanceQuality - minPerformanceQuality)) + minPerformanceQuality,
+			performanceQuality: linearDistribution(simOptions.averagePerformanceQuality, simOptions.performanceQualitySpread, rnd),
 		};
 	}
 
