@@ -43,20 +43,8 @@ class StandingOvationSimulator extends AgentSimulator {
 		return frame.index > 0 && !frame.changesMade;
 	}
 
-	defaultAgentTick(agent, agents, graph, frame, rnd) {
-		if (rnd() < agent.deathLikelihood) return null;
-		const node = this.selectNodeToMoveTo(agent, agents, graph, frame, rnd, 1, (node) => node.value);
-		//Sometimes there won't be any open cells next to us.
-		if (!node) return agent;
-		graph.setNodeProperty(node, 'value', 0.0);
-		const newAgent = {...agent, node};
-		if (rnd() < agent.spawnLikelihood) {
-			//Spawn a new agent
-			const spawnedAgent = this.generateAgent(0, graph, frame.simOptions, rnd);
-			spawnedAgent.node = agent.node;
-			return [newAgent, spawnedAgent];
-		}
-		return newAgent;
+	defaultAgentTick(agent) {
+		return agent;
 	}
 
 	defaultNodeTick(node) {
