@@ -133,10 +133,16 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		return agent.node;
 	}
 
+	//eslint-disable-next-line no-unused-vars
+	additionalStylesForNode(node, graph) {
+		return {};
+	}
+
 	/* eslint-disable-next-line */
 	renderNode(node, graph) {
 		let styles = this._positionStylesForNode(node, graph);
 		styles = {...styles, ['background-color']: this.colorForNode(node, graph)};
+		styles = {...styles, ...this.additionalStylesForNode(node, graph)};
 		const spanStyles = {
 			'opacity': this.opacityForNodeText(node, graph)
 		};
