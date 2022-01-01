@@ -52,9 +52,7 @@ class StandingOvationSimulator extends AgentSimulator {
 	}
 
 	frameScorer(frame) {
-		const finalScore = this.simulationComplete(frame) ? 1.0 : -1;
-		const graph = new RectangleGraph(frame.graph);
-		return [finalScore, Object.keys(frame.agents).length, Object.values(graph.nodes()).map(values => values.value).reduce((prev, next) => prev + next, 0)];
+		return [this.simulationComplete(frame) ? (frame.agents.every(agent => agent.standing) ? 1.0 : 0.0) : -1];
 	}
 	
 	get optionsConfig() {
