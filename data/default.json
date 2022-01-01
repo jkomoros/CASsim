@@ -39,6 +39,23 @@
 			}
 		},
 		{
+			"name": "standing-ovation-demo",
+			"description": "A model of whether a theater will erupt into a standing ovation after a performance. The stage is to the left.",
+			"extend": "base",
+			"frameDelay": 1000,
+			"extraFinalFrameCount": 3,
+			"sim": "standing-ovation",
+			"simOptions": {
+				"rows": 8,
+				"cols": 12,
+				"filledSeatProportion": 0.8,
+				"averagePerformanceQuality": 0.5,
+				"performanceQualitySpread": 0.5,
+				"averageOvationPropensity": 0.5,
+				"ovationPropensitySpread": 0.5
+			}
+		},
+		{
 			"name": "schelling-org-demo",
 			"description": "A demo of the schelling-org simulator",
 			"extend": "base",
