@@ -154,8 +154,19 @@ export default StandingOvationSimulator;
 import { PositionedGraphRenderer } from '../renderer.js';
 
 class StandingOvationRenderer extends PositionedGraphRenderer {
+
 	agentEmoji(agent) {
 		return agent.standing ? '🧍' : '🧎';
+	}
+
+	additionalStylesForNode(node) {
+		if (node.col == 0) {
+			return {
+				'border-left-width': '20px',
+				'border-left-color': 'firebrick',
+			};
+		}
+		return {};
 	}
 }
 
