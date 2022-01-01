@@ -29,13 +29,18 @@ class StandingOvationSimulator extends AgentSimulator {
 		return RectangleGraph.make(simOptions.rows, simOptions.cols, simWidth, simHeight);
 	}
 
+	generateFirstFrameExtra() {
+		return {
+			changesMade: false,
+		};
+	}
+
 	numStarterAgents(graph, simOptions) {
 		return Math.floor(Object.keys(graph.nodes()).length * simOptions.filledSeatProportion);
 	}
 
 	simulationComplete(frame) {
-		//TODO: return true if the count of standing people in this frame and lastFrame are the same
-		return frame.index >= 10;
+		return frame.index > 0 && !frame.changesMade;
 	}
 
 	defaultAgentTick(agent, agents, graph, frame, rnd) {
