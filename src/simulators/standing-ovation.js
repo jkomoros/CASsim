@@ -19,8 +19,8 @@ class StandingOvationSimulator extends AgentSimulator {
 	//simulationComplete, and generateFrame.
 
 	generateAgent(index, graph, simOptions, rnd) {
-		const minOvationPropensity = Math.min(simOptions.averageOvationPropensity + simOptions.ovationPropensitySpread, 1.0);
-		const maxOvationPropensity = Math.max(simOptions.averageOvationPropensity - simOptions.ovationPropensitySpread, 0.0);
+		const maxOvationPropensity = Math.min(simOptions.averageOvationPropensity + simOptions.ovationPropensitySpread, 1.0);
+		const minOvationPropensity = Math.max(simOptions.averageOvationPropensity - simOptions.ovationPropensitySpread, 0.0);
 		return {
 			...this.baseAgent(rnd),
 			standing: false,
