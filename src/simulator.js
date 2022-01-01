@@ -48,13 +48,27 @@ export class BaseSimulator {
 		if (this.simulationComplete(previousFrame)) return null;
 		//Note: frame is only a shallow copy, so sub-generators will need to clone sub options.
 		const frame = {...previousFrame, index: frameIndex};
+		this.beforeGenerateFrame(frame,rnd);
 		this.generateFrame(frame, rnd);
+		this.afterGenerateFrame(frame, rnd);
 		return frame;
 	}
 
 	//This is called by the default generator to generate the first frame.
 	generateFirstFrame(simOptions, rnd, simWidth, simHeight) {
 		return {};
+	}
+
+	//Called before generateFrame is called, for any non-first-frames. A chance
+	//to set frame values.
+	beforeGenerateFrame(frame, rnd) {
+
+	}
+
+	//Called after generateFrame is called, for any non-first-frames. A chance
+	//to set frame values.
+	afterGenerateFrame(frame, rnd) {
+
 	}
 
 	//This is called by the default generator. If you need frame index or
