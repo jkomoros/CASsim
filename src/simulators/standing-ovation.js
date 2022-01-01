@@ -78,17 +78,17 @@ class StandingOvationSimulator extends AgentSimulator {
 	
 	get optionsConfig() {
 		return {
-			'rows': {
+			rows: {
 				example: 5,
 				shortName: 'r',
 				description: 'Number of rows in the theater',
 			},
-			'cols': {
+			cols: {
 				example: 5,
 				shortName: 'c',
 				description: 'Number of cols in the theater',
 			},
-			'filledSeatProportion': {
+			filledSeatProportion: {
 				example: 0.75,
 				min: 0.0,
 				max: 1.0,
@@ -98,7 +98,7 @@ class StandingOvationSimulator extends AgentSimulator {
 				shortName: 'fSP',
 				description: 'What percentage of seats should be filled'
 			},
-			'averageOvationPropensity': {
+			averageOvationPropensity: {
 				example: 0.75,
 				min: 0.0,
 				max: 1.0,
@@ -108,7 +108,7 @@ class StandingOvationSimulator extends AgentSimulator {
 				shortName: 'aOP',
 				description: 'How likely a typical person is to do a standing ovation'
 			},
-			'ovationPropensitySpread': {
+			ovationPropensitySpread: {
 				example: 0.15,
 				min: 0.0,
 				max: 1.0,
