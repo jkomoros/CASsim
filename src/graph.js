@@ -159,29 +159,75 @@ export class Graph {
 		}
 	}
 
-	//Returns the values objects for all neighbors 
+	//Returns the values objects for all neighbors up to ply hops away from
+	//identifier.
 	neighbors(identifier, ply = 1) {
-		const result = {};
-		const id = Graph.packID(identifier);
-		const nodesToProcess = Object.fromEntries(Object.entries(this.edges(identifier)).map(entry => [entry[0], 1]));
-		while (Object.keys(nodesToProcess).length) {
-			const [otherID, distance] = Object.entries(nodesToProcess)[0];
-			delete nodesToProcess[otherID];
-			const values = this.node(otherID);
-			result[otherID] = values;
-			//Only add more items to the queue if we haven't already hit the ply limit
-			if (distance >= ply) continue;
-			for (const newID of Object.keys(this.edges(otherID))) {
-				//Don't revisit the one we started from
-				if (newID == id) continue;
-				//Don't revisit ones we've already processed
-				if (result[newID]) continue;
-				//Don't add another entry for one we're already planning to process
-				if (nodesToProcess[newID]) continue;
-				nodesToProcess[newID] = distance + 1;
+		const includeNode = (nodevalues, path, length) => length <= ply;
+		const result = this._nodeSearcher(identifier, includeNode, () => 1);
+		return Object.fromEntries(Object.entries(result).map(entry => [entry[0], entry[1].node]));
+	}
+
+	/*
+		workhorse node searcher. Is either in target seeking mode (where it will
+		look for a single target and then return its distance, path), or
+		accumulation mode where it will return an object of nodeID to
+		{node:nodeValues, path:[], length: 1.0} for every node that is not
+		filtered out. Its in the former if targetFound is provided.
+
+		fromNodeIdentifier - node to start search from 
+
+		includeNode = (nodeValues, path, length) => true - if true, then the
+		node will be included in the search, either for the accumulation set in
+		the end or in the search set. If not provided, then it will return all
+		nodes in the graph that are not fromIdentifier.
+
+		edgeScorer = (edge) => length - the function to extract the length from
+		an edge. By default it's () => 1, which allows you to treat length as
+		'number of edge hops away from fromNode'.
+
+		targetFound = (nodeValues, path, length) => true - if provided, then
+		_nodeSearcher is in target seeking mode, and will return the distance,
+		path when it finds this node, or -1 * MAX_SAFE_INTEGER, null if not
+		found. If targetFound is not provided, then _nodeSearcher is in
+		collection mode.
+
+		rnd = () => 0.0..1.0 - the random function to use to scramble the order
+		we visit edges of a node. If not provided, we'll visit nodes in the
+		order they're represented in the graph.
+	*/
+	_nodeSearcher(fromNodeIdentifier, includeNode = () => true, edgeScorer = () => 1, targetFound = undefined, rnd = undefined) {
+		const fromID = Graph.packID(fromNodeIdentifier);
+		const visitedNodes = {};
+		const collection = {};
+		//Each one should be {path: [...previousNodes, node], length: 1, node: node}
+		const itemsToVisit = [{path: [], length: 0, node: this.node(fromID)}];
+		while (itemsToVisit.length) {
+			const item = itemsToVisit.shift();
+			if (visitedNodes[item.node]) continue;
+			visitedNodes[item.node] = true;
+			const edges = this.edges(item.node);
+			//Since we only return one path, we should visit equivalent items in a random order.
+			const edgeKeys = rnd ? Object.keys(edges) : shuffleInPlace(Object.keys(edges), rnd);
+			for (const edgeToID of edgeKeys) {
+				if (visitedNodes[edgeToID]) continue;
+				const toNode = this.node(edgeToID);
+				const edge = edges[edgeToID];
+				const path = [...item.path, edgeToID];
+				const length = item.length + edgeScorer(edge);
+				if (!includeNode(toNode, path, length)) continue;
+				const newItem = {path, length, node: edgeToID};
+				if (targetFound) {
+					//target seeking mode
+					if(targetFound(toNode, path, length)) return [length, path];
+				} else {
+					//accumulation mode
+					collection[edgeToID] = newItem;
+				}
+				itemsToVisit.push(newItem);
 			}
+			itemsToVisit.sort((a, b) => a.length - b.length);
 		}
-		return result;
+		return targetFound ? [-1 * Math.MAX_SAFE_INTEGER, null] : collection;
 	}
 
 	//shortestPath returns [length, path] where length is the shortest path
@@ -191,29 +237,8 @@ export class Graph {
 	//length 1. If there is no path from from to to, will return [-1 * MAX_SAFE_INTEGER, null];
 	shortestPath(fromNodeIdentifier, toNodeIdentifer, edgeScorer = () => 1, rnd = Math.random) {
 		//TODO: memoize
-		const fromID = Graph.packID(fromNodeIdentifier);
-		const toID = Graph.packID(toNodeIdentifer);
-		const visitedNodes = {};
-		//Each one should be {path: [...previousNodes, node], length: 1, node: node}
-		const itemsToVisit = [{path: [], length: 0, node: fromID}];
-		while (itemsToVisit.length) {
-			const item = itemsToVisit.shift();
-			if (visitedNodes[item.node]) continue;
-			visitedNodes[item.node] = true;
-			const edges = this.edges(item.node);
-			//Since we only return one path, we should visit equivalent items in a random order.
-			const edgeKeys = shuffleInPlace(Object.keys(edges), rnd);
-			for (const edgeToID of edgeKeys) {
-				const edge = edges[edgeToID];
-				const path = [...item.path, edgeToID];
-				const length = item.length + edgeScorer(edge);
-				if (edgeToID == toID) return [length, path];
-				if (visitedNodes[edgeToID]) continue;
-				itemsToVisit.push({path, length, node: edgeToID});
-			}
-			itemsToVisit.sort((a, b) => a.length - b.length);
-		}
-		return [-1 * Math.MAX_SAFE_INTEGER, null];
+		const targetFound = (nodeValues) => nodeValues.id == toNodeIdentifer;
+		return this._nodeSearcher(fromNodeIdentifier, undefined, edgeScorer, targetFound, rnd);
 	}
 
 	_prepareForNodeModifications() {
