@@ -193,9 +193,7 @@ export class Graph {
 		//TODO: memoize
 		const fromID = Graph.packID(fromNodeIdentifier);
 		const toID = Graph.packID(toNodeIdentifer);
-		const visitedNodes = {
-			fromID: true,
-		};
+		const visitedNodes = {};
 		//Each one should be {path: [...previousNodes, node], length: 1, node: node}
 		const itemsToVisit = [{path: [], length: 0, node: fromID}];
 		while (itemsToVisit.length) {
