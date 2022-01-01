@@ -58,10 +58,28 @@ class StandingOvationSimulator extends AgentSimulator {
 	defaultAgentTick(agent, agents, graph, frame) {
 		//Agents that are already standing never sit again.
 		if (agent.standing) return agent;
-		//TODO: also consider standing if people in front of us are standing
 		
-		//Stand if we though the performance was good enough.
-		if (agent.performanceQuality > (1.0 - agent.ovationPropensity)) {
+		if (frame.index <= 1) {
+			//Stand if we though the performance was good enough.
+			if (agent.performanceQuality > (1.0 - agent.ovationPropensity)) {
+				frame.changesMade = true;
+				return {
+					...agent,
+					standing: true,
+				};
+			}
+		}
+
+		//Also stand if the people in front of us are standing.
+		const nodes = graph.exploreGraph(agent.node, undefined, (edge) => edge.distance);
+		const agentsByNode = Object.fromEntries(agents.map(agent => [agent.node, agent]));
+		//TODO: allow overriding this
+		const falloff = 0.9;
+		//TODO: allow overriding this
+		const standingThreshold = 1.0;
+		//Sum up all agents who are standing in front of us (discounted by how far away they are, at exponential drop off)
+		const standingStrength = Object.entries(nodes).filter(entry => (agentsByNode[entry[0]] || {}).standing).map(entry =>  Math.pow(falloff, entry[1].length - 1)).reduce((prev, curr) => prev + curr, 0);
+		if (standingStrength >= standingThreshold) {
 			frame.changesMade = true;
 			return {
 				...agent,
