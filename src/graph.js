@@ -218,7 +218,7 @@ export class Graph {
 				const path = [...item.path, edge];
 				const length = item.length + edgeScorer(edge);
 				if (!includeNode(toNode, path, length)) continue;
-				const newItem = {path, length, node: edgeToID};
+				const newItem = {path, length, node: toNode};
 				if (targetFound) {
 					//target seeking mode
 					if(targetFound(toNode, path, length)) return [length, path];
