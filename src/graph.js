@@ -171,19 +171,22 @@ export class Graph {
 		exploreGraph is a workhorse node searcher. Is either in target seeking
 		mode (where it will look for a single target and then return its
 		distance, path), or accumulation mode where it will return an object of
-		nodeID to {node:nodeValues, path:[], length: 1.0} for every node that is
-		not filtered out. Its in the former if targetFound is provided.
+		nodeID to {node:nodeValues, path:[...edgeValues], length: 1.0} for every
+		node that is not filtered out. Any place that path shows up, it's an
+		array of edgeValues to go from fromNode to node. Its in the former if
+		targetFound is provided.
 
 		fromNodeIdentifier - node to start search from 
 
 		includeNode = (nodeValues, path, length) => true - if true, then the
 		node will be included in the search, either for the accumulation set in
-		the end or in the search set. If not provided, then it will return all
-		nodes in the graph that are not fromIdentifier.
+		the end or in the search set. You can get the edgeValues for the most
+		recent edge from path[path.length -1]. If not provided, then it will
+		return all nodes in the graph that are not fromIdentifier.
 
-		edgeScorer = (edge) => length - the function to extract the length from
-		an edge. By default it's () => 1, which allows you to treat length as
-		'number of edge hops away from fromNode'.
+		edgeScorer = (edgeValues) => length - the function to extract the length
+		from an edge. By default it's () => 1, which allows you to treat length
+		as 'number of edge hops away from fromNode'.
 
 		targetFound = (nodeValues, path, length) => true - if provided, then
 		_nodeSearcher is in target seeking mode, and will return the distance,
@@ -212,7 +215,7 @@ export class Graph {
 				if (visitedNodes[edgeToID]) continue;
 				const toNode = this.node(edgeToID);
 				const edge = edges[edgeToID];
-				const path = [...item.path, edgeToID];
+				const path = [...item.path, edge];
 				const length = item.length + edgeScorer(edge);
 				if (!includeNode(toNode, path, length)) continue;
 				const newItem = {path, length, node: edgeToID};
