@@ -71,10 +71,6 @@ class StandingOvationSimulator extends AgentSimulator {
 		return agent;
 	}
 
-	defaultNodeTick(node) {
-		return {...node, value: node.value + node.growthRate};
-	}
-
 	frameScorer(frame) {
 		const finalScore = this.simulationComplete(frame) ? (frame.agents.every(agent => agent.standing) ? 1.0 : 0.0) : -1;
 		const proportionStanding = frame.agents.filter(agent => agent.standing).length / frame.agents.length;
