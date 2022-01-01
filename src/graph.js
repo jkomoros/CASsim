@@ -163,16 +163,16 @@ export class Graph {
 	//identifier.
 	neighbors(identifier, ply = 1) {
 		const includeNode = (nodevalues, path, length) => length <= ply;
-		const result = this._nodeSearcher(identifier, includeNode, () => 1);
+		const result = this.exploreGraph(identifier, includeNode, () => 1);
 		return Object.fromEntries(Object.entries(result).map(entry => [entry[0], entry[1].node]));
 	}
 
 	/*
-		workhorse node searcher. Is either in target seeking mode (where it will
-		look for a single target and then return its distance, path), or
-		accumulation mode where it will return an object of nodeID to
-		{node:nodeValues, path:[], length: 1.0} for every node that is not
-		filtered out. Its in the former if targetFound is provided.
+		exploreGraph is a workhorse node searcher. Is either in target seeking
+		mode (where it will look for a single target and then return its
+		distance, path), or accumulation mode where it will return an object of
+		nodeID to {node:nodeValues, path:[], length: 1.0} for every node that is
+		not filtered out. Its in the former if targetFound is provided.
 
 		fromNodeIdentifier - node to start search from 
 
@@ -195,7 +195,7 @@ export class Graph {
 		we visit edges of a node. If not provided, we'll visit nodes in the
 		order they're represented in the graph.
 	*/
-	_nodeSearcher(fromNodeIdentifier, includeNode = () => true, edgeScorer = () => 1, targetFound = undefined, rnd = undefined) {
+	exploreGraph(fromNodeIdentifier, includeNode = () => true, edgeScorer = () => 1, targetFound = undefined, rnd = undefined) {
 		const fromID = Graph.packID(fromNodeIdentifier);
 		const visitedNodes = {};
 		const collection = {};
@@ -238,7 +238,7 @@ export class Graph {
 	shortestPath(fromNodeIdentifier, toNodeIdentifer, edgeScorer = () => 1, rnd = Math.random) {
 		//TODO: memoize
 		const targetFound = (nodeValues) => nodeValues.id == toNodeIdentifer;
-		return this._nodeSearcher(fromNodeIdentifier, undefined, edgeScorer, targetFound, rnd);
+		return this.exploreGraph(fromNodeIdentifier, undefined, edgeScorer, targetFound, rnd);
 	}
 
 	_prepareForNodeModifications() {
