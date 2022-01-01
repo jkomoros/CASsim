@@ -181,7 +181,7 @@ import { PositionedGraphRenderer } from '../renderer.js';
 class StandingOvationRenderer extends PositionedGraphRenderer {
 
 	agentEmoji(agent) {
-		return agent.standing ? '🧍' : '🧎';
+		return agent.standing ? '👏' : '😐';
 	}
 
 	additionalStylesForNode(node) {
