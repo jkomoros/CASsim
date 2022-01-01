@@ -19,9 +19,14 @@ class StandingOvationSimulator extends AgentSimulator {
 	//simulationComplete, and generateFrame.
 
 	generateAgent(index, graph, simOptions, rnd) {
+		const minOvationPropensity = Math.min(simOptions.averageOvationPropensity + simOptions.ovationPropensitySpread, 1.0);
+		const maxOvationPropensity = Math.max(simOptions.averageOvationPropensity - simOptions.ovationPropensitySpread, 0.0);
 		return {
 			...this.baseAgent(rnd),
 			standing: false,
+			ovationPropensity: (rnd() * (maxOvationPropensity - minOvationPropensity)) + minOvationPropensity,
+			//how good this person thought the performance was
+			performanceQuality: rnd(),
 		};
 	}
 
@@ -43,7 +48,23 @@ class StandingOvationSimulator extends AgentSimulator {
 		return frame.index > 0 && !frame.changesMade;
 	}
 
-	defaultAgentTick(agent) {
+	beforeGenerateFrame(frame) {
+		frame.changesMade = false;
+	}
+
+	defaultAgentTick(agent, agents, graph, frame) {
+		//Agents that are already standing never sit again.
+		if (agent.standing) return agent;
+		//TODO: also consider standing if people in front of us are standing
+		
+		//Stand if we though the performance was good enough.
+		if (agent.performanceQuality > (1.0 - agent.ovationPropensity)) {
+			frame.changesMade = true;
+			return {
+				...agent,
+				standing: true,
+			};
+		}
 		return agent;
 	}
 
@@ -76,6 +97,26 @@ class StandingOvationSimulator extends AgentSimulator {
 				default: true,
 				shortName: 'fSP',
 				description: 'What percentage of seats should be filled'
+			},
+			'averageOvationPropensity': {
+				example: 0.75,
+				min: 0.0,
+				max: 1.0,
+				step: 0.01,
+				optional: true,
+				default: true,
+				shortName: 'aOP',
+				description: 'How likely a typical person is to do a standing ovation'
+			},
+			'ovationPropensitySpread': {
+				example: 0.15,
+				min: 0.0,
+				max: 1.0,
+				step: 0.01,
+				optional: true,
+				default: true,
+				shortName: 'oPS',
+				description: 'How much +/- range there is in agents\' propensity to do a standing ovation.'
 			}
 		};
 	}
