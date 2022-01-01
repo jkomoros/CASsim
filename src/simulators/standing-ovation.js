@@ -83,7 +83,7 @@ class StandingOvationSimulator extends AgentSimulator {
 	}
 
 	renderer() {
-		return new PositionedGraphRenderer();
+		return new StandingOvationRenderer();
 	}
 }
 
@@ -91,4 +91,10 @@ export default StandingOvationSimulator;
 
 import { PositionedGraphRenderer } from '../renderer.js';
 
-window.customElements.define(SIMULATOR_NAME + "-renderer", PositionedGraphRenderer);
+class StandingOvationRenderer extends PositionedGraphRenderer {
+	agentEmoji(agent) {
+		return agent.standing ? '🧍' : '🧎';
+	}
+}
+
+window.customElements.define(SIMULATOR_NAME + "-renderer", StandingOvationRenderer);
