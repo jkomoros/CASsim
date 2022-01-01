@@ -21,12 +21,14 @@ class StandingOvationSimulator extends AgentSimulator {
 	generateAgent(index, graph, simOptions, rnd) {
 		const maxOvationPropensity = Math.min(simOptions.averageOvationPropensity + simOptions.ovationPropensitySpread, 1.0);
 		const minOvationPropensity = Math.max(simOptions.averageOvationPropensity - simOptions.ovationPropensitySpread, 0.0);
+		const maxPerformanceQuality = Math.min(simOptions.averagePerformanceQuality + simOptions.performanceQualitySpread, 1.0);
+		const minPerformanceQuality = Math.max(simOptions.averagePerformanceQuality - simOptions.performanceQualitySpread, 0.0);
 		return {
 			...this.baseAgent(rnd),
 			standing: false,
 			ovationPropensity: (rnd() * (maxOvationPropensity - minOvationPropensity)) + minOvationPropensity,
 			//how good this person thought the performance was
-			performanceQuality: rnd(),
+			performanceQuality: (rnd() * (maxPerformanceQuality - minPerformanceQuality)) + minPerformanceQuality,
 		};
 	}
 
@@ -97,6 +99,26 @@ class StandingOvationSimulator extends AgentSimulator {
 				default: true,
 				shortName: 'fSP',
 				description: 'What percentage of seats should be filled'
+			},
+			averagePerformanceQuality: {
+				example: 0.5,
+				min: 0.0,
+				max: 1.0,
+				step: 0.01,
+				optional: true,
+				default: true,
+				shortName: 'aPQ',
+				description: 'The average intrinsic quality of a performance'
+			},
+			performanceQualitySpread: {
+				example: 0.5,
+				min: 0.0,
+				max: 1.0,
+				step: 0.01,
+				optional: true,
+				default: true,
+				shortName: 'pQS',
+				description: 'The spread of how much a given performance\'s quality might differ from average'
 			},
 			averageOvationPropensity: {
 				example: 0.75,
