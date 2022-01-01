@@ -95,6 +95,14 @@ export class AgentSimulator extends BaseSimulator {
 		return agents;
 	}
 
+	/*
+		A place to emit extra properties in the first frame.
+	*/
+	//eslint-disable-next-line no-unused-vars
+	generateFirstFrameExtra(simOptions, rnd, simWidth, simHeight) {
+		return {};
+	}
+
 	/* 
 		Create the graph and the agents
 	*/
@@ -103,6 +111,7 @@ export class AgentSimulator extends BaseSimulator {
 		const graph = this.generateGraph(simOptions, rnd, simWidth, simHeight);
 		const agents = this.generateAgents(graph, simOptions, rnd, simWidth, simHeight);
 		return {
+			...(this.generateFirstFrameExtra(simOptions, rnd, simWidth, simHeight) || {}),
 			agents,
 			graph: graph.data
 		};
