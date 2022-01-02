@@ -98,7 +98,7 @@ export class DistributionConfig {
 			example: example,
 			optional: true,
 			default: true,
-			shortName: this._options.name,
+			shortName: this._options.shortName,
 			description: this._options.description,
 		};
 	}
@@ -114,7 +114,7 @@ export class DistributionConfig {
 			if (typeof normalizedOptions[key] != 'number') throw new Error(key + ' must be a number');
 		}
 		if (normalizedOptions.min > normalizedOptions.max) throw new Error('min was greater than max');
-		for (const key of ['name', 'description']) {
+		for (const key of ['name', 'description', 'shortName']) {
 			if (typeof normalizedOptions[key] != 'string') throw new Error(key + ' must be a string');
 		}
 		if (!Array.isArray(normalizedOptions.types)) throw new Error('types must be an array');
