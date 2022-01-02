@@ -30,6 +30,7 @@ class StandingOvationSimulator extends AgentSimulator {
 			//how good this person thought the performance was
 			performanceQuality: linearDistribution(simOptions.averagePerformanceQuality, simOptions.performanceQualitySpread, rnd),
 			standingThreshold: linearDistribution(simOptions.averageStandingThreshold, simOptions.standingThresholdSpread, rnd),
+			forwardStandingFalloff: linearDistribution(simOptions.averageForwardStandingFalloff, simOptions.forwardStandingFalloffSpread, rnd),
 		};
 	}
 
@@ -74,8 +75,7 @@ class StandingOvationSimulator extends AgentSimulator {
 		//Also stand if the people in front of us are standing.
 		const nodes = graph.exploreGraph(agent.node, undefined, (edge) => edge.distance);
 		const agentsByNode = Object.fromEntries(agents.map(agent => [agent.node, agent]));
-		//TODO: allow overriding this
-		const falloff = 0.9;
+		const falloff = agent.forwardStandingFalloff;
 		const standingThreshold = agent.standingThreshold;
 		//Sum up all agents who are standing in front of us (discounted by how far away they are, at exponential drop off)
 		const standingStrength = Object.entries(nodes).filter(entry => (agentsByNode[entry[0]] || {}).standing).map(entry =>  Math.pow(falloff, entry[1].length - 1)).reduce((prev, curr) => prev + curr, 0);
@@ -185,6 +185,26 @@ class StandingOvationSimulator extends AgentSimulator {
 				default: true,
 				shortName: 'sTS',
 				description: 'How much spread there should be among different people for averageStandingThreshold',
+			},
+			averageForwardStandingFalloff: {
+				example: 0.95,
+				min: 0.0,
+				max: 1.0,
+				step: 0.001,
+				optional: true,
+				default: true,
+				shortName: 'aFSF',
+				description: 'How quickly the impact of people standing in front of this person falls off in mattering'
+			},
+			forwardStandingFalloffSpread: {
+				example: 0.0,
+				min: 0.0,
+				max: 1.0,
+				step: 0.001,
+				optional: true,
+				default: true,
+				shortName: 'fSFS',
+				description: 'Spread of averageForwardStandingFalloff'
 			}
 		};
 	}
