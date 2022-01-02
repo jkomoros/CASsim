@@ -22,6 +22,19 @@ class Distribution {
 	}
 }
 
+const EXAMPLE_OPTIONS = {
+	types: [LINEAR],
+	type: LINEAR,
+	average: 0.5,
+	spread: 0.0,
+	limitMin: 0.0,
+	limitMax: 1.0,
+	step: 0.01,
+	name: 'value',
+	shortName: 'value',
+	description: 'A value with a ' + LINEAR + ' distribution',
+};
+
 /*
 	options includes:
 	- types: an array of allowed types (e.g. LINEAR)
@@ -36,15 +49,12 @@ class Distribution {
 */
 export class DistributionConfig {
 	constructor(options = {}) {
-		const normalizedOptions = {};
+		const normalizedOptions = {
+			...EXAMPLE_OPTIONS,
+			...options,
+		};
 		normalizedOptions.types = options.types || (options.type ? [options.type] : [LINEAR]);
 		normalizedOptions.type = options.type || normalizedOptions.types[0];
-		normalizedOptions.average = options.average === undefined ? 0.5 : options.average;
-		normalizedOptions.spread = options.spread === undefined ? 0.0 : options.spread;
-		normalizedOptions.limitMin = options.limitMin === undefined ? 0.0 : options.limitMin;
-		normalizedOptions.limitMax = options.limitMax === undefined ? 1.0 : options.limitMax;
-		normalizedOptions.step = options.step === undefined ? 0.01 : options.step;
-		normalizedOptions.name = options.name === undefined ? 'value' : options.name;
 		normalizedOptions.shortName = options.shortName || normalizedOptions.name;
 		normalizedOptions.description = options.description === undefined ? 'A value with a ' + normalizedOptions.type + ' distribution' : options.description;
 
@@ -101,14 +111,12 @@ export class DistributionConfig {
 	}
 
 	_validateOptions(normalizedOptions) {
-		for (const key of ['average', 'spread', 'limitMin', 'limitMax', 'step']) {
-			if (typeof normalizedOptions[key] != 'number') throw new Error(key + ' must be a number');
+		for (const [key, value] of Object.entries(normalizedOptions)) {
+			if (EXAMPLE_OPTIONS[key] === undefined) throw new Error('Unexpected option: ' + key);
+			if (typeof value != typeof EXAMPLE_OPTIONS[key]) throw new Error(key + ' must be a ' + typeof EXAMPLE_OPTIONS[value]);
+			if (Array.isArray(EXAMPLE_OPTIONS[key]) != Array.isArray(value)) throw new Error(key + ' must ' + (Array.isArray(EXAMPLE_OPTIONS[key]) ? '' : 'not') + ' be an Array');
 		}
 		if (normalizedOptions.min > normalizedOptions.max) throw new Error('min was greater than max');
-		for (const key of ['name', 'description', 'shortName']) {
-			if (typeof normalizedOptions[key] != 'string') throw new Error(key + ' must be a string');
-		}
-		if (!Array.isArray(normalizedOptions.types)) throw new Error('types must be an array');
 		const seenTypes = {};
 		for (const type of normalizedOptions.types) {
 			if (!LEGAL_TYPES[type]) throw new Error(type + ' is not a legal type');
