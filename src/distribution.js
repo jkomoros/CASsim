@@ -76,6 +76,7 @@ export class DistributionConfig {
 		for (const key of ['name', 'description']) {
 			if (typeof normalizedOptions[key] != 'string') throw new Error(key + ' must be a string');
 		}
+		if (!Array.isArray(normalizedOptions.types)) throw new Error('types must be an array');
 		for (const type of normalizedOptions.types) {
 			if (!LEGAL_TYPES[type]) throw new Error(type + ' is not a legal type');
 		}
