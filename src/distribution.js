@@ -13,7 +13,9 @@ class Distribution {
 
 	sample(rnd = Math.random) {
 		//TODO: do different things based on type;
-		let value = (this._options.limitMax - this._options.limitMin) * rnd() + this._options.limitMin;
+		const max = this._options.average + this._options.spread;
+		const min = this._options.average - this._options.spread;
+		let value = (max - min) * rnd() + min;
 		if (value < this._options.limitMin) value = this._options.limitMin;
 		if (value > this._options.limitMax) value = this._options.limitMax;
 		return value;
