@@ -40,6 +40,8 @@ class Distribution {
 	- min: the clip value. Defaults to 0.0.
 	- max: the clip value. Defaults to 1.0.
 	- step: defaults to 0.01
+	- description: A description for the overall value
+	- name: a name for the overall value
 */
 export class DistributionConfig {
 	constructor(options = {}) {
@@ -51,6 +53,8 @@ export class DistributionConfig {
 		normalizedOptions.min = options.min === undefined ? 0.0 : options.min;
 		normalizedOptions.max = options.max === undefined ? 1.0 : options.max;
 		normalizedOptions.step = options.step === undefined ? 0.01 : options.step;
+		normalizedOptions.name = options.name === undefined ? 'value' : options.name;
+		normalizedOptions.description = options.description === undefined ? 'A value with a ' + normalizedOptions.type + ' distribution' : options.description;
 
 		//Validate
 		this._validateOptions(normalizedOptions);
@@ -69,6 +73,9 @@ export class DistributionConfig {
 			if (typeof normalizedOptions[key] != 'number') throw new Error(key + ' must be a number');
 		}
 		if (normalizedOptions.min > normalizedOptions.max) throw new Error('min was greater than max');
+		for (const key of ['name', 'description']) {
+			if (typeof normalizedOptions[key] != 'string') throw new Error(key + ' must be a string');
+		}
 		for (const type of normalizedOptions.types) {
 			if (!LEGAL_TYPES[type]) throw new Error(type + ' is not a legal type');
 		}
