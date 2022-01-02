@@ -14,7 +14,7 @@ import {
 const SIMULATOR_NAME = 'standing-ovation';
 
 const ovationPropensity = new LinearDistributionConfig({average: 0.75, shortName: 'oP', description: 'How likely individuals are to do a standing ovation in the first place'});
-const standingThreshold = new LinearDistributionConfig({average: 1.0, max: 100.0, shortName: 'sT', description: 'How high of a threshold individuals have for deciding to stand if individuals visible ahead of them stood'});
+const standingThreshold = new LinearDistributionConfig({average: 1.0, limitMax: 100.0, shortName: 'sT', description: 'How high of a threshold individuals have for deciding to stand if individuals visible ahead of them stood'});
 const performanceQuality = new LinearDistributionConfig({average: 0.5, shortName: 'pQ', description: 'How high of quality the performance was'});
 const forwardStandingFalloff = new LinearDistributionConfig({average: 0.95, step: 0.001, shortName: 'fSF', description: 'How quickly the impact of someone standing in front of this person falls off in mattering'});
 

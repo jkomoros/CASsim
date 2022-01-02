@@ -13,9 +13,9 @@ class Distribution {
 
 	sample(rnd = Math.random) {
 		//TODO: do different things based on type;
-		let value = (this._options.max - this._options.min) * rnd() + this._options.min;
-		if (value < this._options.min) value = this._options.min;
-		if (value > this._options.max) value = this._options.max;
+		let value = (this._options.limitMax - this._options.limitMin) * rnd() + this._options.limitMin;
+		if (value < this._options.limitMin) value = this._options.limitMin;
+		if (value > this._options.limitMax) value = this._options.limitMax;
 		return value;
 	}
 }
@@ -26,8 +26,8 @@ class Distribution {
 	- type: the default type
 	- average: the default average value
 	- spread: the spread value
-	- min: the clip value. Defaults to 0.0.
-	- max: the clip value. Defaults to 1.0.
+	- limitMin: the clip value. Defaults to 0.0.
+	- limitMax: the clip value. Defaults to 1.0.
 	- step: defaults to 0.01
 	- description: A description for the overall value
 	- name: a name for the overall value
@@ -39,8 +39,8 @@ export class DistributionConfig {
 		normalizedOptions.type = options.type || normalizedOptions.types[0];
 		normalizedOptions.average = options.average === undefined ? 0.5 : options.average;
 		normalizedOptions.spread = options.spread === undefined ? 0.0 : options.spread;
-		normalizedOptions.min = options.min === undefined ? 0.0 : options.min;
-		normalizedOptions.max = options.max === undefined ? 1.0 : options.max;
+		normalizedOptions.limitMin = options.limitMin === undefined ? 0.0 : options.limitMin;
+		normalizedOptions.limitMax = options.limitMax === undefined ? 1.0 : options.limitMax;
 		normalizedOptions.step = options.step === undefined ? 0.01 : options.step;
 		normalizedOptions.name = options.name === undefined ? 'value' : options.name;
 		normalizedOptions.shortName = options.shortName || normalizedOptions.name;
@@ -56,16 +56,16 @@ export class DistributionConfig {
 		const example = {
 			average: {
 				example: this._options.average,
-				min: this._options.min,
-				max: this._options.max,
+				min: this._options.limitMax,
+				max: this._options.limitMax,
 				step: this._options.step,
 				shortName: 'a',
 				description: 'The average value for ' + this._options.name
 			},
 			spread: {
 				example: this._options.spread,
-				min: this._options.min,
-				max: this._options.max,
+				min: this._options.limitMax,
+				max: this._options.limitMax,
 				step: this._options.step,
 				shortName: 's',
 				optional:true,
@@ -99,7 +99,7 @@ export class DistributionConfig {
 	}
 
 	_validateOptions(normalizedOptions) {
-		for (const key of ['average', 'spread', 'min', 'max', 'step']) {
+		for (const key of ['average', 'spread', 'limitMin', 'limitMax', 'step']) {
 			if (typeof normalizedOptions[key] != 'number') throw new Error(key + ' must be a number');
 		}
 		if (normalizedOptions.min > normalizedOptions.max) throw new Error('min was greater than max');
