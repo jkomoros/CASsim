@@ -16,6 +16,34 @@ const LEGAL_TYPES = {
 	[MIN_MAX]: 'A linear distribution between min and max',
 };
 
+/*
+
+This package defines convenience methods for allowing the user to specify a distribution of values.
+
+You typically use it in your simulator by in the top-level of your function defining a global:
+```
+const performanceQuality = LinearDistributionConfig({average: 0.5, description: 'The overall quality of the performance'})
+```
+
+(See DistributionConfig's constructor packagedoc for options that can be passed to any config constructor)
+
+Then, in your simulator's optionsConfig, for that value, you emit:
+
+```
+	{
+		//... Other things precede
+		performanceQuality: performanceQuality.optionsConfig
+	}
+```
+
+Then to actually use it, you pass in the simOptions property and call sample:
+
+```
+const value = performanceQuality.distibution(simOptions.performanceQuality).sample(rnd);
+```
+
+*/
+
 //Get a new one from DistributionConfig.distribution()
 class Distribution {
 	constructor(options = {}) {
