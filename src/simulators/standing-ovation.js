@@ -29,6 +29,7 @@ class StandingOvationSimulator extends AgentSimulator {
 			ovationPropensity: linearDistribution(simOptions.averageOvationPropensity, simOptions.ovationPropensitySpread, rnd),
 			//how good this person thought the performance was
 			performanceQuality: linearDistribution(simOptions.averagePerformanceQuality, simOptions.performanceQualitySpread, rnd),
+			standingThreshold: linearDistribution(simOptions.averageStandingThreshold, simOptions.standingThresholdSpread, rnd),
 		};
 	}
 
@@ -75,8 +76,7 @@ class StandingOvationSimulator extends AgentSimulator {
 		const agentsByNode = Object.fromEntries(agents.map(agent => [agent.node, agent]));
 		//TODO: allow overriding this
 		const falloff = 0.9;
-		//TODO: allow overriding this
-		const standingThreshold = 1.0;
+		const standingThreshold = agent.standingThreshold;
 		//Sum up all agents who are standing in front of us (discounted by how far away they are, at exponential drop off)
 		const standingStrength = Object.entries(nodes).filter(entry => (agentsByNode[entry[0]] || {}).standing).map(entry =>  Math.pow(falloff, entry[1].length - 1)).reduce((prev, curr) => prev + curr, 0);
 		if (standingStrength >= standingThreshold) {
@@ -165,6 +165,26 @@ class StandingOvationSimulator extends AgentSimulator {
 				default: true,
 				shortName: 'oPS',
 				description: 'How much +/- range there is in agents\' propensity to do a standing ovation.'
+			},
+			averageStandingThreshold: {
+				example: 1.0,
+				min: 0.0,
+				max: 100.0,
+				step: 0.05,
+				optional: true,
+				default: true,
+				shortName: 'aST',
+				description: 'The threshold at which a person, seeing the people in front of them, will decide to stand',
+			},
+			standingThresholdSpread: {
+				example: 0.0,
+				min: 0.0,
+				max: 10.0,
+				step: 0.01,
+				optional: true,
+				default: true,
+				shortName: 'sTS',
+				description: 'How much spread there should be among different people for averageStandingThreshold',
 			}
 		};
 	}
