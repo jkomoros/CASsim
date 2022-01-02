@@ -7,11 +7,16 @@ import {
 }from '../graph.js';
 
 import {
-	linearDistribution
+	LinearDistributionConfig
 } from '../distribution.js';
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'standing-ovation';
+
+const ovationPropensity = new LinearDistributionConfig({average: 0.75, shortName: 'oP', description: 'How likely individuals are to do a standing ovation in the first place'});
+const standingThreshold = new LinearDistributionConfig({average: 1.0, max: 100.0, shortName: 'sT', description: 'How high of a threshold individuals have for deciding to stand if individuals visible ahead of them stood'});
+const performanceQuality = new LinearDistributionConfig({average: 0.5, shortName: 'pQ', description: 'How high of quality the performance was'});
+const forwardStandingFalloff = new LinearDistributionConfig({average: 0.95, step: 0.001, shortName: 'fSF', description: 'How quickly the impact of someone standing in front of this person falls off in mattering'});
 
 class StandingOvationSimulator extends AgentSimulator {
 
@@ -26,11 +31,10 @@ class StandingOvationSimulator extends AgentSimulator {
 		return {
 			...this.baseAgent(rnd),
 			standing: false,
-			ovationPropensity: linearDistribution(simOptions.ovationPropensity.average, simOptions.ovationPropensity.spread, rnd),
-			//how good this person thought the performance was
-			performanceQuality: linearDistribution(simOptions.performanceQuality.average, simOptions.performanceQuality.spread, rnd),
-			standingThreshold: linearDistribution(simOptions.standingThreshold.average, simOptions.standingThreshold.spread, rnd),
-			forwardStandingFalloff: linearDistribution(simOptions.forwardStandingFalloff.average, simOptions.forwardStandingFalloff.spread, rnd),
+			ovationPropensity: ovationPropensity.distribution(simOptions.ovationPropensity).sample(rnd),
+			performanceQuality: performanceQuality.distribution(simOptions.performanceQuality).sample(rnd),
+			standingThreshold: standingThreshold.distribution(simOptions.standingThreshold).sample(rnd),
+			forwardStandingFalloff: forwardStandingFalloff.distribution(simOptions.forwardStandingFalloff).sample(rnd),
 		};
 	}
 
@@ -126,102 +130,10 @@ class StandingOvationSimulator extends AgentSimulator {
 				shortName: 'fSP',
 				description: 'What percentage of seats should be filled'
 			},
-			performanceQuality: {
-				description: 'How high of quality the performance was',
-				optional: true,
-				default: true,
-				shortName: 'pQ',
-				example: {
-					average: {
-						example: 0.5,
-						min: 0.0,
-						max: 1.0,
-						step: 0.01,
-						shortName: 'a',
-						description: 'The average intrinsic quality of a performance'
-					},
-					spread: {
-						example: 0.0,
-						min: 0.0,
-						max: 1.0,
-						step: 0.01,
-						shortName: 's',
-						description: 'The spread of how much a given performance\'s quality might differ from average'
-					}
-				}
-			},
-			ovationPropensity: {
-				description: 'How likely individuals are to do a standing ovation in the first place',
-				optional: true,
-				default: true,
-				shortName: 'oP',
-				example: {
-					average: {
-						example: 0.75,
-						min: 0.0,
-						max: 1.0,
-						step: 0.01,
-						shortName: 'a',
-						description: 'Average value for individuals'
-					},
-					spread: {
-						example: 0.0,
-						min: 0.0,
-						max: 1.0,
-						step: 0.01,
-						shortName: 's',
-						description: 'How much +/- range there is in agents\' propensity to do a standing ovation.'
-					}
-				}
-			},
-			standingThreshold: {
-				description: 'How high of a threshold individuals have for deciding to stand if individuals visible ahead of them stood',
-				optional: true,
-				default: true,
-				shortName: 'sT',
-				example: {
-					average: {
-						example: 1.0,
-						min: 0.0,
-						max: 100.0,
-						step: 0.05,
-						shortName: 'a',
-						description: 'The average value for individuals',
-					},
-					spread: {
-						example: 0.0,
-						min: 0.0,
-						max: 10.0,
-						step: 0.01,
-						shortName: 's',
-						description: 'How much spread there should be among different people for averageStandingThreshold',
-					}
-				}
-			},
-			forwardStandingFalloff: {
-				description: 'How quickly the impact of someone standing in front of this person falls off in mattering',
-				optional: true,
-				default: true,
-				shortName: 'fSF',
-				example: {
-					average: {
-						example: 0.95,
-						min: 0.0,
-						max: 1.0,
-						step: 0.001,
-						shortName: 'a',
-						description: 'How quickly the impact of people standing in front of this person falls off in mattering'
-					},
-					spread: {
-						example: 0.0,
-						min: 0.0,
-						max: 1.0,
-						step: 0.001,
-						shortName: 's',
-						description: 'Spread of averageForwardStandingFalloff'
-					}
-				}
-			}
+			performanceQuality: performanceQuality.optionsConfig,
+			ovationPropensity: ovationPropensity.optionsConfig,
+			standingThreshold: standingThreshold.optionsConfig,
+			forwardStandingFalloff: forwardStandingFalloff.optionsConfig
 		};
 	}
 
