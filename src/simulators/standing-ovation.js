@@ -17,6 +17,7 @@ const ovationPropensity = new DistributionConfig({average: 0.75, shortName: 'oP'
 const standingThreshold = new DistributionConfig({average: 1.0, limitMax: 100.0, shortName: 'sT', description: 'How high of a threshold individuals have for deciding to stand if individuals visible ahead of them stood'});
 const performanceQuality = new DistributionConfig({average: 0.5, shortName: 'pQ', description: 'How high of quality the performance was'});
 const forwardStandingFalloff = new DistributionConfig({average: 0.95, step: 0.001, shortName: 'fSF', description: 'How quickly the impact of someone standing in front of this person falls off in mattering'});
+const fomoThreshold = new DistributionConfig({average: 0.95, shortName: 'fT', description: 'The threshold of what proportion in the audience must be standing before this person decideds to stand, too'});
 
 class StandingOvationSimulator extends AgentSimulator {
 
@@ -35,6 +36,7 @@ class StandingOvationSimulator extends AgentSimulator {
 			performanceQuality: performanceQuality.distribution(simOptions.performanceQuality).sample(rnd),
 			standingThreshold: standingThreshold.distribution(simOptions.standingThreshold).sample(rnd),
 			forwardStandingFalloff: forwardStandingFalloff.distribution(simOptions.forwardStandingFalloff).sample(rnd),
+			fomoThreshold: fomoThreshold.distribution(simOptions.fomoThreshold).sample(rnd)
 		};
 	}
 
@@ -74,6 +76,16 @@ class StandingOvationSimulator extends AgentSimulator {
 					standing: true,
 				};
 			}
+		}
+
+		//Also stand if our fomo threshold is reached.
+		const standingProportion = agents.filter(agent => agent.standing).length / agents.length;
+		if (standingProportion >= agent.fomoThreshold) {
+			frame.changesMade = true;
+			return {
+				...agent,
+				standing: true
+			};
 		}
 
 		//Also stand if the people in front of us are standing.
@@ -133,7 +145,8 @@ class StandingOvationSimulator extends AgentSimulator {
 			performanceQuality: performanceQuality.optionsConfig,
 			ovationPropensity: ovationPropensity.optionsConfig,
 			standingThreshold: standingThreshold.optionsConfig,
-			forwardStandingFalloff: forwardStandingFalloff.optionsConfig
+			forwardStandingFalloff: forwardStandingFalloff.optionsConfig,
+			fomoThreshold: fomoThreshold.optionsConfig
 		};
 	}
 
