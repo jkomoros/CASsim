@@ -12,7 +12,7 @@ export const linearMinMaxDistribution = (min, max, rnd = Math.random, clipMin = 
 export const LINEAR = 'linear';
 
 const LEGAL_TYPES = {
-	[LINEAR]: true
+	[LINEAR]: 'A linear distribution between average +/- spread'
 };
 
 //Get a new one from DistributionConfig.distribution()
@@ -54,12 +54,53 @@ export class DistributionConfig {
 		normalizedOptions.max = options.max === undefined ? 1.0 : options.max;
 		normalizedOptions.step = options.step === undefined ? 0.01 : options.step;
 		normalizedOptions.name = options.name === undefined ? 'value' : options.name;
+		normalizedOptions.shortName = options.shortName || normalizedOptions.name;
 		normalizedOptions.description = options.description === undefined ? 'A value with a ' + normalizedOptions.type + ' distribution' : options.description;
 
 		//Validate
 		this._validateOptions(normalizedOptions);
 
 		this._options = normalizedOptions;
+	}
+
+	get optionsConfig() {
+		const example = {
+			average: {
+				example: this._options.average,
+				min: this._options.min,
+				max: this._options.max,
+				step: this._options.step,
+				shortName: 'a',
+				description: 'The average value for ' + this._options.name
+			},
+			spread: {
+				example: this._options.spread,
+				min: this._options.min,
+				max: this._options.max,
+				step: this._options.step,
+				shortName: 's',
+				optional:true,
+				default: true,
+				description: this._options.type == LINEAR ? 'The amount that ' + this._options.name + ' will be +/- of' : 'The spread for ' + this._options.name
+			}
+		};
+
+		if (this._options.types.length >= 1) {
+			example.type = {
+				example: this._options.type,
+				shortName: 't',
+				description: 'The type of distribution for ' + this._options.name,
+				options: this._options.types.map(type => ({value: type, description: LEGAL_TYPES[type]}))
+			};
+		}
+
+		return {
+			example: example,
+			optional: true,
+			default: true,
+			shortName: this._options.name,
+			description: this._options.description,
+		};
 	}
 
 	distribution(overrides = {}) {
