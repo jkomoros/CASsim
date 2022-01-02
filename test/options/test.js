@@ -2537,4 +2537,45 @@ describe('expandDefaults', () => {
 		assert.deepEqual(changed, goldenChanged);
 	});
 
+	it('handles example object that does need a change nested defaults', async () => {
+		const config = {
+			example: {
+				foo: {
+					example: {
+						bar: {
+							example: {
+								baz: {
+									example: 3,
+								},
+								blam: {
+									example: 'foo',
+								}
+							},
+							optional:true,
+							default: true,
+						}
+					},
+					optional: true,
+					default: true,
+				}
+			},
+			optional:true,
+			default: true,
+		};
+		deepFreeze(config);
+		const obj = {};
+		const [result, changed] = ensureDefaults(config, obj);
+		const golden = {
+			foo: {
+				bar: {
+					baz: 3,
+					blam: 'foo',
+				},
+			},
+		};
+		const goldenChanged = true;
+		assert.deepEqual(result, golden);
+		assert.deepEqual(changed, goldenChanged);
+	});
+
 });

@@ -229,7 +229,11 @@ export const ensureDefaults = (optionsConfig, obj) => {
 	if (!optionsConfig) return [obj, false];
 	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
 	if (example == undefined) {
-		if (!obj) return [defaultValueForConfig(optionsConfig), true];
+		if (!obj) {
+			let defaulted = defaultValueForConfig(optionsConfig);
+			[defaulted] = ensureDefaults(optionsConfig, defaulted);
+			return [defaulted, true];
+		}
 		const result = {};
 		let changesMade = false;
 		for (const [key, value] of Object.entries(optionsConfig)) {
@@ -241,7 +245,10 @@ export const ensureDefaults = (optionsConfig, obj) => {
 	}
 	if (typeof example == 'object') {
 		if (!obj) {
-			return optionsConfig[DEFAULT_PROPERTY_NAME] ? [defaultValueForConfig(optionsConfig), true] : [obj, false];
+			if (!optionsConfig[DEFAULT_PROPERTY_NAME]) return [obj, false];
+			let defaulted = defaultValueForConfig(optionsConfig);
+			[defaulted] = ensureDefaults(optionsConfig, defaulted);
+			return [defaulted, true];
 		}
 		if (Array.isArray(example)) {
 			//obj's shape hasn't yet been validated; this won't validate but let's just leave it for now, so it is noticed to be invalid later
@@ -263,8 +270,9 @@ export const ensureDefaults = (optionsConfig, obj) => {
 	if (obj !== undefined) return [obj, false];
 	//Base case
 	if (!optionsConfig[DEFAULT_PROPERTY_NAME]) return [obj, false];
-	return [defaultValueForConfig(optionsConfig, false), true];
-
+	let defaulted = defaultValueForConfig(optionsConfig);
+	[defaulted] = ensureDefaults(optionsConfig, defaulted);
+	return [defaulted, true];
 };
 
 //if skipOptional is true then optional items will be skipped. Things that
