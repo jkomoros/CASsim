@@ -85,7 +85,7 @@ export class DistributionConfig {
 			}
 		};
 
-		if (this._options.types.length >= 1) {
+		if (this._options.types.length > 1) {
 			example.type = {
 				example: this._options.type,
 				shortName: 't',
