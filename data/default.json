@@ -49,10 +49,14 @@
 				"rows": 12,
 				"cols": 10,
 				"filledSeatProportion": 0.8,
-				"averagePerformanceQuality": 0.5,
-				"performanceQualitySpread": 0.5,
-				"averageOvationPropensity": 0.5,
-				"ovationPropensitySpread": 0.5
+				"performanceQuality": {
+					"average": 0.5,
+					"spread": 0.5
+				},
+				"ovationPropensity": {
+					"average": 0.5,
+					"spread": 0.5
+				}
 			}
 		},
 		{
