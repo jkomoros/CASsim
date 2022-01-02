@@ -1,3 +1,13 @@
+export const ROUND_TYPE_NONE = '';
+export const ROUND_TYPE_ROUND = 'round';
+export const ROUND_TYPE_FLOOR = 'floor';
+
+const LEGAL_ROUND_TYPES = {
+	[ROUND_TYPE_NONE]: true,
+	[ROUND_TYPE_ROUND]: true,
+	[ROUND_TYPE_FLOOR]: true,
+};
+
 export const LINEAR = 'linear';
 export const MIN_MAX = 'min-max';
 
@@ -32,6 +42,18 @@ class Distribution {
 		let value = (max - min) * rnd() + min;
 		if (value < this._options.limitMin) value = this._options.limitMin;
 		if (value > this._options.limitMax) value = this._options.limitMax;
+
+		switch(this._options.round) {
+		case ROUND_TYPE_ROUND:
+			value = Math.round(value);
+			break;
+		case ROUND_TYPE_FLOOR:
+			value = Math.floor(value);
+		case ROUND_TYPE_NONE:
+		default:
+			//no op
+		}
+
 		return value;
 	}
 }
@@ -46,6 +68,7 @@ const EXAMPLE_OPTIONS = {
 	limitMin: 0.0,
 	limitMax: 1.0,
 	step: 0.01,
+	round: ROUND_TYPE_NONE,
 	name: 'value',
 	shortName: 'value',
 	description: 'A value with a ' + LINEAR + ' distribution',
@@ -62,6 +85,7 @@ const EXAMPLE_OPTIONS = {
 	- limitMin: the clip value. Defaults to 0.0.
 	- limitMax: the clip value. Defaults to 1.0.
 	- step: defaults to 0.01
+	- round: if the final generated number should be rounded. legal values are '', 'round', floor'.
 	- description: A description for the overall value
 	- name: a name for the overall value
 */
@@ -172,6 +196,7 @@ export class DistributionConfig {
 		}
 		if (normalizedOptions.min > normalizedOptions.max) throw new Error('min was greater than max');
 		if (normalizedOptions.limitMin > normalizedOptions.limitMax) throw new Error('limitMin was greater than limitMax');
+		if (!Object.keys(LEGAL_ROUND_TYPES).some(type => normalizedOptions.round === type)) throw new Error('round was not a legal value: \'' + normalizedOptions.round + '\'. Legal values are: ' + Object.keys(LEGAL_ROUND_TYPES).map(str => "'" + str + "'").join(', '));
 		const seenTypes = {};
 		for (const type of normalizedOptions.types) {
 			if (!LEGAL_TYPES[type]) throw new Error(type + ' is not a legal type');
