@@ -34,7 +34,7 @@ class StandingOvationSimulator extends AgentSimulator {
 
 	generateGraph(simOptions, rnd, simWidth, simHeight) {
 		//Stage is to the left 
-		return RectangleGraph.make(simOptions.rows, simOptions.cols, simWidth, simHeight, {diagonalLeft: true, noVertical: true, noRight: true});
+		return RectangleGraph.make(simOptions.rows, simOptions.cols, simWidth, simHeight, {diagonalUp: true, noHorizontal: true, noDown: true});
 	}
 
 	generateFirstFrameExtra() {
@@ -185,10 +185,10 @@ class StandingOvationRenderer extends PositionedGraphRenderer {
 	}
 
 	additionalStylesForNode(node) {
-		if (node.col == 0) {
+		if (node.row == 0) {
 			return {
-				'border-left-width': '20px',
-				'border-left-color': 'firebrick',
+				'border-top-width': '20px',
+				'border-top-color': 'firebrick',
 			};
 		}
 		return {};
