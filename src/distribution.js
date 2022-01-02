@@ -56,7 +56,7 @@ export class DistributionConfig {
 		const example = {
 			average: {
 				example: this._options.average,
-				min: this._options.limitMax,
+				min: this._options.limitMin,
 				max: this._options.limitMax,
 				step: this._options.step,
 				shortName: 'a',
@@ -64,7 +64,7 @@ export class DistributionConfig {
 			},
 			spread: {
 				example: this._options.spread,
-				min: this._options.limitMax,
+				min: this._options.limitMin,
 				max: this._options.limitMax,
 				step: this._options.step,
 				shortName: 's',
