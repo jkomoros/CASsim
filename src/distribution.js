@@ -107,8 +107,11 @@ export class DistributionConfig {
 			if (typeof normalizedOptions[key] != 'string') throw new Error(key + ' must be a string');
 		}
 		if (!Array.isArray(normalizedOptions.types)) throw new Error('types must be an array');
+		const seenTypes = {};
 		for (const type of normalizedOptions.types) {
 			if (!LEGAL_TYPES[type]) throw new Error(type + ' is not a legal type');
+			if (seenTypes[type]) throw new Error(type + ' was duplicated in the list');
+			seenTypes[type] = true;
 		}
 		if (!normalizedOptions.types.some(type => type == normalizedOptions.type)) throw new Error(normalizedOptions.type + ' was set as type but was not in types');
 	}
