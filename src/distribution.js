@@ -116,7 +116,9 @@ export class DistributionConfig {
 				min: this._options.limitMin,
 				max: this._options.limitMax,
 				step: this._options.step,
-				shortName: 'min',
+				//min is a fine shortName, don't specify one
+				default: true,
+				optional: true,
 				description: 'The min bound for the sample for ' + this._options.name + '.' + (includedTypes[LINEAR] ? ' Only for type ' + MIN_MAX : '')
 			};
 
@@ -125,7 +127,9 @@ export class DistributionConfig {
 				min: this._options.limitMin,
 				max: this._options.limitMax,
 				step: this._options.step,
-				shortName: 'max',
+				//max is a fine shortName, don't specify one
+				default: true,
+				optional: true,
 				description: 'The max bound for the sample for ' + this._options.name + '.' + (includedTypes[LINEAR] ? ' Only for type ' + MIN_MAX : '')
 			};
 		}
