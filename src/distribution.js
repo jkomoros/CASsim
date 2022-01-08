@@ -153,6 +153,7 @@ export class DistributionConfig {
 				step: this._options.step,
 				backfill: includesOtherTypes,
 				optional: includesOtherTypes,
+				default: includesOtherTypes,
 				hide: hide,
 				shortName: 'a',
 				description: 'The average value for ' + this._options.name + '.' + (includesOtherTypes ? ' Only for type ' + LINEAR : '')
@@ -166,6 +167,7 @@ export class DistributionConfig {
 				hide: hide,
 				optional:true,
 				backfill: true,
+				default: true,
 				description: 'The amount that ' + this._options.name + ' will be +/- of.' + (includesOtherTypes ? ' Only for type ' + LINEAR : '')
 			};
 		}
@@ -182,6 +184,7 @@ export class DistributionConfig {
 				hide: hide,
 				backfill: true,
 				optional: true,
+				default: true,
 				description: 'The min bound for the sample for ' + this._options.name + '.' + (includesOtherTypes ? ' Only for type ' + MIN_MAX : '')
 			};
 
@@ -194,6 +197,7 @@ export class DistributionConfig {
 				hide: hide,
 				backfill: true,
 				optional: true,
+				default: true,
 				description: 'The max bound for the sample for ' + this._options.name + '.' + (includesOtherTypes ? ' Only for type ' + MIN_MAX : '')
 			};
 		}
@@ -203,6 +207,7 @@ export class DistributionConfig {
 				example: this._options.type,
 				backfill: true,
 				optional: true,
+				default: true,
 				shortName: 't',
 				description: 'The type of distribution for ' + this._options.name,
 				options: this._options.types.map(type => ({value: type, description: LEGAL_TYPES[type]}))
@@ -212,6 +217,7 @@ export class DistributionConfig {
 		return {
 			example: example,
 			optional: true,
+			default: true,
 			backfill: true,
 			shortName: this._options.shortName,
 			description: this._options.description,
