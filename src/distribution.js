@@ -104,7 +104,7 @@ const EXAMPLE_OPTIONS = {
 
 /*
 	options includes:
-	- types: an array of allowed types (e.g. LINEAR, MIN_MAX)
+	- types: an array of allowed types (e.g. LINEAR, MIN_MAX). If not provided, will default to [type]. If neith types nor type is provided, all distribution types are allowed.
 	- type: the default type
 	- average: the default average value if type = LINEAR
 	- spread: the spread value if type = LINEAR
