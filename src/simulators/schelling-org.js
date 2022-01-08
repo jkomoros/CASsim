@@ -596,6 +596,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				example: 0,
 				optional: true,
 				backfill: true,
+				default: true,
 				shortName: SHORT_NAMES[COMMUNICATION_PROPERTY_NAME] || '',
 				description: "How many rounds of communication should be allowed between agents before they decide. 0 is no communication and will render a line of collaborators with walls between them."
 			},
@@ -894,6 +895,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				},
 				optional: true,
 				backfill: true,
+				default: true,
 				shortName: SHORT_NAMES[COLLABORATORS_PROPERTY_NAME] || '',
 				description: "Information on the collaborators"
 			},
@@ -1037,6 +1039,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				},
 				optional: true,
 				backfill: true,
+				default: true,
 				shortName: SHORT_NAMES[PROJECTS_PROPERTY_NAME] || '',
 				description: "Information on projects"
 			},
@@ -1044,11 +1047,17 @@ class SchellingOrgSimulator extends BaseSimulator {
 				example: {
 					[EMOJI_PROPERTY_NAME]: {
 						example: DEFAULT_NORTH_STAR_EMOJI,
+						optional: true,
+						backfill: true,
+						default: true,
 						shortName: SHORT_NAMES[EMOJI_PROPERTY_NAME] || '',
 						description: "The emoji to render for the north star",
 					},
 					[OFFSET_TYPE_PROPERTY_NAME]: {
 						example: OFFSET_TYPE_MANUAL,
+						optional: true,
+						backfill: true,
+						default: true,
 						shortName: SHORT_NAMES[OFFSET_TYPE_PROPERTY_NAME] || '',
 						options: [
 							{
@@ -1067,6 +1076,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[MIN_OFFSET_PROPERTY_NAME]: {
 						example: 0.0,
+						optional: true,
+						backfill: true,
+						default: true,
 						shortName: SHORT_NAMES[MIN_OFFSET_PROPERTY_NAME] || '',
 						description: 'The lowest random offset to choose if ' + OFFSET_TYPE_PROPERTY_NAME + ' is randomly selected (not ' + OFFSET_TYPE_MANUAL + ')',
 						min: 0.0,
@@ -1075,6 +1087,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[MAX_OFFSET_PROPERTY_NAME]: {
 						example: 1.0,
+						optional: true,
+						backfill: true,
+						default: true,
 						shortName: SHORT_NAMES[MAX_OFFSET_PROPERTY_NAME] || '',
 						description: 'The highest random offset to choose if ' + OFFSET_TYPE_PROPERTY_NAME + ' is randomly selected (not ' + OFFSET_TYPE_MANUAL + ')',
 						min: 0.0,
@@ -1083,6 +1098,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[OFFSET_PROPERTY_NAME]: {
 						example: 0.5,
+						optional: true,
+						backfill: true,
+						default: true,
 						shortName: SHORT_NAMES[OFFSET_PROPERTY_NAME] || '',
 						description: "How far from fully at left to fully at right is the northstar? This value will be used directly if " + OFFSET_TYPE_PROPERTY_NAME + " is " + OFFSET_TYPE_MANUAL + ", otherwise it will be set implicitly.",
 						min: 0.0,
@@ -1091,6 +1109,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[STRENGTH_PROPERTY_NAME]: {
 						example: 0.5,
+						optional: true,
+						backfill: true,
+						default: true,
 						shortName: SHORT_NAMES[STRENGTH_PROPERTY_NAME] || '',
 						description: "How strong is the north star effect?",
 						min: 0.0,
@@ -1099,6 +1120,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[SPREAD_PROPERTY_NAME]: {
 						example: 0.25,
+						optional: true,
+						backfill: true,
+						default: true,
 						shortName: SHORT_NAMES[SPREAD_PROPERTY_NAME] || '',
 						description: 'How wide is the positive effect of the northstar affect (trading off linearly from the offset position to plus or minus by this amount)',
 						min: 0.0,
@@ -1107,6 +1131,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[BELIEVABILITY_PROPERTY_NAME]: {
 						example: 1.0,
+						optional: true,
+						backfill: true,
+						default: true,
 						shortName: SHORT_NAMES[BELIEVABILITY_PROPERTY_NAME] || '',
 						description: 'The proportion of collaborators who will believe in this north star (will have their ' + BELIEVES_PROPERTY_NAME + ' set to true).',
 						min: 0.0,
