@@ -376,8 +376,12 @@ export const prevFrameIndex = (fromInterval) => (dispatch, getState) => {
 };
 
 export const updateFilename = (filename, skipCanonicalize) => (dispatch, getState) => {
-	const currentFilename = selectFilename(getState());
+	const state = getState();
+	const currentFilename = selectFilename(state);
 	if (currentFilename == filename) return;
+	if (selectHasModifications(state)) {
+		if (!confirm('You have made modifications. Switching files will delete them and cannot be undone. Is that OK?')) return;
+	}
 	dispatch({
 		type: UPDATE_FILENAME,
 		filename,

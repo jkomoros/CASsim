@@ -89,6 +89,8 @@ const data = (state = INITIAL_STATE, action) => {
 	case UPDATE_FILENAME:
 		return {
 			...state,
+			//Clear the modifications too because they will be for a file that doesn't exist anymore.
+			modifications: [],
 			filename: action.filename
 		};
 	case UPDATE_SIMULATION_INDEX:
