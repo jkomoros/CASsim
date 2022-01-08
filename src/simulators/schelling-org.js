@@ -603,9 +603,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 			[COLLABORATORS_PROPERTY_NAME]: {
 				example: {
 					[COUNT_PROPERTY_NAME]: {
-						example: 0,
-						optional: true,
-						backfill: true,
+						example: 4,
 						shortName: SHORT_NAMES[COUNT_PROPERTY_NAME] || '',
 						description: "How many collaborators there should be"
 					},
@@ -902,9 +900,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 			[PROJECTS_PROPERTY_NAME]: {
 				example: {
 					[COUNT_PROPERTY_NAME]: {
-						example: 0,
-						backfill: true,
-						optional: true,
+						example: 4,
 						shortName: SHORT_NAMES[COUNT_PROPERTY_NAME] || '',
 						description: "How many projects there are"
 					},
