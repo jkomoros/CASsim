@@ -413,6 +413,11 @@ export class RectangleGraph extends PositionedGraph {
 	}
 
 	/*
+
+		By default creates a graph with the given number of rows and cols,
+		where each cell is connected to the cells directly above, below, and
+		to the left and right of it (but not diagonal).
+
 		options is a dict that may have the following keys
 		starterValue - the values to clone and set for each cell
 		nodeMargin - the margin to have between nodes. It is in units of
