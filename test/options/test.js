@@ -1849,6 +1849,62 @@ describe('defaultValueForConfig', () => {
 		assert.deepEqual(result, golden);
 	});
 
+	it('handles object with one optional+default property', async () => {
+		const config = {
+			example: {
+				foo: {
+					example: 3
+				},
+				bar: {
+					example: {
+						baz: {
+							example: 4,
+						}
+					},
+					optional: true,
+					default: true,
+				}
+			}
+		};
+		const result = defaultValueForConfig(config);
+		const golden = {
+			foo: 3,
+			bar: {
+				baz: 4
+			}
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles object with two layer optional/default property', async () => {
+		const config = {
+			example: {
+				foo: {
+					example: 3
+				},
+				bar: {
+					example: {
+						baz: {
+							example: 4,
+							default: true,
+							optional: true,
+						}
+					},
+					optional: true,
+					default: true,
+				}
+			}
+		};
+		const result = defaultValueForConfig(config);
+		const golden = {
+			foo: 3,
+			bar: {
+				baz: 4
+			}
+		};
+		assert.deepEqual(result, golden);
+	});
+
 	it('handles object with optional array', async () => {
 		const config = {
 			example: {
@@ -1867,6 +1923,31 @@ describe('defaultValueForConfig', () => {
 		};
 		const result = defaultValueForConfig(config);
 		const golden = {
+			bar: 4
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles object with optional+default array', async () => {
+		const config = {
+			example: {
+				foo: {
+					example: [
+						{
+							example: 3,
+						}
+					],
+					optional: true,
+					default:true,
+				},
+				bar: {
+					example: 4
+				}
+			}
+		};
+		const result = defaultValueForConfig(config);
+		const golden = {
+			foo:[3],
 			bar: 4
 		};
 		assert.deepEqual(result, golden);
@@ -1891,6 +1972,31 @@ describe('defaultValueForConfig', () => {
 		const result = defaultValueForConfig(config);
 		const golden = {
 			foo: [],
+			bar: 4
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles object with array with optional+default items', async () => {
+		const config = {
+			example: {
+				foo: {
+					example: [
+						{
+							example: 3,
+							optional: true,
+							default: true,
+						}
+					],
+				},
+				bar: {
+					example: 4
+				}
+			}
+		};
+		const result = defaultValueForConfig(config);
+		const golden = {
+			foo: [3],
 			bar: 4
 		};
 		assert.deepEqual(result, golden);
