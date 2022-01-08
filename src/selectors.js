@@ -78,7 +78,7 @@ export const selectChartExpanded = createSelector(
 	(showControls, rawExpanded) => showControls && rawExpanded
 );
 
-const modfifiedConfigData = (rawConfigData, modifications, simulatorsLoaded = true, simulatorNames = [], expandDefault = false) => {
+const modfifiedConfigData = (rawConfigData, modifications, simulatorsLoaded = true, expandDefault = false) => {
 	if (!simulatorsLoaded) return rawConfigData;
 	let data = rawConfigData;
 	for (const modification of modifications) {
@@ -90,7 +90,7 @@ const modfifiedConfigData = (rawConfigData, modifications, simulatorsLoaded = tr
 				continue;
 			}
 			try {
-				const simulation = new Simulation(data[modification.simulationIndex], 0, simulatorNames);
+				const simulation = new Simulation(data[modification.simulationIndex], 0);
 				value = simulation.defaultValueForOptionsPath(modification.path);
 			} catch(err) {
 				console.warn('Couldn\'t fetch default value from simulator: ' + err);
@@ -140,7 +140,8 @@ export const selectConfigData = createSelector(
 	selectModifications,
 	selectRequiredSimulatorsLoaded, 
 	selectKnownSimulatorNames,
-	(rawConfigData, modifications, simulatorsLoaded, simulatorNames) => modfifiedConfigData(rawConfigData, modifications, simulatorsLoaded, simulatorNames, true)
+	//We don't actually pass knownSimulatorNames, we just need to retickle this when they change
+	(rawConfigData, modifications, simulatorsLoaded) => modfifiedConfigData(rawConfigData, modifications, simulatorsLoaded, true)
 );
 
 export const selectDataIsFullyLoaded = createSelector(
@@ -152,9 +153,10 @@ export const selectDataIsFullyLoaded = createSelector(
 export const selectSimulationCollection = createSelector(
 	selectConfigData,
 	selectRequiredSimulatorsLoaded,
-	selectKnownSimulatorNames,
 	selectRawConfigData,
-	(rawConfig, simulatorsLoaded, knownSimulatorNames, unmodifiedConfigData) => simulatorsLoaded ? new SimulationCollection(rawConfig, knownSimulatorNames, unmodifiedConfigData) : null
+	selectKnownSimulatorNames,
+	//We don't actually pass knownSimulatorNames, we just need to retickle this when they change
+	(rawConfig, simulatorsLoaded, unmodifiedConfigData) => simulatorsLoaded ? new SimulationCollection(rawConfig, unmodifiedConfigData) : null
 );
 
 export const selectURLDiffHash = createSelector(

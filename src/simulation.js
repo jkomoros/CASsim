@@ -77,7 +77,7 @@ export const extractSimulatorNamesFromModifications = modifications => {
 };
 
 export const SimulationCollection = class {
-	constructor(configs, knownSimulatorNames, unmodifiedConfigs) {
+	constructor(configs, unmodifiedConfigs) {
 		if (!configs) configs = [];
 		if (!unmodifiedConfigs) unmodifiedConfigs = [];
 		const seenNames = {};
@@ -86,7 +86,7 @@ export const SimulationCollection = class {
 			let sim;
 			const config = configs[i];
 			try {
-				sim = new Simulation(config, i, knownSimulatorNames, unmodifiedConfigs[i]);
+				sim = new Simulation(config, i, unmodifiedConfigs[i]);
 			} catch(err) {
 				throw new Error('Config #' + i + ' errored: ' + err);
 			}
@@ -248,7 +248,7 @@ const makeSeededRandom = seed => {
 };
 
 export const Simulation = class {
-	constructor(config, index, knownSimulatorNames = [], unmodifiedConfig) {
+	constructor(config, index, unmodifiedConfig) {
 
 		const name = config[NAME_PROPERTY];
 		if (name) {
@@ -259,7 +259,6 @@ export const Simulation = class {
 		if (!this._simulator) {
 			throw new Error('Unknown simulator name: ' + config.sim);
 		}
-		this._knownSimulatorNames = knownSimulatorNames;
 		const configCopy = deepCopy(config);
 		const rawSimOptions = configCopy[SIM_OPTIONS_PROPERTY] || this._simulator.defaultValueForPath('', null);
 		const [updatedSimOptionsConfig] = ensureBackfill(this._simulator.optionsConfig, rawSimOptions);
@@ -303,11 +302,7 @@ export const Simulation = class {
 	}
 
 	cloneWithConfig(config) {
-		return new Simulation(config, this.index, this.knownSimulatorNames, config);
-	}
-
-	get knownSimulatorNames() {
-		return this._knownSimulatorNames;
+		return new Simulation(config, this.index, config);
 	}
 
 	get lastChanged() {
@@ -620,9 +615,9 @@ export const Simulation = class {
 				},
 				[SIM_PROPERTY]: {
 					//TODO: use the constant
-					example: this._knownSimulatorNames.length ? this._knownSimulatorNames[0] : '',
+					example: Object.keys(SIMULATORS).length ? Object.keys(SIMULATORS)[0] : '',
 					shortName: SIM_PROPERTY_SHORT_NAME,
-					options: this._knownSimulatorNames.map(name => ({value: name})),
+					options: Object.keys(SIMULATORS).map(name => ({value: name})),
 					description: 'The simulator type to run. Only simulators in the simulators directory are supported',
 					//Advanced while this is the only option
 					advanced: true,
