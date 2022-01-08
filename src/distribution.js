@@ -10,10 +10,12 @@ const LEGAL_ROUND_TYPES = {
 
 export const LINEAR = 'linear';
 export const MIN_MAX = 'min-max';
+export const FIXED = 'fixed';
 
 const LEGAL_TYPES = {
 	[LINEAR]: 'A linear distribution between average +/- spread',
 	[MIN_MAX]: 'A linear distribution between min and max',
+	[FIXED]: 'A distribution that always returns precisely average with no variation',
 };
 
 /*
@@ -67,7 +69,11 @@ class Distribution {
 			break;
 		}
 
-		let value = (max - min) * rnd() + min;
+		let value = this._options.average;
+		if (this._options.type != FIXED) {
+			value = (max - min) * rnd() + min;
+		}
+
 		if (value < this._options.limitMin) value = this._options.limitMin;
 		if (value > this._options.limitMax) value = this._options.limitMax;
 
@@ -87,7 +93,7 @@ class Distribution {
 }
 
 const EXAMPLE_OPTIONS = {
-	types: [LINEAR, MIN_MAX],
+	types: [...Object.keys(LEGAL_TYPES)],
 	type: LINEAR,
 	average: 0.5,
 	spread: 0.0,
@@ -145,7 +151,6 @@ export class DistributionConfig {
 
 		if (includedTypes[LINEAR]) {
 			const includesOtherTypes = includedTypes[MIN_MAX];
-			const hide = values => values.type && values.type != LINEAR;
 			example.average = {
 				example: this._options.average,
 				min: this._options.limitMin,
@@ -154,9 +159,9 @@ export class DistributionConfig {
 				backfill: includesOtherTypes,
 				optional: includesOtherTypes,
 				default: includesOtherTypes,
-				hide: hide,
+				hide: values => values.type && values.type == MIN_MAX,
 				shortName: 'a',
-				description: 'The average value for ' + this._options.name + '.' + (includesOtherTypes ? ' Only for type ' + LINEAR : '')
+				description: 'The average value for ' + this._options.name + '.' + (includesOtherTypes ? ' Only for types ' + LINEAR + ' and ' + FIXED: '')
 			};
 			example.spread = {
 				example: this._options.spread,
@@ -164,7 +169,7 @@ export class DistributionConfig {
 				max: this._options.limitMax,
 				step: this._options.step,
 				shortName: 's',
-				hide: hide,
+				hide: values => values.type && (values.type == MIN_MAX || values.type == FIXED),
 				optional:true,
 				backfill: true,
 				default: true,
