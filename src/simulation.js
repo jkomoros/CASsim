@@ -58,6 +58,7 @@ const DEFAULT_EXTRA_FINAL_FRAME_COUNT = 0;
 const DEFAULT_REPEAT = false;
 
 export const SIMULATORS = {};
+export const KNOWN_SIMULATOR_NAMES = {};
 
 //Returns an array of the names of simulators in this data blob.
 export const extractSimulatorNamesFromRawConfig = data => {
@@ -640,9 +641,9 @@ export const Simulation = class {
 				},
 				[SIM_PROPERTY]: {
 					//TODO: use the constant
-					example: Object.keys(SIMULATORS).length ? Object.keys(SIMULATORS)[0] : '',
+					example: Object.keys(KNOWN_SIMULATOR_NAMES).length ? Object.keys(SIMULATORS)[0] : '',
 					shortName: SIM_PROPERTY_SHORT_NAME,
-					options: Object.keys(SIMULATORS).map(name => ({value: name})),
+					options: Object.keys(KNOWN_SIMULATOR_NAMES).map(name => ({value: name})),
 					description: 'The simulator type to run. Only simulators in the simulators directory are supported',
 					//Advanced while this is the only option
 					advanced: true,

@@ -92,6 +92,7 @@ import {
 import { store } from '../store.js';
 
 import {
+	KNOWN_SIMULATOR_NAMES,
 	SIMULATORS,
 } from '../simulation.js';
 
@@ -580,6 +581,15 @@ export const updateKnownSimulatorNames = (simulatorNames) => (dispatch) => {
 	if (!Array.isArray(simulatorNames)) {
 		console.warn('simulatorsNames is not an array');
 		return;
+	}
+	//Yes, this is bad, bad, bad. I don't want to pass around
+	//knownSimulatorNames from state into Simulation all of the time (we have to
+	//clone them a bunch in random places) for no good reason, so we'll store
+	//them on the side for the drop down. We already re-generate them when this
+	//changes by having the selectors invalidate when knownSimulatorNames
+	//changes, even though we don't pass it to the SimulationCollection/Simulation constructors.
+	for (const name of simulatorNames) {
+		KNOWN_SIMULATOR_NAMES[name] = true;
 	}
 	dispatch({
 		type: UPDATE_KNOWN_SIMULATOR_NAMES,
