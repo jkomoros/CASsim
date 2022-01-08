@@ -410,7 +410,7 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 		//Only keep the last modification of path
 		for (let [path, value] of Object.entries(mods)) {
 			if (path == SIM_PROPERTY) {
-				diffedSimulation = diffedSimulation.cloneWithConfig(setSimPropertyInConfig(diffedSimulation.config, path, value));
+				diffedSimulation = diffedSimulation.cloneWithModification(path, value);
 				fingerprintPieces.push(diffedSimulation.simulator.fingerprint.substring(0, FINGERPRINT_CHARACTER_LENGTH));
 			}
 			//Shorten short names
@@ -517,7 +517,7 @@ export const unpackModificationsFromURL = (url, simCollection, currentSimIndex =
 			}
 
 			if (key == SIM_PROPERTY_SHORT_NAME) {
-				diffedSimulation = diffedSimulation.cloneWithConfig(setSimPropertyInConfig(diffedSimulation.config, SIM_PROPERTY, value));
+				diffedSimulation = diffedSimulation.cloneWithModification(SIM_PROPERTY, value);
 				simulatorIndex++;
 				if (simulatorFingerprints[simulatorIndex] != diffedSimulation.simulator.fingerprint.slice(0, simulatorFingerprints[simulatorIndex].length)) warning = 'The simulator #' + simulatorIndex + ' has been updated since the diff was saved. The behavior of the diff might not work.';
 			}
