@@ -138,12 +138,14 @@ export class DistributionConfig {
 	}
 
 	get optionsConfig() {
+
 		const example = {};
 
 		const includedTypes = Object.fromEntries(this._options.types.map(type => [type, true]));
 
 		if (includedTypes[LINEAR]) {
 			const includesOtherTypes = includedTypes[MIN_MAX];
+			const hide = values => values.type && values.type != LINEAR;
 			example.average = {
 				example: this._options.average,
 				min: this._options.limitMin,
@@ -151,6 +153,7 @@ export class DistributionConfig {
 				step: this._options.step,
 				default: includesOtherTypes,
 				optional: includesOtherTypes,
+				hide: hide,
 				shortName: 'a',
 				description: 'The average value for ' + this._options.name + '.' + (includesOtherTypes ? ' Only for type ' + LINEAR : '')
 			};
@@ -160,6 +163,7 @@ export class DistributionConfig {
 				max: this._options.limitMax,
 				step: this._options.step,
 				shortName: 's',
+				hide: hide,
 				optional:true,
 				default: true,
 				description: 'The amount that ' + this._options.name + ' will be +/- of.' + (includesOtherTypes ? ' Only for type ' + LINEAR : '')
@@ -168,12 +172,14 @@ export class DistributionConfig {
 
 		if (includedTypes[MIN_MAX]) {
 			const includesOtherTypes = includedTypes[LINEAR];
+			const hide = values => values.type && values.type != MIN_MAX;
 			example.min = {
 				example: this._options.min,
 				min: this._options.limitMin,
 				max: this._options.limitMax,
 				step: this._options.step,
 				//min is a fine shortName, don't specify one
+				hide: hide,
 				default: true,
 				optional: true,
 				description: 'The min bound for the sample for ' + this._options.name + '.' + (includesOtherTypes ? ' Only for type ' + MIN_MAX : '')
@@ -185,6 +191,7 @@ export class DistributionConfig {
 				max: this._options.limitMax,
 				step: this._options.step,
 				//max is a fine shortName, don't specify one
+				hide: hide,
 				default: true,
 				optional: true,
 				description: 'The max bound for the sample for ' + this._options.name + '.' + (includesOtherTypes ? ' Only for type ' + MIN_MAX : '')
