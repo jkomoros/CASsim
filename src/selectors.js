@@ -4,11 +4,10 @@ import {
 	SimulationCollection,
 	extractSimulatorNamesFromRawConfig,
 	extractSimulatorNamesFromModifications,
-	Simulation
+	setSimulationPropertyInConfig
 } from "./simulation.js";
 
 import {
-	setSimPropertyInConfig,
 	packModificationsForURL,
 	unpackSimNamesFromURL,
 	shadowedModificationsForSimIndex,
@@ -16,7 +15,6 @@ import {
 } from './options.js';
 
 import {
-	DEFAULT_SENTINEL,
 	parseHash
 } from './util.js';
 
@@ -84,17 +82,7 @@ const modfifiedConfigData = (rawConfigData, modifications, simulatorsLoaded = tr
 	for (const modification of modifications) {
 		if (data[modification.simulationIndex] === undefined) continue;
 		data = [...data];
-		let value = modification.value;
-		if (value == DEFAULT_SENTINEL) {
-			try {
-				const simulation = new Simulation(data[modification.simulationIndex], 0);
-				value = simulation.defaultValueForOptionsPath(modification.path);
-			} catch(err) {
-				console.warn('Couldn\'t fetch default value from simulator: ' + err);
-				return data;
-			}
-		}
-		data[modification.simulationIndex] = setSimPropertyInConfig(data[modification.simulationIndex], modification.path, value);
+		data[modification.simulationIndex] = setSimulationPropertyInConfig(data[modification.simulationIndex], modification.path, modification.value);
 	}
 	return data;
 };

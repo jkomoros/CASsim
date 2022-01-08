@@ -6,7 +6,9 @@ import {
 	deepFreeze,
 	deepCopy,
 	stringHash,
-	idToTitle
+	idToTitle,
+	setPropertyInObject,
+	DEFAULT_SENTINEL
 } from './util.js';
 
 import {
@@ -74,6 +76,25 @@ export const extractSimulatorNamesFromModifications = modifications => {
 		result[mod.value] = true;
 	}
 	return Object.keys(result);
+};
+
+export const setSimulationPropertyInConfig = (config, path, value) => {
+	if (value == DEFAULT_SENTINEL) {
+		try {
+			const simulation = new Simulation(config, 0);
+			value = simulation.defaultValueForOptionsPath(path);
+		} catch(err) {
+			console.warn('Couldn\'t fetch default value from simulator: ' + err);
+			return config;
+		}
+	}
+	//When we switch sim name, we should wipe away all of simOptions, allowing
+	//it to be set to the default based on the simOptionsConfig, because the
+	//simOptions for the old one definitely won't be valid for the new one.
+
+	//NOte: shadowedModificationsForSimIndex basically reimplemnts this behavior
+	if (path == SIM_PROPERTY) config = setSimulationPropertyInConfig(config, SIM_OPTIONS_PROPERTY, DEFAULT_SENTINEL);
+	return setPropertyInObject(config, path, value);
 };
 
 export const SimulationCollection = class {
