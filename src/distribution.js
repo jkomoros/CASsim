@@ -110,11 +110,12 @@ const EXAMPLE_OPTIONS = {
 	- spread: the spread value if type = LINEAR
 	- min: the lower value if type = MIN_MAX. Defaults to limitMin.
 	- max: the upper value if type = MIN_MAX. Defaults to limitMax.
-	- limitMin: the clip value. Defaults to 0.0.
-	- limitMax: the clip value. Defaults to 1.0.
+	- limitMin: the clip value. If the final sample is below this value it will be clipped to this. Defaults to 0.0.
+	- limitMax: the clip value. If the final sample is abvove this value it will be clipped to this. Defaults to 1.0.
 	- step: defaults to 0.01
 	- round: if the final generated number should be rounded. legal values are '', 'round', floor'.
 	- description: A description for the overall value
+	- shortName: the shortName to be returned in optionsConfig.
 	- name: a name for the overall value
 */
 export class DistributionConfig {
