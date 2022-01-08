@@ -360,16 +360,6 @@ export const configForPath = (optionsConfig, path) => {
 	return configForPath(example[firstPart], restParts);
 };
 
-export const setSimPropertyInConfig = (obj, path, value) => {
-	//When we switch sim name, we should wipe away all of simOptions, allowing
-	//it to be set to the default based on the simOptionsConfig, because the
-	//simOptions for the old one definitely won't be valid for the new one.
-
-	//NOte: shadowedModificationsForSimIndex basically reimplemnts this behavior
-	if (path == SIM_PROPERTY) obj = setPropertyInObject(obj, SIM_OPTIONS_PROPERTY, DELETE_SENTINEL);
-	return setPropertyInObject(obj, path, value);
-};
-
 //How many characters of the fingerprint for each sim to put in the URL.
 //Balancing short while also making it likely to detect when the underlying
 //thing changed. 3 balances that, while also giving a 1/4096 chance of colliding.
@@ -545,7 +535,7 @@ export const shadowedModificationsForSimIndex = (modifications, simIndex) => {
 			}
 		}
 		//If the sim property is changed, any mods on simOptions from before
-		//this are removed. This effectively mirrors the behavior of setSimPropertyInConfig. 
+		//this are removed. This effectively mirrors the behavior of setSimulationPropertyInConfig. 
 		if (mod.path == SIM_PROPERTY) {
 			for (const key of Object.keys(mods)) {
 				//Add a '.' to make sure that paths like 'a.f' don't match 'a.foo'
