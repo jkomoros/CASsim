@@ -14,7 +14,7 @@ const BEHAVIOR_PROPERTY_NAME = 'behavior';
 const VALUE_PROPERTY_NAME = 'value';
 const DISPLAY_PROPERTY_NAME = 'display';
 const SHORT_NAME_PROPERTY_NAME = 'shortName';
-const DEFAULT_PROPERTY_NAME = 'default';
+const BACKFILL_PROPERTY_NAME = 'backfill';
 const HIDE_PROPERTY_NAME = 'hide';
 
 export const COLOR_BEHAVIOR_NAME = 'color';
@@ -105,10 +105,10 @@ const optionsLeafValidator = (config) => {
 
 	if (config[DESCRIPTION_PROPERTY_NAME] !== undefined && typeof config[DESCRIPTION_PROPERTY_NAME] != 'string') return DESCRIPTION_PROPERTY_NAME + ' must be a string if provided';
 	if (config[OPTIONAL_PROPERTY_NAME] !== undefined && typeof config[OPTIONAL_PROPERTY_NAME] != 'boolean') return OPTIONAL_PROPERTY_NAME + ' must be a boolean if provided';
-	if (config[DEFAULT_PROPERTY_NAME] !== undefined && typeof config[DEFAULT_PROPERTY_NAME] != 'boolean') return DEFAULT_PROPERTY_NAME + ' must be a boolean if provided';
+	if (config[BACKFILL_PROPERTY_NAME] !== undefined && typeof config[BACKFILL_PROPERTY_NAME] != 'boolean') return BACKFILL_PROPERTY_NAME + ' must be a boolean if provided';
 	if (config[ADVANCED_PROPERTY_NAME] !== undefined && typeof config[ADVANCED_PROPERTY_NAME] != 'boolean') return ADVANCED_PROPERTY_NAME + ' must be a boolean if provided';
 
-	if (config[DEFAULT_PROPERTY_NAME] && !config[OPTIONAL_PROPERTY_NAME]) return 'If ' + DEFAULT_PROPERTY_NAME + ' is true, then ' + OPTIONAL_PROPERTY_NAME + 'must also be true';
+	if (config[BACKFILL_PROPERTY_NAME] && !config[OPTIONAL_PROPERTY_NAME]) return 'If ' + BACKFILL_PROPERTY_NAME + ' is true, then ' + OPTIONAL_PROPERTY_NAME + 'must also be true';
 
 	if (config[MIN_PROPERTY_NAME] !== undefined && typeof config[MIN_PROPERTY_NAME] != 'number') return MIN_PROPERTY_NAME + ' must be a number if provided';
 	if (config[MAX_PROPERTY_NAME] !== undefined && typeof config[MAX_PROPERTY_NAME] != 'number') return MAX_PROPERTY_NAME + ' must be a number if provided';
@@ -223,24 +223,24 @@ export const maySetPropertyInConfigObject = (optionsConfig, obj, path, value) =>
 };
 
 //Will return an object like obj, but with any missing properties that are set
-//to optional: true, default:true filled in with their defaults. It will copy in
+//to optional: true, backfill:true filled in with their defaults. It will copy in
 //place any objects that must be modified, and might return obj if no
 //modifications have to be made. It returns an array: the object, and a boolean
 //for whether changes were made. Note that when setting defaults, it uses
 //defaultValueForConfig and does NOT use simulator.defaultValueForPath.
-export const ensureDefaults = (optionsConfig, obj) => {
+export const ensureBackfill = (optionsConfig, obj) => {
 	if (!optionsConfig) return [obj, false];
 	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
 	if (example == undefined) {
 		if (!obj) {
 			let defaulted = defaultValueForConfig(optionsConfig);
-			[defaulted] = ensureDefaults(optionsConfig, defaulted);
+			[defaulted] = ensureBackfill(optionsConfig, defaulted);
 			return [defaulted, true];
 		}
 		const result = {};
 		let changesMade = false;
 		for (const [key, value] of Object.entries(optionsConfig)) {
-			const [newValue, changed] = ensureDefaults(value, obj[key]);
+			const [newValue, changed] = ensureBackfill(value, obj[key]);
 			result[key] = newValue;
 			if (changed) changesMade = true;
 		}
@@ -248,22 +248,22 @@ export const ensureDefaults = (optionsConfig, obj) => {
 	}
 	if (typeof example == 'object') {
 		if (!obj) {
-			if (!optionsConfig[DEFAULT_PROPERTY_NAME]) return [obj, false];
+			if (!optionsConfig[BACKFILL_PROPERTY_NAME]) return [obj, false];
 			let defaulted = defaultValueForConfig(optionsConfig);
-			[defaulted] = ensureDefaults(optionsConfig, defaulted);
+			[defaulted] = ensureBackfill(optionsConfig, defaulted);
 			return [defaulted, true];
 		}
 		if (Array.isArray(example)) {
 			//obj's shape hasn't yet been validated; this won't validate but let's just leave it for now, so it is noticed to be invalid later
 			if (!Array.isArray(obj)) return [obj, false];
-			const results = obj.map(item => ensureDefaults(example[0], item));
+			const results = obj.map(item => ensureBackfill(example[0], item));
 			const changesMade = results.some(arr => arr[1]);
 			return changesMade ? [results.map(arr => arr[0]), true] : [obj, false];
 		}
 		const result = {};
 		let changesMade = false;
 		for (const [key, value] of Object.entries(example)) {
-			const [newValue, changed] = ensureDefaults(value, obj[key]);
+			const [newValue, changed] = ensureBackfill(value, obj[key]);
 			result[key] = newValue;
 			if (changed) changesMade = true;
 		}
@@ -272,9 +272,9 @@ export const ensureDefaults = (optionsConfig, obj) => {
 	//If the value is already provided, no need to do anything
 	if (obj !== undefined) return [obj, false];
 	//Base case
-	if (!optionsConfig[DEFAULT_PROPERTY_NAME]) return [obj, false];
+	if (!optionsConfig[BACKFILL_PROPERTY_NAME]) return [obj, false];
 	let defaulted = defaultValueForConfig(optionsConfig);
-	[defaulted] = ensureDefaults(optionsConfig, defaulted);
+	[defaulted] = ensureBackfill(optionsConfig, defaulted);
 	return [defaulted, true];
 };
 

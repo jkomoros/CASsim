@@ -588,14 +588,14 @@ class SchellingOrgSimulator extends BaseSimulator {
 				},
 				shortName: SHORT_NAMES[DISPLAY_PROPERTY_NAME] || '',
 				optional: true,
-				default: true,
+				backfill: true,
 				description: "An optional object that controls how things render. If not provided, will be interpreted as though it enables no optional rendering.",
 				advanced: true
 			},
 			[COMMUNICATION_PROPERTY_NAME]: {
 				example: 0,
 				optional: true,
-				default: true,
+				backfill: true,
 				shortName: SHORT_NAMES[COMMUNICATION_PROPERTY_NAME] || '',
 				description: "How many rounds of communication should be allowed between agents before they decide. 0 is no communication and will render a line of collaborators with walls between them."
 			},
@@ -604,14 +604,14 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[COUNT_PROPERTY_NAME]: {
 						example: 0,
 						optional: true,
-						default: true,
+						backfill: true,
 						shortName: SHORT_NAMES[COUNT_PROPERTY_NAME] || '',
 						description: "How many collaborators there should be"
 					},
 					[EPSILON_PROPERTY_NAME]: {
 						example: 0.0,
 						optional: true,
-						default: true,
+						backfill: true,
 						shortName: SHORT_NAMES[EPSILON_PROPERTY_NAME] || '',
 						step: 0.05,
 						description: "Project values within this amount of each other will be considered to be the same"
@@ -619,7 +619,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: {
 						example: 0.5,
 						optional: true,
-						default: true,
+						backfill: true,
 						shortName: SHORT_NAMES[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME] || '',
 						step: 0.05,
 						description: "We compute a range of possible connection likelihoods based on [avgConnectionLikelihood - connectionLikelihoodSpread, avgConnectionLikelihood + connectionLikelihoodSpread] Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength."
@@ -627,7 +627,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: {
 						example: 0.5,
 						optional: true,
-						default: true,
+						backfill: true,
 						shortName: SHORT_NAMES[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] || '',
 						step: 0.05,
 						description: "We compute a range of possible connection likelihoods based on [avgConnectionLikelihood - connectionLikelihoodSpread, avgConnectionLikelihood + connectionLikelihoodSpread] Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength."
@@ -640,7 +640,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 						max: 1.0,
 						step: 0.05,
 						optional: true,
-						default: true,
+						backfill: true,
 					},
 					[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: {
 						example: 0.0,
@@ -650,7 +650,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 						max: 1.0,
 						step: 0.05,
 						optional: true,
-						default: true,
+						backfill: true,
 					},
 					[OPTIMISM_PROPERTY_NAME]: {
 						example: 0.5,
@@ -684,7 +684,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 							}
 						],
 						optional: true,
-						default: true,
+						backfill: true,
 					},
 					[RANDOM_INDIVIDUAL_PROPERTY_NAME]: {
 						example: {
@@ -787,7 +787,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[INDIVIDUALS_PROPERTY_NAME]: {
 						optional: true,
-						default: true,
+						backfill: true,
 						example: [
 							{
 								example: {
@@ -893,7 +893,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					}
 				},
 				optional: true,
-				default: true,
+				backfill: true,
 				shortName: SHORT_NAMES[COLLABORATORS_PROPERTY_NAME] || '',
 				description: "Information on the collaborators"
 			},
@@ -901,7 +901,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				example: {
 					[COUNT_PROPERTY_NAME]: {
 						example: 0,
-						default: true,
+						backfill: true,
 						optional: true,
 						shortName: SHORT_NAMES[COUNT_PROPERTY_NAME] || '',
 						description: "How many projects there are"
@@ -909,7 +909,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[MAX_EXTRA_VALUE_PROPERTY_NAME]: {
 						example: 0.0,
 						optional: true,
-						default: true,
+						backfill: true,
 						shortName: SHORT_NAMES[MAX_EXTRA_VALUE_PROPERTY_NAME] || '',
 						step: 0.05,
 						description: "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value"
@@ -917,7 +917,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[MAX_ERROR_VALUE_PROPERTY_NAME]: {
 						example: 0.0,
 						optional: true,
-						default: true,
+						backfill: true,
 						shortName: SHORT_NAMES[MAX_ERROR_VALUE_PROPERTY_NAME] || '',
 						step: 0.05,
 						description: 'Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.'
@@ -926,7 +926,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 						example: 0.0,
 						shortName: SHORT_NAMES[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] || '',
 						optional: true,
-						default: true,
+						backfill: true,
 						step: 0.01,
 						description: "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number."
 					},
@@ -1031,12 +1031,12 @@ class SchellingOrgSimulator extends BaseSimulator {
 						],
 						shortName: SHORT_NAMES[INDIVIDUALS_PROPERTY_NAME] || '',
 						optional: true,
-						default: true,
+						backfill: true,
 						description: "individuals is set to override the computed individuals with the given properties. null values will be ignored, and keys not in the override will be left in place."
 					}
 				},
 				optional: true,
-				default: true,
+				backfill: true,
 				shortName: SHORT_NAMES[PROJECTS_PROPERTY_NAME] || '',
 				description: "Information on projects"
 			},

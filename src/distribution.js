@@ -151,7 +151,7 @@ export class DistributionConfig {
 				min: this._options.limitMin,
 				max: this._options.limitMax,
 				step: this._options.step,
-				default: includesOtherTypes,
+				backfill: includesOtherTypes,
 				optional: includesOtherTypes,
 				hide: hide,
 				shortName: 'a',
@@ -165,7 +165,7 @@ export class DistributionConfig {
 				shortName: 's',
 				hide: hide,
 				optional:true,
-				default: true,
+				backfill: true,
 				description: 'The amount that ' + this._options.name + ' will be +/- of.' + (includesOtherTypes ? ' Only for type ' + LINEAR : '')
 			};
 		}
@@ -180,7 +180,7 @@ export class DistributionConfig {
 				step: this._options.step,
 				//min is a fine shortName, don't specify one
 				hide: hide,
-				default: true,
+				backfill: true,
 				optional: true,
 				description: 'The min bound for the sample for ' + this._options.name + '.' + (includesOtherTypes ? ' Only for type ' + MIN_MAX : '')
 			};
@@ -192,7 +192,7 @@ export class DistributionConfig {
 				step: this._options.step,
 				//max is a fine shortName, don't specify one
 				hide: hide,
-				default: true,
+				backfill: true,
 				optional: true,
 				description: 'The max bound for the sample for ' + this._options.name + '.' + (includesOtherTypes ? ' Only for type ' + MIN_MAX : '')
 			};
@@ -201,7 +201,7 @@ export class DistributionConfig {
 		if (this._options.types.length > 1) {
 			example.type = {
 				example: this._options.type,
-				default: true,
+				backfill: true,
 				optional: true,
 				shortName: 't',
 				description: 'The type of distribution for ' + this._options.name,
@@ -212,7 +212,7 @@ export class DistributionConfig {
 		return {
 			example: example,
 			optional: true,
-			default: true,
+			backfill: true,
 			shortName: this._options.shortName,
 			description: this._options.description,
 		};

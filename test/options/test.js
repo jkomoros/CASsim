@@ -14,7 +14,7 @@ import {
 	configForPath,
 	shortenPathWithConfig,
 	expandPathWithConfig,
-	ensureDefaults,
+	ensureBackfill,
 } from '../../src/options.js';
 
 import assert from 'assert';
@@ -316,7 +316,7 @@ describe('optionsConfigValidator', () => {
 			foo: {
 				example: 3,
 				optional: true,
-				default: 3,
+				backfill: 3,
 			}
 		};
 		const result = optionsConfigValidator(config);
@@ -328,7 +328,7 @@ describe('optionsConfigValidator', () => {
 		const config = {
 			foo: {
 				example: 3,
-				default: true,
+				backfill: true,
 			}
 		};
 		const result = optionsConfigValidator(config);
@@ -340,7 +340,7 @@ describe('optionsConfigValidator', () => {
 		const config = {
 			foo: {
 				example: 3,
-				default: true,
+				backfill: true,
 				optional: true,
 			}
 		};
@@ -2360,12 +2360,12 @@ describe('expandDefaults', () => {
 			foo: {
 				example: 5,
 				optional: true,
-				default: true,
+				backfill: true,
 			}
 		};
 		deepFreeze(config);
 		const obj = {};
-		const [result, changed] = ensureDefaults(config, obj);
+		const [result, changed] = ensureBackfill(config, obj);
 		const golden = {
 			foo: 5,
 		};
@@ -2379,14 +2379,14 @@ describe('expandDefaults', () => {
 			foo: {
 				example: 5,
 				optional: true,
-				default: true,
+				backfill: true,
 			}
 		};
 		deepFreeze(config);
 		const obj = {
 			foo: 3,
 		};
-		const [result, changed] = ensureDefaults(config, obj);
+		const [result, changed] = ensureBackfill(config, obj);
 		const golden = {
 			foo: 3,
 		};
@@ -2401,17 +2401,17 @@ describe('expandDefaults', () => {
 				foo: {
 					example: 5,
 					optional: true,
-					default: true,
+					backfill: true,
 				}
 			},
 			optional:true,
-			default: true,
+			backfill: true,
 		};
 		deepFreeze(config);
 		const obj = {
 			foo: 3,
 		};
-		const [result, changed] = ensureDefaults(config, obj);
+		const [result, changed] = ensureBackfill(config, obj);
 		const golden = {
 			foo: 3,
 		};
@@ -2426,15 +2426,15 @@ describe('expandDefaults', () => {
 				foo: {
 					example: 5,
 					optional: true,
-					default: true,
+					backfill: true,
 				}
 			},
 			optional:true,
-			default: true,
+			backfill: true,
 		};
 		deepFreeze(config);
 		const obj = {};
-		const [result, changed] = ensureDefaults(config, obj);
+		const [result, changed] = ensureBackfill(config, obj);
 		const golden = {
 			foo: 5,
 		};
@@ -2453,15 +2453,15 @@ describe('expandDefaults', () => {
 						}
 					},
 					optional: true,
-					default: true,
+					backfill: true,
 				}
 			},
 			optional:true,
-			default: true,
+			backfill: true,
 		};
 		deepFreeze(config);
 		const obj = {};
-		const [result, changed] = ensureDefaults(config, obj);
+		const [result, changed] = ensureBackfill(config, obj);
 		const golden = {
 			foo: {
 				bar: 3,
@@ -2485,11 +2485,11 @@ describe('expandDefaults', () => {
 				}
 			},
 			optional:true,
-			default: true,
+			backfill: true,
 		};
 		deepFreeze(config);
 		const obj = {};
-		const [result, changed] = ensureDefaults(config, obj);
+		const [result, changed] = ensureBackfill(config, obj);
 		const golden = {};
 		const goldenChanged = false;
 		assert.deepEqual(result, golden);
@@ -2510,20 +2510,20 @@ describe('expandDefaults', () => {
 						}
 					},
 					optional: true,
-					default: true,
+					backfill: true,
 				},
 				bar: {
 					example: 'baz',
-					default: true,
+					backfill: true,
 					optional: true,
 				}
 			},
 			optional:true,
-			default: true,
+			backfill: true,
 		};
 		deepFreeze(config);
 		const obj = {};
-		const [result, changed] = ensureDefaults(config, obj);
+		const [result, changed] = ensureBackfill(config, obj);
 		const golden = {
 			foo: {
 				bar: [
@@ -2552,19 +2552,19 @@ describe('expandDefaults', () => {
 								}
 							},
 							optional:true,
-							default: true,
+							backfill: true,
 						}
 					},
 					optional: true,
-					default: true,
+					backfill: true,
 				}
 			},
 			optional:true,
-			default: true,
+			backfill: true,
 		};
 		deepFreeze(config);
 		const obj = {};
-		const [result, changed] = ensureDefaults(config, obj);
+		const [result, changed] = ensureBackfill(config, obj);
 		const golden = {
 			foo: {
 				bar: {

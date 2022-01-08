@@ -89,7 +89,7 @@ export class BaseSimulator {
 
 	//An opportunity to make sure that simOptions is set with reasonable
 	//defaults. You may modify rawSimOptions directly. Typically you just set
-	//optional:true/default:true on fields you want to ensure are defintiely
+	//optional:true/backfill:true on fields you want to ensure are defintiely
 	//there and don't need to override this.
 	normalizeOptions(rawSimOptions) {
 		return rawSimOptions;
