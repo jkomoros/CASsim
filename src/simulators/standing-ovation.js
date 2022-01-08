@@ -139,6 +139,7 @@ class StandingOvationSimulator extends AgentSimulator {
 				step: 0.01,
 				optional: true,
 				backfill: true,
+				default: true,
 				shortName: 'fSP',
 				description: 'What percentage of seats should be filled'
 			},
