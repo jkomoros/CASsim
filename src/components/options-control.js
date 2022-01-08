@@ -28,6 +28,8 @@ import {
 	DIALOG_TYPE_ADD_FIELD
 } from '../actions/data.js';
 
+const doHide = (subConfig, parentValue) => subConfig.hide ? subConfig.hide(parentValue) : false;
+
 class OptionsControl extends LitElement {
 	static get properties() {
 		return {
@@ -145,8 +147,8 @@ class OptionsControl extends LitElement {
 			//value might be null
 			const nonNullValue = this.value || {};
 			//We iterate through in the order the EXAMPLE defines them so they show up in order.
-			const nonAdvancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined || deletedSubPaths[entry[0]]).filter(entry => !entry[1].advanced).map(entry => [entry[0], nonNullValue[entry[0]]]);
-			const advancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined || deletedSubPaths[entry[0]]).filter(entry => entry[1].advanced).map(entry => [entry[0], nonNullValue[entry[0]]]);
+			const nonAdvancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined || deletedSubPaths[entry[0]]).filter(entry => !doHide(entry[1], nonNullValue)).filter(entry => !entry[1].advanced).map(entry => [entry[0], nonNullValue[entry[0]]]);
+			const advancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined || deletedSubPaths[entry[0]]).filter(entry => !doHide(entry[1], nonNullValue)).filter(entry => entry[1].advanced).map(entry => [entry[0], nonNullValue[entry[0]]]);
 			return html`
 				${nonAdvancedEntries.map(entry => html`<options-control .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}
 				${advancedEntries.length ? html`<details .open=${this.pathExpanded[this.path || '']} @toggle=${this._handleDetailsToggle}>

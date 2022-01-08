@@ -15,6 +15,7 @@ const VALUE_PROPERTY_NAME = 'value';
 const DISPLAY_PROPERTY_NAME = 'display';
 const SHORT_NAME_PROPERTY_NAME = 'shortName';
 const DEFAULT_PROPERTY_NAME = 'default';
+const HIDE_PROPERTY_NAME = 'hide';
 
 export const COLOR_BEHAVIOR_NAME = 'color';
 
@@ -114,6 +115,8 @@ const optionsLeafValidator = (config) => {
 	if (config[STEP_PROPERTY_NAME] !== undefined && typeof config[STEP_PROPERTY_NAME] != 'number') return STEP_PROPERTY_NAME + ' must be a number if provided';
 
 	if (config[BEHAVIOR_PROPERTY_NAME] !== undefined && (typeof config[BEHAVIOR_PROPERTY_NAME] != 'string' || !ALLOWED_BEHAVIOR_NAMES[config[BEHAVIOR_PROPERTY_NAME]])) return BEHAVIOR_PROPERTY_NAME + ' was provided ' + config[BEHAVIOR_PROPERTY_NAME] + ' but only allows ' + Object.keys(ALLOWED_BEHAVIOR_NAMES).join(', ');
+
+	if (config[HIDE_PROPERTY_NAME] !== undefined && typeof config[HIDE_PROPERTY_NAME] != 'function') return HIDE_PROPERTY_NAME + ' must be a function';
 
 	if (config[SHORT_NAME_PROPERTY_NAME] !== undefined && typeof config[SHORT_NAME_PROPERTY_NAME] != 'string') return SHORT_NAME_PROPERTY_NAME + ' was provided but was not a string';
 	if (config[SHORT_NAME_PROPERTY_NAME] !== undefined && !config[SHORT_NAME_PROPERTY_NAME]) return SHORT_NAME_PROPERTY_NAME + ' may not be the empty string';
