@@ -339,6 +339,15 @@ export class Graph {
 	}
 }
 
+/*
+	A PositionedGraph is a Graph where each node also has a notion of its x/y
+	position in space, and sometimes also its width/height. You should override
+	calculateNodePosition to include your logic that decides where to place a
+	given node. For example, if you just wanted your nodes to all be able to be
+	placed at specific x,y coordinates manually, you might return {x:
+	node.values.x, y: node.values.y}. Other subclasses will override that logic
+	with specific layout logic.
+*/
 export class PositionedGraph extends Graph {
 
 	set availableWidth(val) {
