@@ -167,9 +167,9 @@ assume that all relevant properties are set. All other methods that receive
 simOptions will receive the normalized result of this. normalizeOptions may
 mutate the rawSimOptions and also return it. Before normalizeOptions is called,
 the harness will automatically set any missing config properties with
-`optional:true` and `default:true` to the example value. In practice, this means
-that a number of optional values can be defaulted automatically and don't
-require you to do much in this method, if anything. Note that when setting
+`optional:true` (and not also `skipBackfill`) to the example value. In practice,
+this means that most optional values can be defaulted automatically and
+don't require you to do much in this method, if anything. Note that when setting
 defaults for values, it uses the built-in defaulting machinery and does NOT call
 out into the simulator.defaultValueForPath.
 
@@ -297,10 +297,13 @@ declarative format that has the following shape, called an optionsLeaf:
 	//true if optional is true. This is useful for when you don't want to force hand-coded configs to include the value, but in the UI when 
 	//the user adds a default value you want it to be included.
 	"default": false,
-	//If backfill is true, then if the value is not provided by the user (which is only allowed if optional:false), then the
-	//example value will automatically be normalized into the simOptions object before it's provided to the simulator's normalizeOptions.
-	//This can make sure that downstream parts of your simulator can assume the value exists, even if it wasn't explicitly provided by the user.
-	"backfill": false,
+	//If true, then don't backfill the value before normalizing it. May only be true if optional is true. The machinery will fill in optional 
+	//values that are missing with their defaults before passing them to normalizeOptions (which is convenient; you don't have to check if 
+	//they exist in your logic). But this makes it impossible to tell if a user deliberately omitted a value or if it was set by backfill.
+	//In the rare cases where you need to tell that, you can pass skipBackfill: true. This typically is useful if the mere existence
+	//of a sub-value in your config implies the existence of something that renders, or if you have a pattern where you can override
+	//specific agents' values (as in randomIndividual/individuals in schelling-org)
+	"skipBackfill": false,
 	//Advanced options will only render UI if the user has enabled advanced mode. This is useful to hide infrequently needed options.
 	"advanced": false,
 }

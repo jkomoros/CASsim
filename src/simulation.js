@@ -487,14 +487,16 @@ export const Simulation = class {
 					shortName: 't',
 					description: 'The human-readable version of name, with pretty formatting. Will use a transformation of ' + NAME_PROPERTY + 'like "two-words" -> "Two Words" if not provided.',
 					advanced: true,
-					optional: true
+					optional: true,
+					skipBackfill: true,
 				},
 				[DESCRIPTION_PROPERTY]: {
 					example: '',
 					shortName: 'd',
 					description: 'The human-readable description of the config. Optional. Will use name if not provided.',
 					advanced: true,
-					optional: true
+					optional: true,
+					skipBackfill: true,
 				},
 				[WIDTH_PROPERTY]: {
 					example: 800,
@@ -526,35 +528,39 @@ export const Simulation = class {
 					shortName: 'sd',
 					description: 'If omitted, will use a value derived from current time. The deterministic value to feed to seed.',
 					advanced: true,
-					optional: true
+					optional: true,
+					skipBackfill: true,
 				},
 				[AUTO_GENERATE_PROPERTY]: {
 					example: true,
 					shortName: 'aG',
 					description: 'if true, then it will automatically generate all frames for all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.',
 					advanced: true,
-					optional: true
+					optional: true,
+					skipBackfill: true,
 				},
 				[AUTO_PLAY_PROPERTY]: {
 					example: true,
 					shortName: 'aP',
 					description: 'If set, will automatically start playing when simulation is loaded',
 					advanced: true,
-					optional: true
+					optional: true,
+					skipBackfill: true,
 				},
 				[REPEAT_PROPERTY]: {
 					example: true,
 					shortName: 'rpt',
 					description: 'If true, will loop back around to the beginning of the round when being played. Gif screenshotting also respects this value',
 					advanced: true,
-					optional: true
+					optional: true,
+					skipBackfill: true,
 				},
 				[EXTRA_FINAL_FRAME_COUNT_PROPERTY]: {
 					example: DEFAULT_EXTRA_FINAL_FRAME_COUNT,
 					shortName: 'eFFC',
 					description: 'The number of additional frames to pause at the end of a round',
 					advanced: true,
-					optional: true
+					optional: true,
 				},
 				[DISPLAY_PROPERTY]: {
 					example: {
@@ -563,23 +569,27 @@ export const Simulation = class {
 							shortName: 's',
 							description: "If provided, will render a status line of runs summary beneath the visuazliation, including in the screenshot output",
 							optional: true,
+							skipBackfill: true,
 						},
 						[SCREENSHOT_STATUS_DISPLAY_PROPERTY]: {
 							example: true,
 							shortName: 'sS',
 							description: "If true, then the status line will be included (as in " + STATUS_DISPLAY_PROPERTY + ") but only in the screenshot output",
 							optional: true,
+							skipBackfill: true,
 						},
 						[CLIP_STATUS_PROPERTY]: {
 							example: true,
 							shortName: 'cS',
 							description: "If provided, and " + STATUS_DISPLAY_PROPERTY + " is true, then it will hide future runs in the rendered status bar.",
-							optional: true
+							optional: true,
+							skipBackfill: true,
 						}
 					},
 					shortName: 'dsp',
 					description: 'Properties to configure optional display characteristics',
 					optional: true,
+					skipBackfill: true,
 					advanced: true,
 				},
 				[COLORS_PROPERTY]: {

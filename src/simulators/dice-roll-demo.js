@@ -71,7 +71,6 @@ class DiceRollDemoSimulator extends BaseSimulator {
 				example: 6,
 				optional: true,
 				default: true,
-				backfill: true,
 				shortName: 'd',
 				description: 'The maximum number on the die face',
 			},
@@ -79,7 +78,6 @@ class DiceRollDemoSimulator extends BaseSimulator {
 				example: 20,
 				optional: true,
 				default: true,
-				backfill: true,
 				shortName: 'tS',
 				description: 'The score we try to hit to win'
 			},
@@ -87,7 +85,6 @@ class DiceRollDemoSimulator extends BaseSimulator {
 				example: 1,
 				optional: true,
 				default: true,
-				backfill: true,
 				shortName: 'b',
 				description: 'The die number that, if it comes up, will bust'
 			}

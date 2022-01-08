@@ -89,7 +89,6 @@ class AgentDemoSimulator extends AgentSimulator {
 			'agents': {
 				example: 6,
 				optional: true,
-				backfill: true,
 				default: true,
 				shortName: 'a',
 				description: 'The number of agents',
@@ -97,7 +96,6 @@ class AgentDemoSimulator extends AgentSimulator {
 			'rows': {
 				example: 5,
 				optional:true,
-				backfill: true,
 				default: true,
 				shortName: 'r',
 				description: 'Number of rows in the map',
@@ -105,7 +103,6 @@ class AgentDemoSimulator extends AgentSimulator {
 			'cols': {
 				example: 5,
 				optional:true,
-				backfill: true,
 				default: true,
 				shortName: 'c',
 				description: 'Number of cols in the map',
@@ -113,7 +110,6 @@ class AgentDemoSimulator extends AgentSimulator {
 			'rounds': {
 				example: 15,
 				optional: true,
-				backfill: true,
 				default: true,
 				shortName: 'n',
 				description: 'The number of rounds'
@@ -124,7 +120,6 @@ class AgentDemoSimulator extends AgentSimulator {
 				max: 1.0,
 				min: 0.0,
 				optional: true,
-				backfill: true,
 				default: true,
 				shortName: 'gR',
 				description: "How quickly value grows in each cell"
@@ -135,7 +130,6 @@ class AgentDemoSimulator extends AgentSimulator {
 				max: 1.0,
 				min: 0.0,
 				optional:true,
-				backfill: true,
 				default: true,
 				shortName: 'sL',
 				description: 'On each frame, how likely a given agent is to spawn a child',
@@ -146,7 +140,6 @@ class AgentDemoSimulator extends AgentSimulator {
 				max:  1.0,
 				min: 0.0,
 				optional:true,
-				backfill:true,
 				default: true,
 				shortName: 'dL',
 				description: 'On each frame, how likely a given agent is to die.',

@@ -316,7 +316,7 @@ describe('optionsConfigValidator', () => {
 			foo: {
 				example: 3,
 				optional: true,
-				backfill: 3,
+				skipBackfill: 3,
 			}
 		};
 		const result = optionsConfigValidator(config);
@@ -324,11 +324,11 @@ describe('optionsConfigValidator', () => {
 		assert.strictEqual(result != '', expectedProblem);
 	});
 
-	it('handles basic object with default true optional false', async () => {
+	it('handles basic object with skipBackfill true optional false', async () => {
 		const config = {
 			foo: {
 				example: 3,
-				backfill: true,
+				skipBackfill: true,
 			}
 		};
 		const result = optionsConfigValidator(config);
@@ -336,11 +336,11 @@ describe('optionsConfigValidator', () => {
 		assert.strictEqual(result != '', expectedProblem);
 	});
 
-	it('handles basic object with legal default and optional', async () => {
+	it('handles basic object with legal skipDefault and optional', async () => {
 		const config = {
 			foo: {
 				example: 3,
-				backfill: true,
+				skipBackfill: true,
 				optional: true,
 			}
 		};
@@ -2460,13 +2460,12 @@ describe('expandPathWithConfig', () => {
 	});
 });
 
-describe('expandDefaults', () => {
+describe('ensureBackfill', () => {
 	it('handles basic object', async () => {
 		const config = {
 			foo: {
 				example: 5,
 				optional: true,
-				backfill: true,
 			}
 		};
 		deepFreeze(config);
@@ -2485,7 +2484,6 @@ describe('expandDefaults', () => {
 			foo: {
 				example: 5,
 				optional: true,
-				backfill: true,
 			}
 		};
 		deepFreeze(config);
@@ -2507,11 +2505,9 @@ describe('expandDefaults', () => {
 				foo: {
 					example: 5,
 					optional: true,
-					backfill: true,
 				}
 			},
 			optional:true,
-			backfill: true,
 		};
 		deepFreeze(config);
 		const obj = {
@@ -2532,11 +2528,9 @@ describe('expandDefaults', () => {
 				foo: {
 					example: 5,
 					optional: true,
-					backfill: true,
 				}
 			},
 			optional:true,
-			backfill: true,
 		};
 		deepFreeze(config);
 		const obj = {};
@@ -2559,11 +2553,9 @@ describe('expandDefaults', () => {
 						}
 					},
 					optional: true,
-					backfill: true,
 				}
 			},
 			optional:true,
-			backfill: true,
 		};
 		deepFreeze(config);
 		const obj = {};
@@ -2588,10 +2580,10 @@ describe('expandDefaults', () => {
 						}
 					},
 					optional: true,
+					skipBackfill: true,
 				}
 			},
 			optional:true,
-			backfill: true,
 		};
 		deepFreeze(config);
 		const obj = {};
@@ -2616,16 +2608,13 @@ describe('expandDefaults', () => {
 						}
 					},
 					optional: true,
-					backfill: true,
 				},
 				bar: {
 					example: 'baz',
-					backfill: true,
 					optional: true,
 				}
 			},
 			optional:true,
-			backfill: true,
 		};
 		deepFreeze(config);
 		const obj = {};
@@ -2658,15 +2647,12 @@ describe('expandDefaults', () => {
 								}
 							},
 							optional:true,
-							backfill: true,
 						}
 					},
 					optional: true,
-					backfill: true,
 				}
 			},
 			optional:true,
-			backfill: true,
 		};
 		deepFreeze(config);
 		const obj = {};

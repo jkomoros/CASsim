@@ -14,7 +14,7 @@ const BEHAVIOR_PROPERTY_NAME = 'behavior';
 const VALUE_PROPERTY_NAME = 'value';
 const DISPLAY_PROPERTY_NAME = 'display';
 const SHORT_NAME_PROPERTY_NAME = 'shortName';
-const BACKFILL_PROPERTY_NAME = 'backfill';
+const SKIP_BACKFILL_PROPERTY_NAME = 'skipBackfill';
 const DEFAULT_PROPERTY_NAME = 'default';
 const HIDE_PROPERTY_NAME = 'hide';
 
@@ -106,11 +106,11 @@ const optionsLeafValidator = (config) => {
 
 	if (config[DESCRIPTION_PROPERTY_NAME] !== undefined && typeof config[DESCRIPTION_PROPERTY_NAME] != 'string') return DESCRIPTION_PROPERTY_NAME + ' must be a string if provided';
 	if (config[OPTIONAL_PROPERTY_NAME] !== undefined && typeof config[OPTIONAL_PROPERTY_NAME] != 'boolean') return OPTIONAL_PROPERTY_NAME + ' must be a boolean if provided';
-	if (config[BACKFILL_PROPERTY_NAME] !== undefined && typeof config[BACKFILL_PROPERTY_NAME] != 'boolean') return BACKFILL_PROPERTY_NAME + ' must be a boolean if provided';
+	if (config[SKIP_BACKFILL_PROPERTY_NAME] !== undefined && typeof config[SKIP_BACKFILL_PROPERTY_NAME] != 'boolean') return SKIP_BACKFILL_PROPERTY_NAME + ' must be a boolean if provided';
 	if (config[DEFAULT_PROPERTY_NAME] !== undefined && typeof config[DEFAULT_PROPERTY_NAME] != 'boolean') return DEFAULT_PROPERTY_NAME + ' must be a boolean if provided';
 	if (config[ADVANCED_PROPERTY_NAME] !== undefined && typeof config[ADVANCED_PROPERTY_NAME] != 'boolean') return ADVANCED_PROPERTY_NAME + ' must be a boolean if provided';
 
-	if (config[BACKFILL_PROPERTY_NAME] && !config[OPTIONAL_PROPERTY_NAME]) return 'If ' + BACKFILL_PROPERTY_NAME + ' is true, then ' + OPTIONAL_PROPERTY_NAME + 'must also be true';
+	if (config[SKIP_BACKFILL_PROPERTY_NAME] && !config[OPTIONAL_PROPERTY_NAME]) return 'If ' + SKIP_BACKFILL_PROPERTY_NAME + ' is true, then ' + SKIP_BACKFILL_PROPERTY_NAME + 'must also be true';
 	if (config[DEFAULT_PROPERTY_NAME] && !config[OPTIONAL_PROPERTY_NAME]) return 'If ' + DEFAULT_PROPERTY_NAME + ' is true, then ' + OPTIONAL_PROPERTY_NAME + 'must also be true';
 
 	if (config[MIN_PROPERTY_NAME] !== undefined && typeof config[MIN_PROPERTY_NAME] != 'number') return MIN_PROPERTY_NAME + ' must be a number if provided';
@@ -251,7 +251,7 @@ export const ensureBackfill = (optionsConfig, obj) => {
 	}
 	if (typeof example == 'object') {
 		if (!obj) {
-			if (!optionsConfig[BACKFILL_PROPERTY_NAME]) return [obj, false];
+			if (optionsConfig[SKIP_BACKFILL_PROPERTY_NAME]) return [obj, false];
 			let defaulted = defaultValueForConfig(optionsConfig);
 			[defaulted] = ensureBackfill(optionsConfig, defaulted);
 			return [defaulted, true];
@@ -275,7 +275,7 @@ export const ensureBackfill = (optionsConfig, obj) => {
 	//If the value is already provided, no need to do anything
 	if (obj !== undefined) return [obj, false];
 	//Base case
-	if (!optionsConfig[BACKFILL_PROPERTY_NAME]) return [obj, false];
+	if (optionsConfig[SKIP_BACKFILL_PROPERTY_NAME]) return [obj, false];
 	let defaulted = defaultValueForConfig(optionsConfig);
 	[defaulted] = ensureBackfill(optionsConfig, defaulted);
 	return [defaulted, true];

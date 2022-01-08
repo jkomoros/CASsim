@@ -162,7 +162,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const defaultCompellingValue = simOptions[COLLABORATORS_PROPERTY_NAME][COMPELLING_PROPERTY_NAME];
 		const broadcastLikelihood = simOptions[COLLABORATORS_PROPERTY_NAME][BROADCAST_LIKELIHOOD_PROPERTY_NAME];
 		const communicationStrategy = simOptions[COLLABORATORS_PROPERTY_NAME][COMMUNICATION_STRATEGY_PROPERTY_NAME];
-		//This might be undefined if not provided
 		const optimismValue = simOptions[COLLABORATORS_PROPERTY_NAME][OPTIMISM_PROPERTY_NAME];
 		const believabilityValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? simOptions[NORTH_STAR_PROPERTY_NAME][BELIEVABILITY_PROPERTY_NAME] : 1.0;
 
@@ -572,30 +571,32 @@ class SchellingOrgSimulator extends BaseSimulator {
 						shortName: SHORT_NAMES[DEBUG_PROPERTY_NAME] || '',
 						description: "If true, then the SVG will render debug information",
 						optional: true,
+						skipBackfill: true,
 					},
 					[DISABLE_BELIEFS_PROPERTY_NAME]: {
 						example: true,
 						shortName: SHORT_NAMES[DISABLE_BELIEFS_PROPERTY_NAME] || '',
 						description: "If true, then each individuals' beliefs about the value of a project will be rendered as a tick mark",
-						optional: true
+						optional: true,
+						skipBackfill: true,
 					},
 					[DISABLE_SELECTION_PROPERTY_NAME]: {
 						example: true,
 						shortName: SHORT_NAMES[DISABLE_SELECTION_PROPERTY_NAME] || '',
 						description: 'If true, then the line connecting each collaborator to the project they pick won\'t be rendered',
-						optional: true
+						optional: true,
+						skipBackfill: true,
 					}
 				},
 				shortName: SHORT_NAMES[DISPLAY_PROPERTY_NAME] || '',
 				optional: true,
-				backfill: true,
+				skipBackfill: true,
 				description: "An optional object that controls how things render. If not provided, will be interpreted as though it enables no optional rendering.",
 				advanced: true
 			},
 			[COMMUNICATION_PROPERTY_NAME]: {
 				example: 0,
 				optional: true,
-				backfill: true,
 				default: true,
 				shortName: SHORT_NAMES[COMMUNICATION_PROPERTY_NAME] || '',
 				description: "How many rounds of communication should be allowed between agents before they decide. 0 is no communication and will render a line of collaborators with walls between them."
@@ -605,14 +606,12 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[COUNT_PROPERTY_NAME]: {
 						example: 0,
 						optional: true,
-						backfill: true,
 						shortName: SHORT_NAMES[COUNT_PROPERTY_NAME] || '',
 						description: "How many collaborators there should be"
 					},
 					[EPSILON_PROPERTY_NAME]: {
 						example: 0.0,
 						optional: true,
-						backfill: true,
 						shortName: SHORT_NAMES[EPSILON_PROPERTY_NAME] || '',
 						step: 0.05,
 						description: "Project values within this amount of each other will be considered to be the same"
@@ -620,7 +619,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: {
 						example: 0.5,
 						optional: true,
-						backfill: true,
 						shortName: SHORT_NAMES[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME] || '',
 						step: 0.05,
 						description: "We compute a range of possible connection likelihoods based on [avgConnectionLikelihood - connectionLikelihoodSpread, avgConnectionLikelihood + connectionLikelihoodSpread] Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength."
@@ -628,7 +626,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: {
 						example: 0.5,
 						optional: true,
-						backfill: true,
 						shortName: SHORT_NAMES[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] || '',
 						step: 0.05,
 						description: "We compute a range of possible connection likelihoods based on [avgConnectionLikelihood - connectionLikelihoodSpread, avgConnectionLikelihood + connectionLikelihoodSpread] Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength."
@@ -641,7 +638,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 						max: 1.0,
 						step: 0.05,
 						optional: true,
-						backfill: true,
 					},
 					[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: {
 						example: 0.0,
@@ -651,7 +647,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 						max: 1.0,
 						step: 0.05,
 						optional: true,
-						backfill: true,
 					},
 					[OPTIMISM_PROPERTY_NAME]: {
 						example: 0.5,
@@ -660,7 +655,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 						min: 0.0,
 						max: 1.0,
 						step: 0.05,
-						optional: true
+						optional: true,
+						//Machinery assumes optimism bias can be undefined
+						skipBackfill: true,
 					},
 					[COMMUNICATION_STRATEGY_PROPERTY_NAME]: {
 						example: COMMUNICATION_STRATEGY_RANDOM,
@@ -685,7 +682,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 							}
 						],
 						optional: true,
-						backfill: true,
 					},
 					[RANDOM_INDIVIDUAL_PROPERTY_NAME]: {
 						example: {
@@ -698,6 +694,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 								shortName: SHORT_NAMES[BELIEFS_PROPERTY_NAME] || '',
 								description: "The starter beliefs of this individual of the values of projects. Must be an array of the same length as number of projects",
 								optional: true,
+								//Since this is overlaiid over individuals, it must be able to not be set
+								skipBackfill: true,
 							},
 							[EPSILON_PROPERTY_NAME]: {
 								example: 0.5,
@@ -705,24 +703,32 @@ class SchellingOrgSimulator extends BaseSimulator {
 								step: 0.05,
 								description: "The epsilon for this specific individual",
 								optional:true,
+								//Since this is overlaiid over individuals, it must be able to not be set
+								skipBackfill: true,
 							},
 							[EMOJI_PROPERTY_NAME]: {
 								example: 'A',
 								shortName: SHORT_NAMES[EMOJI_PROPERTY_NAME] || '',
 								description: 'The specific emoji',
 								optional:true,
+								//Since this is overlaiid over individuals, it must be able to not be set
+								skipBackfill: true,
 							},
 							[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: {
 								example: 0.5,
 								shortName: SHORT_NAMES[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME] || '',
 								description: AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME + ' for this individual',
 								optional:true,
+								//Since this is overlaiid over individuals, it must be able to not be set
+								skipBackfill: true,
 							},
 							[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: {
 								example: 0.5,
 								shortName: SHORT_NAMES[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] || '',
 								description: CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME + ' for this individual',
 								optional:true,
+								//Since this is overlaiid over individuals, it must be able to not be set
+								skipBackfill: true,
 							},
 							[COMPELLING_PROPERTY_NAME]: {
 								example: DEFAULT_COMPELLING_VALUE,
@@ -732,6 +738,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 								min: 0.0,
 								step: 0.05,
 								optional:true,
+								//Since this is overlaiid over individuals, it must be able to not be set
+								skipBackfill: true,
 							},
 							[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: {
 								example: 0.0,
@@ -741,6 +749,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 								max: 1.0,
 								step: 0.05,
 								optional: true,
+								//Since this is overlaiid over individuals, it must be able to not be set
+								skipBackfill: true,
 							},
 							[OPTIMISM_PROPERTY_NAME]: {
 								example: 0.5,
@@ -749,13 +759,17 @@ class SchellingOrgSimulator extends BaseSimulator {
 								min: 0.0,
 								max: 1.0,
 								step: 0.05,
-								optional: true
+								optional: true,
+								//Since this is overlaiid over individuals, it must be able to not be set
+								skipBackfill: true,
 							},
 							[BELIEVES_PROPERTY_NAME]: {
 								example: true,
 								shortName: SHORT_NAMES[BELIEVES_PROPERTY_NAME] || '',
 								description: 'Whether this person believes in the north star or not. If they don\'t believe then they will not be influenced by the effect.',
-								optional: true
+								optional: true,
+								//Since this is overlaiid over individuals, it must be able to not be set
+								skipBackfill: true,
 							},
 							[COMMUNICATION_STRATEGY_PROPERTY_NAME]: {
 								example: COMMUNICATION_STRATEGY_RANDOM,
@@ -779,16 +793,19 @@ class SchellingOrgSimulator extends BaseSimulator {
 										description: 'The project the speaker and receiver disagree most about'
 									}
 								],
-								optional:true
+								optional:true,
+								//Since this is overlaiid over individuals, it must be able to not be set
+								skipBackfill: true,
 							}
 						},
 						shortName: SHORT_NAMES[RANDOM_INDIVIDUAL_PROPERTY_NAME] || '',
 						description: "If set, then the individuals array will be set so that a random individual has this configuration provided",
 						optional: true,
+						//Since this is overlaiid over individuals, it must be able to not be set
+						skipBackfill: true,
 					},
 					[INDIVIDUALS_PROPERTY_NAME]: {
 						optional: true,
-						backfill: true,
 						example: [
 							{
 								example: {
@@ -801,6 +818,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 										shortName: SHORT_NAMES[BELIEFS_PROPERTY_NAME] || '',
 										description: "The starter beliefs of this individual of the values of projects. Must be an array of the same length as number of projects",
 										optional: true,
+										//Since this is overlaiid over individuals, it must be able to not be set
+										skipBackfill: true,
 									},
 									[EPSILON_PROPERTY_NAME]: {
 										example: 0.5,
@@ -808,24 +827,32 @@ class SchellingOrgSimulator extends BaseSimulator {
 										step: 0.05,
 										description: "The epsilon for this specific individual",
 										optional:true,
+										//Since this is overlaiid over individuals, it must be able to not be set
+										skipBackfill: true,
 									},
 									[EMOJI_PROPERTY_NAME]: {
 										example: 'A',
 										shortName: SHORT_NAMES[EMOJI_PROPERTY_NAME] || '',
 										description: 'The specific emoji',
 										optional:true,
+										//Since this is overlaiid over individuals, it must be able to not be set
+										skipBackfill: true,
 									},
 									[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: {
 										example: 0.5,
 										shortName: SHORT_NAMES[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME] || '',
 										description: AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME + ' for this individual',
 										optional:true,
+										//Since this is overlaiid over individuals, it must be able to not be set
+										skipBackfill: true,
 									},
 									[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: {
 										example: 0.5,
 										shortName: SHORT_NAMES[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] || '',
 										description: CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME + ' for this individual',
 										optional:true,
+										//Since this is overlaiid over individuals, it must be able to not be set
+										skipBackfill: true,
 									},
 									[COMPELLING_PROPERTY_NAME]: {
 										example: DEFAULT_COMPELLING_VALUE,
@@ -835,6 +862,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 										min: 0.0,
 										step: 0.05,
 										optional:true,
+										//Since this is overlaiid over individuals, it must be able to not be set
+										skipBackfill: true,
 									},
 									[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: {
 										example: 0.0,
@@ -844,6 +873,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 										max: 1.0,
 										step: 0.05,
 										optional: true,
+										//Since this is overlaiid over individuals, it must be able to not be set
+										skipBackfill: true,
 									},
 									[OPTIMISM_PROPERTY_NAME]: {
 										example: 0.5,
@@ -852,13 +883,17 @@ class SchellingOrgSimulator extends BaseSimulator {
 										min: 0.0,
 										max: 1.0,
 										step: 0.05,
-										optional: true
+										optional: true,
+										//Since this is overlaiid over individuals, it must be able to not be set
+										skipBackfill: true,
 									},
 									[BELIEVES_PROPERTY_NAME]: {
 										example: true,
 										shortName: SHORT_NAMES[BELIEVES_PROPERTY_NAME] || '',
 										description: 'Whether this person believes in the north star or not. If they don\'t believe then they will not be influenced by the effect.',
-										optional: true
+										optional: true,
+										//Since this is overlaiid over individuals, it must be able to not be set
+										skipBackfill: true,
 									},
 									[COMMUNICATION_STRATEGY_PROPERTY_NAME]: {
 										example: COMMUNICATION_STRATEGY_RANDOM,
@@ -882,11 +917,15 @@ class SchellingOrgSimulator extends BaseSimulator {
 												description: 'The project the speaker and receiver disagree most about'
 											}
 										],
-										optional: true
+										optional: true,
+										//Since this is overlaiid over individuals, it must be able to not be set
+										skipBackfill: true,
 									},
 								},
 								description: "An individual",
-								optional: true
+								optional: true,
+								//Since this is overlaiid over individuals, it must be able to not be set
+								skipBackfill: true,
 							}
 						],
 						shortName: SHORT_NAMES[INDIVIDUALS_PROPERTY_NAME] || '',
@@ -894,7 +933,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 					}
 				},
 				optional: true,
-				backfill: true,
 				default: true,
 				shortName: SHORT_NAMES[COLLABORATORS_PROPERTY_NAME] || '',
 				description: "Information on the collaborators"
@@ -903,7 +941,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 				example: {
 					[COUNT_PROPERTY_NAME]: {
 						example: 0,
-						backfill: true,
 						optional: true,
 						shortName: SHORT_NAMES[COUNT_PROPERTY_NAME] || '',
 						description: "How many projects there are"
@@ -911,7 +948,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[MAX_EXTRA_VALUE_PROPERTY_NAME]: {
 						example: 0.0,
 						optional: true,
-						backfill: true,
 						shortName: SHORT_NAMES[MAX_EXTRA_VALUE_PROPERTY_NAME] || '',
 						step: 0.05,
 						description: "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value"
@@ -919,7 +955,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[MAX_ERROR_VALUE_PROPERTY_NAME]: {
 						example: 0.0,
 						optional: true,
-						backfill: true,
 						shortName: SHORT_NAMES[MAX_ERROR_VALUE_PROPERTY_NAME] || '',
 						step: 0.05,
 						description: 'Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.'
@@ -928,7 +963,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 						example: 0.0,
 						shortName: SHORT_NAMES[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] || '',
 						optional: true,
-						backfill: true,
 						step: 0.01,
 						description: "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number."
 					},
@@ -938,13 +972,16 @@ class SchellingOrgSimulator extends BaseSimulator {
 								example: false,
 								shortName: SHORT_NAMES[MARKED_PROPERTY_NAME] || '',
 								description: "A marked project shows up distinctively; collaborators, when deciding between two projects that look like the same value, will prefer the marked one.",
-								optional: true
+								optional: true,
+								skipBackfill: true,
 							},
 							[MAX_EXTRA_VALUE_PROPERTY_NAME]: {
 								example: 0.0,
 								shortName: SHORT_NAMES[MAX_EXTRA_VALUE_PROPERTY_NAME] || '',
 								step: 0.05,
 								optional: true,
+								//Since this is overlaiid over individuals, it must be able to not be set
+								skipBackfill: true,
 								description: "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value"
 							},
 							[MAX_ERROR_VALUE_PROPERTY_NAME]: {
@@ -952,12 +989,16 @@ class SchellingOrgSimulator extends BaseSimulator {
 								shortName: SHORT_NAMES[MAX_ERROR_VALUE_PROPERTY_NAME] || '',
 								step: 0.05,
 								optional: true,
+								//Since this is overlaiid over individuals, it must be able to not be set
+								skipBackfill: true,
 								description: 'Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.'
 							},
 							[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: {
 								example: 0.0,
 								shortName: SHORT_NAMES[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] || '',
 								optional: true,
+								//Since this is overlaiid over individuals, it must be able to not be set
+								skipBackfill: true,
 								step: 0.01,
 								description: "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number."
 							},
@@ -966,18 +1007,23 @@ class SchellingOrgSimulator extends BaseSimulator {
 								shortName: SHORT_NAMES[VALUE_PROPERTY_NAME] || '',
 								step: 0.05,
 								description: "Value is the height of the project, in units of 1.0 = width",
-								optional: true
+								optional: true,
+								//Since this is overlaiid over individuals, it must be able to not be set
+								skipBackfill: true,
 							},
 							[ERROR_PROPERTY_NAME]: {
 								example: 0.0,
 								shortName: SHORT_NAMES[ERROR_PROPERTY_NAME] || '',
 								step: 0.05,
 								description: "The error bars for this value; collaborators will consider the true value to be somewhere within value +/- this value",
-								optional: true
+								optional: true,
+								//Since this is overlaiid over individuals, it must be able to not be set
+								skipBackfill: true,
 							}
 						},
 						shortName: SHORT_NAMES[RANDOM_INDIVIDUAL_PROPERTY_NAME] || '',
 						optional:true,
+						skipBackfill: true,
 						description: "If provided, each run the individuals overrides will have a random individual provided precisely these overrides"
 					},
 					[INDIVIDUALS_PROPERTY_NAME]: {
@@ -988,13 +1034,17 @@ class SchellingOrgSimulator extends BaseSimulator {
 										example: false,
 										shortName: SHORT_NAMES[MARKED_PROPERTY_NAME] || '',
 										description: "A marked project shows up distinctively; collaborators, when deciding between two projects that look like the same value, will prefer the marked one.",
-										optional: true
+										optional: true,
+										//Since this is overlaiid over individuals, it must be able to not be set
+										skipBackfill: true,
 									},
 									[MAX_EXTRA_VALUE_PROPERTY_NAME]: {
 										example: 0.0,
 										shortName: SHORT_NAMES[MAX_EXTRA_VALUE_PROPERTY_NAME] || '',
 										step: 0.05,
 										optional: true,
+										//Since this is overlaiid over individuals, it must be able to not be set
+										skipBackfill: true,
 										description: "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value"
 									},
 									[MAX_ERROR_VALUE_PROPERTY_NAME]: {
@@ -1002,12 +1052,16 @@ class SchellingOrgSimulator extends BaseSimulator {
 										shortName: SHORT_NAMES[MAX_ERROR_VALUE_PROPERTY_NAME] || '',
 										step: 0.05,
 										optional: true,
+										//Since this is overlaiid over individuals, it must be able to not be set
+										skipBackfill: true,
 										description: 'Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.'
 									},
 									[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: {
 										example: 0.0,
 										shortName: SHORT_NAMES[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] || '',
 										optional: true,
+										//Since this is overlaiid over individuals, it must be able to not be set
+										skipBackfill: true,
 										step: 0.01,
 										description: "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number."
 									},
@@ -1016,29 +1070,33 @@ class SchellingOrgSimulator extends BaseSimulator {
 										shortName: SHORT_NAMES[VALUE_PROPERTY_NAME] || '',
 										step: 0.05,
 										description: "Value is the height of the project, in units of 1.0 = width",
-										optional: true
+										optional: true,
+										//Since this is overlaiid over individuals, it must be able to not be set
+										skipBackfill: true,
 									},
 									[ERROR_PROPERTY_NAME]: {
 										example: 0.0,
 										shortName: SHORT_NAMES[ERROR_PROPERTY_NAME] || '',
 										step: 0.05,
 										description: "The error bars for this value; collaborators will consider the true value to be somewhere within value +/- this value",
-										optional: true
+										optional: true,
+										//Since this is overlaiid over individuals, it must be able to not be set
+										skipBackfill: true,
 									}
 								},
 								shortName: SHORT_NAMES[DISPLAY_PROPERTY_NAME] || '',
 								description: "A specific project",
 								optional:true,
+								//Since this is overlaiid over individuals, it must be able to not be set
+								skipBackfill: true,
 							}
 						],
 						shortName: SHORT_NAMES[INDIVIDUALS_PROPERTY_NAME] || '',
 						optional: true,
-						backfill: true,
 						description: "individuals is set to override the computed individuals with the given properties. null values will be ignored, and keys not in the override will be left in place."
 					}
 				},
 				optional: true,
-				backfill: true,
 				default: true,
 				shortName: SHORT_NAMES[PROJECTS_PROPERTY_NAME] || '',
 				description: "Information on projects"
@@ -1048,7 +1106,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[EMOJI_PROPERTY_NAME]: {
 						example: DEFAULT_NORTH_STAR_EMOJI,
 						optional: true,
-						backfill: true,
 						default: true,
 						shortName: SHORT_NAMES[EMOJI_PROPERTY_NAME] || '',
 						description: "The emoji to render for the north star",
@@ -1056,7 +1113,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[OFFSET_TYPE_PROPERTY_NAME]: {
 						example: OFFSET_TYPE_MANUAL,
 						optional: true,
-						backfill: true,
 						default: true,
 						shortName: SHORT_NAMES[OFFSET_TYPE_PROPERTY_NAME] || '',
 						options: [
@@ -1077,7 +1133,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[MIN_OFFSET_PROPERTY_NAME]: {
 						example: 0.0,
 						optional: true,
-						backfill: true,
 						default: true,
 						hide: values => values[OFFSET_TYPE_PROPERTY_NAME] == OFFSET_TYPE_MANUAL,
 						shortName: SHORT_NAMES[MIN_OFFSET_PROPERTY_NAME] || '',
@@ -1089,7 +1144,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[MAX_OFFSET_PROPERTY_NAME]: {
 						example: 1.0,
 						optional: true,
-						backfill: true,
 						default: true,
 						hide: values => values[OFFSET_TYPE_PROPERTY_NAME] == OFFSET_TYPE_MANUAL,
 						shortName: SHORT_NAMES[MAX_OFFSET_PROPERTY_NAME] || '',
@@ -1101,7 +1155,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[OFFSET_PROPERTY_NAME]: {
 						example: 0.5,
 						optional: true,
-						backfill: true,
 						default: true,
 						hide: (values) => values[OFFSET_TYPE_PROPERTY_NAME] != OFFSET_TYPE_MANUAL,
 						shortName: SHORT_NAMES[OFFSET_PROPERTY_NAME] || '',
@@ -1113,7 +1166,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[STRENGTH_PROPERTY_NAME]: {
 						example: 0.5,
 						optional: true,
-						backfill: true,
 						default: true,
 						shortName: SHORT_NAMES[STRENGTH_PROPERTY_NAME] || '',
 						description: "How strong is the north star effect?",
@@ -1124,7 +1176,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[SPREAD_PROPERTY_NAME]: {
 						example: 0.25,
 						optional: true,
-						backfill: true,
 						default: true,
 						shortName: SHORT_NAMES[SPREAD_PROPERTY_NAME] || '',
 						description: 'How wide is the positive effect of the northstar affect (trading off linearly from the offset position to plus or minus by this amount)',
@@ -1135,7 +1186,6 @@ class SchellingOrgSimulator extends BaseSimulator {
 					[BELIEVABILITY_PROPERTY_NAME]: {
 						example: 1.0,
 						optional: true,
-						backfill: true,
 						default: true,
 						shortName: SHORT_NAMES[BELIEVABILITY_PROPERTY_NAME] || '',
 						description: 'The proportion of collaborators who will believe in this north star (will have their ' + BELIEVES_PROPERTY_NAME + ' set to true).',
@@ -1146,7 +1196,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 				},
 				shortName: SHORT_NAMES[NORTH_STAR_PROPERTY_NAME] || '',
 				description: "Information on an (optional) north star, which people will tend to pick towards",
-				optional: true
+				optional: true,
+				//Want to have no northstar if one isn't provided
+				skipBackfill: true,
 			}
 		};
 	}
