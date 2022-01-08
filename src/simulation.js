@@ -94,8 +94,9 @@ export const setSimulationPropertyInConfig = (config, path, value) => {
 	//simOptions for the old one definitely won't be valid for the new one.
 
 	//NOte: shadowedModificationsForSimIndex basically reimplemnts this behavior
+	config = setPropertyInObject(config, path, value);
 	if (path == SIM_PROPERTY) config = setSimulationPropertyInConfig(config, SIM_OPTIONS_PROPERTY, DEFAULT_SENTINEL);
-	return setPropertyInObject(config, path, value);
+	return config;
 };
 
 export const SimulationCollection = class {
