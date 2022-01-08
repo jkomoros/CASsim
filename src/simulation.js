@@ -322,6 +322,10 @@ export const Simulation = class {
 		}
 	}
 
+	cloneWithModification(path, value) {
+		return this.cloneWithConfig(setSimulationPropertyInConfig(this.config, path, value));
+	}
+
 	cloneWithConfig(config) {
 		return new Simulation(config, this.index, config);
 	}
