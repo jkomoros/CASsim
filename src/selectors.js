@@ -78,7 +78,7 @@ export const selectChartExpanded = createSelector(
 	(showControls, rawExpanded) => showControls && rawExpanded
 );
 
-const modfifiedConfigData = (rawConfigData, modifications, simulatorsLoaded = true, expandDefault = false) => {
+const modfifiedConfigData = (rawConfigData, modifications, simulatorsLoaded = true) => {
 	if (!simulatorsLoaded) return rawConfigData;
 	let data = rawConfigData;
 	for (const modification of modifications) {
@@ -86,9 +86,6 @@ const modfifiedConfigData = (rawConfigData, modifications, simulatorsLoaded = tr
 		data = [...data];
 		let value = modification.value;
 		if (value == DEFAULT_SENTINEL) {
-			if (!expandDefault) {
-				continue;
-			}
 			try {
 				const simulation = new Simulation(data[modification.simulationIndex], 0);
 				value = simulation.defaultValueForOptionsPath(modification.path);
@@ -141,7 +138,7 @@ export const selectConfigData = createSelector(
 	selectRequiredSimulatorsLoaded, 
 	selectKnownSimulatorNames,
 	//We don't actually pass knownSimulatorNames, we just need to retickle this when they change
-	(rawConfigData, modifications, simulatorsLoaded) => modfifiedConfigData(rawConfigData, modifications, simulatorsLoaded, true)
+	(rawConfigData, modifications, simulatorsLoaded) => modfifiedConfigData(rawConfigData, modifications, simulatorsLoaded)
 );
 
 export const selectDataIsFullyLoaded = createSelector(
