@@ -189,7 +189,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	}
 
 	//eslint-disable-next-line no-unused-vars
-	widthForEdge(edge, graph) {
+	edgeWidth(edge, graph) {
 		return '1';
 	}
 
@@ -230,7 +230,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		if (!graph) return '';
 		const fromNodePosition = graph.nodePosition(edge.from);
 		const toNodePosition = graph.nodePosition(edge.to);
-		return svg`<path id=${edge.id} class='edge' d='M ${fromNodePosition.x}, ${fromNodePosition.y} L ${toNodePosition.x}, ${toNodePosition.y}' stroke='${this.colorForEdge(edge, graph)}' stroke-width='${this.widthForEdge(edge, graph)}' stroke-opacity='${this.edgeOpacity(edge, graph)}' stroke-dasharray='${this.edgeDasharray(edge, graph)}'></path>`;
+		return svg`<path id=${edge.id} class='edge' d='M ${fromNodePosition.x}, ${fromNodePosition.y} L ${toNodePosition.x}, ${toNodePosition.y}' stroke='${this.colorForEdge(edge, graph)}' stroke-width='${this.edgeWidth(edge, graph)}' stroke-opacity='${this.edgeOpacity(edge, graph)}' stroke-dasharray='${this.edgeDasharray(edge, graph)}'></path>`;
 	}
 
 	_positionStylesForNode(node, graph) {
