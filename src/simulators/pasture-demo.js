@@ -24,7 +24,7 @@ class AgentDemoSimulator extends AgentSimulator {
 
 	generateAgent(parentAgent, otherAgents, graph, simOptions, rnd) {
 		const emojiKeys = Object.keys(GRAZING_FARM_ANIMALS_EMOJIS);
-		const emojiKey = emojiKeys[Math.floor(emojiKeys.length * rnd())];
+		const emojiKey = parentAgent ? parentAgent.type : emojiKeys[Math.floor(emojiKeys.length * rnd())];
 		return {
 			...this.baseAgent(rnd),
 			emoji: GRAZING_FARM_ANIMALS_EMOJIS[emojiKey],
