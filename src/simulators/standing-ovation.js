@@ -166,7 +166,7 @@ class StandingOvationRenderer extends PositionedGraphRenderer {
 		return agent.standing ? '👏' : '😐';
 	}
 
-	additionalStylesForNode(node) {
+	nodeAdditionalStyles(node) {
 		if (node.row == 0) {
 			return {
 				'border-top-width': '20px',
