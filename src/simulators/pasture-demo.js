@@ -178,7 +178,7 @@ class AgentDemoRenderer extends PositionedGraphRenderer {
 		];
 	}
 
-	opacityForNodeText(node) {
+	nodeTextOpacity(node) {
 		return node.value;
 	}
 }

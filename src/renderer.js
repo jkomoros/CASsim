@@ -144,7 +144,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		styles = {...styles, ['background-color']: this.nodeColor(node, graph)};
 		styles = {...styles, ...this.additionalStylesForNode(node, graph)};
 		const spanStyles = {
-			'opacity': this.opacityForNodeText(node, graph)
+			'opacity': this.nodeTextOpacity(node, graph)
 		};
 		return html`<div class='node ${node.type ? node.type : ''}' style=${styleMap(styles)}><span style='${styleMap(spanStyles)}'>${this.textForNode(node,graph)}</span></div>`;
 	}
@@ -155,7 +155,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	}
 
 	//eslint-disable-next-line no-unused-vars
-	opacityForNodeText(node, graph) {
+	nodeTextOpacity(node, graph) {
 		return 1.0;
 	}
 
