@@ -293,7 +293,8 @@ export class Graph {
 		const toID = Graph.packID(toIdentifier);
 		let node = this._nodeObject(fromID);
 		if (!node) {
-			node = this.setNode(fromID);
+			this.setNode(fromID);
+			node = this._nodeObject(fromID);
 		}
 		const edgeID = Graph.packEdgeID(fromIdentifier, toIdentifier);
 		if (values.id != edgeID) values.id = edgeID;
