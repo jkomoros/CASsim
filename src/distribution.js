@@ -67,7 +67,7 @@ class Distribution {
 		//TODO: do different things based on type;
 		let max = this._options.limitMax;
 		let min = this._options.limitMin;
-		switch (this._options.type) {
+		switch (this._options.distribution) {
 		case MIN_MAX:
 			max = this._options.max;
 			min = this._options.min;
@@ -80,10 +80,10 @@ class Distribution {
 		}
 
 		let value = this._options.average;
-		if (this._options.type == NORMAL) {
+		if (this._options.distribution == NORMAL) {
 			value = gaussianRandom(this._options.average, this._options.spread, rnd);
 		}
-		if (this._options.type != FIXED) {
+		if (this._options.distribution != FIXED) {
 			value = (max - min) * rnd() + min;
 		}
 
@@ -107,7 +107,7 @@ class Distribution {
 
 const EXAMPLE_OPTIONS = {
 	types: [...Object.keys(LEGAL_TYPES)],
-	type: LINEAR,
+	distribution: LINEAR,
 	average: 0.5,
 	spread: 0.0,
 	min: 0.0,
@@ -124,8 +124,8 @@ const EXAMPLE_OPTIONS = {
 
 /*
 	options includes:
-	- types: an array of allowed types (e.g. LINEAR, MIN_MAX). If not provided, will default to [type]. If neith types nor type is provided, all distribution types are allowed.
-	- type: the default type
+	- types: an array of allowed distribution types (e.g. LINEAR, MIN_MAX). If not provided, will default to [type]. If neith types nor type is provided, all distribution types are allowed.
+	- distribution: the default type
 	- average: the default average value if type = LINEAR
 	- spread: the spread value if type = LINEAR
 	- min: the lower value if type = MIN_MAX. Defaults to limitMin.
@@ -145,10 +145,10 @@ export class DistributionConfig {
 			...EXAMPLE_OPTIONS,
 			...options,
 		};
-		normalizedOptions.types = options.types || (options.type ? [options.type] : EXAMPLE_OPTIONS.types);
-		normalizedOptions.type = options.type || normalizedOptions.types[0];
+		normalizedOptions.types = options.types || (options.distibution ? [options.distribution] : EXAMPLE_OPTIONS.types);
+		normalizedOptions.distribution = options.distribution || normalizedOptions.types[0];
 		normalizedOptions.shortName = options.shortName || normalizedOptions.name;
-		normalizedOptions.description = options.description === undefined ? 'A value with a ' + normalizedOptions.type + ' distribution' : options.description;
+		normalizedOptions.description = options.description === undefined ? 'A value with a ' + normalizedOptions.distribution + ' distribution' : options.description;
 		normalizedOptions.min = options.min === undefined ? normalizedOptions.limitMin : options.min;
 		normalizedOptions.max = options.max === undefined ? normalizedOptions.limitMax : options.max;
 
@@ -174,7 +174,7 @@ export class DistributionConfig {
 				backfill: includesOtherTypes,
 				optional: includesOtherTypes,
 				default: includesOtherTypes,
-				hide: values => values.type && values.type == MIN_MAX,
+				hide: values => values.distribution && values.distribution == MIN_MAX,
 				shortName: 'a',
 				description: 'The average value for ' + this._options.name + '.' + (includesOtherTypes ? ' Only for types ' + LINEAR + ', ' + FIXED + ', and ' + NORMAL : '')
 			};
@@ -184,7 +184,7 @@ export class DistributionConfig {
 				max: this._options.limitMax,
 				step: this._options.step,
 				shortName: 's',
-				hide: values => values.type && (values.type == MIN_MAX || values.type == FIXED),
+				hide: values => values.distribution && (values.distribution == MIN_MAX || values.distribution == FIXED),
 				optional:true,
 				backfill: true,
 				default: true,
@@ -194,7 +194,7 @@ export class DistributionConfig {
 
 		if (includedTypes[MIN_MAX]) {
 			const includesOtherTypes = Object.keys(includedTypes).length > 1;
-			const hide = values => values.type && values.type != MIN_MAX;
+			const hide = values => values.distribution && values.distribution != MIN_MAX;
 			example.min = {
 				example: this._options.min,
 				min: this._options.limitMin,
@@ -205,7 +205,7 @@ export class DistributionConfig {
 				backfill: true,
 				optional: true,
 				default: true,
-				description: 'The min bound for the sample for ' + this._options.name + '.' + (includesOtherTypes ? ' Only for type ' + MIN_MAX : '')
+				description: 'The min bound for the sample for ' + this._options.name + '.' + (includesOtherTypes ? ' Only for distribution ' + MIN_MAX : '')
 			};
 
 			example.max = {
@@ -218,17 +218,17 @@ export class DistributionConfig {
 				backfill: true,
 				optional: true,
 				default: true,
-				description: 'The max bound for the sample for ' + this._options.name + '.' + (includesOtherTypes ? ' Only for type ' + MIN_MAX : '')
+				description: 'The max bound for the sample for ' + this._options.name + '.' + (includesOtherTypes ? ' Only for distribution ' + MIN_MAX : '')
 			};
 		}
 
 		if (this._options.types.length > 1) {
-			example.type = {
-				example: this._options.type,
+			example.distribution = {
+				example: this._options.distribution,
 				backfill: true,
 				optional: true,
 				default: true,
-				shortName: 't',
+				shortName: 'd',
 				description: 'The type of distribution for ' + this._options.name,
 				options: this._options.types.map(type => ({value: type, description: LEGAL_TYPES[type]}))
 			};
@@ -265,24 +265,24 @@ export class DistributionConfig {
 			if (seenTypes[type]) throw new Error(type + ' was duplicated in the list');
 			seenTypes[type] = true;
 		}
-		if (!normalizedOptions.types.some(type => type == normalizedOptions.type)) throw new Error(normalizedOptions.type + ' was set as type but was not in types');
+		if (!normalizedOptions.types.some(type => type == normalizedOptions.distribution)) throw new Error(normalizedOptions.distribution + ' was set as type but was not in types');
 	}
 }
 
 export class LinearDistributionConfig extends DistributionConfig {
 	constructor(options = {}) {
-		super({...options, types: [LINEAR], type: LINEAR});
+		super({...options, types: [LINEAR], distribution: LINEAR});
 	}
 }
 
 export class MinMaxDistributionConfig extends DistributionConfig {
 	constructor(options = {}) {
-		super({...options, types: [MIN_MAX], type: MIN_MAX});
+		super({...options, types: [MIN_MAX], distribution: MIN_MAX});
 	}
 }
 
 export class NormalDistributionConfig extends DistributionConfig {
 	constructor(options = {}) {
-		super({...options, types: [NORMAL], type: NORMAL});
+		super({...options, types: [NORMAL], distribution: NORMAL});
 	}
 }
