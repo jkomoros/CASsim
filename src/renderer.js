@@ -160,7 +160,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	}
 
 	//eslint-disable-next-line
-	colorGradientPercentageForNode(node, graph) {
+	nodeColorGradientPercentage(node, graph) {
 		return node.value;
 	}
 
@@ -174,7 +174,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		const style = getComputedStyle(this);
 		const primaryColor = style.getPropertyValue('--primary-color');
 		const secondaryColor = style.getPropertyValue('--secondary-color');
-		const color =  gradient(primaryColor, secondaryColor, this.colorGradientPercentageForNode(node));
+		const color =  gradient(primaryColor, secondaryColor, this.nodeColorGradientPercentage(node));
 		return color;
 	}
 
