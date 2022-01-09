@@ -141,7 +141,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	/* eslint-disable-next-line */
 	renderNode(node, graph) {
 		let styles = this._positionStylesForNode(node, graph);
-		styles = {...styles, ['background-color']: this.colorForNode(node, graph)};
+		styles = {...styles, ['background-color']: this.nodeColor(node, graph)};
 		styles = {...styles, ...this.additionalStylesForNode(node, graph)};
 		const spanStyles = {
 			'opacity': this.opacityForNodeText(node, graph)
@@ -170,7 +170,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	}
 
 	//eslint-disable-next-line no-unused-vars
-	colorForNode(node, graph) {
+	nodeColor(node, graph) {
 		const style = getComputedStyle(this);
 		const primaryColor = style.getPropertyValue('--primary-color');
 		const secondaryColor = style.getPropertyValue('--secondary-color');
