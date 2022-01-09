@@ -367,7 +367,7 @@ export class PositionedGraph extends Graph {
 			edgeValues: (default: {}) - the starter values for an edge
 			childCount: (default: 5.0) - how many children each node should have
 	*/
-	static makeBloomGraph(availableHeight, availableWidth, options = {}) {
+	static makeBloomGraph(availableWidth, availableHeight, options = {}) {
 		const result = new PositionedGraph();
 		result.availableWidth = availableWidth;
 		result.availableHeight = availableHeight;
