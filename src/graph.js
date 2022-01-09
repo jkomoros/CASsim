@@ -433,7 +433,7 @@ export class PositionedGraph extends Graph {
 	*/
 	//eslint-disable-next-line no-unused-vars
 	calculateNodePosition(identifier) {
-		return {x:0, y:0};
+		return {x:this.availableWidth / 2, y: this.availableHeight /2};
 	}
 
 	//Returns an object with x,y of the node, and sometimes a width/height. x,y are at the center of the node.
