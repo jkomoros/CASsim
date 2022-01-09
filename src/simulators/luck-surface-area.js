@@ -3,8 +3,8 @@ import {
 } from '../agent-simulator.js';
 
 import {
-	PositionedGraph
-}from '../graph/positioned.js';
+	ForceLayoutGraph
+}from '../graph/force-layout';
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'luck-surface-area';
@@ -19,7 +19,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	//simulationComplete, and generateFrame.
 
 	generateGraph(simOptions, rnd, simWidth, simHeight) {
-		return PositionedGraph.makeBloomGraph(simWidth, simHeight);
+		return ForceLayoutGraph.makeBloomGraph(simWidth, simHeight);
 	}
 
 	numStarterAgents(graph, simOptions) {
