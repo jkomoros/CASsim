@@ -8,7 +8,8 @@ import {
 	stringHash,
 	idToTitle,
 	setPropertyInObject,
-	DEFAULT_SENTINEL
+	DEFAULT_SENTINEL,
+	DELETE_SENTINEL
 } from './util.js';
 
 import {
@@ -94,6 +95,11 @@ export const setSimulationPropertyInConfig = (config, path, value) => {
 	//simOptions for the old one definitely won't be valid for the new one.
 
 	//NOte: shadowedModificationsForSimIndex basically reimplemnts this behavior
+
+	//When we switch to a different sim, the simOptions we had set might be
+	//invalid, and setSimulationInConfig will create a new simulation. So first
+	//clear out simOptions so it's guaranteed to work.
+	if (path == SIM_PROPERTY) config = setPropertyInObject(config, SIM_OPTIONS_PROPERTY, DELETE_SENTINEL);
 	config = setPropertyInObject(config, path, value);
 	if (path == SIM_PROPERTY) config = setSimulationPropertyInConfig(config, SIM_OPTIONS_PROPERTY, DEFAULT_SENTINEL);
 	return config;
