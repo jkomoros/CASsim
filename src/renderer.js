@@ -205,24 +205,24 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	}
 
 	/*
-		radiusForNode is used to set width/height if they aren't provided by
+		nodeRadius is used to set width/height if they aren't provided by
 		graph.nodePosition.
 	*/
 	//eslint-disable-next-line no-unused-vars
-	radiusForNode(node, graph) {
+	nodeRadius(node, graph) {
 		return 10;
 	}
 
 	widthForNode(node, graph) {
 		const position = graph.nodePosition(node);
 		if (position.width) return position.width;
-		return this.radiusForNode(node, graph) * 2;
+		return this.nodeRadius(node, graph) * 2;
 	}
 
 	heightForNode(node, graph) {
 		const position = graph.nodePosition(node);
 		if (position.height) return position.height;
-		return this.radiusForNode(node, graph) * 2;
+		return this.nodeRadius(node, graph) * 2;
 	}
 
 	//must return svg. Note coordinates are viewBoxed so don't need any scaling.
