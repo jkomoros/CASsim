@@ -15,7 +15,7 @@ const SIMULATOR_NAME = 'standing-ovation';
 
 const ovationPropensity = new DistributionConfig({average: 0.75, shortName: 'oP', description: 'How likely individuals are to do a standing ovation in the first place'});
 const standingThreshold = new DistributionConfig({average: 1.0, limitMax: 100.0, shortName: 'sT', description: 'How high of a threshold individuals have for deciding to stand if individuals visible ahead of them stood'});
-const performanceQuality = new DistributionConfig({average: 0.5, shortName: 'pQ', description: 'How high of quality the performance was'});
+const performanceQuality = new DistributionConfig({average: 0.5, default: true, shortName: 'pQ', description: 'How high of quality the performance was'});
 const forwardStandingFalloff = new DistributionConfig({average: 0.95, step: 0.001, shortName: 'fSF', description: 'How quickly the impact of someone standing in front of this person falls off in mattering'});
 const fomoThreshold = new DistributionConfig({average: 0.95, shortName: 'fT', description: 'The threshold of what proportion in the audience must be standing before this person decideds to stand, too'});
 
