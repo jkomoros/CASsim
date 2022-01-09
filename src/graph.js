@@ -35,6 +35,7 @@ export class Graph {
 
 	static packID(identifier) {
 		if (typeof identifier == 'string') return identifier;
+		if (typeof identifier == 'number') return identifier.toString();
 		if (Array.isArray(identifier)) {
 			const strs = identifier.map(part => '' + part);
 			if (strs.some(str => str.includes(Graph.ID_DELIMITER))) throw new Error('An unpacked ID part contained the ID_DELIMITER');
