@@ -9,13 +9,23 @@ const LEGAL_ROUND_TYPES = {
 };
 
 export const LINEAR = 'linear';
+export const NORMAL = 'normal';
 export const MIN_MAX = 'min-max';
 export const FIXED = 'fixed';
 
 const LEGAL_TYPES = {
 	[LINEAR]: 'A linear distribution between average +/- spread',
+	[NORMAL]: 'A normal distributino with mean of average and standard deviation of spread',
 	[MIN_MAX]: 'A linear distribution between min and max',
 	[FIXED]: 'A distribution that always returns precisely average with no variation',
+};
+
+const gaussianRandom = (mean, std, rnd = Math.random) => {
+	//https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
+	var u1 = rnd();
+	var u2 = rnd();
+	var z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(Math.PI * 2 * u2);
+	return z0 * std + mean;
 };
 
 /*
@@ -70,6 +80,9 @@ class Distribution {
 		}
 
 		let value = this._options.average;
+		if (this._options.type == NORMAL) {
+			value = gaussianRandom(this._options.average, this._options.spread, rnd);
+		}
 		if (this._options.type != FIXED) {
 			value = (max - min) * rnd() + min;
 		}
@@ -151,7 +164,7 @@ export class DistributionConfig {
 
 		const includedTypes = Object.fromEntries(this._options.types.map(type => [type, true]));
 
-		if (includedTypes[LINEAR]) {
+		if (includedTypes[LINEAR] || includedTypes[NORMAL] || includedTypes[FIXED]) {
 			const includesOtherTypes = includedTypes[MIN_MAX];
 			example.average = {
 				example: this._options.average,
@@ -163,7 +176,7 @@ export class DistributionConfig {
 				default: includesOtherTypes,
 				hide: values => values.type && values.type == MIN_MAX,
 				shortName: 'a',
-				description: 'The average value for ' + this._options.name + '.' + (includesOtherTypes ? ' Only for types ' + LINEAR + ' and ' + FIXED: '')
+				description: 'The average value for ' + this._options.name + '.' + (includesOtherTypes ? ' Only for types ' + LINEAR + ', ' + FIXED + ', and ' + NORMAL : '')
 			};
 			example.spread = {
 				example: this._options.spread,
@@ -175,12 +188,12 @@ export class DistributionConfig {
 				optional:true,
 				backfill: true,
 				default: true,
-				description: 'The amount that ' + this._options.name + ' will be +/- of.' + (includesOtherTypes ? ' Only for type ' + LINEAR : '')
+				description: 'The amount that ' + this._options.name + ' will be +/- of, or for ' + NORMAL + ' the standard deviation.' + (includesOtherTypes ? ' Only for types ' + LINEAR + ' and ' + NORMAL : '')
 			};
 		}
 
 		if (includedTypes[MIN_MAX]) {
-			const includesOtherTypes = includedTypes[LINEAR];
+			const includesOtherTypes = Object.keys(includedTypes).length > 1;
 			const hide = values => values.type && values.type != MIN_MAX;
 			example.min = {
 				example: this._options.min,
@@ -265,5 +278,11 @@ export class LinearDistributionConfig extends DistributionConfig {
 export class MinMaxDistributionConfig extends DistributionConfig {
 	constructor(options = {}) {
 		super({...options, types: [MIN_MAX], type: MIN_MAX});
+	}
+}
+
+export class NormalDistributionConfig extends DistributionConfig {
+	constructor(options = {}) {
+		super({...options, types: [NORMAL], type: NORMAL});
 	}
 }
