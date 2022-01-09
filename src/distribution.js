@@ -103,6 +103,7 @@ const EXAMPLE_OPTIONS = {
 	limitMax: 1.0,
 	step: 0.01,
 	round: ROUND_TYPE_NONE,
+	default: false,
 	name: 'value',
 	shortName: 'value',
 	description: 'A value with a ' + LINEAR + ' distribution',
@@ -120,6 +121,7 @@ const EXAMPLE_OPTIONS = {
 	- limitMax: the clip value. If the final sample is abvove this value it will be clipped to this. Defaults to 1.0.
 	- step: defaults to 0.01
 	- round: if the final generated number should be rounded. legal values are '', 'round', floor'.
+	- default: if ture, then the optionsConfig for the overall distributionObject will have default set to true.
 	- description: A description for the overall value
 	- shortName: the shortName to be returned in optionsConfig.
 	- name: a name for the overall value
@@ -222,7 +224,7 @@ export class DistributionConfig {
 		return {
 			example: example,
 			optional: true,
-			default: true,
+			default: this._options.default,
 			backfill: true,
 			shortName: this._options.shortName,
 			description: this._options.description,
