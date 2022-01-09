@@ -146,11 +146,11 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		const spanStyles = {
 			'opacity': this.nodeTextOpacity(node, graph)
 		};
-		return html`<div class='node ${node.type ? node.type : ''}' style=${styleMap(styles)}><span style='${styleMap(spanStyles)}'>${this.textForNode(node,graph)}</span></div>`;
+		return html`<div class='node ${node.type ? node.type : ''}' style=${styleMap(styles)}><span style='${styleMap(spanStyles)}'>${this.nodeText(node,graph)}</span></div>`;
 	}
 
 	//eslint-disable-next-line no-unused-vars
-	textForNode(node, graph) {
+	nodeText(node, graph) {
 		return node.emoji || '';
 	}
 
