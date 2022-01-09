@@ -263,7 +263,7 @@ export class Graph {
 		node.values = values;
 		this._prepareForNodeModifications();
 		this._data.nodes[id] = node;
-		return node;
+		return node.values;
 	}
 
 	setNodeProperty(identifier, property, value) {
