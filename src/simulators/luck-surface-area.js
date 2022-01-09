@@ -4,7 +4,7 @@ import {
 
 import {
 	ForceLayoutGraph
-}from '../graph/force-layout';
+}from '../graph/force-layout.js';
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'luck-surface-area';
