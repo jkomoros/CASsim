@@ -34,12 +34,13 @@ export class AgentSimulator extends BaseSimulator {
 
 	/*
 		An override point, the default generateAgents will call this when it's
-		decided a location to generate an agent. otherAgents includes other
-		agents that exist so far. An agent must be an object, not an array. Your
-		return value should extend this.baseAgent(rnd);
+		decided a location to generate an agent. parentAgent should be the
+		parent that it's spawning from, but is likely null. otherAgents includes
+		other agents that exist so far. An agent must be an object, not an
+		array. Your return value should extend this.baseAgent(rnd);
 	*/
 	//eslint-disable-next-line
-	generateAgent(otherAgents, graph, simOptions, rnd) {
+	generateAgent(parentAgent, otherAgents, graph, simOptions, rnd) {
 		return {
 			...this.baseAgent(rnd)
 			//Your own properties would go here in your own generateAgent
@@ -81,7 +82,7 @@ export class AgentSimulator extends BaseSimulator {
 		const baseAvailableNodes = {...graph.nodes()};
 		const agentCount = this.numStarterAgents(graph, simOptions, rnd);
 		for (let i = 0; i < agentCount; i++) {
-			const agent = this.generateAgent(agents, graph, simOptions, rnd) || {};
+			const agent = this.generateAgent(null, agents, graph, simOptions, rnd) || {};
 			const availableNodes = {...baseAvailableNodes};
 			for (const existingAgent of agents) {
 				if (this.allowAgentToOverlapWith(existingAgent, agent, graph, simOptions, rnd)) continue;
