@@ -28,7 +28,7 @@ class StandingOvationSimulator extends AgentSimulator {
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	generateAgent(index, graph, simOptions, rnd) {
+	generateAgent(otherAgents, graph, simOptions, rnd) {
 		return {
 			...this.baseAgent(rnd),
 			standing: false,

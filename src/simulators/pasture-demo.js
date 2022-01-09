@@ -22,7 +22,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	generateAgent(index, graph, simOptions, rnd) {
+	generateAgent(otherAgents, graph, simOptions, rnd) {
 		const emojiKeys = Object.keys(GRAZING_FARM_ANIMALS_EMOJIS);
 		const emojiKey = emojiKeys[Math.floor(emojiKeys.length * rnd())];
 		return {
@@ -55,7 +55,7 @@ class AgentDemoSimulator extends AgentSimulator {
 		const newAgent = {...agent, node};
 		if (rnd() < agent.spawnLikelihood) {
 			//Spawn a new agent
-			const spawnedAgent = this.generateAgent(0, graph, frame.simOptions, rnd);
+			const spawnedAgent = this.generateAgent(agents, graph, frame.simOptions, rnd);
 			spawnedAgent.node = agent.node;
 			return [newAgent, spawnedAgent];
 		}
