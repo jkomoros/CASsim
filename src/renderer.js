@@ -219,7 +219,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		return this.nodeRadius(node, graph) * 2;
 	}
 
-	heightForNode(node, graph) {
+	nodeHeight(node, graph) {
 		const position = graph.nodePosition(node);
 		if (position.height) return position.height;
 		return this.nodeRadius(node, graph) * 2;
@@ -241,7 +241,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		};
 		if (graph.nodesSameSize) {
 			result.width = '' + this.nodeWidth(node, graph) * this.scale + 'px';
-			result.height = '' + this.heightForNode(node, graph) * this.scale + 'px';
+			result.height = '' + this.nodeHeight(node, graph) * this.scale + 'px';
 		}
 		return result;
 	}
@@ -250,7 +250,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		const graph = this._graph();
 		const lastNodeIdentifier = graph.lastNodeIdentifier();
 		const width = this.nodeWidth(lastNodeIdentifier, graph);
-		const height = this.heightForNode(lastNodeIdentifier, graph);
+		const height = this.nodeHeight(lastNodeIdentifier, graph);
 		const size = Math.min(width, height);
 		const styles = {
 			'--node-width': width * this.scale + 'px',
