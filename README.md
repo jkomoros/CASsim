@@ -140,6 +140,8 @@ In the `src/simulators/` directory, copy `dice-roll-demo.js` (a simulator that i
 
 (If you want the new simulator to immediately show up in the drop down in the simulator options, you'll need to run `gulp generate-listings-json`. That will be run automatically when building or deploying.)
 
+If you want to do a simulator that has 'agents' making decisions, pasture-demo.js and standing-ovation.js are better starting points, because they demonstrate how to use graphs, AgentSimulator subclasess, etc.
+
 ### Simulator Class
 
 Your customizable simulator is a class that must have the methods described below. Note that the `BaseSimulator` class provides stubs for most of these.
