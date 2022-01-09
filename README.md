@@ -26,8 +26,6 @@ That's where **agent based modelling** comes in. Instead of doing a typical line
 
 There is nothing special about agent based models; any simple little program could be called one, and often the core logic is almost embarassingly simple. However, there's quite a bit of work to do for the harness around the model, to help make it interactive, have nice visualizations, etc. There's been many times when the right way to get a handle on a problem I was wrestling with was to write a very simple agent based model... but I was deterred by the amount of overhead it took to do the infrastructure for each one. While working on https://medium.com/@komorama/on-schelling-points-in-organizations-e90647cdd81b I realized that it would be more effective to show not a single, manually created example of each situation, but to show a number of simulated runs, and allow readers to play with the simulations. I decided to overbuild the harness for that system so that it would be easy to create additional agent based models for other problems more quickly, too.
 
-This system is currently just a low-level harness; there are no afforadances for creating 'agents' or anything like that yet. Each simulation is responsible for defining the shape of legal options it accepts, generating frames based on configurations, and describing how to render those frames on screen. Later, I'll add optional affordances at a higher level to make it easier to model individual agents and give them rules to execute on each tick of the simulation.
-
 ## Installing
 
 Install npm.
