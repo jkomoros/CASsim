@@ -4,7 +4,7 @@ import {
 
 import {
 	PositionedGraph
-}from '../graph.js';
+}from '../graph/positioned.js';
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'luck-surface-area';

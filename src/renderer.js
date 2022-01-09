@@ -7,7 +7,7 @@ import { styleMap } from "lit-html/directives/style-map.js";
 
 import {
 	inflateGraph,
-} from './graph.js';
+} from './graph/graph.js';
 
 import {
 	gradient

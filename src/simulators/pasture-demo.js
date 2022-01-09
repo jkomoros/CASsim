@@ -8,7 +8,7 @@ import {
 
 import {
 	RectangleGraph
-}from '../graph.js';
+}from '../graph/rectangle.js';
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'pasture-demo';

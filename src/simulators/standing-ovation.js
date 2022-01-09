@@ -4,7 +4,7 @@ import {
 
 import {
 	RectangleGraph
-}from '../graph.js';
+}from '../graph/rectangle.js';
 
 import {
 	DistributionConfig

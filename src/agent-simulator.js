@@ -2,8 +2,11 @@ import { BaseSimulator } from "./simulator.js";
 
 import { 
 	inflateGraph,
+}from './graph/graph.js';
+
+import {
 	RectangleGraph
-}from './graph.js';
+} from './graph/rectangle.js';
 
 import {
 	shuffleInPlace,
