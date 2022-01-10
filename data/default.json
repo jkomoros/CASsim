@@ -4,7 +4,7 @@
 		{
 			"name": "base",
 			"hidden": true,
-			"seed": "abc",
+			"seed": "abcde",
 			"width": 800,
 			"height": 450,
 			"runs": 10,
@@ -16,10 +16,7 @@
 			},
 			"autoGenerate": true,
 			"repeat": true,
-			"extraFinalFrameCount": 10,
-			"display": {
-				"screenshotStatus": true
-			}
+			"extraFinalFrameCount": 10
 		},
 		{
 			"name": "pasture-demo",
