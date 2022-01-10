@@ -66,7 +66,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	}
 
 	renderer() {
-		return new PositionedGraphRenderer();
+		return new LuckSurfaceAreaRenderer();
 	}
 }
 
@@ -74,4 +74,11 @@ export default AgentDemoSimulator;
 
 import { PositionedGraphRenderer } from '../renderer.js';
 
-window.customElements.define(SIMULATOR_NAME + "-renderer", PositionedGraphRenderer);
+class LuckSurfaceAreaRenderer extends PositionedGraphRenderer {
+
+	renderEdges() {
+		return true;
+	}
+}
+
+window.customElements.define(SIMULATOR_NAME + "-renderer", LuckSurfaceAreaRenderer);
