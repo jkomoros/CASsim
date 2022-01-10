@@ -86,7 +86,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 
 		const result = {};
 		for (const node of nodes) {
-			result[node.id] = {x:node.x, y: node.y};
+			result[node.id] = {x:node.x, y: node.y, width: 10, height: 10};
 		}
 
 		return result;
