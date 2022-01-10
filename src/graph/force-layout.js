@@ -2,6 +2,8 @@ import {
 	PositionedGraph
 } from './positioned.js';
 
+import * as d3 from 'd3';
+
 export class ForceLayoutGraph extends PositionedGraph {
 
 	/*
@@ -42,6 +44,49 @@ export class ForceLayoutGraph extends PositionedGraph {
 				if (newLevel < levels) nodesToProcess.push(childNode);
 			}
 			//TODO: connect peer children to some degree
+		}
+
+		result.bakeLayout();
+
+		return result;
+	}
+
+	calculateNodePosition(identifier) {
+		const node = this.node(identifier);
+		//layoutPositions will recalc layout if necessary
+		return this._layoutPositions[node.id];
+	}
+
+	get _layoutPositions() {
+		//TODO: we should throw out the cachedLayoutPositions if there are any
+		//new nodes or edges created
+		if (!this._cachedLayoutPositions) this._cachedLayoutPositions = this._recalcLayout();
+		return this._cachedLayoutPositions;
+	}
+
+	_recalcLayout() {
+		const nodes = Object.keys(this.nodes()).map(id => ({id}));
+		//TODO: allow override value based on how strong it is
+		const edges = Object.values(this.allEdges()).map(edge => ({source:edge.from, target: edge.to, value:1}));
+
+		//It's gnarly to have this layout-dependent thing in here
+		const width = this.availableWidth;
+		const height = this.availableHeight;
+
+		const simulation = d3.forceSimulation(nodes)
+			.force('link', d3.forceLink().id(d => d.id))
+			.force('charge', d3.forceManyBody())
+			.force('center', d3.forceCenter(width / 2, height / 2))
+			.stop();
+		
+		simulation.force('link')
+			.links(edges);
+		
+		for (var i = 0; i < 300; ++i) simulation.tick();
+
+		const result = {};
+		for (const node of nodes) {
+			result[node.id] = {x:node.x, y: node.y};
 		}
 
 		return result;

@@ -18,6 +18,7 @@
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.4",
     "canvas": "^2.8.0",
+    "d3": "^7.3.0",
     "esm-seedrandom": "^3.0.5",
     "gulp": "^4.0.0",
     "lit-element": "^2.0.1",
