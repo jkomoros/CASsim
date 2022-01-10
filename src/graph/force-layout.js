@@ -70,7 +70,6 @@ export class ForceLayoutGraph extends PositionedGraph {
 		//TODO: allow override value based on how strong it is
 		const edges = Object.values(this.allEdges()).map(edge => ({source:edge.from, target: edge.to, value:1}));
 
-		//It's gnarly to have this layout-dependent thing in here
 		const width = this.availableWidth;
 		const height = this.availableHeight;
 
