@@ -239,7 +239,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 			left: '' + (nodePosition.x - (nodePosition.width / 2)) * this.scale + 'px',
 			top: '' + (nodePosition.y - (nodePosition.height / 2)) * this.scale + 'px',
 		};
-		if (graph.nodesSameSize) {
+		if (!graph.nodesSameSize) {
 			result.width = '' + this.nodeWidth(node, graph) * this.scale + 'px';
 			result.height = '' + this.nodeHeight(node, graph) * this.scale + 'px';
 		}
