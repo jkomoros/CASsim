@@ -20,7 +20,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 			childCount: (default: 5.0) - how many children each node should have
 	*/
 	static makeBloomGraph(availableWidth, availableHeight, options = {}) {
-		const result = new PositionedGraph();
+		const result = new ForceLayoutGraph();
 		result.availableWidth = availableWidth;
 		result.availableHeight = availableHeight;
 
