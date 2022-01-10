@@ -66,27 +66,27 @@ export class ForceLayoutGraph extends PositionedGraph {
 	}
 
 	_recalcLayout() {
+
+		const baseSize = 10;
+
 		const nodes = Object.keys(this.nodes()).map(id => ({id}));
 		//TODO: allow override value based on how strong it is
-		const edges = Object.values(this.allEdges()).map(edge => ({source:edge.from, target: edge.to, value:1}));
+		const edges = Object.values(this.allEdges()).map(edge => ({source:edge.from, target: edge.to, value:baseSize}));
 
 		const width = this.availableWidth;
 		const height = this.availableHeight;
 
 		const simulation = d3.forceSimulation(nodes)
-			.force('link', d3.forceLink().id(d => d.id))
+			.force('link', d3.forceLink(edges).id(d => d.id).distance(d => d.value))
 			.force('charge', d3.forceManyBody())
 			.force('center', d3.forceCenter(width / 2, height / 2))
 			.stop();
-		
-		simulation.force('link')
-			.links(edges);
-		
+
 		for (var i = 0; i < 300; ++i) simulation.tick();
 
 		const result = {};
 		for (const node of nodes) {
-			result[node.id] = {x:node.x, y: node.y, width: 10, height: 10};
+			result[node.id] = {x:node.x, y: node.y, width: baseSize, height: baseSize};
 		}
 
 		return result;
