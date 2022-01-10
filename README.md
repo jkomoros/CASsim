@@ -12,6 +12,8 @@ You can see a live demo at [https://cassim-viewer.web.app/](https://cassim-viewe
 
 ![Animated Example](/examples/example.gif?raw=true)
 
+![Animated Agent Example](/examples/pasture.gif?raw=true)
+
 ## Why this exists
 
 Many problems can be modeled as **complex adaptive systems**. In complex adaptive systems, a number of 'agents' continually make decisions based on their context. Crucially, their context includes the actions and state of *other* agents. This interdependence of decisions among agents is why these systems demonstrate **complexity**. A complex problem domain is one that exhibits non-linear behavior that cannot be captured in static equations. The only way to see what will happen in a complex system is to 'run' it&mdash;either let it play out in reality, or to simulate some code.
