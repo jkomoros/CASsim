@@ -25,6 +25,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 		const result = new ForceLayoutGraph();
 		result.availableWidth = availableWidth;
 		result.availableHeight = availableHeight;
+		result.nodeBorderRadius = 1.0;
 
 		const levels = options.levels === undefined ? 3.0 : options.levels;
 		const childCount = options.childCount === undefined ? 5.0 : options.childCount;
