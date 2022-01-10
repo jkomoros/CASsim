@@ -37,6 +37,14 @@ export class PositionedGraph extends Graph {
 		this.setProperty('nodeBorderRadius', val);
 	}
 
+	get width() {
+		return this.availableWidth;
+	}
+
+	get height() {
+		return this.availableHeight;
+	}
+
 	get nodesSameSize() {
 		const positions = [...Object.values(this.nodes())];
 		if (positions.length == 0) return true;
