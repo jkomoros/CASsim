@@ -21,6 +21,7 @@
     "d3": "^7.3.0",
     "esm-seedrandom": "^3.0.5",
     "firebase": "^9.6.2",
+    "firebase-tools": "^10.0.1",
     "gulp": "^4.0.0",
     "lit-element": "^2.0.1",
     "polymer": "^0.5.0",
