@@ -80,11 +80,15 @@ export const extractSimulatorNamesFromModifications = modifications => {
 	return Object.keys(result);
 };
 
+export const defaultValueForConfigPath = (config, path) => {
+	const simulation = new Simulation(config, 0);
+	return simulation.defaultValueForOptionsPath(path);
+};
+
 export const setSimulationPropertyInConfig = (config, path, value) => {
 	if (value == DEFAULT_SENTINEL) {
 		try {
-			const simulation = new Simulation(config, 0);
-			value = simulation.defaultValueForOptionsPath(path);
+			value = defaultValueForConfigPath(config, path);
 		} catch(err) {
 			console.warn('Couldn\'t fetch default value from simulator: ' + err);
 			return config;
