@@ -680,7 +680,7 @@ export const updateChartSingleRun = (singleRun) => {
 	};
 };
 
-//id of '' means 'all configs'
+//ids should be an object of key => true. An object with no keys means "all items"
 export const updateChartConfigIDs = (ids) => {
 	return {
 		type: UPDATE_CHART_CONFIG_IDS,

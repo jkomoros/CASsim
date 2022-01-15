@@ -69,8 +69,8 @@ const INITIAL_STATE = {
 	configurationExpanded: false,
 	descriptionExpanded: true,
 	chartSingleRun: false,
-	//'' means 'all configs'
-	chartConfigIDs: '',
+	//An object of key => true. An empty object means "all chart configs"
+	chartConfigIDs: {},
 	//The options-paths whose "Advanced" zippy should be shown as expanded. ''
 	//is the top level 
 	pathExpanded: {},

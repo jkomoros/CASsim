@@ -6,7 +6,7 @@ class MultiSelect extends LitElement {
 		return {
 			disabled: {type:Boolean},
 			options: {type:Object},
-			value: {type:String},
+			values: {type:Object},
 			defaultText: {type:String},
 		};
 	}
@@ -28,10 +28,12 @@ class MultiSelect extends LitElement {
 		const options = Object.keys(this.options).length == 1 ? this.options : {'': defaultText, ...this.options};
 		//Fill in display values
 		const defaultedOptions = Object.fromEntries(Object.entries(options).map(entry => [entry[0], typeof entry[1] == 'string' && entry[1] ? entry[1] : entry[0]]));
-		const summary = Object.keys(defaultedOptions).length == 1 ? Object.values(defaultedOptions)[0] : defaultedOptions[this.value];
+		const values = this.values || {};
+		const noOptionsSelected = Object.keys(values).length == 0;
+		const summary = Object.keys(defaultedOptions).length == 1 ? Object.values(defaultedOptions)[0] : (noOptionsSelected ? defaultText : Object.keys(values).map(key => defaultedOptions[key]).join(', '));
 		return html`<details>
 			<summary><label class='subtle'>${summary}</label></summary>
-			${Object.entries(defaultedOptions).map((entry, index, entries) => html`<input id=${entry[0]} type='checkbox' .disabled=${this.disabled} .checked=${entry[0] == this.value || entries.length == 1} .value=${entry[0]} @change=${this._handleCheckboxChanged}></input><label for=${entry[0]}>${entry[1]}</label>`)}
+			${Object.entries(defaultedOptions).map((entry, index, entries) => html`<input id=${entry[0]} type='checkbox' .disabled=${this.disabled} .checked=${index == 0 ? noOptionsSelected : entry[0] == this.value || entries.length == 1} .value=${entry[0]} @change=${this._handleCheckboxChanged}></input><label for=${entry[0]}>${entry[1]}</label>`)}
 		</details>
 		`;
 
@@ -39,8 +41,20 @@ class MultiSelect extends LitElement {
 
 	_handleCheckboxChanged(e) {
 		const ele = e.composedPath()[0];
-		this.value = ele.value;
-		this.dispatchEvent(new CustomEvent('change', {composed: true, detail: {value:ele.value}}));
+		let newValues = {...(this.values || {})};
+		if (!ele.value) {
+			//If they check OR actively uncheck all items, it will be all Items
+			newValues = {};
+		} else {
+			if (ele.checked) {
+				newValues[ele.value] = true;
+			} else {
+				delete newValues[ele.value];
+			}
+		}
+
+		this.values = newValues;
+		this.dispatchEvent(new CustomEvent('change', {composed: true, detail: {values:newValues}}));
 	}
 
 

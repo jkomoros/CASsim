@@ -38,7 +38,7 @@ class RunChart extends LitElement {
 	static get properties() {
 		return {
 			data: {type:Object},
-			configID: {type:String},
+			configIDs: {type:Object},
 			runIndex: {type:Number},
 			frameIndex: {type:Number},
 		};
@@ -105,11 +105,21 @@ class RunChart extends LitElement {
 		];
 	}
 
+	get _enabledConfigIDs() {
+		const configIDs = this.configIDs || {};
+		if (Object.keys(configIDs).length == 0) {
+			//Return one where everything is on
+			return this.data || {};
+		}
+		return configIDs;
+	}
+
 	get _minX() {
 		//The run with the longest number of frameValues, or 1.
 		let min = 0;
+		const enabledConfigIDs = this._enabledConfigIDs;
 		for (const [id, runs] of Object.entries(this.data)) {
-			if (this.configID && this.configID != id) continue;
+			if (!enabledConfigIDs[id]) continue;
 			for (const run of runs) {
 				const value = run.data.length - 1;
 				if (value < min) min = value;
@@ -121,8 +131,9 @@ class RunChart extends LitElement {
 	get _minY() {
 		//The highest value seen in the entire data run, or 1
 		let min = 0;
+		const enabledConfigIDs = this._enabledConfigIDs;
 		for (const [id, runs] of Object.entries(this.data)) {
-			if (this.configID && this.configID != id) continue;
+			if (!enabledConfigIDs[id]) continue;
 			for (const run of runs) {
 				const value = run.data.reduce((prev, next) => Math.min(prev, next));
 				if (value < min) min = value;
@@ -134,8 +145,9 @@ class RunChart extends LitElement {
 	get _maxX() {
 		//The run with the longest number of frameValues, or 1.
 		let max = 1;
+		const enabledConfigIDs = this._enabledConfigIDs;
 		for (const [id, runs] of Object.entries(this.data)) {
-			if (this.configID && this.configID != id) continue;
+			if (!enabledConfigIDs[id]) continue;
 			for (const run of runs) {
 				const value = run.data.length - 1;
 				if (value > max) max = value;
@@ -147,8 +159,9 @@ class RunChart extends LitElement {
 	get _maxY() {
 		//The highest value seen in the entire data run, or 1
 		let max = 1;
+		const enabledConfigIDs = this._enabledConfigIDs;
 		for (const [id, runs] of Object.entries(this.data)) {
-			if (this.configID && this.configID != id) continue;
+			if (!enabledConfigIDs[id]) continue;
 			for (const run of runs) {
 				const value = run.data.reduce((prev, next) => Math.max(prev, next));
 				if (value > max) max = value;
@@ -230,6 +243,7 @@ class RunChart extends LitElement {
 
 	render() {
 		const rect = this.getBoundingClientRect();
+		const enabledConfigIDs = this._enabledConfigIDs;
 		const padding = rect.width * PADDING_PROPORTION;
 		const tickLength = padding * TICK_PROPORTION;
 		const chartWidth = rect.width - padding;
@@ -251,7 +265,7 @@ class RunChart extends LitElement {
 				${this._xTicks().map((tick, index, ticks) => svg`<path class='tick xTick ${tick.bold ? 'bold' : ''}' d='M${chartOriginX - minX + tick.value * xFactor},${chartOriginY} v ${tickLength}'></path><path class='tick line xTick ${tick.bold ? 'bold' : ''}' d='M${chartOriginX - minX + tick.value * xFactor},${chartOriginY} v ${-1 * chartHeight}'></path>${tick.title ? svg`<text class='label' text-anchor='${index == ticks.length - 1 ? 'end' : 'middle'}' x='${chartOriginX - minX + tick.value * xFactor}' y='${rect.height}' font-size='${tickLength * 1.5}px'>${tick.title}</text>` : ''}`)}
 				${this._yTicks().map((tick, index, ticks) => svg`<path class='tick yTick ${tick.bold ? 'bold' : ''}' d='M${chartOriginX},${chartOriginY  - ((tick.value - minY) * yFactor)} h ${-1.0 * tickLength}'></path><path class='tick line yTick ${tick.bold ? 'bold' : ''}' d='M${chartOriginX},${chartOriginY - ((tick.value - minY) * yFactor)} h ${chartWidth}'></path>${tick.title ? svg`<text class='label' dominant-baseline='center' x='0' y='${chartOriginY - ((tick.value - minY) * yFactor) + (index == ticks.length - 1 ? tickLength * 1.5 : 0)}' font-size='${tickLength * 1.5}px'>${tick.title}</text>` : ''}`)}
 				<path class='tick line xTick bold' d='M${chartOriginX - minX + this.frameIndex * xFactor},${chartOriginY} v ${-1 * chartHeight}'></path>
-				${Object.entries(this.data).filter(entry => !this.configID || this.configID == entry[0]).map(entry => entry[1]).map(runs => runs.map((run,index,runs) => 
+				${Object.entries(this.data).filter(entry =>  enabledConfigIDs[entry[0]]).map(entry => entry[1]).map(runs => runs.map((run,index,runs) => 
 		svg`<path class='run ${index === this.runIndex && runs.length > 1 ? 'bold' : ''}' stroke='${this._colorForRun(run)}' stroke-opacity='${1.0 - (index / runs.length / 1.1)}' d='${run.data.map((value, index) => (index == 0 ? 'M ' : 'L ') + ((index * xFactor) - minX + chartOriginX) + ', ' + (chartOriginY - ((value - minY) * yFactor)) + ' ')}'>
 						<title>${(run.config.title || run.config.id) + (runs.length > 1 ? ' - Run ' + index : '')}</title>
 					</path>`))}
