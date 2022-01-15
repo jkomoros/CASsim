@@ -27,7 +27,7 @@ import {
 	selectCurrentSimulationHasChartableData,
 	selectCurrentSimulationChartData,
 	selectChartSingleRun,
-	selectChartConfigID
+	selectChartConfigIDs
 } from "../selectors.js";
 
 import {
@@ -49,7 +49,7 @@ import {
 	clearModifications,
 	updateWarning,
 	updateChartSingleRun,
-	updateChartConfigID
+	updateChartConfigIDs
 } from '../actions/data.js';
 
 import {
@@ -85,7 +85,7 @@ class SimulationControls extends connect(store)(LitElement) {
 			_chartExpanded: {type:Boolean},
 			_chartData: {type:Object},
 			_chartSingleRun: {type:Boolean},
-			_chartConfigID: {type:String},
+			_chartConfigIDs: {type:String},
 			_currentSimulationHasChartableData: {type:Boolean},
 			_descriptionExpanded: {type:Boolean},
 			_filename: {type:String},
@@ -216,10 +216,10 @@ class SimulationControls extends connect(store)(LitElement) {
 					${this._currentSimulationHasChartableData ? html`
 						<details .open=${this._chartExpanded} @toggle=${this._handleChartExpandedToggled}>
 							<summary><label><button class='small'>${AREA_CHART_ICON}</button> Chart</label></summary>
-							<run-chart .data=${this._chartData} .configID=${this._chartConfigID} .runIndex=${this._runIndex} .frameIndex=${this._frameIndex}></run-chart>
+							<run-chart .data=${this._chartData} .configID=${this._chartConfigIDs} .runIndex=${this._runIndex} .frameIndex=${this._frameIndex}></run-chart>
 							<div>
 								<input id='singleRun' type='checkbox' .checked=${this._chartSingleRun} @change=${this._handleChartSingleRunUpdated}><label for='singleRun'>Current run only</label>	
-								<multi-select id='configID' .defaultText=${'All Data'} .disabled=${Object.keys(this._chartData).length == 1} @change=${this._handleChartConfigIDUpdated} .value=${this._chartConfigID} .options=${Object.fromEntries(Object.keys(this._chartData).map(key => this._chartData[key] && this._chartData[key].length > 0 && this._chartData[key][0].config.title ? [key, this._chartData[key][0].config.title] : [key, key]))}></multi-select>
+								<multi-select id='configID' .defaultText=${'All Data'} .disabled=${Object.keys(this._chartData).length == 1} @change=${this._handleChartConfigIDsUpdated} .value=${this._chartConfigIDs} .options=${Object.fromEntries(Object.keys(this._chartData).map(key => this._chartData[key] && this._chartData[key].length > 0 && this._chartData[key][0].config.title ? [key, this._chartData[key][0].config.title] : [key, key]))}></multi-select>
 							</div>
 						</details>
 					` : ''}
@@ -246,7 +246,7 @@ class SimulationControls extends connect(store)(LitElement) {
 		this._currentSimulationHasChartableData = selectCurrentSimulationHasChartableData(state);
 		this._chartData = this._chartExpanded && this._currentSimulationHasChartableData ? selectCurrentSimulationChartData(state) : {};
 		this._chartSingleRun = selectChartSingleRun(state);
-		this._chartConfigID = selectChartConfigID(state);
+		this._chartConfigIDs = selectChartConfigIDs(state);
 		this._pathExpanded = selectPathExpanded(state);
 		this._filename = selectFilename(state);
 		this._datafiles = selectKnownDatafiles(state);
@@ -275,9 +275,9 @@ class SimulationControls extends connect(store)(LitElement) {
 		store.dispatch(removeModificationsForPath(e.detail.path));
 	}
 
-	_handleChartConfigIDUpdated(e) {
+	_handleChartConfigIDsUpdated(e) {
 		const ele = e.composedPath()[0];
-		store.dispatch(updateChartConfigID(ele.value));
+		store.dispatch(updateChartConfigIDs(ele.value));
 	}
 
 	_handleChartSingleRunUpdated(e) {

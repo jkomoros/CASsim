@@ -681,7 +681,7 @@ export const updateChartSingleRun = (singleRun) => {
 };
 
 //id of '' means 'all configs'
-export const updateChartConfigID = (id) => {
+export const updateChartConfigIDs = (id) => {
 	return {
 		type: UPDATE_CHART_CONFIG_ID,
 		id,

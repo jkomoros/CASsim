@@ -45,7 +45,7 @@ export const selectKnownDatafiles = state => state.data ? state.data.knownDatafi
 export const selectKnownSimulatorNames = state => state.data ? state.data.knownSimulatorNames : [];
 export const selectResizeVisualization = state => state.data ? state.data.resizeVisualization : false;
 export const selectChartSingleRun = state => state.data ? state.data.chartSingleRun : false;
-export const selectChartConfigID = state => state.data ? state.data.chartConfigID : '';
+export const selectChartConfigIDs = state => state.data ? state.data.chartConfigIDs : '';
 
 export const selectDialogOpen = state => state.data ? state.data.dialogOpen : false;
 export const selectDialogType = state => state.data ? state.data.dialogType : '';

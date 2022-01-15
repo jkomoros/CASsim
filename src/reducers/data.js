@@ -70,7 +70,7 @@ const INITIAL_STATE = {
 	descriptionExpanded: true,
 	chartSingleRun: false,
 	//'' means 'all configs'
-	chartConfigID: '',
+	chartConfigIDs: '',
 	//The options-paths whose "Advanced" zippy should be shown as expanded. ''
 	//is the top level 
 	pathExpanded: {},
@@ -250,7 +250,7 @@ const data = (state = INITIAL_STATE, action) => {
 	case UPDATE_CHART_CONFIG_ID:
 		return {
 			...state,
-			chartConfigID: action.id
+			chartConfigIDs: action.id
 		};
 	default:
 		return state;
