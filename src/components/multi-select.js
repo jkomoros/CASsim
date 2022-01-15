@@ -18,7 +18,8 @@ class MultiSelect extends LitElement {
 
 	render() {
 		const defaultText = this.defaultText || 'None';
-		const options = {'': defaultText, ...this.options};
+		//If there's a single option, then 'All' doesn't have any meaning so only render that one
+		const options = Object.keys(this.options).length == 1 ? this.options : {'': defaultText, ...this.options};
 		return html`<select @change=${this._handleSelectChanged} .disabled=${this.disabled}>
 			${Object.entries(options).map(entry => html`<option .value=${entry[0]} .selected=${entry[0] == this.value}>${typeof entry[1] == 'string' && entry[1] ? entry[1] : entry[0]}</option>`)}
 		</select>`;
