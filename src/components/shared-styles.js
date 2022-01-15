@@ -20,6 +20,10 @@ export const SharedStyles = css`
 		font-weight:bold;
 	}
 
+	label.subtle {
+		font-weight: normal;
+	}
+
 	details {
 		color: var(--dark-gray-color);
 	}

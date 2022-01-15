@@ -30,7 +30,7 @@ class MultiSelect extends LitElement {
 		const defaultedOptions = Object.fromEntries(Object.entries(options).map(entry => [entry[0], typeof entry[1] == 'string' && entry[1] ? entry[1] : entry[0]]));
 		const summary = Object.keys(defaultedOptions).length == 1 ? Object.values(defaultedOptions)[0] : defaultedOptions[this.value];
 		return html`<details>
-			<summary><label>${summary}</label></summary>
+			<summary><label class='subtle'>${summary}</label></summary>
 			${Object.entries(defaultedOptions).map((entry, index, entries) => html`<input id=${entry[0]} type='checkbox' .disabled=${this.disabled} .checked=${entry[0] == this.value || entries.length == 1} .value=${entry[0]} @change=${this._handleCheckboxChanged}></input><label for=${entry[0]}>${entry[1]}</label>`)}
 		</details>
 		`;
