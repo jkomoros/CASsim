@@ -218,8 +218,8 @@ class SimulationControls extends connect(store)(LitElement) {
 							<summary><label><button class='small'>${AREA_CHART_ICON}</button> Chart</label></summary>
 							<run-chart .data=${this._chartData} .configID=${this._chartConfigID} .runIndex=${this._runIndex} .frameIndex=${this._frameIndex}></run-chart>
 							<div>
+								<input id='singleRun' type='checkbox' .checked=${this._chartSingleRun} @change=${this._handleChartSingleRunUpdated}><label for='singleRun'>Current run only</label>	
 								<multi-select id='configID' .defaultText=${'All Data'} .disabled=${Object.keys(this._chartData).length == 1} @change=${this._handleChartConfigIDUpdated} .value=${this._chartConfigID} .options=${Object.fromEntries(Object.keys(this._chartData).map(key => this._chartData[key] && this._chartData[key].length > 0 && this._chartData[key][0].config.title ? [key, this._chartData[key][0].config.title] : [key, key]))}></multi-select>
-								<input id='singleRun' type='checkbox' .checked=${this._chartSingleRun} @change=${this._handleChartSingleRunUpdated}><label for='singleRun'>Current run only</label>
 							</div>
 						</details>
 					` : ''}
