@@ -28,7 +28,7 @@ import {
 	UPDATE_HASH,
 	UPDATE_WARNING,
 	UPDATE_CHART_SINGLE_RUN,
-	UPDATE_CHART_CONFIG_ID,
+	UPDATE_CHART_CONFIG_IDS,
 
 	DIALOG_TYPE_JSON,
 	DEFAULT_FILE_NAME,
@@ -247,10 +247,10 @@ const data = (state = INITIAL_STATE, action) => {
 			...state,
 			chartSingleRun: action.singleRun,
 		};
-	case UPDATE_CHART_CONFIG_ID:
+	case UPDATE_CHART_CONFIG_IDS:
 		return {
 			...state,
-			chartConfigIDs: action.id
+			chartConfigIDs: action.ids
 		};
 	default:
 		return state;

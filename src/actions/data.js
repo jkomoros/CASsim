@@ -27,7 +27,7 @@ export const UPDATE_SCREENSHOTTING = 'UPDATE_SCREENSHOTTING';
 export const UPDATE_HASH = 'UPDATE_HASH';
 export const UPDATE_WARNING = 'UPDATE_WARNING';
 export const UPDATE_CHART_SINGLE_RUN = 'UPDATE_CHART_SINGLE_RUN';
-export const UPDATE_CHART_CONFIG_ID = 'UPDATE_CHART_CONFIG_ID';
+export const UPDATE_CHART_CONFIG_IDS = 'UPDATE_CHART_CONFIG_IDS';
 
 export const DIALOG_TYPE_JSON = 'json';
 export const DIALOG_TYPE_ADD_FIELD = 'add-field';
@@ -681,9 +681,9 @@ export const updateChartSingleRun = (singleRun) => {
 };
 
 //id of '' means 'all configs'
-export const updateChartConfigIDs = (id) => {
+export const updateChartConfigIDs = (ids) => {
 	return {
-		type: UPDATE_CHART_CONFIG_ID,
-		id,
+		type: UPDATE_CHART_CONFIG_IDS,
+		ids,
 	};
 };
