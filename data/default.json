@@ -25,15 +25,7 @@
 			"frameDelay": 1000,
 			"extraFinalFrameCount": 3,
 			"sim": "pasture-demo",
-			"simOptions": {
-				"agents": 6,
-				"rows": 5,
-				"cols": 5,
-				"rounds": 15,
-				"growthRate": 0.05,
-				"spawnLikelihood": 0.05,
-				"deathLikelihood": 0.03
-			}
+			"simOptions": null
 		},
 		{
 			"name": "standing-ovation-demo",
@@ -42,19 +34,7 @@
 			"frameDelay": 1000,
 			"extraFinalFrameCount": 3,
 			"sim": "standing-ovation",
-			"simOptions": {
-				"rows": 12,
-				"cols": 10,
-				"filledSeatProportion": 0.8,
-				"performanceQuality": {
-					"average": 0.5,
-					"spread": 0.5
-				},
-				"ovationPropensity": {
-					"average": 0.5,
-					"spread": 0.5
-				}
-			}
+			"simOptions": null
 		},
 		{
 			"name": "schelling-org-demo",
@@ -91,11 +71,7 @@
 			"description": "A demo of the dice-roll-demo simulator",
 			"extend": "base",
 			"sim": "dice-roll-demo",
-			"simOptions": {
-				"die": 6,
-				"targetScore": 20,
-				"bust": 1
-			}
+			"simOptions": null
 		}
 	]
 }

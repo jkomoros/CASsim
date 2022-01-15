@@ -4,7 +4,8 @@ import {
 	SimulationCollection,
 	extractSimulatorNamesFromRawConfig,
 	extractSimulatorNamesFromModifications,
-	setSimulationPropertyInConfig
+	setSimulationPropertyInConfig,
+	configWithDefaultedSimOptions
 } from "./simulation.js";
 
 import {
@@ -76,17 +77,6 @@ export const selectChartExpanded = createSelector(
 	(showControls, rawExpanded) => showControls && rawExpanded
 );
 
-const modfifiedConfigData = (rawConfigData, modifications, simulatorsLoaded = true) => {
-	if (!simulatorsLoaded) return rawConfigData;
-	let data = rawConfigData;
-	for (const modification of modifications) {
-		if (data[modification.simulationIndex] === undefined) continue;
-		data = [...data];
-		data[modification.simulationIndex] = setSimulationPropertyInConfig(data[modification.simulationIndex], modification.path, modification.value);
-	}
-	return data;
-};
-
 export const selectRequiredSimulatorNames = createSelector(
 	//We do want to see if there are modifications to change sim on any config item, but don't need any default expansion (default expansion relies on this value)
 	selectRawConfigData,
@@ -119,6 +109,18 @@ export const selectCurrentSimulatorShadowedModifications = createSelector(
 	selectModifications,
 	(index, modifications) => shadowedModificationsForSimIndex(modifications, index)
 );
+
+const modfifiedConfigData = (rawConfigData, modifications, simulatorsLoaded = true) => {
+	if (!simulatorsLoaded) return rawConfigData;
+	//If any of them are missing simOptions, set them to the default
+	let data = rawConfigData.map(config => configWithDefaultedSimOptions(config));
+	for (const modification of modifications) {
+		if (data[modification.simulationIndex] === undefined) continue;
+		data = [...data];
+		data[modification.simulationIndex] = setSimulationPropertyInConfig(data[modification.simulationIndex], modification.path, modification.value);
+	}
+	return data;
+};
 
 export const selectConfigData = createSelector(
 	selectRawConfigData,

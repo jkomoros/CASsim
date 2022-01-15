@@ -80,6 +80,14 @@ export const extractSimulatorNamesFromModifications = modifications => {
 	return Object.keys(result);
 };
 
+export const configWithDefaultedSimOptions = (config) => {
+	if (config[SIM_OPTIONS_PROPERTY]) return config;
+	return {
+		...config,
+		[SIM_OPTIONS_PROPERTY]: defaultValueForConfigPath(config, SIM_OPTIONS_PROPERTY)
+	};
+};
+
 export const defaultValueForConfigPath = (config, path) => {
 	const simulation = new Simulation(config, 0);
 	return simulation.defaultValueForOptionsPath(path);

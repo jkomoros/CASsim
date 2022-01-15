@@ -124,7 +124,7 @@ these by hand in the JSON, by carefully reading the documentation for simulatorO
 	}
 	//The simulator type to run, which must be one of the names of a simulator in simulators/ directory.
 	"sim": "schelling-org",
-	//The options to feed to the simulator. These will be different shapes depending on the value of "sim". See each specific simulator's documentation.
+	//The options to feed to the simulator. These will be different shapes depending on the value of "sim". If this is missing or null, then the simulator's default simOptions will be used. See each specific simulator's documentation for the specific config shapes it expects.
 	"simOptions": {}
 }
 
