@@ -76,10 +76,12 @@ class AgentDemoSimulator extends AgentSimulator {
 		return [
 			null,
 			{
-				id:'agent-count'
+				id:'agent-count',
+				description: 'Number of total active agents in the simulation',
 			},
 			{
-				id: 'total-node-value'
+				id: 'total-node-value',
+				description: 'The sum of values for all cells',
 			}
 		];
 	}

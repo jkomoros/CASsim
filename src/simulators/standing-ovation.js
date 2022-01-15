@@ -116,6 +116,7 @@ class StandingOvationSimulator extends AgentSimulator {
 			null,
 			{
 				id: 'proportion-standing',
+				description: 'The proportion of agents who are currently standing',
 			}
 		];
 	}

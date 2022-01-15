@@ -39,7 +39,8 @@ class AgentDemoSimulator extends AgentSimulator {
 		return [
 			null,
 			{
-				id:'agent-count'
+				id:'agent-count',
+				description: 'The count of all active agents',
 			}
 		];
 	}

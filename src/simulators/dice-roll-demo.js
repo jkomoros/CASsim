@@ -52,7 +52,8 @@ class DiceRollDemoSimulator extends BaseSimulator {
 		return [
 			null,
 			{
-				id: 'score'
+				id: 'score',
+				description: 'The total accumulated score so far',
 			},
 		];
 	}
