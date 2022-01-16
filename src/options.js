@@ -484,6 +484,12 @@ const longNamePieces = (longName) => {
 	const result = [];
 	let currentPiece = '';
 	for (const char of longName) {
+		if (char == '_') {
+			if (currentPiece) result.push(currentPiece);
+			currentPiece = '';
+			//Don't consume this piece
+			continue;
+		} 
 		if (char == char.toUpperCase()) {
 			if (currentPiece) result.push(currentPiece);
 			currentPiece = '';

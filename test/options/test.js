@@ -2831,6 +2831,22 @@ describe('suggestMissingShortNames', () => {
 		assert.deepEqual(result, golden);
 	});
 
+	it('handles basic object with underscore names', async () => {
+		const existing = {
+			foo: 'f',
+			min_far: '',
+			maxFar: '',
+			modFan: ''
+		};
+		const result = suggestMissingShortNames(existing);
+		const golden = {
+			min_far: 'mf',
+			maxFar: 'maxF',
+			modFan: 'modF',
+		};
+		assert.deepEqual(result, golden);
+	});
+
 });
 
 describe('optionsConfigWithDefaultedShortNames', () => {
