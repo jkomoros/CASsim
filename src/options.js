@@ -436,7 +436,7 @@ const shortNamesValid = (shortNamesMap) => {
 		//and shortName for this item are the same.
 		if (shortNamesMap[val] !== undefined && key != val) return false;
 		//A shortName conflcits with another shortName
-		if (existingShortNames[val]) false;
+		if (existingShortNames[val]) return false;
 		if (val) existingShortNames[val] = true;
 	}
 	return true;
