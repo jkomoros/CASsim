@@ -367,6 +367,45 @@ export const configForPath = (optionsConfig, path) => {
 	return configForPath(example[firstPart], restParts);
 };
 
+//Given an optionsConfig, it returns an object of longName --> shortName for
+//this optionsConfig's DIRECT CHILDREN that are currently missing a shortName,
+//or {} if nothing to do.
+export const suggestMissingShortNamesForOptionConfig = (optionsConfig) => {
+	if (!optionsConfig) return {};
+	if (typeof optionsConfig != 'object') return {};
+	if (Array.isArray(optionsConfig)) return {};
+	const example = optionsConfig.example;
+	if (example !== undefined && (!example || typeof example !== 'object')) return {};
+	const existing = {};
+	const subItemsEntries = example == undefined ? Object.entries(optionsConfig) : Object.entries(example);
+	for (const [key, val] of subItemsEntries) {
+		let shortName = '';
+		if (!val) continue;
+		if (typeof val != 'object') continue;
+		if (Array.isArray(val)) continue;
+		if (val.shortName) shortName = val.shortName;
+		existing[key] = shortName;
+	}
+	return suggestMissingShortNames(existing);
+};
+
+//existing should be longName -> shortName for every object at this level. Will
+//return a map of longName->shortName for any ones that exist as longName but
+//have no shortName.
+const suggestMissingShortNames = (existing) => {
+	//First, verify that existing is not ALREADY invalid before we start
+	const existingShortNames = {};
+	for (const val of Object.values(existing)) {
+		//A shortName conflicts with a long name
+		if (existing[val] !== undefined) return {};
+		//A shortName conflcits with another shortName
+		if (existingShortNames[val]) return {};
+		if (val) existingShortNames[val] = true;
+	}
+	//TODO: actually calculate other shortNames.
+	return {};
+};
+
 //How many characters of the fingerprint for each sim to put in the URL.
 //Balancing short while also making it likely to detect when the underlying
 //thing changed. 3 balances that, while also giving a 1/4096 chance of colliding.
