@@ -367,26 +367,47 @@ export const configForPath = (optionsConfig, path) => {
 	return configForPath(example[firstPart], restParts);
 };
 
-//Given an optionsConfig, it returns an object of longName --> shortName for
-//this optionsConfig's DIRECT CHILDREN that are currently missing a shortName,
-//or {} if nothing to do.
-export const suggestMissingShortNamesForOptionConfig = (optionsConfig) => {
-	if (!optionsConfig) return {};
-	if (typeof optionsConfig != 'object') return {};
-	if (Array.isArray(optionsConfig)) return {};
+//Given an optionsConfig, it returns an object that is like it, but with any
+//missing shortNames in it or its children replaced.
+export const optionsConfigWithDefaultedShortNames = (optionsConfig) => {
+	if (!optionsConfig) return optionsConfig;
+	if (typeof optionsConfig != 'object') return optionsConfig;
+	if (Array.isArray(optionsConfig)) return optionsConfig.map(sub => optionsConfigWithDefaultedShortNames(sub));
 	const example = optionsConfig.example;
-	if (example !== undefined && (!example || typeof example !== 'object')) return {};
+	if (example !== undefined && (!example || typeof example !== 'object')) return optionsConfig;
+	const isExampleObject = example !== undefined;
+
+	let result = {...optionsConfig};
+	if (isExampleObject) {
+		result.example = optionsConfigWithDefaultedShortNames(result.example);
+	} else {
+		for (const [key, value] of Object.entries(optionsConfig)) {
+			result[key] = optionsConfigWithDefaultedShortNames(value);
+		}
+	}
+
 	const existing = {};
-	const subItemsEntries = example == undefined ? Object.entries(optionsConfig) : Object.entries(example);
+	const subItemsEntries = isExampleObject ? Object.entries(result.example) : Object.entries(result);
 	for (const [key, val] of subItemsEntries) {
 		let shortName = '';
 		if (!val) continue;
 		if (typeof val != 'object') continue;
 		if (Array.isArray(val)) continue;
+		if (val.example === undefined) continue;
 		if (val.shortName) shortName = val.shortName;
 		existing[key] = shortName;
 	}
-	return suggestMissingShortNames(existing);
+	const suggestions = suggestMissingShortNames(existing);
+	if (Object.keys(suggestions).length) {
+		if (isExampleObject) {
+			result.example = {...result.example};
+			Object.entries(suggestions).forEach(entry => result.example[entry[0]].shortName = entry[1]);
+		} else {
+			result = {...result};
+			Object.entries(suggestions).forEach(entry => result[entry[0]].shortName = entry[1]);
+		}
+	}
+	return result;
 };
 
 const uniquePairs = (arr) => arr.flatMap((item1, index1) => arr.flatMap((item2, index2) => (index1 > index2) ? [[item1,item2]] : []));
