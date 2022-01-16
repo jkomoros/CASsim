@@ -20,7 +20,8 @@ import {
 	SIM_PROPERTY,
 	SIM_OPTIONS_PROPERTY,
 	SIM_PROPERTY_SHORT_NAME,
-	ensureBackfill
+	ensureBackfill,
+	optionsConfigWithDefaultedShortNames
 } from './options.js';
 
 import {
@@ -302,7 +303,7 @@ export const Simulation = class {
 		}
 		const configCopy = deepCopy(config);
 		const rawSimOptions = configCopy[SIM_OPTIONS_PROPERTY] || this._simulator.defaultValueForPath('', null);
-		const [updatedSimOptionsConfig] = ensureBackfill(this._simulator.optionsConfig, rawSimOptions);
+		const [updatedSimOptionsConfig] = ensureBackfill(optionsConfigWithDefaultedShortNames(this._simulator.optionsConfig), rawSimOptions);
 		configCopy[SIM_OPTIONS_PROPERTY] = this._simulator.normalizeOptions(updatedSimOptionsConfig);
 		try {
 			this._simulator.optionsValidator(configCopy[SIM_OPTIONS_PROPERTY]);
@@ -509,7 +510,7 @@ export const Simulation = class {
 
 	get optionsConfig() {
 		if (this._optionConfig) return this._optionConfig;
-		const simOptionsConfig = this._simulator.optionsConfig;
+		const simOptionsConfig = optionsConfigWithDefaultedShortNames(this._simulator.optionsConfig);
 		const problem = optionsConfigValidator(simOptionsConfig);
 		if (problem) {
 			throw new Error('Invalid simOptions: ' + problem);
