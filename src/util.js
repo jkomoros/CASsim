@@ -117,6 +117,7 @@ export const setPropertyInObject = (obj, path, value) => {
 export const parseHash = (hash) => {
 	if (hash.startsWith('#')) hash = hash.substring(1);
 	const args = {};
+	if (!hash) return args;
 	for (const part of hash.split('&')) {
 		const [key, val] = part.split('=');
 		args[key] = val;
