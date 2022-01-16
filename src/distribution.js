@@ -31,6 +31,21 @@ export const median = (nums) => {
 	nums.sort();
 	return nums[Math.floor(nums.length / 2)];
 };
+//mode returns the mode of array of nums
+export const mode = (nums) => {
+	if (nums.length == 0) return 0;
+	const m = new Map();
+	nums.forEach(num => m.set(num, (m.get(num) || 0) + 1));
+	let maxKey = nums[0];
+	let maxVal = -1;
+	for (const [key, val] of m.entries()) {
+		if (val > maxVal) {
+			maxKey = key;
+			maxVal = val;
+		}
+	}
+	return maxKey;
+};
 
 const gaussianRandom = (mean, std, rnd = Math.random) => {
 	//https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
