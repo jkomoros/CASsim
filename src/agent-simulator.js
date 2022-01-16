@@ -75,26 +75,38 @@ export class AgentSimulator extends BaseSimulator {
 	}
 
 	/*
+		An override point for skipping placing agents at the beginning.
+	*/
+	//eslint-disable-next-line no-unused-vars
+	skipPlacingAgents(graph, simOptions, rnd) {
+		return false;
+	}
+
+	/*
 		Emit your starter set of agents. This will generate
 		this.numStarterAgents() number of agents by calling this.generateAgent()
-		and randomly place them in the graph with no overlap.
+		and randomly place them in the graph (unless skipPlacingAgents()) with no
+		overlap.
 	*/
 	//eslint-disable-next-line no-unused-vars
 	generateAgents(graph, simOptions, rnd, simWidth, simHeight) {
 		const agents = [];
 		const baseAvailableNodes = {...graph.nodes()};
 		const agentCount = this.numStarterAgents(graph, simOptions, rnd);
+		const skipPlacingAgents = this.skipPlacingAgents(graph, simOptions, rnd);
 		for (let i = 0; i < agentCount; i++) {
 			const agent = this.generateAgent(null, agents, graph, simOptions, rnd) || {};
-			const availableNodes = {...baseAvailableNodes};
-			for (const existingAgent of agents) {
-				if (this.allowAgentToOverlapWith(existingAgent, agent, graph, simOptions, rnd)) continue;
-				delete availableNodes[existingAgent.node];
+			if (!skipPlacingAgents) {
+				const availableNodes = {...baseAvailableNodes};
+				for (const existingAgent of agents) {
+					if (this.allowAgentToOverlapWith(existingAgent, agent, graph, simOptions, rnd)) continue;
+					delete availableNodes[existingAgent.node];
+				}
+				const nodeList = Object.keys(availableNodes);
+				if (nodeList.length <= 0) throw new Error('There are no new unocuppied nodes for new agents to occupy');
+				const node = nodeList[Math.floor(rnd() * nodeList.length)];
+				agent.node = node;
 			}
-			const nodeList = Object.keys(availableNodes);
-			if (nodeList.length <= 0) throw new Error('There are no new unocuppied nodes for new agents to occupy');
-			const node = nodeList[Math.floor(rnd() * nodeList.length)];
-			agent.node = node;
 			agents.push(agent);
 		}
 		return agents;
