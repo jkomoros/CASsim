@@ -396,14 +396,14 @@ export const suggestMissingShortNamesForOptionConfig = (optionsConfig) => {
 export const suggestMissingShortNames = (existing) => {
 	//First, verify that existing is not ALREADY invalid before we start
 	if (!shortNamesValid(existing)) return {};
-	//TODO: actually calculate other shortNames.
 	const suggestions = {};
 	for (const [longName, shortName] of Object.entries(existing)) {
 		//if there's already a shortName then we don't need to try one
 		if (shortName) continue;
 		suggestions[longName] = suggestedShortName(longName);
 	}
-	//TODO: check for shortName collisions and resolve (remember: can only touch suggestions);
+	//TODO: don't just give up if suggestions can't work
+	if (!shortNamesValid({...existing, ...suggestions})) return {};
 	return suggestions;
 };
 

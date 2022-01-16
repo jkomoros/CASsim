@@ -2745,6 +2745,17 @@ describe('suggestMissingShortNames', () => {
 		assert.deepEqual(result, golden);
 	});
 
+	it('handles basic object with default conflict', async () => {
+		const existing = {
+			foo: 'f',
+			min: '',
+			max: '',
+		};
+		const result = suggestMissingShortNames(existing);
+		const golden = {};
+		assert.deepEqual(result, golden);
+	});
+
 
 
 });
