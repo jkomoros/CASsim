@@ -158,7 +158,7 @@ class SimulationControls extends connect(store)(LitElement) {
 					width: unset;
 				}
 
-				select {
+				select, multi-select {
 					margin-left: 0.5em;
 				}
 			`
@@ -231,7 +231,7 @@ class SimulationControls extends connect(store)(LitElement) {
 						<details .open=${this._chartExpanded} @toggle=${this._handleChartExpandedToggled}>
 							<summary><label><button class='small'>${AREA_CHART_ICON}</button> Chart</label></summary>
 							<run-chart .data=${this._chartData} .configIDs=${this._chartConfigIDs} .runIndex=${this._runIndex} .frameIndex=${this._frameIndex}></run-chart>
-							<div>
+							<div class='row'>
 								<input id='singleRun' type='checkbox' .checked=${this._chartSingleRun} @change=${this._handleChartSingleRunUpdated}><label for='singleRun'>Current run only</label>	
 								<multi-select id='configID' .defaultText=${'All Data'} .disabled=${Object.keys(this._chartData).length == 1} @change=${this._handleChartConfigIDsUpdated} .values=${this._chartConfigIDs} .options=${optionsForMultiSelect(this._chartData)}></multi-select>
 							</div>

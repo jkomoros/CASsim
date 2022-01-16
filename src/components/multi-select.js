@@ -19,6 +19,10 @@ class MultiSelect extends LitElement {
 				:host {
 					display: inline-block;
 				}
+
+				details > label {
+					display: block;
+				}
 			`
 		];
 	}
