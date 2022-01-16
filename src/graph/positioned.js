@@ -53,13 +53,21 @@ export class PositionedGraph extends Graph {
 		return positions.every(position => position.height === height && position.width === width);
 	}
 
-	//returns this.defaultNodeSize by default. Override if you want a different behavior
-	get defaultNodeWidth() {
-		return this.defaultNodeSize;
+	//Override point. returns this.nodeSize by defatul.
+	nodeHeight(identifier) {
+		return this.nodeSize(identifier);
 	}
 
-	//returns this.defaultNodeSize by default. Override if you want a different behavior
-	get defaultNodeHeight() {
+	//Override point. Returns this.nodeSize by default.
+	nodeWidth(identifier) {
+		return this.nodeSize(identifier);
+	}
+
+	/*
+		Override point. Returns this.defaultNodeSize. Override point.
+	*/
+	//eslint-disable-next-line no-unused-vars
+	nodeSize(identifier) {
 		return this.defaultNodeSize;
 	}
 
@@ -73,11 +81,10 @@ export class PositionedGraph extends Graph {
 
 	/*
 		This is an override point to calculate the position. You must return
-		x,y, width, and height.
+		x,y, width, and height. Uses this.nodeHeight, this.nodeWidth by default.
 	*/
-	//eslint-disable-next-line no-unused-vars
 	calculateNodePosition(identifier) {
-		return {x:this.availableWidth / 2, y: this.availableHeight /2, width: this.defaultNodeWidth, height: this.defaultNodeHeight};
+		return {x:this.availableWidth / 2, y: this.availableHeight /2, width: this.nodeWidth(identifier), height: this.nodeHeight(identifier)};
 	}
 
 	//Returns an object with x,y of the node, and sometimes a width/height. x,y are at the center of the node.
