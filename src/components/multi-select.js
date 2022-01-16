@@ -1,6 +1,11 @@
 import { LitElement, html, css } from "lit-element";
 import { SharedStyles } from './shared-styles.js';
 
+import {
+	help,
+	ButtonSharedStyles
+} from './button-shared-styles';
+
 class MultiSelect extends LitElement {
 	static get properties() {
 		return {
@@ -15,6 +20,7 @@ class MultiSelect extends LitElement {
 	static get styles() {
 		return [
 			SharedStyles,
+			ButtonSharedStyles,
 			css`
 				:host {
 					display: inline-block;
@@ -47,7 +53,7 @@ class MultiSelect extends LitElement {
 		const summary = Object.keys(defaultedOptions).length == 1 ? Object.values(defaultedOptions)[0].title : (noOptionsSelected ? defaultText : Object.keys(values).map(key => defaultedOptions[key].title).join(', '));
 		return html`<details>
 			<summary><label class='subtle'>${summary}</label></summary>
-			${Object.entries(defaultedOptions).map((entry, index, entries) => html`<label title=${entry[1].description}><input type='checkbox' .disabled=${this.disabled || (index == 0 && noOptionsSelected)} .checked=${index == 0 ? noOptionsSelected : (values[entry[0]] || entries.length == 1)} .value=${entry[0]} @change=${this._handleCheckboxChanged}></input>${index == 0 && entries.length > 1 ? html`<em>${entry[1].title}</em>` : entry[1].title}</label>`)}
+			${Object.entries(defaultedOptions).map((entry, index, entries) => html`<label title=${entry[1].description}><input type='checkbox' .disabled=${this.disabled || (index == 0 && noOptionsSelected)} .checked=${index == 0 ? noOptionsSelected : (values[entry[0]] || entries.length == 1)} .value=${entry[0]} @change=${this._handleCheckboxChanged}></input>${index == 0 && entries.length > 1 ? html`<em>${entry[1].title}</em>` : entry[1].title}${entry[1].description ? help(entry[1].description) : ''}</label>`)}
 		</details>
 		`;
 
