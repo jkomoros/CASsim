@@ -17,7 +17,8 @@ import {
 	CHART_SINGLE_RUN_URL_KEY,
 	EXPANDED_URL_KEY,
 	CHART_EXPANDED_URL_KEY,
-	CONFIGURATION_EXPANDED_URL_KEY
+	CONFIGURATION_EXPANDED_URL_KEY,
+	DESCRIPTION_EXPANDED_URL_KEY
 } from './options.js';
 
 import {
@@ -252,7 +253,8 @@ export const selectHashForCurrentState = createSelector(
 	selectChartSingleRun,
 	selectChartExpanded,
 	selectConfigurationExpanded,
-	(urlDiff, runIndex, singleRun, chartExpanded, configurationExpanded) => {
+	selectDescriptionExpanded,
+	(urlDiff, runIndex, singleRun, chartExpanded, configurationExpanded, descriptionExpanded) => {
 		const pieces = {};
 		if (urlDiff) pieces[DIFF_URL_KEY] = urlDiff;
 		if (runIndex) pieces[RUN_INDEX_URL_KEY] = runIndex;
@@ -261,6 +263,8 @@ export const selectHashForCurrentState = createSelector(
 		const expanded = [];
 		if (chartExpanded) expanded.push(CHART_EXPANDED_URL_KEY);
 		if (configurationExpanded) expanded.push(CONFIGURATION_EXPANDED_URL_KEY);
+		//description is on by default, so store if it's DIFFERENT
+		if (!descriptionExpanded) expanded.push(DESCRIPTION_EXPANDED_URL_KEY);
 		if (expanded.length) pieces[EXPANDED_URL_KEY] = expanded.join(',');
 		
 		return Object.entries(pieces).map(entry => entry[0] + '=' + entry[1]).join('&');

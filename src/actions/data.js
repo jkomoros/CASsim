@@ -91,7 +91,8 @@ import {
 	CHART_SINGLE_RUN_URL_KEY,
 	CHART_EXPANDED_URL_KEY,
 	EXPANDED_URL_KEY,
-	CONFIGURATION_EXPANDED_URL_KEY
+	CONFIGURATION_EXPANDED_URL_KEY,
+	DESCRIPTION_EXPANDED_URL_KEY
 } from '../options.js';
 
 import { store } from '../store.js';
@@ -665,6 +666,10 @@ const ingestHash = (hash) => (dispatch, getState) => {
 					break;
 				case CONFIGURATION_EXPANDED_URL_KEY:
 					dispatch(updateConfigurationExpanded(true));
+					break;
+				case DESCRIPTION_EXPANDED_URL_KEY:
+					//description is enabled by default, so if we see the key that means it's DISABLED
+					dispatch(updateDescriptionExpanded(false));
 					break;
 				}
 			}

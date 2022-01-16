@@ -67,6 +67,7 @@ const INITIAL_STATE = {
 	showControls: true,
 	chartExpanded: false,
 	configurationExpanded: false,
+	//Note: selectHashForCurrentState and ingestHash both assume that description is on by default.
 	descriptionExpanded: true,
 	chartSingleRun: false,
 	//An object of key => true. An empty object means "all chart configs"
