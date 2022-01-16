@@ -13,11 +13,11 @@ import {
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'standing-ovation';
 
-const ovationPropensity = new DistributionConfig({average: 0.75, shortName: 'oP', description: 'How likely individuals are to do a standing ovation in the first place'});
-const standingThreshold = new DistributionConfig({average: 1.0, limitMax: 100.0, shortName: 'sT', description: 'How high of a threshold individuals have for deciding to stand if individuals visible ahead of them stood'});
-const performanceQuality = new DistributionConfig({average: 0.5, default: true, shortName: 'pQ', description: 'How high of quality the performance was'});
-const forwardStandingFalloff = new DistributionConfig({average: 0.95, step: 0.001, shortName: 'fSF', description: 'How quickly the impact of someone standing in front of this person falls off in mattering'});
-const fomoThreshold = new DistributionConfig({average: 0.95, shortName: 'fT', description: 'The threshold of what proportion in the audience must be standing before this person decideds to stand, too'});
+const ovationPropensity = new DistributionConfig({average: 0.75, description: 'How likely individuals are to do a standing ovation in the first place'});
+const standingThreshold = new DistributionConfig({average: 1.0, limitMax: 100.0, description: 'How high of a threshold individuals have for deciding to stand if individuals visible ahead of them stood'});
+const performanceQuality = new DistributionConfig({average: 0.5, default: true, description: 'How high of quality the performance was'});
+const forwardStandingFalloff = new DistributionConfig({average: 0.95, step: 0.001, description: 'How quickly the impact of someone standing in front of this person falls off in mattering'});
+const fomoThreshold = new DistributionConfig({average: 0.95, description: 'The threshold of what proportion in the audience must be standing before this person decideds to stand, too'});
 
 class StandingOvationSimulator extends AgentSimulator {
 
@@ -125,12 +125,10 @@ class StandingOvationSimulator extends AgentSimulator {
 		return {
 			rows: {
 				example: 5,
-				shortName: 'r',
 				description: 'Number of rows in the theater',
 			},
 			cols: {
 				example: 5,
-				shortName: 'c',
 				description: 'Number of cols in the theater',
 			},
 			filledSeatProportion: {
@@ -141,7 +139,6 @@ class StandingOvationSimulator extends AgentSimulator {
 				optional: true,
 				backfill: true,
 				default: true,
-				shortName: 'fSP',
 				description: 'What percentage of seats should be filled'
 			},
 			performanceQuality: performanceQuality.optionsConfig,
