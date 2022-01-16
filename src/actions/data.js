@@ -90,7 +90,8 @@ import {
 	RUN_INDEX_URL_KEY,
 	CHART_SINGLE_RUN_URL_KEY,
 	CHART_EXPANDED_URL_KEY,
-	EXPANDED_URL_KEY
+	EXPANDED_URL_KEY,
+	CONFIGURATION_EXPANDED_URL_KEY
 } from '../options.js';
 
 import { store } from '../store.js';
@@ -661,6 +662,9 @@ const ingestHash = (hash) => (dispatch, getState) => {
 				switch (expandedKey) {
 				case CHART_EXPANDED_URL_KEY:
 					dispatch(updateChartExpanded(true));
+					break;
+				case CONFIGURATION_EXPANDED_URL_KEY:
+					dispatch(updateConfigurationExpanded(true));
 					break;
 				}
 			}
