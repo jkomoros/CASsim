@@ -417,6 +417,21 @@ const shortNameConflict = (existing, shortName) => {
 	return '';
 };
 
+//returns the index of pieces into one/two where they first differ. Pieces can
+//be the string longName or a pre-split pieces.
+const firstDifferentPieceIndex = (one, two) => {
+	if (typeof one == 'string') one = longNamePieces(one);
+	if (typeof two == 'string') two = longNamePieces(two);
+	let index = 0;
+	const shortestLength = Math.min(one.length, two.length);
+	const sameLength = one.length == two.length;
+	while (index < shortestLength) {
+		if (one[index] != two[index]) return index;
+		index++;
+	}
+	return sameLength ? -1 : shortestLength;
+};
+
 //cuts a longName intp pieces where the first bit is a piece, and each upper case letter starts a new piece
 const longNamePieces = (longName) => {
 	const result = [];
@@ -437,8 +452,14 @@ const suggestedShortName = (longName, existing) => {
 	//letter after.
 	const pieces = longNamePieces(longName);
 	let candidate = pieces.map(piece => piece[0]).join('');
-	if (shortNameConflict(existing, candidate) == '') return candidate;
-	//TODO: try expanding just the part of the candidate that collides with the other.
+	let conflict = shortNameConflict(existing, candidate);
+	if (conflict == '' && candidate != longName) return candidate;
+	
+	//The basic name conflicted, but what if we just don't expand the part where they first differ?
+	const differentIndex = firstDifferentPieceIndex(conflict, longName);
+	candidate = pieces.map((piece, index) => index == differentIndex ? piece : piece[0]).join('');
+	conflict = shortNameConflict(existing, candidate);
+	if (conflict == '' && candidate != longName) return candidate;
 	return '';
 };
 
