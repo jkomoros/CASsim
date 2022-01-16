@@ -408,8 +408,8 @@ export const suggestMissingShortNames = (existing) => {
 	return suggestions;
 };
 
-const legalShortName = (existing, shortName, longName) => {
-	if (existing[shortName] && shortName != longName) return false;
+const legalShortName = (existing, shortName) => {
+	if (existing[shortName]) return false;
 	for (const value of Object.values(existing)) {
 		if (value == shortName) return false;
 	}
@@ -436,7 +436,7 @@ const suggestedShortName = (longName, existing) => {
 	//letter after.
 	const pieces = longNamePieces(longName);
 	let candidate = pieces.map(piece => piece[0]).join('');
-	if (legalShortName(existing, candidate, longName)) return candidate;
+	if (legalShortName(existing, candidate)) return candidate;
 	//TODO: try expanding just the part of the candidate that collides with the other.
 	return '';
 };
