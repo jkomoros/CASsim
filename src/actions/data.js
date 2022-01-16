@@ -636,6 +636,22 @@ export const canonicalizeHash = () => (dispatch, getState) => {
 	dispatch(updateHash(hash));
 };
 
+const ingestHash = (hash) => (dispatch, getState) => {
+	const state = getState();
+	const pieces = parseHash(hash);
+	for (const [key, value] of Object.entries(pieces)) {
+		switch (key) {
+		case DIFF_URL_KEY:
+			const [mods, warning] = unpackModificationsFromURL(value, selectSimulationCollection(state), selectSimulationIndex(state));
+			if (warning) dispatch(updateWarning(warning));
+			dispatch(replaceModifications(mods));
+			break;
+		default:
+			console.warn('Unknown hash parameter: ', key, value);
+		}
+	}
+};
+
 export const updateHash = (hash, comesFromURL) => (dispatch, getState) => {
 	if (hash.startsWith('#')) hash = hash.substring(1);
 	const state = getState();
@@ -644,12 +660,7 @@ export const updateHash = (hash, comesFromURL) => (dispatch, getState) => {
 	if (hash == currentHash && dataFullyLoaded && !comesFromURL) return;
 	//Only try to parse the hash if fully loaded
 	if (comesFromURL && dataFullyLoaded) {
-		const diff = parseHash(hash)[DIFF_URL_KEY];
-		if (diff) {
-			const [mods, warning] = unpackModificationsFromURL(diff, selectSimulationCollection(state), selectSimulationIndex(state));
-			if (warning) dispatch(updateWarning(warning));
-			dispatch(replaceModifications(mods));
-		}
+		dispatch(ingestHash(hash));
 	} else {
 		window.location.hash = hash;
 		//Clear the '#'
