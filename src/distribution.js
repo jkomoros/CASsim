@@ -24,6 +24,13 @@ const LEGAL_TYPES = {
 export const sum = (nums) => nums.reduce((a, b) => a + b, 0);
 //mean is the arithmetic mean of the array of numbers passed to it.
 export const mean = (nums) => nums.length == 0 ? 0 : sum(nums) / nums.length;
+//median is the median number in the distribution of the array of numbers passed to it.
+export const median = (nums) => {
+	if (nums.length == 0) return 0;
+	nums = [...nums];
+	nums.sort();
+	return nums[Math.floor(nums.length / 2)];
+};
 
 const gaussianRandom = (mean, std, rnd = Math.random) => {
 	//https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
