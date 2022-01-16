@@ -1,3 +1,12 @@
+//Returns [emojiName, emoji] from the set. keyOrRnd can be a function, in which
+//case it will be the source of randomness, or a key to select.
+export const pickEmoji = (emojiSet, keyOrRnd) => {
+	const emojiKeys = Object.keys(emojiSet);
+	let key = keyOrRnd;
+	if (typeof keyOrRnd == 'function') key = emojiKeys[Math.floor(emojiKeys.length * keyOrRnd())];
+	return [key, emojiSet[key]];
+};
+
 export const PROFESSIONAL_PEOPLE_EMOJIS = {
 	'doctor': '🧑‍⚕️',
 	'graduate': '🧑‍🎓',

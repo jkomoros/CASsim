@@ -3,7 +3,8 @@ import {
 } from '../agent-simulator.js';
 
 import {
-	GRAZING_FARM_ANIMALS_EMOJIS
+	GRAZING_FARM_ANIMALS_EMOJIS,
+	pickEmoji
 } from '../emojis.js';
 
 import {
@@ -23,11 +24,10 @@ class AgentDemoSimulator extends AgentSimulator {
 	//simulationComplete, and generateFrame.
 
 	generateAgent(parentAgent, otherAgents, graph, simOptions, rnd) {
-		const emojiKeys = Object.keys(GRAZING_FARM_ANIMALS_EMOJIS);
-		const emojiKey = parentAgent ? parentAgent.type : emojiKeys[Math.floor(emojiKeys.length * rnd())];
+		const [emojiKey, emoji] = pickEmoji(GRAZING_FARM_ANIMALS_EMOJIS, parentAgent ? parentAgent.type : rnd);
 		return {
 			...this.baseAgent(rnd),
-			emoji: GRAZING_FARM_ANIMALS_EMOJIS[emojiKey],
+			emoji: emoji,
 			type: emojiKey,
 			deathLikelihood: simOptions.deathLikelihood,
 			spawnLikelihood: simOptions.spawnLikelihood,
