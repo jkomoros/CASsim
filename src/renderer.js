@@ -233,17 +233,18 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		return svg`<path id=${edge.id} class='edge' d='M ${fromNodePosition.x}, ${fromNodePosition.y} L ${toNodePosition.x}, ${toNodePosition.y}' stroke='${this.edgeColor(edge, graph)}' stroke-width='${this.edgeWidth(edge, graph)}' stroke-opacity='${this.edgeOpacity(edge, graph)}' stroke-dasharray='${this.edgeDasharray(edge, graph)}'></path>`;
 	}
 
-	_positionStylesForNode(node, graph) {
-		const nodePosition = graph ? graph.nodePosition(node) : {left: '0px', top: '0px'};
-		const result = {
-			left: '' + (nodePosition.x - (nodePosition.width / 2)) * this.scale + 'px',
-			top: '' + (nodePosition.y - (nodePosition.height / 2)) * this.scale + 'px',
+	//position should be an opbject with x,y,width,height;
+	_positionStyles(position) {
+		return {
+			left: '' + (position.x - (position.width / 2)) * this.scale + 'px',
+			top: '' + (position.y - (position.height / 2)) * this.scale + 'px',
+			width: '' + position.width * this.scale + 'px',
+			height: '' + position.height * this.scale + 'px'
 		};
-		if (!graph.nodesSameSize) {
-			result.width = '' + this.nodeWidth(node, graph) * this.scale + 'px';
-			result.height = '' + this.nodeHeight(node, graph) * this.scale + 'px';
-		}
-		return result;
+	}
+
+	_positionStylesForNode(node, graph) {
+		return this._positionStyles(graph ? graph.nodePosition(node) : {x: 0, y: 0, width: 10, height: 10});
 	}
 
 	innerRender() {
