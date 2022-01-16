@@ -204,27 +204,6 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		return '';
 	}
 
-	/*
-		nodeRadius is used to set width/height if they aren't provided by
-		graph.nodePosition.
-	*/
-	//eslint-disable-next-line no-unused-vars
-	nodeRadius(node, graph) {
-		return 10;
-	}
-
-	nodeWidth(node, graph) {
-		const position = graph.nodePosition(node);
-		if (position.width) return position.width;
-		return this.nodeRadius(node, graph) * 2;
-	}
-
-	nodeHeight(node, graph) {
-		const position = graph.nodePosition(node);
-		if (position.height) return position.height;
-		return this.nodeRadius(node, graph) * 2;
-	}
-
 	//must return svg. Note coordinates are viewBoxed so don't need any scaling.
 	renderEdge(edge, graph) {
 		if (!graph) return '';
@@ -235,11 +214,13 @@ export class PositionedGraphRenderer extends BaseRenderer {
 
 	//position should be an opbject with x,y,width,height;
 	_positionStyles(position) {
+		const size = Math.min(position.width, position.height);
 		return {
 			left: '' + (position.x - (position.width / 2)) * this.scale + 'px',
 			top: '' + (position.y - (position.height / 2)) * this.scale + 'px',
 			width: '' + position.width * this.scale + 'px',
-			height: '' + position.height * this.scale + 'px'
+			height: '' + position.height * this.scale + 'px',
+			'--node-size': '' + size * this.scale + 'px'
 		};
 	}
 
@@ -249,14 +230,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 
 	innerRender() {
 		const graph = this._graph();
-		const lastNodeIdentifier = graph.lastNodeIdentifier();
-		const width = this.nodeWidth(lastNodeIdentifier, graph);
-		const height = this.nodeHeight(lastNodeIdentifier, graph);
-		const size = Math.min(width, height);
 		const styles = {
-			'--node-width': width * this.scale + 'px',
-			'--node-height': height * this.scale + 'px',
-			'--node-size': size * this.scale + 'px',
 			'--node-radius': '' + 100 * graph.nodeBorderRadius + '%',
 			'height': '' + graph.height * this.scale + 'px',
 			'width': '' + graph.width * this.scale + 'px',
