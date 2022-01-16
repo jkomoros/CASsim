@@ -391,8 +391,9 @@ export const suggestMissingShortNamesForOptionConfig = (optionsConfig) => {
 
 //existing should be longName -> shortName for every object at this level. Will
 //return a map of longName->shortName for any ones that exist as longName but
-//have no shortName.
-const suggestMissingShortNames = (existing) => {
+//have no shortName. Not to be used directly ( use
+//suggestMissingShrotNamesForOptionConfig); exported only for testing.
+export const suggestMissingShortNames = (existing) => {
 	//First, verify that existing is not ALREADY invalid before we start
 	const existingShortNames = {};
 	for (const val of Object.values(existing)) {

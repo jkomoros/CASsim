@@ -15,6 +15,7 @@ import {
 	shortenPathWithConfig,
 	expandPathWithConfig,
 	ensureBackfill,
+	suggestMissingShortNames
 } from '../../src/options.js';
 
 import assert from 'assert';
@@ -2682,6 +2683,19 @@ describe('expandDefaults', () => {
 		const goldenChanged = true;
 		assert.deepEqual(result, golden);
 		assert.deepEqual(changed, goldenChanged);
+	});
+
+});
+
+describe('suggestMissingShortNames', () => {
+	it('handles basic object', async () => {
+		const existing = {
+			foo: 'f',
+			bar: '',
+		};
+		const result = suggestMissingShortNames(existing);
+		const golden = {};
+		assert.deepEqual(result, golden);
 	});
 
 });
