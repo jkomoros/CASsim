@@ -92,7 +92,8 @@ import {
 	CHART_EXPANDED_URL_KEY,
 	EXPANDED_URL_KEY,
 	CONFIGURATION_EXPANDED_URL_KEY,
-	DESCRIPTION_EXPANDED_URL_KEY
+	DESCRIPTION_EXPANDED_URL_KEY,
+	CHART_CONFIG_IDS_URL_KEY
 } from '../options.js';
 
 import { store } from '../store.js';
@@ -656,6 +657,10 @@ const ingestHash = (hash) => (dispatch, getState) => {
 		case CHART_SINGLE_RUN_URL_KEY:
 			const val = parseInt(value);
 			if (!isNaN(val) && val) dispatch(updateChartSingleRun(true));
+			break;
+		case CHART_CONFIG_IDS_URL_KEY:
+			const ids = Object.fromEntries(value.split(',').map(key => [key, true]));
+			dispatch(updateChartConfigIDs(ids));
 			break;
 		case EXPANDED_URL_KEY:
 			const keys = value.split(',');

@@ -18,7 +18,8 @@ import {
 	EXPANDED_URL_KEY,
 	CHART_EXPANDED_URL_KEY,
 	CONFIGURATION_EXPANDED_URL_KEY,
-	DESCRIPTION_EXPANDED_URL_KEY
+	DESCRIPTION_EXPANDED_URL_KEY,
+	CHART_CONFIG_IDS_URL_KEY
 } from './options.js';
 
 import {
@@ -254,11 +255,13 @@ export const selectHashForCurrentState = createSelector(
 	selectChartExpanded,
 	selectConfigurationExpanded,
 	selectDescriptionExpanded,
-	(urlDiff, runIndex, singleRun, chartExpanded, configurationExpanded, descriptionExpanded) => {
+	selectChartConfigIDs,
+	(urlDiff, runIndex, singleRun, chartExpanded, configurationExpanded, descriptionExpanded, configIDs) => {
 		const pieces = {};
 		if (urlDiff) pieces[DIFF_URL_KEY] = urlDiff;
 		if (runIndex) pieces[RUN_INDEX_URL_KEY] = runIndex;
 		if (singleRun) pieces[CHART_SINGLE_RUN_URL_KEY] = '1';
+		if (configIDs && Object.keys(configIDs).length) pieces[CHART_CONFIG_IDS_URL_KEY] = Object.keys(configIDs).join(',');
 
 		const expanded = [];
 		if (chartExpanded) expanded.push(CHART_EXPANDED_URL_KEY);
