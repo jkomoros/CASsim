@@ -15,7 +15,8 @@ import {
 	shortenPathWithConfig,
 	expandPathWithConfig,
 	ensureBackfill,
-	suggestMissingShortNames
+	suggestMissingShortNames,
+	optionsConfigWithDefaultedShortNames
 } from '../../src/options.js';
 
 import assert from 'assert';
@@ -2826,6 +2827,36 @@ describe('suggestMissingShortNames', () => {
 			minFar: 'minF',
 			maxFar: 'maxF',
 			modFan: 'modF',
+		};
+		assert.deepEqual(result, golden);
+	});
+
+});
+
+describe('optionsConfigWithDefaultedShortNames', () => {
+
+	it('handles basic object that is invalid (short name collision)', async () => {
+		const options = {
+			foobell: {
+				example: true,
+				shortName: 'f',
+			},
+			barbell: {
+				example: true,
+			}
+		};
+		//Verify that the optionsConfigWithDefaultedShortNames doesn't modify it
+		deepFreeze(options);
+		const result = optionsConfigWithDefaultedShortNames(options);
+		const golden = {
+			foobell: {
+				example: true,
+				shortName: 'f',
+			},
+			barbell: {
+				example: true,
+				shortName: 'b',
+			}
 		};
 		assert.deepEqual(result, golden);
 	});

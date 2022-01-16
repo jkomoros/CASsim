@@ -401,10 +401,10 @@ export const optionsConfigWithDefaultedShortNames = (optionsConfig) => {
 	if (Object.keys(suggestions).length) {
 		if (isExampleObject) {
 			result.example = {...result.example};
-			Object.entries(suggestions).forEach(entry => result.example[entry[0]].shortName = entry[1]);
+			Object.entries(suggestions).forEach(entry => result.example[entry[0]] = {...result.example[entry[0]], shortName: entry[1]});
 		} else {
 			result = {...result};
-			Object.entries(suggestions).forEach(entry => result[entry[0]].shortName = entry[1]);
+			Object.entries(suggestions).forEach(entry => result[entry[0]] = {...result[entry[0]], shortName: entry[1]});
 		}
 	}
 	return result;
