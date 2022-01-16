@@ -391,6 +391,7 @@ class SimView extends connect(store)(PageViewElement) {
 		}
 		if (changedProps.has('_runIndex')) {
 			window[CURRENT_RUN_INDEX_VARIABLE] = this._runIndex;
+			store.dispatch(canonicalizeHash());
 		}
 		if (changedProps.has('_frameIndex')) {
 			window[CURRENT_FRAME_INDEX_VARIABLE] = this._frameIndex;

@@ -626,12 +626,19 @@ export const simulationChanged = () => {
 	};
 };
 
+const RUN_INDEX_URL_KEY = 'r';
+
 export const canonicalizeHash = () => (dispatch, getState) => {
 	const state = getState();
 	if (!selectDataIsFullyLoaded(state)) return;
-	const urlDiff = selectURLDiffHash(state);
 	const pieces = {};
+
+	const urlDiff = selectURLDiffHash(state);
 	if (urlDiff) pieces[DIFF_URL_KEY] = urlDiff;
+
+	const runIndex = selectRunIndex(state);
+	if (runIndex) pieces[RUN_INDEX_URL_KEY] = runIndex;
+
 	const hash = Object.entries(pieces).map(entry => entry[0] + '=' + entry[1]).join('&');
 	dispatch(updateHash(hash));
 };
@@ -645,6 +652,10 @@ const ingestHash = (hash) => (dispatch, getState) => {
 			const [mods, warning] = unpackModificationsFromURL(value, selectSimulationCollection(state), selectSimulationIndex(state));
 			if (warning) dispatch(updateWarning(warning));
 			dispatch(replaceModifications(mods));
+			break;
+		case RUN_INDEX_URL_KEY:
+			const index = parseInt(value);
+			if (!isNaN(index)) dispatch(updateRunIndex(index));
 			break;
 		default:
 			console.warn('Unknown hash parameter: ', key, value);
