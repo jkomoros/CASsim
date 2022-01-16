@@ -46,7 +46,7 @@ export class PositionedGraph extends Graph {
 	}
 
 	get nodesSameSize() {
-		const positions = [...Object.values(this.nodes())];
+		const positions = Object.keys(this.nodes()).map(id => this.nodePosition(id));
 		if (positions.length == 0) return true;
 		const height = positions[0].height;
 		const width = positions[0].width;
