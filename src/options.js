@@ -395,16 +395,21 @@ export const suggestMissingShortNamesForOptionConfig = (optionsConfig) => {
 //suggestMissingShrotNamesForOptionConfig); exported only for testing.
 export const suggestMissingShortNames = (existing) => {
 	//First, verify that existing is not ALREADY invalid before we start
-	const existingShortNames = {};
-	for (const val of Object.values(existing)) {
-		//A shortName conflicts with a long name
-		if (existing[val] !== undefined) return {};
-		//A shortName conflcits with another shortName
-		if (existingShortNames[val]) return {};
-		if (val) existingShortNames[val] = true;
-	}
+	if (!shortNamesValid(existing)) return {};
 	//TODO: actually calculate other shortNames.
 	return {};
+};
+
+const shortNamesValid = (shortNamesMap) => {
+	const existingShortNames = {};
+	for (const val of Object.values(shortNamesMap)) {
+		//A shortName conflicts with a long name
+		if (shortNamesMap[val] !== undefined) return false;
+		//A shortName conflcits with another shortName
+		if (existingShortNames[val]) false;
+		if (val) existingShortNames[val] = true;
+	}
+	return true;
 };
 
 //How many characters of the fingerprint for each sim to put in the URL.
