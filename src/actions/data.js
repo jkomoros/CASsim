@@ -89,6 +89,7 @@ import {
 	DIFF_URL_KEY,
 	RUN_INDEX_URL_KEY,
 	CHART_SINGLE_RUN_URL_KEY,
+	CHART_EXPANDED_URL_KEY,
 	EXPANDED_URL_KEY
 } from '../options.js';
 
@@ -107,7 +108,6 @@ import {
 	DEFAULT_SENTINEL,
 	parseHash,
 } from '../util.js';
-import { CHART_EXPANDED_URL_KEY } from '../options';
 
 const SIMULATORS_DIRECTORY = 'simulators';
 
