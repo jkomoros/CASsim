@@ -2835,7 +2835,7 @@ describe('suggestMissingShortNames', () => {
 
 describe('optionsConfigWithDefaultedShortNames', () => {
 
-	it('handles basic object that is invalid (short name collision)', async () => {
+	it('handles basic object', async () => {
 		const options = {
 			foobell: {
 				example: true,
@@ -2855,6 +2855,48 @@ describe('optionsConfigWithDefaultedShortNames', () => {
 			},
 			barbell: {
 				example: true,
+				shortName: 'b',
+			}
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles basic object nested', async () => {
+		const options = {
+			foobell: {
+				example: true,
+				shortName: 'f',
+			},
+			barbell: {
+				example: {
+					fooBar: {
+						example: true,
+					},
+					foodBar: {
+						example: true,
+					}
+				}
+			}
+		};
+		//Verify that the optionsConfigWithDefaultedShortNames doesn't modify it
+		deepFreeze(options);
+		const result = optionsConfigWithDefaultedShortNames(options);
+		const golden = {
+			foobell: {
+				example: true,
+				shortName: 'f',
+			},
+			barbell: {
+				example: {
+					fooBar: {
+						example: true,
+						shortName: 'fooB',
+					},
+					foodBar: {
+						example: true,
+						shortName: 'foodB',
+					}
+				},
 				shortName: 'b',
 			}
 		};
