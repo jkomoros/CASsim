@@ -630,7 +630,9 @@ export const canonicalizeHash = () => (dispatch, getState) => {
 	const state = getState();
 	if (!selectDataIsFullyLoaded(state)) return;
 	const urlDiff = selectURLDiffHash(state);
-	const hash = urlDiff ? DIFF_URL_KEY + '=' + urlDiff : '';
+	const pieces = {};
+	if (urlDiff) pieces[DIFF_URL_KEY] = urlDiff;
+	const hash = Object.entries(pieces).map(entry => entry[0] + '=' + entry[1]).join('&');
 	dispatch(updateHash(hash));
 };
 
