@@ -12,7 +12,8 @@ import {
 	packModificationsForURL,
 	unpackSimNamesFromURL,
 	shadowedModificationsForSimIndex,
-	DIFF_URL_KEY
+	DIFF_URL_KEY,
+	RUN_INDEX_URL_KEY,
 } from './options.js';
 
 import {
@@ -238,5 +239,16 @@ export const selectCurrentFrame = createSelector(
 	(run, frameIndex) => {
 		if (!run) return null;
 		return run.frame(frameIndex);
+	}
+);
+
+export const selectHashForCurrentState = createSelector(
+	selectURLDiffHash,
+	selectRunIndex,
+	(urlDiff, runIndex) => {
+		const pieces = {};
+		if (urlDiff) pieces[DIFF_URL_KEY] = urlDiff;
+		if (runIndex) pieces[RUN_INDEX_URL_KEY] = runIndex;
+		return Object.entries(pieces).map(entry => entry[0] + '=' + entry[1]).join('&');
 	}
 );

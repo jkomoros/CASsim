@@ -76,9 +76,9 @@ import {
 	selectDataIsFullyLoaded,
 	selectHasModifications,
 	selectHash,
-	selectURLDiffHash,
 	selectSimulationCollection,
-	selectLoadingSimulators
+	selectLoadingSimulators,
+	selectHashForCurrentState
 } from '../selectors.js';
 
 import {
@@ -86,7 +86,8 @@ import {
 	configIsAdvanced,
 	maySetPropertyInConfigObject,
 	unpackModificationsFromURL,
-	DIFF_URL_KEY
+	DIFF_URL_KEY,
+	RUN_INDEX_URL_KEY
 } from '../options.js';
 
 import { store } from '../store.js';
@@ -626,20 +627,10 @@ export const simulationChanged = () => {
 	};
 };
 
-const RUN_INDEX_URL_KEY = 'r';
-
 export const canonicalizeHash = () => (dispatch, getState) => {
 	const state = getState();
 	if (!selectDataIsFullyLoaded(state)) return;
-	const pieces = {};
-
-	const urlDiff = selectURLDiffHash(state);
-	if (urlDiff) pieces[DIFF_URL_KEY] = urlDiff;
-
-	const runIndex = selectRunIndex(state);
-	if (runIndex) pieces[RUN_INDEX_URL_KEY] = runIndex;
-
-	const hash = Object.entries(pieces).map(entry => entry[0] + '=' + entry[1]).join('&');
+	const hash = selectHashForCurrentState(state);
 	dispatch(updateHash(hash));
 };
 

@@ -55,10 +55,10 @@ import {
 	selectDataIsFullyLoaded,
 	selectCurrentSimulationRunStatuses,
 	selectScrenshotting,
-	selectURLDiffHash,
 	selectRequiredSimulatorsLoaded,
 	selectRequiredSimulatorNames,
 	selectFrameDelay,
+	selectHashForCurrentState,
 } from "../selectors.js";
 
 // We are lazy loading its reducer.
@@ -168,7 +168,7 @@ class SimView extends connect(store)(PageViewElement) {
 			_dataIsFullyLoaded: {type:Boolean},
 			_screenshotting: {type:Boolean},
 			_runStatues: {type:Object},
-			_urlDiffHash: {type:String},
+			_hashForCurrentState: {type:String},
 			//Note: this is calculated in this._resizeVisualzation, NOT in state
 			_needsMarginLeft : {type:Boolean},
 			_resizeVisualization: {type:Boolean},
@@ -305,7 +305,7 @@ class SimView extends connect(store)(PageViewElement) {
 		this._resizeVisualization = selectResizeVisualization(state);
 		this._dataIsFullyLoaded = selectDataIsFullyLoaded(state);
 		this._runStatuses = selectCurrentSimulationRunStatuses(state);
-		this._urlDiffHash = selectURLDiffHash(state);
+		this._hashForCurrentState = selectHashForCurrentState(state);
 		this._currentSimulationLastChanged = this._currentSimulation ? this._currentSimulation.lastChanged : 0;
 
 		this.updateComplete.then(() => {
@@ -391,7 +391,6 @@ class SimView extends connect(store)(PageViewElement) {
 		}
 		if (changedProps.has('_runIndex')) {
 			window[CURRENT_RUN_INDEX_VARIABLE] = this._runIndex;
-			store.dispatch(canonicalizeHash());
 		}
 		if (changedProps.has('_frameIndex')) {
 			window[CURRENT_FRAME_INDEX_VARIABLE] = this._frameIndex;
@@ -418,7 +417,7 @@ class SimView extends connect(store)(PageViewElement) {
 			//On first load process hash, but wait until we know the simulationIndex, since the meaning of the packed data diff can't be interpreted until then.
 			this._handleHashChange();
 		}
-		if (changedProps.has('_urlDiffHash')) {
+		if (changedProps.has('_hashForCurrentState')) {
 			store.dispatch(canonicalizeHash());
 		}
 		if (changedProps.has('_height') || changedProps.has('_width') || changedProps.has('_configurationExpanded') || changedProps.has('_resizeVisualization') || changedProps.has('_descriptionExpanded')) {

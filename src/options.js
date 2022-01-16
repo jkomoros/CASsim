@@ -21,6 +21,7 @@ const HIDE_PROPERTY_NAME = 'hide';
 export const COLOR_BEHAVIOR_NAME = 'color';
 
 export const DIFF_URL_KEY = 'd';
+export const RUN_INDEX_URL_KEY = 'r';
 
 const ALLOWED_BEHAVIOR_NAMES = {
 	[COLOR_BEHAVIOR_NAME]: true,
