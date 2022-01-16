@@ -137,7 +137,9 @@ export class Graph {
 		return Object.fromEntries(Object.keys(this.nodes()).map(nodeID => Object.values(this.edges(nodeID))).flat().map(edge => [edge.id, edge]));
 	}
 
-	nodes() {
+	//Returns all nodes. if filterFunc is provided, it will filter any node whose values, when passed to the filterFunc, do not return true.
+	nodes(filterFunc) {
+		if (filterFunc) return Object.fromEntries(Object.entries(this._data.nodes).filter(entry => filterFunc(entry[1].values)).map(entry => [entry[0], entry[1].values]));
 		return Object.fromEntries(Object.entries(this._data.nodes).map(entry => [entry[0], entry[1].values]));
 	}
 
