@@ -263,12 +263,15 @@ declarative format that has the following shape, called an optionsLeaf:
 	//but only if a user explicitly adds it, so the example should be the 'on' version of the value,
 	//so that when a user explicitly adds it, they don't have to then change the value to the 'on' value.
 	"example": 1.0,
-	//If provided, then paths to this option can be known by their long name (the property name that points 
+	//OPTIONAL - the defaulting machinery does most of the work. If provided, then paths to this option can 
+	//be known by their long name (the property name that points 
 	//to this leaf), or by this shortName. When being packed for a URL, the path will be shortened to its 
 	//shortName. The shortName must be unique among its peers in its parent object, now or any time
 	//in the past, otherwise URLs out in the wild that were packed with this shortName might expand improperly.
 	//Idiomatically, the shortName is the first letter of the name, plus any uppercass letters (e.g. 'fooPropertyName'
 	//would be 'fPN') unless there would be a collision, in which case it's typically the property name minus vowels.
+	//If not provided, will be set to reasonable defaults according to these idioms. You only have to provide a shortName
+	//if you want the shortName to be something atypical for it.
 	"shortName": 'a',
 	//A help string to show in the UI to explain what it does
 	"description": "A string to show in the UI"
