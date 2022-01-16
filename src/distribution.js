@@ -20,6 +20,11 @@ const LEGAL_TYPES = {
 	[FIXED]: 'A distribution that always returns precisely average with no variation',
 };
 
+//sum sums up the array of numbers passed to it
+export const sum = (nums) => nums.reduce((a, b) => a + b, 0);
+//mean is the arithmetic mean of the array of numbers passed to it.
+export const mean = (nums) => nums.length == 0 ? 0 : sum(nums) / nums.length;
+
 const gaussianRandom = (mean, std, rnd = Math.random) => {
 	//https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
 	var u1 = rnd();
