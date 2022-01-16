@@ -87,7 +87,8 @@ import {
 	maySetPropertyInConfigObject,
 	unpackModificationsFromURL,
 	DIFF_URL_KEY,
-	RUN_INDEX_URL_KEY
+	RUN_INDEX_URL_KEY,
+	CHART_SINGLE_RUN_URL_KEY
 } from '../options.js';
 
 import { store } from '../store.js';
@@ -647,6 +648,10 @@ const ingestHash = (hash) => (dispatch, getState) => {
 		case RUN_INDEX_URL_KEY:
 			const index = parseInt(value);
 			if (!isNaN(index)) dispatch(updateRunIndex(index));
+			break;
+		case CHART_SINGLE_RUN_URL_KEY:
+			const val = parseInt(value);
+			if (!isNaN(val) && val) dispatch(updateChartSingleRun(true));
 			break;
 		default:
 			console.warn('Unknown hash parameter: ', key, value);
