@@ -397,7 +397,21 @@ export const suggestMissingShortNames = (existing) => {
 	//First, verify that existing is not ALREADY invalid before we start
 	if (!shortNamesValid(existing)) return {};
 	//TODO: actually calculate other shortNames.
-	return {};
+	const suggestions = {};
+	for (const [longName, shortName] of Object.entries(existing)) {
+		//if there's already a shortName then we don't need to try one
+		if (shortName) continue;
+		//The default shortName is the first character, and then every upperCase
+		//letter after.
+		let suggestedShortName = longName[0];
+		for (const char of longName.slice(1)) {
+			if (char != char.toUpperCase()) continue;
+			suggestedShortName += char;
+		}
+		suggestions[longName] = suggestedShortName;
+	}
+	//TODO: check for shortName collisions and resolve (remember: can only touch suggestions);
+	return suggestions;
 };
 
 const shortNamesValid = (shortNamesMap) => {

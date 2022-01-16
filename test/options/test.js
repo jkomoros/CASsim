@@ -2688,14 +2688,63 @@ describe('expandDefaults', () => {
 });
 
 describe('suggestMissingShortNames', () => {
+
+	it('handles basic object that is invalid (short name collision)', async () => {
+		const existing = {
+			foo: 'f',
+			bar: 'f',
+		};
+		const result = suggestMissingShortNames(existing);
+		const golden = {};
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles basic object that is invalid (long/short name collision)', async () => {
+		const existing = {
+			foo: 'f',
+			bar: 'foo',
+		};
+		const result = suggestMissingShortNames(existing);
+		const golden = {};
+		assert.deepEqual(result, golden);
+	});
+
 	it('handles basic object', async () => {
 		const existing = {
 			foo: 'f',
 			bar: '',
 		};
 		const result = suggestMissingShortNames(existing);
-		const golden = {};
+		const golden = {
+			bar: 'b',
+		};
 		assert.deepEqual(result, golden);
 	});
+
+	it('handles basic object that looks invalid but is valid because longName == shortName', async () => {
+		const existing = {
+			foo: 'foo',
+			bar: '',
+		};
+		const result = suggestMissingShortNames(existing);
+		const golden = {
+			bar: 'b',
+		};
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles basic object with longerName', async () => {
+		const existing = {
+			foo: 'f',
+			barBazBoo: '',
+		};
+		const result = suggestMissingShortNames(existing);
+		const golden = {
+			barBazBoo: 'bBB',
+		};
+		assert.deepEqual(result, golden);
+	});
+
+
 
 });
