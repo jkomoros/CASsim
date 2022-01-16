@@ -400,11 +400,20 @@ export const suggestMissingShortNames = (existing) => {
 	for (const [longName, shortName] of Object.entries(existing)) {
 		//if there's already a shortName then we don't need to try one
 		if (shortName) continue;
-		suggestions[longName] = suggestedShortName(longName);
+		const suggestion = suggestedShortName(longName, existing);
+		if (suggestion) suggestions[longName] = suggestion;
 	}
 	//TODO: don't just give up if suggestions can't work
 	if (!shortNamesValid({...existing, ...suggestions})) return {};
 	return suggestions;
+};
+
+const legalShortName = (existing, shortName, longName) => {
+	if (existing[shortName] && shortName != longName) return false;
+	for (const value of Object.values(existing)) {
+		if (value == shortName) return false;
+	}
+	return true;
 };
 
 //cuts a longName intp pieces where the first bit is a piece, and each upper case letter starts a new piece
@@ -422,11 +431,13 @@ const longNamePieces = (longName) => {
 	return result;
 };
 
-const suggestedShortName = (longName) => {
+const suggestedShortName = (longName, existing) => {
 	//The default shortName is the first character, and then every upperCase
 	//letter after.
 	const pieces = longNamePieces(longName);
-	return pieces.map(piece => piece[0]).join('');
+	let candidate = pieces.map(piece => piece[0]).join('');
+	if (legalShortName(existing, candidate, longName)) return candidate;
+	return '';
 };
 
 const shortNamesValid = (shortNamesMap) => {
