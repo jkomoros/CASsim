@@ -437,6 +437,7 @@ const suggestedShortName = (longName, existing) => {
 	const pieces = longNamePieces(longName);
 	let candidate = pieces.map(piece => piece[0]).join('');
 	if (legalShortName(existing, candidate, longName)) return candidate;
+	//TODO: try expanding just the part of the candidate that collides with the other.
 	return '';
 };
 
