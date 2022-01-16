@@ -23,6 +23,8 @@ export const COLOR_BEHAVIOR_NAME = 'color';
 export const DIFF_URL_KEY = 'd';
 export const RUN_INDEX_URL_KEY = 'r';
 export const CHART_SINGLE_RUN_URL_KEY = 'cSR';
+export const EXPANDED_URL_KEY = 'e';
+export const CHART_EXPANDED_URL_KEY = 't';
 
 const ALLOWED_BEHAVIOR_NAMES = {
 	[COLOR_BEHAVIOR_NAME]: true,

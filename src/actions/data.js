@@ -88,7 +88,8 @@ import {
 	unpackModificationsFromURL,
 	DIFF_URL_KEY,
 	RUN_INDEX_URL_KEY,
-	CHART_SINGLE_RUN_URL_KEY
+	CHART_SINGLE_RUN_URL_KEY,
+	EXPANDED_URL_KEY
 } from '../options.js';
 
 import { store } from '../store.js';
@@ -106,6 +107,7 @@ import {
 	DEFAULT_SENTINEL,
 	parseHash,
 } from '../util.js';
+import { CHART_EXPANDED_URL_KEY } from '../options';
 
 const SIMULATORS_DIRECTORY = 'simulators';
 
@@ -652,6 +654,16 @@ const ingestHash = (hash) => (dispatch, getState) => {
 		case CHART_SINGLE_RUN_URL_KEY:
 			const val = parseInt(value);
 			if (!isNaN(val) && val) dispatch(updateChartSingleRun(true));
+			break;
+		case EXPANDED_URL_KEY:
+			const keys = value.split(',');
+			for (const expandedKey of keys) {
+				switch (expandedKey) {
+				case CHART_EXPANDED_URL_KEY:
+					dispatch(updateChartExpanded(true));
+					break;
+				}
+			}
 			break;
 		default:
 			console.warn('Unknown hash parameter: ', key, value);

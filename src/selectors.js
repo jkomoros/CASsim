@@ -14,7 +14,9 @@ import {
 	shadowedModificationsForSimIndex,
 	DIFF_URL_KEY,
 	RUN_INDEX_URL_KEY,
-	CHART_SINGLE_RUN_URL_KEY
+	CHART_SINGLE_RUN_URL_KEY,
+	EXPANDED_URL_KEY,
+	CHART_EXPANDED_URL_KEY,
 } from './options.js';
 
 import {
@@ -247,11 +249,17 @@ export const selectHashForCurrentState = createSelector(
 	selectURLDiffHash,
 	selectRunIndex,
 	selectChartSingleRun,
-	(urlDiff, runIndex, singleRun) => {
+	selectChartExpanded,
+	(urlDiff, runIndex, singleRun, chartExpanded) => {
 		const pieces = {};
 		if (urlDiff) pieces[DIFF_URL_KEY] = urlDiff;
 		if (runIndex) pieces[RUN_INDEX_URL_KEY] = runIndex;
 		if (singleRun) pieces[CHART_SINGLE_RUN_URL_KEY] = '1';
+
+		const expanded = [];
+		if (chartExpanded) expanded.push(CHART_EXPANDED_URL_KEY);
+		if (expanded.length) pieces[EXPANDED_URL_KEY] = expanded.join(',');
+		
 		return Object.entries(pieces).map(entry => entry[0] + '=' + entry[1]).join('&');
 	}
 );
