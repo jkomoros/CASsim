@@ -2766,7 +2766,7 @@ describe('suggestMissingShortNames', () => {
 		assert.deepEqual(result, golden);
 	});
 
-	it('handles basic object with conflict with existing short name', async () => {
+	it('handles basic object with conflict with existing short name and pieces', async () => {
 		const existing = {
 			foo: 'mF',
 			minFar: '',
@@ -2778,6 +2778,34 @@ describe('suggestMissingShortNames', () => {
 		assert.deepEqual(result, golden);
 	});
 
+	it('handles basic object with two candidates that will conflict', async () => {
+		const existing = {
+			foo: 'f',
+			minFar: '',
+			maxFar: '',
+		};
+		const result = suggestMissingShortNames(existing);
+		const golden = {
+			minFar: 'minF',
+			maxFar: 'maxF',
+		};
+		assert.deepEqual(result, golden);
+	});
 
+	it('handles basic object with trhee candidates that will conflict', async () => {
+		const existing = {
+			foo: 'f',
+			minFar: '',
+			maxFar: '',
+			modFan: ''
+		};
+		const result = suggestMissingShortNames(existing);
+		const golden = {
+			minFar: 'minF',
+			maxFar: 'maxF',
+			modFan: 'modF',
+		};
+		assert.deepEqual(result, golden);
+	});
 
 });

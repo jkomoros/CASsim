@@ -389,6 +389,8 @@ export const suggestMissingShortNamesForOptionConfig = (optionsConfig) => {
 	return suggestMissingShortNames(existing);
 };
 
+const uniquePairs = (arr) => arr.flatMap((item1, index1) => arr.flatMap((item2, index2) => (index1 > index2) ? [[item1,item2]] : []));
+
 //existing should be longName -> shortName for every object at this level. Will
 //return a map of longName->shortName for any ones that exist as longName but
 //have no shortName. Not to be used directly ( use
@@ -403,8 +405,32 @@ export const suggestMissingShortNames = (existing) => {
 		const suggestion = suggestedShortName(longName, existing);
 		if (suggestion) suggestions[longName] = suggestion;
 	}
-	//TODO: don't just give up if suggestions can't work
-	if (!shortNamesValid({...existing, ...suggestions})) return {};
+	//Check for any collisions in suggested names (we know they didn't conflict
+	//with existing, because suggestedShortName already barfs for them)
+	const shortNamesToLongNames = {};
+	for (const [longName, shortName] of Object.entries(suggestions)) {
+		if (!shortName) continue;
+		if (!shortNamesToLongNames[shortName]) shortNamesToLongNames[shortName] = [];
+		shortNamesToLongNames[shortName].push(longName);
+	}
+	for (const longNames of Object.values(shortNamesToLongNames)) {
+		if (longNames.length < 2) continue;
+		//ok, all longNames need to not conflict with one another.
+		const minDifferentIndex = Math.min(...uniquePairs(longNames).map(pair => firstDifferentPieceIndex(pair[0], pair[1])));
+		for (const longName of longNames) {
+			const suggestion = suggestedShortNameExpandIndex(longName, existing, minDifferentIndex);
+			if (suggestion) {
+				suggestions[longName] = suggestion;
+			} else {
+				delete suggestions[longName];
+			}
+		}
+	}
+	//Final gutcheck before returning results
+	if (!shortNamesValid({...existing, ...suggestions})) {
+		console.warn('Was about to suggest shortNames: ', existing, suggestions);
+		return {};
+	}
 	return suggestions;
 };
 
@@ -451,14 +477,19 @@ const suggestedShortName = (longName, existing) => {
 	//The default shortName is the first character, and then every upperCase
 	//letter after.
 	const pieces = longNamePieces(longName);
-	let candidate = pieces.map(piece => piece[0]).join('');
-	let conflict = shortNameConflict(existing, candidate);
+	const candidate = pieces.map(piece => piece[0]).join('');
+	const conflict = shortNameConflict(existing, candidate);
 	if (conflict == '' && candidate != longName) return candidate;
 	
 	//The basic name conflicted, but what if we just don't expand the part where they first differ?
 	const differentIndex = firstDifferentPieceIndex(conflict, longName);
-	candidate = pieces.map((piece, index) => index == differentIndex ? piece : piece[0]).join('');
-	conflict = shortNameConflict(existing, candidate);
+	return suggestedShortNameExpandIndex(longName, existing, differentIndex);
+};
+
+const suggestedShortNameExpandIndex = (longName, existing, expandIndex) => {
+	const pieces = longNamePieces(longName);
+	let candidate = pieces.map((piece, index) => index == expandIndex ? piece : piece[0]).join('');
+	let conflict = shortNameConflict(existing, candidate);
 	if (conflict == '' && candidate != longName) return candidate;
 	return '';
 };
