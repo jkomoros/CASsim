@@ -45,14 +45,6 @@ export class PositionedGraph extends Graph {
 		return this.availableHeight;
 	}
 
-	get nodesSameSize() {
-		const positions = Object.keys(this.nodes()).map(id => this.nodePosition(id));
-		if (positions.length == 0) return true;
-		const height = positions[0].height;
-		const width = positions[0].width;
-		return positions.every(position => position.height === height && position.width === width);
-	}
-
 	//Override point. Returns this.availableWidth / 2 by default
 	//eslint-disable-next-line no-unused-vars
 	nodeX(identifier) {
