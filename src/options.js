@@ -473,9 +473,13 @@ const longNamePieces = (longName) => {
 	return result;
 };
 
+const MIN_LONG_NAME_LENGTH = 3;
+
 const suggestedShortName = (longName, existing) => {
 	//The default shortName is the first character, and then every upperCase
 	//letter after.
+	//don't shorten words that are already quite short
+	if (longName.length <= MIN_LONG_NAME_LENGTH) return '';
 	const pieces = longNamePieces(longName);
 	const candidate = pieces.map(piece => piece[0]).join('');
 	const conflict = shortNameConflict(existing, candidate);
@@ -487,6 +491,8 @@ const suggestedShortName = (longName, existing) => {
 };
 
 const suggestedShortNameExpandIndex = (longName, existing, expandIndex) => {
+	//Don't shorten words that are already quite short
+	if (longName.length <= MIN_LONG_NAME_LENGTH) return '';
 	const pieces = longNamePieces(longName);
 	let candidate = pieces.map((piece, index) => index == expandIndex ? piece : piece[0]).join('');
 	let conflict = shortNameConflict(existing, candidate);

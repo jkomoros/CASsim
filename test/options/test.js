@@ -2715,8 +2715,19 @@ describe('suggestMissingShortNames', () => {
 			bar: '',
 		};
 		const result = suggestMissingShortNames(existing);
+		//bar is too short to get shortened
+		const golden = {};
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles basic object', async () => {
+		const existing = {
+			foo: 'f',
+			barbell: '',
+		};
+		const result = suggestMissingShortNames(existing);
 		const golden = {
-			bar: 'b',
+			barbell: 'b',
 		};
 		assert.deepEqual(result, golden);
 	});
@@ -2727,8 +2738,19 @@ describe('suggestMissingShortNames', () => {
 			bar: '',
 		};
 		const result = suggestMissingShortNames(existing);
+		//bar is too short to get shortened
+		const golden = {};
+		assert.deepEqual(result, golden);
+	});
+
+	it('handles basic object that looks invalid but is valid because longName == shortName', async () => {
+		const existing = {
+			foo: 'foo',
+			barbell: '',
+		};
+		const result = suggestMissingShortNames(existing);
 		const golden = {
-			bar: 'b',
+			barbell: 'b'
 		};
 		assert.deepEqual(result, golden);
 	});
