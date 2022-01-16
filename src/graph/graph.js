@@ -349,6 +349,18 @@ export class Graph {
 	lastNodeIdentifier() {
 		return Graph.unpackID(this.lastNodeID());
 	}
+
+	//Returns a stream of unique ids, by maintaining a counter.
+	vendID() {
+		let lastID = this.property('lastVendedID');
+		if (lastID == undefined) lastID = -1;
+		lastID++;
+		while(this.node(lastID)) {
+			lastID++;
+		}
+		this.setProperty('lastVendedID', lastID);
+		return '' + lastID;
+	}
 }
 
 //all graph constructors we know of will be accumulated here via Graph.registerGraphType();
