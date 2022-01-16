@@ -14,6 +14,7 @@ class MultiSelect extends LitElement {
 			options: {type:Object},
 			values: {type:Object},
 			defaultText: {type:String},
+			optionTypeText: {type:String},
 		};
 	}
 
@@ -44,13 +45,14 @@ class MultiSelect extends LitElement {
 
 	render() {
 		const defaultText = this.defaultText || 'None';
+		const optionTypeText = this.optionTypeText || 'Metrics';
 		//If there's a single option, then 'All' doesn't have any meaning so only render that one
 		const options = Object.keys(this.options).length == 1 ? this.options : {'': {title: defaultText, description: 'All metrics'}, ...this.options};
 		//Fill in display values
 		const defaultedOptions = Object.fromEntries(Object.entries(options).map(entry => [entry[0], this._defaultOption(entry[0], entry[1])]));
 		const values = this.values || {};
 		const noOptionsSelected = Object.keys(values).length == 0;
-		const summary = Object.keys(defaultedOptions).length == 1 ? Object.values(defaultedOptions)[0].title : (noOptionsSelected ? defaultText : Object.keys(values).map(key => defaultedOptions[key].title).join(', '));
+		const summary = Object.keys(values).length == 1 ? defaultedOptions[Object.keys(values)[0]].title : (noOptionsSelected ? defaultText : '' + Object.keys(values).length + ' ' + optionTypeText);
 		return html`<details>
 			<summary><label class='subtle'>${summary}</label></summary>
 			${Object.entries(defaultedOptions).map((entry, index, entries) => html`<label title=${entry[1].description}><input type='checkbox' .disabled=${this.disabled || (index == 0 && noOptionsSelected)} .checked=${index == 0 ? noOptionsSelected : (values[entry[0]] || entries.length == 1)} .value=${entry[0]} @change=${this._handleCheckboxChanged}></input>${index == 0 && entries.length > 1 ? html`<em>${entry[1].title}</em>` : entry[1].title}${entry[1].description ? help(entry[1].description) : ''}</label>`)}
