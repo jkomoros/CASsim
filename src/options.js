@@ -402,9 +402,10 @@ export const suggestMissingShortNames = (existing) => {
 
 const shortNamesValid = (shortNamesMap) => {
 	const existingShortNames = {};
-	for (const val of Object.values(shortNamesMap)) {
-		//A shortName conflicts with a long name
-		if (shortNamesMap[val] !== undefined) return false;
+	for (const [key, val] of Object.entries(shortNamesMap)) {
+		//A shortName conflicts with a long name, and it's not that the longName
+		//and shortName for this item are the same.
+		if (shortNamesMap[val] !== undefined && key != val) return false;
 		//A shortName conflcits with another shortName
 		if (existingShortNames[val]) false;
 		if (val) existingShortNames[val] = true;
