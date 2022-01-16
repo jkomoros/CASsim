@@ -408,12 +408,13 @@ export const suggestMissingShortNames = (existing) => {
 	return suggestions;
 };
 
-const legalShortName = (existing, shortName) => {
-	if (existing[shortName]) return false;
-	for (const value of Object.values(existing)) {
-		if (value == shortName) return false;
+//returns the longName of the thing this conflicts with, or '' if not conflict.
+const shortNameConflict = (existing, shortName) => {
+	if (existing[shortName]) return shortName;
+	for (const [key,value] of Object.entries(existing)) {
+		if (value == shortName) return key;
 	}
-	return true;
+	return '';
 };
 
 //cuts a longName intp pieces where the first bit is a piece, and each upper case letter starts a new piece
@@ -436,7 +437,7 @@ const suggestedShortName = (longName, existing) => {
 	//letter after.
 	const pieces = longNamePieces(longName);
 	let candidate = pieces.map(piece => piece[0]).join('');
-	if (legalShortName(existing, candidate)) return candidate;
+	if (shortNameConflict(existing, candidate) == '') return candidate;
 	//TODO: try expanding just the part of the candidate that collides with the other.
 	return '';
 };
