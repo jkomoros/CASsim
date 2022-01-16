@@ -118,7 +118,7 @@ const EXAMPLE_OPTIONS = {
 	round: ROUND_TYPE_NONE,
 	default: false,
 	name: 'value',
-	shortName: 'value',
+	shortName: '',
 	description: 'A value with a ' + LINEAR + ' distribution',
 };
 
@@ -147,7 +147,7 @@ export class DistributionConfig {
 		};
 		normalizedOptions.types = options.types || (options.distibution ? [options.distribution] : EXAMPLE_OPTIONS.types);
 		normalizedOptions.distribution = options.distribution || normalizedOptions.types[0];
-		normalizedOptions.shortName = options.shortName || normalizedOptions.name;
+		normalizedOptions.shortName = options.shortName || '';
 		normalizedOptions.description = options.description === undefined ? 'A value with a ' + normalizedOptions.distribution + ' distribution' : options.description;
 		normalizedOptions.min = options.min === undefined ? normalizedOptions.limitMin : options.min;
 		normalizedOptions.max = options.max === undefined ? normalizedOptions.limitMax : options.max;
