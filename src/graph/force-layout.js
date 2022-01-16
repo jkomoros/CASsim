@@ -82,7 +82,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 			.force('center', d3.forceCenter(width / 2, height / 2))
 			.stop();
 
-		for (var i = 0; i < 300; ++i) simulation.tick();
+		simulation.tick(300);
 
 		const result = {};
 		for (const node of nodes) {
