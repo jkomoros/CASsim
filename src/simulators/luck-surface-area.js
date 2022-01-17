@@ -19,7 +19,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	//simulationComplete, and generateFrame.
 
 	generateGraph(simOptions, rnd, simWidth, simHeight) {
-		return ForceLayoutGraph.makeBloomGraph(simWidth, simHeight);
+		return ForceLayoutGraph.makeBloomGraph(simWidth, simHeight, {levels:simOptions.levels});
 	}
 
 	numStarterAgents(graph, simOptions) {
@@ -61,6 +61,15 @@ class AgentDemoSimulator extends AgentSimulator {
 				default: true,
 				shortName: 'n',
 				description: 'The number of rounds'
+			},
+			levels: {
+				example: 3,
+				max: 100.0,
+				step: 1.0,
+				optional: true,
+				default: true,
+				backfill: true,
+				description: 'Number of levels'
 			}
 		};
 	}
