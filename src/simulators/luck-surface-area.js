@@ -296,6 +296,10 @@ class LuckSurfaceAreaRenderer extends PositionedGraphRenderer {
 	renderEdges() {
 		return true;
 	}
+
+	agentOpacity(agent) {
+		return agent.value / 100.0;
+	}
 }
 
 window.customElements.define(SIMULATOR_NAME + "-renderer", LuckSurfaceAreaRenderer);
