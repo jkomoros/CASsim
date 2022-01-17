@@ -123,6 +123,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 
 		const simulation = d3.forceSimulation(nodes)
 			.force('link', d3.forceLink(edges).id(d => d.id).distance(d => d.value))
+			.force('collide', d3.forceCollide().radius(n => this.nodeSize(n) / 2))
 			.force('radial', d3.forceRadial().strength(() => 0.5).radius(d => d.levelRadius).x(width / 2).y(height / 2))
 			.force('charge', d3.forceManyBody())
 			.force('center', d3.forceCenter(width / 2, height / 2))
