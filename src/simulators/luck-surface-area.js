@@ -68,7 +68,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	}
 
 	numStarterAgents(graph, simOptions) {
-		return simOptions.agents;
+		return simOptions.agents.count;
 	}
 
 	simulationComplete(frame) {
@@ -93,11 +93,19 @@ class AgentDemoSimulator extends AgentSimulator {
 	get optionsConfig() {
 		return {
 			agents: {
-				example: 6,
+				description: 'Configuration related to agents',
+				example: {
+					count: {
+						example: 6,
+						optional: true,
+						backfill: true,
+						default: true,
+						description: 'The number of agents',
+					}
+				},
+				default: true,
 				optional: true,
 				backfill: true,
-				default: true,
-				description: 'The number of agents',
 			},
 			rounds: {
 				example: 150,
