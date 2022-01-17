@@ -115,17 +115,29 @@ class AgentDemoSimulator extends AgentSimulator {
 		};
 	}
 
-	defaultAgentTick(agent, agents, graph) {
+	allowOverlappingAgents() {
+		return true;
+	}
+
+	defaultAgentTick(agent, agents, graph, frame, rnd) {
 		const node = graph.node(agent.node);
 		const newAgent = {
 			...agent,
 		};
-		//Harvest any value for the node that we are currently sitting in if
-		//there is any. Note that this doesn't take the value from the node.
-		if (node.value) {
-			newAgent.value = newAgent.value + (node.value * newAgent.strength);
+		const newNode = this.selectNodeToMoveTo(agent, agents, graph, frame, rnd, 1, (node) => node.value);
+		if (newNode && newNode.value > node.value) {
+			//Move.
+			newAgent.node = newNode.id;
+		} else {
+			//Don't move.
+
+			//Harvest any value for the node that we are currently sitting in if
+			//there is any. Note that this doesn't take the value from the node.
+			if (node.value) {
+				newAgent.value = newAgent.value + (node.value * newAgent.strength);
+			}
+			newAgent.value -= newAgent.cost;
 		}
-		newAgent.value -= newAgent.cost;
 
 		//Die if no more value left.
 		if (newAgent.value <= 0.0) return null;
