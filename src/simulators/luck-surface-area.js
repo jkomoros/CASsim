@@ -90,7 +90,7 @@ class AgentDemoSimulator extends AgentSimulator {
 				description: 'The number of agents',
 			},
 			rounds: {
-				example: 15,
+				example: 150,
 				optional: true,
 				backfill: true,
 				default: true,
