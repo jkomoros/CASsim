@@ -31,16 +31,15 @@ export class ForceLayoutGraph extends PositionedGraph {
 		const childCount = options.childCount === undefined ? 5.0 : options.childCount;
 		const nodeValues = options.nodeValues || {};
 		const edgeValues = options.edgeValues || {};
-		let nodeCounter = 0;
 
-		const keyNode = result.setNode(nodeCounter, {...nodeValues, level: 0});
+		const keyNode = result.setNode(result.vendID(), {...nodeValues, level: 0});
 		const nodesToProcess = [keyNode];
 		while (nodesToProcess.length) {
 			const node = nodesToProcess.shift();
 			const newLevel = node.level + 1;
 			//TODO: allow children count to differ
 			for (let i = 0; i < childCount; i++) {
-				const childNode = result.setNode(nodeCounter++, {...nodeValues, level: newLevel});
+				const childNode = result.setNode(result.vendID(), {...nodeValues, level: newLevel});
 				result.setEdge(node, childNode, {...edgeValues, type: 'primary'});
 				if (newLevel < levels) nodesToProcess.push(childNode);
 			}
