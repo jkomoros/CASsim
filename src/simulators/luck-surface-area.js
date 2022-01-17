@@ -57,6 +57,14 @@ class AgentDemoSimulator extends AgentSimulator {
 		}
 	}
 
+	defaultNodeTick(node) {
+		if (node.value == 0.0) return node;
+		return {
+			...node,
+			value: node.value * 0.9,
+		};
+	}
+
 	numStarterAgents(graph, simOptions) {
 		return simOptions.agents;
 	}
