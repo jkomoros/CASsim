@@ -66,7 +66,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	generateGraph(simOptions, rnd, simWidth, simHeight) {
 		const oS = simOptions.opportunities.structure;
 		const oV = simOptions.opportunities.value;
-		const d = nodePercentage.distribution(oS.size.percentange);
+		const d = nodePercentage.distribution(oS.size.percentage);
 		return ForceLayoutGraph.makeBloomGraph(simWidth, simHeight, rnd, {
 			levels: oS.levels,
 			childCount: oS.childCount,
@@ -285,7 +285,7 @@ class AgentDemoSimulator extends AgentSimulator {
 										optional: true,
 										description: 'The max rendered size of an opportunity'
 									},
-									percentange: nodePercentage.optionsConfig,
+									percentage: nodePercentage.optionsConfig,
 								},
 								optional: true,
 								default: true,
