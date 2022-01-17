@@ -58,17 +58,18 @@ export class ForceLayoutGraph extends PositionedGraph {
 
 		const minSize = Math.min(availableWidth, availableHeight);
 		//Divide by 2 to go from diameter to radius
-		const levelRadiusMultiplier = minSize / levels / 2;
+		const maxRadius = minSize / 2;
+		const maxLevelNodeCount = Object.keys(result.nodes(node => node.level == levels)).length;
 
 		for (let i = 0; i <= levels; i++) {
 			const levelNodes = Object.values(result.nodes(node => node.level == i));
-			const levelRadius = i * levelRadiusMultiplier;
+			const levelRadius = maxRadius * levelNodes.length / maxLevelNodeCount;
 			for (const [i, node] of levelNodes.entries()) {
 				const angle = i / levelNodes.length * 360;
 				const radiansAngle = Math.PI * 2 * angle / 360;
 				const x = levelRadius * Math.sin(radiansAngle) + cX;
 				const y = levelRadius * Math.cos(radiansAngle) + cY;
-				result.setNode(node, {...node, x, y});
+				result.setNode(node, {...node, x, y, levelRadius: levelRadius});
 			}
 		}
 
@@ -101,15 +102,9 @@ export class ForceLayoutGraph extends PositionedGraph {
 		const width = this.availableWidth;
 		const height = this.availableHeight;
 
-		const maxLevel = Math.max(...nodes.map(values => values.level));
-		const minSize = Math.min(width, height);
-
-		//Divide by 2 to go from diameter to radius
-		const levelMultiplier = minSize / maxLevel / 2;
-
 		const simulation = d3.forceSimulation(nodes)
 			.force('link', d3.forceLink(edges).id(d => d.id).distance(d => d.value))
-			.force('radial', d3.forceRadial().strength(() => 0.5).radius(d => d.level * levelMultiplier).x(width / 2).y(height / 2))
+			.force('radial', d3.forceRadial().strength(() => 0.5).radius(d => d.levelRadius).x(width / 2).y(height / 2))
 			.force('charge', d3.forceManyBody())
 			.force('center', d3.forceCenter(width / 2, height / 2))
 			.stop();
