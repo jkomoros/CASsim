@@ -6,8 +6,14 @@ import {
 	ForceLayoutGraph
 }from '../graph/force-layout.js';
 
+import {
+	DistributionConfig
+} from '../distribution.js';
+
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'luck-surface-area';
+
+const nodePercentage = new DistributionConfig({average: 1.0, default: true, description: 'The percentage size of nodes to start'});
 
 class AgentDemoSimulator extends AgentSimulator {
 
@@ -20,12 +26,14 @@ class AgentDemoSimulator extends AgentSimulator {
 
 	generateGraph(simOptions, rnd, simWidth, simHeight) {
 		const o = simOptions.opportunities;
+		const d = nodePercentage.distribution(o.size.percentange);
 		return ForceLayoutGraph.makeBloomGraph(simWidth, simHeight, rnd, {
 			levels: o.levels,
 			childCount: o.childCount,
 			childFactor: o.childFactor,
 			minNodeSize: o.size.min,
 			maxNodeSize: o.size.max,
+			nodeSize: (node, rnd) => d.sample(rnd)
 		});
 	}
 
@@ -119,7 +127,8 @@ class AgentDemoSimulator extends AgentSimulator {
 								backfill: true,
 								optional: true,
 								description: 'The max rendered size of an opportunity'
-							}
+							},
+							percentange: nodePercentage.optionsConfig,
 						},
 						optional: true,
 						default: true,
