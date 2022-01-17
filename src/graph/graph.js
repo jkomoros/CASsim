@@ -332,9 +332,9 @@ export class Graph {
 		this.setEdge(fromIdentifier, toIdentifier, values);
 	}
 
-	setEdgeProperties(identifier, values) {
+	setEdgeProperties(fromIdentifier, toIdentifier, values) {
 		for (const [key, value] of Object.entries(values)) {
-			this.setEdgeProperty(identifier, key, value);
+			this.setEdgeProperty(fromIdentifier, toIdentifier, key, value);
 		}
 	}
 
