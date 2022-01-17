@@ -20,9 +20,9 @@ class AgentDemoSimulator extends AgentSimulator {
 
 	generateGraph(simOptions, rnd, simWidth, simHeight) {
 		return ForceLayoutGraph.makeBloomGraph(simWidth, simHeight, rnd, {
-			levels:simOptions.levels,
-			childCount: simOptions.childCount,
-			childFactor: simOptions.childFactor,
+			levels:simOptions.opportunities.levels,
+			childCount: simOptions.opportunities.childCount,
+			childFactor: simOptions.opportunities.childFactor,
 		});
 	}
 
@@ -66,35 +66,44 @@ class AgentDemoSimulator extends AgentSimulator {
 				shortName: 'n',
 				description: 'The number of rounds'
 			},
-			levels: {
-				example: 3,
-				max: 100.0,
-				step: 1.0,
+			opportunities: {
+				example: {
+					levels: {
+						example: 3,
+						max: 100.0,
+						step: 1.0,
+						optional: true,
+						default: true,
+						backfill: true,
+						description: 'Number of levels'
+					},
+					childCount: {
+						example: 5.0,
+						max: 100.0,
+						min: 0.0,
+						step: 1.0,
+						optional: true,
+						default: true,
+						backfill: true,
+						description: 'Number of children per level to start'
+					},
+					childFactor: {
+						example: 1.0,
+						max: 1.5,
+						min: 0.0,
+						step: 0.01,
+						optional: true,
+						default: true,
+						backfill: true,
+						description: 'Child factor'
+					}
+				},
 				optional: true,
 				default: true,
 				backfill: true,
-				description: 'Number of levels'
-			},
-			childCount: {
-				example: 5.0,
-				max: 100.0,
-				min: 0.0,
-				step: 1.0,
-				optional: true,
-				default: true,
-				backfill: true,
-				description: 'Number of children per level to start'
-			},
-			childFactor: {
-				example: 1.0,
-				max: 1.5,
-				min: 0.0,
-				step: 0.01,
-				optional: true,
-				default: true,
-				backfill: true,
-				description: 'Child factor'
+				description: 'The opportunities to show up in the graph'
 			}
+
 		};
 	}
 
