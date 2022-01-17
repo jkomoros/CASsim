@@ -50,6 +50,9 @@ export class ForceLayoutGraph extends PositionedGraph {
 		//of them all being implicitly in the center) so the force layout
 		//doesn't have weird crossings of edges.
 
+		const cX = availableWidth / 2;
+		const cY = availableHeight / 2;
+
 		const minSize = Math.min(availableWidth, availableHeight);
 		//Divide by 2 to go from diameter to radius
 		const levelRadiusMultiplier = minSize / levels / 2;
@@ -60,8 +63,8 @@ export class ForceLayoutGraph extends PositionedGraph {
 			for (const [i, node] of levelNodes.entries()) {
 				const angle = i / levelNodes.length * 360;
 				const radiansAngle = Math.PI * 2 * angle / 360;
-				const x = levelRadius * Math.sin(radiansAngle);
-				const y = levelRadius * Math.cos(radiansAngle);
+				const x = levelRadius * Math.sin(radiansAngle) + cX;
+				const y = levelRadius * Math.cos(radiansAngle) + cY;
 				result.setNode(node, {...node, x, y});
 			}
 		}
