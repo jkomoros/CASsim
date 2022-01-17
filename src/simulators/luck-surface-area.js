@@ -13,7 +13,7 @@ import {
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'luck-surface-area';
 
-const nodePercentage = new DistributionConfig({average: 1.0, default: true, description: 'The percentage size of nodes to start'});
+const nodePercentage = new DistributionConfig({average: 0.5, spread:0.5, default: true, description: 'The percentage size of nodes to start'});
 
 class AgentDemoSimulator extends AgentSimulator {
 
