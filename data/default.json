@@ -72,6 +72,14 @@
 			"extend": "base",
 			"sim": "dice-roll-demo",
 			"simOptions": null
+		},
+		{
+			"name": "luck-surface-area-demo",
+			"description": "A demo of the luck-surface-area simulator",
+			"extend": "base",
+			"runs": 1,
+			"sim": "luck-surface-area",
+			"simOptions": null
 		}
 	]
 }
