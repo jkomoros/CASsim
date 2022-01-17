@@ -86,6 +86,11 @@ export class ForceLayoutGraph extends PositionedGraph {
 		return result;
 	}
 
+	nodeSizeMultiplier(identifier) {
+		const node = this.node(identifier);
+		return node.size;
+	}
+
 	nodeX(identifier) {
 		const id = ForceLayoutGraph.packID(identifier);
 		//layoutPositions will recalc layout if necessary
