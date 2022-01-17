@@ -26,7 +26,7 @@ const SIMULATOR_NAME = 'luck-surface-area';
 const nodePercentage = new DistributionConfig({average: 0.5, spread:0.5, default: true, description: 'The percentage size of nodes to start'});
 const starterStrength = new DistributionConfig({average: 1.0, distribution: FIXED, default: true, description: 'The starter strength of agents that start at the beginning'});
 const starterValue = new DistributionConfig({average: 100.0, distribution: FIXED, limitMax: 1000.0, default: true, description: 'The starter value of agents that start at the beginning'});
-const cost = new DistributionConfig({average: 0.05, step: 0.001, distribution: FIXED, default: true, description: 'How much value cost an agent takes per time step'});
+const cost = new DistributionConfig({average: 0.05, step: 0.001, limitMax: 100, distribution: FIXED, default: true, description: 'How much value cost an agent takes per time step'});
 
 class AgentDemoSimulator extends AgentSimulator {
 
