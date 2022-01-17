@@ -46,6 +46,26 @@ export class ForceLayoutGraph extends PositionedGraph {
 			//TODO: connect peer children to some degree
 		}
 
+		//Place nodes radially around the circle in starting positions (instead
+		//of them all being implicitly in the center) so the force layout
+		//doesn't have weird crossings of edges.
+
+		const minSize = Math.min(availableWidth, availableHeight);
+		//Divide by 2 to go from diameter to radius
+		const levelRadiusMultiplier = minSize / levels / 2;
+
+		for (let i = 0; i < levels; i++) {
+			const levelNodes = Object.values(result.nodes(node => node.level == i));
+			const levelRadius = i * levelRadiusMultiplier;
+			for (const [i, node] of levelNodes.entries()) {
+				const angle = i / levelNodes.length * 360;
+				const radiansAngle = Math.PI * 2 * angle / 360;
+				const x = levelRadius * Math.sin(radiansAngle);
+				const y = levelRadius * Math.cos(radiansAngle);
+				result.setNode(node, {...node, x, y});
+			}
+		}
+
 		result.bakeLayout();
 
 		return result;
