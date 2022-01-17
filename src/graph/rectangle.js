@@ -23,7 +23,7 @@ export class RectangleGraph extends PositionedGraph {
 		nodeMargin - the margin to have between nodes. It is in units of
 		percentage of nodeWidth. If you want a different value for x and y,
 		you can set an array with [xMargin, yMargin]
-		nodeBorderRadius - a value from 0.0 to 1.0 for size of radius
+		nodeRoundness - a value from 0.0 to 1.0 for size of radius
 
 		The follow keys are boolean and may be set to true on options:
 		rectangular - Allow nodes to have a width and height that differs
@@ -50,10 +50,10 @@ export class RectangleGraph extends PositionedGraph {
 
 		const nodeMargin = options.nodeMargin || 0;
 		const starterValues = options.starterValues || {};
-		const nodeBorderRadius = options.nodeBorderRadius || 0;
+		const nodeRoundness = options.nodeRoundness || 0;
 
-		if (typeof nodeBorderRadius != 'number') throw new Error('nodeRadius must be a number');
-		if (nodeBorderRadius > 1.0 || nodeBorderRadius < 0.0) throw new Error('nodeRadius must be between 0.0 and 1.0');
+		if (typeof nodeRoundness != 'number') throw new Error('nodeRoundness must be a number');
+		if (nodeRoundness > 1.0 || nodeRoundness < 0.0) throw new Error('nodeRoundness must be between 0.0 and 1.0');
 
 		if (Array.isArray(nodeMargin)) {
 			if (nodeMargin.length != 2) throw new Error('If nodeMargin is an array it must be two items long');
@@ -68,7 +68,7 @@ export class RectangleGraph extends PositionedGraph {
 		result.availableHeight = availableHeight;
 		result.availableWidth = availableWidth;
 		result.nodeMargin = nodeMargin;
-		result.nodeBorderRadius = nodeBorderRadius;
+		result.nodeRoundness = nodeRoundness;
 		if (options.rectangular) result.rectangular = true;
 		for (let r = 0; r < rows; r++) {
 			for (let c = 0; c < cols; c++) {

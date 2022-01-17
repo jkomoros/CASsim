@@ -29,12 +29,12 @@ export class PositionedGraph extends Graph {
 		return this.property('availableHeight');
 	}
 
-	get nodeBorderRadius() {
-		return this.property('nodeBorderRadius') || 0.0;
+	get nodeRoundness() {
+		return this.property('nodeRoundness') || 0.0;
 	}
 
-	set nodeBorderRadius(val) {
-		this.setProperty('nodeBorderRadius', val);
+	set nodeRoundness(val) {
+		this.setProperty('nodeRoundness', val);
 	}
 
 	get width() {

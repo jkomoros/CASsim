@@ -30,7 +30,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 		result.availableHeight = availableHeight;
 		if (options.minNodeSize != undefined) result.defaultMinNodeSize = options.minNodeSize;
 		if (options.maxNodeSize != undefined) result.defaultMaxNodeSize = options.maxNodeSize;
-		result.nodeBorderRadius = 1.0;
+		result.nodeRoundness = 1.0;
 
 		const levels = options.levels === undefined ? 3.0 : options.levels;
 		const baseChildCount = options.childCount === undefined ? 5.0 : options.childCount;

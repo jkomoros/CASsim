@@ -235,7 +235,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	innerRender() {
 		const graph = this._graph();
 		const styles = {
-			'--node-radius': '' + 100 * graph.nodeBorderRadius + '%',
+			'--node-radius': '' + 100 * graph.nodeRoundness + '%',
 			'height': '' + graph.height * this.scale + 'px',
 			'width': '' + graph.width * this.scale + 'px',
 		};
