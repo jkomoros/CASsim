@@ -133,6 +133,11 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		return agent.node;
 	}
 
+	//eslint-disable-next-line no-unused-vars
+	agentOpacity(agent, graph) {
+		return 1.0;
+	}
+
 	agentPosition(agent, graph) {
 		const nodeID = this.agentNodeID(agent);
 		return graph.nodePosition(nodeID);
@@ -184,7 +189,9 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	}
 
 	renderAgent(agent, graph) {
-		return html`<div class='agent ${agent.type ? agent.type : ''}' style=${styleMap(this._positionStyles(this.agentPosition(agent, graph)))}>${this.agentEmoji(agent)}</div>`;
+		let styles = this._positionStyles(this.agentPosition(agent, graph));
+		styles = {...styles, 'opacity': this.agentOpacity(agent, graph)};
+		return html`<div class='agent ${agent.type ? agent.type : ''}' style=${styleMap(styles)}>${this.agentEmoji(agent)}</div>`;
 	}
 
 	//eslint-disable-next-line no-unused-vars
