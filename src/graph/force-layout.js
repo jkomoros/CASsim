@@ -75,9 +75,15 @@ export class ForceLayoutGraph extends PositionedGraph {
 		const width = this.availableWidth;
 		const height = this.availableHeight;
 
+		const maxLevel = Math.max(...nodes.map(values => values.level));
+		const minSize = Math.min(width, height);
+
+		//Divide by 2 to go from diameter to radius
+		const levelMultiplier = minSize / maxLevel / 2;
+
 		const simulation = d3.forceSimulation(nodes)
 			.force('link', d3.forceLink(edges).id(d => d.id).distance(d => d.value))
-			.force('radial', d3.forceRadial().strength(() => 0.5).radius(d => d.level * baseSize * 5).x(width / 2).y(height / 2))
+			.force('radial', d3.forceRadial().strength(() => 0.5).radius(d => d.level * levelMultiplier).x(width / 2).y(height / 2))
 			.force('charge', d3.forceManyBody())
 			.force('center', d3.forceCenter(width / 2, height / 2))
 			.stop();
