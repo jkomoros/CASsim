@@ -10,6 +10,10 @@ import {
 	DistributionConfig
 } from '../distribution.js';
 
+import {
+	Urn
+} from '../util.js';
+
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'luck-surface-area';
 
@@ -33,10 +37,24 @@ class AgentDemoSimulator extends AgentSimulator {
 			childFactor: o.childFactor,
 			childLinkLikelihood: o.childLinkLikelihood,
 			randomLinkLikelihood: o.randomLinkLikelihood,
+			nodeValues: {
+				value: 0.0,
+			},
 			minNodeSize: o.size.min,
 			maxNodeSize: o.size.max,
 			nodeSize: (node, rnd) => d.sample(rnd)
 		});
+	}
+
+	framePreTick(graph, frame, rnd) {
+		if (rnd() < frame.simOptions.valueLikelihood) {
+			const urn = new Urn(rnd);
+			for (const node of Object.values(graph.nodes())) {
+				urn.add(node, node.size);
+			}
+			const node = urn.pick();
+			graph.setNodeProperty(node, 'value', 1.0);
+		}
 	}
 
 	numStarterAgents(graph, simOptions) {
@@ -78,6 +96,16 @@ class AgentDemoSimulator extends AgentSimulator {
 				default: true,
 				shortName: 'n',
 				description: 'The number of rounds'
+			},
+			valueLikelihood: {
+				example: 0.25,
+				min: 0.0,
+				max: 1.0,
+				step: 0.005,
+				optional: true,
+				backfill: true,
+				default: true,
+				description: 'In each time tick, the likelihood that a random node is '
 			},
 			opportunities: {
 				example: {
