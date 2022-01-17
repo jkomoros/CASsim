@@ -68,19 +68,36 @@ export class PositionedGraph extends Graph {
 	}
 
 	/*
-		Override point. Returns this.defaultNodeSize. Override point.
+		Override point. Returns 1.0 by default. You might for example override
+		to return nodeValues.value.
 	*/
 	//eslint-disable-next-line no-unused-vars
+	nodeSizeMultiplier(identifier) {
+		return 1.0;
+	}
+
+	/*
+		Override point. Returns (this.nodeSizeMultiplier * (defaultMaxNodeSize -
+		defaultMinNodeSize)) + defaultMinNodeSize.
+	*/
 	nodeSize(identifier) {
-		return this.defaultNodeSize;
+		return (this.defaulMaxNodeSize - this.defaultMinNodeSize) * this.nodeSizeMultiplier(identifier) + this.defaultMinNodeSize;
 	}
 
-	get defaultNodeSize() {
-		return this.property('defaultNodeSize') || 10;
+	get defaultMaxNodeSize() {
+		return this.property('defaultMaxNodeSize') || 10;
 	}
 
-	set defaultNodeSize(val) {
-		this.setProperty('defaultNodeSize', val);
+	set defaultMaxNodeSize(val) {
+		this.setProperty('defaultMaxNodeSize', val);
+	}
+
+	get defaultMinNodeSize() {
+		return this.property('defaultMinNodeSize') || 10;
+	}
+
+	set defaultMinNodeSize(val) {
+		this.setProperty('defaultMinNodeSize', val);
 	}
 
 	/*
