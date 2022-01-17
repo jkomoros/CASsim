@@ -26,6 +26,8 @@ export class Urn {
 	}
 }
 
+export const uniquePairs = (arr) => arr.flatMap((item1, index1) => arr.flatMap((item2, index2) => (index1 > index2) ? [[item1,item2]] : []));
+
 const randomCharSetNumbers = '0123456789';
 const randomCharSetLetters = 'abcdef';
 const randomCharSet = randomCharSetNumbers + randomCharSetLetters;

@@ -38,6 +38,7 @@ import {
 	DEFAULT_SENTINEL,
 	isStep,
 	setPropertyInObject,
+	uniquePairs
 } from './util.js';
 
 //See README.md for more about the canonical shape of optionsLeaf objects.
@@ -409,8 +410,6 @@ export const optionsConfigWithDefaultedShortNames = (optionsConfig) => {
 	}
 	return result;
 };
-
-const uniquePairs = (arr) => arr.flatMap((item1, index1) => arr.flatMap((item2, index2) => (index1 > index2) ? [[item1,item2]] : []));
 
 //existing should be longName -> shortName for every object at this level. Will
 //return a map of longName->shortName for any ones that exist as longName but
