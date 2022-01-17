@@ -298,6 +298,11 @@ export class Graph {
 		delete this._data.nodes[id];
 	}
 
+	setBidirectionalEdge(fromIdentifier, toIdentifier, values) {
+		this.setEdge(fromIdentifier, toIdentifier, values);
+		this.setEdge(toIdentifier, fromIdentifier, values);
+	}
+
 	setEdge(fromIdentifier, toIdentifier, values = {}) {
 		const fromID = Graph.packID(fromIdentifier);
 		const toID = Graph.packID(toIdentifier);
@@ -314,6 +319,11 @@ export class Graph {
 		this._data.nodes[fromID] = {...node, edges:{...node.edges, [toID]: values}};
 	}
 
+	setBidirectionalEdgeProperty(fromIdentifier, toIdentifier, property, value) {
+		this.setEdgeProperty(fromIdentifier, toIdentifier, property, value);
+		this.setEdgeProperty(toIdentifier, fromIdentifier, property, value);
+	}
+
 	setEdgeProperty(fromIdentifier, toIdentifier, property, value) {
 		let values = this.edge(fromIdentifier, toIdentifier);
 		values = values ? {...values} : {};
@@ -326,6 +336,11 @@ export class Graph {
 		for (const [key, value] of Object.entries(values)) {
 			this.setEdgeProperty(identifier, key, value);
 		}
+	}
+
+	deleteBidirectionalEdge(fromIdentifier, toIdentifier) {
+		this.deleteEdge(fromIdentifier, toIdentifier);
+		this.deleteEdge(toIdentifier, fromIdentifier);
 	}
 
 	deleteEdge(fromIdentifier, toIdentifier) {
