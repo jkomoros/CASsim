@@ -19,10 +19,13 @@ class AgentDemoSimulator extends AgentSimulator {
 	//simulationComplete, and generateFrame.
 
 	generateGraph(simOptions, rnd, simWidth, simHeight) {
+		const o = simOptions.opportunities;
 		return ForceLayoutGraph.makeBloomGraph(simWidth, simHeight, rnd, {
-			levels:simOptions.opportunities.levels,
-			childCount: simOptions.opportunities.childCount,
-			childFactor: simOptions.opportunities.childFactor,
+			levels: o.levels,
+			childCount: o.childCount,
+			childFactor: o.childFactor,
+			minNodeSize: o.size.min,
+			maxNodeSize: o.size.max,
 		});
 	}
 
@@ -96,6 +99,32 @@ class AgentDemoSimulator extends AgentSimulator {
 						default: true,
 						backfill: true,
 						description: 'Child factor'
+					},
+					size: {
+						example: {
+							max: {
+								example: 10.0,
+								max: 500.0,
+								step: 1.0,
+								default: true,
+								backfill: true,
+								optional: true,
+								description: 'The max rendered size of an opportunity'
+							},
+							min: {
+								example: 10.0,
+								max: 500.0,
+								step: 1.0,
+								default: true,
+								backfill: true,
+								optional: true,
+								description: 'The max rendered size of an opportunity'
+							}
+						},
+						optional: true,
+						default: true,
+						backfill: true,
+						description: 'Configuration for the size of the nodes'
 					}
 				},
 				optional: true,
