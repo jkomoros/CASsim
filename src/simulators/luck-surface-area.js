@@ -14,6 +14,11 @@ import {
 	Urn
 } from '../util.js';
 
+import {
+	pickEmoji,
+	PROFESSIONAL_PEOPLE_EMOJIS
+} from '../emojis.js';
+
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'luck-surface-area';
 
@@ -50,10 +55,13 @@ class AgentDemoSimulator extends AgentSimulator {
 	}
 
 	generateAgent(parentAgent, otherAgents, graph, simOptions, rnd) {
+		const [emojiType, emoji] = pickEmoji(PROFESSIONAL_PEOPLE_EMOJIS, parentAgent ? parentAgent.type : rnd);
 		return {
 			...this.baseAgent(rnd),
 			//Your own properties would go here in your own generateAgent
 			strength: starterStrength.distribution(simOptions.agents.starterStrength).sample(rnd),
+			type:emojiType,
+			emoji: emoji, 
 		};
 	}
 
