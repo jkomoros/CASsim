@@ -39,6 +39,7 @@ class AgentDemoSimulator extends AgentSimulator {
 			randomLinkLikelihood: o.randomLinkLikelihood,
 			nodeValues: {
 				value: 0.0,
+				valueFalloff: simOptions.valueFalloff,
 			},
 			minNodeSize: o.size.min,
 			maxNodeSize: o.size.max,
@@ -61,7 +62,7 @@ class AgentDemoSimulator extends AgentSimulator {
 		if (node.value == 0.0) return node;
 		return {
 			...node,
-			value: node.value * 0.9,
+			value: node.value * node.valueFalloff,
 		};
 	}
 
@@ -114,6 +115,16 @@ class AgentDemoSimulator extends AgentSimulator {
 				backfill: true,
 				default: true,
 				description: 'In each time tick, the likelihood that a random node is '
+			},
+			valueFalloff: {
+				example: 0.9,
+				min: 0.0,
+				max: 2.0,
+				step: 0.001,
+				optional: true,
+				backfill: true,
+				default: true,
+				description: 'On each frame tick, what multiplier we should use to get the new node value'
 			},
 			opportunities: {
 				example: {
