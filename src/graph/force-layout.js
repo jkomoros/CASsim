@@ -20,6 +20,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 			nodeValues: (default: {}) - the values to start each node with
 			edgeValues: (default: {}) - the starter values for an edge
 			childCount: (default: 5.0) - how many children each node should have
+			childFactor: (deafault: 1.0) - at each level, the final childCount is childCount * Math.pow(childFactor, level)
 	*/
 	static makeBloomGraph(availableWidth, availableHeight, options = {}) {
 		const result = new ForceLayoutGraph();
@@ -28,7 +29,8 @@ export class ForceLayoutGraph extends PositionedGraph {
 		result.nodeBorderRadius = 1.0;
 
 		const levels = options.levels === undefined ? 3.0 : options.levels;
-		const childCount = options.childCount === undefined ? 5.0 : options.childCount;
+		const baseChildCount = options.childCount === undefined ? 5.0 : options.childCount;
+		const childFactor = options.childFactor === undefined ? 1.0 : options.childFactor;
 		const nodeValues = options.nodeValues || {};
 		const edgeValues = options.edgeValues || {};
 
@@ -37,6 +39,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 		while (nodesToProcess.length) {
 			const node = nodesToProcess.shift();
 			const newLevel = node.level + 1;
+			const childCount = Math.round(baseChildCount * Math.pow(childFactor, node.level));
 			//TODO: allow children count to differ
 			for (let i = 0; i < childCount; i++) {
 				const childNode = result.setNode(result.vendID(), {...nodeValues, level: newLevel});
