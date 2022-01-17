@@ -19,7 +19,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	//simulationComplete, and generateFrame.
 
 	generateGraph(simOptions, rnd, simWidth, simHeight) {
-		return ForceLayoutGraph.makeBloomGraph(simWidth, simHeight, {
+		return ForceLayoutGraph.makeBloomGraph(simWidth, simHeight, rnd, {
 			levels:simOptions.levels,
 			childCount: simOptions.childCount,
 			childFactor: simOptions.childFactor,
@@ -111,6 +111,10 @@ class LuckSurfaceAreaRenderer extends PositionedGraphRenderer {
 
 	renderEdges() {
 		return true;
+	}
+
+	nodeColorGradientPercentage() {
+		return 0.0;
 	}
 }
 
