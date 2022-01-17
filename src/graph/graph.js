@@ -251,7 +251,8 @@ export class Graph {
 	//length 1. If there is no path from from to to, will return [-1 * MAX_SAFE_INTEGER, null];
 	shortestPath(fromNodeIdentifier, toNodeIdentifer, edgeScorer = () => 1, rnd = Math.random) {
 		//TODO: memoize
-		const targetFound = (nodeValues) => nodeValues.id == toNodeIdentifer;
+		const toNodeID = Graph.packID(toNodeIdentifer);
+		const targetFound = (nodeValues) => nodeValues.id == toNodeID;
 		return this.exploreGraph(fromNodeIdentifier, undefined, edgeScorer, targetFound, rnd);
 	}
 
