@@ -261,14 +261,15 @@ export class DistributionConfig {
 			};
 		}
 
-		return {
+		const result = {
 			example: example,
 			optional: true,
 			default: this._options.default,
 			backfill: true,
-			shortName: this._options.shortName,
 			description: this._options.description,
 		};
+		if (this._options.shortName) result.shortName = this._options.shortName;
+		return result;
 	}
 
 	distribution(overrides = {}) {
