@@ -40,7 +40,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 			//TODO: allow children count to differ
 			for (let i = 0; i < childCount; i++) {
 				const childNode = result.setNode(result.vendID(), {...nodeValues, level: newLevel});
-				result.setEdge(node, childNode, {...edgeValues, type: 'primary'});
+				result.setEdge(node, childNode, {...edgeValues, type: 'primary', level: newLevel});
 				if (newLevel < levels) nodesToProcess.push(childNode);
 			}
 			//TODO: connect peer children to some degree
@@ -93,7 +93,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 
 		const nodes = Object.values(this.nodes()).map(values => ({...values}));
 		//TODO: allow override value based on how strong it is
-		const edges = Object.values(this.allEdges()).map(edge => ({source:edge.from, target: edge.to, value:baseSize}));
+		const edges = Object.values(this.allEdges()).map(edge => ({source:edge.from, target: edge.to, value:baseSize * 2 * (edge.level + 1)}));
 
 		const width = this.availableWidth;
 		const height = this.availableHeight;
