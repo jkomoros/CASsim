@@ -18,6 +18,7 @@ import {
 const SIMULATOR_NAME = 'luck-surface-area';
 
 const nodePercentage = new DistributionConfig({average: 0.5, spread:0.5, default: true, description: 'The percentage size of nodes to start'});
+const starterStrength = new DistributionConfig({average: 0.75, spread: 0.25, default: true, description: 'The starter strength of agents that start at the beginning'});
 
 class AgentDemoSimulator extends AgentSimulator {
 
@@ -46,6 +47,14 @@ class AgentDemoSimulator extends AgentSimulator {
 			maxNodeSize: oS.size.max,
 			nodeSize: (node, rnd) => d.sample(rnd)
 		});
+	}
+
+	generateAgent(parentAgent, otherAgents, graph, simOptions, rnd) {
+		return {
+			...this.baseAgent(rnd),
+			//Your own properties would go here in your own generateAgent
+			strength: starterStrength.distribution(simOptions.agents.starterStrength).sample(rnd),
+		};
 	}
 
 	framePreTick(graph, frame, rnd) {
@@ -101,7 +110,8 @@ class AgentDemoSimulator extends AgentSimulator {
 						backfill: true,
 						default: true,
 						description: 'The number of agents',
-					}
+					},
+					starterStrength: starterStrength.optionsConfig,
 				},
 				default: true,
 				optional: true,
