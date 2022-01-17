@@ -64,14 +64,14 @@ class AgentDemoSimulator extends AgentSimulator {
 	
 	get optionsConfig() {
 		return {
-			'agents': {
+			agents: {
 				example: 6,
 				optional: true,
 				backfill: true,
 				default: true,
 				description: 'The number of agents',
 			},
-			'rounds': {
+			rounds: {
 				example: 15,
 				optional: true,
 				backfill: true,
