@@ -2,7 +2,12 @@ import {
 	PositionedGraph
 } from './positioned.js';
 
+import {
+	uniquePairs
+} from '../util.js';
+
 import * as d3 from 'd3';
+
 
 export class ForceLayoutGraph extends PositionedGraph {
 
@@ -21,6 +26,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 			edgeValues: (default: {}) - the starter values for an edge
 			childCount: (default: 5.0) - how many children each node should have
 			childFactor: (deafault: 1.0) - at each level, the final childCount is childCount * Math.pow(childFactor, level)
+			childLinkLikelihood: (default: 0.0) - How likely the children of each parent node are to have connections amongst themselves. 1.0 is all connected, 0.0 is no connections.
 			minNodeSize: (default: 10.0) - The smallest rendered nodeSize in pixels
 			maxNodeSize: (default: 10.0) - The largest rendered nodeSize in pixels
 			nodeSize: (default: () -> 1.0) - A method given nodeValues and rnd, that should return the value to set.
@@ -37,6 +43,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 		const levels = options.levels === undefined ? 3.0 : options.levels;
 		const baseChildCount = options.childCount === undefined ? 5.0 : options.childCount;
 		const childFactor = options.childFactor === undefined ? 1.0 : options.childFactor;
+		const childLinkLikelihood = options.childLinkLikelihood === undefined ? 0.0 : options.childLinkLikelihood;
 		const nodeValues = options.nodeValues || {};
 		const edgeValues = options.edgeValues || {};
 
@@ -47,14 +54,23 @@ export class ForceLayoutGraph extends PositionedGraph {
 			const node = nodesToProcess.shift();
 			const newLevel = node.level + 1;
 			const childCount = Math.round(baseChildCount * Math.pow(childFactor, node.level));
+			const children = [];
 			//TODO: allow children count to differ
 			for (let i = 0; i < childCount; i++) {
 				const childNode = result.setNode(result.vendID(), {...nodeValues, level: newLevel});
 				result.setNodeProperty(childNode, 'size', nodeSize(childNode, rnd));
 				result.setEdge(node, childNode, {...edgeValues, type: 'primary', level: newLevel});
 				if (newLevel < levels) nodesToProcess.push(childNode);
+				children.push(childNode);
 			}
-			//TODO: connect peer children to some degree
+			if (childLinkLikelihood > 0.0) {
+				const pairs = uniquePairs(children);
+				for (const pair of pairs) {
+					if (rnd() < childLinkLikelihood) {
+						result.setEdge(pair[0], pair[1], {...edgeValues, type: 'peer', level: newLevel});
+					}
+				}
+			}
 		}
 
 		//Place nodes radially around the circle in starting positions (instead
