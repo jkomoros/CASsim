@@ -78,10 +78,16 @@ export class ForceLayoutGraph extends PositionedGraph {
 		return result;
 	}
 
-	calculateNodePosition(identifier) {
-		const node = this.node(identifier);
+	nodeX(identifier) {
+		const id = ForceLayoutGraph.packID(identifier);
 		//layoutPositions will recalc layout if necessary
-		return this._layoutPositions[node.id];
+		return this._layoutPositions[id].x;
+	}
+
+	nodeY(identifier) {
+		const id = ForceLayoutGraph.packID(identifier);
+		//layoutPositions will recalc layout if necessary
+		return this._layoutPositions[id].y;
 	}
 
 	get _layoutPositions() {
@@ -113,7 +119,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 
 		const result = {};
 		for (const node of nodes) {
-			result[node.id] = {x:node.x, y: node.y, width: baseSize, height: baseSize};
+			result[node.id] = {x:node.x, y: node.y};
 		}
 
 		return result;
