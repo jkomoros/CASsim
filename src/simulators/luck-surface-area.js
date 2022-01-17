@@ -21,6 +21,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	generateGraph(simOptions, rnd, simWidth, simHeight) {
 		return ForceLayoutGraph.makeBloomGraph(simWidth, simHeight, {
 			levels:simOptions.levels,
+			childCount: simOptions.childCount,
 			childFactor: simOptions.childFactor,
 		});
 	}
@@ -73,6 +74,16 @@ class AgentDemoSimulator extends AgentSimulator {
 				default: true,
 				backfill: true,
 				description: 'Number of levels'
+			},
+			childCount: {
+				example: 5.0,
+				max: 100.0,
+				min: 0.0,
+				step: 1.0,
+				optional: true,
+				default: true,
+				backfill: true,
+				description: 'Number of children per level to start'
 			},
 			childFactor: {
 				example: 1.0,
