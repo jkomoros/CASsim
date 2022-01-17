@@ -87,6 +87,19 @@ class AgentDemoSimulator extends AgentSimulator {
 		};
 	}
 
+	defaultAgentTick(agent, agents, graph) {
+		const node = graph.node(agent.node);
+		//Harvest any value for the node that we are currently sitting in if
+		//there is any. Note that this doesn't take the value from the node.
+		if (node.value) {
+			return {
+				...agent,
+				value: agent.value + (node.value * agent.strength),
+			};
+		}
+		return agent;
+	}
+
 	numStarterAgents(graph, simOptions) {
 		return simOptions.agents.count;
 	}
