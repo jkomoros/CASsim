@@ -112,10 +112,6 @@ class LuckSurfaceAreaRenderer extends PositionedGraphRenderer {
 	renderEdges() {
 		return true;
 	}
-
-	nodeColorGradientPercentage() {
-		return 0.0;
-	}
 }
 
 window.customElements.define(SIMULATOR_NAME + "-renderer", LuckSurfaceAreaRenderer);

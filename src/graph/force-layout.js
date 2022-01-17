@@ -23,7 +23,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 			childFactor: (deafault: 1.0) - at each level, the final childCount is childCount * Math.pow(childFactor, level)
 			minNodeSize: (default: 10.0) - The smallest rendered nodeSize in pixels
 			maxNodeSize: (default: 10.0) - The largest rendered nodeSize in pixels
-			nodeValue: (default: () -> 1.0) - A method given nodeValues and rund, that should return the value to set.
+			nodeSize: (default: () -> 1.0) - A method given nodeValues and rund, that should return the value to set.
 	*/
 	static makeBloomGraph(availableWidth, availableHeight, rnd, options = {}) {
 		const result = new ForceLayoutGraph();
@@ -31,7 +31,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 		result.availableHeight = availableHeight;
 		if (options.minNodeSize != undefined) result.defaultMinNodeSize = options.minNodeSize;
 		if (options.maxNodeSize != undefined) result.defaultMaxNodeSize = options.maxNodeSize;
-		const nodeValue = options.nodeValue || (() => 1.0);
+		const nodeSize = options.nodeSize || (() => 1.0);
 		result.nodeRoundness = 1.0;
 
 		const levels = options.levels === undefined ? 3.0 : options.levels;
@@ -41,7 +41,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 		const edgeValues = options.edgeValues || {};
 
 		const keyNode = result.setNode(result.vendID(), {...nodeValues, level: 0});
-		result.setNodeProperty(keyNode, 'value', nodeValue(keyNode, rnd));
+		result.setNodeProperty(keyNode, 'size', nodeSize(keyNode, rnd));
 		const nodesToProcess = [keyNode];
 		while (nodesToProcess.length) {
 			const node = nodesToProcess.shift();
@@ -50,7 +50,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 			//TODO: allow children count to differ
 			for (let i = 0; i < childCount; i++) {
 				const childNode = result.setNode(result.vendID(), {...nodeValues, level: newLevel});
-				result.setNodeProperty(childNode, 'value', nodeValue(childNode, rnd));
+				result.setNodeProperty(childNode, 'size', nodeSize(childNode, rnd));
 				result.setEdge(node, childNode, {...edgeValues, type: 'primary', level: newLevel});
 				if (newLevel < levels) nodesToProcess.push(childNode);
 			}
