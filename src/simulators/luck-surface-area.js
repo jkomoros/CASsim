@@ -30,6 +30,7 @@ class AgentDemoSimulator extends AgentSimulator {
 
 	generateGraph(simOptions, rnd, simWidth, simHeight) {
 		const oS = simOptions.opportunities.structure;
+		const oV = simOptions.opportunities.value;
 		const d = nodePercentage.distribution(oS.size.percentange);
 		return ForceLayoutGraph.makeBloomGraph(simWidth, simHeight, rnd, {
 			levels: oS.levels,
@@ -39,7 +40,7 @@ class AgentDemoSimulator extends AgentSimulator {
 			randomLinkLikelihood: oS.randomLinkLikelihood,
 			nodeValues: {
 				value: 0.0,
-				valueFalloff: simOptions.valueFalloff,
+				valueFalloff: oV.falloff,
 			},
 			minNodeSize: oS.size.min,
 			maxNodeSize: oS.size.max,
@@ -48,7 +49,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	}
 
 	framePreTick(graph, frame, rnd) {
-		if (rnd() < frame.simOptions.valueLikelihood) {
+		if (rnd() < frame.simOptions.opportunities.value.likelihood) {
 			const urn = new Urn(rnd);
 			for (const node of Object.values(graph.nodes())) {
 				urn.add(node, node.size);
@@ -106,28 +107,36 @@ class AgentDemoSimulator extends AgentSimulator {
 				shortName: 'n',
 				description: 'The number of rounds'
 			},
-			valueLikelihood: {
-				example: 0.25,
-				min: 0.0,
-				max: 1.0,
-				step: 0.005,
-				optional: true,
-				backfill: true,
-				default: true,
-				description: 'In each time tick, the likelihood that a random node is '
-			},
-			valueFalloff: {
-				example: 0.9,
-				min: 0.0,
-				max: 2.0,
-				step: 0.001,
-				optional: true,
-				backfill: true,
-				default: true,
-				description: 'On each frame tick, what multiplier we should use to get the new node value'
-			},
 			opportunities: {
 				example: {
+					value: {
+						description: 'Properties related to how value shows up in the graph',
+						example: {
+							likelihood: {
+								example: 0.25,
+								min: 0.0,
+								max: 1.0,
+								step: 0.005,
+								optional: true,
+								backfill: true,
+								default: true,
+								description: 'In each time tick, the likelihood that a random node is '
+							},
+							falloff: {
+								example: 0.9,
+								min: 0.0,
+								max: 2.0,
+								step: 0.001,
+								optional: true,
+								backfill: true,
+								default: true,
+								description: 'On each frame tick, what multiplier we should use to get the new node value'
+							},
+						},
+						optional: true,
+						default: true,
+						backfill: true,
+					},
 					structure: {
 						example: {
 							levels: {
