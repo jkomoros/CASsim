@@ -32,6 +32,7 @@ class AgentDemoSimulator extends AgentSimulator {
 			childCount: o.childCount,
 			childFactor: o.childFactor,
 			childLinkLikelihood: o.childLinkLikelihood,
+			randomLinkLikelihood: o.randomLinkLikelihood,
 			minNodeSize: o.size.min,
 			maxNodeSize: o.size.max,
 			nodeSize: (node, rnd) => d.sample(rnd)
@@ -118,6 +119,16 @@ class AgentDemoSimulator extends AgentSimulator {
 						default: true,
 						backfill: true,
 						description: 'How likely children of a parent are to have a link between each other',
+					},
+					randomLinkLikelihood: {
+						example: 0.0,
+						min: 0.0,
+						max: 1.0,
+						step: 0.001,
+						optional: true,
+						default: true,
+						backfill: true,
+						description: 'How likely two random nodes are to have a link between each other. This gets extremely strong even for small values',
 					},
 					size: {
 						example: {
