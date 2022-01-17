@@ -57,7 +57,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 		//Divide by 2 to go from diameter to radius
 		const levelRadiusMultiplier = minSize / levels / 2;
 
-		for (let i = 0; i < levels; i++) {
+		for (let i = 0; i <= levels; i++) {
 			const levelNodes = Object.values(result.nodes(node => node.level == i));
 			const levelRadius = i * levelRadiusMultiplier;
 			for (const [i, node] of levelNodes.entries()) {
