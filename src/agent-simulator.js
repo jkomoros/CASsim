@@ -236,12 +236,33 @@ export class AgentSimulator extends BaseSimulator {
 	}
 
 	/*
+		An opportunity to do things in the frame before any agents or nodes are
+		ticked. You can modify frame directly, but if you modify any sub-objects
+		you should copy them.
+	*/
+	//eslint-disable-next-line no-unused-vars
+	framePreTick(graph, frame, rnd) {
+
+	}
+
+	/*
+		An opportunity to do things to the frame after any agents and nodes have
+		been ticked. You can modify frame directly, but if you modify any
+		sub-objects you should copy them.
+	*/
+	//eslint-disable-next-line no-unused-vars
+	framePostTick(graph, frame, rnd) {
+
+	}
+
+	/*
 		Ticks all agents, and all nodes.
 	*/
 	generateFrame(frame, rnd) {
 		const graph = inflateGraph(frame.graph);
 		const newAgents = [...frame.agents];
 		const agentIterationOrder = [...frame.agents.keys()];
+		this.framePreTick(graph, frame, rnd);
 		if (this.randomizeAgentTickOrder(frame.simOptions)) {
 			shuffleInPlace(agentIterationOrder, rnd);
 		}
@@ -266,6 +287,7 @@ export class AgentSimulator extends BaseSimulator {
 			//will detect no changes were made.
 			graph.setNode(id, newNode);
 		}
+		this.framePostTick(graph, frame, rnd);
 		if (graph.changesMade) {
 			frame.graph = graph.data;
 			graph.saved();
