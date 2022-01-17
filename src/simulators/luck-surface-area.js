@@ -29,20 +29,20 @@ class AgentDemoSimulator extends AgentSimulator {
 	//simulationComplete, and generateFrame.
 
 	generateGraph(simOptions, rnd, simWidth, simHeight) {
-		const o = simOptions.opportunities;
-		const d = nodePercentage.distribution(o.size.percentange);
+		const oS = simOptions.opportunities.structure;
+		const d = nodePercentage.distribution(oS.size.percentange);
 		return ForceLayoutGraph.makeBloomGraph(simWidth, simHeight, rnd, {
-			levels: o.levels,
-			childCount: o.childCount,
-			childFactor: o.childFactor,
-			childLinkLikelihood: o.childLinkLikelihood,
-			randomLinkLikelihood: o.randomLinkLikelihood,
+			levels: oS.levels,
+			childCount: oS.childCount,
+			childFactor: oS.childFactor,
+			childLinkLikelihood: oS.childLinkLikelihood,
+			randomLinkLikelihood: oS.randomLinkLikelihood,
 			nodeValues: {
 				value: 0.0,
 				valueFalloff: simOptions.valueFalloff,
 			},
-			minNodeSize: o.size.min,
-			maxNodeSize: o.size.max,
+			minNodeSize: oS.size.min,
+			maxNodeSize: oS.size.max,
 			nodeSize: (node, rnd) => d.sample(rnd)
 		});
 	}
@@ -128,82 +128,90 @@ class AgentDemoSimulator extends AgentSimulator {
 			},
 			opportunities: {
 				example: {
-					levels: {
-						example: 3,
-						max: 100.0,
-						step: 1.0,
-						optional: true,
-						default: true,
-						backfill: true,
-						description: 'Number of levels'
-					},
-					childCount: {
-						example: 5.0,
-						max: 100.0,
-						min: 0.0,
-						step: 1.0,
-						optional: true,
-						default: true,
-						backfill: true,
-						description: 'Number of children per level to start'
-					},
-					childFactor: {
-						example: 1.0,
-						max: 1.5,
-						min: 0.0,
-						step: 0.01,
-						optional: true,
-						default: true,
-						backfill: true,
-						description: 'Child factor'
-					},
-					childLinkLikelihood: {
-						example: 0.0,
-						min: 0.0,
-						max: 1.0,
-						step: 0.01,
-						optional: true,
-						default: true,
-						backfill: true,
-						description: 'How likely children of a parent are to have a link between each other',
-					},
-					randomLinkLikelihood: {
-						example: 0.0,
-						min: 0.0,
-						max: 1.0,
-						step: 0.001,
-						optional: true,
-						default: true,
-						backfill: true,
-						description: 'How likely two random nodes are to have a link between each other. This gets extremely strong even for small values',
-					},
-					size: {
+					structure: {
 						example: {
-							max: {
-								example: 50.0,
-								max: 500.0,
+							levels: {
+								example: 3,
+								max: 100.0,
 								step: 1.0,
+								optional: true,
 								default: true,
 								backfill: true,
-								optional: true,
-								description: 'The max rendered size of an opportunity'
+								description: 'Number of levels'
 							},
-							min: {
+							childCount: {
 								example: 5.0,
-								max: 500.0,
+								max: 100.0,
+								min: 0.0,
 								step: 1.0,
+								optional: true,
 								default: true,
 								backfill: true,
-								optional: true,
-								description: 'The max rendered size of an opportunity'
+								description: 'Number of children per level to start'
 							},
-							percentange: nodePercentage.optionsConfig,
+							childFactor: {
+								example: 1.0,
+								max: 1.5,
+								min: 0.0,
+								step: 0.01,
+								optional: true,
+								default: true,
+								backfill: true,
+								description: 'Child factor'
+							},
+							childLinkLikelihood: {
+								example: 0.0,
+								min: 0.0,
+								max: 1.0,
+								step: 0.01,
+								optional: true,
+								default: true,
+								backfill: true,
+								description: 'How likely children of a parent are to have a link between each other',
+							},
+							randomLinkLikelihood: {
+								example: 0.0,
+								min: 0.0,
+								max: 1.0,
+								step: 0.001,
+								optional: true,
+								default: true,
+								backfill: true,
+								description: 'How likely two random nodes are to have a link between each other. This gets extremely strong even for small values',
+							},
+							size: {
+								example: {
+									max: {
+										example: 50.0,
+										max: 500.0,
+										step: 1.0,
+										default: true,
+										backfill: true,
+										optional: true,
+										description: 'The max rendered size of an opportunity'
+									},
+									min: {
+										example: 5.0,
+										max: 500.0,
+										step: 1.0,
+										default: true,
+										backfill: true,
+										optional: true,
+										description: 'The max rendered size of an opportunity'
+									},
+									percentange: nodePercentage.optionsConfig,
+								},
+								optional: true,
+								default: true,
+								backfill: true,
+								description: 'Configuration for the size of the nodes'
+							}
 						},
 						optional: true,
 						default: true,
 						backfill: true,
-						description: 'Configuration for the size of the nodes'
-					}
+						description: 'The static structure of the opportunity graph'
+					},
 				},
 				optional: true,
 				default: true,
