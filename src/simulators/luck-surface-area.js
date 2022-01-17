@@ -96,7 +96,7 @@ class AgentDemoSimulator extends AgentSimulator {
 				description: 'Configuration related to agents',
 				example: {
 					count: {
-						example: 6,
+						example: 1,
 						optional: true,
 						backfill: true,
 						default: true,
