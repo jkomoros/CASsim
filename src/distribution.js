@@ -185,6 +185,10 @@ export class DistributionConfig {
 		this._options = normalizedOptions;
 	}
 
+	get options() {
+		return this._options;
+	}
+
 	get optionsConfig() {
 
 		const example = {};
