@@ -7,7 +7,8 @@ import {
 }from '../graph/force-layout.js';
 
 import {
-	DistributionConfig
+	DistributionConfig,
+	FIXED
 } from '../distribution.js';
 
 import {
@@ -24,6 +25,7 @@ const SIMULATOR_NAME = 'luck-surface-area';
 
 const nodePercentage = new DistributionConfig({average: 0.5, spread:0.5, default: true, description: 'The percentage size of nodes to start'});
 const starterStrength = new DistributionConfig({average: 0.75, spread: 0.25, default: true, description: 'The starter strength of agents that start at the beginning'});
+const starterValue = new DistributionConfig({average: 100.0, distribution: FIXED, limitMax: 1000.0, default: true, description: 'The starter value of agents that start at the beginning'});
 
 class AgentDemoSimulator extends AgentSimulator {
 
@@ -61,7 +63,8 @@ class AgentDemoSimulator extends AgentSimulator {
 			//Your own properties would go here in your own generateAgent
 			strength: starterStrength.distribution(simOptions.agents.starterStrength).sample(rnd),
 			type:emojiType,
-			emoji: emoji, 
+			emoji: emoji,
+			value: starterValue.distribution(simOptions.agents.starterValue).sample(rnd),
 		};
 	}
 
@@ -120,6 +123,7 @@ class AgentDemoSimulator extends AgentSimulator {
 						description: 'The number of agents',
 					},
 					starterStrength: starterStrength.optionsConfig,
+					starterValue: starterValue.optionsConfig,
 				},
 				default: true,
 				optional: true,
