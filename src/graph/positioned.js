@@ -81,7 +81,7 @@ export class PositionedGraph extends Graph {
 		defaultMinNodeSize)) + defaultMinNodeSize.
 	*/
 	nodeSize(identifier) {
-		return (this.defaulMaxNodeSize - this.defaultMinNodeSize) * this.nodeSizeMultiplier(identifier) + this.defaultMinNodeSize;
+		return (this.defaultMaxNodeSize - this.defaultMinNodeSize) * this.nodeSizeMultiplier(identifier) + this.defaultMinNodeSize;
 	}
 
 	get defaultMaxNodeSize() {
