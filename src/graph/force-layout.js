@@ -61,7 +61,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 			for (let i = 0; i < childCount; i++) {
 				const childNode = result.setNode(result.vendID(), {...nodeValues, level: newLevel});
 				result.setNodeProperty(childNode, 'size', nodeSize(childNode, rnd));
-				result.setEdge(node, childNode, {...edgeValues, type: 'primary', level: newLevel});
+				result.setBidirectionalEdge(node, childNode, {...edgeValues, type: 'primary', level: newLevel});
 				if (newLevel < levels) nodesToProcess.push(childNode);
 				children.push(childNode);
 			}
@@ -69,7 +69,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 				const pairs = uniquePairs(children);
 				for (const pair of pairs) {
 					if (rnd() < childLinkLikelihood) {
-						result.setEdge(pair[0], pair[1], {...edgeValues, type: 'peer', level: newLevel});
+						result.setBidirectionalEdge(pair[0], pair[1], {...edgeValues, type: 'peer', level: newLevel});
 					}
 				}
 			}
@@ -81,7 +81,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 				if (rnd() < randomLinkLikelihood) {
 					//If the pair already exists don't do it
 					if (result.edge(pair[0], pair[1])) continue;
-					result.setEdge(pair[0], pair[1], {...edgeValues, type: 'random', level: Math.min(pair[0].level, pair[1].level)});
+					result.setBidirectionalEdge(pair[0], pair[1], {...edgeValues, type: 'random', level: Math.min(pair[0].level, pair[1].level)});
 				}
 			}
 		}
