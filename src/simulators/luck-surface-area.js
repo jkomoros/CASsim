@@ -26,6 +26,7 @@ const SIMULATOR_NAME = 'luck-surface-area';
 const nodePercentage = new DistributionConfig({average: 0.5, spread:0.5, default: true, description: 'The percentage size of nodes to start'});
 const starterStrength = new DistributionConfig({average: 1.0, distribution: FIXED, default: true, description: 'The starter strength of agents that start at the beginning'});
 const starterValue = new DistributionConfig({average: 100.0, distribution: FIXED, limitMax: 1000.0, default: true, description: 'The starter value of agents that start at the beginning'});
+const cost = new DistributionConfig({average: 0.05, step: 0.001, distribution: FIXED, default: true, description: 'How much value cost an agent takes per time step'});
 
 class AgentDemoSimulator extends AgentSimulator {
 
@@ -65,6 +66,7 @@ class AgentDemoSimulator extends AgentSimulator {
 			type:emojiType,
 			emoji: emoji,
 			value: starterValue.distribution(simOptions.agents.starterValue).sample(rnd),
+			cost: cost.distribution(simOptions.agents.cost).sample(rnd),
 		};
 	}
 
@@ -89,15 +91,20 @@ class AgentDemoSimulator extends AgentSimulator {
 
 	defaultAgentTick(agent, agents, graph) {
 		const node = graph.node(agent.node);
+		const newAgent = {
+			...agent,
+		};
 		//Harvest any value for the node that we are currently sitting in if
 		//there is any. Note that this doesn't take the value from the node.
 		if (node.value) {
-			return {
-				...agent,
-				value: agent.value + (node.value * agent.strength),
-			};
+			newAgent.value = newAgent.value + (node.value * newAgent.strength);
 		}
-		return agent;
+		newAgent.value -= newAgent.cost;
+
+		//Die if no more value left.
+		if (newAgent.value <= 0.0) return null;
+
+		return newAgent;
 	}
 
 	numStarterAgents(graph, simOptions) {
@@ -135,6 +142,7 @@ class AgentDemoSimulator extends AgentSimulator {
 						default: true,
 						description: 'The number of agents',
 					},
+					cost: cost.optionsConfig,
 					starterStrength: starterStrength.optionsConfig,
 					starterValue: starterValue.optionsConfig,
 				},
