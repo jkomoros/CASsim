@@ -23,7 +23,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 			childFactor: (deafault: 1.0) - at each level, the final childCount is childCount * Math.pow(childFactor, level)
 			minNodeSize: (default: 10.0) - The smallest rendered nodeSize in pixels
 			maxNodeSize: (default: 10.0) - The largest rendered nodeSize in pixels
-			nodeSize: (default: () -> 1.0) - A method given nodeValues and rund, that should return the value to set.
+			nodeSize: (default: () -> 1.0) - A method given nodeValues and rnd, that should return the value to set.
 	*/
 	static makeBloomGraph(availableWidth, availableHeight, rnd, options = {}) {
 		const result = new ForceLayoutGraph();
