@@ -103,7 +103,7 @@ class AgentDemoSimulator extends AgentSimulator {
 					size: {
 						example: {
 							max: {
-								example: 10.0,
+								example: 50.0,
 								max: 500.0,
 								step: 1.0,
 								default: true,
@@ -112,7 +112,7 @@ class AgentDemoSimulator extends AgentSimulator {
 								description: 'The max rendered size of an opportunity'
 							},
 							min: {
-								example: 10.0,
+								example: 5.0,
 								max: 500.0,
 								step: 1.0,
 								default: true,
