@@ -124,10 +124,14 @@ class AgentDemoSimulator extends AgentSimulator {
 		const newAgent = {
 			...agent,
 		};
-		const newNode = this.selectNodeToMoveTo(agent, agents, graph, frame, rnd, 1, (node) => node.value);
-		if (newNode && newNode.value > node.value) {
-			//Move.
-			newAgent.node = newNode.id;
+		const targetNode = this.selectNodeToMoveTo(agent, agents, graph, frame, rnd, 3, (node) => node.value);
+		if (targetNode && targetNode.value > node.value) {
+			//Move. We might not be one step away.
+			const [,path] = graph.shortestPath(node, targetNode);
+			if (path) {
+				newAgent.node = path[0].to;
+			}
+			
 		} else {
 			//Don't move.
 
