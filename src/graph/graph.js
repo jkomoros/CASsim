@@ -299,9 +299,9 @@ export class Graph {
 		delete this._data.nodes[id];
 	}
 
-	setBidirectionalEdge(fromIdentifier, toIdentifier, values) {
-		this.setEdge(fromIdentifier, toIdentifier, values);
-		this.setEdge(toIdentifier, fromIdentifier, values);
+	setBidirectionalEdge(fromIdentifier, toIdentifier, values = {}) {
+		this.setEdge(fromIdentifier, toIdentifier, {...values});
+		this.setEdge(toIdentifier, fromIdentifier, {...values});
 	}
 
 	setEdge(fromIdentifier, toIdentifier, values = {}) {
