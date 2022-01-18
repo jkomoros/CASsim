@@ -217,8 +217,8 @@ export class Graph {
 		const itemsToVisit = [{path: [], length: 0, node: this.node(fromID)}];
 		while (itemsToVisit.length) {
 			const item = itemsToVisit.shift();
-			if (visitedNodes[item.node]) continue;
-			visitedNodes[item.node] = true;
+			if (visitedNodes[item.node.id]) continue;
+			visitedNodes[item.node.id] = true;
 			const edges = this.edges(item.node);
 			//Since we only return one path, we should visit equivalent items in a random order.
 			const edgeKeys = rnd ? Object.keys(edges) : shuffleInPlace(Object.keys(edges), rnd);
