@@ -7,6 +7,10 @@ import {
 }from '../graph/bloom.js';
 
 import {
+	PreferentialAttachmentGraph
+}from '../graph/preferential-attachment.js';
+
+import {
 	DistributionConfig,
 	FIXED
 } from '../distribution.js';
@@ -19,6 +23,9 @@ import {
 	pickEmoji,
 	PROFESSIONAL_PEOPLE_EMOJIS
 } from '../emojis.js';
+
+const GRAPH_TYPE_BLOOM = 'bloom';
+const GRAPH_TYPE_PREFERENTIAL_ATTACHMENT = 'preferential-attachment';
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'luck-surface-area';
@@ -67,6 +74,19 @@ class AgentDemoSimulator extends AgentSimulator {
 		const oS = simOptions.opportunities.structure;
 		const oV = simOptions.opportunities.value;
 		const d = nodePercentage.distribution(oS.size.percentage);
+
+		if (simOptions.graphType == GRAPH_TYPE_PREFERENTIAL_ATTACHMENT) {
+			return PreferentialAttachmentGraph.make(simWidth, simHeight, rnd, {
+				nodeValues: {
+					value: 0.0,
+					valueFalloff: oV.falloff,
+				},
+				minNodeSize: oS.size.min,
+				maxNodeSize: oS.size.max,
+				nodeSize: (node, rnd) => d.sample(rnd)
+			});
+		}
+
 		return BloomGraph.make(simWidth, simHeight, rnd, {
 			levels: oS.levels,
 			childCount: oS.childCount,
@@ -174,6 +194,21 @@ class AgentDemoSimulator extends AgentSimulator {
 	
 	get optionsConfig() {
 		return {
+			graphType: {
+				description: 'The type of graph to use',
+				example: GRAPH_TYPE_BLOOM,
+				options: [
+					{
+						value: GRAPH_TYPE_BLOOM,
+					},
+					{
+						value: GRAPH_TYPE_PREFERENTIAL_ATTACHMENT,
+					}
+				],
+				optional: true,
+				default: true,
+				backfill: true,
+			},
 			agents: {
 				description: 'Configuration related to agents',
 				example: {
