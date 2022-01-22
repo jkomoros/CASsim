@@ -5,7 +5,7 @@
 	being drawn is its count divided by the sum of all "count" of all items.
 */
 export class Urn {
-	constructor(rnd) {
+	constructor(rnd = Math.random) {
 		this._rnd = rnd;
 		this._sum = 0.0;
 		this._items = new Map();
