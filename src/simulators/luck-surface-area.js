@@ -3,8 +3,8 @@ import {
 } from '../agent-simulator.js';
 
 import {
-	ForceLayoutGraph
-}from '../graph/force-layout.js';
+	BloomGraph
+}from '../graph/bloom.js';
 
 import {
 	DistributionConfig,
@@ -67,7 +67,7 @@ class AgentDemoSimulator extends AgentSimulator {
 		const oS = simOptions.opportunities.structure;
 		const oV = simOptions.opportunities.value;
 		const d = nodePercentage.distribution(oS.size.percentage);
-		return ForceLayoutGraph.makeBloomGraph(simWidth, simHeight, rnd, {
+		return BloomGraph.make(simWidth, simHeight, rnd, {
 			levels: oS.levels,
 			childCount: oS.childCount,
 			childFactor: oS.childFactor,
