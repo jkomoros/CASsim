@@ -10,6 +10,9 @@ import {
 	forceRadial
 } from 'd3';
 
+/*
+	A BloomGraph is a ForceLayoutGraph where nodes "bloom" out from a center node.
+*/
 export class BloomGraph extends ForceLayoutGraph {
 	/*
 		Makes a graph that blooms out of a key node in the center.

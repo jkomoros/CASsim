@@ -11,7 +11,8 @@ import {
 } from 'd3';
 
 /*
-
+	A ForceLayoutGraph is a PositionedGraph whose x/y properteis are set by
+	running a d3 force graph simulation.
 */
 export class ForceLayoutGraph extends PositionedGraph {
 
