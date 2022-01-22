@@ -21,7 +21,11 @@ export class ForceLayoutGraph extends PositionedGraph {
 	}
 
 	//Should be called by subclasses in their constructor
-	finishConstructor() {
+	finishConstructor(rnd, options) {
+		const nodeSize = options.nodeSize || (() => 1.0);
+		for (const node of Object.values(this.nodes())) {
+			this.setNodeProperty(node, 'size', nodeSize(node, rnd));
+		}
 		this.bakeLayout();
 	}
 

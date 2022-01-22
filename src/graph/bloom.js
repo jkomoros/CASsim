@@ -35,9 +35,7 @@ export class BloomGraph extends ForceLayoutGraph {
 	static make(availableWidth, availableHeight, rnd, options = {}) {
 		const result = new BloomGraph();
 		result.setBaseProperties(availableWidth, availableHeight, rnd, options);
-		const nodeSize = options.nodeSize || (() => 1.0);
 		
-
 		const levels = options.levels === undefined ? 3.0 : options.levels;
 		const baseChildCount = options.childCount === undefined ? 5.0 : options.childCount;
 		const childFactor = options.childFactor === undefined ? 1.0 : options.childFactor;
@@ -47,7 +45,6 @@ export class BloomGraph extends ForceLayoutGraph {
 		const edgeValues = options.edgeValues || {};
 
 		const keyNode = result.setNode(result.vendID(), {...nodeValues, level: 0});
-		result.setNodeProperty(keyNode, 'size', nodeSize(keyNode, rnd));
 		const nodesToProcess = [keyNode];
 		while (nodesToProcess.length) {
 			const node = nodesToProcess.shift();
@@ -57,7 +54,6 @@ export class BloomGraph extends ForceLayoutGraph {
 			//TODO: allow children count to differ
 			for (let i = 0; i < childCount; i++) {
 				const childNode = result.setNode(result.vendID(), {...nodeValues, level: newLevel});
-				result.setNodeProperty(childNode, 'size', nodeSize(childNode, rnd));
 				result.setBidirectionalEdge(node, childNode, {...edgeValues, type: 'primary', level: newLevel});
 				if (newLevel < levels) nodesToProcess.push(childNode);
 				children.push(childNode);
@@ -107,7 +103,7 @@ export class BloomGraph extends ForceLayoutGraph {
 			}
 		}
 
-		result.finishConstructor();
+		result.finishConstructor(rnd, options);
 
 		return result;
 	}
