@@ -34,12 +34,9 @@ export class BloomGraph extends ForceLayoutGraph {
 	*/
 	static make(availableWidth, availableHeight, rnd, options = {}) {
 		const result = new BloomGraph();
-		result.availableWidth = availableWidth;
-		result.availableHeight = availableHeight;
-		if (options.minNodeSize != undefined) result.defaultMinNodeSize = options.minNodeSize;
-		if (options.maxNodeSize != undefined) result.defaultMaxNodeSize = options.maxNodeSize;
+		result.setBaseProperties(availableWidth, availableHeight, rnd, options);
 		const nodeSize = options.nodeSize || (() => 1.0);
-		result.nodeRoundness = 1.0;
+		
 
 		const levels = options.levels === undefined ? 3.0 : options.levels;
 		const baseChildCount = options.childCount === undefined ? 5.0 : options.childCount;
@@ -110,7 +107,7 @@ export class BloomGraph extends ForceLayoutGraph {
 			}
 		}
 
-		result.bakeLayout();
+		result.finishConstructor();
 
 		return result;
 	}

@@ -12,6 +12,19 @@ import {
 
 export class ForceLayoutGraph extends PositionedGraph {
 
+	setBaseProperties(availableWidth, availableHeight,rnd, options) {
+		this.availableWidth = availableWidth;
+		this.availableHeight = availableHeight;
+		if (options.minNodeSize != undefined) this.defaultMinNodeSize = options.minNodeSize;
+		if (options.maxNodeSize != undefined) this.defaultMaxNodeSize = options.maxNodeSize;
+		this.nodeRoundness = 1.0;
+	}
+
+	//Should be called by subclasses in their constructor
+	finishConstructor() {
+		this.bakeLayout();
+	}
+
 	nodeSizeMultiplier(identifier) {
 		const node = this.node(identifier);
 		return node.size;
