@@ -19,7 +19,10 @@ export class Urn {
 
 	pick() {
 		if (this._sum == 0.0) {
-			return this._items.size ? this._items.keys()[0] : undefined;
+			if (this._items.size == 0) return undefined;
+			//All of them are zero. Return a random one.
+			const items = [this._items.keys()];
+			return items[Math.floor(this._rnd() * items.length)];
 		}
 		const val = this._rnd() * this._sum;
 		let sum = 0.0;
