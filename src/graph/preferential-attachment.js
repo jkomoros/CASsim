@@ -23,6 +23,7 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 
 			nodeCount: (default: 100) - How many nodes to create
 			iterations: (default: 100) - How many iterations of adding edges we should do
+			nodeBoost: (default: 0.00001) - How much to boost every node when choosing which one to add. Higher numbers make the preferential attachment effect weaker.
 			edgeCount: (default: 1) - How many edges, on each iteartion, we should add.
 			nodeValues: (deafult: {}) - The base values to set on nodes
 	*/
@@ -37,6 +38,7 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 		const nodeCount = options.nodeCount || 100;
 		const iterations = options.iterations || 100;
 		const edgeCount = options.edgeCount || 1;
+		const nodeBoost = options.nodeBoost || EPSILON;
 		const nodeValues = options.nodeValues || {};
 		const edgeValues = options.edgeValues || {};
 
@@ -49,8 +51,7 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 			for (const node of Object.values(this.nodes())) {
 				const edges = this.edges(node);
 				const edgeCount = Object.keys(edges).length;
-				//Make sure edgeCount isn't 0, or then if they all have zero then it will never pick any
-				urn.add(node, edgeCount + EPSILON);
+				urn.add(node, edgeCount + nodeBoost);
 			}
 			const node = urn.pick();
 			const edgeUrn = new Urn(rnd);
