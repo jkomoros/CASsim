@@ -1,6 +1,6 @@
 import {
 	ForceLayoutGraph
-} from './force-layout';
+} from './force-layout.js';
 
 import {
 	uniquePairs
