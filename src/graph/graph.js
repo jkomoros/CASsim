@@ -31,6 +31,7 @@ export class Graph {
 		this._data = data;
 		this._nodeChangesMade = false;
 		this._propertyChangesMade = false;
+		this._cachedNodes = null;
 	}
 
 	/*
@@ -144,7 +145,10 @@ export class Graph {
 	//Returns all nodes. if filterFunc is provided, it will filter any node whose values, when passed to the filterFunc, do not return true.
 	nodes(filterFunc) {
 		if (filterFunc) return Object.fromEntries(Object.entries(this._data.nodes).filter(entry => filterFunc(entry[1].values)).map(entry => [entry[0], entry[1].values]));
-		return Object.fromEntries(Object.entries(this._data.nodes).map(entry => [entry[0], entry[1].values]));
+		if (!this._cachedNodes) {
+			this._cachedNodes = Object.fromEntries(Object.entries(this._data.nodes).map(entry => [entry[0], entry[1].values]));
+		}
+		return this._cachedNodes;
 	}
 
 	properties() {
@@ -264,6 +268,7 @@ export class Graph {
 		if (!this.nodeChangesMade) {
 			this._data = {...this._data, nodes: {...this._data.nodes}};
 		}
+		this._cachedNodes = null;
 		this._nodeChangesMade = true;
 	}
 
