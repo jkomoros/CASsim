@@ -32,7 +32,6 @@ export class BloomGraph extends ForceLayoutGraph {
 			childCount: (default: 5.0) - how many children each node should have
 			childFactor: (deafault: 1.0) - at each level, the final childCount is childCount * Math.pow(childFactor, level)
 			childLinkLikelihood: (default: 0.0) - How likely the children of each parent node are to have connections amongst themselves. 1.0 is all connected, 0.0 is no connections.
-			randomLinkLikelihood: (default: 0.0) - How likely two random children in the parent are to have an extra connection amongst themselves. 0.0 is no connections, 1.0 is all connections.
 	*/
 	static make(availableWidth, availableHeight, rnd, options = {}) {
 		const result = new BloomGraph();
@@ -45,7 +44,6 @@ export class BloomGraph extends ForceLayoutGraph {
 		const baseChildCount = options.childCount === undefined ? 5.0 : options.childCount;
 		const childFactor = options.childFactor === undefined ? 1.0 : options.childFactor;
 		const childLinkLikelihood = options.childLinkLikelihood === undefined ? 0.0 : options.childLinkLikelihood;
-		const randomLinkLikelihood = options.randomLinkLikelihood === undefined ? 0.0 : options.randomLinkLikelihood;
 		const nodeValues = options.nodeValues || {};
 		const edgeValues = options.edgeValues || {};
 
@@ -69,17 +67,6 @@ export class BloomGraph extends ForceLayoutGraph {
 					if (rnd() < childLinkLikelihood) {
 						this.setBidirectionalEdge(pair[0], pair[1], {...edgeValues, type: 'peer', level: newLevel});
 					}
-				}
-			}
-		}
-
-		if (randomLinkLikelihood > 0.0) {
-			const pairs = uniquePairs([...Object.values(this.nodes())]);
-			for (const pair of pairs) {
-				if (rnd() < randomLinkLikelihood) {
-					//If the pair already exists don't do it
-					if (this.edge(pair[0], pair[1])) continue;
-					this.setBidirectionalEdge(pair[0], pair[1], {...edgeValues, type: 'random', level: Math.min(pair[0].level, pair[1].level)});
 				}
 			}
 		}
@@ -114,6 +101,13 @@ export class BloomGraph extends ForceLayoutGraph {
 				this.setNode(node, {...node, x, y, levelRadius: levelRadius});
 			}
 		}
+	}
+
+	_makeRandomEdge(baseEdgeValues, fromNode, toNode) {
+		return {
+			...super._makeRandomEdge(baseEdgeValues, fromNode, toNode),
+			level: Math.min(fromNode.level, toNode.level)
+		};
 	}
 
 	distanceForEdge(edge) {

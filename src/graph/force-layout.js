@@ -10,6 +10,10 @@ import {
 	forceCenter
 } from 'd3';
 
+import {
+	uniquePairs
+} from '../util.js';
+
 /*
 	A ForceLayoutGraph is a PositionedGraph whose x/y properteis are set by
 	running a d3 force graph simulation.
@@ -20,10 +24,12 @@ export class ForceLayoutGraph extends PositionedGraph {
 		Makes an empty graph that is positioned.
 
 		Options:
+			edgeValues: (default: {}) - the starter values for an edge
 			minNodeSize: (default: 10.0) - The smallest rendered nodeSize in pixels
 			maxNodeSize: (default: 10.0) - The largest rendered nodeSize in pixels
 			nodeSize: (default: () -> 1.0) - A method given nodeValues and rnd, that should return the value to set.
 			noCollide: (default: false) - If true then there will be no collison forces
+			randomLinkLikelihood: (default: 0.0) - How likely two random children in the parent are to have an extra connection amongst themselves. 0.0 is no connections, 1.0 is all connections.
 	*/
 	static make(availableWidth, availableHeight, rnd, options) {
 		const result = new ForceLayoutGraph();
@@ -46,6 +52,21 @@ export class ForceLayoutGraph extends PositionedGraph {
 		//This is the point where subclasses will do the inside portion of their layout
 		this._makeInner(rnd, options);
 
+		const randomLinkLikelihood = options.randomLinkLikelihood === undefined ? 0.0 : options.randomLinkLikelihood;
+		const edgeValues = options.edgeValues || {};
+
+		if (randomLinkLikelihood > 0.0) {
+			const pairs = uniquePairs([...Object.values(this.nodes())]);
+			for (const pair of pairs) {
+				if (rnd() < randomLinkLikelihood) {
+					//If the pair already exists don't do it
+					if (this.edge(pair[0], pair[1])) continue;
+					const edge = this._makeRandomEdge(edgeValues, pair[0], pair[1]);
+					this.setBidirectionalEdge(pair[0], pair[1], edge);
+				}
+			}
+		}
+
 		const nodeSize = options.nodeSize || (() => 1.0);
 		for (const node of Object.values(this.nodes())) {
 			this.setNodeProperty(node, 'size', nodeSize(node, rnd));
@@ -56,6 +77,16 @@ export class ForceLayoutGraph extends PositionedGraph {
 		this.bakeLayout();
 
 		return this;
+	}
+
+	//An override point, what randomLinkLikelihood will call when it has decided
+	//to create and edge from fromNode to toNode.
+	//eslint-disable-next-line no-unused-vars
+	_makeRandomEdge(baseEdgeValues, fromNode, toNode) {
+		return {
+			...baseEdgeValues,
+			type: 'random',
+		};
 	}
 
 	//eslint-disable-next-line no-unused-vars
