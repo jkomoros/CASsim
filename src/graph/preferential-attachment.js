@@ -32,7 +32,7 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 	}
 
 	_makeInner(rnd, options) {
-		//TODO: allow setting a baseCount and baseDistanceCount (better names);
+		//TODO: allow setting a baseCount and baseDistanceCount (better names) that flatten the preferential count effect;
 		const nodeCount = options.nodeCount || 100;
 		const iterations = options.iterations || 100;
 		const edgeCount = options.edgeCount || 1;
