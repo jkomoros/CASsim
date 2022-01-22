@@ -50,6 +50,9 @@ export class ForceLayoutGraph extends PositionedGraph {
 		for (const node of Object.values(this.nodes())) {
 			this.setNodeProperty(node, 'size', nodeSize(node, rnd));
 		}
+		
+		this._initialLayout(rnd, options);
+
 		this.bakeLayout();
 
 		return this;
@@ -58,6 +61,21 @@ export class ForceLayoutGraph extends PositionedGraph {
 	//eslint-disable-next-line no-unused-vars
 	_makeInner(rnd, options) {
 		//Do nothing
+	}
+
+	/*
+		An override point for sub classes. A chance to do an initial layout so
+		that all nodes don't start at precisely the same spot in space.
+	
+		The default implementation just positions each node with a random x,y,
+	*/
+	//eslint-disable-next-line no-unused-vars
+	_initialLayout(rnd, options) {
+		const availableWidth = this.availableWidth;
+		const availableHeight = this.availableHeight;
+		for(const node of Object.values(this.nodes())) {
+			this.setNodeProperties(node, {x: rnd() * availableWidth, y: rnd() * availableHeight});
+		}
 	}
 
 	set noCollide(val) {

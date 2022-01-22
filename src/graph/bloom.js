@@ -83,6 +83,10 @@ export class BloomGraph extends ForceLayoutGraph {
 				}
 			}
 		}
+	}
+
+	_initialLayout(rnd, options) {
+		const levels = options.levels === undefined ? 3.0 : options.levels;
 
 		//Place nodes radially around the circle in starting positions (instead
 		//of them all being implicitly in the center) so the force layout
