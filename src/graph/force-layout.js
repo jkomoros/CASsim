@@ -25,7 +25,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 			nodeSize: (default: () -> 1.0) - A method given nodeValues and rnd, that should return the value to set.
 			noCollide: (default: false) - If true then there will be no collison forces
 	*/
-	make(availableWidth, availableHeight, rnd, options) {
+	static make(availableWidth, availableHeight, rnd, options) {
 		const result = new ForceLayoutGraph();
 		result.setBaseProperties(availableWidth, availableHeight, rnd, options);
 		result.finishConstructor(rnd, options);
