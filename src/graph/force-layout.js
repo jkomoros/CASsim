@@ -2,7 +2,13 @@ import {
 	PositionedGraph
 } from './positioned.js';
 
-import * as d3 from 'd3';
+import {
+	forceSimulation,
+	forceLink,
+	forceCollide,
+	forceManyBody,
+	forceCenter
+} from 'd3';
 
 export class ForceLayoutGraph extends PositionedGraph {
 
@@ -55,13 +61,13 @@ export class ForceLayoutGraph extends PositionedGraph {
 		const width = this.availableWidth;
 		const height = this.availableHeight;
 
-		const simulation = d3.forceSimulation(nodes);
+		const simulation = forceSimulation(nodes);
 
-		simulation.force('link', d3.forceLink(edges).id(d => d.id).distance(d => d.value));
+		simulation.force('link', forceLink(edges).id(d => d.id).distance(d => d.value));
 		//nodeSize is the diameter, we want the radius. But give a bit of buffer...
-		simulation.force('collide', d3.forceCollide().radius(n => this.nodeSize(n) * 0.55));
-		simulation.force('charge', d3.forceManyBody());
-		simulation.force('center', d3.forceCenter(width / 2, height / 2));
+		simulation.force('collide', forceCollide().radius(n => this.nodeSize(n) * 0.55));
+		simulation.force('charge', forceManyBody());
+		simulation.force('center', forceCenter(width / 2, height / 2));
 		this.installExtraForces(simulation);
 		simulation.stop();
 
