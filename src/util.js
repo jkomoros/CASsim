@@ -1,3 +1,9 @@
+/*
+	Urn is a class that selects a random item out of a distribution, where each
+	item can have a different likelihood of being drawn. The "count" for each
+	item is how likely it is to be selected. The likeilhood of a given item
+	being drawn is its count divided by the sum of all "count" of all items.
+*/
 export class Urn {
 	constructor(rnd) {
 		this._rnd = rnd;
