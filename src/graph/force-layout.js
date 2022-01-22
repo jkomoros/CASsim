@@ -31,10 +31,27 @@ export class ForceLayoutGraph extends PositionedGraph {
 		return result;
 	}
 
+	//_make is the private method that subclasses's static make() functions
+	//should call. It will do stuff that all ForceLayoutGraphs should do, but
+	//also call this._makeInner(rnd, options) which is an override point for subclasses.
 	_make(availableWidth, availableHeight, rnd, options) {
-		this.setBaseProperties(availableWidth, availableHeight, rnd, options);
+		this.availableWidth = availableWidth;
+		this.availableHeight = availableHeight;
+		if (options.minNodeSize != undefined) this.defaultMinNodeSize = options.minNodeSize;
+		if (options.maxNodeSize != undefined) this.defaultMaxNodeSize = options.maxNodeSize;
+		this.nodeRoundness = 1.0;
+		//Only set the flag to true if provided, so we don't dirty up the properties dict if it wasn't used.
+		if (options.noCollide) this.noCollide = true;
+
+		//This is the point where subclasses will do the inside portion of their layout
 		this._makeInner(rnd, options);
-		this.finishConstructor(rnd, options);
+
+		const nodeSize = options.nodeSize || (() => 1.0);
+		for (const node of Object.values(this.nodes())) {
+			this.setNodeProperty(node, 'size', nodeSize(node, rnd));
+		}
+		this.bakeLayout();
+
 		return this;
 	}
 
@@ -43,31 +60,12 @@ export class ForceLayoutGraph extends PositionedGraph {
 		//Do nothing
 	}
 
-	setBaseProperties(availableWidth, availableHeight,rnd, options) {
-		this.availableWidth = availableWidth;
-		this.availableHeight = availableHeight;
-		if (options.minNodeSize != undefined) this.defaultMinNodeSize = options.minNodeSize;
-		if (options.maxNodeSize != undefined) this.defaultMaxNodeSize = options.maxNodeSize;
-		this.nodeRoundness = 1.0;
-		//Only set the flag to true if provided, so we don't dirty up the properties dict if it wasn't used.
-		if (options.noCollide) this.noCollide = true;
-	}
-
 	set noCollide(val) {
 		this.setProperty('noCollide', val);
 	}
 
 	get noCollide() {
 		return this.property('noCollide') || false;
-	}
-
-	//Should be called by subclasses in their constructor
-	finishConstructor(rnd, options) {
-		const nodeSize = options.nodeSize || (() => 1.0);
-		for (const node of Object.values(this.nodes())) {
-			this.setNodeProperty(node, 'size', nodeSize(node, rnd));
-		}
-		this.bakeLayout();
 	}
 
 	nodeSizeMultiplier(identifier) {
