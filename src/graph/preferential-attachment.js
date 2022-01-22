@@ -7,6 +7,7 @@ import {
 } from '../util.js';
 
 const EPSILON = 0.00001;
+const PRINT_EDGE_COUNTS = false;
 
 /*
 	A PreferentialAttachmentGraph is a ForceLayoutGraph that tries to mimic
@@ -67,6 +68,16 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 				const otherID = edgeUrn.pick();
 				this.setBidirectionalEdge(node, otherID, {...edgeValues});
 			}
+		}
+
+		if (PRINT_EDGE_COUNTS) {
+			const edgeCounts = {};
+			for (const node of Object.keys(this.nodes())) {
+				const edges = this.edges(node);
+				const count = Object.keys(edges).length;
+				edgeCounts[count] = (edgeCounts[count] || 0) + 1;
+			}
+			console.log('Edge counts: ', edgeCounts);
 		}
 	}
 }
