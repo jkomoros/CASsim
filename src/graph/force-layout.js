@@ -30,13 +30,19 @@ export class ForceLayoutGraph extends PositionedGraph {
 		return this._cachedLayoutPositions;
 	}
 
-	_recalcLayout() {
+	/*
+		distanceForEdge should return the distance value to use for the edge. Override point for subclases.
+	*/
+	//eslint-disable-next-line no-unused-vars
+	distanceForEdge(edge) {
+		return 1.0;
+	}
 
-		const baseSize = 10;
+	_recalcLayout() {
 
 		const nodes = Object.values(this.nodes()).map(values => ({...values}));
 		//TODO: allow override value based on how strong it is
-		const edges = Object.values(this.allEdges()).map(edge => ({source:edge.from, target: edge.to, value:baseSize * 2 * (edge.level + 1)}));
+		const edges = Object.values(this.allEdges()).map(edge => ({source:edge.from, target: edge.to, value:this.distanceForEdge(edge)}));
 
 		const width = this.availableWidth;
 		const height = this.availableHeight;

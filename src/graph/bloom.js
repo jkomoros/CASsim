@@ -111,6 +111,12 @@ export class BloomGraph extends ForceLayoutGraph {
 
 		return result;
 	}
+
+	distanceForEdge(edge) {
+		//TODO: shouldn't this be a property or something?
+		const baseSize = 10;
+		return baseSize * 2 * (edge.level + 1);
+	}
 }
 
 BloomGraph.registerGraphType(BloomGraph);
