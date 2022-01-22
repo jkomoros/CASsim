@@ -58,12 +58,12 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 			const distances = this.distanceToOtherNodes(node);
 			const maxDistance = Math.max(0, ...Object.values(distances));
 			const unconnectedDistance  = maxDistance + 1;
-			for (const otherID of Object.values(this.nodes())) {
+			for (const otherID of Object.keys(this.nodes())) {
 				//Skip ourselves
 				if (ForceLayoutGraph.packID(node) == otherID) continue;
 				const distance = distances[otherID] || unconnectedDistance;
 				//Ensure the edge distance is never zero or it will never be selected
-				edgeUrn.add(otherID, (unconnectedDistance - distance) + EPSILON);
+				edgeUrn.add(otherID, (unconnectedDistance - distance) + 1 + EPSILON);
 			}
 			for (let j = 0; j < edgeCount; j++) {
 				const otherID = edgeUrn.pick();
