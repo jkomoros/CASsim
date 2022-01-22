@@ -10,7 +10,25 @@ import {
 	forceCenter
 } from 'd3';
 
+/*
+
+*/
 export class ForceLayoutGraph extends PositionedGraph {
+
+	/*
+		Makes an empty graph that is positioned.
+
+		Options:
+			minNodeSize: (default: 10.0) - The smallest rendered nodeSize in pixels
+			maxNodeSize: (default: 10.0) - The largest rendered nodeSize in pixels
+			nodeSize: (default: () -> 1.0) - A method given nodeValues and rnd, that should return the value to set.
+	*/
+	make(availableWidth, availableHeight, rnd, options) {
+		const result = new ForceLayoutGraph();
+		result.setBaseProperties(availableWidth, availableHeight, rnd, options);
+		result.finishConstructor(rnd, options);
+		return result;
+	}
 
 	setBaseProperties(availableWidth, availableHeight,rnd, options) {
 		this.availableWidth = availableWidth;

@@ -21,6 +21,8 @@ export class BloomGraph extends ForceLayoutGraph {
 		direct bloom links.
 
 		options: 
+			All options described in ForceLayoutGraph options
+
 			levels (default: 3.0) - how many layers from the first node to go to.
 			nodeValues: (default: {}) - the values to start each node with
 			edgeValues: (default: {}) - the starter values for an edge
@@ -28,9 +30,6 @@ export class BloomGraph extends ForceLayoutGraph {
 			childFactor: (deafault: 1.0) - at each level, the final childCount is childCount * Math.pow(childFactor, level)
 			childLinkLikelihood: (default: 0.0) - How likely the children of each parent node are to have connections amongst themselves. 1.0 is all connected, 0.0 is no connections.
 			randomLinkLikelihood: (default: 0.0) - How likely two random children in the parent are to have an extra connection amongst themselves. 0.0 is no connections, 1.0 is all connections.
-			minNodeSize: (default: 10.0) - The smallest rendered nodeSize in pixels
-			maxNodeSize: (default: 10.0) - The largest rendered nodeSize in pixels
-			nodeSize: (default: () -> 1.0) - A method given nodeValues and rnd, that should return the value to set.
 	*/
 	static make(availableWidth, availableHeight, rnd, options = {}) {
 		const result = new BloomGraph();
