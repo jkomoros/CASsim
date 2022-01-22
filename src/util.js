@@ -21,7 +21,7 @@ export class Urn {
 		if (this._sum == 0.0) {
 			if (this._items.size == 0) return undefined;
 			//All of them are zero. Return a random one.
-			const items = [this._items.keys()];
+			const items = [...this._items.keys()];
 			return items[Math.floor(this._rnd() * items.length)];
 		}
 		const val = this._rnd() * this._sum;
