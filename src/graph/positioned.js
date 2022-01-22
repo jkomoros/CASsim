@@ -45,16 +45,18 @@ export class PositionedGraph extends Graph {
 		return this.availableHeight;
 	}
 
-	//Override point. Returns this.availableWidth / 2 by default
-	//eslint-disable-next-line no-unused-vars
+	//Override point. Returns node.x or if it doesn't eixst, this.availableWidth
+	/// 2 by default
 	nodeX(identifier) {
-		return this.availableWidth / 2;
+		const node = this.node(identifier);
+		return node.x === undefined ? this.availableWidth / 2 : node.x;
 	}
 
-	//Override point. Returns this.availableHeight / 2 by default
-	//eslint-disable-next-line no-unused-vars
+	//Override point. Returns node.y or if it doesn't exist,
+	//this.availableHeight / 2 by default
 	nodeY(identifier) {
-		return this.availableHeight / 2;
+		const node = this.node(identifier);
+		return node.y === undefined ? this.availableHeight / 2 : node.y;
 	}
 
 	//Override point. returns this.nodeSize by defatul.
