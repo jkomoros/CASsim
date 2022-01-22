@@ -24,6 +24,7 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 			nodeCount: (default: 100) - How many nodes to create
 			iterations: (default: 100) - How many iterations of adding edges we should do
 			nodeBoost: (default: 0.00001) - How much to boost every node when choosing which one to add. Higher numbers make the preferential attachment effect weaker.
+			distantNodeBoost: (default: 1) - How much to boost even nodes who are far away from (or not even connected to) the node that has been selected. Higher numbers make the preferential attachmetn effect weaker.
 			edgeCount: (default: 1) - How many edges, on each iteartion, we should add.
 			nodeValues: (deafult: {}) - The base values to set on nodes
 	*/
@@ -34,11 +35,11 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 	}
 
 	_makeInner(rnd, options) {
-		//TODO: allow setting a baseCount and baseDistanceCount (better names) that flatten the preferential count effect;
 		const nodeCount = options.nodeCount || 100;
 		const iterations = options.iterations || 100;
 		const edgeCount = options.edgeCount || 1;
-		const nodeBoost = options.nodeBoost || EPSILON;
+		const nodeBoost = options.nodeBoost || EPSILON; 
+		const distantNodeBoost = options.distantNodeBoost || 1;
 		const nodeValues = options.nodeValues || {};
 		const edgeValues = options.edgeValues || {};
 
@@ -62,8 +63,8 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 				//Skip ourselves
 				if (ForceLayoutGraph.packID(node) == otherID) continue;
 				const distance = distances[otherID] || unconnectedDistance;
-				//Ensure the edge distance is never zero or it will never be selected
-				edgeUrn.add(otherID, (unconnectedDistance - distance) + 1 + EPSILON);
+				const finalCount = (unconnectedDistance - distance) + distantNodeBoost;
+				edgeUrn.add(otherID, finalCount);
 			}
 			for (let j = 0; j < edgeCount; j++) {
 				const otherID = edgeUrn.pick();
