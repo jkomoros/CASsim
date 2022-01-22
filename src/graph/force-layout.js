@@ -27,6 +27,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 			edgeValues: (default: {}) - the starter values for an edge
 			minNodeSize: (default: 10.0) - The smallest rendered nodeSize in pixels
 			maxNodeSize: (default: 10.0) - The largest rendered nodeSize in pixels
+			nodeMargin: (default: 0.1) - How much space should be left between this node and other nodes, in units of percentage of this node's size.
 			nodeSize: (default: () -> 1.0) - A method given nodeValues and rnd, that should return the value to set.
 			noCollide: (default: false) - If true then there will be no collison forces
 			randomLinkLikelihood: (default: 0.0) - How likely two random children in the parent are to have an extra connection amongst themselves. 0.0 is no connections, 1.0 is all connections.
@@ -45,6 +46,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 		this.availableHeight = availableHeight;
 		if (options.minNodeSize != undefined) this.defaultMinNodeSize = options.minNodeSize;
 		if (options.maxNodeSize != undefined) this.defaultMaxNodeSize = options.maxNodeSize;
+		this.defaultNodeMargin = options.nodeMargin === undefined ? 0.1 : options.nodeMargin;
 		this.nodeRoundness = 1.0;
 		//Only set the flag to true if provided, so we don't dirty up the properties dict if it wasn't used.
 		if (options.noCollide) this.noCollide = true;
@@ -150,6 +152,23 @@ export class ForceLayoutGraph extends PositionedGraph {
 		return 1.0;
 	}
 
+	get defaultNodeMargin() {
+		return this.property('defaultNodeMargin');
+	}
+
+	set defaultNodeMargin(val) {
+		this.setProperty('defaultNodeMargin', val);
+	}
+
+	/*
+		The margin to leave between this node and its neighbors, in units of
+		percenatage of its nodeSize. By default returns defaultNodeMargin.
+	*/
+	//eslint-disable-next-line no-unused-vars
+	nodeMargin(identifier) {
+		return this.defaultNodeMargin;
+	}
+
 	/*
 		A chance for a subclass to install more forces on the force layout simulation.
 	*/
@@ -171,7 +190,10 @@ export class ForceLayoutGraph extends PositionedGraph {
 
 		simulation.force('link', forceLink(edges).id(d => d.id).distance(d => d.value));
 		//nodeSize is the diameter, we want the radius. But give a bit of buffer...
-		if (!this.noCollide) simulation.force('collide', forceCollide().radius(n => this.nodeSize(n) * 0.55));
+		if (!this.noCollide) simulation.force('collide', forceCollide().radius(n => {
+			const nodeRadius = this.nodeSize(n) * 0.5;
+			return nodeRadius + (nodeRadius * this.nodeMargin(n));
+		}));
 		simulation.force('charge', forceManyBody());
 		simulation.force('center', forceCenter(width / 2, height / 2));
 		this.installExtraForces(simulation);
