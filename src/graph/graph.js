@@ -17,6 +17,10 @@ Methods or arguiments have ID in the name will return or expect a packedID.
 Methods or arguments that have 'Identifier' in the name will return or expect an
 unpackedID
 
+The constructor for a graph takes a preexisting graph's data and reinflates it.
+To make and configure a new graph (for example at the beginning of a
+simulation), use the make*() methods on each subclasses type.
+
 */
 export class Graph {
 
