@@ -61,6 +61,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 				if (rnd() < randomLinkLikelihood) {
 					//If the pair already exists don't do it
 					if (this.edge(pair[0], pair[1])) continue;
+					if (this.edge(pair[1], pair[0])) continue;
 					const edge = this._makeRandomEdge(edgeValues, pair[0], pair[1]);
 					this.setBidirectionalEdge(pair[0], pair[1], edge);
 				}
