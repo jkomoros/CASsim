@@ -6,6 +6,9 @@ import {
 	uniquePairs
 } from '../util.js';
 
+import {
+	forceRadial
+} from 'd3';
 
 export class BloomGraph extends ForceLayoutGraph {
 	/*
@@ -116,6 +119,12 @@ export class BloomGraph extends ForceLayoutGraph {
 		//TODO: shouldn't this be a property or something?
 		const baseSize = 10;
 		return baseSize * 2 * (edge.level + 1);
+	}
+
+	installExtraForces(simulation) {
+		const width = this.availableWidth;
+		const height = this.availableHeight;
+		simulation.force('radial', forceRadial().strength(() => 0.5).radius(d => d.levelRadius).x(width / 2).y(height / 2));
 	}
 }
 

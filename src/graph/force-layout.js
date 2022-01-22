@@ -38,6 +38,14 @@ export class ForceLayoutGraph extends PositionedGraph {
 		return 1.0;
 	}
 
+	/*
+		A chance for a subclass to install more forces on the force layout simulation.
+	*/
+	//eslint-disable-next-line no-unused-vars
+	installExtraForces(simulation) {
+		//Do nothing by default
+	}
+
 	_recalcLayout() {
 
 		const nodes = Object.values(this.nodes()).map(values => ({...values}));
@@ -52,9 +60,9 @@ export class ForceLayoutGraph extends PositionedGraph {
 		simulation.force('link', d3.forceLink(edges).id(d => d.id).distance(d => d.value));
 		//nodeSize is the diameter, we want the radius. But give a bit of buffer...
 		simulation.force('collide', d3.forceCollide().radius(n => this.nodeSize(n) * 0.55));
-		simulation.force('radial', d3.forceRadial().strength(() => 0.5).radius(d => d.levelRadius).x(width / 2).y(height / 2));
 		simulation.force('charge', d3.forceManyBody());
 		simulation.force('center', d3.forceCenter(width / 2, height / 2));
+		this.installExtraForces(simulation);
 		simulation.stop();
 
 		simulation.tick(300);
