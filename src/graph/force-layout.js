@@ -27,9 +27,20 @@ export class ForceLayoutGraph extends PositionedGraph {
 	*/
 	static make(availableWidth, availableHeight, rnd, options) {
 		const result = new ForceLayoutGraph();
-		result.setBaseProperties(availableWidth, availableHeight, rnd, options);
-		result.finishConstructor(rnd, options);
+		result._make(availableWidth, availableHeight, rnd, options);
 		return result;
+	}
+
+	_make(availableWidth, availableHeight, rnd, options) {
+		this.setBaseProperties(availableWidth, availableHeight, rnd, options);
+		this._makeInner(rnd, options);
+		this.finishConstructor(rnd, options);
+		return this;
+	}
+
+	//eslint-disable-next-line no-unused-vars
+	_makeInner(rnd, options) {
+		//Do nothing
 	}
 
 	setBaseProperties(availableWidth, availableHeight,rnd, options) {

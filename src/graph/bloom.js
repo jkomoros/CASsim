@@ -36,8 +36,11 @@ export class BloomGraph extends ForceLayoutGraph {
 	*/
 	static make(availableWidth, availableHeight, rnd, options = {}) {
 		const result = new BloomGraph();
-		result.setBaseProperties(availableWidth, availableHeight, rnd, options);
-		
+		result._make(availableWidth, availableHeight, rnd, options);
+		return result;
+	}
+
+	_makeInner(rnd, options) {
 		const levels = options.levels === undefined ? 3.0 : options.levels;
 		const baseChildCount = options.childCount === undefined ? 5.0 : options.childCount;
 		const childFactor = options.childFactor === undefined ? 1.0 : options.childFactor;
@@ -46,7 +49,7 @@ export class BloomGraph extends ForceLayoutGraph {
 		const nodeValues = options.nodeValues || {};
 		const edgeValues = options.edgeValues || {};
 
-		const keyNode = result.setNode(result.vendID(), {...nodeValues, level: 0});
+		const keyNode = this.setNode(this.vendID(), {...nodeValues, level: 0});
 		const nodesToProcess = [keyNode];
 		while (nodesToProcess.length) {
 			const node = nodesToProcess.shift();
@@ -55,8 +58,8 @@ export class BloomGraph extends ForceLayoutGraph {
 			const children = [];
 			//TODO: allow children count to differ
 			for (let i = 0; i < childCount; i++) {
-				const childNode = result.setNode(result.vendID(), {...nodeValues, level: newLevel});
-				result.setBidirectionalEdge(node, childNode, {...edgeValues, type: 'primary', level: newLevel});
+				const childNode = this.setNode(this.vendID(), {...nodeValues, level: newLevel});
+				this.setBidirectionalEdge(node, childNode, {...edgeValues, type: 'primary', level: newLevel});
 				if (newLevel < levels) nodesToProcess.push(childNode);
 				children.push(childNode);
 			}
@@ -64,19 +67,19 @@ export class BloomGraph extends ForceLayoutGraph {
 				const pairs = uniquePairs(children);
 				for (const pair of pairs) {
 					if (rnd() < childLinkLikelihood) {
-						result.setBidirectionalEdge(pair[0], pair[1], {...edgeValues, type: 'peer', level: newLevel});
+						this.setBidirectionalEdge(pair[0], pair[1], {...edgeValues, type: 'peer', level: newLevel});
 					}
 				}
 			}
 		}
 
 		if (randomLinkLikelihood > 0.0) {
-			const pairs = uniquePairs([...Object.values(result.nodes())]);
+			const pairs = uniquePairs([...Object.values(this.nodes())]);
 			for (const pair of pairs) {
 				if (rnd() < randomLinkLikelihood) {
 					//If the pair already exists don't do it
-					if (result.edge(pair[0], pair[1])) continue;
-					result.setBidirectionalEdge(pair[0], pair[1], {...edgeValues, type: 'random', level: Math.min(pair[0].level, pair[1].level)});
+					if (this.edge(pair[0], pair[1])) continue;
+					this.setBidirectionalEdge(pair[0], pair[1], {...edgeValues, type: 'random', level: Math.min(pair[0].level, pair[1].level)});
 				}
 			}
 		}
@@ -85,29 +88,28 @@ export class BloomGraph extends ForceLayoutGraph {
 		//of them all being implicitly in the center) so the force layout
 		//doesn't have weird crossings of edges.
 
+		const availableWidth = this.availableWidth;
+		const availableHeight = this.availableHeight;
+
 		const cX = availableWidth / 2;
 		const cY = availableHeight / 2;
 
 		const minSize = Math.min(availableWidth, availableHeight);
 		//Divide by 2 to go from diameter to radius
 		const maxRadius = minSize / 2;
-		const maxLevelNodeCount = Object.keys(result.nodes(node => node.level == levels)).length;
+		const maxLevelNodeCount = Object.keys(this.nodes(node => node.level == levels)).length;
 
 		for (let i = 0; i <= levels; i++) {
-			const levelNodes = Object.values(result.nodes(node => node.level == i));
+			const levelNodes = Object.values(this.nodes(node => node.level == i));
 			const levelRadius = maxRadius * levelNodes.length / maxLevelNodeCount;
 			for (const [i, node] of levelNodes.entries()) {
 				const angle = i / levelNodes.length * 360;
 				const radiansAngle = Math.PI * 2 * angle / 360;
 				const x = levelRadius * Math.sin(radiansAngle) + cX;
 				const y = levelRadius * Math.cos(radiansAngle) + cY;
-				result.setNode(node, {...node, x, y, levelRadius: levelRadius});
+				this.setNode(node, {...node, x, y, levelRadius: levelRadius});
 			}
 		}
-
-		result.finishConstructor(rnd, options);
-
-		return result;
 	}
 
 	distanceForEdge(edge) {
