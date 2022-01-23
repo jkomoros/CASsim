@@ -78,6 +78,7 @@ class AgentDemoSimulator extends AgentSimulator {
 		if (simOptions.graphType == GRAPH_TYPE_PREFERENTIAL_ATTACHMENT) {
 			return PreferentialAttachmentGraph.make(simWidth, simHeight, rnd, {
 				nodeCount: oS.count,
+				iterations: oS.iterations,
 				nodeValues: {
 					value: 0.0,
 					valueFalloff: oV.falloff,
@@ -280,6 +281,17 @@ class AgentDemoSimulator extends AgentSimulator {
 								backfill: true,
 								hide: forPreferentialAttachment,
 								decription: 'Node count'
+							},
+							iterations: {
+								example: 100,
+								max: 1000,
+								min: 0,
+								step: 1.0,
+								optional: true,
+								default: true,
+								backfill: true,
+								hide: forPreferentialAttachment,
+								decription: 'Iterations of edge addition'
 							},
 							levels: {
 								example: 3,
