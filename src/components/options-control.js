@@ -2,6 +2,7 @@ import { LitElement, html, css } from "lit-element";
 
 import {
 	COLOR_BEHAVIOR_NAME,
+	IS_ROOT_PROPERTY_NAME
 } from "../options.js";
 
 import {
@@ -28,7 +29,7 @@ import {
 	DIALOG_TYPE_ADD_FIELD
 } from '../actions/data.js';
 
-const doHide = (subConfig, parentValue) => subConfig.hide ? subConfig.hide(parentValue) : false;
+const doHide = (subConfig, parentValue, rootValue) => subConfig.hide ? subConfig.hide(parentValue, rootValue) : false;
 
 class OptionsControl extends LitElement {
 	static get properties() {
@@ -37,6 +38,7 @@ class OptionsControl extends LitElement {
 			name: {type:String},
 			config: {type: Object},
 			value: {type: Object},
+			rootValue: {type: Object},
 			readonly: {type: Boolean},
 			modifiedPaths: {type:Object},
 			disallowDelete: {type:Boolean},
@@ -134,6 +136,12 @@ class OptionsControl extends LitElement {
 		return Object.entries(config.example).filter(entry => entry[1].optional && nonNullValue[entry[0]] == undefined);
 	}
 
+	get _rootValue() {
+		const config = this.config || {};
+		if (config.example === undefined) return this.rootValue;
+		return config[IS_ROOT_PROPERTY_NAME] ? this.value : this.rootValue;
+	}
+
 	_innerControl() {
 		const config = this.config || {};
 		const example = config.example;
@@ -141,19 +149,19 @@ class OptionsControl extends LitElement {
 			if (Array.isArray(example)) {
 				const val = this.value || [];
 				//If we're at min size already, disallow deleting for sub-items.
-				return html`${val.map((item, index) => html`<options-control .readonly=${this.readonly} .disallowDelete=${config.min === val.length} .value=${item} .config=${example[0]} .name=${index} .path=${this._dottedPath(index)} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}`;
+				return html`${val.map((item, index) => html`<options-control .readonly=${this.readonly} .rootValue=${this._rootValue} .disallowDelete=${config.min === val.length} .value=${item} .config=${example[0]} .name=${index} .path=${this._dottedPath(index)} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}`;
 			}
 			const deletedSubPaths = this._deletedSubPaths;
 			//value might be null
 			const nonNullValue = this.value || {};
 			//We iterate through in the order the EXAMPLE defines them so they show up in order.
-			const nonAdvancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined || deletedSubPaths[entry[0]]).filter(entry => !doHide(entry[1], nonNullValue)).filter(entry => !entry[1].advanced).map(entry => [entry[0], nonNullValue[entry[0]]]);
-			const advancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined || deletedSubPaths[entry[0]]).filter(entry => !doHide(entry[1], nonNullValue)).filter(entry => entry[1].advanced).map(entry => [entry[0], nonNullValue[entry[0]]]);
+			const nonAdvancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined || deletedSubPaths[entry[0]]).filter(entry => !doHide(entry[1], nonNullValue, this.rootValue)).filter(entry => !entry[1].advanced).map(entry => [entry[0], nonNullValue[entry[0]]]);
+			const advancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined || deletedSubPaths[entry[0]]).filter(entry => !doHide(entry[1], nonNullValue, this.rootValue)).filter(entry => entry[1].advanced).map(entry => [entry[0], nonNullValue[entry[0]]]);
 			return html`
-				${nonAdvancedEntries.map(entry => html`<options-control .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}
+				${nonAdvancedEntries.map(entry => html`<options-control .rootValue=${this._rootValue} .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}
 				${advancedEntries.length ? html`<details .open=${this.pathExpanded[this.path || '']} @toggle=${this._handleDetailsToggle}>
 					<summary><label>Advanced</label></summary>
-					${advancedEntries.map(entry => html`<options-control .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}
+					${advancedEntries.map(entry => html`<options-control .rootValue=${this._rootValue} .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}
 				</details>` : ''}`;
 		}
 		//We might have this.value === undefined if we were deleted

@@ -294,7 +294,7 @@ declarative format that has the following shape, called an optionsLeaf:
 			"description": "This option is a string"
 		},
 	],
-	//Hide (optional) is a function that is passed the values of the _parent_ (meaning it can inspect its siblings values).
+	//Hide (optional) is a function that is passed the values of the _parent_ (meaning it can inspect its siblings values), as well as rootValues.
 	//If it returns true, it will be hidden from the UI (although values in it will still be there)
 	"hide": parentValues => parentValues.type == 'foo'
 	//Whether the field is allowed to just not be provided. Defaults to false

@@ -21,7 +21,8 @@ import {
 	SIM_OPTIONS_PROPERTY,
 	SIM_PROPERTY_SHORT_NAME,
 	ensureBackfill,
-	optionsConfigWithDefaultedShortNames
+	optionsConfigWithDefaultedShortNames,
+	IS_ROOT_PROPERTY_NAME,
 } from './options.js';
 
 import {
@@ -673,7 +674,9 @@ export const Simulation = class {
 					shortName: 'o',
 					description: 'Settings specific to this simulator',
 					//If not provided, the main harness will generate a default based on the simConfig
-					optional: true
+					optional: true,
+					//Make sure hide() doesn't get the whole top level value but only things rooted to here or below
+					[IS_ROOT_PROPERTY_NAME]: true
 				}
 			}
 		};

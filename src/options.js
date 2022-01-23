@@ -17,6 +17,9 @@ const SHORT_NAME_PROPERTY_NAME = 'shortName';
 const BACKFILL_PROPERTY_NAME = 'backfill';
 const DEFAULT_PROPERTY_NAME = 'default';
 const HIDE_PROPERTY_NAME = 'hide';
+//This is not a documented property, we use it to define where a root is for
+//what values we pass to options.hide().
+export const IS_ROOT_PROPERTY_NAME = '@@isRoot';
 
 export const COLOR_BEHAVIOR_NAME = 'color';
 
@@ -117,6 +120,7 @@ const optionsLeafValidator = (config) => {
 	if (config[BACKFILL_PROPERTY_NAME] !== undefined && typeof config[BACKFILL_PROPERTY_NAME] != 'boolean') return BACKFILL_PROPERTY_NAME + ' must be a boolean if provided';
 	if (config[DEFAULT_PROPERTY_NAME] !== undefined && typeof config[DEFAULT_PROPERTY_NAME] != 'boolean') return DEFAULT_PROPERTY_NAME + ' must be a boolean if provided';
 	if (config[ADVANCED_PROPERTY_NAME] !== undefined && typeof config[ADVANCED_PROPERTY_NAME] != 'boolean') return ADVANCED_PROPERTY_NAME + ' must be a boolean if provided';
+	if (config[IS_ROOT_PROPERTY_NAME] !== undefined && typeof config[IS_ROOT_PROPERTY_NAME] != 'boolean') return IS_ROOT_PROPERTY_NAME + ' must be a boolean if provided';
 
 	if (config[BACKFILL_PROPERTY_NAME] && !config[OPTIONAL_PROPERTY_NAME]) return 'If ' + BACKFILL_PROPERTY_NAME + ' is true, then ' + OPTIONAL_PROPERTY_NAME + 'must also be true';
 	if (config[DEFAULT_PROPERTY_NAME] && !config[OPTIONAL_PROPERTY_NAME]) return 'If ' + DEFAULT_PROPERTY_NAME + ' is true, then ' + OPTIONAL_PROPERTY_NAME + 'must also be true';
