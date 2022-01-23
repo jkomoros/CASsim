@@ -179,7 +179,16 @@ export class ForceLayoutGraph extends PositionedGraph {
 
 	_recalcLayout() {
 
-		const nodes = Object.values(this.nodes()).map(values => ({...values}));
+		const nodes = Object.values(this.nodes()).map(values => {
+			const result = {...values};
+			const edges = this.edges(values);
+			//Fix unconnected items to wherever they are right now, so they don't go flying off the edge due to manyBody without a centering link force.
+			if (Object.keys(edges).length == 0) {
+				result.fx = result.x;
+				result.fy = result.y;
+			}
+			return result;
+		});
 		//TODO: allow override value based on how strong it is
 		const edges = Object.values(this.allEdges()).map(edge => ({source:edge.from, target: edge.to, value:this.distanceForEdge(edge)}));
 
