@@ -319,7 +319,7 @@ class AgentDemoSimulator extends AgentSimulator {
 								decription: 'distantNodeBoost for preferential attachment'
 							},
 							edgeCount: {
-								example: 1.0,
+								example: 3.0,
 								max: 100.0,
 								step: 1.0,
 								optional: true,
