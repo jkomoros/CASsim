@@ -193,6 +193,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	}
 	
 	get optionsConfig() {
+		const forBloom = (parentValues, rootValues) => rootValues.graphType != GRAPH_TYPE_BLOOM;
 		return {
 			graphType: {
 				description: 'The type of graph to use',
@@ -274,6 +275,7 @@ class AgentDemoSimulator extends AgentSimulator {
 								optional: true,
 								default: true,
 								backfill: true,
+								hide: forBloom,
 								description: 'Number of levels'
 							},
 							childCount: {
@@ -284,6 +286,7 @@ class AgentDemoSimulator extends AgentSimulator {
 								optional: true,
 								default: true,
 								backfill: true,
+								hide: forBloom,
 								description: 'Number of children per level to start'
 							},
 							childFactor: {
@@ -294,6 +297,7 @@ class AgentDemoSimulator extends AgentSimulator {
 								optional: true,
 								default: true,
 								backfill: true,
+								hide: forBloom,
 								description: 'Child factor'
 							},
 							childLinkLikelihood: {
@@ -304,6 +308,7 @@ class AgentDemoSimulator extends AgentSimulator {
 								optional: true,
 								default: true,
 								backfill: true,
+								hide: forBloom,
 								description: 'How likely children of a parent are to have a link between each other',
 							},
 							randomLinkLikelihood: {
