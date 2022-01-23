@@ -81,6 +81,7 @@ class AgentDemoSimulator extends AgentSimulator {
 				iterations: oS.iterations,
 				nodeBoost: oS.nodeBoost,
 				distantNodeBoost: oS.distantNodeBoost,
+				edgeCount: oS.edgeCount,
 				nodeValues: {
 					value: 0.0,
 					valueFalloff: oV.falloff,
@@ -316,6 +317,16 @@ class AgentDemoSimulator extends AgentSimulator {
 								backfill: true,
 								hide: forPreferentialAttachment,
 								decription: 'distantNodeBoost for preferential attachment'
+							},
+							edgeCount: {
+								example: 1.0,
+								max: 100.0,
+								step: 1.0,
+								optional: true,
+								default: true,
+								backfill: true,
+								hide: forPreferentialAttachment,
+								description: 'Number of edges to add per iteration'
 							},
 							levels: {
 								example: 3,
