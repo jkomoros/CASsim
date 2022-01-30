@@ -21,7 +21,7 @@ export const NODE_MARGIN_PROPERTY = 'nodeMargin';
 export const NO_COLLIDE_PROPERTY = 'noCollide';
 export const RANDOM_LINK_LIKELIHOOD_PROPERTY = 'randomLinkLikelihood';
 
-export const OPTIONS_CONFIG = {
+const OPTIONS_CONFIG = {
 	[MIN_NODE_SIZE_PROPERTY]: {
 		example: 10.0,
 		min: 0.0,
