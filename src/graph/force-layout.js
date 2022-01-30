@@ -22,6 +22,18 @@ export const NODE_MARGIN_PROPERTY = 'nodeMargin';
 export const NO_COLLIDE_PROPERTY = 'noCollide';
 export const RANDOM_LINK_LIKELIHOOD_PROPERTY = 'randomLinkLikelihood';
 
+import {
+	DistributionConfig,
+	FIXED
+} from '../distribution.js';
+
+const nodePercentage = new DistributionConfig({
+	average: 1.0,
+	distribution: FIXED,
+	default: true,
+	description: 'The percentage size of nodes to start'
+});
+
 const OPTIONS_CONFIG = {
 	[MIN_NODE_SIZE_PROPERTY]: {
 		example: 10.0,
@@ -43,6 +55,7 @@ const OPTIONS_CONFIG = {
 		backfill: true,
 		description: 'The largest rendered nodeSize in pixels',
 	},
+	[NODE_SIZE_PROPERTY]: nodePercentage.optionsConfig,
 	[NODE_MARGIN_PROPERTY]: {
 		example: 0.1,
 		min: 0.0,
@@ -109,9 +122,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 	}
 
 	/*
-		A convenient method to convert a simOptions config generated from
-		optionsConfig to an object appropriate for being passed to the
-		constructor. Pass the same overrides you pasesd to optionsConfig.
+		Given the values option based on optionsConfig, pass back to this to get the options values to pass to constructor.
 	*/
 	optionsFromConfig(values, overrides) {
 		const config = this.OPTIONS_CONFIG;
@@ -120,7 +131,12 @@ export class ForceLayoutGraph extends PositionedGraph {
 			if (!value) continue;
 			reversed[value] = key;
 		}
-		return Object.fromEntries(Object.entries(values).map(entry => [reversed[entry[0]] == undefined ? entry[0] : overrides[entry[0]], entry[1]]).filter(entry => config[entry[0]]));
+		const result = Object.fromEntries(Object.entries(values).map(entry => [reversed[entry[0]] == undefined ? entry[0] : overrides[entry[0]], entry[1]]).filter(entry => config[entry[0]]));
+		if (result[NODE_SIZE_PROPERTY]) {
+			const distribution = nodePercentage.distribution(result[NODE_SIZE_PROPERTY]);
+			result[NODE_SIZE_PROPERTY] = (node, rnd) => distribution.sample(rnd);
+		}
+		return result;
 	}
 
 	//_make is the private method that subclasses's static make() functions
