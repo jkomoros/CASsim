@@ -55,7 +55,6 @@ const OPTIONS_CONFIG = {
 	[NO_COLLIDE_PROPERTY]: {
 		example: false,
 		optional: true,
-		default: true,
 		backfill: true,
 		description: ' If true then there will be no collison forces',
 	},
