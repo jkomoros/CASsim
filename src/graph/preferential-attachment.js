@@ -1,5 +1,6 @@
 import {
-	ForceLayoutGraph
+	ForceLayoutGraph,
+	EDGE_VALUES_PROPERTY
 } from './force-layout.js';
 
 import {
@@ -8,6 +9,13 @@ import {
 
 const EPSILON = 0.00001;
 const PRINT_EDGE_COUNTS = false;
+
+export const NODE_COUNT_PROPERTY = 'nodeCount';
+export const ITERATIONS_PROPERTY = 'iterations';
+export const NODE_BOOST_PROPERTY = 'nodeBoost';
+export const DISTANT_NODE_BOOST_PROPERTY = 'distantNodeBoost';
+export const EDGE_COUNT_PROPERTY = 'edgeCount';
+export const NODE_VALUES_PROPERTY = 'nodeValues';
 
 /*
 	A PreferentialAttachmentGraph is a ForceLayoutGraph that tries to mimic
@@ -35,13 +43,13 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 	}
 
 	_makeInner(rnd, options) {
-		const nodeCount = options.nodeCount || 100;
-		const iterations = options.iterations || 100;
-		const edgeCount = options.edgeCount || 3;
-		const nodeBoost = options.nodeBoost || EPSILON; 
-		const distantNodeBoost = options.distantNodeBoost || 3;
-		const nodeValues = options.nodeValues || {};
-		const edgeValues = options.edgeValues || {};
+		const nodeCount = options[NODE_COUNT_PROPERTY] || 100;
+		const iterations = options[ITERATIONS_PROPERTY] || 100;
+		const edgeCount = options[EDGE_COUNT_PROPERTY] || 3;
+		const nodeBoost = options[NODE_BOOST_PROPERTY] || EPSILON; 
+		const distantNodeBoost = options[DISTANT_NODE_BOOST_PROPERTY] || 3;
+		const nodeValues = options[NODE_VALUES_PROPERTY] || {};
+		const edgeValues = options[EDGE_VALUES_PROPERTY] || {};
 
 		for (let i = 0; i < nodeCount; i++) {
 			this.setNode(this.vendID(), {...nodeValues});
