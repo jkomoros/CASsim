@@ -21,6 +21,56 @@ export const NODE_MARGIN_PROPERTY = 'nodeMargin';
 export const NO_COLLIDE_PROPERTY = 'noCollide';
 export const RANDOM_LINK_LIKELIHOOD_PROPERTY = 'randomLinkLikelihood';
 
+const OPTIONS_CONFIG = {
+	[MIN_NODE_SIZE_PROPERTY]: {
+		example: 10.0,
+		min: 0.0,
+		max: 1000.0,
+		step: 0.05,
+		optional: true,
+		default: true,
+		backfill: true,
+		description: 'The smallest rendered nodeSize in pixels',
+	},
+	[MAX_NODE_SIZE_PROPERTY]: {
+		example: 10.0,
+		min: 0.0,
+		max: 1000.0,
+		step: 0.05,
+		optional: true,
+		default: true,
+		backfill: true,
+		description: 'The largest rendered nodeSize in pixels',
+	},
+	[NODE_MARGIN_PROPERTY]: {
+		example: 0.1,
+		min: 0.0,
+		max: 1000.0,
+		step: 0.05,
+		optional: true,
+		default: true,
+		backfill: true,
+		description: 'How much space should be left between this node and other nodes, in units of percentage of this node\'s size',
+	},
+	[NO_COLLIDE_PROPERTY]: {
+		example: false,
+		optional: true,
+		default: true,
+		backfill: true,
+		description: ' If true then there will be no collison forces',
+	},
+	[RANDOM_LINK_LIKELIHOOD_PROPERTY]: {
+		example: 0.0,
+		min: 0.0,
+		max: 1.0,
+		step: 0.001,
+		optional: true,
+		default: true,
+		backfill: true,
+		description: 'How likely two random children in the parent are to have an extra connection amongst themselves. 0.0 is no connections, 1.0 is all connections.',
+	}
+};
+
 /*
 	A ForceLayoutGraph is a PositionedGraph whose x/y properteis are set by
 	running a d3 force graph simulation.
@@ -43,6 +93,27 @@ export class ForceLayoutGraph extends PositionedGraph {
 		const result = new ForceLayoutGraph();
 		result._make(availableWidth, availableHeight, rnd, options);
 		return result;
+	}
+
+	/*
+		Provides an optionsConfig. Overrides is a map of optionName --> newName. If newName is '' then that option will not be included.
+	*/
+	optionsConfig(overrides) {
+		return Object.fromEntries(Object.entries(OPTIONS_CONFIG).map(entry => [overrides[entry[0]] == undefined ? entry[0] : overrides[entry[0]], entry[1]]).filter(entry => entry[0] != ''));
+	}
+
+	/*
+		A convenient method to convert a simOptions config generated from
+		optionsConfig to an object appropriate for being passed to the
+		constructor. Pass the same overrides you pasesd to optionsConfig.
+	*/
+	optionsFromConfig(values, overrides) {
+		const reversed = {};
+		for (const [key, value] of Object.entries(overrides)) {
+			if (!value) continue;
+			reversed[value] = key;
+		}
+		return Object.fromEntries(Object.entries(values).map(entry => [reversed[entry[0]] == undefined ? entry[0] : overrides[entry[0]], entry[1]]).filter(entry => OPTIONS_CONFIG[entry[0]]));
 	}
 
 	//_make is the private method that subclasses's static make() functions
