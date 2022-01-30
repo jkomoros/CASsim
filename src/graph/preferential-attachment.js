@@ -95,8 +95,8 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 		return result;
 	}
 
-	get OPTIONS_CONFIG() {
-		return {...super.OPTIONS_CONFIG, ...OPTIONS_CONFIG};
+	static get OPTIONS_CONFIG() {
+		return {...ForceLayoutGraph.OPTIONS_CONFIG, ...OPTIONS_CONFIG};
 	}
 
 	_makeInner(rnd, options) {
