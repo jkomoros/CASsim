@@ -21,7 +21,7 @@ export const NODE_MARGIN_PROPERTY = 'nodeMargin';
 export const NO_COLLIDE_PROPERTY = 'noCollide';
 export const RANDOM_LINK_LIKELIHOOD_PROPERTY = 'randomLinkLikelihood';
 
-const OPTIONS_CONFIG = {
+export const OPTIONS_CONFIG = {
 	[MIN_NODE_SIZE_PROPERTY]: {
 		example: 10.0,
 		min: 0.0,
@@ -95,11 +95,17 @@ export class ForceLayoutGraph extends PositionedGraph {
 		return result;
 	}
 
+	/* subclasses should expose this */
+	get OPTIONS_CONFIG() {
+		return OPTIONS_CONFIG;
+	}
+
 	/*
 		Provides an optionsConfig. Overrides is a map of optionName --> newName. If newName is '' then that option will not be included.
 	*/
 	optionsConfig(overrides) {
-		return Object.fromEntries(Object.entries(OPTIONS_CONFIG).map(entry => [overrides[entry[0]] == undefined ? entry[0] : overrides[entry[0]], entry[1]]).filter(entry => entry[0] != ''));
+		const config = this.OPTIONS_CONFIG;
+		return Object.fromEntries(Object.entries(config).map(entry => [overrides[entry[0]] == undefined ? entry[0] : overrides[entry[0]], entry[1]]).filter(entry => entry[0] != ''));
 	}
 
 	/*
@@ -108,12 +114,13 @@ export class ForceLayoutGraph extends PositionedGraph {
 		constructor. Pass the same overrides you pasesd to optionsConfig.
 	*/
 	optionsFromConfig(values, overrides) {
+		const config = this.OPTIONS_CONFIG;
 		const reversed = {};
 		for (const [key, value] of Object.entries(overrides)) {
 			if (!value) continue;
 			reversed[value] = key;
 		}
-		return Object.fromEntries(Object.entries(values).map(entry => [reversed[entry[0]] == undefined ? entry[0] : overrides[entry[0]], entry[1]]).filter(entry => OPTIONS_CONFIG[entry[0]]));
+		return Object.fromEntries(Object.entries(values).map(entry => [reversed[entry[0]] == undefined ? entry[0] : overrides[entry[0]], entry[1]]).filter(entry => config[entry[0]]));
 	}
 
 	//_make is the private method that subclasses's static make() functions

@@ -17,6 +17,49 @@ export const CHILD_COUNT_PROPERTY = 'childCount';
 export const CHILD_FACTOR_PROPERTY = 'childFactor';
 export const CHILD_LINK_LIKELIHOOD_PROPERTY = 'childLinkLikelihood';
 
+const OPTIONS_CONFIG = {
+	[LEVELS_PROPERTY]: {
+		example: 3.0,
+		min: 0.0,
+		max: 100.,
+		step: 1.0,
+		optional: true,
+		default: true,
+		backfill: true,
+		description: 'how many layers from default node to go to',
+	},
+	[CHILD_COUNT_PROPERTY]: {
+		example: 5.0,
+		min: 0.0,
+		max: 100.,
+		step: 1.0,
+		optional: true,
+		default: true,
+		backfill: true,
+		description: 'how many children each child should have',
+	},
+	[CHILD_FACTOR_PROPERTY]: {
+		example: 1.0,
+		min: 0.0,
+		max: 3.0,
+		step: 0.001,
+		optional: true,
+		default: true,
+		backfill: true,
+		description: 'at each level, the final childCount is childCount * Math.pow(childFactor, level)',
+	},
+	[CHILD_LINK_LIKELIHOOD_PROPERTY]: {
+		example: 0.0,
+		min: 0.0,
+		max: 1.0,
+		step: 0.001,
+		optional: true,
+		default: true,
+		backfill: true,
+		description: 'How likely the children of each parent node are to have connections amongst themselves. 1.0 is all connected, 0.0 is no connections.',
+	},
+};
+
 /*
 	A BloomGraph is a ForceLayoutGraph where nodes "bloom" out from a center node.
 */
@@ -44,6 +87,10 @@ export class BloomGraph extends ForceLayoutGraph {
 		const result = new BloomGraph();
 		result._make(availableWidth, availableHeight, rnd, options);
 		return result;
+	}
+
+	get OPTIONS_CONFIG() {
+		return {...super.OPTIONS_CONFIG, ...OPTIONS_CONFIG};
 	}
 
 	_makeInner(rnd, options) {
