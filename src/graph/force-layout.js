@@ -14,6 +14,13 @@ import {
 	uniquePairs
 } from '../util.js';
 
+export const EDGE_VALUES_PROPERTY = 'edgeValues';
+export const MIN_NODE_SIZE_PROPERTY = 'minNodeSize';
+export const MAX_NODE_SIZE_PROPERTY = 'maxNodeSize';
+export const NODE_MARGIN_PROPERTY = 'nodeMargin';
+export const NO_COLLIDE_PROPERTY = 'noCollide';
+export const RANDOM_LINK_LIKELIHOOD_PROPERTY = 'randomLinkLikelihood';
+
 /*
 	A ForceLayoutGraph is a PositionedGraph whose x/y properteis are set by
 	running a d3 force graph simulation.
@@ -44,18 +51,18 @@ export class ForceLayoutGraph extends PositionedGraph {
 	_make(availableWidth, availableHeight, rnd, options) {
 		this.availableWidth = availableWidth;
 		this.availableHeight = availableHeight;
-		if (options.minNodeSize != undefined) this.defaultMinNodeSize = options.minNodeSize;
-		if (options.maxNodeSize != undefined) this.defaultMaxNodeSize = options.maxNodeSize;
-		this.defaultNodeMargin = options.nodeMargin === undefined ? 0.1 : options.nodeMargin;
+		if (options[MIN_NODE_SIZE_PROPERTY] != undefined) this.defaultMinNodeSize = options[MIN_NODE_SIZE_PROPERTY];
+		if (options[MAX_NODE_SIZE_PROPERTY] != undefined) this.defaultMaxNodeSize = options[MAX_NODE_SIZE_PROPERTY];
+		this.defaultNodeMargin = options[NODE_MARGIN_PROPERTY] === undefined ? 0.1 : options[NODE_MARGIN_PROPERTY];
 		this.nodeRoundness = 1.0;
 		//Only set the flag to true if provided, so we don't dirty up the properties dict if it wasn't used.
-		if (options.noCollide) this.noCollide = true;
+		if (options[NO_COLLIDE_PROPERTY]) this.noCollide = true;
 
 		//This is the point where subclasses will do the inside portion of their layout
 		this._makeInner(rnd, options);
 
-		const randomLinkLikelihood = options.randomLinkLikelihood === undefined ? 0.0 : options.randomLinkLikelihood;
-		const edgeValues = options.edgeValues || {};
+		const randomLinkLikelihood = options[RANDOM_LINK_LIKELIHOOD_PROPERTY] === undefined ? 0.0 : options[RANDOM_LINK_LIKELIHOOD_PROPERTY];
+		const edgeValues = options[EDGE_VALUES_PROPERTY] || {};
 
 		if (randomLinkLikelihood > 0.0) {
 			const pairs = uniquePairs([...Object.values(this.nodes())]);
