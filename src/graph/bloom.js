@@ -1,5 +1,6 @@
 import {
-	ForceLayoutGraph
+	ForceLayoutGraph,
+	EDGE_VALUES_PROPERTY
 } from './force-layout.js';
 
 import {
@@ -9,6 +10,12 @@ import {
 import {
 	forceRadial
 } from 'd3';
+
+export const LEVELS_PROPERTY = 'levels';
+export const NODE_VALUES_PROPERTY = 'nodeValues';
+export const CHILD_COUNT_PROPERTY = 'childCount';
+export const CHILD_FACTOR_PROPERTY = 'childFactor';
+export const CHILD_LINK_LIKELIHOOD_PROPERTY = 'childLinkLikelihood';
 
 /*
 	A BloomGraph is a ForceLayoutGraph where nodes "bloom" out from a center node.
@@ -40,12 +47,12 @@ export class BloomGraph extends ForceLayoutGraph {
 	}
 
 	_makeInner(rnd, options) {
-		const levels = options.levels === undefined ? 3.0 : options.levels;
-		const baseChildCount = options.childCount === undefined ? 5.0 : options.childCount;
-		const childFactor = options.childFactor === undefined ? 1.0 : options.childFactor;
-		const childLinkLikelihood = options.childLinkLikelihood === undefined ? 0.0 : options.childLinkLikelihood;
-		const nodeValues = options.nodeValues || {};
-		const edgeValues = options.edgeValues || {};
+		const levels = options[LEVELS_PROPERTY] === undefined ? 3.0 : options[LEVELS_PROPERTY];
+		const baseChildCount = options[CHILD_COUNT_PROPERTY] === undefined ? 5.0 : options[CHILD_COUNT_PROPERTY];
+		const childFactor = options[CHILD_FACTOR_PROPERTY] === undefined ? 1.0 : options[CHILD_FACTOR_PROPERTY];
+		const childLinkLikelihood = options[CHILD_LINK_LIKELIHOOD_PROPERTY] === undefined ? 0.0 : options[CHILD_LINK_LIKELIHOOD_PROPERTY];
+		const nodeValues = options[NODE_VALUES_PROPERTY] || {};
+		const edgeValues = options[EDGE_VALUES_PROPERTY] || {};
 
 		const keyNode = this.setNode(this.vendID(), {...nodeValues, level: 0});
 		const nodesToProcess = [keyNode];
