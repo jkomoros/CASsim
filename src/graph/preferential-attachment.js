@@ -17,6 +17,59 @@ export const DISTANT_NODE_BOOST_PROPERTY = 'distantNodeBoost';
 export const EDGE_COUNT_PROPERTY = 'edgeCount';
 export const NODE_VALUES_PROPERTY = 'nodeValues';
 
+const OPTIONS_CONFIG = {
+	[NODE_COUNT_PROPERTY]: {
+		example: 100.0,
+		min: 0.0,
+		max: 10000.,
+		step: 1.0,
+		optional: true,
+		default: true,
+		backfill: true,
+		description: 'How many nodes to create',
+	},
+	[ITERATIONS_PROPERTY]: {
+		example: 100.0,
+		min: 0.0,
+		max: 10000.,
+		step: 1.0,
+		optional: true,
+		default: true,
+		backfill: true,
+		description: 'How many iterations of adding edges we should do',
+	},
+	[NODE_BOOST_PROPERTY]: {
+		example: 0.00001,
+		min: 0.0,
+		max: 1.0,
+		step: 0.000001,
+		optional: true,
+		default: true,
+		backfill: true,
+		description: 'How much to boost every node when choosing which one to add. Higher numbers make the preferential attachment effect weaker.',
+	},
+	[DISTANT_NODE_BOOST_PROPERTY]: {
+		example: 3.0,
+		max: 100,
+		min: 0.00001,
+		step: 0.00001,
+		optional: true,
+		default: true,
+		backfill: true,
+		description: 'How much to boost every node when choosing which one to add. Higher numbers make the preferential attachment effect weaker.',
+	},
+	[EDGE_COUNT_PROPERTY]: {
+		example: 3,
+		min: 0.0,
+		max: 10000.,
+		step: 1.0,
+		optional: true,
+		default: true,
+		backfill: true,
+		description: 'How many edges, on each iteration, we should add',
+	},
+};
+
 /*
 	A PreferentialAttachmentGraph is a ForceLayoutGraph that tries to mimic
 	realistic network topologies with preferential attachment.
@@ -40,6 +93,10 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 		const result = new PreferentialAttachmentGraph();
 		result._make(availableWidth, availableHeight, rnd, options);
 		return result;
+	}
+
+	get OPTIONS_CONFIG() {
+		return {...super.OPTIONS_CONFIG, ...OPTIONS_CONFIG};
 	}
 
 	_makeInner(rnd, options) {
