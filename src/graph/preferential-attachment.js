@@ -46,7 +46,7 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 		const nodeCount = options[NODE_COUNT_PROPERTY] || 100;
 		const iterations = options[ITERATIONS_PROPERTY] || 100;
 		const edgeCount = options[EDGE_COUNT_PROPERTY] || 3;
-		const nodeBoost = options[NODE_BOOST_PROPERTY] || EPSILON; 
+		const nodeBoost = options[NODE_BOOST_PROPERTY] || EPSILON;
 		const distantNodeBoost = options[DISTANT_NODE_BOOST_PROPERTY] || 3;
 		const nodeValues = options[NODE_VALUES_PROPERTY] || {};
 		const edgeValues = options[EDGE_VALUES_PROPERTY] || {};
