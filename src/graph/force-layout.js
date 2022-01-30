@@ -15,6 +15,7 @@ import {
 } from '../util.js';
 
 export const EDGE_VALUES_PROPERTY = 'edgeValues';
+export const NODE_SIZE_PROPERTY = 'nodeSize';
 export const MIN_NODE_SIZE_PROPERTY = 'minNodeSize';
 export const MAX_NODE_SIZE_PROPERTY = 'maxNodeSize';
 export const NODE_MARGIN_PROPERTY = 'nodeMargin';
@@ -154,7 +155,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 			}
 		}
 
-		const nodeSize = options.nodeSize || (() => 1.0);
+		const nodeSize = options[NODE_SIZE_PROPERTY] || (() => 1.0);
 		for (const node of Object.values(this.nodes())) {
 			this.setNodeProperty(node, 'size', nodeSize(node, rnd));
 		}
