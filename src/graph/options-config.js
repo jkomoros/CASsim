@@ -11,10 +11,12 @@ const GRAPH_TYPE_PROPERTY = 'graphType';
 const GRAPH_TYPE_BLOOM = 'bloom';
 const GRAPH_TYPE_PREFERENTIAL_ATTACHMENT = 'preferential-attachment';
 
-const GRAPH_TYPES = {
+export const GRAPH_TYPES = {
 	[GRAPH_TYPE_BLOOM]: BloomGraph,
 	[GRAPH_TYPE_PREFERENTIAL_ATTACHMENT]: PreferentialAttachmentGraph,
 };
+
+const ALL_GRAPH_TYPES = [...Object.keys(GRAPH_TYPES)];
 
 /*
 
@@ -25,7 +27,9 @@ const GRAPH_TYPES = {
 
 */
 
-export const graphOptionsConfig = (overrides = {}) =>{
+//graphTypes is the list of graphTypes to include. May be an array of keys that
+//are in GRAPH_TYPES.
+export const graphOptionsConfig = (overrides = {}, graphTypes = ALL_GRAPH_TYPES) =>{
 	if (overrides[GRAPH_TYPE_PROPERTY] == '') throw new Error(GRAPH_TYPE_PROPERTY + ' may not be omitted');
 	const graphTypeName = overrides[GRAPH_TYPE_PROPERTY] || GRAPH_TYPE_PROPERTY;
 	let result = {
@@ -39,7 +43,9 @@ export const graphOptionsConfig = (overrides = {}) =>{
 		}
 	};
 	const propNameByGraphType = {};
-	for (const [name, typ] of Object.entries(GRAPH_TYPES)) {
+	for (const name of graphTypes) {
+		const typ = GRAPH_TYPES[name];
+		if (!typ) throw new Error("Unknown graphtype: " + name);
 		const options = typ.optionsConfig(overrides);
 		for (const key of Object.keys(options)) {
 			if (!propNameByGraphType[key]) propNameByGraphType[key] = [];
