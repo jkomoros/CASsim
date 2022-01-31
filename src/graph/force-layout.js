@@ -22,6 +22,8 @@ export const NODE_MARGIN_PROPERTY = 'nodeMargin';
 export const NO_COLLIDE_PROPERTY = 'noCollide';
 export const RANDOM_LINK_LIKELIHOOD_PROPERTY = 'randomLinkLikelihood';
 
+export const GRAPH_NAME = 'force';
+
 import {
 	DistributionConfig,
 	FIXED
@@ -106,6 +108,14 @@ export class ForceLayoutGraph extends PositionedGraph {
 		const result = new ForceLayoutGraph();
 		result._make(availableWidth, availableHeight, rnd, options);
 		return result;
+	}
+
+	static get name() {
+		return GRAPH_NAME;
+	}
+
+	static get description() {
+		return 'A generic force directed graph layout';
 	}
 
 	/* subclasses should expose this */

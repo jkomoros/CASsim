@@ -17,6 +17,8 @@ export const CHILD_COUNT_PROPERTY = 'childCount';
 export const CHILD_FACTOR_PROPERTY = 'childFactor';
 export const CHILD_LINK_LIKELIHOOD_PROPERTY = 'childLinkLikelihood';
 
+export const GRAPH_NAME = 'bloom';
+
 const OPTIONS_CONFIG = {
 	[LEVELS_PROPERTY]: {
 		example: 3.0,
@@ -87,6 +89,14 @@ export class BloomGraph extends ForceLayoutGraph {
 		const result = new BloomGraph();
 		result._make(availableWidth, availableHeight, rnd, options);
 		return result;
+	}
+
+	static get name() {
+		return GRAPH_NAME;
+	}
+
+	static get description() {
+		return 'A graph that blooms out of center node out into multiple layers';
 	}
 
 	static get OPTIONS_CONFIG() {

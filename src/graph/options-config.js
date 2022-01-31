@@ -8,12 +8,9 @@ import {
 
 const GRAPH_TYPE_PROPERTY = 'graphType';
 
-const GRAPH_TYPE_BLOOM = 'bloom';
-const GRAPH_TYPE_PREFERENTIAL_ATTACHMENT = 'preferential-attachment';
-
 export const GRAPH_TYPES = {
-	[GRAPH_TYPE_BLOOM]: BloomGraph,
-	[GRAPH_TYPE_PREFERENTIAL_ATTACHMENT]: PreferentialAttachmentGraph,
+	[BloomGraph.name]: BloomGraph,
+	[PreferentialAttachmentGraph.name]: PreferentialAttachmentGraph,
 };
 
 const ALL_GRAPH_TYPES = [...Object.keys(GRAPH_TYPES)];
@@ -34,12 +31,12 @@ export const graphOptionsConfig = (overrides = {}, graphTypes = ALL_GRAPH_TYPES)
 	const graphTypeName = overrides[GRAPH_TYPE_PROPERTY] || GRAPH_TYPE_PROPERTY;
 	let result = {
 		[graphTypeName]: {
-			example: GRAPH_TYPE_BLOOM,
+			example: BloomGraph.name,
 			description: 'The type of graph to use',
 			optional: true,
 			default: true,
 			backfill: true,
-			options: Object.keys(GRAPH_TYPES).map(key => ({value: key})),
+			options: Object.keys(GRAPH_TYPES).map(key => ({value: key, description: GRAPH_TYPES[key].description})),
 		}
 	};
 	const propNameByGraphType = {};
