@@ -25,10 +25,11 @@ const GRAPH_TYPES = {
 
 */
 
-export const graphOptionsConfig = (overrides) =>{
-	//TODO: allow overrides specifying to not change graphType or to rename it
+export const graphOptionsConfig = (overrides = {}) =>{
+	if (overrides[GRAPH_TYPE_PROPERTY] == '') throw new Error(GRAPH_TYPE_PROPERTY + ' may not be omitted');
+	const graphTypeName = overrides[GRAPH_TYPE_PROPERTY] || GRAPH_TYPE_PROPERTY;
 	let result = {
-		[GRAPH_TYPE_PROPERTY]: {
+		[graphTypeName]: {
 			example: GRAPH_TYPE_BLOOM,
 			description: 'The type of graph to use',
 			optional: true,
@@ -52,16 +53,17 @@ export const graphOptionsConfig = (overrides) =>{
 		//Skip things like GRAPH_TYPE_PROPERTY
 		if (!graphTypes) continue;
 		if (graphTypes.length == Object.keys(GRAPH_TYPES).length) continue;
-		value.hide = (parentValues) => graphTypes.every(typ => typ != parentValues[GRAPH_TYPE_PROPERTY]);
+		value.hide = (parentValues) => graphTypes.every(typ => typ != parentValues[graphTypeName]);
 	}
 	return result;
 };
 
 //Pass it the values object and overrides, and it returns a tuple of GraphType( call .make()) and options to pass to it.
-export const graphOptionsFromConfig = (values, overrides) => {
+export const graphOptionsFromConfig = (values, overrides = {}) => {
 	//BloomGraph's static optionsFromConfig is just forcelayoutgraph's
 	const options = BloomGraph.optionsFromConfig(values, overrides);
-	const graphType = values[GRAPH_TYPE_PROPERTY];
+	const graphTypeName = overrides[GRAPH_TYPE_PROPERTY] || GRAPH_TYPE_PROPERTY;
+	const graphType = values[graphTypeName];
 	const constructor = GRAPH_TYPES[graphType];
 	return [constructor, options];
 };
