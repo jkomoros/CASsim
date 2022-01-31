@@ -3,14 +3,6 @@ import {
 } from '../agent-simulator.js';
 
 import {
-	BloomGraph
-}from '../graph/bloom.js';
-
-import {
-	PreferentialAttachmentGraph
-}from '../graph/preferential-attachment.js';
-
-import {
 	DistributionConfig,
 	FIXED
 } from '../distribution.js';
@@ -24,18 +16,13 @@ import {
 	PROFESSIONAL_PEOPLE_EMOJIS
 } from '../emojis.js';
 
-const GRAPH_TYPE_BLOOM = 'bloom';
-const GRAPH_TYPE_PREFERENTIAL_ATTACHMENT = 'preferential-attachment';
+import {
+	graphOptionsConfig,
+	graphOptionsFromConfig
+} from '../graph/options-config.js';
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'luck-surface-area';
-
-const nodePercentage = new DistributionConfig({
-	average: 0.5,
-	spread:0.5,
-	default: true,
-	description: 'The percentage size of nodes to start'
-});
 
 const starterStrength = new DistributionConfig({
 	average: 1.0,
@@ -73,39 +60,18 @@ class AgentDemoSimulator extends AgentSimulator {
 	generateGraph(simOptions, rnd, simWidth, simHeight) {
 		const oS = simOptions.opportunities.structure;
 		const oV = simOptions.opportunities.value;
-		const d = nodePercentage.distribution(oS.size.percentage);
 
-		if (simOptions.graphType == GRAPH_TYPE_PREFERENTIAL_ATTACHMENT) {
-			return PreferentialAttachmentGraph.make(simWidth, simHeight, rnd, {
-				nodeCount: oS.count,
-				iterations: oS.iterations,
-				nodeBoost: oS.nodeBoost,
-				distantNodeBoost: oS.distantNodeBoost,
-				edgeCount: oS.edgeCount,
-				nodeValues: {
-					value: 0.0,
-					valueFalloff: oV.falloff,
-				},
-				minNodeSize: oS.size.min,
-				maxNodeSize: oS.size.max,
-				nodeSize: (node, rnd) => d.sample(rnd)
-			});
-		}
+		let [graphType, graphOptions] = graphOptionsFromConfig(oS);
 
-		return BloomGraph.make(simWidth, simHeight, rnd, {
-			levels: oS.levels,
-			childCount: oS.childCount,
-			childFactor: oS.childFactor,
-			childLinkLikelihood: oS.childLinkLikelihood,
-			randomLinkLikelihood: oS.randomLinkLikelihood,
+		graphOptions = {
+			...graphOptions,
 			nodeValues: {
 				value: 0.0,
 				valueFalloff: oV.falloff,
 			},
-			minNodeSize: oS.size.min,
-			maxNodeSize: oS.size.max,
-			nodeSize: (node, rnd) => d.sample(rnd)
-		});
+		};
+
+		return graphType.make(simWidth, simHeight, rnd, graphOptions);
 	}
 
 	generateAgent(parentAgent, otherAgents, graph, simOptions, rnd) {
@@ -198,24 +164,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	}
 	
 	get optionsConfig() {
-		const forBloom = (parentValues, rootValues) => rootValues.graphType != GRAPH_TYPE_BLOOM;
-		const forPreferentialAttachment = (parentValues, rootValues) => rootValues.graphType != GRAPH_TYPE_PREFERENTIAL_ATTACHMENT;
 		return {
-			graphType: {
-				description: 'The type of graph to use',
-				example: GRAPH_TYPE_BLOOM,
-				options: [
-					{
-						value: GRAPH_TYPE_BLOOM,
-					},
-					{
-						value: GRAPH_TYPE_PREFERENTIAL_ATTACHMENT,
-					}
-				],
-				optional: true,
-				default: true,
-				backfill: true,
-			},
 			agents: {
 				description: 'Configuration related to agents',
 				example: {
@@ -273,142 +222,7 @@ class AgentDemoSimulator extends AgentSimulator {
 						backfill: true,
 					},
 					structure: {
-						example: {
-							count: {
-								example: 100,
-								max: 1000,
-								min: 0,
-								step: 1.0,
-								optional: true,
-								default: true,
-								backfill: true,
-								hide: forPreferentialAttachment,
-								decription: 'Node count'
-							},
-							iterations: {
-								example: 100,
-								max: 1000,
-								min: 0,
-								step: 1.0,
-								optional: true,
-								default: true,
-								backfill: true,
-								hide: forPreferentialAttachment,
-								decription: 'Iterations of edge addition'
-							},
-							nodeBoost: {
-								example: 0.00001,
-								max: 100,
-								min: 0.00001,
-								step: 0.00001,
-								optional: true,
-								default: true,
-								backfill: true,
-								hide: forPreferentialAttachment,
-								decription: 'nodeBoost for preferential attachment'
-							},
-							distantNodeBoost: {
-								example: 3.0,
-								max: 100,
-								min: 0.00001,
-								step: 0.00001,
-								optional: true,
-								default: true,
-								backfill: true,
-								hide: forPreferentialAttachment,
-								decription: 'distantNodeBoost for preferential attachment'
-							},
-							edgeCount: {
-								example: 3.0,
-								max: 100.0,
-								step: 1.0,
-								optional: true,
-								default: true,
-								backfill: true,
-								hide: forPreferentialAttachment,
-								description: 'Number of edges to add per iteration'
-							},
-							levels: {
-								example: 3,
-								max: 100.0,
-								step: 1.0,
-								optional: true,
-								default: true,
-								backfill: true,
-								hide: forBloom,
-								description: 'Number of levels'
-							},
-							childCount: {
-								example: 5.0,
-								max: 100.0,
-								min: 0.0,
-								step: 1.0,
-								optional: true,
-								default: true,
-								backfill: true,
-								hide: forBloom,
-								description: 'Number of children per level to start'
-							},
-							childFactor: {
-								example: 1.0,
-								max: 1.5,
-								min: 0.0,
-								step: 0.01,
-								optional: true,
-								default: true,
-								backfill: true,
-								hide: forBloom,
-								description: 'Child factor'
-							},
-							childLinkLikelihood: {
-								example: 0.0,
-								min: 0.0,
-								max: 1.0,
-								step: 0.01,
-								optional: true,
-								default: true,
-								backfill: true,
-								hide: forBloom,
-								description: 'How likely children of a parent are to have a link between each other',
-							},
-							randomLinkLikelihood: {
-								example: 0.0,
-								min: 0.0,
-								max: 1.0,
-								step: 0.001,
-								optional: true,
-								default: true,
-								backfill: true,
-								description: 'How likely two random nodes are to have a link between each other. This gets extremely strong even for small values',
-							},
-							size: {
-								example: {
-									max: {
-										example: 50.0,
-										max: 500.0,
-										step: 1.0,
-										default: true,
-										backfill: true,
-										optional: true,
-										description: 'The max rendered size of an opportunity'
-									},
-									min: {
-										example: 5.0,
-										max: 500.0,
-										step: 1.0,
-										default: true,
-										backfill: true,
-										optional: true,
-										description: 'The max rendered size of an opportunity'
-									},
-									percentage: nodePercentage.optionsConfig,
-								},
-								optional: true,
-								default: true,
-								backfill: true,
-								description: 'Configuration for the size of the nodes'
-							}
-						},
+						example: graphOptionsConfig(),
 						optional: true,
 						default: true,
 						backfill: true,
