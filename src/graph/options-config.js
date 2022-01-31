@@ -16,6 +16,15 @@ const GRAPH_TYPES = {
 	[GRAPH_TYPE_PREFERENTIAL_ATTACHMENT]: PreferentialAttachmentGraph,
 };
 
+/*
+
+	graphOptionsConfig and graphOptionsFromConfig are useful when you want the
+	user of the simulation to be able to configure different graph types. It
+	returns an optionsConfig that the user can use to change the graph type
+	structure, and graphOptionsFromConfig can be used to generate the graph.
+
+*/
+
 export const graphOptionsConfig = (overrides) =>{
 	//TODO: allow overrides specifying to not change graphType or to rename it
 	let result = {
