@@ -38,7 +38,8 @@ export const graphOptionsConfig = (overrides) =>{
 export const graphOptionsFromConfig = (values, overrides) => {
 	//BloomGraph's static optionsFromConfig is just forcelayoutgraph's
 	const options = BloomGraph.optionsFromConfig(values, overrides);
-	const constructor = GRAPH_TYPES[options[GRAPH_TYPE_PROPERTY]];
+	const graphType = values[GRAPH_TYPE_PROPERTY];
+	const constructor = GRAPH_TYPES[graphType];
 	return [constructor, options];
 };
 
