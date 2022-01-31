@@ -90,7 +90,7 @@ export class BloomGraph extends ForceLayoutGraph {
 	}
 
 	static get OPTIONS_CONFIG() {
-		return {...ForceLayoutGraph.OPTIONS_CONFIG, ...OPTIONS_CONFIG};
+		return {...OPTIONS_CONFIG, ...ForceLayoutGraph.OPTIONS_CONFIG};
 	}
 
 	_makeInner(rnd, options) {
