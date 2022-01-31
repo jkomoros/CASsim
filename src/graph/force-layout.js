@@ -116,7 +116,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 	/*
 		Provides an optionsConfig. Overrides is a map of optionName --> newName. If newName is '' then that option will not be included.
 	*/
-	static optionsConfig(overrides) {
+	static optionsConfig(overrides = {}) {
 		const config = this.OPTIONS_CONFIG;
 		return Object.fromEntries(Object.entries(config).map(entry => [overrides[entry[0]] == undefined ? entry[0] : overrides[entry[0]], entry[1]]).filter(entry => entry[0] != ''));
 	}
@@ -124,7 +124,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 	/*
 		Given the values option based on optionsConfig, pass back to this to get the options values to pass to constructor.
 	*/
-	static optionsFromConfig(values, overrides) {
+	static optionsFromConfig(values, overrides = {}) {
 		const config = this.OPTIONS_CONFIG;
 		const reversed = {};
 		for (const [key, value] of Object.entries(overrides)) {
