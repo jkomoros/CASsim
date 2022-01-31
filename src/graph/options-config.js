@@ -8,6 +8,8 @@ import {
 
 const GRAPH_TYPE_PROPERTY = 'graphType';
 
+//When adding new graph types, make sure they have a .name and .description
+//static getter.
 export const GRAPH_TYPES = {
 	[BloomGraph.name]: BloomGraph,
 	[PreferentialAttachmentGraph.name]: PreferentialAttachmentGraph,
