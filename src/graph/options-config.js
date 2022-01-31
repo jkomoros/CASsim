@@ -28,8 +28,22 @@ export const graphOptionsConfig = (overrides) =>{
 			options: Object.keys(GRAPH_TYPES).map(key => ({value: key})),
 		}
 	};
-	for (const typ of Object.values(GRAPH_TYPES)) {
-		result = {...result, ...typ.optionsConfig(overrides)};
+	const propNameByGraphType = {};
+	for (const [name, typ] of Object.entries(GRAPH_TYPES)) {
+		const options = typ.optionsConfig(overrides);
+		for (const key of Object.keys(options)) {
+			if (!propNameByGraphType[key]) propNameByGraphType[key] = [];
+			propNameByGraphType[key].push(name);
+		}
+		result = {...result, ...options};
+	}
+	//Generate hide methods to hide properties that are not used in this graphType.
+	for (const [key, value] of Object.entries(result)) {
+		const graphTypes = propNameByGraphType[key];
+		//Skip things like GRAPH_TYPE_PROPERTY
+		if (!graphTypes) continue;
+		if (graphTypes.length == Object.keys(GRAPH_TYPES).length) continue;
+		value.hide = (parentValues) => graphTypes.every(typ => typ != parentValues[GRAPH_TYPE_PROPERTY]);
 	}
 	return result;
 };
