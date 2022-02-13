@@ -274,7 +274,7 @@ class SimView extends connect(store)(PageViewElement) {
 		if (!this._dialogOpen) return html``;
 		if (this._dialogType == DIALOG_TYPE_JSON) return html`<textarea readonly style='height:100%; width:100%'>${JSON.stringify(this._configData, '', '\t')}</textarea>`;
 		return html`
-			${this._dialogExtras.options.map((item, index) => html`<div class='row'><input id=${item.value} type='radio' name='add' .checked=${index == 0} .value=${item.value} .path=${item.path}><label for=${item.value}><strong>${item.value}</strong>${item.description ? html`: ${item.description}` : ''}</label></div>`)}
+			${this._dialogExtras.options.map((item, index) => html`<div class='row'><input id=${item.value} type='radio' name='add' .checked=${index == 0} .disabled=${item.disabled} .value=${item.value} .path=${item.path}><label for=${item.value}><strong>${item.value}</strong>${item.description ? html`: ${item.description}` : ''}</label></div>`)}
 			<div class='row right'><button class='round' @click=${this._handleAddFieldButtonClicked}>${PLUS_ICON}</button></div>
 			`;
 	}
@@ -360,7 +360,7 @@ class SimView extends connect(store)(PageViewElement) {
 		const eles = this.shadowRoot.querySelectorAll('input[type=radio]');
 		let selectedEle = null;
 		for (const ele of eles) {
-			if (ele.checked) {
+			if (ele.checked && !ele.disabled) {
 				selectedEle = ele;
 				break;
 			}

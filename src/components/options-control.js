@@ -128,12 +128,12 @@ class OptionsControl extends LitElement {
 		`;
 	}
 
-	_nulledEntries() {
+	_nulledEntries(includeHidden) {
 		const config = this.config || {};
 		const nonNullValue = this.value || {};
 		if (!config.example) return [];
 		if (Array.isArray(config.example)) return [];
-		return Object.entries(config.example).filter(entry => entry[1].optional && nonNullValue[entry[0]] == undefined && !doHide(entry[1], nonNullValue, this.rootValue));
+		return Object.entries(config.example).filter(entry => entry[1].optional && nonNullValue[entry[0]] == undefined && (includeHidden ? true : !doHide(entry[1], nonNullValue, this.rootValue)));
 	}
 
 	get _rootValue() {
@@ -206,13 +206,14 @@ class OptionsControl extends LitElement {
 
 	_handleAddNulledClicked() {
 		const example = this.config.example;
-		const nulledEntries = this._nulledEntries();
+		const nulledEntries = this._nulledEntries(true);
 
 		const extras = {
 			options: nulledEntries.map(entry => ({
 				path: this.path ? this.path + '.' + entry[0] : entry[0],
 				value: entry[0],
 				description: example[entry[0]].description || '',
+				disabled: doHide(example[entry[0]], this.value || {}, this.rootValue),
 			}))
 		};
 
