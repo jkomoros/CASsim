@@ -133,7 +133,7 @@ class OptionsControl extends LitElement {
 		const nonNullValue = this.value || {};
 		if (!config.example) return [];
 		if (Array.isArray(config.example)) return [];
-		return Object.entries(config.example).filter(entry => entry[1].optional && nonNullValue[entry[0]] == undefined);
+		return Object.entries(config.example).filter(entry => entry[1].optional && nonNullValue[entry[0]] == undefined && !doHide(entry[1], nonNullValue, this.rootValue));
 	}
 
 	get _rootValue() {
