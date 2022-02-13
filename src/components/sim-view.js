@@ -273,8 +273,14 @@ class SimView extends connect(store)(PageViewElement) {
 	_dialogInner() {
 		if (!this._dialogOpen) return html``;
 		if (this._dialogType == DIALOG_TYPE_JSON) return html`<textarea readonly style='height:100%; width:100%'>${JSON.stringify(this._configData, '', '\t')}</textarea>`;
+		let selectedIndex = 0;
+		for (const [index, item] of this._dialogExtras.options.entries()) {
+			if (item.disabled) continue;
+			selectedIndex = index;
+			break;
+		}
 		return html`
-			${this._dialogExtras.options.map((item, index) => html`<div class='row'><input id=${item.value} type='radio' name='add' .checked=${index == 0} .disabled=${item.disabled} .value=${item.value} .path=${item.path}><label for=${item.value}><strong>${item.value}</strong>${item.description ? html`: ${item.description}` : ''}</label></div>`)}
+			${this._dialogExtras.options.map((item, index) => html`<div class='row'><input id=${item.value} type='radio' name='add' .checked=${index == selectedIndex} .disabled=${item.disabled} .value=${item.value} .path=${item.path}><label for=${item.value}><strong>${item.value}</strong>${item.description ? html`: ${item.description}` : ''}</label></div>`)}
 			<div class='row right'><button class='round' @click=${this._handleAddFieldButtonClicked}>${PLUS_ICON}</button></div>
 			`;
 	}
