@@ -1,6 +1,6 @@
 import {
-	prng_alea
-} from 'esm-seedrandom';
+	makeSeededRandom
+} from './random.js';
 
 import {
 	deepFreeze,
@@ -285,10 +285,7 @@ const SimulationRun = class {
 	}
 };
 
-const makeSeededRandom = seed => {
-	const rnd = prng_alea(seed);
-	return () => rnd.quick();
-};
+
 
 export const Simulation = class {
 	constructor(config, index, unmodifiedConfig) {
