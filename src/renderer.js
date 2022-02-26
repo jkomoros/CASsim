@@ -13,6 +13,10 @@ import {
 	gradient
 } from './color.js';
 
+import {
+	makeSeededRandom
+} from './random.js';
+
 export class BaseRenderer extends LitElement {
 	static get properties() {
 		return {
@@ -138,7 +142,52 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		return 1.0;
 	}
 
+	agentX(agent) {
+		if (agent.x !== undefined) return agent.x;
+		const rnd = makeSeededRandom(agent.id);
+		return this.width * rnd();
+	}
+
+	agentY(agent) {
+		if (agent.y !== undefined) return agent.y;
+		const rnd = makeSeededRandom(agent.id);
+		return this.height * rnd();
+	}
+
+	agentHeight(agent) {
+		return agent.height === undefined ? this.agentSize(agent) : agent.height;
+	}
+
+	agentWidth(agent) {
+		return agent.width === undefined ? this.agentSize(agent) : agent.width;
+	}
+
+	//eslint-disable-next-line no-unused-vars
+	agentSizeMultiplier(agent) {
+		return 1.0;
+	}
+
+	agentDefaultMinNodeSize() {
+		return 10;
+	}
+
+	agentDefaultMaxNodeSize() {
+		return 10;
+	}
+
+	agentSize(agent) {
+		return (this.agentDefaultMaxNodeSize() - this.agentDefaultMinNodeSize()) * this.agentSizeMultiplier(agent) + this.agentDefaultMinNodeSize();
+	}
+
 	agentPosition(agent, graph) {
+		if (!graph) {
+			return {
+				x: this.agentX(agent),
+				y: this.agentY(agent),
+				width: this.agentWidth(agent),
+				height: this.agentHeight(agent),
+			};
+		}
 		const nodeID = this.agentNodeID(agent);
 		return graph.nodePosition(nodeID);
 	}
