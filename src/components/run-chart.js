@@ -1,4 +1,4 @@
-import { LitElement, html, css, svg } from "lit-element";
+import { LitElement, html, css, svg } from 'lit';
 import { SharedStyles } from "./shared-styles.js";
 
 import {

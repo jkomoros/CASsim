@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-import { LitElement, html, css} from "lit-element";
+import { LitElement, html, css} from 'lit';
 
 import {
 	defaultValueForConfig,

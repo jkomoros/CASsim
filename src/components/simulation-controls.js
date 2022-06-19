@@ -1,4 +1,4 @@
-import { LitElement, html, css} from "lit-element";
+import { LitElement, html, css} from 'lit';
 import { connect } from "pwa-helpers/connect-mixin.js";
 
 // This element is connected to the Redux store.

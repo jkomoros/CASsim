@@ -159,7 +159,7 @@ export default AgentDemoSimulator;
 
 import { PositionedGraphRenderer } from '../renderer.js';
 
-import { css } from "lit-element";
+import { css } from 'lit';
 
 class AgentDemoRenderer extends PositionedGraphRenderer {
 	static get styles() {

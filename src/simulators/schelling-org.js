@@ -1154,7 +1154,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 export default SchellingOrgSimulator;
 
-import { LitElement, html, css, svg} from "lit-element";
+import { LitElement, html, css, svg} from 'lit';
 
 const COLLABORATOR_CIRCLE_FACTOR = 7;
 

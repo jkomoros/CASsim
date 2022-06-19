@@ -1,9 +1,9 @@
 
-import { LitElement, html, css, svg} from "lit-element";
+import { LitElement, html, css, svg} from 'lit';
 
-import { repeat } from 'lit-html/directives/repeat';
+import { repeat } from 'lit/directives/repeat.js';
 
-import { styleMap } from "lit-html/directives/style-map.js";
+import { styleMap } from 'lit/directives/style-map.js';
 
 import {
 	inflateGraph,

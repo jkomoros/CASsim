@@ -1,6 +1,6 @@
-import { LitElement, html, css } from "lit-element";
+import { LitElement, html, css } from 'lit';
 import { memoizedRenderer } from "../util.js";
-import { styleMap } from "lit-html/directives/style-map.js";
+import { styleMap } from 'lit/directives/style-map.js';
 
 const DEFAULT_FONT_SIZE_PX_HEIGHT = 16;
 

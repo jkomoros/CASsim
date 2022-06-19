@@ -100,7 +100,7 @@ class DiceRollDemoSimulator extends BaseSimulator {
 export default DiceRollDemoSimulator;
 
 import { BaseRenderer } from '../renderer.js';
-import { html, css } from "lit-element";
+import { html, css } from 'lit';
 
 class DiceRollDemoRenderer extends BaseRenderer {
 

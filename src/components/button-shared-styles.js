@@ -1,4 +1,4 @@
-import { css, html } from 'lit-element';
+import { css, html } from 'lit';
 import { HELP_ICON } from './my-icons.js';
 
 //if you use help, also make sure to include ButtonSharedStyles

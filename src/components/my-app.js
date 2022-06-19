@@ -1,4 +1,4 @@
-import { LitElement, html, css } from "lit-element";
+import { LitElement, html, css } from 'lit';
 import { connect } from "pwa-helpers/connect-mixin.js";
 import { installMediaQueryWatcher } from "pwa-helpers/media-query.js";
 import { installOfflineWatcher } from "pwa-helpers/network.js";

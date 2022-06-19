@@ -1,4 +1,4 @@
-import { LitElement, html, css } from "lit-element";
+import { LitElement, html, css } from 'lit';
 import { SharedStyles } from "./shared-styles.js";
 
 //This number is the point at which compact versions of runSummary should have no-border.

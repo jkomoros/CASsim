@@ -1,4 +1,4 @@
-import { html, css} from "lit-element";
+import { html, css} from 'lit';
 import { PageViewElement } from "./page-view-element.js";
 import { connect } from "pwa-helpers/connect-mixin.js";
 
