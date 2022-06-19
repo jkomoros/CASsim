@@ -15,14 +15,14 @@ import { PageViewElement } from './page-view-element.js';
 import { SharedStyles } from './shared-styles.js';
 
 class MyView404 extends PageViewElement {
-  static get styles() {
-    return [
-      SharedStyles
-    ];
-  }
+	static get styles() {
+		return [
+			SharedStyles
+		];
+	}
 
-  render() {
-    return html`
+	render() {
+		return html`
       <section>
         <h2>Oops! You hit a 404</h2>
         <p>
@@ -30,8 +30,8 @@ class MyView404 extends PageViewElement {
           <a href="/">home</a> and try again?
         </p>
       </section>
-    `
-  }
+    `;
+	}
 }
 
 window.customElements.define('my-view404', MyView404);
