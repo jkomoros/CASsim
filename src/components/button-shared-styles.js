@@ -3,7 +3,7 @@ import { HELP_ICON } from './my-icons.js';
 
 //if you use help, also make sure to include ButtonSharedStyles
 export const help = (message, disabled = false) => {
-	return html`<button class='small help' title="${message}" .disabled=${disabled}>${HELP_ICON}</span>`;
+	return html`<button class='small help' title="${message}" .disabled=${disabled}>${HELP_ICON}</button>`;
 };
 
 export const ButtonSharedStyles = css`
