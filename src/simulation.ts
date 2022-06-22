@@ -289,7 +289,7 @@ class SimulationRun {
 			try {
 				this._simulation.simulator.frameValidator(result);
 			} catch(err) {
-				throw new Error('Couldn\'t generate frame at index ' + this.frameIndex + ' problem: ' + err);
+				throw new Error('Couldn\'t generate frame at index ' + frameIndex + ' problem: ' + err);
 			}
 			//By freezing this, we'll make sure that others don't accidentally mutate a property in an old frame when creating a later one.
 			//Because modules are `use strict`, trying to modify one will give a descriptive TypeError instead of failing silently.
