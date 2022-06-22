@@ -37,7 +37,7 @@ const ALLOWED_BEHAVIOR_NAMES = {
 };
 
 import {
-	OptionsConfig
+	OptionsConfig, OptionsConfigMap
 } from './types.js';
 
 import {
@@ -61,6 +61,10 @@ export const optionsConfigValidator = (config : OptionsConfig) : string => {
 	return optionsLeafValidator({
 		example: config,
 	});
+};
+
+export const configIsMap = (config : OptionsConfig | OptionsConfigMap) : config is OptionsConfigMap => {
+	return config[EXAMPLE_PROPERTY_NAME] == undefined;
 };
 
 const shortNameForOptionsLeaf = (leaf) => {
