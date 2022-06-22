@@ -306,6 +306,10 @@ export type GraphExplorationNodeTester = (node : GraphNodeValues, path : GraphEd
 
 export type GraphExplorationEdgeScorer = (edge : GraphEdge) => number;
 
+export type OptionsOverridesMap = {
+    [optionName : string] : string;
+};
+
 export type ForceLayoutGraphOptions = {
     // edgeValues: (default: {}) - the starter values for an edge
     edgeValues? : Partial<GraphEdge>;

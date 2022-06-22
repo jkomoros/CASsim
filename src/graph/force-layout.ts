@@ -31,7 +31,12 @@ import {
 
 import {
 	ForceLayoutGraphOptions,
+	GraphNodeValues,
 	GraphType,
+	OptionsConfig,
+	OptionsConfigMap,
+	OptionsOverridesMap,
+	OptionsValues,
 	RandomGenerator
 } from '../types.js';
 
@@ -125,14 +130,14 @@ export class ForceLayoutGraph extends PositionedGraph {
 	}
 
 	/* subclasses should expose this */
-	static get OPTIONS_CONFIG() {
+	static get OPTIONS_CONFIG() : OptionsConfigMap {
 		return OPTIONS_CONFIG;
 	}
 
 	/*
 		Provides an optionsConfig. Overrides is a map of optionName --> newName. If newName is '' then that option will not be included.
 	*/
-	static optionsConfig(overrides = {}) {
+	static optionsConfig(overrides : OptionsOverridesMap = {}) : OptionsConfig {
 		const config = this.OPTIONS_CONFIG;
 		return Object.fromEntries(Object.entries(config).map(entry => [overrides[entry[0]] == undefined ? entry[0] : overrides[entry[0]], entry[1]]).filter(entry => entry[0] != ''));
 	}
@@ -140,17 +145,17 @@ export class ForceLayoutGraph extends PositionedGraph {
 	/*
 		Given the values option based on optionsConfig, pass back to this to get the options values to pass to constructor.
 	*/
-	static optionsFromConfig(values, overrides = {}) {
+	static optionsFromConfig(values : OptionsValues, overrides : OptionsOverridesMap = {}) : ForceLayoutGraphOptions {
 		const config = this.OPTIONS_CONFIG;
 		const reversed = {};
 		for (const [key, value] of Object.entries(overrides)) {
 			if (!value) continue;
 			reversed[value] = key;
 		}
-		const result = Object.fromEntries(Object.entries(values).map(entry => [reversed[entry[0]] == undefined ? entry[0] : overrides[entry[0]], entry[1]]).filter(entry => config[entry[0]]));
+		const result = Object.fromEntries(Object.entries(values).map(entry => [reversed[entry[0]] == undefined ? entry[0] : overrides[entry[0]], entry[1]]).filter(entry => config[entry[0] as string]));
 		if (result[NODE_SIZE_PROPERTY]) {
 			const distribution = nodePercentage.distribution(result[NODE_SIZE_PROPERTY]);
-			result[NODE_SIZE_PROPERTY] = (node, rnd) => distribution.sample(rnd);
+			result[NODE_SIZE_PROPERTY] = (_node : GraphNodeValues, rnd : RandomGenerator) => distribution.sample(rnd);
 		}
 		return result;
 	}
