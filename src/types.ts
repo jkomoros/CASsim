@@ -250,7 +250,10 @@ export type GraphEdgeID = string;
 
 export type GraphNodeIdentifier = GraphNodeID | GraphNode | GraphNodeID[];
 
-export type GraphValues = object;
+export type GraphValues = {
+    id : GraphNodeID;
+    [key : string] : unknown;
+};
 
 export type GraphNode = {
     id: GraphNodeID,

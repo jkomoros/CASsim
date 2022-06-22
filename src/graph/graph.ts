@@ -88,18 +88,18 @@ export class Graph {
 		return packedEdgeID.split(Graph.ID_DELIMITER + Graph.ID_DELIMITER).map(id => Graph.unpackID(id));
 	}
 
-	get graphType() {
+	get graphType() : GraphType {
 		return this._data.graphType;
 	}
 
 	//Whether modifications have been made since the object was created or saved
 	//was called.
-	get changesMade() {
+	get changesMade() : boolean {
 		return this._nodeChangesMade || this._propertyChangesMade;
 	}
 
 	//Should be called when the backing store has been saved.
-	saved() {
+	saved() : void {
 		this._nodeChangesMade = false;
 		this._propertyChangesMade = false;
 	}
