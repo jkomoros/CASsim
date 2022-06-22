@@ -58,7 +58,7 @@ export const randomString = (length : number, rnd : RandomGenerator = Math.rando
 	return text;
 };
 
-export const shuffleInPlace = (array, rnd : RandomGenerator = Math.random) => {
+export function shuffleInPlace<T>(array : T[], rnd : RandomGenerator = Math.random) : T[] {
 	let currentIndex = array.length;
 	let randomIndex;
 
@@ -70,7 +70,7 @@ export const shuffleInPlace = (array, rnd : RandomGenerator = Math.random) => {
 	}
   
 	return array;
-};
+}
 
 export const idToTitle = (id = '') => {
 	return id.split('_').join('-').split('-').map(w => (w[0] || '').toUpperCase() + w.substr(1).toLowerCase()).join(' ');
