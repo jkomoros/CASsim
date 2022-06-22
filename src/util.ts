@@ -50,7 +50,7 @@ const randomCharSetNumbers = '0123456789';
 const randomCharSetLetters = 'abcdef';
 const randomCharSet = randomCharSetNumbers + randomCharSetLetters;
 
-export const randomString = (length, rnd = Math.random, charSet = randomCharSet) => {
+export const randomString = (length : number, rnd : RandomGenerator = Math.random, charSet : string = randomCharSet) : string => {
 	let text = '';
 	for (let i = 0; i < length; i++) {
 		text += charSet.charAt(Math.floor(rnd() * charSet.length));
@@ -58,7 +58,7 @@ export const randomString = (length, rnd = Math.random, charSet = randomCharSet)
 	return text;
 };
 
-export const shuffleInPlace = (array, rnd = Math.random) => {
+export const shuffleInPlace = (array, rnd : RandomGenerator = Math.random) => {
 	let currentIndex = array.length;
 	let randomIndex;
 
