@@ -381,12 +381,12 @@ export class Graph {
 		this.setEdge(fromIdentifier, toIdentifier, values);
 	}
 
-	setBidirectionalEdgeProperties(fromIdentifier, toIdentifier, values) {
+	setBidirectionalEdgeProperties(fromIdentifier : GraphNodeIdentifier, toIdentifier : GraphNodeIdentifier, values : {[key : string] : unknown}) : void {
 		this.setEdgeProperties(fromIdentifier, toIdentifier, values);
 		this.setEdgeProperties(toIdentifier, fromIdentifier, values);
 	}
 
-	setEdgeProperties(fromIdentifier, toIdentifier, values) {
+	setEdgeProperties(fromIdentifier : GraphNodeIdentifier, toIdentifier : GraphNodeIdentifier, values : {[key : string] : unknown}) : void {
 		for (const [key, value] of Object.entries(values)) {
 			this.setEdgeProperty(fromIdentifier, toIdentifier, key, value);
 		}
