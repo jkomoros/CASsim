@@ -1,5 +1,6 @@
 import {
-	ForceLayoutGraph
+	ForceLayoutGraph,
+	LayoutSimulation
 } from './force-layout.js';
 
 import {
@@ -12,6 +13,7 @@ import {
 
 import {
 	BloomGraphOptions,
+	GraphEdge,
 	GraphNodeValues,
 	OptionsConfigMap,
 	RandomGenerator
@@ -67,6 +69,10 @@ const OPTIONS_CONFIG = {
 };
 
 type BloomGraphNodeValues = GraphNodeValues & {
+	level : number;
+}
+
+type BloomGraphEdge = GraphEdge & {
 	level : number;
 }
 
@@ -140,7 +146,7 @@ export class BloomGraph extends ForceLayoutGraph {
 		}
 	}
 
-	_initialLayout(rnd, options) {
+	override _initialLayout(_rnd : RandomGenerator, options : BloomGraphOptions) : void {
 		const levels = options.levels === undefined ? 3.0 : options.levels;
 
 		//Place nodes radially around the circle in starting positions (instead
@@ -171,20 +177,23 @@ export class BloomGraph extends ForceLayoutGraph {
 		}
 	}
 
-	_makeRandomEdge(baseEdgeValues, fromNode, toNode) {
+	override _makeRandomEdge(baseEdgeValues: Partial<GraphEdge>, fromNode : GraphNodeValues, toNode : GraphNodeValues) : Partial<GraphEdge> {
+		const fromNodeBloom = fromNode as BloomGraphNodeValues;
+		const toNodeBloom = toNode as BloomGraphNodeValues;
 		return {
 			...super._makeRandomEdge(baseEdgeValues, fromNode, toNode),
-			level: Math.min(fromNode.level, toNode.level)
+			level: Math.min(fromNodeBloom.level, toNodeBloom.level)
 		};
 	}
 
-	distanceForEdge(edge) {
+	override distanceForEdge(edge : GraphEdge) : number {
 		//TODO: shouldn't this be a property or something?
 		const baseSize = 10;
-		return baseSize * 2 * (edge.level + 1);
+		const edgeBloom = edge as BloomGraphEdge;
+		return baseSize * 2 * (edgeBloom.level + 1);
 	}
 
-	installExtraForces(simulation) {
+	override installExtraForces(simulation : LayoutSimulation) {
 		const width = this.availableWidth;
 		const height = this.availableHeight;
 		simulation.force('radial', forceRadial().strength(() => 0.5).radius(d => d.levelRadius).x(width / 2).y(height / 2));

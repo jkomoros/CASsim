@@ -112,7 +112,7 @@ type SimulationEdgeDatum = {
 	value : number;
 };
 
-type LayoutSimulation = d3.Simulation<SimulationNodeDatum,SimulationEdgeDatum>;
+export type LayoutSimulation = d3.Simulation<SimulationNodeDatum,SimulationEdgeDatum>;
 
 /*
 	A ForceLayoutGraph is a PositionedGraph whose x/y properteis are set by
