@@ -55,7 +55,7 @@ export interface RawSimulationConfig {
 	sim: SimulatorType;
 	//The options to feed to the simulator. These will be different shapes depending on the value of "sim". If this is missing or null, then the simulator's default simOptions will be used. See each specific simulator's documentation for the specific config shapes it expects.
 	simOptions? : SimOptions;
-};
+}
 
 export interface SimulationConfig extends RawSimulationConfig {
     //An expanded SimulationConfig always has a simOptions
