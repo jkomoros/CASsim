@@ -1,3 +1,7 @@
+import {
+	RandomGenerator
+} from './types.js';
+
 /*
 	Urn is a class that selects a random item out of a distribution, where each
 	item can have a different likelihood of being drawn. The "count" for each
@@ -6,7 +10,7 @@
 */
 export class Urn<T> {
 
-	_rnd : () => number;
+	_rnd : RandomGenerator;
 	_sum : number;
 	_items : Map<T,number>;
 
