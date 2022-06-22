@@ -83,7 +83,7 @@ export class BaseRenderer extends LitElement {
 @customElement('positioned-graph-renderer')
 export class PositionedGraphRenderer extends BaseRenderer {
 	
-	static get styles() {
+	static override get styles() {
 		return [
 			BaseRenderer.styles,
 			css`
