@@ -185,6 +185,43 @@ export type PlayType = string;
 //TODO: tigthen
 export type DialogType = string;
 
+//TODO: tighten;
+export type DistributionType = string;
+
+//TODO: tighten
+export type RoundType = string;
+
+export type DistributionOptions = {
+	// - types: an array of allowed distribution types (e.g. LINEAR, MIN_MAX). If not provided, will default to [type]. If neith types nor type is provided, all distribution types are allowed.
+    types : DistributionType[];
+    // - distribution: the default type
+    distribution : DistributionType;
+	// - average: the default average value if type = LINEAR
+    average? : number;
+	// - spread: the spread value if type = LINEAR
+    spread? : number;
+	// - min: the lower value if type = MIN_MAX. Defaults to limitMin.
+    min? : number;
+	// - max: the upper value if type = MIN_MAX. Defaults to limitMax.
+    max? : number;
+	// - limitMin: the clip value. If the final sample is below this value it will be clipped to this. Defaults to 0.0.
+    limitMin? : number;
+	// - limitMax: the clip value. If the final sample is abvove this value it will be clipped to this. Defaults to 1.0.
+    limitMax? : number;
+	// - step: defaults to 0.01
+    step? : number;
+	// - round: if the final generated number should be rounded. legal values are '', 'round', floor'.
+    round? : RoundType;
+	// - default: if ture, then the optionsConfig for the overall distributionObject will have default set to true.
+    default? : boolean;
+	// - description: A description for the overall value
+    description? : string;
+	// - shortName: the shortName to be returned in optionsConfig.
+    shortName? : string;
+	// - name: a name for the overall value
+    name? : string;
+}
+
 export type AppState = {
     page : string;
     pageExtra : string;
