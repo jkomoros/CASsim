@@ -1,12 +1,23 @@
 import {
-	RectangleGraphOptions, RowCol
+	GraphNodeValues,
+	RectangleGraphOptions,
+	RowCol
 } from '../types.js';
 
 import {
 	PositionedGraph
 } from './positioned.js';
 
+interface RectangleGraphNodeValues extends Partial<GraphNodeValues> {
+	row : number;
+	col : number;
+}
+
 export class RectangleGraph extends PositionedGraph {
+
+	_cachedNodeHeight : number;
+	_cachedNodeWidth : number;
+	_cachedNodeSize : number;
 
 	static identifier(row : number, col : number) : RowCol {
 		return [row, col];
@@ -76,7 +87,7 @@ export class RectangleGraph extends PositionedGraph {
 		if (options.rectangular) result.rectangular = true;
 		for (let r = 0; r < rows; r++) {
 			for (let c = 0; c < cols; c++) {
-				const values = {...starterValues, row: r, col: c};
+				const values : RectangleGraphNodeValues = {...starterValues, row: r, col: c};
 				const identifier = RectangleGraph.identifier(r, c);
 				result.setNode(identifier, values);
 				if (!options.noUp && !options.noVertical && !options.noRightAngle) {
@@ -148,32 +159,32 @@ export class RectangleGraph extends PositionedGraph {
 	}
 
 	override get width() : number {
-		return ((this.nodeWidth * (1.0 + this.xNodeMargin) * this.cols) - this.xNodeMargin);
+		return ((this.nodeWidth() * (1.0 + this.xNodeMargin) * this.cols) - this.xNodeMargin);
 	}
 
 	override get height() : number {
-		return ((this.nodeHeight * (1.0 + this.yNodeMargin) * this.rows) - this.yNodeMargin);
+		return ((this.nodeHeight() * (1.0 + this.yNodeMargin) * this.rows) - this.yNodeMargin);
 	}
 
-	get _nodeHeight() {
+	get _nodeHeight() : number {
 		if(this._cachedNodeHeight === undefined) {
 			this._cachedNodeHeight = this.availableHeight / (this.rows * (1.0 + this.yNodeMargin) - this.yNodeMargin);
 		}
 		return this._cachedNodeHeight;
 	}
 
-	get nodeHeight() {
+	override nodeHeight() : number {
 		return this.rectangular ? this._nodeHeight : this._nodeSize;
 	}
 
-	get _nodeWidth() {
+	get _nodeWidth() : number {
 		if(this._cachedNodeWidth === undefined) {
 			this._cachedNodeWidth = this.availableWidth / (this.cols * (1.0 + this.xNodeMargin) - this.xNodeMargin);
 		}
 		return this._cachedNodeWidth;
 	}
 
-	get nodeWidth() {
+	override nodeWidth() {
 		return this.rectangular ? this._nodeWidth : this._nodeSize;
 	}
 
@@ -185,10 +196,10 @@ export class RectangleGraph extends PositionedGraph {
 	}
 
 	//We return width and height directly.
-	calculateNodePosition(identifier) {
-		const node = this.node(identifier);
-		const nodeWidth = this.nodeWidth;
-		const nodeHeight = this.nodeHeight;
+	override calculateNodePosition(identifier) {
+		const node = this.node(identifier) as RectangleGraphNodeValues;
+		const nodeWidth = this.nodeWidth();
+		const nodeHeight = this.nodeHeight();
 		return {
 			x: (node.col * (nodeWidth * (1.0 + this.xNodeMargin))) + (nodeWidth / 2),
 			y: (node.row * (nodeHeight * (1.0 + this.yNodeMargin))) + (nodeHeight / 2),
