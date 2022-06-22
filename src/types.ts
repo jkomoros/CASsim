@@ -287,7 +287,7 @@ export type GraphData = {
 export type GraphNodeExplorationResult = {
     node : GraphNodeValues,
     path : GraphEdge[],
-    lenght : number;
+    length : number;
 }
 
 export type GraphExplorationResult = {
