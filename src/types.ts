@@ -245,8 +245,10 @@ export type DistributionOptions = {
 //TODO: tighten;
 export type GraphType = string;
 
-export type GraphNodeID = string;
+export type GraphNodeID = string | number;
 export type GraphEdgeID = string;
+
+export type GraphNodeIdentifier = GraphNodeID | GraphNode | GraphNodeID[];
 
 export type GraphValues = object;
 

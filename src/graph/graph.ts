@@ -1,6 +1,8 @@
 import {
 	GraphData,
 	GraphNodeID,
+	GraphNodeIdentifier,
+	GraphType,
 	GraphValues
 } from '../types.js';
 
@@ -49,15 +51,15 @@ export class Graph {
 		When a graph type is laoded, it should call this with their constructor
 		so that inflateGraph knows how to find it.
 	*/
-	static registerGraphType(constructor) {
+	static registerGraphType(constructor : Graph) {
 		graphConstructors[constructor.name] = constructor;
 	}
 
-	static get ID_DELIMITER() {
+	static get ID_DELIMITER() : string{
 		return ':';
 	}
 
-	static packID(identifier) {
+	static packID(identifier : GraphNodeIdentifier) : GraphNodeID {
 		if (typeof identifier == 'string') return identifier;
 		if (typeof identifier == 'number') return identifier.toString();
 		if (Array.isArray(identifier)) {
@@ -68,10 +70,10 @@ export class Graph {
 		if (typeof identifier == 'object') {
 			if (identifier.id) return identifier.id;
 		}
-		throw new Error('Identifier was not a known type to pack: ', identifier);
+		throw new Error('Identifier was not a known type to pack: ' + identifier);
 	}
 
-	static unpackID(packedID) {
+	static unpackID(packedID : GraphNodeID) : GraphNodeID[] {
 		return packedID.split(Graph.ID_DELIMITER).map(item => isNaN(parseFloat(item)) ? item : parseFloat(item));
 	}
 
@@ -413,7 +415,7 @@ export class Graph {
 }
 
 //all graph constructors we know of will be accumulated here via Graph.registerGraphType();
-const graphConstructors = {
+const graphConstructors: {[name : GraphType] : Graph} = {
 	[Graph.name]: Graph,
 };
 
