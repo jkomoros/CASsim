@@ -410,18 +410,18 @@ export class Graph {
 		this._data.nodes[fromID] = {...node, edges: newEdges};
 	}
 
-	lastNodeID() {
+	lastNodeID() : GraphNodeID {
 		const keys = Object.keys(this._data.nodes);
 		return keys[keys.length - 1];
 	}
 
-	lastNodeIdentifier() {
+	lastNodeIdentifier() : GraphNodeIdentifier {
 		return Graph.unpackID(this.lastNodeID());
 	}
 
 	//Returns a stream of unique ids, by maintaining a counter.
-	vendID() {
-		let lastID = this.property('lastVendedID');
+	vendID() : GraphNodeID {
+		let lastID = this.property('lastVendedID') as number;
 		if (lastID == undefined) lastID = -1;
 		lastID++;
 		while(this.node(lastID)) {
