@@ -8,3 +8,7 @@ src/listings.json
 build/
 dist/
 screenshots/
+
+src/**/*.js
+src/**/*.d.ts
+src/**/*.map
