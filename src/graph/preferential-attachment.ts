@@ -1,6 +1,5 @@
 import {
-	ForceLayoutGraph,
-	EDGE_VALUES_PROPERTY
+	ForceLayoutGraph
 } from './force-layout.js';
 
 import {
@@ -108,14 +107,14 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 		return { ...OPTIONS_CONFIG, ...ForceLayoutGraph.OPTIONS_CONFIG};
 	}
 
-	_makeInner(rnd, options) {
-		const nodeCount = options[NODE_COUNT_PROPERTY] || 100;
-		const iterations = options[ITERATIONS_PROPERTY] || 100;
-		const edgeCount = options[EDGE_COUNT_PROPERTY] || 3;
-		const nodeBoost = options[NODE_BOOST_PROPERTY] || EPSILON;
-		const distantNodeBoost = options[DISTANT_NODE_BOOST_PROPERTY] || 3;
-		const nodeValues = options[NODE_VALUES_PROPERTY] || {};
-		const edgeValues = options[EDGE_VALUES_PROPERTY] || {};
+	override _makeInner(rnd : RandomGenerator, options : PreferentialAttachmentGraphOptions) : void {
+		const nodeCount = options.nodeCount || 100;
+		const iterations = options.iterations || 100;
+		const edgeCount = options.edgeCount || 3;
+		const nodeBoost = options.nodeBoost || EPSILON;
+		const distantNodeBoost = options.distantNodeBoost || 3;
+		const nodeValues = options.nodeValues || {};
+		const edgeValues = options.edgeValues || {};
 
 		for (let i = 0; i < nodeCount; i++) {
 			this.setNode(this.vendID(), {...nodeValues});
