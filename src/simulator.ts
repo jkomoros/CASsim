@@ -6,7 +6,14 @@ import {
 	defaultValueForConfig,
 	configForPath
 } from './options.js';
-import { NormalizedSimOptions, PartialSimulationFrame, RandomGenerator, SimulationFrame, SimulatorType } from './types.js';
+
+import {
+	NormalizedSimOptions,
+	PartialSimulationFrame,
+	RandomGenerator,
+	SimulationFrame,
+	SimulatorType
+} from './types.js';
 
 import {
 	stringHash
