@@ -19,7 +19,8 @@ import {
 	RandomGenerator,
 	GraphExplorationResult,
 	GraphNodeExplorationResult,
-	GraphNodeValuesMap
+	GraphNodeValuesMap,
+	GraphExplorationTargetResult
 } from '../types.js';
 
 import {
@@ -294,11 +295,12 @@ export class Graph {
 	//toNode. The length of each edge is given by edgeScorer, which typically
 	//returns a value like edge.distance. The default simply counts each edge as
 	//length 1. If there is no path from from to to, will return [-1 * MAX_SAFE_INTEGER, null];
-	shortestPath(fromNodeIdentifier, toNodeIdentifer, edgeScorer = () => 1, rnd = Math.random) {
+	shortestPath(fromNodeIdentifier : GraphNodeIdentifier, toNodeIdentifer : GraphNodeIdentifier, edgeScorer : GraphExplorationEdgeScorer = () => 1, rnd : RandomGenerator = Math.random) : GraphExplorationTargetResult {
 		//TODO: memoize
 		const toNodeID = Graph.packID(toNodeIdentifer);
 		const targetFound = (nodeValues) => nodeValues.id == toNodeID;
-		return this.exploreGraph(fromNodeIdentifier, undefined, edgeScorer, targetFound, rnd);
+		//We get a GraphExplorationTargetResult because we pass a targetFound that is not undefined
+		return this.exploreGraph(fromNodeIdentifier, undefined, edgeScorer, targetFound, rnd) as GraphExplorationTargetResult;
 	}
 
 	_prepareForNodeModifications() {
