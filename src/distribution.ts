@@ -1,6 +1,7 @@
 import {
 	DistributionOptions,
 	OptionsConfig,
+	OptionsConfigMap,
 	RandomGenerator
 } from './types.js';
 
@@ -204,7 +205,7 @@ export class DistributionConfig {
 
 	get optionsConfig() : OptionsConfig {
 
-		const example = {};
+		const example : OptionsConfigMap = {};
 
 		const includedTypes = Object.fromEntries(this._options.types.map(type => [type, true]));
 
@@ -278,7 +279,7 @@ export class DistributionConfig {
 			};
 		}
 
-		const result = {
+		const result : OptionsConfig = {
 			example: example,
 			optional: true,
 			default: this._options.default,
