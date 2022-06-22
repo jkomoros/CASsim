@@ -1,4 +1,8 @@
 import {
+	GraphData
+} from '../types.js';
+
+import {
 	shuffleInPlace
 } from '../util.js';
 /*
@@ -24,9 +28,11 @@ simulation), use the make*() methods on each subclasses type.
 */
 export class Graph {
 
+	_data : GraphData;
+
 	//data is the starter data. We will never modify data passed to us, but
 	//rather clone and set.
-	constructor(data) {
+	constructor(data : GraphData) {
 		if (!data) data = {nodes:{}, properties:{}, graphType: this.constructor.name};
 		this._data = data;
 		this._nodeChangesMade = false;

@@ -242,6 +242,37 @@ export type DistributionOptions = {
     name? : string;
 }
 
+//TODO: tighten;
+export type GraphType = string;
+
+export type GraphNodeID = string;
+export type GraphEdgeID = string;
+
+export type GraphValues = object;
+
+export type GraphNode = {
+    id: GraphNodeID,
+    values : GraphValues;
+    edges: {
+        [to: GraphNodeID]: GraphNodeEdge;
+    }
+}
+
+export type GraphNodeEdge = {
+    from: GraphNodeID;
+    to: GraphNodeID;
+    id: GraphEdgeID;
+    [key : string] : unknown;
+}
+
+export type GraphNodes = {[nodeID : GraphNodeID]: GraphNode};
+
+export type GraphData = {
+    nodes : GraphNodes;
+    properties: {[key : string]: number | string | boolean};
+    graphType: GraphType;
+}
+
 export type AppState = {
     page : string;
     pageExtra : string;
