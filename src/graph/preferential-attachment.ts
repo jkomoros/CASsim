@@ -10,8 +10,6 @@ import {
 const EPSILON = 0.00001;
 const PRINT_EDGE_COUNTS = false;
 
-export const GRAPH_NAME = 'preferential-attachment';
-
 export const NODE_COUNT_PROPERTY = 'nodeCount';
 export const ITERATIONS_PROPERTY = 'iterations';
 export const NODE_BOOST_PROPERTY = 'nodeBoost';
@@ -95,10 +93,6 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 		const result = new PreferentialAttachmentGraph();
 		result._make(availableWidth, availableHeight, rnd, options);
 		return result;
-	}
-
-	static get name() {
-		return GRAPH_NAME;
 	}
 
 	static get description() {
