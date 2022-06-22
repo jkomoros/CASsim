@@ -31,6 +31,7 @@ import {
 
 import {
 	ForceLayoutGraphOptions,
+	GraphEdge,
 	GraphNodeValues,
 	GraphType,
 	OptionsConfig,
@@ -163,7 +164,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 	//_make is the private method that subclasses's static make() functions
 	//should call. It will do stuff that all ForceLayoutGraphs should do, but
 	//also call this._makeInner(rnd, options) which is an override point for subclasses.
-	_make(availableWidth, availableHeight, rnd, options) {
+	_make(availableWidth : number, availableHeight : number, rnd : RandomGenerator, options : ForceLayoutGraphOptions) : ForceLayoutGraph {
 		this.availableWidth = availableWidth;
 		this.availableHeight = availableHeight;
 		if (options[MIN_NODE_SIZE_PROPERTY] != undefined) this.defaultMinNodeSize = options[MIN_NODE_SIZE_PROPERTY];
@@ -206,16 +207,16 @@ export class ForceLayoutGraph extends PositionedGraph {
 
 	//An override point, what randomLinkLikelihood will call when it has decided
 	//to create and edge from fromNode to toNode.
-	//eslint-disable-next-line no-unused-vars
-	_makeRandomEdge(baseEdgeValues, fromNode, toNode) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	_makeRandomEdge(baseEdgeValues : Partial<GraphEdge>, _fromNode : GraphNodeValues, _toNode : GraphNodeValues) : Partial<GraphEdge> {
 		return {
 			...baseEdgeValues,
 			type: 'random',
 		};
 	}
 
-	//eslint-disable-next-line no-unused-vars
-	_makeInner(rnd, options) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	_makeInner(_rnd : RandomGenerator, _options : ForceLayoutGraphOptions) : void {
 		//Do nothing
 	}
 
