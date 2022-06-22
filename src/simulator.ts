@@ -6,6 +6,7 @@ import {
 	defaultValueForConfig,
 	configForPath
 } from './options.js';
+import { PartialSimulationFrame, SimulationFrame } from './types.js';
 
 import {
 	stringHash
@@ -35,9 +36,10 @@ export class BaseSimulator {
 	//so generateFrame can retrieve those from the frame if necessary. The
 	//behavior of this function is typically a good starting point to use for
 	//your own method.
-	generator(frameIndex, previousFrame, simOptions, rnd, runIndex, simWidth, simHeight) {
+	generator(frameIndex, previousFrame, simOptions, rnd, runIndex, simWidth, simHeight) : SimulationFrame {
 		if (!previousFrame) {
-			const firstFrame = this.generateFirstFrame(simOptions, rnd, simWidth, simHeight) || {};
+			const partialFrame : PartialSimulationFrame = this.generateFirstFrame(simOptions, rnd, simWidth, simHeight) || {};
+			const firstFrame = partialFrame as SimulationFrame;
 			firstFrame.index = frameIndex;
 			firstFrame.simOptions = simOptions;
 			firstFrame.runIndex = runIndex;
@@ -55,7 +57,7 @@ export class BaseSimulator {
 	}
 
 	//This is called by the default generator to generate the first frame.
-	generateFirstFrame(simOptions, rnd, simWidth, simHeight) {
+	generateFirstFrame(simOptions, rnd, simWidth, simHeight) : PartialSimulationFrame {
 		return {};
 	}
 

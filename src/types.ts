@@ -11,6 +11,10 @@ export type SimulatorType = string;
 //TODO: define more
 type SimOptions = object;
 
+export interface NormalizedSimOptions extends SimOptions {
+
+}
+
 export interface RawSimulationConfig {
     //Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL. May be omitted.
 	name? : SimulationConfigName;
@@ -77,4 +81,12 @@ export type ScoreConfig = null | ScoreConfigItem[];
 //into.
 export type OptionsPath = string;
 
-export type SimulationFrame = object;
+export type PartialSimulationFrame = object;
+
+export interface SimulationFrame extends PartialSimulationFrame {
+    index : number;
+    simOptions : NormalizedSimOptions;
+    runIndex : number;
+    width : number;
+    height : number;
+}
