@@ -306,6 +306,18 @@ export type GraphExplorationNodeTester = (node : GraphNodeValues, path : GraphEd
 
 export type GraphExplorationEdgeScorer = (edge : GraphEdge) => number;
 
+export type Coordinates = {
+    x : number;
+    y : number;
+}
+
+export type Size = {
+    width : number;
+    height : number;
+}
+
+export type Position = Coordinates & Size;
+
 export type AppState = {
     page : string;
     pageExtra : string;
