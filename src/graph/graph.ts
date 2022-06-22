@@ -285,7 +285,7 @@ export class Graph {
 			}
 			itemsToVisit.sort((a, b) => a.length - b.length);
 		}
-		return targetFound ? [-1 * Math.MAX_SAFE_INTEGER, null] : collection;
+		return targetFound ? [-1 * Number.MAX_SAFE_INTEGER, null] : collection;
 	}
 
 	//shortestPath returns [length, path] where length is the shortest path
