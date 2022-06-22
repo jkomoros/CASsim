@@ -35,6 +35,7 @@ import {
 
 import {
 	RawSimulationConfig,
+	ScoreConfig,
 	SimulationConfig
 } from './types.js';
 
@@ -320,7 +321,7 @@ export const Simulation = class {
 
 	_maxFrameIndex : number;
 
-	_scoreConfig : unknown;
+	_scoreConfig : ScoreConfig;
 
 	_colors : unknown;
 
