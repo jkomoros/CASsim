@@ -14,9 +14,8 @@ import {
 	GraphProperties,
 	GraphPropertyName,
 	GraphProperty,
-	GraphExplorationIncludeNode,
+	GraphExplorationNodeTester,
 	GraphExplorationEdgeScorer,
-	GraphExplorationTargetFound,
 	RandomGenerator,
 	GraphExplorationResult,
 	GraphNodeExplorationResult
@@ -254,7 +253,7 @@ export class Graph {
 		we visit edges of a node. If not provided, we'll visit nodes in the
 		order they're represented in the graph.
 	*/
-	exploreGraph(fromNodeIdentifier : GraphNodeIdentifier, includeNode : GraphExplorationIncludeNode = () => true, edgeScorer : GraphExplorationEdgeScorer = () => 1, targetFound : GraphExplorationTargetFound = undefined, rnd : RandomGenerator = undefined) : GraphExplorationResult {
+	exploreGraph(fromNodeIdentifier : GraphNodeIdentifier, includeNode : GraphExplorationNodeTester = () => true, edgeScorer : GraphExplorationEdgeScorer = () => 1, targetFound : GraphExplorationNodeTester = undefined, rnd : RandomGenerator = undefined) : GraphExplorationResult {
 		const fromID = Graph.packID(fromNodeIdentifier);
 		const visitedNodes = {};
 		const collection = {};

@@ -294,11 +294,9 @@ export type GraphExplorationResult = {
     [id : GraphNodeID] : GraphNodeExplorationResult;
 }
 
-export type GraphExplorationIncludeNode = (node : GraphNodeValues) => boolean;
+export type GraphExplorationNodeTester = (node : GraphNodeValues, path : GraphEdge[], length : number) => boolean;
 
 export type GraphExplorationEdgeScorer = (edge : GraphEdge) => number;
-
-export type GraphExplorationTargetFound = (node : GraphNodeValues, path : GraphEdge[], length : number) => boolean;
 
 export type AppState = {
     page : string;
