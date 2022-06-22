@@ -1,6 +1,8 @@
 import {
 	GraphData,
 	GraphEdgeID,
+	GraphNode,
+	GraphNodeEdge,
 	GraphNodeID,
 	GraphNodeIdentifier,
 	GraphType,
@@ -106,7 +108,7 @@ export class Graph {
 
 	//same checks for logical equality, since you can't rely on values objects
 	//being strictly equaly if changesMade is false.
-	same(left, right) {
+	same(left : GraphValues, right : GraphValues) : boolean {
 		if (left == right) return true;
 		if (!left || !right) return false;
 		if (typeof left != 'object') return false;
@@ -115,19 +117,19 @@ export class Graph {
 		return left.id == right.id;
 	}
 
-	_nodeObject(identifier) {
+	_nodeObject(identifier : GraphNodeIdentifier) : GraphNode {
 		const id = Graph.packID(identifier);
 		return this._data.nodes[id];
 	}
 
-	get data() {
+	get data() : GraphData {
 		return this._data;
 	}
 
 	//Get the values stored on the node, or undefined if it doesn't exist. Note
 	//that you can only rely on value equality for nodes if changesMade is
 	//false. Instead, use Graph.same()
-	node(identifier) {
+	node(identifier : GraphNodeIdentifier) : GraphValues {
 		//_nodeObject will pack identifier
 		const node = this._nodeObject(identifier);
 		if (!node) return undefined;
@@ -137,7 +139,7 @@ export class Graph {
 	//Get the values stored on the edge, or undefined if that edge doesnt'
 	//exist. Note that you can only rely on value equality for edges if
 	//changesMade is false. Instead use Graph.same()
-	edge(fromIdentifier, toIdentifier) {
+	edge(fromIdentifier : GraphNodeIdentifier, toIdentifier : GraphNodeIdentifier) : GraphNodeEdge {
 		const node = this._nodeObject(fromIdentifier);
 		if (!node) return undefined;
 		const toID = Graph.packID(toIdentifier);
@@ -145,7 +147,7 @@ export class Graph {
 	}
 
 	//Returns a map of toIdentifier, and the EDGE values.
-	edges(identifier) {
+	edges(identifier : GraphNodeIdentifier) : {[to : GraphNodeID] : GraphNodeEdge} {
 		//_nodeObject will pack identifier
 		const node = this._nodeObject(identifier);
 		if (!node) return undefined;
