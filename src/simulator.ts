@@ -6,7 +6,7 @@ import {
 	defaultValueForConfig,
 	configForPath
 } from './options.js';
-import { PartialSimulationFrame, SimulationFrame } from './types.js';
+import { NormalizedSimOptions, PartialSimulationFrame, RandomGenerator, SimulationFrame, SimulatorType } from './types.js';
 
 import {
 	stringHash
@@ -17,11 +17,12 @@ export class BaseSimulator {
 
 	//Your simulator constructor will be passed no state, and shouldn't store any kind of state.
 	//The only reason it's non-static is so this class can call subClasses's overriden methods.
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	constructor() {
 
 	}
 
-	get name() {
+	get name() : SimulatorType {
 		return 'INVALID-NAME';
 	}
 
@@ -36,7 +37,7 @@ export class BaseSimulator {
 	//so generateFrame can retrieve those from the frame if necessary. The
 	//behavior of this function is typically a good starting point to use for
 	//your own method.
-	generator(frameIndex, previousFrame, simOptions, rnd, runIndex, simWidth, simHeight) : SimulationFrame {
+	generator(frameIndex : number, previousFrame : SimulationFrame, simOptions : NormalizedSimOptions, rnd : RandomGenerator, runIndex : number, simWidth : number, simHeight : number) : SimulationFrame {
 		if (!previousFrame) {
 			const partialFrame : PartialSimulationFrame = this.generateFirstFrame(simOptions, rnd, simWidth, simHeight) || {};
 			const firstFrame = partialFrame as SimulationFrame;
@@ -57,19 +58,22 @@ export class BaseSimulator {
 	}
 
 	//This is called by the default generator to generate the first frame.
-	generateFirstFrame(simOptions, rnd, simWidth, simHeight) : PartialSimulationFrame {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	generateFirstFrame(_simOptions : NormalizedSimOptions, _rnd : RandomGenerator, _simWidth : number, _simHeight : number) : PartialSimulationFrame {
 		return {};
 	}
 
 	//Called before generateFrame is called, for any non-first-frames. A chance
 	//to set frame values.
-	beforeGenerateFrame(frame, rnd) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+	beforeGenerateFrame(_frame : SimulationFrame, _rnd : RandomGenerator) : void {
 
 	}
 
 	//Called after generateFrame is called, for any non-first-frames. A chance
 	//to set frame values.
-	afterGenerateFrame(frame, rnd) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+	afterGenerateFrame(_frame : SimulationFrame, _rnd : RandomGenerator) : void {
 
 	}
 
@@ -77,14 +81,16 @@ export class BaseSimulator {
 	//simOptions you can inspect frame.index or frame.simOptions. It should
 	//modify frame directly, but if it changes any sub-objects it should clone
 	//them first.
-	generateFrame(frame, rnd) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+	generateFrame(_frame : SimulationFrame, _rnd : RandomGenerator) : void {
 		//Your own logic should go here.
 	}
 
 	//This is called by the default generator to know when to stop generating
 	//frames. frame.index and frame.simOptions can be inspected to get those
 	//values.
-	simulationComplete(frame) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	simulationComplete(_frame : SimulationFrame) : boolean{
 		//Your own termination logic should go here.
 		return true;
 	}
@@ -100,32 +106,32 @@ export class BaseSimulator {
 	//Typically your options are mostly validated based on the configuration you
 	//return from optionsConfig. This method is only necessary to override if
 	//you need additional validation not handled by that default machinery.
-	optionsValidator(normalizedSimOptions) {
+	optionsValidator(_normalizedSimOptions) {
 		return;
 	}
 
 	//The score for the frame. Typically the first number is the 'main' score,
 	//and other numbers are auxilary scores, useful for charting over time.
-	frameScorer(frame, simOptions) {
+	frameScorer(_frame, _simOptions) {
 		return [0.0];
 	}
 
 	//By retuning null we will communicate that none of the scores for this
 	//simulator should be offered to be shown to a user.
-	scoreConfig(normalizedSimOptions) {
+	scoreConfig(_normalizedSimOptions) {
 		return [null];
 	}
 
 	//This behavior is almost always what you want and can be left alone
-	successScorer(frameScore, normalizedSimOptions) {
+	successScorer(frameScore, _normalizedSimOptions) {
 		return frameScore[0];
 	}
 
-	frameValidator(frame) {
+	frameValidator(_frame) {
 		return;
 	}
 
-	maxFrameIndex(normalizedSimOptions) {
+	maxFrameIndex(_normalizedSimOptions) {
 		return 10000;
 	}
 	
@@ -138,7 +144,7 @@ export class BaseSimulator {
 	//default that the basic machinery won't generate automatically, in which
 	//case you'd override this, and call super.defaultValueForPath() for the
 	//non-special cases.
-	defaultValueForPath(path, simOptions) {
+	defaultValueForPath(path, _simOptions) {
 		const result = defaultValueForConfig(configForPath(this.optionsConfig, path));
 		return result;
 	}
