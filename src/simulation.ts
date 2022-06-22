@@ -37,7 +37,8 @@ import {
 	OptionsPath,
 	RawSimulationConfig,
 	ScoreConfig,
-	SimulationConfig
+	SimulationConfig,
+	SimulatorType
 } from './types.js';
 
 import {
@@ -409,7 +410,7 @@ export const Simulation = class {
 		return result;
 	}
 
-	get simulatorName() {
+	get simulatorName() : SimulatorType {
 		return this._config.sim;
 	}
 

@@ -6,7 +6,7 @@ type SimulationConfigName = string;
 type CSSColor = string;
 
 //TODO: lock this down dynamically based on allowed simulator types
-type SimulatorType = string;
+export type SimulatorType = string;
 
 //TODO: define more
 type SimOptions = object;
