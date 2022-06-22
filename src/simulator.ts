@@ -97,7 +97,7 @@ export class BaseSimulator {
 	//frames. frame.index and frame.simOptions can be inspected to get those
 	//values.
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	simulationComplete(_frame : SimulationFrame) : boolean{
+	simulationComplete(_frame : SimulationFrame) : boolean {
 		//Your own termination logic should go here.
 		return true;
 	}
