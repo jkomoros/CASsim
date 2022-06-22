@@ -72,7 +72,7 @@ export class Graph {
 		When a graph type is laoded, it should call this with their constructor
 		so that inflateGraph knows how to find it.
 	*/
-	static registerGraphType(constructor : Graph) {
+	static registerGraphType(constructor : typeof Graph) {
 		graphConstructors[constructor.name] = constructor;
 	}
 
@@ -437,11 +437,11 @@ export class Graph {
 }
 
 //all graph constructors we know of will be accumulated here via Graph.registerGraphType();
-const graphConstructors: {[name : GraphType] : Graph} = {
+const graphConstructors: {[name : GraphType] : typeof Graph} = {
 	[Graph.name]: Graph,
 };
 
-export const inflateGraph = (graphData) => {
+export const inflateGraph = (graphData : GraphData) : Graph => {
 	if (!graphData || typeof graphData != 'object') throw new Error('graphData is not an object');
 	const typ = graphData.graphType;
 	if (typ === undefined) throw new Error('No graphType in graph data');
