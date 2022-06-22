@@ -95,5 +95,74 @@ export interface SimulationFrame extends PartialSimulationFrame {
     height : number;
 }
 
-//TODO: define much more
-export type OptionsConfig = object;
+export type OptionsConfigMap = {
+    [key : string] : OptionsConfig
+}
+
+export type OptionConfigBehavior = 'seed' | 'color';
+
+export type OptionConfigOptionItem = {
+    //The actual value, the only required key
+    value : string | boolean | number;
+    //The string to show in the UI. Defaults to value if not provided
+    display? : string;
+    //The help text to render in the UI. Defaults to the value of display, or value, if not provided.
+    description? : string;
+}
+
+export type OptionsValues = {
+    [key : string]: number | boolean | string | OptionsValues[] | OptionsValues;
+};
+
+export type OptionsConfig = {
+    //Example is the most important property and the only reserved word. If an object in the config has 
+	//a "example" property then all of its other properties are treated like an optionsLeaf.
+	//example may be:
+	// - a number
+	// - a boolean
+	// - a string
+	// - an array containing precisely one optionsLeaf object (any others will be ignored)
+	// - an object, which is itself an optionsLeaf, or where each of its keys points to an optionsLeaf
+	// for numbers, booleans, and strings, this value will also be used as the default.
+	// One exception: if you also set 'optional' to true, then this value will not be included by default 
+	//but only if a user explicitly adds it, so the example should be the 'on' version of the value,
+	//so that when a user explicitly adds it, they don't have to then change the value to the 'on' value.
+	example? : number | boolean | string | [OptionsConfig] | OptionsConfig | OptionsConfigMap;
+	//OPTIONAL - the defaulting machinery does most of the work. If provided, then paths to this option can 
+	//be known by their long name (the property name that points 
+	//to this leaf), or by this shortName. When being packed for a URL, the path will be shortened to its 
+	//shortName. The shortName must be unique among its peers in its parent object, now or any time
+	//in the past, otherwise URLs out in the wild that were packed with this shortName might expand improperly.
+	//Idiomatically, the shortName is the first letter of the name, plus any uppercass letters (e.g. 'fooPropertyName'
+	//would be 'fPN') unless there would be a collision, in which case it's typically the property name minus vowels.
+	//If not provided, will be set to reasonable defaults according to these idioms. You only have to provide a shortName
+	//if you want the shortName to be something atypical for it.
+	shortName? : string;
+	//A help string to show in the UI to explain what it does
+	description? : string;
+	//For numbers, the minimum amount. For arrays, the minimum length. Defaults to 0.0
+	min? : number;
+	//For numbers, the maximum number. For arrays, the maximum length. Defaults to Number.MAX_SAFE_INTEGER
+	max? : number;
+	//For numbers, the smallest allowable increment. Defaults to 1.0 (integer)
+	step? : number;
+	//Extra behavior for a string type. Can be omitted, 'color', or 'seed'. For color, will render an input type = color.
+	behavior? : OptionConfigBehavior;
+	//If options is provided, then a select will be rendered, allowing only those options.
+	options? : OptionConfigOptionItem[];
+	//Hide (optional) is a function that is passed the values of the _parent_ (meaning it can inspect its siblings values), as well as rootValues.
+	//If it returns true, it will be hidden from the UI (although values in it will still be there)
+	hide?: (parentValues : OptionsValues) => boolean;
+	//Whether the field is allowed to just not be provided. Defaults to false
+    optional? : boolean;
+	//If true, then when this value is being generated as a a default, value, it will be included even if optional. May only be
+	//true if optional is true. This is useful for when you don't want to force hand-coded configs to include the value, but in the UI when 
+	//the user adds a default value you want it to be included.
+	default? : boolean;
+	//If backfill is true, then if the value is not provided by the user (which is only allowed if optional:false), then the
+	//example value will automatically be normalized into the simOptions object before it's provided to the simulator's normalizeOptions.
+	//This can make sure that downstream parts of your simulator can assume the value exists, even if it wasn't explicitly provided by the user.
+	backfill? : boolean;
+	//Advanced options will only render UI if the user has enabled advanced mode. This is useful to hide infrequently needed options.
+	advanced? : boolean;
+};
