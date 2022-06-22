@@ -1,5 +1,6 @@
 import {
 	GraphData,
+	GraphEdgeID,
 	GraphNodeID,
 	GraphNodeIdentifier,
 	GraphType,
@@ -77,13 +78,13 @@ export class Graph {
 		return ('' + packedID).split(Graph.ID_DELIMITER).map(item => isNaN(parseFloat(item)) ? item : parseFloat(item));
 	}
 
-	static packEdgeID(fromIdentifier, toIdentifier) {
+	static packEdgeID(fromIdentifier : GraphNodeIdentifier, toIdentifier : GraphNodeIdentifier) : GraphEdgeID {
 		const fromID = Graph.packID(fromIdentifier);
 		const toID = Graph.packID(toIdentifier);
 		return fromID + Graph.ID_DELIMITER + Graph.ID_DELIMITER + toID;
 	}
 
-	static unpackEdgeID(packedEdgeID) {
+	static unpackEdgeID(packedEdgeID : GraphEdgeID) : GraphNodeID[][] {
 		return packedEdgeID.split(Graph.ID_DELIMITER + Graph.ID_DELIMITER).map(id => Graph.unpackID(id));
 	}
 
