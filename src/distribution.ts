@@ -1,5 +1,6 @@
 import {
 	DistributionOptions,
+	OptionsConfig,
 	RandomGenerator
 } from './types.js';
 
@@ -176,7 +177,10 @@ const EXAMPLE_OPTIONS = {
 	- name: a name for the overall value
 */
 export class DistributionConfig {
-	constructor(options = {}) {
+
+	_options : DistributionOptions;
+
+	constructor(options : DistributionOptions = {}) {
 		const normalizedOptions = {
 			...EXAMPLE_OPTIONS,
 			...options,
@@ -198,7 +202,7 @@ export class DistributionConfig {
 		return this._options;
 	}
 
-	get optionsConfig() {
+	get optionsConfig() : OptionsConfig {
 
 		const example = {};
 
