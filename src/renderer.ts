@@ -1,5 +1,6 @@
 
 import { LitElement, html, css, svg} from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
 import { repeat } from 'lit/directives/repeat.js';
 
@@ -17,17 +18,26 @@ import {
 	makeSeededRandom
 } from './random.js';
 
-export class BaseRenderer extends LitElement {
-	static get properties() {
-		return {
-			scale: { type: Number},
-			frame: { type: Object },
-			width: {type:Number},
-			height: {type:Number},
-		};
-	} 
+import {
+	SimulationFrame
+} from './types.js';
 
-	static get styles() {
+@customElement('base-renderer')
+export class BaseRenderer extends LitElement {
+
+	@property({ type : Number })
+	scale : number;
+
+	@property({ type : Number })
+	height : number;
+
+	@property({ type : Number })
+	width : number;
+
+	@property({ type : Object })
+	frame : SimulationFrame;
+
+	static override get styles() {
 		return [
 			css`
 
@@ -55,7 +65,7 @@ export class BaseRenderer extends LitElement {
 		];
 	}
 
-	render() {
+	override render() {
 		return html`
 			<div class='container'>
 				${this.innerRender()}
@@ -68,6 +78,12 @@ export class BaseRenderer extends LitElement {
 		return html`<pre>${JSON.stringify(this.frame, '', 2)}</pre>`;
 	}
 
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'base-renderer': BaseRenderer;
+	}
 }
 
 export class PositionedGraphRenderer extends BaseRenderer {
