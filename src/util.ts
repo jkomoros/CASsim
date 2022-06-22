@@ -4,20 +4,25 @@
 	item is how likely it is to be selected. The likeilhood of a given item
 	being drawn is its count divided by the sum of all "count" of all items.
 */
-export class Urn {
+export class Urn<T> {
+
+	_rnd : () => number;
+	_sum : number;
+	_items : Map<T,number>;
+
 	constructor(rnd = Math.random) {
 		this._rnd = rnd;
 		this._sum = 0.0;
 		this._items = new Map();
 	}
 
-	add(item, count = 1) {
+	add(item : T, count = 1) : void{
 		count = Math.max(count, 0.0);
 		this._sum += count;
 		this._items.set(item, count);
 	}
 
-	pick() {
+	pick() : T | undefined {
 		if (this._sum == 0.0) {
 			if (this._items.size == 0) return undefined;
 			//All of them are zero. Return a random one.
