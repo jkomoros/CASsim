@@ -297,7 +297,7 @@ export const ensureBackfill = (optionsConfig, obj) => {
 //recurse into subObjects will have skipOptional true. This leads to behavior
 //where the top-level item requested will be returned even if optional (which is
 //useful for e.g. getting an optional value to add)
-export const defaultValueForConfig = (optionsConfig, skipOptional) => {
+export const defaultValueForConfig = (optionsConfig, skipOptional? : boolean) => {
 	if (!optionsConfig) return undefined;
 	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
 	if (example == undefined) {
