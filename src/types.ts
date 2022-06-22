@@ -3,7 +3,21 @@ export type RandomGenerator = () => number;
 
 export type SimulationConfigName = string;
 
+//A string that can be used directly anywhere CSS expects a color. Hex, RGB(),
+//RGBA(), and named colors all work.
 type CSSColor = string;
+
+export type Color = {
+    r : number;
+    g : number;
+    b : number;
+    a : number;
+    hex : CSSColor;
+    rgb : [r : number, g : number, b : number];
+    rgba : [r : number, g : number, b : number, a : number];
+    rgbStr : CSSColor;
+    rgbaStr : CSSColor;
+}
 
 //TODO: lock this down dynamically based on allowed simulator types
 export type SimulatorType = string;
