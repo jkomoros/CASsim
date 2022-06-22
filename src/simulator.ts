@@ -115,7 +115,7 @@ export class BaseSimulator {
 	}
 
 	//This behavior is almost always what you want and can be left alone
-	successScorer(frameScore) {
+	successScorer(frameScore, normalizedSimOptions) {
 		return frameScore[0];
 	}
 
