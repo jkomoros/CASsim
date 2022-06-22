@@ -332,7 +332,7 @@ export class Simulation {
 	_activated : boolean;
 
 
-	constructor(config : SimulationConfig, index : number, unmodifiedConfig : RawSimulationConfig) {
+	constructor(config : SimulationConfig, index : number, unmodifiedConfig? : RawSimulationConfig) {
 
 		const name = config[NAME_PROPERTY];
 		if (name) {
