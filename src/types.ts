@@ -290,9 +290,13 @@ export type GraphNodeExplorationResult = {
     length : number;
 }
 
-export type GraphExplorationResult = {
+export type GraphExplorationCollectionResult = {
     [id : GraphNodeID] : GraphNodeExplorationResult;
 }
+
+export type GraphExplorationTargetResult = [distance : number, path : GraphEdge[]];
+
+export type GraphExplorationResult = GraphExplorationCollectionResult | GraphExplorationTargetResult;
 
 export type GraphExplorationNodeTester = (node : GraphNodeValues, path : GraphEdge[], length : number) => boolean;
 
