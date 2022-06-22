@@ -1,3 +1,8 @@
+import {
+	DistributionOptions,
+	RandomGenerator
+} from './types.js';
+
 export const ROUND_TYPE_NONE = '';
 export const ROUND_TYPE_ROUND = 'round';
 export const ROUND_TYPE_FLOOR = 'floor';
@@ -21,18 +26,18 @@ const LEGAL_TYPES = {
 };
 
 //sum sums up the array of numbers passed to it
-export const sum = (nums) => nums.reduce((a, b) => a + b, 0);
+export const sum = (nums : number[]) : number => nums.reduce((a, b) => a + b, 0);
 //mean is the arithmetic mean of the array of numbers passed to it.
-export const mean = (nums) => nums.length == 0 ? 0 : sum(nums) / nums.length;
+export const mean = (nums: number[]) : number => nums.length == 0 ? 0 : sum(nums) / nums.length;
 //median is the median number in the distribution of the array of numbers passed to it.
-export const median = (nums) => {
+export const median = (nums : number[]) : number => {
 	if (nums.length == 0) return 0;
 	nums = [...nums];
 	nums.sort();
 	return nums[Math.floor(nums.length / 2)];
 };
 //mode returns the mode of array of nums
-export const mode = (nums) => {
+export const mode = (nums : number[]) : number => {
 	if (nums.length == 0) return 0;
 	const m = new Map();
 	nums.forEach(num => m.set(num, (m.get(num) || 0) + 1));
@@ -47,7 +52,7 @@ export const mode = (nums) => {
 	return maxKey;
 };
 
-const gaussianRandom = (mean, std, rnd = Math.random) => {
+const gaussianRandom = (mean : number, std : number, rnd : RandomGenerator = Math.random) => {
 	//https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
 	const u1 = rnd();
 	const u2 = rnd();
@@ -85,12 +90,15 @@ const value = performanceQuality.distibution(simOptions.performanceQuality).samp
 
 //Get a new one from DistributionConfig.distribution()
 class Distribution {
-	constructor(options = {}) {
+
+	_options : DistributionOptions;
+
+	constructor(options : DistributionOptions = {}) {
 		//Already validated by DistributionConfig.
 		this._options = options;
 	}
 
-	sample(rnd = Math.random) {
+	sample(rnd : RandomGenerator = Math.random) : number {
 		//TODO: do different things based on type;
 		let max = this._options.limitMax;
 		let min = this._options.limitMin;

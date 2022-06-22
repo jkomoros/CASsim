@@ -193,9 +193,9 @@ export type RoundType = string;
 
 export type DistributionOptions = {
 	// - types: an array of allowed distribution types (e.g. LINEAR, MIN_MAX). If not provided, will default to [type]. If neith types nor type is provided, all distribution types are allowed.
-    types : DistributionType[];
+    types? : DistributionType[];
     // - distribution: the default type
-    distribution : DistributionType;
+    distribution? : DistributionType;
 	// - average: the default average value if type = LINEAR
     average? : number;
 	// - spread: the spread value if type = LINEAR
