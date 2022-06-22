@@ -205,7 +205,7 @@ export type DataState = {
 	frameIndex : number,
 	playType : PlayType,
 	playing : boolean,
-	screenshotting : false,
+	screenshotting : boolean,
 	delayCount : number,
 	warning : string,
 	resizeVisualization : boolean,
