@@ -1,4 +1,8 @@
 import {
+	TypedObject
+} from './typed-object.js';
+
+import {
 	DistributionOptions,
 	OptionsConfig,
 	OptionsConfigMap,
@@ -296,8 +300,8 @@ export class DistributionConfig {
 		return new Distribution(options);
 	}
 
-	_validateOptions(normalizedOptions) {
-		for (const [key, value] of Object.entries(normalizedOptions)) {
+	_validateOptions(normalizedOptions : DistributionOptions) {
+		for (const [key, value] of TypedObject.entries(normalizedOptions)) {
 			if (EXAMPLE_OPTIONS[key] === undefined) throw new Error('Unexpected option: ' + key);
 			if (typeof value != typeof EXAMPLE_OPTIONS[key]) throw new Error(key + ' must be a ' + typeof EXAMPLE_OPTIONS[value]);
 			if (Array.isArray(EXAMPLE_OPTIONS[key]) != Array.isArray(value)) throw new Error(key + ' must ' + (Array.isArray(EXAMPLE_OPTIONS[key]) ? '' : 'not') + ' be an Array');
