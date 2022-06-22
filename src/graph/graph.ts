@@ -328,7 +328,7 @@ export class Graph {
 	setNodeProperty(identifier, property, value) {
 		let values = this.node(identifier);
 		values = values ? {...values} : {};
-		if (values[property] === value) return;
+		if (values[property] === value) return values;
 		values[property] = value;
 		return this.setNode(identifier, values);
 	}
