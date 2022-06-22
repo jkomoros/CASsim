@@ -162,7 +162,7 @@ export class SimulationCollection {
 		this._nameIndex = seenNames;
 	}
 
-	simulation(nameOrIndex) {
+	simulation(nameOrIndex : SimulationConfigName | number) : Simulation {
 		if (this._nameIndex[nameOrIndex]) return this._nameIndex[nameOrIndex];
 		if (typeof nameOrIndex == 'string') {
 			const index = parseInt(nameOrIndex);
