@@ -13,35 +13,35 @@ import {
 */
 export class PositionedGraph extends Graph {
 
-	set availableWidth(val) {
+	set availableWidth(val : number) {
 		this.setProperty('availableWidth', val);
 	}
 
-	get availableWidth() {
-		return this.property('availableWidth');
+	get availableWidth() : number {
+		return this.property('availableWidth') as number;
 	}
 
-	set availableHeight(val) {
+	set availableHeight(val : number) {
 		this.setProperty('availableHeight', val);
 	}
 
-	get availableHeight(){
-		return this.property('availableHeight');
+	get availableHeight() : number {
+		return this.property('availableHeight') as number;
 	}
 
-	get nodeRoundness() {
-		return this.property('nodeRoundness') || 0.0;
+	get nodeRoundness() : number {
+		return this.property('nodeRoundness') as number || 0.0;
 	}
 
-	set nodeRoundness(val) {
+	set nodeRoundness(val : number) {
 		this.setProperty('nodeRoundness', val);
 	}
 
-	get width() {
+	get width() : number {
 		return this.availableWidth;
 	}
 
-	get height() {
+	get height() : number {
 		return this.availableHeight;
 	}
 
