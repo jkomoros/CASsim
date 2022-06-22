@@ -110,48 +110,48 @@ export class RectangleGraph extends PositionedGraph {
 		return result;
 	}
 
-	get nodeMargin() {
-		return this.property('nodeMargin');
+	get nodeMargin() : number | RowCol {
+		return this.property('nodeMargin') as number;
 	}
 
-	set nodeMargin(val) {
+	set nodeMargin(val : number | RowCol) {
 		this.setProperty('nodeMargin', val);
 	}
 
 	//By default, the nodes are square, but if this is true they will be rectangular.
-	get rectangular() {
-		return this.property('rectangular');
+	get rectangular() : boolean {
+		return this.property('rectangular') as boolean;
 	}
 
-	set rectangular(val) {
+	set rectangular(val : boolean) {
 		this.setProperty('rectangular', val);
 	}
 
-	get xNodeMargin() {
+	get xNodeMargin() : number {
 		const margin = this.nodeMargin;
 		if (Array.isArray(margin)) return margin[0];
 		return margin;
 	}
 
-	get yNodeMargin() {
+	get yNodeMargin() : number {
 		const margin = this.nodeMargin;
 		if (Array.isArray(margin)) return margin[1];
 		return margin;
 	}
 
-	get rows() {
+	get rows() : number {
 		return this.lastNodeIdentifier()[0] + 1;
 	}
 
-	get cols() {
+	get cols() : number {
 		return this.lastNodeIdentifier()[1] + 1;
 	}
 
-	get width() {
+	override get width() : number {
 		return ((this.nodeWidth * (1.0 + this.xNodeMargin) * this.cols) - this.xNodeMargin);
 	}
 
-	get height() {
+	override get height() : number {
 		return ((this.nodeHeight * (1.0 + this.yNodeMargin) * this.rows) - this.yNodeMargin);
 	}
 
