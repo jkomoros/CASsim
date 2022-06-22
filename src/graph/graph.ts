@@ -333,7 +333,7 @@ export class Graph {
 		return this.setNode(identifier, values);
 	}
 
-	setNodeProperties(identifier, values) {
+	setNodeProperties(identifier : GraphNodeIdentifier, values : object) : void{
 		for (const [key, value] of Object.entries(values)) {
 			this.setNodeProperty(identifier, key, value);
 		}
