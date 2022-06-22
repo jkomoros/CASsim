@@ -7,6 +7,10 @@ import {
 	Urn
 } from '../util.js';
 
+import {
+	PreferentialAttachmentGraphOptions, RandomGenerator
+} from '../types.js';
+
 const EPSILON = 0.00001;
 const PRINT_EDGE_COUNTS = false;
 
@@ -89,7 +93,7 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 			edgeCount: (default: 3) - How many edges, on each iteartion, we should add.
 			nodeValues: (deafult: {}) - The base values to set on nodes
 	*/
-	static make(availableWidth, availableHeight, rnd, options = {}) {
+	static override make(availableWidth : number, availableHeight : number, rnd : RandomGenerator, options : PreferentialAttachmentGraphOptions = {}) : PreferentialAttachmentGraph {
 		const result = new PreferentialAttachmentGraph();
 		result._make(availableWidth, availableHeight, rnd, options);
 		return result;

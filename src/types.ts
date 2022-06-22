@@ -340,6 +340,21 @@ export type BloomGraphOptions = ForceLayoutGraphOptions & {
     childLinkLikelihood? : number;
 }
 
+export type PreferentialAttachmentGraphOptions = ForceLayoutGraphOptions & {
+    // nodeCount: (default: 100) - How many nodes to create
+    nodeCount? : number;
+    // iterations: (default: 100) - How many iterations of adding edges we should do
+    iterations? : number;
+    // nodeBoost: (default: 0.00001) - How much to boost every node when choosing which one to add. Higher numbers make the preferential attachment effect weaker.
+    nodeBoost? : number;
+    // distantNodeBoost: (default: 3) - How much to boost even nodes who are far away from (or not even connected to) the node that has been selected. Higher numbers make the preferential attachmetn effect weaker.
+    distantNodeBoost? : number;
+    // edgeCount: (default: 3) - How many edges, on each iteartion, we should add.
+    edgeCount? : number;
+    // nodeValues: (deafult: {}) - The base values to set on nodes
+    nodeValues? : GraphNodeValues;
+}
+
 export type RectangleGraphOptions = {
     // starterValues - the values to clone and set for each cell
     starterValues? : GraphNodeValues;
