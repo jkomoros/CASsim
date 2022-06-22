@@ -33,6 +33,11 @@ import {
 	NAME_PROPERTY as CONFIG_NAME_PROPERTY
 } from './config.js';
 
+import {
+	RawSimulationConfig,
+	SimulationConfig
+} from './types.js';
+
 const HEIGHT_PROPERTY = 'height';
 const WIDTH_PROPERTY = 'width';
 const RUNS_PROPERTY = 'runs';
@@ -82,8 +87,8 @@ export const extractSimulatorNamesFromModifications = modifications => {
 	return Object.keys(result);
 };
 
-export const configWithDefaultedSimOptions = (config) => {
-	if (config[SIM_OPTIONS_PROPERTY]) return config;
+export const configWithDefaultedSimOptions = (config : RawSimulationConfig) : SimulationConfig => {
+	if (config[SIM_OPTIONS_PROPERTY]) return config as SimulationConfig;
 	return {
 		...config,
 		[SIM_OPTIONS_PROPERTY]: defaultValueForConfigPath(config, SIM_OPTIONS_PROPERTY)
