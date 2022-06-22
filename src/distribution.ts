@@ -131,6 +131,7 @@ class Distribution {
 			break;
 		case ROUND_TYPE_FLOOR:
 			value = Math.floor(value);
+			break;
 		case ROUND_TYPE_NONE:
 		default:
 			//no op
