@@ -39,6 +39,7 @@ import {
 	ScoreConfig,
 	SimulationConfig,
 	SimulationConfigName,
+	SimulationFrame,
 	SimulatorType
 } from './types.js';
 
@@ -184,7 +185,7 @@ class SimulationRun {
 
 	_simulation : Simulation;
 	_index : number;
-	_frames : unknown;
+	_frames : SimulationFrame[];
 	_scoreData : unknown;
 	_successScores : number[];
 	_simulatorMaxFrameIndex : number;
