@@ -247,8 +247,8 @@ export class ForceLayoutGraph extends PositionedGraph {
 	
 		The default implementation just positions each node with a random x,y,
 	*/
-	//eslint-disable-next-line no-unused-vars
-	_initialLayout(rnd : RandomGenerator, options : ForceLayoutGraphOptions) : void {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	_initialLayout(rnd : RandomGenerator, _options : ForceLayoutGraphOptions) : void {
 		const availableWidth = this.availableWidth;
 		const availableHeight = this.availableHeight;
 		for(const node of Object.values(this.nodes())) {
