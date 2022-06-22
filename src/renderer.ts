@@ -80,12 +80,7 @@ export class BaseRenderer extends LitElement {
 
 }
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'base-renderer': BaseRenderer;
-	}
-}
-
+@customElement('positioned-graph-renderer')
 export class PositionedGraphRenderer extends BaseRenderer {
 	
 	static get styles() {
@@ -321,5 +316,12 @@ export class PositionedGraphRenderer extends BaseRenderer {
 				</svg>` : ''}
 			</div>
 			`;
+	}
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'base-renderer': BaseRenderer;
+		'positioned-graph-renderer': PositionedGraphRenderer;
 	}
 }
