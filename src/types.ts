@@ -1,7 +1,7 @@
 
 export type RandomGenerator = () => number;
 
-type SimulationConfigName = string;
+export type SimulationConfigName = string;
 
 type CSSColor = string;
 

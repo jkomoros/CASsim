@@ -38,6 +38,7 @@ import {
 	RawSimulationConfig,
 	ScoreConfig,
 	SimulationConfig,
+	SimulationConfigName,
 	SimulatorType
 } from './types.js';
 
@@ -132,11 +133,15 @@ export const setSimulationPropertyInConfig = (config, path, value) => {
 };
 
 export class SimulationCollection {
-	constructor(configs, unmodifiedConfigs) {
+
+	_nameIndex : {[name : SimulationConfigName] : Simulation };
+	_simulations : Simulation[];
+
+	constructor(configs : SimulationConfig[], unmodifiedConfigs : RawSimulationConfig[]) {
 		if (!configs) configs = [];
 		if (!unmodifiedConfigs) unmodifiedConfigs = [];
-		const seenNames = {};
-		const arr = [];
+		const seenNames : {[name : SimulationConfigName] : Simulation } = {};
+		const arr : Simulation[] = [];
 		for (let i = 0; i < configs.length; i++) {
 			let sim;
 			const config = configs[i];
@@ -166,14 +171,14 @@ export class SimulationCollection {
 		return this._simulations[nameOrIndex];
 	}
 
-	get simulationsMap() {
+	get simulationsMap() : {[name : SimulationConfigName] : Simulation} {
 		return this._nameIndex;
 	}
 
-	get simulations() {
+	get simulations() : Simulation[] {
 		return this._simulations;
 	}
-};
+}
 
 class SimulationRun {
 	constructor(simulation, index) {
