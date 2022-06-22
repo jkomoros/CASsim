@@ -30,8 +30,11 @@ import {
 } from '../distribution.js';
 
 import {
+	Coordinates,
 	ForceLayoutGraphOptions,
 	GraphEdge,
+	GraphNodeID,
+	GraphNodeIdentifier,
 	GraphNodeValues,
 	GraphType,
 	OptionsConfig,
@@ -103,6 +106,8 @@ const OPTIONS_CONFIG = {
 	running a d3 force graph simulation.
 */
 export class ForceLayoutGraph extends PositionedGraph {
+
+	_cachedLayoutPositions : {[id : GraphNodeID] : Coordinates}
 
 	/*
 		Makes an empty graph that is positioned.
@@ -227,7 +232,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 		The default implementation just positions each node with a random x,y,
 	*/
 	//eslint-disable-next-line no-unused-vars
-	_initialLayout(rnd, options) {
+	_initialLayout(rnd : RandomGenerator, options : ForceLayoutGraphOptions) : void {
 		const availableWidth = this.availableWidth;
 		const availableHeight = this.availableHeight;
 		for(const node of Object.values(this.nodes())) {
@@ -235,26 +240,26 @@ export class ForceLayoutGraph extends PositionedGraph {
 		}
 	}
 
-	set noCollide(val) {
+	set noCollide(val : boolean) {
 		this.setProperty('noCollide', val);
 	}
 
-	get noCollide() {
-		return this.property('noCollide') || false;
+	get noCollide() : boolean {
+		return this.property('noCollide') as boolean || false;
 	}
 
-	nodeSizeMultiplier(identifier) {
+	override nodeSizeMultiplier(identifier : GraphNodeIdentifier) : number {
 		const node = this.node(identifier);
-		return node.size;
+		return node.size as number;
 	}
 
-	nodeX(identifier) {
+	override nodeX(identifier : GraphNodeIdentifier) : number {
 		const id = ForceLayoutGraph.packID(identifier);
 		//layoutPositions will recalc layout if necessary
 		return this._layoutPositions[id].x;
 	}
 
-	nodeY(identifier) {
+	override nodeY(identifier : GraphNodeIdentifier) : number {
 		const id = ForceLayoutGraph.packID(identifier);
 		//layoutPositions will recalc layout if necessary
 		return this._layoutPositions[id].y;
