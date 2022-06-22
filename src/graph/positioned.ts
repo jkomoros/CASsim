@@ -23,6 +23,10 @@ export class PositionedGraph extends Graph {
 		return 'positioned';
 	}
 
+	static override get description() : string {
+		return 'A graph where each node has a specific position';
+	}
+
 	set availableWidth(val : number) {
 		this.setProperty('availableWidth', val);
 	}

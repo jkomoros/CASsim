@@ -68,6 +68,10 @@ export class Graph {
 		return '';
 	}
 
+	static get description() : string {
+		return 'A basic graph';
+	}
+
 	/*
 		When a graph type is laoded, it should call this with their constructor
 		so that inflateGraph knows how to find it.
