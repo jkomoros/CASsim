@@ -168,3 +168,71 @@ export type OptionsConfig = {
 	//Advanced options will only render UI if the user has enabled advanced mode. This is useful to hide infrequently needed options.
 	advanced? : boolean;
 };
+
+export type Filename = string;
+
+export type Modification = {
+    simulationIndex : number;
+    path : OptionsPath;
+    value : OptionsValues;
+}
+
+export type Modifications = Modification[];
+
+//TODO: tighten
+export type PlayType = string;
+
+//TODO: tigthen
+export type DialogType = string;
+
+export type AppState = {
+    page : string;
+    pageExtra : string;
+    offline : boolean;
+};
+
+export type DataState = {
+    filename : Filename;
+	loadingSimulators : {[name : SimulatorType] : true},
+	loadedSimulators : {[name : SimulatorType] : true},
+	knownDatafiles : Filename[],
+	knownSimulatorNames : SimulatorType[],
+	data : RawSimulationConfig[],
+	//A list of objects with {simulationIndex: <index>, path: <dottedPath>, value}
+	modifications : Modifications,
+	simulationIndex : number,
+	runIndex : number,
+	frameIndex : number,
+	playType : PlayType,
+	playing : boolean,
+	screenshotting : false,
+	delayCount : number,
+	warning : string,
+	resizeVisualization : boolean,
+	scale : number,
+	//The entire contents of window.location.hash as last seen or set by us
+	hash : string,
+	//A thing that will change when a simulation has changed, e.g. they have
+	//calculated new frames.
+	simulationLastChanged : number,
+	//Whether the whole controls is visible or not
+	showControls : boolean,
+	chartExpanded : boolean,
+	configurationExpanded : boolean,
+	//Note: selectHashForCurrentState and ingestHash both assume that description is on by default.
+	descriptionExpanded : boolean,
+	chartSingleRun : boolean,
+	//An object of key => true. An empty object means "all chart configs"
+	chartConfigIDs : {[name : ScoreConfigID] : true},
+	//The options-paths whose "Advanced" zippy should be shown as expanded. ''
+	//is the top level 
+	pathExpanded : {[path : OptionsPath] : true},
+	dialogOpen : boolean,
+	dialogType : DialogType,
+	dialogExtras: {[key : string] : unknown},
+}
+
+export type RootState = {
+    app : AppState;
+    data : DataState;
+}
