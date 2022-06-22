@@ -7,14 +7,17 @@ export type SimulationConfigName = string;
 //RGBA(), and named colors all work.
 type CSSColor = string;
 
+export type RGBColor = [r : number, g : number, b : number];
+export type RGBAColor = [r : number, g : number, b : number, a : number];
+
 export type Color = {
     r : number;
     g : number;
     b : number;
     a : number;
     hex : CSSColor;
-    rgb : [r : number, g : number, b : number];
-    rgba : [r : number, g : number, b : number, a : number];
+    rgb : RGBColor;
+    rgba : RGBAColor;
     rgbStr : CSSColor;
     rgbaStr : CSSColor;
 }
