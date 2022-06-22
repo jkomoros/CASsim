@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-vars */
 
-import { LitElement, html, css} from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-
 import {
 	defaultValueForConfig,
 	configForPath
 } from './options.js';
+
+import {
+	BaseRenderer
+} from './renderer.js';
 
 import {
 	Fingerprint,
@@ -176,50 +177,11 @@ export class BaseSimulator {
 		return 0;
 	}
 
-	renderer() : StubSimulatorRenderer {
-		return new StubSimulatorRenderer();
+	renderer() : BaseRenderer {
+		return new BaseRenderer();
 	}
 
 	get fingerprint() : Fingerprint {
 		return stringHash(JSON.stringify(this.optionsConfig) + this.version);
-	}
-}
-
-@customElement("stub-simulator-renderer")
-class StubSimulatorRenderer extends LitElement {
-
-	@property({ type : Object})
-	frame : SimulationFrame;
-
-	@property({ type : Number })
-	width : number;
-
-	@property({ type : Number })
-	height : number;
-
-	static override get styles() {
-		return [
-			css`
-
-			:host {
-				width: 100%;
-				height: 100%;
-				position: relative;
-			}
-
-			`
-		];
-	}
-
-	override render() {
-		return html`
-			<em>TODO: override this renderer</em>
-		`;
-	}
-}
-
-declare global {
-	interface HTMLElementTagNameMap {
-		'stub-simulator-renderer': StubSimulatorRenderer;
 	}
 }
