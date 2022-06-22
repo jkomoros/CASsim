@@ -38,6 +38,10 @@ import {
 	SimulationConfig
 } from './types.js';
 
+import {
+	BaseSimulator
+} from './simulator.js';
+
 const HEIGHT_PROPERTY = 'height';
 const WIDTH_PROPERTY = 'width';
 const RUNS_PROPERTY = 'runs';
@@ -293,7 +297,39 @@ class SimulationRun {
 
 
 export const Simulation = class {
-	constructor(config, index, unmodifiedConfig) {
+
+	_simulator : BaseSimulator;
+
+	_unmodifiedConfig : RawSimulationConfig;
+
+	_config : SimulationConfig;
+
+	_rawConfig : SimulationConfig;
+
+	_altName : string;
+
+	_seed : string;
+
+	_fingerprint : string;
+
+	_runs : SimulationRun[];
+
+	_optionConfig : unknown;
+
+	_index : number;
+
+	_maxFrameIndex : number;
+
+	_scoreConfig : unknown;
+
+	_colors : unknown;
+
+	_lastChanged : number;
+
+	_activated : boolean;
+
+
+	constructor(config : SimulationConfig, index : number, unmodifiedConfig : RawSimulationConfig) {
 
 		const name = config[NAME_PROPERTY];
 		if (name) {
