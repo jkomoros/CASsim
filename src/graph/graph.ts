@@ -1,4 +1,8 @@
 import {
+	TypedObject
+} from '../typed-object.js';
+
+import {
 	GraphData,
 	GraphEdgeID,
 	GraphNode,
@@ -154,8 +158,8 @@ export class Graph {
 		return node.edges;
 	}
 
-	allEdges() {
-		return Object.fromEntries(Object.keys(this.nodes()).map(nodeID => Object.values(this.edges(nodeID))).flat().map(edge => [edge.id, edge]));
+	allEdges() : {[id : GraphEdgeID] : GraphNodeEdge } {
+		return Object.fromEntries(TypedObject.keys(this.nodes()).map(nodeID => Object.values(this.edges(nodeID))).flat().map(edge => [edge.id, edge]));
 	}
 
 	//Returns all nodes. if filterFunc is provided, it will filter any node whose values, when passed to the filterFunc, do not return true.
