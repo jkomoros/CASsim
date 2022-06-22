@@ -248,7 +248,7 @@ export type GraphType = string;
 export type GraphNodeID = string | number;
 export type GraphEdgeID = string;
 
-export type GraphNodeIdentifier = GraphNodeID | GraphNode | GraphNodeID[];
+export type GraphNodeIdentifier = GraphNodeID | GraphNode | GraphNodeValues | GraphNodeID[];
 
 export type GraphNodeValues = {
     id : GraphNodeID;
