@@ -272,9 +272,11 @@ export type GraphEdge = {
 
 export type GraphNodes = {[nodeID : GraphNodeID]: GraphNode};
 
+export type GraphProperties = {[key : string]: number | string | boolean};
+
 export type GraphData = {
     nodes : GraphNodes;
-    properties: {[key : string]: number | string | boolean};
+    properties: GraphProperties;
     graphType: GraphType;
 }
 
