@@ -304,7 +304,7 @@ export class Graph {
 	}
 
 	_prepareForNodeModifications() {
-		if (!this.nodeChangesMade) {
+		if (!this._nodeChangesMade) {
 			this._data = {...this._data, nodes: {...this._data.nodes}};
 		}
 		this._cachedNodes = null;
