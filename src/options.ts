@@ -37,7 +37,9 @@ const ALLOWED_BEHAVIOR_NAMES = {
 };
 
 import {
-	OptionsConfig, OptionsConfigMap
+	OptionsConfig,
+	OptionsConfigMap,
+	OptionsConfigExample
 } from './types.js';
 
 import {
@@ -63,8 +65,8 @@ export const optionsConfigValidator = (config : OptionsConfig) : string => {
 	});
 };
 
-export const configIsMap = (config : OptionsConfig | OptionsConfigMap) : config is OptionsConfigMap => {
-	return config[EXAMPLE_PROPERTY_NAME] == undefined;
+export const configIsMap = (config : OptionsConfigExample) : config is OptionsConfigMap => {
+	return typeof config == 'object' && !Array.isArray(config) && config[EXAMPLE_PROPERTY_NAME] == undefined;
 };
 
 const shortNameForOptionsLeaf = (leaf) => {
@@ -74,10 +76,10 @@ const shortNameForOptionsLeaf = (leaf) => {
 	return leaf[SHORT_NAME_PROPERTY_NAME] || '';
 };
 
-const optionsLeafValidator = (config : OptionsConfig) : string => {
+const optionsLeafValidator = (config : OptionsConfigExample) : string => {
 	if (!config || typeof config != 'object') return 'Config must be an object';
 	const example = config[EXAMPLE_PROPERTY_NAME];
-	if (example === undefined) {
+	if (configIsMap(config)) {
 		//It's a multi-level nested object I guess
 		if (Object.keys(config).length == 0) return 'example is a required property';
 		//shortNames also may not conflict with any non-short name
