@@ -62,8 +62,10 @@ export interface SimulationConfig extends RawSimulationConfig {
     simOptions : SimOptions;
 }
 
+export type ScoreConfigID = string;
+
 export interface ScoreConfigItem {
-    id : string;
+    id : ScoreConfigID;
     title? : string;
     description? : string;
     color? : CSSColor;
