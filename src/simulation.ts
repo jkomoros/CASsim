@@ -181,6 +181,16 @@ export class SimulationCollection {
 }
 
 class SimulationRun {
+
+	_simulation : Simulation;
+	_index : number;
+	_frames : unknown;
+	_scoreData : unknown;
+	_successScores : number[];
+	_simulatorMaxFrameIndex : number;
+	_maxFrameIndex : number;
+	_lastChanged : number;
+
 	constructor(simulation, index) {
 		this._simulation = simulation;
 		this._index = index;
