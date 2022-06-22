@@ -26,40 +26,44 @@ import {
 	parseHash
 } from './util.js';
 
-const selectRawConfigData = state => state.data ? state.data.data : [];
-const selectModifications = state => state.data ? state.data.modifications : [];
-export const selectHash = state => state.data ? state.data.hash : '';
-export const selectWarning = state => state.data ? state.data.warning : '';
-export const selectFilename = state => state.data ? state.data.filename : '';
-export const selectSimulationIndex = state => state.data ? state.data.simulationIndex : 0;
-export const selectFrameIndex = state => state.data ? state.data.frameIndex : 0;
-export const selectRunIndex = state => state.data ? state.data.runIndex : 0;
-export const selectScrenshotting = state => state.data ? state.data.screenshotting : false;
+import {
+	RootState
+} from './types.js';
+
+const selectRawConfigData = (state : RootState) => state.data ? state.data.data : [];
+const selectModifications = (state : RootState) => state.data ? state.data.modifications : [];
+export const selectHash = (state : RootState) => state.data ? state.data.hash : '';
+export const selectWarning = (state : RootState) => state.data ? state.data.warning : '';
+export const selectFilename = (state : RootState) => state.data ? state.data.filename : '';
+export const selectSimulationIndex = (state : RootState) => state.data ? state.data.simulationIndex : 0;
+export const selectFrameIndex = (state : RootState) => state.data ? state.data.frameIndex : 0;
+export const selectRunIndex = (state : RootState) => state.data ? state.data.runIndex : 0;
+export const selectScrenshotting = (state : RootState) => state.data ? state.data.screenshotting : false;
 //TODO: actually have this be the real constant for PLAY_TYPE_FRAME;
-export const selectPlayType = state => state.data ? state.data.playType : 'frame';
-export const selectPlaying = state => state.data ? state.data.playing : false;
-export const selectDelayCount = state => state.data ? state.data.delayCount : 0;
-export const selectShowControls = state => state.data ? state.data.showControls : true;
-const selectRawConfigurationExpanded = state => state.data ? state.data.configurationExpanded : false;
-const selectRawDescriptionExpanded = state => state.data ? state.data.descriptionExpanded : false;
-const selectRawChartExpanded = state => state.data ? state.data.chartExpanded : false;
-const selectSimulationLastChanged = state => state.data ? state.data.simulationLastChanged : 0;
-export const selectPathExpanded = state => state.data ? state.data.pathExpanded : {};
-export const selectScale = state => state.data ? state.data.scale : 1.0;
-export const selectLoadedSimulators = state => state.data ? state.data.loadedSimulators : {};
-export const selectLoadingSimulators = state => state.data ? state.data.loadingSimulators : {};
-export const selectKnownDatafiles = state => state.data ? state.data.knownDatafiles : [];
-export const selectKnownSimulatorNames = state => state.data ? state.data.knownSimulatorNames : [];
-export const selectResizeVisualization = state => state.data ? state.data.resizeVisualization : false;
-export const selectChartSingleRun = state => state.data ? state.data.chartSingleRun : false;
-export const selectChartConfigIDs = state => state.data ? state.data.chartConfigIDs : '';
+export const selectPlayType = (state : RootState) => state.data ? state.data.playType : 'frame';
+export const selectPlaying = (state : RootState) => state.data ? state.data.playing : false;
+export const selectDelayCount = (state : RootState) => state.data ? state.data.delayCount : 0;
+export const selectShowControls = (state : RootState) => state.data ? state.data.showControls : true;
+const selectRawConfigurationExpanded = (state : RootState) => state.data ? state.data.configurationExpanded : false;
+const selectRawDescriptionExpanded = (state : RootState) => state.data ? state.data.descriptionExpanded : false;
+const selectRawChartExpanded = (state : RootState) => state.data ? state.data.chartExpanded : false;
+const selectSimulationLastChanged = (state : RootState) => state.data ? state.data.simulationLastChanged : 0;
+export const selectPathExpanded = (state : RootState) => state.data ? state.data.pathExpanded : {};
+export const selectScale = (state : RootState) => state.data ? state.data.scale : 1.0;
+export const selectLoadedSimulators = (state : RootState) => state.data ? state.data.loadedSimulators : {};
+export const selectLoadingSimulators = (state : RootState) => state.data ? state.data.loadingSimulators : {};
+export const selectKnownDatafiles = (state : RootState) => state.data ? state.data.knownDatafiles : [];
+export const selectKnownSimulatorNames = (state : RootState) => state.data ? state.data.knownSimulatorNames : [];
+export const selectResizeVisualization = (state : RootState) => state.data ? state.data.resizeVisualization : false;
+export const selectChartSingleRun = (state : RootState) => state.data ? state.data.chartSingleRun : false;
+export const selectChartConfigIDs = (state : RootState) => state.data ? state.data.chartConfigIDs : '';
 
-export const selectDialogOpen = state => state.data ? state.data.dialogOpen : false;
-export const selectDialogType = state => state.data ? state.data.dialogType : '';
-export const selectDialogExtras = state => state.data ? state.data.dialogExtras : {};
+export const selectDialogOpen = (state : RootState) => state.data ? state.data.dialogOpen : false;
+export const selectDialogType = (state : RootState) => state.data ? state.data.dialogType : '';
+export const selectDialogExtras = (state : RootState) => state.data ? state.data.dialogExtras : {};
 
-export const selectPage = state => state.app ? state.app.page : '';
-export const selectPageExtra = state => state.app ? state.app.pageExtra : '';
+export const selectPage = (state : RootState) => state.app ? state.app.page : '';
+export const selectPageExtra = (state : RootState) => state.app ? state.app.pageExtra : '';
 
 export const selectHasModifications = createSelector(
 	selectModifications,
