@@ -11,6 +11,7 @@ export type SimulatorType = string;
 //TODO: define more
 export type SimOptions = object;
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface NormalizedSimOptions extends SimOptions {
 
 }
