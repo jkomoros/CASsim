@@ -276,7 +276,7 @@ export type GraphEdge = {
 
 export type GraphNodes = {[nodeID : GraphNodeID]: GraphNode};
 
-export type GraphProperty = number | string | boolean | Position;
+export type GraphProperty = number | string | boolean | Position | RowCol;
 
 export type GraphPropertyName = string;
 
@@ -385,6 +385,8 @@ export type Size = {
 }
 
 export type Position = Coordinates & Size;
+
+export type RowCol = [number, number];
 
 export type AppState = {
     page : string;

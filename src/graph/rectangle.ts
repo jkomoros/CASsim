@@ -1,5 +1,5 @@
 import {
-	RectangleGraphOptions
+	RectangleGraphOptions, RowCol
 } from '../types.js';
 
 import {
@@ -8,11 +8,11 @@ import {
 
 export class RectangleGraph extends PositionedGraph {
 
-	static identifier(row : number, col : number) : [number, number] {
+	static identifier(row : number, col : number) : RowCol {
 		return [row, col];
 	}
 
-	static rowColFromIdentifier(identifier : [number, number]) : [number, number] {
+	static rowColFromIdentifier(identifier : RowCol) : RowCol {
 		return identifier;
 	}
 
