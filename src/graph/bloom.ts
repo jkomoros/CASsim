@@ -11,6 +11,11 @@ import {
 	forceRadial
 } from 'd3';
 
+import {
+	BloomGraphOptions,
+	RandomGenerator
+} from '../types.js';
+
 export const LEVELS_PROPERTY = 'levels';
 export const NODE_VALUES_PROPERTY = 'nodeValues';
 export const CHILD_COUNT_PROPERTY = 'childCount';
@@ -85,17 +90,13 @@ export class BloomGraph extends ForceLayoutGraph {
 			childFactor: (deafault: 1.0) - at each level, the final childCount is childCount * Math.pow(childFactor, level)
 			childLinkLikelihood: (default: 0.0) - How likely the children of each parent node are to have connections amongst themselves. 1.0 is all connected, 0.0 is no connections.
 	*/
-	static make(availableWidth, availableHeight, rnd, options = {}) {
+	static override make(availableWidth : number, availableHeight : number, rnd : RandomGenerator, options : BloomGraphOptions = {}) : BloomGraph {
 		const result = new BloomGraph();
 		result._make(availableWidth, availableHeight, rnd, options);
 		return result;
 	}
 
-	static get name() {
-		return GRAPH_NAME;
-	}
-
-	static get description() {
+	static override get description() {
 		return 'A graph that blooms out of center node out into multiple layers';
 	}
 

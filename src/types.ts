@@ -327,6 +327,19 @@ export type ForceLayoutGraphOptions = {
     randomLinkLikelihood? : number;
 }
 
+export type BloomGraphOptions = ForceLayoutGraphOptions & {
+    // levels (default: 3.0) - how many layers from the first node to go to.
+    levels? : number;
+    // nodeValues: (default: {}) - the values to start each node with
+    nodeValues? : GraphNodeValues;
+    // childCount: (default: 5.0) - how many children each node should have
+    childCount? : number;
+    // childFactor: (deafault: 1.0) - at each level, the final childCount is childCount * Math.pow(childFactor, level)
+    childFactor? : number;
+    // childLinkLikelihood: (default: 0.0) - How likely the children of each parent node are to have connections amongst themselves. 1.0 is all connected, 0.0 is no connections.
+    childLinkLikelihood? : number;
+}
+
 export type RectangleGraphOptions = {
     // starterValues - the values to clone and set for each cell
     starterValues? : GraphNodeValues;
