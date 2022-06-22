@@ -75,7 +75,7 @@ export class BaseRenderer extends LitElement {
 
 	//This the override point for subclasses
 	innerRender() {
-		return html`<pre>${JSON.stringify(this.frame, '', 2)}</pre>`;
+		return html`<pre>${JSON.stringify(this.frame, null, 2)}</pre>`;
 	}
 
 }
