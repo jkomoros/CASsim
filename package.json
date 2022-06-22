@@ -10,7 +10,7 @@
     "start": "gulp generate-json && npm run serve",
     "serve": "tsc --watch --preserveWatchOutput & wds --node-resolve --port=8081",
     "serve:clean": "npm install && npm run clean && npm run start",
-    "build": "npm run build:clean && npm run build:typescript && npm run build:rollup && npm run build:service-worker",
+    "build": "npm run build:clean && npm run build:typescript; npm run build:rollup && npm run build:service-worker",
     "build:clean": "npm run build:clean:build && npm run build:clean:typescript",
     "build:clean:build": "rm -rf build/",
     "build:clean:typescript": "find src -name '*.map' -type f -delete && find src -name '*.js' -type f -delete && find src -name '*.d.ts' -type f -delete",
