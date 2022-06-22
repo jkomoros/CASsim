@@ -1,4 +1,8 @@
 import {
+	GraphNodeIdentifier
+} from '../types.js';
+
+import {
 	Graph
 } from './graph.js';
 
@@ -47,26 +51,26 @@ export class PositionedGraph extends Graph {
 
 	//Override point. Returns node.x or if it doesn't eixst, this.availableWidth
 	/// 2 by default
-	nodeX(identifier) {
+	nodeX(identifier : GraphNodeIdentifier) : number {
 		const node = this.node(identifier);
-		return node.x === undefined ? this.availableWidth / 2 : node.x;
+		return node.x === undefined ? this.availableWidth / 2 : node.x as number;
 	}
 
 	//Override point. Returns node.y or if it doesn't exist,
 	//this.availableHeight / 2 by default
-	nodeY(identifier) {
+	nodeY(identifier : GraphNodeIdentifier) : number {
 		const node = this.node(identifier);
-		return node.y === undefined ? this.availableHeight / 2 : node.y;
+		return node.y === undefined ? this.availableHeight / 2 : node.y as number;
 	}
 
 	//Override point. returns node.height or this.nodeSize() by default
-	nodeHeight(identifier) {
+	nodeHeight(identifier : GraphNodeIdentifier) : number {
 		const node = this.node(identifier);
 		return node.height === undefined ? this.nodeSize(identifier) : node.height;
 	}
 
 	//Override point. returns node.width or this.nodeSize() by default
-	nodeWidth(identifier) {
+	nodeWidth(identifier : GraphNodeIdentifier) : number {
 		const node = this.node(identifier);
 		return node.width === undefined ? this.nodeSize(identifier) : node.width;
 	}
@@ -75,8 +79,8 @@ export class PositionedGraph extends Graph {
 		Override point. Returns 1.0 by default. You might for example override
 		to return nodeValues.value.
 	*/
-	//eslint-disable-next-line no-unused-vars
-	nodeSizeMultiplier(identifier) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	nodeSizeMultiplier(_identifier : GraphNodeIdentifier) : number {
 		return 1.0;
 	}
 
@@ -84,23 +88,23 @@ export class PositionedGraph extends Graph {
 		Override point. Returns (this.nodeSizeMultiplier * (defaultMaxNodeSize -
 		defaultMinNodeSize)) + defaultMinNodeSize.
 	*/
-	nodeSize(identifier) {
+	nodeSize(identifier : GraphNodeIdentifier) : number {
 		return (this.defaultMaxNodeSize - this.defaultMinNodeSize) * this.nodeSizeMultiplier(identifier) + this.defaultMinNodeSize;
 	}
 
-	get defaultMaxNodeSize() {
-		return this.property('defaultMaxNodeSize') || 10;
+	get defaultMaxNodeSize() : number {
+		return this.property('defaultMaxNodeSize') as number || 10;
 	}
 
-	set defaultMaxNodeSize(val) {
+	set defaultMaxNodeSize(val : number) {
 		this.setProperty('defaultMaxNodeSize', val);
 	}
 
-	get defaultMinNodeSize() {
-		return this.property('defaultMinNodeSize') || 10;
+	get defaultMinNodeSize() : number {
+		return this.property('defaultMinNodeSize') as number || 10;
 	}
 
-	set defaultMinNodeSize(val) {
+	set defaultMinNodeSize(val : number) {
 		this.setProperty('defaultMinNodeSize', val);
 	}
 
