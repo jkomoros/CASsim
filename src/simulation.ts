@@ -183,7 +183,7 @@ export class SimulationCollection {
 	}
 }
 
-class SimulationRun {
+export class SimulationRun {
 
 	_simulation : Simulation;
 	_index : number;
