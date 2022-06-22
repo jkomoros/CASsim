@@ -21,7 +21,7 @@ const OPTIONS_CONFIG = {
 	[NODE_COUNT_PROPERTY]: {
 		example: 100.0,
 		min: 0.0,
-		max: 10000.,
+		max: 10000,
 		step: 1.0,
 		optional: true,
 		default: true,
@@ -31,7 +31,7 @@ const OPTIONS_CONFIG = {
 	[ITERATIONS_PROPERTY]: {
 		example: 100.0,
 		min: 0.0,
-		max: 10000.,
+		max: 10000,
 		step: 1.0,
 		optional: true,
 		default: true,
@@ -61,7 +61,7 @@ const OPTIONS_CONFIG = {
 	[EDGE_COUNT_PROPERTY]: {
 		example: 3,
 		min: 0.0,
-		max: 10000.,
+		max: 10000,
 		step: 1.0,
 		optional: true,
 		default: true,
