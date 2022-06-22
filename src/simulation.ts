@@ -313,9 +313,7 @@ class SimulationRun {
 		const sim = this._simulation.simulator;
 		return sim.generator(frameIndex, previousFrame, this._simulation.simOptions, rnd, this._index, this._simulation.width, this._simulation.height);
 	}
-};
-
-
+}
 
 export class Simulation {
 
@@ -742,4 +740,4 @@ export class Simulation {
 		this._optionConfig = result;
 		return result;
 	}
-};
+}
