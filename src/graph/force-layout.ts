@@ -101,6 +101,22 @@ const OPTIONS_CONFIG = {
 	}
 };
 
+type SimulationNodeDatum = {
+	id : GraphNodeID;
+	x? : number;
+	y? : number;
+	fx? : number;
+	fy? : number;
+}
+
+type SimulationEdgeDatum = {
+	source : GraphNodeID;
+	target : GraphNodeID;
+	value : number;
+};
+
+type LayoutSimulation = d3.Simulation<SimulationNodeDatum,SimulationEdgeDatum>;
+
 /*
 	A ForceLayoutGraph is a PositionedGraph whose x/y properteis are set by
 	running a d3 force graph simulation.
@@ -300,14 +316,14 @@ export class ForceLayoutGraph extends PositionedGraph {
 	/*
 		A chance for a subclass to install more forces on the force layout simulation.
 	*/
-	//eslint-disable-next-line no-unused-vars
-	installExtraForces(simulation) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	installExtraForces(_simulation : LayoutSimulation) {
 		//Do nothing by default
 	}
 
 	_recalcLayout() {
 
-		const nodes = Object.values(this.nodes()).map(values => {
+		const nodes : SimulationNodeDatum[] = Object.values(this.nodes()).map(values => {
 			const result = {...values};
 			const edges = this.edges(values);
 			//Fix unconnected items to wherever they are right now, so they don't go flying off the edge due to manyBody without a centering link force.
@@ -315,7 +331,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 				result.fx = result.x;
 				result.fy = result.y;
 			}
-			return result;
+			return result as SimulationNodeDatum;
 		});
 		//TODO: allow override value based on how strong it is
 		const edges = Object.values(this.allEdges()).map(edge => ({source:edge.from, target: edge.to, value:this.distanceForEdge(edge)}));
@@ -323,13 +339,13 @@ export class ForceLayoutGraph extends PositionedGraph {
 		const width = this.availableWidth;
 		const height = this.availableHeight;
 
-		const simulation = forceSimulation(nodes);
+		const simulation : LayoutSimulation = forceSimulation(nodes);
 
 		simulation.force('link', forceLink(edges).id(d => d.id).distance(d => d.value));
 		//nodeSize is the diameter, we want the radius. But give a bit of buffer...
 		if (!this.noCollide) simulation.force('collide', forceCollide().radius(n => {
-			const nodeRadius = this.nodeSize(n) * 0.5;
-			return nodeRadius + (nodeRadius * this.nodeMargin(n));
+			const nodeRadius = this.nodeSize(n.id) * 0.5;
+			return nodeRadius + (nodeRadius * this.nodeMargin(n.id));
 		}));
 		simulation.force('charge', forceManyBody());
 		simulation.force('center', forceCenter(width / 2, height / 2));
