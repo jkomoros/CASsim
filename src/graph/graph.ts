@@ -352,12 +352,12 @@ export class Graph {
 		this.setEdge(toIdentifier, fromIdentifier, {...values});
 	}
 
-	setEdge(fromIdentifier, toIdentifier, values = {}) {
+	setEdge(fromIdentifier : GraphNodeIdentifier, toIdentifier : GraphNodeIdentifier, values : Partial<GraphEdge> = {}) : void {
 		const fromID = Graph.packID(fromIdentifier);
 		const toID = Graph.packID(toIdentifier);
 		let node = this._nodeObject(fromID);
 		if (!node) {
-			this.setNode(fromID);
+			this.setNode(fromID, {});
 			node = this._nodeObject(fromID);
 		}
 		const edgeID = Graph.packEdgeID(fromIdentifier, toIdentifier);
@@ -365,7 +365,7 @@ export class Graph {
 		if (values.from != fromID) values.from = fromID;
 		if (values.to != toID) values.to = toID;
 		this._prepareForNodeModifications();
-		this._data.nodes[fromID] = {...node, edges:{...node.edges, [toID]: values}};
+		this._data.nodes[fromID] = {...node, edges:{...node.edges, [toID]: values as GraphEdge}};
 	}
 
 	setBidirectionalEdgeProperty(fromIdentifier, toIdentifier, property, value) {
