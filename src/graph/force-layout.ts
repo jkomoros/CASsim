@@ -22,8 +22,6 @@ export const NODE_MARGIN_PROPERTY = 'nodeMargin';
 export const NO_COLLIDE_PROPERTY = 'noCollide';
 export const RANDOM_LINK_LIKELIHOOD_PROPERTY = 'randomLinkLikelihood';
 
-export const GRAPH_NAME = 'force';
-
 import {
 	DistributionConfig,
 	FIXED

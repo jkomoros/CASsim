@@ -23,8 +23,6 @@ export const CHILD_COUNT_PROPERTY = 'childCount';
 export const CHILD_FACTOR_PROPERTY = 'childFactor';
 export const CHILD_LINK_LIKELIHOOD_PROPERTY = 'childLinkLikelihood';
 
-export const GRAPH_NAME = 'bloom';
-
 const OPTIONS_CONFIG = {
 	[LEVELS_PROPERTY]: {
 		example: 3.0,
