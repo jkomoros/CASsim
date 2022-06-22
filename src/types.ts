@@ -5,7 +5,7 @@ export type SimulationConfigName = string;
 
 //A string that can be used directly anywhere CSS expects a color. Hex, RGB(),
 //RGBA(), and named colors all work.
-type CSSColor = string;
+export type CSSColor = string;
 
 export type RGBColor = [r : number, g : number, b : number];
 export type RGBAColor = [r : number, g : number, b : number, a : number];

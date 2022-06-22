@@ -1,5 +1,11 @@
+import {
+	Color,
+	CSSColor,
+	RGBAColor,
+	RGBColor
+} from './types.js';
 
-const NAMED_COLORS = {
+const NAMED_COLORS : {[namedColor : CSSColor] : CSSColor} = {
 	"aliceblue": "#f0f8ff",
 	"antiquewhite": "#faebd7",
 	"aqua": "#00ffff",
@@ -151,7 +157,7 @@ const NAMED_COLORS = {
 	"yellowgreen": "#9acd32"
 };
 
-export const gradient = (one, two, percentage) => {
+export const gradient = (one : CSSColor | Color, two : CSSColor | Color, percentage : number) : CSSColor => {
 	if (typeof one != 'object') one = color(one);
 	if (typeof two != 'object') two = color(two);
 	const r = Math.round((two.r - one.r) * percentage + one.r);
@@ -161,7 +167,7 @@ export const gradient = (one, two, percentage) => {
 	return 'rgba(' + [r,g,b,a].join(', ') + ')';
 };
 
-export const color = (arg) => {
+export const color = (arg : CSSColor | RGBColor | RGBAColor) : Color => {
 	let r = 0;
 	let g = 0;
 	let b = 0;
@@ -212,8 +218,8 @@ export const color = (arg) => {
 		}
 		[r,g,b,a] = arg;
 	}
-	const rgb = [r, g, b];
-	const rgba = [r, g, b, a];
+	const rgb : RGBColor = [r, g, b];
+	const rgba : RGBAColor = [r, g, b, a];
 	const hexInner = [r.toString(16), g.toString(16), b.toString(16), Math.floor(a * 255).toString(16)].map(str => str.length == 1 ? '0' + str : str);
 	const hex = ('#' + hexInner.join('')).toUpperCase();
 	const rgbStr = 'rgb(' + r  + ',' + g + ',' + b + ')';
