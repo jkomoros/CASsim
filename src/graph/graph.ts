@@ -1,5 +1,7 @@
 import {
-	GraphData
+	GraphData,
+	GraphNodeID,
+	GraphValues
 } from '../types.js';
 
 import {
@@ -29,6 +31,9 @@ simulation), use the make*() methods on each subclasses type.
 export class Graph {
 
 	_data : GraphData;
+	_nodeChangesMade : boolean;
+	_propertyChangesMade : boolean;
+	_cachedNodes : {[id : GraphNodeID]: GraphValues}
 
 	//data is the starter data. We will never modify data passed to us, but
 	//rather clone and set.
