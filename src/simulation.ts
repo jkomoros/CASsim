@@ -287,7 +287,7 @@ class SimulationRun {
 				return null;
 			}
 			try {
-				this._simulation.simulator.frameValidator(result, this._simulation.simOptions);
+				this._simulation.simulator.frameValidator(result);
 			} catch(err) {
 				throw new Error('Couldn\'t generate frame at index ' + this.frameIndex + ' problem: ' + err);
 			}
