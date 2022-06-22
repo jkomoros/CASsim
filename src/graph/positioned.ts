@@ -1,5 +1,6 @@
 import {
-	GraphNodeIdentifier
+	GraphNodeIdentifier,
+	Position
 } from '../types.js';
 
 import {
@@ -113,22 +114,22 @@ export class PositionedGraph extends Graph {
 		x,y, width, and height. Uses this.nodeX, this.nodeY, this.nodeHeight,
 		this.nodeWidth by default.
 	*/
-	calculateNodePosition(identifier) {
+	calculateNodePosition(identifier : GraphNodeIdentifier) : Position {
 		return {x:this.nodeX(identifier), y: this.nodeY(identifier), width: this.nodeWidth(identifier), height: this.nodeHeight(identifier)};
 	}
 
 	//Returns an object with x,y of the node, and sometimes a width/height. x,y are at the center of the node.
-	nodePosition(identifier) {
+	nodePosition(identifier : GraphNodeIdentifier) : Position {
 		const values = this.node(identifier);
 		if (!values || !values.position) {
 			return this.calculateNodePosition(identifier);
 		}
-		return values.position;
+		return values.position as Position;
 	}
 
 	//Goes through and sets the x,y,width,height on all nodes so that future
 	//nodePosition calls don't require calculations.
-	bakeLayout() {
+	bakeLayout() : void {
 		for (const node of Object.values(this.nodes())) {
 			const position = this.calculateNodePosition(node);
 			this.setNodeProperty(node, 'position', position);
