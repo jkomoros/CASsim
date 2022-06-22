@@ -49,9 +49,9 @@ export const mode = (nums) => {
 
 const gaussianRandom = (mean, std, rnd = Math.random) => {
 	//https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
-	var u1 = rnd();
-	var u2 = rnd();
-	var z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(Math.PI * 2 * u2);
+	const u1 = rnd();
+	const u2 = rnd();
+	const z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(Math.PI * 2 * u2);
 	return z0 * std + mean;
 };
 
