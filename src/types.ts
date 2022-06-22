@@ -274,7 +274,9 @@ export type GraphNodes = {[nodeID : GraphNodeID]: GraphNode};
 
 export type GraphProperty = number | string | boolean;
 
-export type GraphProperties = {[key : string]: GraphProperty};
+export type GraphPropertyName = string;
+
+export type GraphProperties = {[key : GraphPropertyName]: GraphProperty};
 
 export type GraphData = {
     nodes : GraphNodes;
