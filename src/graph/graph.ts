@@ -223,7 +223,7 @@ export class Graph {
 	//Returns a map of nodeID to distance length, representing the distance from
 	//fromNode to all other nodes. Edge scorerer may be undefined, in which case
 	//each edge will count for 1. A convenience wrapper around exploreGraph.
-	distanceToOtherNodes(fromIdentifier : GraphNodeIdentifier, edgeScorer : GraphExplorationEdgeScorer) : {[id : GraphNodeID] : number} {
+	distanceToOtherNodes(fromIdentifier : GraphNodeIdentifier, edgeScorer? : GraphExplorationEdgeScorer) : {[id : GraphNodeID] : number} {
 		const collection = this.exploreGraph(fromIdentifier, undefined, edgeScorer);
 		return Object.fromEntries(Object.entries(collection).map(entry => [entry[0], entry[1].length]));
 	}
