@@ -64,7 +64,7 @@ export class Graph {
 		this._cachedNodes = null;
 	}
 
-	get name() : GraphType {
+	static get name() : GraphType {
 		return '';
 	}
 
