@@ -159,7 +159,7 @@ export class Graph {
 	}
 
 	//Returns all nodes. if filterFunc is provided, it will filter any node whose values, when passed to the filterFunc, do not return true.
-	nodes(filterFunc) {
+	nodes(filterFunc? : (values : GraphValues) => boolean) : {[id : GraphNodeID]: GraphValues} {
 		if (filterFunc) return Object.fromEntries(Object.entries(this._data.nodes).filter(entry => filterFunc(entry[1].values)).map(entry => [entry[0], entry[1].values]));
 		if (!this._cachedNodes) {
 			this._cachedNodes = Object.fromEntries(Object.entries(this._data.nodes).map(entry => [entry[0], entry[1].values]));
