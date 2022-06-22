@@ -392,17 +392,17 @@ export class Graph {
 		}
 	}
 
-	deleteBidirectionalEdge(fromIdentifier, toIdentifier) {
+	deleteBidirectionalEdge(fromIdentifier : GraphNodeIdentifier, toIdentifier : GraphNodeIdentifier) : void {
 		this.deleteEdge(fromIdentifier, toIdentifier);
 		this.deleteEdge(toIdentifier, fromIdentifier);
 	}
 
-	deleteEdge(fromIdentifier, toIdentifier) {
+	deleteEdge(fromIdentifier : GraphNodeIdentifier, toIdentifier : GraphNodeIdentifier) : void {
 		const fromID = Graph.packID(fromIdentifier);
 		const toID = Graph.packID(toIdentifier);
-		let node = this._nodeObject(fromID);
+		const node = this._nodeObject(fromID);
 		if (!node) return;
-		let edge = node.edges[toID];
+		const edge = node.edges[toID];
 		if (!edge) return;
 		this._prepareForNodeModifications();
 		const newEdges = {...node.edges};
