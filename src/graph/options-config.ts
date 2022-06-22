@@ -1,4 +1,10 @@
 import {
+	GraphType,
+	OptionsConfigMap,
+	OptionsOverridesMap
+} from '../types.js';
+
+import {
 	BloomGraph
 } from './bloom.js';
 
@@ -28,10 +34,10 @@ const ALL_GRAPH_TYPES = [...Object.keys(GRAPH_TYPES)];
 
 //graphTypes is the list of graphTypes to include. May be an array of keys that
 //are in GRAPH_TYPES.
-export const graphOptionsConfig = (overrides = {}, graphTypes = ALL_GRAPH_TYPES) =>{
+export const graphOptionsConfig = (overrides : OptionsOverridesMap = {}, graphTypes : GraphType[] = ALL_GRAPH_TYPES) =>{
 	if (overrides[GRAPH_TYPE_PROPERTY] == '') throw new Error(GRAPH_TYPE_PROPERTY + ' may not be omitted');
 	const graphTypeName = overrides[GRAPH_TYPE_PROPERTY] || GRAPH_TYPE_PROPERTY;
-	let result = {
+	let result : OptionsConfigMap = {
 		[graphTypeName]: {
 			example: BloomGraph.name,
 			description: 'The type of graph to use',

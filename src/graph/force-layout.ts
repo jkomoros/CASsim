@@ -34,7 +34,6 @@ import {
 	GraphNodeID,
 	GraphNodeIdentifier,
 	GraphNodeValues,
-	OptionsConfig,
 	OptionsConfigMap,
 	OptionsOverridesMap,
 	OptionsValues,
@@ -152,7 +151,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 	/*
 		Provides an optionsConfig. Overrides is a map of optionName --> newName. If newName is '' then that option will not be included.
 	*/
-	static optionsConfig(overrides : OptionsOverridesMap = {}) : OptionsConfig {
+	static optionsConfig(overrides : OptionsOverridesMap = {}) : OptionsConfigMap {
 		const config = this.OPTIONS_CONFIG;
 		return Object.fromEntries(Object.entries(config).map(entry => [overrides[entry[0]] == undefined ? entry[0] : overrides[entry[0]], entry[1]]).filter(entry => entry[0] != ''));
 	}
