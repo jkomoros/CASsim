@@ -8,6 +8,7 @@ import {
 } from '../util.js';
 
 import {
+	OptionsConfigMap,
 	PreferentialAttachmentGraphOptions, RandomGenerator
 } from '../types.js';
 
@@ -99,11 +100,11 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 		return result;
 	}
 
-	static get description() {
+	static override get description() : string {
 		return 'A graph that grows where nodes that are already well connected are more likely to grow new connections';
 	}
 
-	static get OPTIONS_CONFIG() {
+	static override get OPTIONS_CONFIG() : OptionsConfigMap {
 		return { ...OPTIONS_CONFIG, ...ForceLayoutGraph.OPTIONS_CONFIG};
 	}
 
