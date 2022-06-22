@@ -17,7 +17,6 @@ export default {
 		dynamicImportVars(),
 		copy({
 			targets: [
-				{ src: 'node_modules/@webcomponents', dest: 'build/node_modules' },
 				{ src: 'src/listings.json', dest: 'build/src' },
 				{ src: 'data', dest: 'build' },
 				{ src: 'images', dest: 'build' },
