@@ -4,6 +4,7 @@
         "es6": true,
         "mocha": true
     },
+    "ignorePatterns": "build/**",
     "extends": "eslint:recommended",
     "parserOptions": {
         "ecmaVersion": 2020,

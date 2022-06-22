@@ -22,7 +22,7 @@ const SIMULATORS_DIR = 'src/simulators/';
 const LISTINGS_JSON_PATH = 'src/listings.json';
 const DATA_DIRECTORY = 'data';
 
-gulp.task('generate-listings-json', (done) => {
+gulp.task('generate-json', (done) => {
 	const simulatorNames = [];
 	const datafiles = [];
 	for (const simulator of fs.readdirSync(SIMULATORS_DIR)) {
@@ -44,34 +44,7 @@ gulp.task('generate-listings-json', (done) => {
 
 });
 
-gulp.task('generate-polymer-json', (done) => {
-	const polymerTemplate = JSON.parse(fs.readFileSync('polymer.TEMPLATE.json'));
-	const files = fs.readdirSync(SIMULATORS_DIR);
-	polymerTemplate.fragments = files.map(file => SIMULATORS_DIR + file);
-	const blob = JSON.stringify(polymerTemplate, '', '\t');
-	fs.writeFileSync('polymer.json', blob);
-	done();
-});
-
-gulp.task('polymer-build', makeExecutor('polymer build'));
-
-gulp.task('firebase-deploy', makeExecutor('firebase deploy'));
 
 gulp.task('generate', makeExecutor('node screenshot.js'));
 gulp.task('generate:screenshot', makeExecutor('node screenshot.js screenshot'));
 gulp.task('generate:gif', makeExecutor('node screenshot.js gif'));
-
-gulp.task('generate-json', gulp.series(
-	'generate-polymer-json',
-	'generate-listings-json'
-));
-
-gulp.task('build', gulp.series(
-	'generate-json',
-	'polymer-build'
-));
-
-gulp.task('deploy', gulp.series(
-	'build',
-	'firebase-deploy'
-));

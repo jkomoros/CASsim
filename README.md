@@ -68,7 +68,7 @@ If you want to deploy to firebase hosting, set up a firebase project. Then run `
 
 Now, you can deploy whenever you want to:
 
-`gulp deploy`
+`npm run deploy`
 
 Your web app will now be available at `https://<PROJECT-ID>.web.app/`
 

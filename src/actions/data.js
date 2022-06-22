@@ -112,8 +112,6 @@ import {
 	parseHash,
 } from '../util.js';
 
-const SIMULATORS_DIRECTORY = 'simulators';
-
 export const loadData = (blob) => (dispatch) => {
 	let data;
 	try {
@@ -131,6 +129,10 @@ export const loadData = (blob) => (dispatch) => {
 	dispatch(simulationActivated());
 };
 
+const importSimulator = (simName) => {
+	return import(`../simulators/${simName}.js`);
+};
+
 export const fetchNeededSimulators = () => (dispatch, getState) => {
 	const state = getState();
 	const loadedSimulators = selectLoadedSimulators(state);
@@ -145,7 +147,7 @@ export const fetchNeededSimulators = () => (dispatch, getState) => {
 		});
 		(async () => {
 			try {
-				const mod = await import('../' + SIMULATORS_DIRECTORY + '/' + name + '.js');
+				const mod = await importSimulator(name);
 				//The module might be a proper, uncompiled module, or might be a
 				//mangled, built module. Extract the default export in either
 				//case.
