@@ -299,7 +299,7 @@ class SimulationRun {
 
 
 
-export const Simulation = class {
+export class Simulation {
 
 	_simulator : BaseSimulator;
 
