@@ -18,7 +18,8 @@ import {
 	GraphExplorationEdgeScorer,
 	RandomGenerator,
 	GraphExplorationResult,
-	GraphNodeExplorationResult
+	GraphNodeExplorationResult,
+	GraphNodeValuesMap
 } from '../types.js';
 
 import {
@@ -208,8 +209,8 @@ export class Graph {
 
 	//Returns the values objects for all neighbors up to ply hops away from
 	//identifier.
-	neighbors(identifier, ply = 1) {
-		const includeNode = (nodevalues, path, length) => length <= ply;
+	neighbors(identifier : GraphNodeIdentifier, ply = 1) : GraphNodeValuesMap {
+		const includeNode = (_nodevalues, _path, length) => length <= ply;
 		const result = this.exploreGraph(identifier, includeNode, () => 1);
 		return Object.fromEntries(Object.entries(result).map(entry => [entry[0], entry[1].node]));
 	}
@@ -217,7 +218,7 @@ export class Graph {
 	//Returns a map of nodeID to distance length, representing the distance from
 	//fromNode to all other nodes. Edge scorerer may be undefined, in which case
 	//each edge will count for 1. A convenience wrapper around exploreGraph.
-	distanceToOtherNodes(fromIdentifier, edgeScorer) {
+	distanceToOtherNodes(fromIdentifier : GraphNodeIdentifier, edgeScorer : GraphExplorationEdgeScorer) : {[id : GraphNodeID] : number} {
 		const collection = this.exploreGraph(fromIdentifier, undefined, edgeScorer);
 		return Object.fromEntries(Object.entries(collection).map(entry => [entry[0], entry[1].length]));
 	}

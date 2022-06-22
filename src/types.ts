@@ -255,6 +255,10 @@ export type GraphNodeValues = {
     [key : string] : unknown;
 };
 
+export type GraphNodeValuesMap = {
+    [id : GraphNodeID] : GraphNodeValues
+};
+
 export type GraphNode = {
     id: GraphNodeID,
     values : GraphNodeValues;
