@@ -56,7 +56,7 @@ export class Graph {
 
 	//data is the starter data. We will never modify data passed to us, but
 	//rather clone and set.
-	constructor(data : GraphData) {
+	constructor(data? : GraphData) {
 		if (!data) data = {nodes:{}, properties:{}, graphType: this.constructor.name};
 		this._data = data;
 		this._nodeChangesMade = false;
