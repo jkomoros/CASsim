@@ -1,5 +1,6 @@
 import {
 	GraphNodeIdentifier,
+	GraphType,
 	Position
 } from '../types.js';
 
@@ -17,6 +18,10 @@ import {
 	with specific layout logic.
 */
 export class PositionedGraph extends Graph {
+
+	static override get name() : GraphType {
+		return 'positioned';
+	}
 
 	set availableWidth(val : number) {
 		this.setProperty('availableWidth', val);
