@@ -6,7 +6,7 @@ import {
 	GraphData,
 	GraphEdgeID,
 	GraphNode,
-	GraphNodeEdge,
+	GraphEdge,
 	GraphNodeID,
 	GraphNodeIdentifier,
 	GraphType,
@@ -143,7 +143,7 @@ export class Graph {
 	//Get the values stored on the edge, or undefined if that edge doesnt'
 	//exist. Note that you can only rely on value equality for edges if
 	//changesMade is false. Instead use Graph.same()
-	edge(fromIdentifier : GraphNodeIdentifier, toIdentifier : GraphNodeIdentifier) : GraphNodeEdge {
+	edge(fromIdentifier : GraphNodeIdentifier, toIdentifier : GraphNodeIdentifier) : GraphEdge {
 		const node = this._nodeObject(fromIdentifier);
 		if (!node) return undefined;
 		const toID = Graph.packID(toIdentifier);
@@ -151,14 +151,14 @@ export class Graph {
 	}
 
 	//Returns a map of toIdentifier, and the EDGE values.
-	edges(identifier : GraphNodeIdentifier) : {[to : GraphNodeID] : GraphNodeEdge} {
+	edges(identifier : GraphNodeIdentifier) : {[to : GraphNodeID] : GraphEdge} {
 		//_nodeObject will pack identifier
 		const node = this._nodeObject(identifier);
 		if (!node) return undefined;
 		return node.edges;
 	}
 
-	allEdges() : {[id : GraphEdgeID] : GraphNodeEdge } {
+	allEdges() : {[id : GraphEdgeID] : GraphEdge } {
 		return Object.fromEntries(TypedObject.keys(this.nodes()).map(nodeID => Object.values(this.edges(nodeID))).flat().map(edge => [edge.id, edge]));
 	}
 

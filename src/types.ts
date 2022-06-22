@@ -259,11 +259,11 @@ export type GraphNode = {
     id: GraphNodeID,
     values : GraphValues;
     edges: {
-        [to: GraphNodeID]: GraphNodeEdge;
+        [to: GraphNodeID]: GraphEdge;
     }
 }
 
-export type GraphNodeEdge = {
+export type GraphEdge = {
     from: GraphNodeID;
     to: GraphNodeID;
     id: GraphEdgeID;
