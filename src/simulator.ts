@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 import { LitElement, html, css} from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
 import {
 	defaultValueForConfig,
@@ -180,16 +181,19 @@ export class BaseSimulator {
 	}
 }
 
+@customElement("stub-simulator-renderer")
 class StubSimulatorRenderer extends LitElement {
-	static get properties() {
-		return {
-			frame: { type: Object },
-			width: {type:Number},
-			height: {type:Number},
-		};
-	} 
 
-	static get styles() {
+	@property({ type : Object})
+	frame : SimulationFrame;
+
+	@property({ type : Number })
+	width : number;
+
+	@property({ type : Number })
+	height : number;
+
+	static override get styles() {
 		return [
 			css`
 
@@ -203,11 +207,15 @@ class StubSimulatorRenderer extends LitElement {
 		];
 	}
 
-	render() {
+	override render() {
 		return html`
 			<em>TODO: override this renderer</em>
 		`;
 	}
 }
 
-window.customElements.define("stub-simulator-renderer", StubSimulatorRenderer);
+declare global {
+	interface HTMLElementTagNameMap {
+		'stub-simulator-renderer': StubSimulatorRenderer;
+	}
+}
