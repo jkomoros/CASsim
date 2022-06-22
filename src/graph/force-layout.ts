@@ -275,16 +275,16 @@ export class ForceLayoutGraph extends PositionedGraph {
 	/*
 		distanceForEdge should return the distance value to use for the edge. Override point for subclases.
 	*/
-	//eslint-disable-next-line no-unused-vars
-	distanceForEdge(edge) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	distanceForEdge(_edge : GraphEdge) : number {
 		return 1.0;
 	}
 
-	get defaultNodeMargin() {
-		return this.property('defaultNodeMargin');
+	get defaultNodeMargin() : number {
+		return this.property('defaultNodeMargin') as number;
 	}
 
-	set defaultNodeMargin(val) {
+	set defaultNodeMargin(val : number) {
 		this.setProperty('defaultNodeMargin', val);
 	}
 
@@ -292,8 +292,8 @@ export class ForceLayoutGraph extends PositionedGraph {
 		The margin to leave between this node and its neighbors, in units of
 		percenatage of its nodeSize. By default returns defaultNodeMargin.
 	*/
-	//eslint-disable-next-line no-unused-vars
-	nodeMargin(identifier) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	nodeMargin(_identifier : GraphNodeIdentifier) : number {
 		return this.defaultNodeMargin;
 	}
 
