@@ -315,7 +315,7 @@ export class Graph {
 		const id = Graph.packID(identifier);
 		let node = this._nodeObject(id);
 		if (!node) node = {edges:{}};
-		if (node.values == values) return;
+		if (node.values == values) return node.values;
 		if (!values) values = {};
 		if (values.id != id) values.id = id;
 		node = {...node};
