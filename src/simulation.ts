@@ -388,11 +388,11 @@ export const Simulation = class {
 		return this.cloneWithConfig(setSimulationPropertyInConfig(this.config, path, value));
 	}
 
-	cloneWithConfig(config) {
+	cloneWithConfig(config : SimulationConfig) {
 		return new Simulation(config, this.index, config);
 	}
 
-	get lastChanged() {
+	get lastChanged() : number {
 		return Math.max(this._lastChanged, ...this._runs.map(run => run.lastChanged));
 	}
 
