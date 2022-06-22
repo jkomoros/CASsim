@@ -131,7 +131,7 @@ export const setSimulationPropertyInConfig = (config, path, value) => {
 	return config;
 };
 
-export const SimulationCollection = class {
+export class SimulationCollection {
 	constructor(configs, unmodifiedConfigs) {
 		if (!configs) configs = [];
 		if (!unmodifiedConfigs) unmodifiedConfigs = [];
