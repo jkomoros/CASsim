@@ -7,6 +7,8 @@ import {
 } from '../util.js';
 
 import {
+	GraphEdgeID,
+	GraphNodeValues,
 	OptionsConfigMap,
 	PreferentialAttachmentGraphOptions, RandomGenerator
 } from '../types.js';
@@ -121,14 +123,14 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 		}
 
 		for (let i = 0; i < iterations; i++) {
-			const urn = new Urn(rnd);
+			const urn = new Urn<GraphNodeValues>(rnd);
 			for (const node of Object.values(this.nodes())) {
 				const edges = this.edges(node);
 				const edgeCount = Object.keys(edges).length;
 				urn.add(node, edgeCount + nodeBoost);
 			}
 			const node = urn.pick();
-			const edgeUrn = new Urn(rnd);
+			const edgeUrn = new Urn<GraphEdgeID>(rnd);
 			const distances = this.distanceToOtherNodes(node);
 			const maxDistance = Math.max(0, ...Object.values(distances));
 			const unconnectedDistance  = maxDistance + 1;
