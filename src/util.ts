@@ -72,11 +72,11 @@ export function shuffleInPlace<T>(array : T[], rnd : RandomGenerator = Math.rand
 	return array;
 }
 
-export const idToTitle = (id = '') => {
+export const idToTitle = (id = '') : string => {
 	return id.split('_').join('-').split('-').map(w => (w[0] || '').toUpperCase() + w.substr(1).toLowerCase()).join(' ');
 };
 
-export const deepFreeze = (obj) => {
+export const deepFreeze = (obj : object) : void => {
 	if (!obj) return;
 	if (typeof obj != 'object') return;
 	Object.freeze(obj);
@@ -86,13 +86,13 @@ export const deepFreeze = (obj) => {
 };
 
 //Only works for POJOs
-export const deepCopy = (obj) => {
+export const deepCopy = (obj : object) : object => {
 	return JSON.parse(JSON.stringify(obj));
 };
 
 const IS_STEP_EPSILON = 0.0000001;
 
-export const isStep = (value, step) => {
+export const isStep = (value : number, step : number) : boolean => {
 	const remainder = value / step;
 	const nonIntegerRemainder = Math.abs(remainder - (Math.round(remainder)));
 	return nonIntegerRemainder < IS_STEP_EPSILON;
