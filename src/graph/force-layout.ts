@@ -30,7 +30,9 @@ import {
 } from '../distribution.js';
 
 import {
-	ForceLayoutGraphOptions, RandomGenerator
+	ForceLayoutGraphOptions,
+	GraphType,
+	RandomGenerator
 } from '../types.js';
 
 const nodePercentage = new DistributionConfig({
@@ -114,11 +116,11 @@ export class ForceLayoutGraph extends PositionedGraph {
 		return result;
 	}
 
-	static override get name() {
+	static override get name() : GraphType {
 		return GRAPH_NAME;
 	}
 
-	static get description() {
+	static override get description() : string {
 		return 'A generic force directed graph layout';
 	}
 
