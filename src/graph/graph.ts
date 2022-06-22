@@ -74,7 +74,7 @@ export class Graph {
 	}
 
 	static unpackID(packedID : GraphNodeID) : GraphNodeID[] {
-		return packedID.split(Graph.ID_DELIMITER).map(item => isNaN(parseFloat(item)) ? item : parseFloat(item));
+		return ('' + packedID).split(Graph.ID_DELIMITER).map(item => isNaN(parseFloat(item)) ? item : parseFloat(item));
 	}
 
 	static packEdgeID(fromIdentifier, toIdentifier) {
