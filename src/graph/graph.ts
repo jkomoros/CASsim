@@ -64,6 +64,10 @@ export class Graph {
 		this._cachedNodes = null;
 	}
 
+	get name() : GraphType {
+		return '';
+	}
+
 	/*
 		When a graph type is laoded, it should call this with their constructor
 		so that inflateGraph knows how to find it.
