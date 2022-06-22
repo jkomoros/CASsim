@@ -10,7 +10,7 @@ import {
 	GraphNodeID,
 	GraphNodeIdentifier,
 	GraphType,
-	GraphValues
+	GraphNodeValues
 } from '../types.js';
 
 import {
@@ -42,7 +42,7 @@ export class Graph {
 	_data : GraphData;
 	_nodeChangesMade : boolean;
 	_propertyChangesMade : boolean;
-	_cachedNodes : {[id : GraphNodeID]: GraphValues}
+	_cachedNodes : {[id : GraphNodeID]: GraphNodeValues}
 
 	//data is the starter data. We will never modify data passed to us, but
 	//rather clone and set.
@@ -112,7 +112,7 @@ export class Graph {
 
 	//same checks for logical equality, since you can't rely on values objects
 	//being strictly equaly if changesMade is false.
-	same(left : GraphValues, right : GraphValues) : boolean {
+	same(left : GraphNodeValues, right : GraphNodeValues) : boolean {
 		if (left == right) return true;
 		if (!left || !right) return false;
 		if (typeof left != 'object') return false;
@@ -133,7 +133,7 @@ export class Graph {
 	//Get the values stored on the node, or undefined if it doesn't exist. Note
 	//that you can only rely on value equality for nodes if changesMade is
 	//false. Instead, use Graph.same()
-	node(identifier : GraphNodeIdentifier) : GraphValues {
+	node(identifier : GraphNodeIdentifier) : GraphNodeValues {
 		//_nodeObject will pack identifier
 		const node = this._nodeObject(identifier);
 		if (!node) return undefined;
@@ -163,7 +163,7 @@ export class Graph {
 	}
 
 	//Returns all nodes. if filterFunc is provided, it will filter any node whose values, when passed to the filterFunc, do not return true.
-	nodes(filterFunc? : (values : GraphValues) => boolean) : {[id : GraphNodeID]: GraphValues} {
+	nodes(filterFunc? : (values : GraphNodeValues) => boolean) : {[id : GraphNodeID]: GraphNodeValues} {
 		if (filterFunc) return Object.fromEntries(Object.entries(this._data.nodes).filter(entry => filterFunc(entry[1].values)).map(entry => [entry[0], entry[1].values]));
 		if (!this._cachedNodes) {
 			this._cachedNodes = Object.fromEntries(Object.entries(this._data.nodes).map(entry => [entry[0], entry[1].values]));

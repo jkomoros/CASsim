@@ -250,14 +250,14 @@ export type GraphEdgeID = string;
 
 export type GraphNodeIdentifier = GraphNodeID | GraphNode | GraphNodeID[];
 
-export type GraphValues = {
+export type GraphNodeValues = {
     id : GraphNodeID;
     [key : string] : unknown;
 };
 
 export type GraphNode = {
     id: GraphNodeID,
-    values : GraphValues;
+    values : GraphNodeValues;
     edges: {
         [to: GraphNodeID]: GraphEdge;
     }
