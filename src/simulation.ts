@@ -37,6 +37,8 @@ import {
 	OptionsPath,
 	RawSimulationConfig,
 	ScoreConfig,
+	ScoreConfigID,
+	ScoreConfigItem,
 	SimulationConfig,
 	SimulationConfigName,
 	SimulationFrame,
@@ -186,7 +188,7 @@ class SimulationRun {
 	_simulation : Simulation;
 	_index : number;
 	_frames : SimulationFrame[];
-	_scoreData : unknown;
+	_scoreData : {[id : ScoreConfigID]: {data: number[], config: ScoreConfigItem}[]};
 	_successScores : number[];
 	_simulatorMaxFrameIndex : number;
 	_maxFrameIndex : number;
