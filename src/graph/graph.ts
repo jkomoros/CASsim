@@ -13,7 +13,13 @@ import {
 	GraphNodeValues,
 	GraphProperties,
 	GraphPropertyName,
-	GraphProperty
+	GraphProperty,
+	GraphExplorationIncludeNode,
+	GraphExplorationEdgeScorer,
+	GraphExplorationTargetFound,
+	RandomGenerator,
+	GraphExplorationResult,
+	GraphNodeExplorationResult
 } from '../types.js';
 
 import {
@@ -248,12 +254,12 @@ export class Graph {
 		we visit edges of a node. If not provided, we'll visit nodes in the
 		order they're represented in the graph.
 	*/
-	exploreGraph(fromNodeIdentifier, includeNode = () => true, edgeScorer = () => 1, targetFound = undefined, rnd = undefined) {
+	exploreGraph(fromNodeIdentifier : GraphNodeIdentifier, includeNode : GraphExplorationIncludeNode = () => true, edgeScorer : GraphExplorationEdgeScorer = () => 1, targetFound : GraphExplorationTargetFound = undefined, rnd : RandomGenerator = undefined) : GraphExplorationResult {
 		const fromID = Graph.packID(fromNodeIdentifier);
 		const visitedNodes = {};
 		const collection = {};
 		//Each one should be {path: [...previousNodes, node], length: 1, node: node}
-		const itemsToVisit = [{path: [], length: 0, node: this.node(fromID)}];
+		const itemsToVisit : GraphNodeExplorationResult[] = [{path: [], length: 0, node: this.node(fromID)}];
 		while (itemsToVisit.length) {
 			const item = itemsToVisit.shift();
 			if (visitedNodes[item.node.id]) continue;
