@@ -126,46 +126,47 @@ const optionsLeafValidator = (config : OptionsConfigExample) : string => {
 		}
 	}
 	
-	//Remaining processing is for OptionsConfig only.
+	//Remaining processing is for OptionsConfig only. By being explicit,
+	//typescript will note that it's a Config item from here on out.
 	if (Array.isArray(config) || configIsMap(config)) return '';
 
-	//TODO: switch to modifying these diretly to get type checking
+	//TODO: much of this is now handled by the typechecker and could just be skipped, right?
 
-	if (config[DESCRIPTION_PROPERTY_NAME] !== undefined && typeof config[DESCRIPTION_PROPERTY_NAME] != 'string') return DESCRIPTION_PROPERTY_NAME + ' must be a string if provided';
-	if (config[OPTIONAL_PROPERTY_NAME] !== undefined && typeof config[OPTIONAL_PROPERTY_NAME] != 'boolean') return OPTIONAL_PROPERTY_NAME + ' must be a boolean if provided';
-	if (config[BACKFILL_PROPERTY_NAME] !== undefined && typeof config[BACKFILL_PROPERTY_NAME] != 'boolean') return BACKFILL_PROPERTY_NAME + ' must be a boolean if provided';
-	if (config[DEFAULT_PROPERTY_NAME] !== undefined && typeof config[DEFAULT_PROPERTY_NAME] != 'boolean') return DEFAULT_PROPERTY_NAME + ' must be a boolean if provided';
-	if (config[ADVANCED_PROPERTY_NAME] !== undefined && typeof config[ADVANCED_PROPERTY_NAME] != 'boolean') return ADVANCED_PROPERTY_NAME + ' must be a boolean if provided';
+	if (config.description !== undefined && typeof config.description != 'string') return DESCRIPTION_PROPERTY_NAME + ' must be a string if provided';
+	if (config.optional !== undefined && typeof config.optional != 'boolean') return OPTIONAL_PROPERTY_NAME + ' must be a boolean if provided';
+	if (config.backfill !== undefined && typeof config.backfill != 'boolean') return BACKFILL_PROPERTY_NAME + ' must be a boolean if provided';
+	if (config.default !== undefined && typeof config.default != 'boolean') return DEFAULT_PROPERTY_NAME + ' must be a boolean if provided';
+	if (config.advanced !== undefined && typeof config.advanced != 'boolean') return ADVANCED_PROPERTY_NAME + ' must be a boolean if provided';
 	if (config[IS_ROOT_PROPERTY_NAME] !== undefined && typeof config[IS_ROOT_PROPERTY_NAME] != 'boolean') return IS_ROOT_PROPERTY_NAME + ' must be a boolean if provided';
 
-	if (config[BACKFILL_PROPERTY_NAME] && !config[OPTIONAL_PROPERTY_NAME]) return 'If ' + BACKFILL_PROPERTY_NAME + ' is true, then ' + OPTIONAL_PROPERTY_NAME + 'must also be true';
-	if (config[DEFAULT_PROPERTY_NAME] && !config[OPTIONAL_PROPERTY_NAME]) return 'If ' + DEFAULT_PROPERTY_NAME + ' is true, then ' + OPTIONAL_PROPERTY_NAME + 'must also be true';
+	if (config.backfill && !config.optional) return 'If ' + BACKFILL_PROPERTY_NAME + ' is true, then ' + OPTIONAL_PROPERTY_NAME + 'must also be true';
+	if (config.default && !config.optional) return 'If ' + DEFAULT_PROPERTY_NAME + ' is true, then ' + OPTIONAL_PROPERTY_NAME + 'must also be true';
 
-	if (config[MIN_PROPERTY_NAME] !== undefined && typeof config[MIN_PROPERTY_NAME] != 'number') return MIN_PROPERTY_NAME + ' must be a number if provided';
-	if (config[MAX_PROPERTY_NAME] !== undefined && typeof config[MAX_PROPERTY_NAME] != 'number') return MAX_PROPERTY_NAME + ' must be a number if provided';
-	if (config[STEP_PROPERTY_NAME] !== undefined && typeof config[STEP_PROPERTY_NAME] != 'number') return STEP_PROPERTY_NAME + ' must be a number if provided';
+	if (config.min !== undefined && typeof config.min != 'number') return MIN_PROPERTY_NAME + ' must be a number if provided';
+	if (config.max !== undefined && typeof config.max != 'number') return MAX_PROPERTY_NAME + ' must be a number if provided';
+	if (config.step !== undefined && typeof config.step != 'number') return STEP_PROPERTY_NAME + ' must be a number if provided';
 
-	if (config[BEHAVIOR_PROPERTY_NAME] !== undefined && (typeof config[BEHAVIOR_PROPERTY_NAME] != 'string' || !ALLOWED_BEHAVIOR_NAMES[config[BEHAVIOR_PROPERTY_NAME]])) return BEHAVIOR_PROPERTY_NAME + ' was provided ' + config[BEHAVIOR_PROPERTY_NAME] + ' but only allows ' + Object.keys(ALLOWED_BEHAVIOR_NAMES).join(', ');
+	if (config.behavior !== undefined && (typeof config.behavior != 'string' || !ALLOWED_BEHAVIOR_NAMES[config.behavior])) return BEHAVIOR_PROPERTY_NAME + ' was provided ' + config.behavior + ' but only allows ' + Object.keys(ALLOWED_BEHAVIOR_NAMES).join(', ');
 
-	if (config[HIDE_PROPERTY_NAME] !== undefined && typeof config[HIDE_PROPERTY_NAME] != 'function') return HIDE_PROPERTY_NAME + ' must be a function';
+	if (config.hide !== undefined && typeof config.hide != 'function') return HIDE_PROPERTY_NAME + ' must be a function';
 
-	if (config[SHORT_NAME_PROPERTY_NAME] !== undefined && typeof config[SHORT_NAME_PROPERTY_NAME] != 'string') return SHORT_NAME_PROPERTY_NAME + ' was provided but was not a string';
-	if (config[SHORT_NAME_PROPERTY_NAME] !== undefined && !config[SHORT_NAME_PROPERTY_NAME]) return SHORT_NAME_PROPERTY_NAME + ' may not be the empty string';
+	if (config.shortName !== undefined && typeof config.shortName != 'string') return SHORT_NAME_PROPERTY_NAME + ' was provided but was not a string';
+	if (config.shortName !== undefined && !config.shortName) return SHORT_NAME_PROPERTY_NAME + ' may not be the empty string';
 
-	if (config[MIN_PROPERTY_NAME] !== undefined && config[MAX_PROPERTY_NAME] !== undefined && config[MIN_PROPERTY_NAME] > config[MAX_PROPERTY_NAME]) return 'max is less than min';
-	if (typeof config[EXAMPLE_PROPERTY_NAME] !== 'number' && typeof config[EXAMPLE_PROPERTY_NAME] !== 'object' && !Array.isArray(config[EXAMPLE_PROPERTY_NAME])) {
-		if (config[MIN_PROPERTY_NAME] !== undefined) return MIN_PROPERTY_NAME + ' may only be provided for numbers or array examples';
-		if (config[MAX_PROPERTY_NAME] !== undefined) return MAX_PROPERTY_NAME + ' may only be provided for numbers or array examples';
-		if (config[STEP_PROPERTY_NAME] !== undefined) return STEP_PROPERTY_NAME + ' may only be provided for numbers examples';
+	if (config.min !== undefined && config.max !== undefined && config.min > config.max) return 'max is less than min';
+	if (typeof config.example !== 'number' && typeof config.example !== 'object' && !Array.isArray(config.example)) {
+		if (config.min !== undefined) return MIN_PROPERTY_NAME + ' may only be provided for numbers or array examples';
+		if (config.max !== undefined) return MAX_PROPERTY_NAME + ' may only be provided for numbers or array examples';
+		if (config.step !== undefined) return STEP_PROPERTY_NAME + ' may only be provided for numbers examples';
 	}
-	if (typeof config[EXAMPLE_PROPERTY_NAME] !== 'number' && config[STEP_PROPERTY_NAME]) return STEP_PROPERTY_NAME + ' may only be provided for number examples';
-	if (config[OPTIONS_PROPERTY_NAME] !== undefined) {
-		if (typeof config[OPTIONS_PROPERTY_NAME] !== 'object' || !Array.isArray(config[OPTIONS_PROPERTY_NAME])) return OPTIONS_PROPERTY_NAME + ' must be an array if provided';
-		if (!config[OPTIONS_PROPERTY_NAME].length) return OPTIONS_PROPERTY_NAME + ' was an array without any options';
-		for (const [i, value] of config[OPTIONS_PROPERTY_NAME].entries()) {
-			if (value[VALUE_PROPERTY_NAME] === undefined) return 'option ' + i + ' did not have ' + VALUE_PROPERTY_NAME + ' provided';
-			if (value[DISPLAY_PROPERTY_NAME] !== undefined && typeof value[DISPLAY_PROPERTY_NAME] !== 'string') return 'option ' + i + ' had a non string ' + DISPLAY_PROPERTY_NAME + ' provided';
-			if (value[DESCRIPTION_PROPERTY_NAME] !== undefined && typeof value[DESCRIPTION_PROPERTY_NAME] !== 'string') return 'option ' + i + ' had a non string ' + DESCRIPTION_PROPERTY_NAME + ' provided';
+	if (typeof config.example !== 'number' && config.step) return STEP_PROPERTY_NAME + ' may only be provided for number examples';
+	if (config.options !== undefined) {
+		if (typeof config.options !== 'object' || !Array.isArray(config.options)) return OPTIONS_PROPERTY_NAME + ' must be an array if provided';
+		if (!config.options.length) return OPTIONS_PROPERTY_NAME + ' was an array without any options';
+		for (const [i, value] of config.options.entries()) {
+			if (value.value === undefined) return 'option ' + i + ' did not have ' + VALUE_PROPERTY_NAME + ' provided';
+			if (value.display !== undefined && typeof value.display !== 'string') return 'option ' + i + ' had a non string ' + DISPLAY_PROPERTY_NAME + ' provided';
+			if (value.description !== undefined && typeof value.description !== 'string') return 'option ' + i + ' had a non string ' + DESCRIPTION_PROPERTY_NAME + ' provided';
 		}
 	}
 
