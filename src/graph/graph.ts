@@ -303,7 +303,7 @@ export class Graph {
 		return this.exploreGraph(fromNodeIdentifier, undefined, edgeScorer, targetFound, rnd) as GraphExplorationTargetResult;
 	}
 
-	_prepareForNodeModifications() {
+	_prepareForNodeModifications() : void {
 		if (!this._nodeChangesMade) {
 			this._data = {...this._data, nodes: {...this._data.nodes}};
 		}
@@ -311,15 +311,15 @@ export class Graph {
 		this._nodeChangesMade = true;
 	}
 
-	setNode(identifier, values) {
+	setNode(identifier : GraphNodeIdentifier, values : Partial<GraphNodeValues>) : GraphNodeValues {
 		const id = Graph.packID(identifier);
 		let node = this._nodeObject(id);
-		if (!node) node = {edges:{}};
+		if (!node) node = {edges:{}, id, values: {id: id}};
 		if (node.values == values) return node.values;
 		if (!values) values = {};
 		if (values.id != id) values.id = id;
 		node = {...node};
-		node.values = values;
+		node.values = values as GraphNodeValues;
 		this._prepareForNodeModifications();
 		this._data.nodes[id] = node;
 		return node.values;
