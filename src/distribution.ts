@@ -185,7 +185,7 @@ export class DistributionConfig {
 			...EXAMPLE_OPTIONS,
 			...options,
 		};
-		normalizedOptions.types = options.types || (options.distibution ? [options.distribution] : EXAMPLE_OPTIONS.types);
+		normalizedOptions.types = options.types || (options.distribution ? [options.distribution] : EXAMPLE_OPTIONS.types);
 		normalizedOptions.distribution = options.distribution || normalizedOptions.types[0];
 		normalizedOptions.shortName = options.shortName || '';
 		normalizedOptions.description = options.description === undefined ? 'A value with a ' + normalizedOptions.distribution + ' distribution' : options.description;
