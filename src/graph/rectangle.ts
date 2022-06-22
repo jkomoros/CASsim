@@ -1,14 +1,18 @@
 import {
+	RectangleGraphOptions
+} from '../types.js';
+
+import {
 	PositionedGraph
 } from './positioned.js';
 
 export class RectangleGraph extends PositionedGraph {
 
-	static identifier(row, col) {
+	static identifier(row : number, col : number) : [number, number] {
 		return [row, col];
 	}
 
-	static rowColFromIdentifier(identifier) {
+	static rowColFromIdentifier(identifier : [number, number]) : [number, number] {
 		return identifier;
 	}
 
@@ -19,7 +23,7 @@ export class RectangleGraph extends PositionedGraph {
 		to the left and right of it (but not diagonal).
 
 		options is a dict that may have the following keys
-		starterValue - the values to clone and set for each cell
+		starterValues - the values to clone and set for each cell
 		nodeMargin - the margin to have between nodes. It is in units of
 		percentage of nodeWidth. If you want a different value for x and y,
 		you can set an array with [xMargin, yMargin]
@@ -44,7 +48,7 @@ export class RectangleGraph extends PositionedGraph {
 		diagonalDown - equivalent to diagonalDownLeft, diagonalDownRight
 		diagonal - equivalent to diagonalUp, diagonalDown
 	*/
-	static make(rows, cols, availableWidth, availableHeight, options = {}) {
+	static make(rows : number, cols : number, availableWidth : number, availableHeight : number, options : RectangleGraphOptions = {}) : RectangleGraph {
 		if (typeof rows != 'number' || rows < 1.0) throw new Error('Rows must be a positive integer');
 		if (typeof cols != 'number' || cols < 1.0) throw new Error('Cols must be a positive integer');
 

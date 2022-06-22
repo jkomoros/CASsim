@@ -327,6 +327,53 @@ export type ForceLayoutGraphOptions = {
     randomLinkLikelihood? : number;
 }
 
+export type RectangleGraphOptions = {
+    // starterValues - the values to clone and set for each cell
+    starterValues? : GraphNodeValues;
+    // nodeMargin - the margin to have between nodes. It is in units of
+    // percentage of nodeWidth. If you want a different value for x and y,
+    // you can set an array with [xMargin, yMargin]
+    nodeMargin? : number | [number, number];
+    // nodeRoundness - a value from 0.0 to 1.0 for size of radius
+    nodeRoundness? : number;
+
+    // The follow keys are boolean and may be set to true on options:
+    // rectangular - Allow nodes to have a width and height that differs
+    rectangular? : boolean;
+    // noLeft - Don't connect directly to the left
+    noLeft? : boolean;
+    // noRight - Don't connect directly to the right
+    noRight? : boolean;
+    // noUp - Don't connect directly up
+    noUp? : boolean;
+    // noDown - Don't connect directly down
+    noDown? : boolean;
+    // noHorizontal - Equivalent to noLeft, noRight
+    noHorizontal? : boolean;
+    // noVertical - Equivalent to noUp, noDown
+    noVertical? : boolean;
+    // noRightAngle - Equivalent to noHorizontal, noVertical
+    noRightAngle? : boolean;
+    // diagonalUpLeft - Also connect diagonal up and left
+    diagonalUpLeft? : boolean;
+    // diagonalDownLeft - Also connect diagonals down and left
+    diagonalDownLeft? : boolean;
+    // diagonalUpRight - Also connect diagonals up and right
+    diagonalUpRight? : boolean;
+    // diagonalDownRight - Also connect diagonals down and right
+    diagonalDownRight? : boolean;
+    // diagonalRight - equivalent to diagonalUpRight, diagonalDownRight
+    diagonalRight? : boolean;
+    // diagonalLeft - equilvalent to diagonalUpLeft, diagonalDownLeft
+    diagonalLeft? : boolean;
+    // diagonalUp - equivalent to diagonalUpLeft, diagonalUpRight
+    diagonalUp? : boolean;
+    // diagonalDown - equivalent to diagonalDownLeft, diagonalDownRight
+    diagonalDown? : boolean;
+    // diagonal - equivalent to diagonalUp, diagonalDown
+    diagonal? : boolean;
+}
+
 export type Coordinates = {
     x : number;
     y : number;
