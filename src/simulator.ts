@@ -8,9 +8,13 @@ import {
 } from './options.js';
 
 import {
+	FrameScore,
+	FrameScores,
 	NormalizedSimOptions,
 	PartialSimulationFrame,
 	RandomGenerator,
+	ScoreConfig,
+	SimOptions,
 	SimulationFrame,
 	SimulatorType
 } from './types.js';
@@ -106,39 +110,45 @@ export class BaseSimulator {
 	//defaults. You may modify rawSimOptions directly. Typically you just set
 	//optional:true/backfill:true on fields you want to ensure are defintiely
 	//there and don't need to override this.
-	normalizeOptions(rawSimOptions) {
+	normalizeOptions(rawSimOptions : SimOptions) : NormalizedSimOptions {
 		return rawSimOptions;
 	}
 
 	//Typically your options are mostly validated based on the configuration you
 	//return from optionsConfig. This method is only necessary to override if
 	//you need additional validation not handled by that default machinery.
-	optionsValidator(_normalizedSimOptions) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	optionsValidator(_normalizedSimOptions : NormalizedSimOptions) : void {
 		return;
 	}
 
 	//The score for the frame. Typically the first number is the 'main' score,
 	//and other numbers are auxilary scores, useful for charting over time.
-	frameScorer(_frame, _simOptions) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	frameScorer(_frame : SimulationFrame, _simOptions : NormalizedSimOptions) : FrameScores {
 		return [0.0];
 	}
 
 	//By retuning null we will communicate that none of the scores for this
 	//simulator should be offered to be shown to a user.
-	scoreConfig(_normalizedSimOptions) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	scoreConfig(_normalizedSimOptions : NormalizedSimOptions) : ScoreConfig {
 		return [null];
 	}
 
 	//This behavior is almost always what you want and can be left alone
-	successScorer(frameScore, _normalizedSimOptions) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	successScorer(frameScore : FrameScores, _normalizedSimOptions : NormalizedSimOptions) : FrameScore {
 		return frameScore[0];
 	}
 
-	frameValidator(_frame) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	frameValidator(_frame : SimulationFrame) : void {
 		return;
 	}
 
-	maxFrameIndex(_normalizedSimOptions) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	maxFrameIndex(_normalizedSimOptions : NormalizedSimOptions) : number {
 		return 10000;
 	}
 	

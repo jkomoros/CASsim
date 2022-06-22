@@ -9,7 +9,7 @@ type CSSColor = string;
 export type SimulatorType = string;
 
 //TODO: define more
-type SimOptions = object;
+export type SimOptions = object;
 
 export interface NormalizedSimOptions extends SimOptions {
 
@@ -76,6 +76,10 @@ export interface ScoreConfigItem {
 }
 
 export type ScoreConfig = null | ScoreConfigItem[];
+
+export type FrameScore = number;
+
+export type FrameScores = FrameScore[];
 
 //A dotted string like 'A.B' that is a concantenation of property names to index
 //into.
