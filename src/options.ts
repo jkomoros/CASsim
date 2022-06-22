@@ -37,6 +37,10 @@ const ALLOWED_BEHAVIOR_NAMES = {
 };
 
 import {
+	OptionsConfig
+} from './types.js';
+
+import {
 	DELETE_SENTINEL,
 	DEFAULT_SENTINEL,
 	isStep,
@@ -46,16 +50,16 @@ import {
 
 //See README.md for more about the canonical shape of optionsLeaf objects.
 
-export const configIsAdvanced = (config) => {
-	return config && config[ADVANCED_PROPERTY_NAME];
+export const configIsAdvanced = (config : OptionsConfig) : boolean => {
+	return config && config.advanced;
 };
 
 //Returns a string describing the problem, or '' if no problem
-export const optionsConfigValidator = (config) => {
+export const optionsConfigValidator = (config : OptionsConfig) : string => {
 	if (!config) return 'Config must be an object';
 	//The top-level expectation is basically an object with examples.
 	return optionsLeafValidator({
-		[EXAMPLE_PROPERTY_NAME]: config,
+		example: config,
 	});
 };
 
@@ -66,7 +70,7 @@ const shortNameForOptionsLeaf = (leaf) => {
 	return leaf[SHORT_NAME_PROPERTY_NAME] || '';
 };
 
-const optionsLeafValidator = (config) => {
+const optionsLeafValidator = (config : OptionsConfig) : string => {
 	if (!config || typeof config != 'object') return 'Config must be an object';
 	const example = config[EXAMPLE_PROPERTY_NAME];
 	if (example === undefined) {
