@@ -85,7 +85,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	
 	static override get styles() {
 		return [
-			BaseRenderer.styles,
+			...BaseRenderer.styles,
 			css`
 				.node {
 					box-sizing: border-box;
