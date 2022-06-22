@@ -36,7 +36,6 @@ import {
 	GraphNodeID,
 	GraphNodeIdentifier,
 	GraphNodeValues,
-	GraphType,
 	OptionsConfig,
 	OptionsConfigMap,
 	OptionsOverridesMap,
@@ -141,10 +140,6 @@ export class ForceLayoutGraph extends PositionedGraph {
 		const result = new ForceLayoutGraph();
 		result._make(availableWidth, availableHeight, rnd, options);
 		return result;
-	}
-
-	static override get name() : GraphType {
-		return GRAPH_NAME;
 	}
 
 	static override get description() : string {

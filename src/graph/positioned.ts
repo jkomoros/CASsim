@@ -1,6 +1,5 @@
 import {
 	GraphNodeIdentifier,
-	GraphType,
 	Position
 } from '../types.js';
 
@@ -18,10 +17,6 @@ import {
 	with specific layout logic.
 */
 export class PositionedGraph extends Graph {
-
-	static override get name() : GraphType {
-		return 'positioned';
-	}
 
 	static override get description() : string {
 		return 'A graph where each node has a specific position';
