@@ -107,6 +107,7 @@ const optionsLeafValidator = (config : OptionsConfigExample) : string => {
 			if (problem) {
 				return "example's array first item didn't validate: " + problem;
 			}
+			return '';
 		}
 		//shortNames also may not conflict with any non-short name
 		const shortNameMap = Object.fromEntries(Object.keys(example).map(key => [key, true]));
@@ -124,6 +125,11 @@ const optionsLeafValidator = (config : OptionsConfigExample) : string => {
 			}
 		}
 	}
+	
+	//Remaining processing is for OptionsConfig only.
+	if (Array.isArray(config) || configIsMap(config)) return '';
+
+	//TODO: switch to modifying these diretly to get type checking
 
 	if (config[DESCRIPTION_PROPERTY_NAME] !== undefined && typeof config[DESCRIPTION_PROPERTY_NAME] != 'string') return DESCRIPTION_PROPERTY_NAME + ' must be a string if provided';
 	if (config[OPTIONAL_PROPERTY_NAME] !== undefined && typeof config[OPTIONAL_PROPERTY_NAME] != 'boolean') return OPTIONAL_PROPERTY_NAME + ' must be a boolean if provided';
