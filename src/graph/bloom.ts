@@ -23,7 +23,7 @@ const OPTIONS_CONFIG = {
 	[LEVELS_PROPERTY]: {
 		example: 3.0,
 		min: 0.0,
-		max: 100.,
+		max: 100,
 		step: 1.0,
 		optional: true,
 		default: true,
@@ -33,7 +33,7 @@ const OPTIONS_CONFIG = {
 	[CHILD_COUNT_PROPERTY]: {
 		example: 5.0,
 		min: 0.0,
-		max: 100.,
+		max: 100,
 		step: 1.0,
 		optional: true,
 		default: true,
