@@ -168,7 +168,7 @@ export const SimulationCollection = class {
 	}
 };
 
-const SimulationRun = class {
+class SimulationRun {
 	constructor(simulation, index) {
 		this._simulation = simulation;
 		this._index = index;
