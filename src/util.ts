@@ -86,9 +86,9 @@ export const deepFreeze = (obj : object) : void => {
 };
 
 //Only works for POJOs
-export const deepCopy = (obj : object) : object => {
+export function deepCopy<T extends object>(obj : T) : T {
 	return JSON.parse(JSON.stringify(obj));
-};
+}
 
 const IS_STEP_EPSILON = 0.0000001;
 
