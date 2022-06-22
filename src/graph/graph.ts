@@ -339,15 +339,15 @@ export class Graph {
 		}
 	}
 
-	deleteNode(identifier) {
+	deleteNode(identifier : GraphNodeIdentifier) : void {
 		const id = Graph.packID(identifier);
-		let node = this._nodeObject(id);
+		const node = this._nodeObject(id);
 		if (!node) return;
 		this._prepareForNodeModifications();
 		delete this._data.nodes[id];
 	}
 
-	setBidirectionalEdge(fromIdentifier, toIdentifier, values = {}) {
+	setBidirectionalEdge(fromIdentifier : GraphNodeIdentifier, toIdentifier : GraphNodeIdentifier, values : object = {}) : void {
 		this.setEdge(fromIdentifier, toIdentifier, {...values});
 		this.setEdge(toIdentifier, fromIdentifier, {...values});
 	}
