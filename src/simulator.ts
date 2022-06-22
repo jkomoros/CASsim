@@ -11,6 +11,7 @@ import {
 	FrameScore,
 	FrameScores,
 	NormalizedSimOptions,
+	OptionsConfig,
 	PartialSimulationFrame,
 	RandomGenerator,
 	ScoreConfig,
@@ -152,7 +153,7 @@ export class BaseSimulator {
 		return 10000;
 	}
 	
-	get optionsConfig() {
+	get optionsConfig() : OptionsConfig {
 		return {};
 	}
 

@@ -94,3 +94,6 @@ export interface SimulationFrame extends PartialSimulationFrame {
     width : number;
     height : number;
 }
+
+//TODO: define much more
+export type OptionsConfig = object;
