@@ -10,7 +10,10 @@ import {
 	GraphNodeID,
 	GraphNodeIdentifier,
 	GraphType,
-	GraphNodeValues
+	GraphNodeValues,
+	GraphProperties,
+	GraphPropertyName,
+	GraphProperty
 } from '../types.js';
 
 import {
@@ -171,28 +174,28 @@ export class Graph {
 		return this._cachedNodes;
 	}
 
-	properties() {
+	properties() : GraphProperties {
 		return {...this._data.properties};
 	}
 
-	property(name) {
+	property(name : GraphPropertyName) : GraphProperty {
 		return this._data.properties[name];
 	}
 
-	_prepareForPropertyModifications() {
+	_prepareForPropertyModifications() : void {
 		if (!this._propertyChangesMade) {
 			this._data = {...this._data, properties: {...this._data.properties}};
 		}
 		this._propertyChangesMade = true;
 	}
 
-	setProperty(name, value) {
+	setProperty(name : GraphPropertyName, value : GraphProperty) : void {
 		if (this.property(name) == value) return;
 		this._prepareForPropertyModifications();
 		this._data.properties[name] = value;
 	}
 
-	setProperties(data) {
+	setProperties(data: GraphProperties) : void {
 		for (const [key, value] of Object.entries(data)) {
 			this.setProperty(key, value);
 		}
