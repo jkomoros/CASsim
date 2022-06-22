@@ -66,13 +66,13 @@ export class PositionedGraph extends Graph {
 	//Override point. returns node.height or this.nodeSize() by default
 	nodeHeight(identifier : GraphNodeIdentifier) : number {
 		const node = this.node(identifier);
-		return node.height === undefined ? this.nodeSize(identifier) : node.height;
+		return node.height === undefined ? this.nodeSize(identifier) : node.height as number;
 	}
 
 	//Override point. returns node.width or this.nodeSize() by default
 	nodeWidth(identifier : GraphNodeIdentifier) : number {
 		const node = this.node(identifier);
-		return node.width === undefined ? this.nodeSize(identifier) : node.width;
+		return node.width === undefined ? this.nodeSize(identifier) : node.width as number;
 	}
 
 	/*
