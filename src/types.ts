@@ -318,7 +318,7 @@ export type ForceLayoutGraphOptions = {
     // maxNodeSize: (default: 10.0) - The largest rendered nodeSize in pixels
     maxNodeSize? : number;
     // nodeMargin: (default: 0.1) - How much space should be left between this node and other nodes, in units of percentage of this node's size.
-    nodeMargion? : number;
+    nodeMargin? : number;
     // nodeSize: (default: () -> 1.0) - A method given nodeValues and rnd, that should return the value to set.
     nodeSize? : (node : GraphNodeValues, rnd : RandomGenerator) => number;
     // noCollide: (default: false) - If true then there will be no collison forces
