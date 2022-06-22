@@ -9,10 +9,13 @@ import {
 } from './options.js';
 
 import {
+	Fingerprint,
 	FrameScore,
 	FrameScores,
 	NormalizedSimOptions,
 	OptionsConfig,
+	OptionsPath,
+	OptionsValues,
 	PartialSimulationFrame,
 	RandomGenerator,
 	ScoreConfig,
@@ -163,20 +166,21 @@ export class BaseSimulator {
 	//default that the basic machinery won't generate automatically, in which
 	//case you'd override this, and call super.defaultValueForPath() for the
 	//non-special cases.
-	defaultValueForPath(path, _simOptions) {
+	//eslint-disable-next-line @typescript-eslint/no-unused-vars
+	defaultValueForPath(path : OptionsPath, _simOptions : NormalizedSimOptions) : OptionsValues {
 		const result = defaultValueForConfig(configForPath(this.optionsConfig, path));
 		return result;
 	}
 
-	get version() {
+	get version() : number {
 		return 0;
 	}
 
-	renderer() {
+	renderer() : StubSimulatorRenderer {
 		return new StubSimulatorRenderer();
 	}
 
-	get fingerprint() {
+	get fingerprint() : Fingerprint {
 		return stringHash(JSON.stringify(this.optionsConfig) + this.version);
 	}
 }

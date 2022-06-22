@@ -95,6 +95,8 @@ export interface SimulationFrame extends PartialSimulationFrame {
     height : number;
 }
 
+export type Fingerprint = string;
+
 export type OptionsConfigMap = {
     [key : string] : OptionsConfig
 }
