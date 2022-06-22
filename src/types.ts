@@ -234,5 +234,5 @@ export type DataState = {
 
 export type RootState = {
     app : AppState;
-    data : DataState;
+    data? : DataState;
 }
