@@ -36,6 +36,10 @@ import {
 } from "../actions/data.js";
 
 import {
+	DataState
+} from "../types.js";
+
+import {
 	DEFAULT_SENTINEL
 } from "../util.js";
 
@@ -80,7 +84,7 @@ const INITIAL_STATE = {
 	dialogExtras: {},
 };
 
-const data = (state = INITIAL_STATE, action) => {
+const data = (state : DataState = INITIAL_STATE, action) : DataState => {
 	switch (action.type) {
 	case LOAD_DATA:
 		return {
