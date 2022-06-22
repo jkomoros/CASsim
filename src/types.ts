@@ -70,3 +70,7 @@ export interface ScoreConfigItem {
 }
 
 export type ScoreConfig = null | ScoreConfigItem[];
+
+//A dotted string like 'A.B' that is a concantenation of property names to index
+//into.
+export type OptionsPath = string;

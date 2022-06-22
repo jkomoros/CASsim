@@ -34,6 +34,7 @@ import {
 } from './config.js';
 
 import {
+	OptionsPath,
 	RawSimulationConfig,
 	ScoreConfig,
 	SimulationConfig
@@ -383,7 +384,7 @@ export const Simulation = class {
 		}
 	}
 
-	cloneWithModification(path, value) {
+	cloneWithModification(path : OptionsPath, value) {
 		return this.cloneWithConfig(setSimulationPropertyInConfig(this.config, path, value));
 	}
 
