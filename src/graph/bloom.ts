@@ -1,6 +1,5 @@
 import {
-	ForceLayoutGraph,
-	EDGE_VALUES_PROPERTY
+	ForceLayoutGraph
 } from './force-layout.js';
 
 import {
@@ -13,6 +12,8 @@ import {
 
 import {
 	BloomGraphOptions,
+	GraphNodeValues,
+	OptionsConfigMap,
 	RandomGenerator
 } from '../types.js';
 
@@ -67,6 +68,10 @@ const OPTIONS_CONFIG = {
 	},
 };
 
+type BloomGraphNodeValues = GraphNodeValues & {
+	level : number;
+}
+
 /*
 	A BloomGraph is a ForceLayoutGraph where nodes "bloom" out from a center node.
 */
@@ -96,24 +101,24 @@ export class BloomGraph extends ForceLayoutGraph {
 		return result;
 	}
 
-	static override get description() {
+	static override get description() : string {
 		return 'A graph that blooms out of center node out into multiple layers';
 	}
 
-	static get OPTIONS_CONFIG() {
+	static override get OPTIONS_CONFIG() : OptionsConfigMap {
 		return {...OPTIONS_CONFIG, ...ForceLayoutGraph.OPTIONS_CONFIG};
 	}
 
-	_makeInner(rnd, options) {
-		const levels = options[LEVELS_PROPERTY] === undefined ? 3.0 : options[LEVELS_PROPERTY];
-		const baseChildCount = options[CHILD_COUNT_PROPERTY] === undefined ? 5.0 : options[CHILD_COUNT_PROPERTY];
-		const childFactor = options[CHILD_FACTOR_PROPERTY] === undefined ? 1.0 : options[CHILD_FACTOR_PROPERTY];
-		const childLinkLikelihood = options[CHILD_LINK_LIKELIHOOD_PROPERTY] === undefined ? 0.0 : options[CHILD_LINK_LIKELIHOOD_PROPERTY];
-		const nodeValues = options[NODE_VALUES_PROPERTY] || {};
-		const edgeValues = options[EDGE_VALUES_PROPERTY] || {};
+	override _makeInner(rnd : RandomGenerator, options : BloomGraphOptions) : void {
+		const levels = options.levels === undefined ? 3.0 : options.levels;
+		const baseChildCount = options.childCount === undefined ? 5.0 : options.childCount;
+		const childFactor = options.childFactor === undefined ? 1.0 : options.childFactor;
+		const childLinkLikelihood = options.childLinkLikelihood === undefined ? 0.0 : options.childLinkLikelihood;
+		const nodeValues = options.nodeValues || {};
+		const edgeValues = options.edgeValues || {};
 
-		const keyNode = this.setNode(this.vendID(), {...nodeValues, level: 0});
-		const nodesToProcess = [keyNode];
+		const keyNode = this.setNode(this.vendID(), {...nodeValues, level: 0}) as BloomGraphNodeValues;
+		const nodesToProcess : BloomGraphNodeValues[] = [keyNode];
 		while (nodesToProcess.length) {
 			const node = nodesToProcess.shift();
 			const newLevel = node.level + 1;
@@ -121,7 +126,7 @@ export class BloomGraph extends ForceLayoutGraph {
 			const children = [];
 			//TODO: allow children count to differ
 			for (let i = 0; i < childCount; i++) {
-				const childNode = this.setNode(this.vendID(), {...nodeValues, level: newLevel});
+				const childNode = this.setNode(this.vendID(), {...nodeValues, level: newLevel}) as BloomGraphNodeValues;
 				this.setBidirectionalEdge(node, childNode, {...edgeValues, type: 'primary', level: newLevel});
 				if (newLevel < levels) nodesToProcess.push(childNode);
 				children.push(childNode);
