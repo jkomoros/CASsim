@@ -10,7 +10,8 @@ import {
 	GraphEdgeID,
 	GraphNodeValues,
 	OptionsConfigMap,
-	PreferentialAttachmentGraphOptions, RandomGenerator
+	PreferentialAttachmentGraphOptions,
+	RandomGenerator
 } from '../types.js';
 
 const EPSILON = 0.00001;
