@@ -306,6 +306,23 @@ export type GraphExplorationNodeTester = (node : GraphNodeValues, path : GraphEd
 
 export type GraphExplorationEdgeScorer = (edge : GraphEdge) => number;
 
+export type ForceLayoutGraphOptions = {
+    // edgeValues: (default: {}) - the starter values for an edge
+    edgeValues? : Partial<GraphEdge>;
+    // minNodeSize: (default: 10.0) - The smallest rendered nodeSize in pixels
+    minNodeSize? : number;
+    // maxNodeSize: (default: 10.0) - The largest rendered nodeSize in pixels
+    maxNodeSize? : number;
+    // nodeMargin: (default: 0.1) - How much space should be left between this node and other nodes, in units of percentage of this node's size.
+    nodeMargion? : number;
+    // nodeSize: (default: () -> 1.0) - A method given nodeValues and rnd, that should return the value to set.
+    nodeSize? : (node : GraphNodeValues, rnd : RandomGenerator) => number;
+    // noCollide: (default: false) - If true then there will be no collison forces
+    noCollid? : boolean;
+    // randomLinkLikelihood: (default: 0.0) - How likely two random children in the parent are to have an extra connection amongst themselves. 0.0 is no connections, 1.0 is all connections.
+    randomLinkLikelihood? : number;
+}
+
 export type Coordinates = {
     x : number;
     y : number;

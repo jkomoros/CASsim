@@ -29,6 +29,10 @@ import {
 	FIXED
 } from '../distribution.js';
 
+import {
+	ForceLayoutGraphOptions, RandomGenerator
+} from '../types.js';
+
 const nodePercentage = new DistributionConfig({
 	average: 1.0,
 	distribution: FIXED,
@@ -104,13 +108,13 @@ export class ForceLayoutGraph extends PositionedGraph {
 			noCollide: (default: false) - If true then there will be no collison forces
 			randomLinkLikelihood: (default: 0.0) - How likely two random children in the parent are to have an extra connection amongst themselves. 0.0 is no connections, 1.0 is all connections.
 	*/
-	static make(availableWidth, availableHeight, rnd, options) {
+	static make(availableWidth : number, availableHeight : number, rnd : RandomGenerator, options : ForceLayoutGraphOptions) : ForceLayoutGraph {
 		const result = new ForceLayoutGraph();
 		result._make(availableWidth, availableHeight, rnd, options);
 		return result;
 	}
 
-	static get name() {
+	static override get name() {
 		return GRAPH_NAME;
 	}
 
