@@ -284,6 +284,16 @@ export type GraphData = {
     graphType: GraphType;
 }
 
+export type GraphNodeExplorationResult = {
+    node : GraphNodeValues,
+    path : GraphEdge[],
+    lenght : number;
+}
+
+export type GraphExplorationResult = {
+    [id : GraphNodeID] : GraphNodeExplorationResult;
+}
+
 export type AppState = {
     page : string;
     pageExtra : string;
