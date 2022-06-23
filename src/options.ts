@@ -73,11 +73,11 @@ export const configIsConfig = (config : OptionsConfigExample) : config is Option
 	return typeof config == 'object' && !Array.isArray(config) && config[EXAMPLE_PROPERTY_NAME] != undefined;
 };
 
-const shortNameForOptionsLeaf = (leaf) => {
+const shortNameForOptionsLeaf = (leaf : OptionsConfigExample) : string => {
 	if (!leaf || typeof leaf != 'object') return '';
 	//Only read out shortName on objects that are actually leafs
-	if (leaf[EXAMPLE_PROPERTY_NAME] == undefined) return '';
-	return leaf[SHORT_NAME_PROPERTY_NAME] || '';
+	if (!configIsConfig(leaf)) return '';
+	return leaf.shortName || '';
 };
 
 const optionsLeafValidator = (config : OptionsConfigExample) : string => {
