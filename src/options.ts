@@ -117,23 +117,24 @@ const optionsLeafValidator = (config : OptionsConfigExample) : string => {
 			if (problem) {
 				return "example's array first item didn't validate: " + problem;
 			}
-		}
-		if (configIsConfig(example)) {
-			return 'An example was nested directly in an example without an interleaved config map';
-		}
-		//shortNames also may not conflict with any non-short name
-		const shortNameMap = Object.fromEntries(Object.keys(example).map(key => [key, true]));
-		for (const [key, value] of Object.entries(example)) {
-			const problem = optionsLeafValidator(value);
-			if (problem) {
-				return "example's sub-object of " + key + " didn't validate: " + problem;
+		} else {
+			if (configIsConfig(example)) {
+				return 'An example was nested directly in an example without an interleaved config map';
 			}
-			const shortName = shortNameForOptionsLeaf(value);
-			if (shortName) {
-				if (shortNameMap[shortName]) {
-					return "found duplicate shortName peer: " + shortName;
+			//shortNames also may not conflict with any non-short name
+			const shortNameMap = Object.fromEntries(Object.keys(example).map(key => [key, true]));
+			for (const [key, value] of Object.entries(example)) {
+				const problem = optionsLeafValidator(value);
+				if (problem) {
+					return "example's sub-object of " + key + " didn't validate: " + problem;
 				}
-				shortNameMap[shortName] = true;
+				const shortName = shortNameForOptionsLeaf(value);
+				if (shortName) {
+					if (shortNameMap[shortName]) {
+						return "found duplicate shortName peer: " + shortName;
+					}
+					shortNameMap[shortName] = true;
+				}
 			}
 		}
 	}
