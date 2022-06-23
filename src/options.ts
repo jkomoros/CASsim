@@ -82,7 +82,7 @@ const shortNameForOptionsLeaf = (leaf) => {
 
 const optionsLeafValidator = (config : OptionsConfigExample) : string => {
 	if (!config || typeof config != 'object') return 'Config must be an object';
-	const example = config[EXAMPLE_PROPERTY_NAME];
+	if (Array.isArray(config)) return 'Config may not be an array';
 	if (configIsMap(config)) {
 		//It's a multi-level nested object I guess
 		if (Object.keys(config).length == 0) return 'example is a required property';
@@ -101,8 +101,14 @@ const optionsLeafValidator = (config : OptionsConfigExample) : string => {
 				shortNameMap[shortName] = true;
 			}
 		}
+		return '';
 	}
+
+	//We now know config is a config. First, check its example to verify it's OK.
+
+	const example = config.example;
 	if (typeof example == 'object') {
+		//We need to descend into it to validate.
 		if (Array.isArray(example)) {
 			if (!example.length) {
 				return 'example is an array but needs at least one property';
@@ -111,6 +117,9 @@ const optionsLeafValidator = (config : OptionsConfigExample) : string => {
 			if (problem) {
 				return "example's array first item didn't validate: " + problem;
 			}
+		}
+		if (configIsConfig(example)) {
+			return 'An example was nested directly in an example without an interleaved config map';
 		}
 		//shortNames also may not conflict with any non-short name
 		const shortNameMap = Object.fromEntries(Object.keys(example).map(key => [key, true]));
@@ -128,10 +137,8 @@ const optionsLeafValidator = (config : OptionsConfigExample) : string => {
 			}
 		}
 	}
-	
-	//Remaining processing is for OptionsConfig only. By being explicit,
-	//typescript will note that it's a Config item from here on out.
-	if (Array.isArray(config) || configIsMap(config)) return '';
+
+	//Now check the direct properties of the Config.
 
 	//TODO: much of this is now handled by the typechecker and could just be skipped, right?
 
