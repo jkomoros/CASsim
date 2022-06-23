@@ -111,7 +111,6 @@ const optionsLeafValidator = (config : OptionsConfigExample) : string => {
 			if (problem) {
 				return "example's array first item didn't validate: " + problem;
 			}
-			return '';
 		}
 		//shortNames also may not conflict with any non-short name
 		const shortNameMap = Object.fromEntries(Object.keys(example).map(key => [key, true]));
