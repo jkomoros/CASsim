@@ -69,6 +69,10 @@ export const configIsMap = (config : OptionsConfigExample) : config is OptionsCo
 	return typeof config == 'object' && !Array.isArray(config) && config[EXAMPLE_PROPERTY_NAME] == undefined;
 };
 
+export const configIsConfig = (config : OptionsConfigExample) : config is OptionsConfig => {
+	return typeof config == 'object' && !Array.isArray(config) && config[EXAMPLE_PROPERTY_NAME] != undefined;
+};
+
 const shortNameForOptionsLeaf = (leaf) => {
 	if (!leaf || typeof leaf != 'object') return '';
 	//Only read out shortName on objects that are actually leafs
