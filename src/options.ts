@@ -447,10 +447,10 @@ export const optionsConfigWithDefaultedShortNames = (optionsConfig : OptionsConf
 //return a map of longName->shortName for any ones that exist as longName but
 //have no shortName. Not to be used directly ( use
 //suggestMissingShrotNamesForOptionConfig); exported only for testing.
-export const suggestMissingShortNames = (existing) => {
+export const suggestMissingShortNames = (existing : {[key : string] : string}) : {[key : string] : string} => {
 	//First, verify that existing is not ALREADY invalid before we start
 	if (!shortNamesValid(existing)) return {};
-	const suggestions = {};
+	const suggestions :  {[key : string] : string} = {};
 	for (const [longName, shortName] of Object.entries(existing)) {
 		//if there's already a shortName then we don't need to try one
 		if (shortName) continue;
@@ -459,7 +459,7 @@ export const suggestMissingShortNames = (existing) => {
 	}
 	//Check for any collisions in suggested names (we know they didn't conflict
 	//with existing, because suggestedShortName already barfs for them)
-	const shortNamesToLongNames = {};
+	const shortNamesToLongNames : {[key : string] : string[]} = {};
 	for (const [longName, shortName] of Object.entries(suggestions)) {
 		if (!shortName) continue;
 		if (!shortNamesToLongNames[shortName]) shortNamesToLongNames[shortName] = [];
