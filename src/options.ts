@@ -594,7 +594,7 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 	//Objects are encoded with an 'o' followed by a URL-encoded JSON blob
 	//As a special case, the simIndex and '@' at the beginning of a simIndexes's list of modifications may be fully omitted if it equals currentSimIndex.
 	if (!simCollection) return '';
-	let result = [];
+	const result = [];
 	const simIndexes = Array.from(new Set(modifications.map(mod => mod.simulationIndex)));
 	for (const simIndex of simIndexes) {
 		let simPiece = '';
