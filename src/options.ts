@@ -558,7 +558,7 @@ const suggestedShortNameExpandIndex = (longName, existing, expandIndex) => {
 	return '';
 };
 
-const shortNamesValid = (shortNamesMap) => {
+const shortNamesValid = (shortNamesMap : {[key : string] : string}) : boolean => {
 	const existingShortNames = {};
 	for (const [key, val] of Object.entries(shortNamesMap)) {
 		//A shortName conflicts with a long name, and it's not that the longName
