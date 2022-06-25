@@ -130,8 +130,10 @@ export type OptionConfigOptionItem = {
     description? : string;
 }
 
-export type OptionsValues = {
-    [key : string]: number | boolean | string | OptionsValues[] | OptionsValues;
+export type OptionValue = number | boolean | string | OptionValue[] | OptionValueMap;
+
+export type OptionValueMap = {
+    [key : string]: OptionValue
 };
 
 export type OptionsConfigExample = number | boolean | string | [OptionsConfig] | OptionsConfig | OptionsConfigMap;
@@ -174,7 +176,7 @@ export type OptionsConfig = {
 	options? : OptionConfigOptionItem[];
 	//Hide (optional) is a function that is passed the values of the _parent_ (meaning it can inspect its siblings values), as well as rootValues.
 	//If it returns true, it will be hidden from the UI (although values in it will still be there)
-	hide?: (parentValues : OptionsValues) => boolean;
+	hide?: (parentValues : OptionValueMap) => boolean;
 	//Whether the field is allowed to just not be provided. Defaults to false
     optional? : boolean;
 	//If true, then when this value is being generated as a a default, value, it will be included even if optional. May only be
@@ -194,7 +196,7 @@ export type Filename = string;
 export type Modification = {
     simulationIndex : number;
     path : OptionsPath;
-    value : OptionsValues;
+    value : OptionValue;
 }
 
 export type Modifications = Modification[];
