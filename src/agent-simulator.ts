@@ -1,6 +1,7 @@
 import { BaseSimulator } from "./simulator.js";
 
 import { 
+	Graph,
 	inflateGraph,
 }from './graph/graph.js';
 
@@ -14,6 +15,34 @@ import {
 	Urn
 } from './util.js';
 
+import {
+	GraphData,
+	GraphEdge,
+	GraphExplorationEdgeScorer,
+	GraphNodeID,
+	GraphNodeValues,
+	PartialSimulationFrame,
+	RandomGenerator,
+	SimOptions,
+	SimulationFrame
+} from './types.js';
+
+export type Agent = {
+	id : string;
+	node? : GraphNodeID
+};
+
+type AgentSimulationFrameExtra = {
+	agents : Agent[],
+	graph: GraphData,
+}
+
+type AgentPartialSimulationFrame = PartialSimulationFrame & AgentSimulationFrameExtra;
+
+export type AgentSimulationFrame = SimulationFrame & AgentSimulationFrameExtra;
+
+export type NodeScorer = (neighbor : GraphNodeValues, length : number, path : GraphEdge[]) => number;
+
 export class AgentSimulator extends BaseSimulator {
 
 	/*
@@ -21,13 +50,12 @@ export class AgentSimulator extends BaseSimulator {
 		graph that agents will traverse. You might also want to override
 		graphConstructor.
 	*/
-	//eslint-disable-next-line
-	generateGraph(simOptions, rnd, simWidth, simHeight) {
-		return RectangleGraph.make(simOptions.rows, simOptions.cols, simWidth, simHeight);
+	generateGraph(simOptions : SimOptions, _rnd : RandomGenerator, simWidth : number, simHeight : number) : Graph {
+		return RectangleGraph.make(simOptions['rows'] || 5, simOptions['cols'] || 5, simWidth, simHeight);
 	}
 
 	//baseAgent returns an object with just a random, stable ID 
-	baseAgent(rnd) {
+	baseAgent(rnd : RandomGenerator) : Agent {
 		return {
 			//By having a stable ID, animations in lit can happen correctly
 			//because we can detect identity of an agent when stamping templates.
@@ -42,8 +70,7 @@ export class AgentSimulator extends BaseSimulator {
 		other agents that exist so far. An agent must be an object, not an
 		array. Your return value should extend this.baseAgent(rnd);
 	*/
-	//eslint-disable-next-line
-	generateAgent(parentAgent, otherAgents, graph, simOptions, rnd) {
+	generateAgent(_parentAgent : Agent, _otherAgents : Agent[], _graph : Graph, _simOptions : SimOptions, rnd : RandomGenerator) : Agent {
 		return {
 			...this.baseAgent(rnd)
 			//Your own properties would go here in your own generateAgent
@@ -53,8 +80,8 @@ export class AgentSimulator extends BaseSimulator {
 	/*
 		An override point for how many agents to generate by default.
 	*/
-	//eslint-disable-next-line no-unused-vars
-	numStarterAgents(graph, simOptions, rnd) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	numStarterAgents(_graph : Graph, _simOptions : SimOptions, _rnd : RandomGenerator) : number {
 		return 0;
 	}
 
@@ -64,12 +91,12 @@ export class AgentSimulator extends BaseSimulator {
 		example, you could return true unless the type property of each was the
 		same.
 	*/
-	//eslint-disable-next-line no-unused-vars
-	allowOverlappingAgents(primaryAgent, secondaryAgent, graph, simOptions, rnd) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	allowOverlappingAgents(_primaryAgent : Agent, _secondaryAgent : Agent, _graph : Graph, _simOptions : SimOptions, _rnd : RandomGenerator) : boolean {
 		return false;
 	}
 
-	allowAgentToOverlapWith(primaryAgent, secondaryAgent, graph, simOptions, rnd) {
+	allowAgentToOverlapWith(primaryAgent : Agent, secondaryAgent : Agent, graph : Graph, simOptions : SimOptions, rnd : RandomGenerator) : boolean {
 		if (!primaryAgent || !secondaryAgent) return true;
 		return this.allowOverlappingAgents(primaryAgent, secondaryAgent, graph, simOptions, rnd);
 	}
@@ -77,8 +104,8 @@ export class AgentSimulator extends BaseSimulator {
 	/*
 		An override point for skipping placing agents at the beginning.
 	*/
-	//eslint-disable-next-line no-unused-vars
-	skipPlacingAgents(graph, simOptions, rnd) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	skipPlacingAgents(_graph : Graph, _simOptions : SimOptions, _rnd : RandomGenerator) : boolean {
 		return false;
 	}
 
@@ -88,14 +115,14 @@ export class AgentSimulator extends BaseSimulator {
 		and randomly place them in the graph (unless skipPlacingAgents()) with no
 		overlap.
 	*/
-	//eslint-disable-next-line no-unused-vars
-	generateAgents(graph, simOptions, rnd, simWidth, simHeight) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	generateAgents(graph : Graph, simOptions : SimOptions, rnd : RandomGenerator, _simWidth : number, _simHeight : number) : Agent[] {
 		const agents = [];
 		const baseAvailableNodes = {...graph.nodes()};
 		const agentCount = this.numStarterAgents(graph, simOptions, rnd);
 		const skipPlacingAgents = this.skipPlacingAgents(graph, simOptions, rnd);
 		for (let i = 0; i < agentCount; i++) {
-			const agent = this.generateAgent(null, agents, graph, simOptions, rnd) || {};
+			const agent = this.generateAgent(null, agents, graph, simOptions, rnd);
 			if (!skipPlacingAgents) {
 				const availableNodes = {...baseAvailableNodes};
 				for (const existingAgent of agents) {
@@ -115,15 +142,15 @@ export class AgentSimulator extends BaseSimulator {
 	/*
 		A place to emit extra properties in the first frame.
 	*/
-	//eslint-disable-next-line no-unused-vars
-	generateFirstFrameExtra(simOptions, rnd, simWidth, simHeight) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	generateFirstFrameExtra(_simOptions : SimOptions, _rnd : RandomGenerator, _simWidth : number, _simHeight : number) : {[name : string] : unknown} {
 		return {};
 	}
 
 	/* 
 		Create the graph and the agents
 	*/
-	generateFirstFrame(simOptions, rnd, simWidth, simHeight) {
+	override generateFirstFrame(simOptions, rnd, simWidth, simHeight) : AgentPartialSimulationFrame {
 		//The default generator will expand this with index and simOptions.
 		const graph = this.generateGraph(simOptions, rnd, simWidth, simHeight);
 		const agents = this.generateAgents(graph, simOptions, rnd, simWidth, simHeight);
@@ -153,8 +180,8 @@ export class AgentSimulator extends BaseSimulator {
 		original agent (or null) and the remaining items are new agents that
 		should be spawned. The newly spawned agents won't be ticked this frame.
 	*/
-	agentTick(agent, agents, graph, frame, rnd) {
-		const typ = agent.type || '';
+	agentTick(agent : Agent, agents : Agent[], graph : Graph, frame : AgentSimulationFrame, rnd : RandomGenerator) : Agent {
+		const typ = agent['type'] || '';
 		const typeMethod = typ + 'AgentTick';
 		if (this[typeMethod]) return this[typeMethod](agent, graph, frame, rnd);
 		return this.defaultAgentTick(agent, agents, graph, frame, rnd);
@@ -168,8 +195,8 @@ export class AgentSimulator extends BaseSimulator {
 
 		see agentTick for more about behavior of arguments and return values.
 	*/
-	//eslint-disable-next-line
-	defaultAgentTick(agent, agents, graph, frame, rnd) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	defaultAgentTick(agent : Agent, _agents : Agent[], _graph : Graph, _frame : AgentSimulationFrame, _rnd : RandomGenerator) : Agent {
 		return agent;
 	}
 
@@ -179,7 +206,7 @@ export class AgentSimulator extends BaseSimulator {
 		method matches the type, it dispatches to defaultNodeTick instead.
 		Typically you leave this as is and change defaultNodeTick's behavior.
 	*/
-	nodeTick(node, graph, frame, rnd) {
+	nodeTick(node : GraphNodeValues, graph : Graph, frame : AgentSimulationFrame, rnd : RandomGenerator) : GraphNodeValues {
 		const typ = node.type || '';
 		const typeMethod = typ + 'NodeTick';
 		if (this[typeMethod]) return this[typeMethod](node, graph, frame, rnd);
@@ -190,7 +217,7 @@ export class AgentSimulator extends BaseSimulator {
 	//should return a float. edgeScorer is passed to graph.shortestPath and may
 	//be undefined. All candidates will be put in an urn with their floats as
 	//their probability of being picked.
-	selectNodeToMoveTo(agent, agents, graph, frame, rnd, ply = 1, nodeScorer = () => 1.0, edgeScorer) {
+	selectNodeToMoveTo(agent : Agent, agents : Agent[], graph : Graph, frame : AgentSimulationFrame, rnd : RandomGenerator, ply = 1, nodeScorer : NodeScorer = () => 1.0, edgeScorer? : GraphExplorationEdgeScorer) : GraphNodeValues {
 		const neighborsMap = graph.neighbors(agent.node, ply);
 		//Agents might have nulls for agents who have already died this tick.
 		const agentsByNode = Object.fromEntries(agents.filter(agent => agent).map(agent => [agent.node, agent]));
@@ -198,7 +225,7 @@ export class AgentSimulator extends BaseSimulator {
 			if (this.allowAgentToOverlapWith(agent, agentsByNode[neighbor], graph, frame.simOptions, rnd)) continue;
 			delete neighborsMap[neighbor];
 		}
-		const urn = new Urn(rnd);
+		const urn = new Urn<GraphNodeValues>(rnd);
 		for (const neighbor of Object.values(neighborsMap)) {
 			const [length, shortestPath] = graph.shortestPath(agent.node, neighbor, edgeScorer);
 			const score = nodeScorer(neighbor, length, shortestPath);
@@ -213,16 +240,16 @@ export class AgentSimulator extends BaseSimulator {
 		store in the frame. If no modifications you can return node as is. If
 		modifications, make a copy to modify and return that.
 	*/
-	//eslint-disable-next-line no-unused-vars
-	defaultNodeTick(node, graph, frame, rnd) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	defaultNodeTick(node : GraphNodeValues, _graph : Graph, _frame : AgentSimulationFrame, _rnd : RandomGenerator) : GraphNodeValues {
 		return node;
 	}
 
 	/*
 		If true, agents will be ticked in a random order each frame.
 	*/
-	//eslint-disable-next-line no-unused-vars
-	randomizeAgentTickOrder(simOptions) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	randomizeAgentTickOrder(_simOptions : SimOptions) : boolean {
 		return true;
 	}
 
@@ -230,8 +257,8 @@ export class AgentSimulator extends BaseSimulator {
 		An opportunity to spawn new agents in this frame. Return an array of
 		agents to spawn.
 	*/
-	//eslint-disable-next-line no-unused-vars
-	spawnAgents(agents, graph, frame, rnd) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	spawnAgents(_agents : Agent[], _graph : Graph, _frame : AgentSimulationFrame, _rnd : RandomGenerator) : Agent[] {
 		return [];
 	}
 
@@ -240,8 +267,8 @@ export class AgentSimulator extends BaseSimulator {
 		ticked. You can modify frame directly, but if you modify any sub-objects
 		you should copy them.
 	*/
-	//eslint-disable-next-line no-unused-vars
-	framePreTick(graph, frame, rnd) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+	framePreTick(_graph : Graph, _frame : AgentSimulationFrame, _rnd : RandomGenerator) : void {
 
 	}
 
@@ -250,15 +277,15 @@ export class AgentSimulator extends BaseSimulator {
 		been ticked. You can modify frame directly, but if you modify any
 		sub-objects you should copy them.
 	*/
-	//eslint-disable-next-line no-unused-vars
-	framePostTick(graph, frame, rnd) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+	framePostTick(_graph : Graph, _frame : AgentSimulationFrame, _rnd : RandomGenerator) : void {
 
 	}
 
 	/*
 		Ticks all agents, and all nodes.
 	*/
-	generateFrame(frame, rnd) {
+	override generateFrame(frame : AgentSimulationFrame, rnd : RandomGenerator) : void {
 		const graph = inflateGraph(frame.graph);
 		const newAgents = [...frame.agents];
 		const agentIterationOrder = [...frame.agents.keys()];
