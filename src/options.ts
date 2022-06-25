@@ -402,16 +402,16 @@ export const configForPath = (optionsConfig, path) => {
 
 //Given an optionsConfig, it returns an object that is like it, but with any
 //missing shortNames in it or its children replaced.
-export const optionsConfigWithDefaultedShortNames = (optionsConfig) => {
+export const optionsConfigWithDefaultedShortNames = (optionsConfig : OptionsConfigExample) : OptionsConfigExample => {
 	if (!optionsConfig) return optionsConfig;
 	if (typeof optionsConfig != 'object') return optionsConfig;
-	if (Array.isArray(optionsConfig)) return optionsConfig.map(sub => optionsConfigWithDefaultedShortNames(sub));
+	//We know this is a single item if it's a valid optionsConfig so we can assert optionsConfig.map will have precisely one item
+	if (Array.isArray(optionsConfig)) return optionsConfig.map(sub => optionsConfigWithDefaultedShortNames(sub)) as [OptionsConfig];
 	const example = optionsConfig.example;
 	if (example !== undefined && (!example || typeof example !== 'object')) return optionsConfig;
-	const isExampleObject = example !== undefined;
 
-	let result = {...optionsConfig};
-	if (isExampleObject) {
+	let result : OptionsConfig | OptionsConfigMap = {...optionsConfig};
+	if (configIsConfig(optionsConfig)) {
 		result.example = optionsConfigWithDefaultedShortNames(result.example);
 	} else {
 		for (const [key, value] of Object.entries(optionsConfig)) {
@@ -420,7 +420,7 @@ export const optionsConfigWithDefaultedShortNames = (optionsConfig) => {
 	}
 
 	const existing = {};
-	const subItemsEntries = isExampleObject ? Object.entries(result.example) : Object.entries(result);
+	const subItemsEntries = configIsConfig(optionsConfig) ? Object.entries(result.example) : Object.entries(result);
 	for (const [key, val] of subItemsEntries) {
 		let shortName = '';
 		if (!val) continue;
@@ -432,8 +432,8 @@ export const optionsConfigWithDefaultedShortNames = (optionsConfig) => {
 	}
 	const suggestions = suggestMissingShortNames(existing);
 	if (Object.keys(suggestions).length) {
-		if (isExampleObject) {
-			result.example = {...result.example};
+		if (configIsConfig(result)) {
+			if (typeof result.example == 'object') result.example = {...result.example};
 			Object.entries(suggestions).forEach(entry => result.example[entry[0]] = {...result.example[entry[0]], shortName: entry[1]});
 		} else {
 			result = {...result};
