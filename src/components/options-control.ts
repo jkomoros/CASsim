@@ -1,4 +1,5 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, TemplateResult } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
 import {
 	COLOR_BEHAVIOR_NAME,
@@ -29,24 +30,45 @@ import {
 	DIALOG_TYPE_ADD_FIELD
 } from '../actions/data.js';
 
+import {
+	OptionsConfig,
+	OptionsPath,
+	OptionValue
+} from '../types.js';
+
 const doHide = (subConfig, parentValue, rootValue) => subConfig.hide ? subConfig.hide(parentValue, rootValue) : false;
 
+@customElement('options-control')
 class OptionsControl extends LitElement {
-	static get properties() {
-		return {
-			path: {type:String},
-			name: {type:String},
-			config: {type: Object},
-			value: {type: Object},
-			rootValue: {type: Object},
-			readonly: {type: Boolean},
-			modifiedPaths: {type:Object},
-			disallowDelete: {type:Boolean},
-			pathExpanded: {type:Object},
-		};
-	}
 
-	static get styles() {
+	@property({ type : String })
+	path: OptionsPath;
+
+	@property({ type : String })
+	name: string;
+
+	@property({ type : Object })
+	config: OptionsConfig;
+
+	@property({ type : Object })
+	value: OptionValue;
+
+	@property({ type : Object })
+	rootValue: OptionValue;
+
+	@property({ type : Boolean })
+	readonly: boolean;
+
+	@property({ type : Object })
+	modifiedPaths: {[path : OptionsPath] : OptionValue};
+
+	@property({ type : Boolean })
+	disallowDelete: boolean;
+
+	@property({ type : Object })
+	pathExpanded: {[path : OptionsPath]: true};
+
+	static override get styles() {
 		return [
 			css`
 				.container {
@@ -85,20 +107,20 @@ class OptionsControl extends LitElement {
 		];
 	}
 
-	render() {
+	override render() : TemplateResult {
 		return html`
 		<div class='container ${this._modified ? 'modified' : ''}'>
 			${this._inner()}
 		</div>`;
 	}
 
-	get _modified() {
+	get _modified() : boolean {
 		return this.modifiedPaths ? this.modifiedPaths[this.path] != undefined : false;
 	}
 
 	get _deletedSubPaths() {
 		if (!this.modifiedPaths) return {};
-		const result = {};
+		const result : {[path : OptionsPath] : true} = {};
 		const pathPrefix = this.path ? this.path + '.' : '';
 		for (const [key, value] of Object.entries(this.modifiedPaths)) {
 			if (!key.startsWith(pathPrefix)) continue;
@@ -115,12 +137,12 @@ class OptionsControl extends LitElement {
 		return path + '.' + nextPart;
 	}
 
-	_inner() {
+	_inner() : TemplateResult {
 		const config = this.config || {};
 		return html`
 			${this.name !== undefined ? html`<span class='label ${this.value === undefined ? 'deleted' : ''}'>${this.name} ${config.description ? html`${help(config.description, this.readonly)}` : ''} 
 				${config.optional && this.value !== undefined ? html`<button class='small' @click=${this._handleNullableClicked} .disabled=${this.readonly || this.disallowDelete} title='Remove'>${CANCEL_ICON}</button>` : ''}
-				${config.example && Array.isArray(config.example) && this.value !== undefined ? html`<button class='small' .disabled=${this.readonly || config.max === (this.value || []).length} @click=${this._handleAddArrayItem} title='Add additional item'>${PLUS_ICON}</button>` : ''}
+				${config.example && Array.isArray(config.example) && this.value !== undefined ? html`<button class='small' .disabled=${this.readonly || config.max === (this.value as [] || []).length} @click=${this._handleAddArrayItem} title='Add additional item'>${PLUS_ICON}</button>` : ''}
 				${this._nulledEntries().length && this.value !== undefined ? html`<button class='small' .disabled=${this.readonly} @click=${this._handleAddNulledClicked} title='Add field...'>${PLUS_ICON}</button>` : ''}
 				${this._modified ? html`<button class='small' .disabled=${this.readonly} @click=${this._handleUndoClicked} title='Undo modification...'>${UNDO_ICON}</button>` : ''}
 			</span>`: ''}
@@ -128,7 +150,7 @@ class OptionsControl extends LitElement {
 		`;
 	}
 
-	_nulledEntries(includeHidden) {
+	_nulledEntries(includeHidden = false) : [string, OptionsConfig][] {
 		const config = this.config || {};
 		const nonNullValue = this.value || {};
 		if (!config.example) return [];
@@ -136,20 +158,20 @@ class OptionsControl extends LitElement {
 		return Object.entries(config.example).filter(entry => entry[1].optional && nonNullValue[entry[0]] == undefined && (includeHidden ? true : !doHide(entry[1], nonNullValue, this.rootValue)));
 	}
 
-	get _rootValue() {
+	get _rootValue() : OptionValue {
 		const config = this.config || {};
 		if (config.example === undefined) return this.rootValue;
 		return config[IS_ROOT_PROPERTY_NAME] ? this.value : this.rootValue;
 	}
 
-	_innerControl() {
-		const config = this.config || {};
+	_innerControl() : TemplateResult {
+		const config : OptionsConfig = this.config || {};
 		const example = config.example;
 		if (typeof example == 'object') {
 			if (Array.isArray(example)) {
-				const val = this.value || [];
+				const val = this.value as [] || [];
 				//If we're at min size already, disallow deleting for sub-items.
-				return html`${val.map((item, index) => html`<options-control .readonly=${this.readonly} .rootValue=${this._rootValue} .disallowDelete=${config.min === val.length} .value=${item} .config=${example[0]} .name=${index} .path=${this._dottedPath(index)} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}`;
+				return html`${val.map((item, index) => html`<options-control .readonly=${this.readonly} .rootValue=${this._rootValue} .disallowDelete=${config.min === val.length} .value=${item} .config=${example[0]} .name=${String(index)} .path=${this._dottedPath(index)} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}`;
 			}
 			const deletedSubPaths = this._deletedSubPaths;
 			//value might be null
@@ -167,14 +189,14 @@ class OptionsControl extends LitElement {
 		//We might have this.value === undefined if we were deleted
 		if (this.value === undefined) return html``;
 		if (config.options) {
-			return html`<select @change=${this._handleInputChanged} .disabled=${this.readonly} .value=${this.value}>${config.options.map(opt => html`<option .value=${opt.value} .selected=${opt.value == this.value} .title=${opt.description || opt.display || opt.value}>${opt.display || opt.value}</option>`)}</select>`;
+			return html`<select @change=${this._handleInputChanged} .disabled=${this.readonly} .value=${String(this.value)}>${config.options.map(opt => html`<option .value=${String(opt.value)} .selected=${opt.value == this.value} .title=${opt.description || opt.display || String(opt.value)}>${opt.display || opt.value}</option>`)}</select>`;
 		}
 		let type = 'text';
 		if (typeof example == 'number') type = 'number';
 		if (typeof example == 'boolean') type = 'checkbox';
 		if (config.behavior == COLOR_BEHAVIOR_NAME) type = 'color';
 
-		return html`<input .disabled=${this.readonly} @change=${this._handleInputChanged} .type=${type} .min=${config.min || 0.0} .max=${config.max || Number.MAX_SAFE_INTEGER} .step=${config.step || 1.0} .value=${this.value} .checked=${this.value}></input>`;
+		return html`<input .disabled=${this.readonly} @change=${this._handleInputChanged} .type=${type} .min=${String(config.min || 0.0)} .max=${String(config.max || Number.MAX_SAFE_INTEGER)} .step=${String(config.step || 1.0)} .value=${String(this.value)} .checked=${typeof this.value == 'boolean' && this.value}></input>`;
 	}
 
 	_handleUndoClicked() {
@@ -186,21 +208,23 @@ class OptionsControl extends LitElement {
 		this.dispatchEvent(new CustomEvent('option-changed', {composed: true, detail: {path: this.path, value:value}}));
 	}
 
-	_handleInputChanged(e) {
+	_handleInputChanged(e : Event) {
 		const ele = e.composedPath()[0];
-		let value = ele.type == 'checkbox' ? ele.checked : ele.value;
-		if (typeof this.config.example == 'number') value = parseFloat(value);
+		if (!(ele instanceof HTMLInputElement) && !(ele instanceof HTMLSelectElement)) throw new Error('not input or select ele');
+		let value : (number | string | boolean) = (ele instanceof HTMLInputElement && ele.type == 'checkbox') ? ele.checked : ele.value;
+		if (typeof this.config.example == 'number' && typeof value == 'string') value = parseFloat(value);
 		this.dispatchEvent(new CustomEvent('option-changed', {composed: true, detail: {path: this.path, value:value}}));
 	}
 
 	_handleAddArrayItem() {
-		const subPath = this.path + '.' + this.value.length;
-		let value = DEFAULT_SENTINEL;
+		const subPath = this.path + '.' + (this.value as []).length;
+		const value = DEFAULT_SENTINEL;
 		this.dispatchEvent(new CustomEvent('option-changed', {composed: true, detail: {path: subPath, value: value}}));
 	}
 
-	_handleDetailsToggle(e) {
+	_handleDetailsToggle(e : Event) {
 		const ele = e.composedPath()[0];
+		if (!(ele instanceof HTMLDetailsElement)) throw new Error('not details element');
 		this.dispatchEvent(new CustomEvent('path-toggled', {composed: true, detail: {path: this.path || '', open:ele.open}}));
 	}
 
@@ -222,4 +246,8 @@ class OptionsControl extends LitElement {
 
 }
 
-window.customElements.define("options-control", OptionsControl);
+declare global {
+	interface HTMLElementTagNameMap {
+		'options-control': OptionsControl;
+	}
+}
