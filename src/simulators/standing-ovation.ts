@@ -1,4 +1,6 @@
 import {
+	Agent,
+	AgentSimulationFrame,
 	AgentSimulator
 } from '../agent-simulator.js';
 
@@ -10,6 +12,16 @@ import {
 	DistributionConfig
 } from '../distribution.js';
 
+import {
+	Graph
+} from '../graph/graph.js';
+
+import {
+	OptionsConfigMap,
+	RandomGenerator,
+	ScoreConfigItem
+} from '../types.js';
+
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'standing-ovation';
 
@@ -19,16 +31,40 @@ const performanceQuality = new DistributionConfig({average: 0.5, default: true, 
 const forwardStandingFalloff = new DistributionConfig({average: 0.95, step: 0.001, description: 'How quickly the impact of someone standing in front of this person falls off in mattering'});
 const fomoThreshold = new DistributionConfig({average: 0.95, description: 'The threshold of what proportion in the audience must be standing before this person decideds to stand, too'});
 
+type StandingOvationAgent = Agent & {
+	standing: boolean;
+	ovationPropensity: number;
+	performanceQuality: number;
+	standingThreshold: number;
+	forwardStandingFalloff: number;
+	fomoThreshold: number;
+}
+
+type StandingOvationSimOptions = {
+	filledSeatProportion : number;
+	rows: number;
+	cols: number;
+	//TODO: extend with other options
+};
+
+type StandingOvationSimulationFrameExtra = {
+	changesMade: boolean;
+}
+
+interface StandingOvationSimulationFrame extends AgentSimulationFrame,  StandingOvationSimulationFrameExtra {
+	agents : StandingOvationAgent[]
+}
+
 class StandingOvationSimulator extends AgentSimulator {
 
-	get name() {
+	override get name() {
 		return SIMULATOR_NAME;
 	}
 
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	generateAgent(parentAgent, otherAgents, graph, simOptions, rnd) {
+	override generateAgent(parentAgent : StandingOvationAgent, otherAgents : StandingOvationAgent[], graph : Graph, simOptions : StandingOvationSimOptions, rnd : RandomGenerator) : StandingOvationAgent {
 		return {
 			...this.baseAgent(rnd),
 			standing: false,
@@ -40,30 +76,30 @@ class StandingOvationSimulator extends AgentSimulator {
 		};
 	}
 
-	generateGraph(simOptions, rnd, simWidth, simHeight) {
+	override generateGraph(simOptions : StandingOvationSimOptions, _rnd : RandomGenerator, simWidth : number, simHeight : number) : Graph {
 		//Stage is to the left 
 		return RectangleGraph.make(simOptions.rows, simOptions.cols, simWidth, simHeight, {diagonalUp: true, noHorizontal: true, noDown: true});
 	}
 
-	generateFirstFrameExtra() {
+	override generateFirstFrameExtra() : StandingOvationSimulationFrameExtra {
 		return {
 			changesMade: false,
 		};
 	}
 
-	numStarterAgents(graph, simOptions) {
+	override numStarterAgents(graph: Graph, simOptions : StandingOvationSimOptions) : number {
 		return Math.floor(Object.keys(graph.nodes()).length * simOptions.filledSeatProportion);
 	}
 
-	simulationComplete(frame) {
+	override simulationComplete(frame : StandingOvationSimulationFrame) : boolean {
 		return frame.index > 0 && !frame.changesMade;
 	}
 
-	beforeGenerateFrame(frame) {
+	override beforeGenerateFrame(frame : StandingOvationSimulationFrame) : void {
 		frame.changesMade = false;
 	}
 
-	defaultAgentTick(agent, agents, graph, frame) {
+	override defaultAgentTick(agent : StandingOvationAgent, agents : StandingOvationAgent[], graph : Graph, frame : StandingOvationSimulationFrame) : StandingOvationAgent {
 		//Agents that are already standing never sit again.
 		if (agent.standing) return agent;
 		
@@ -105,13 +141,13 @@ class StandingOvationSimulator extends AgentSimulator {
 		return agent;
 	}
 
-	frameScorer(frame) {
+	override frameScorer(frame : StandingOvationSimulationFrame) : [number, number] {
 		const finalScore = this.simulationComplete(frame) ? (frame.agents.every(agent => agent.standing) ? 1.0 : 0.0) : -1;
 		const proportionStanding = frame.agents.filter(agent => agent.standing).length / frame.agents.length;
 		return [finalScore, proportionStanding];
 	}
 
-	scoreConfig() {
+	override scoreConfig() : [ScoreConfigItem, ScoreConfigItem] {
 		return [
 			null,
 			{
@@ -121,7 +157,7 @@ class StandingOvationSimulator extends AgentSimulator {
 		];
 	}
 	
-	get optionsConfig() {
+	override get optionsConfig() : OptionsConfigMap {
 		return {
 			rows: {
 				example: 5,
@@ -149,7 +185,7 @@ class StandingOvationSimulator extends AgentSimulator {
 		};
 	}
 
-	renderer() {
+	override renderer() {
 		return new StandingOvationRenderer();
 	}
 }
