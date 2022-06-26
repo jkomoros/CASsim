@@ -37,8 +37,7 @@ import {
 	OptionsPath,
 	RawSimulationConfig,
 	ScoreConfig,
-	ScoreConfigID,
-	ScoreConfigItem,
+	ChartData,
 	SimulationConfig,
 	SimulationConfigName,
 	SimulationFrame,
@@ -188,7 +187,7 @@ export class SimulationRun {
 	_simulation : Simulation;
 	_index : number;
 	_frames : SimulationFrame[];
-	_scoreData : {[id : ScoreConfigID]: {data: number[], config: ScoreConfigItem}[]};
+	_scoreData : ChartData;
 	_successScores : number[];
 	_simulatorMaxFrameIndex : number;
 	_maxFrameIndex : number;
