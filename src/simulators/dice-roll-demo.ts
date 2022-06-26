@@ -2,19 +2,43 @@ import {
 	BaseSimulator
 } from '../simulator.js';
 
+import {
+	OptionsConfigMap,
+	RandomGenerator,
+	ScoreConfigItem,
+	SimulationFrame
+} from '../types.js';
+
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'dice-roll-demo';
 
+type DiceRollSimulationFrameExtra = {
+	busted: boolean;
+	score: number;
+	lastRoll: number;
+	success: boolean;
+}
+
+type DiceRollSimulationOptions = {
+	die : number;
+	targetScore : number;
+	bust : number;
+}
+
+interface DiceRollSimulationFrame extends SimulationFrame,  DiceRollSimulationFrameExtra {
+	simOptions : DiceRollSimulationOptions;
+}
+
 class DiceRollDemoSimulator extends BaseSimulator {
 
-	get name() {
+	override get name() : string {
 		return SIMULATOR_NAME;
 	}
 
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	generateFirstFrame() {
+	override generateFirstFrame() : DiceRollSimulationFrameExtra {
 		//The default generator will expand this with index and simOptions.
 		return {
 			busted: false,
@@ -24,11 +48,11 @@ class DiceRollDemoSimulator extends BaseSimulator {
 		};
 	}
 
-	simulationComplete(frame) {
+	override simulationComplete(frame : DiceRollSimulationFrame) : boolean {
 		return frame.success || frame.busted;
 	}
 
-	generateFrame(frame, rnd) {
+	override generateFrame(frame : DiceRollSimulationFrame, rnd : RandomGenerator) : void {
 		//We want numbers 1 .. frame.die (inclusive)
 		const newRoll = Math.floor(rnd() * frame.simOptions.die) + 1;
 		frame.lastRoll = newRoll;
@@ -43,12 +67,12 @@ class DiceRollDemoSimulator extends BaseSimulator {
 		}
 	}
 
-	frameScorer(frame) {
+	override frameScorer(frame : DiceRollSimulationFrame) : [number, number] {
 		const finalScore = this.simulationComplete(frame) ? (frame.success ? 1.0 : 0.0) : -1;
 		return [finalScore, frame.score];
 	}
 
-	scoreConfig() {
+	override scoreConfig() : [ScoreConfigItem, ScoreConfigItem] {
 		return [
 			null,
 			{
@@ -58,15 +82,15 @@ class DiceRollDemoSimulator extends BaseSimulator {
 		];
 	}
 
-	frameValidator(frame) {
+	override frameValidator(frame : DiceRollSimulationFrame) : void {
 		if (frame.busted === undefined) throw new Error('No busted property');
 		if (frame.score === undefined) throw new Error('No score property');
 		if (frame.lastRoll === undefined) throw new Error('No last roll property');
 		if (frame.success === undefined) throw new Error('No success property');
-		return [];
+		return;
 	}
 	
-	get optionsConfig() {
+	override get optionsConfig() : OptionsConfigMap {
 		return {
 			'die': {
 				example: 6,
@@ -92,7 +116,7 @@ class DiceRollDemoSimulator extends BaseSimulator {
 		};
 	}
 
-	renderer() {
+	override renderer() {
 		return new DiceRollDemoRenderer();
 	}
 }
@@ -104,9 +128,9 @@ import { html, css } from 'lit';
 
 class DiceRollDemoRenderer extends BaseRenderer {
 
-	static get styles() {
+	static override get styles() {
 		return [
-			BaseRenderer.styles,
+			...BaseRenderer.styles,
 			css`
 			.busted {
 				color: var(--secondary-color);
@@ -119,16 +143,16 @@ class DiceRollDemoRenderer extends BaseRenderer {
 		];
 	}
 
-	innerRender() {
+	override innerRender() {
 		return html`
-			${this._safeFrame.busted ? html`<span class='busted'>Busted!</span>` : (this._safeFrame.success ? html`<span class='success'>Success!</span>` : html`<em>Playing...</em>`)}
-			<div><span>Score: <strong>${this._safeFrame.score}</strong> / ${this._safeFrame.simOptions.targetScore}</span></div>
-			<div><span>Roll: <strong>${this._safeFrame.lastRoll}</strong> / ${this._safeFrame.simOptions.die} </span></div>
+			${this._safeFrame?.busted ? html`<span class='busted'>Busted!</span>` : (this._safeFrame?.success ? html`<span class='success'>Success!</span>` : html`<em>Playing...</em>`)}
+			<div><span>Score: <strong>${this._safeFrame?.score}</strong> / ${this._safeFrame?.simOptions?.targetScore}</span></div>
+			<div><span>Roll: <strong>${this._safeFrame?.lastRoll}</strong> / ${this._safeFrame?.simOptions?.die} </span></div>
 		`;
 	}
 
-	get _safeFrame() {
-		return this.frame || {busted:false, success: false, score: 0, lastRoll: 0};
+	get _safeFrame() : DiceRollSimulationFrame {
+		return this.frame as DiceRollSimulationFrame;
 	}
 }
 
