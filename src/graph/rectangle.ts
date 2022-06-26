@@ -1,4 +1,5 @@
 import {
+	GraphEdge,
 	GraphNodeValues,
 	RectangleGraphOptions,
 	RowCol
@@ -11,6 +12,10 @@ import {
 export interface RectangleGraphNodeValues extends Partial<GraphNodeValues> {
 	row : number;
 	col : number;
+}
+
+export interface RectangleGraphEdge extends GraphEdge {
+	distance : number;
 }
 
 export class RectangleGraph extends PositionedGraph {
