@@ -1,12 +1,13 @@
 
-import { LitElement, html, css, svg} from 'lit';
+import { LitElement, html, css, svg, TemplateResult, SVGTemplateResult} from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import { repeat } from 'lit/directives/repeat.js';
 
-import { styleMap } from 'lit/directives/style-map.js';
+import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 
 import {
+	Graph,
 	inflateGraph,
 } from './graph/graph.js';
 
@@ -19,8 +20,20 @@ import {
 } from './random.js';
 
 import {
+	CSSColor,
+	GraphData,
+	GraphEdge,
+	GraphNodeID,
+	GraphNodeValues,
+	Position,
 	SimulationFrame
 } from './types.js';
+
+import {
+	Agent,
+	AgentSimulationFrame
+} from './agent-simulator.js';
+import { PositionedGraph } from './graph/positioned.js';
 
 @customElement('base-renderer')
 export class BaseRenderer extends LitElement {
@@ -74,7 +87,7 @@ export class BaseRenderer extends LitElement {
 	}
 
 	//This the override point for subclasses
-	innerRender() {
+	innerRender() : TemplateResult {
 		return html`<pre>${JSON.stringify(this.frame, null, 2)}</pre>`;
 	}
 
@@ -83,6 +96,9 @@ export class BaseRenderer extends LitElement {
 @customElement('positioned-graph-renderer')
 export class PositionedGraphRenderer extends BaseRenderer {
 	
+	@property({ type : Object })
+	override frame : AgentSimulationFrame;
+
 	static override get styles() {
 		return [
 			...BaseRenderer.styles,
@@ -126,71 +142,72 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	}
 	
 	//This is an override point for your renderer to tell the renderer where the positioned graph data is
-	graphData(frame) {
+	graphData(frame : AgentSimulationFrame) : GraphData {
 		return frame.graph;
 	}
 
-	_graph() {
+	_graph() : PositionedGraph {
 		const data = this.graphData(this.frame);
-		return inflateGraph(data);
+		//Techncially it might be a positioned graph
+		return inflateGraph(data) as PositionedGraph;
 	}
 
 	//This is an override point for your renderer, to tell the renderer where the information on each agent is.
-	agentData(frame) {
+	agentData(frame : AgentSimulationFrame) : Agent[] {
 		return frame.agents;
 	}
 
-	agentEmoji(agent) {
-		return agent.emoji || '🧑‍⚕️';
+	agentEmoji(agent : Agent) : string {
+		return agent['emoji'] || '🧑‍⚕️';
 	}
 
-	agentNodeID(agent) {
+	agentNodeID(agent : Agent) : GraphNodeID {
 		return agent.node;
 	}
 
-	//eslint-disable-next-line no-unused-vars
-	agentOpacity(agent, graph) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	agentOpacity(_agent : Agent, _graph : Graph) : number {
 		return 1.0;
 	}
 
-	agentX(agent) {
-		if (agent.x !== undefined) return agent.x;
+	agentX(agent : Agent) : number {
+		if (agent['x'] !== undefined) return agent['x'] as number;
 		const rnd = makeSeededRandom(agent.id);
 		return this.width * rnd();
 	}
 
-	agentY(agent) {
-		if (agent.y !== undefined) return agent.y;
+	agentY(agent : Agent) : number {
+		if (agent['y'] !== undefined) return agent['y'] as number;
 		const rnd = makeSeededRandom(agent.id);
 		return this.height * rnd();
 	}
 
-	agentHeight(agent) {
-		return agent.height === undefined ? this.agentSize(agent) : agent.height;
+	agentHeight(agent : Agent) : number {
+		return agent['height'] === undefined ? this.agentSize(agent) : agent['height'];
 	}
 
-	agentWidth(agent) {
-		return agent.width === undefined ? this.agentSize(agent) : agent.width;
+	agentWidth(agent : Agent) : number {
+		return agent['width'] === undefined ? this.agentSize(agent) : agent['width'];
 	}
 
-	//eslint-disable-next-line no-unused-vars
-	agentSizeMultiplier(agent) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	agentSizeMultiplier(_agent : Agent) : number {
 		return 1.0;
 	}
 
-	agentDefaultMinNodeSize() {
+	agentDefaultMinNodeSize() : number {
 		return 10;
 	}
 
-	agentDefaultMaxNodeSize() {
+	agentDefaultMaxNodeSize() : number {
 		return 10;
 	}
 
-	agentSize(agent) {
+	agentSize(agent : Agent) : number {
 		return (this.agentDefaultMaxNodeSize() - this.agentDefaultMinNodeSize()) * this.agentSizeMultiplier(agent) + this.agentDefaultMinNodeSize();
 	}
 
-	agentPosition(agent, graph) {
+	agentPosition(agent : Agent, graph : PositionedGraph) : Position {
 		if (!graph) {
 			return {
 				x: this.agentX(agent),
@@ -203,88 +220,87 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		return graph.nodePosition(nodeID);
 	}
 
-	//eslint-disable-next-line no-unused-vars
-	nodeAdditionalStyles(node, graph) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	nodeAdditionalStyles(_node : GraphNodeValues, _graph : PositionedGraph) : StyleInfo {
 		return {};
 	}
 
-	/* eslint-disable-next-line */
-	renderNode(node, graph) {
+	renderNode(node : GraphNodeValues, graph : PositionedGraph) : TemplateResult {
 		let styles = this._positionStylesForNode(node, graph);
 		styles = {...styles, ['background-color']: this.nodeColor(node, graph)};
 		styles = {...styles, ...this.nodeAdditionalStyles(node, graph)};
 		const spanStyles = {
-			'opacity': this.nodeTextOpacity(node, graph)
+			'opacity': String(this.nodeTextOpacity(node, graph))
 		};
 		return html`<div class='node ${node.type ? node.type : ''}' style=${styleMap(styles)}><span style='${styleMap(spanStyles)}'>${this.nodeText(node,graph)}</span></div>`;
 	}
 
-	//eslint-disable-next-line no-unused-vars
-	nodeText(node, graph) {
-		return node.emoji || '';
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	nodeText(node : GraphNodeValues, _graph : PositionedGraph) : string {
+		return node['emoji'] as string || '';
 	}
 
-	//eslint-disable-next-line no-unused-vars
-	nodeTextOpacity(node, graph) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	nodeTextOpacity(_node : GraphNodeValues, _graph : PositionedGraph) : number {
 		return 1.0;
 	}
-
-	//eslint-disable-next-line
-	nodeColorGradientPercentage(node, graph) {
-		return node.value;
+ 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	nodeColorGradientPercentage(node : GraphNodeValues, _graph : PositionedGraph) : number {
+		return node['value'] as number || 0;
 	}
 
-	//eslint-disable-next-line no-unused-vars
-	renderEdges(frame) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	renderEdges(_frame : AgentSimulationFrame) : boolean {
 		return false;
 	}
 
-	//eslint-disable-next-line no-unused-vars
-	nodeColor(node, graph) {
+	nodeColor(node : GraphNodeValues, graph : PositionedGraph) : CSSColor {
 		const style = getComputedStyle(this);
 		const primaryColor = style.getPropertyValue('--primary-color');
 		const secondaryColor = style.getPropertyValue('--secondary-color');
-		const color =  gradient(primaryColor, secondaryColor, this.nodeColorGradientPercentage(node));
+		const color =  gradient(primaryColor, secondaryColor, this.nodeColorGradientPercentage(node, graph));
 		return color;
 	}
 
-	renderAgent(agent, graph) {
+	renderAgent(agent : Agent, graph : PositionedGraph) : TemplateResult {
 		let styles = this._positionStyles(this.agentPosition(agent, graph));
-		styles = {...styles, 'opacity': this.agentOpacity(agent, graph)};
-		return html`<div class='agent ${agent.type ? agent.type : ''}' style=${styleMap(styles)}>${this.agentEmoji(agent)}</div>`;
+		styles = {...styles, 'opacity': String(this.agentOpacity(agent, graph))};
+		const agentType = agent['type'] || '';
+		return html`<div class='agent ${agentType}' style=${styleMap(styles)}>${this.agentEmoji(agent)}</div>`;
 	}
 
-	//eslint-disable-next-line no-unused-vars
-	edgeColor(edge, graph) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	edgeColor(_edge : GraphEdge, _graph : PositionedGraph) : CSSColor {
 		return 'var(--secondary-color)';
 	}
 
-	//eslint-disable-next-line no-unused-vars
-	edgeWidth(edge, graph) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	edgeWidth(_edge : GraphEdge, _graph : PositionedGraph) : string {
 		return '1';
 	}
 
-	//eslint-disable-next-line no-unused-vars
-	edgeOpacity(edge, graph) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	edgeOpacity(_edge : GraphEdge, _graph : PositionedGraph ) : string {
 		return '1.0';
 	}
 
-	//eslint-disable-next-line no-unused-vars
-	edgeDasharray(edge, graph) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	edgeDasharray(_edge : GraphEdge, _graph : PositionedGraph) : string {
 		//Note: you might not be able to see the dasharray if edges overlap.
 		return '';
 	}
 
 	//must return svg. Note coordinates are viewBoxed so don't need any scaling.
-	renderEdge(edge, graph) {
-		if (!graph) return '';
+	renderEdge(edge : GraphEdge, graph : PositionedGraph) : SVGTemplateResult {
+		if (!graph) return svg``;
 		const fromNodePosition = graph.nodePosition(edge.from);
 		const toNodePosition = graph.nodePosition(edge.to);
 		return svg`<path id=${edge.id} class='edge' d='M ${fromNodePosition.x}, ${fromNodePosition.y} L ${toNodePosition.x}, ${toNodePosition.y}' stroke='${this.edgeColor(edge, graph)}' stroke-width='${this.edgeWidth(edge, graph)}' stroke-opacity='${this.edgeOpacity(edge, graph)}' stroke-dasharray='${this.edgeDasharray(edge, graph)}'></path>`;
 	}
 
 	//position should be an opbject with x,y,width,height;
-	_positionStyles(position) {
+	_positionStyles(position : Position) : StyleInfo {
 		const size = Math.min(position.width, position.height);
 		return {
 			left: '' + (position.x - (position.width / 2)) * this.scale + 'px',
@@ -295,11 +311,11 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		};
 	}
 
-	_positionStylesForNode(node, graph) {
+	_positionStylesForNode(node : GraphNodeValues, graph : PositionedGraph) : StyleInfo {
 		return this._positionStyles(graph ? graph.nodePosition(node) : {x: 0, y: 0, width: 10, height: 10});
 	}
 
-	innerRender() {
+	override innerRender() : TemplateResult {
 		const graph = this._graph();
 		const styles = {
 			'--node-radius': '' + 100 * graph.nodeRoundness + '%',
