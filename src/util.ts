@@ -134,7 +134,7 @@ export const setPropertyInObject = (obj, path, value) => {
 	return {...obj, [firstPart]: innerResult};
 };
 
-export const parseHash = (hash) => {
+export const parseHash = (hash : string) : {[arg : string] : string} => {
 	if (hash.startsWith('#')) hash = hash.substring(1);
 	const args = {};
 	if (!hash) return args;

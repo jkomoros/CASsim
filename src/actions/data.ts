@@ -239,7 +239,7 @@ export const updatePlaying = (enabled) => (dispatch, getState) => {
 	const playing = selectPlaying(state);
 	if (playing == enabled) return;
 	if (enabled) {
-		playingInterval = setInterval(advanceFrame, selectFrameDelay(state));
+		playingInterval = window.setInterval(advanceFrame, selectFrameDelay(state));
 	} else {
 		clearInterval(playingInterval);
 		playingInterval = -1;
@@ -398,7 +398,7 @@ export const updateFilename = (filename, skipCanonicalize) => (dispatch, getStat
 	if (!skipCanonicalize) dispatch(canonicalizePath());
 };
 
-export const updateSimulationIndex = (index, skipCanonicalize) => (dispatch, getState) => {
+export const updateSimulationIndex = (index, skipCanonicalize? : boolean) => (dispatch, getState) => {
 	index = parseInt(index);
 	const currentIndex = selectSimulationIndex(getState());
 	if (index < 0) index = 0;
@@ -506,7 +506,7 @@ export const closeDialog = () => {
 export const updatePlayType = (typ) => {
 	if (!LEGAL_PLAY_TYPES[typ]) {
 		console.warn(typ + ' is not a legal playType');
-		return;
+		return {};
 	}
 	return {
 		type: UPDATE_PLAY_TYPE,
@@ -687,7 +687,7 @@ const ingestHash = (hash) => (dispatch, getState) => {
 	}
 };
 
-export const updateHash = (hash, comesFromURL) => (dispatch, getState) => {
+export const updateHash = (hash, comesFromURL = false) => (dispatch, getState) => {
 	if (hash.startsWith('#')) hash = hash.substring(1);
 	const state = getState();
 	const dataFullyLoaded = selectDataIsFullyLoaded(state);
