@@ -16,7 +16,7 @@ import {
 	NormalizedSimOptions,
 	OptionsConfig,
 	OptionsPath,
-	OptionsValues,
+	OptionValue,
 	PartialSimulationFrame,
 	RandomGenerator,
 	ScoreConfig,
@@ -168,7 +168,7 @@ export class BaseSimulator {
 	//case you'd override this, and call super.defaultValueForPath() for the
 	//non-special cases.
 	//eslint-disable-next-line @typescript-eslint/no-unused-vars
-	defaultValueForPath(path : OptionsPath, _simOptions : NormalizedSimOptions) : OptionsValues {
+	defaultValueForPath(path : OptionsPath, _simOptions : NormalizedSimOptions) : OptionValue {
 		const result = defaultValueForConfig(configForPath(this.optionsConfig, path));
 		return result;
 	}
