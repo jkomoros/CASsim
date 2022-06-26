@@ -1,4 +1,6 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, TemplateResult } from 'lit';
+
+import { customElement, property } from 'lit/decorators.js';
 
 import { SharedStyles } from './shared-styles.js';
 
@@ -8,8 +10,19 @@ import {
 	CANCEL_ICON
 } from './my-icons.js';
 
+@customElement('dialog-element')
 export class DialogElement extends LitElement {
-	static get styles() {
+
+	@property({ type : Boolean })
+	open: boolean;
+
+	@property({ type : String })
+	override title: string;
+
+	@property({ type : Boolean })
+	mobile: boolean;
+
+	static override get styles() {
 		return [
 			css`
 			:host {
@@ -84,7 +97,7 @@ export class DialogElement extends LitElement {
 		];
 	}
 
-	render() {
+	override render() : TemplateResult {
 		return html`
 			<style>
 				:host {
@@ -92,7 +105,7 @@ export class DialogElement extends LitElement {
 					display: ${this.open ? 'block' : 'none'} !important;
 				}
 			</style>
-			<div class='background ${this.mobileMode ? 'mobile': ''}' @click=${this._handleBackgroundClicked}>
+			<div class='background ${this.mobile ? 'mobile': ''}' @click=${this._handleBackgroundClicked}>
 				<div class='content'>
 					<button class='small' id='close' @click=${this.cancel}>${CANCEL_ICON}</button>
 					<h2>${this.title || ''}</h2>
@@ -104,25 +117,24 @@ export class DialogElement extends LitElement {
 	`;
 	}
 
-	innerRender() {
+	innerRender() : TemplateResult {
 		//You can subclass this and return somethingelse for innerRender or use it directly with content inside.
 		return html`<slot></slot>`;
 	}
 
-	firstUpdated() {
+	override firstUpdated() {
 		window.addEventListener('keydown', e => this._handleKeyDown(e));
 	}
 
-	_handleKeyDown(e) {
+	_handleKeyDown(e : KeyboardEvent) : void {
 		if (!this.open) return;
 		if (e.key == 'Escape') {
 			this.cancel();
-			return true;
 		}
 	}
 
-	_handleBackgroundClicked(e) {
-		let background = this.shadowRoot.querySelector('.background');
+	_handleBackgroundClicked(e : MouseEvent) : void {
+		const background = this.shadowRoot.querySelector('.background');
 		//If the click wasn't actualy directly on the background then ignore it.
 		if (e.composedPath()[0] != background) return;
 		this._shouldClose();
@@ -133,7 +145,8 @@ export class DialogElement extends LitElement {
 	}
 
 	//Will be called with a single argument of true if cancelled
-	_shouldClose() {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	_shouldClose(_canelled? : boolean) {
 		//Override point for sub classes
 		this.dispatchEvent(new CustomEvent('dialog-should-close'));
 	}
@@ -156,19 +169,12 @@ export class DialogElement extends LitElement {
 			}
 		}
 		if (!input) return;
+		if (!(input instanceof HTMLInputElement)) throw new Error('not input ele');
 		input.focus();
 		input.select();
 	}
 
-	static get properties() {
-		return {
-			open: {type:Boolean},
-			title: {type:String},
-			mobile: {type:Boolean},
-		};
-	}
-
-	updated(changedProps) {
+	override updated(changedProps) {
 		if (changedProps.has('open') && this.open) {
 			this._focusInputOnOpen();
 		}
@@ -176,4 +182,8 @@ export class DialogElement extends LitElement {
 
 }
 
-window.customElements.define('dialog-element', DialogElement);
+declare global {
+	interface HTMLElementTagNameMap {
+		'dialog-element': DialogElement;
+	}
+}
