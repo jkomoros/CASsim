@@ -294,7 +294,7 @@ export class DistributionConfig {
 		return result;
 	}
 
-	distribution(overrides = {}) {
+	distribution(overrides : Partial<DistributionOptions> = {}) {
 		const options = {...this._options, ...overrides};
 		this._validateOptions(options);
 		return new Distribution(options);
