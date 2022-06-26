@@ -1,24 +1,32 @@
 import { LitElement, html, css } from 'lit';
 import { SharedStyles } from './shared-styles.js';
+import { customElement, property } from 'lit/decorators.js';
 
 import {
 	help,
 	ButtonSharedStyles
 } from './button-shared-styles';
 
+@customElement('multi-select')
 class MultiSelect extends LitElement {
-	static get properties() {
-		return {
-			disabled: {type:Boolean},
-			//key --> {title: '', description: ''}. If key is to a string, will be intepreted where the string is the description
-			options: {type:Object},
-			values: {type:Object},
-			defaultText: {type:String},
-			optionTypeText: {type:String},
-		};
-	}
 
-	static get styles() {
+	@property({ type : Boolean })
+	disabled: boolean;
+
+	//key --> {title: '', description: ''}. If key is to a string, will be intepreted where the string is the description
+	@property({ type : Object })
+	options: {[key : string]: string | {title : string, description : string}};
+
+	@property({ type : Object })
+	values: {[key : string] : true};
+	
+	@property({ type : String })
+	defaultText: string;
+	
+	@property({ type : String })
+	optionTypeText: string;
+
+	static override get styles() {
 		return [
 			SharedStyles,
 			ButtonSharedStyles,
@@ -43,7 +51,7 @@ class MultiSelect extends LitElement {
 		};
 	}
 
-	render() {
+	override render() {
 		const defaultText = this.defaultText || 'None';
 		const optionTypeText = this.optionTypeText || 'Metrics';
 		//If there's a single option, then 'All' doesn't have any meaning so only render that one
@@ -61,8 +69,9 @@ class MultiSelect extends LitElement {
 
 	}
 
-	_handleCheckboxChanged(e) {
+	_handleCheckboxChanged(e : Event) {
 		const ele = e.composedPath()[0];
+		if (!(ele instanceof HTMLInputElement)) throw new Error('not input ele');
 		let newValues = {...(this.values || {})};
 		if (!ele.value) {
 			//If they check OR actively uncheck all items, it will be all Items
@@ -82,4 +91,8 @@ class MultiSelect extends LitElement {
 
 }
 
-window.customElements.define("multi-select", MultiSelect);
+declare global {
+	interface HTMLElementTagNameMap {
+		'multi-select': MultiSelect;
+	}
+}
