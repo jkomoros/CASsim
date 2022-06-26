@@ -8,7 +8,7 @@ import {
 	PositionedGraph
 } from './positioned.js';
 
-interface RectangleGraphNodeValues extends Partial<GraphNodeValues> {
+export interface RectangleGraphNodeValues extends Partial<GraphNodeValues> {
 	row : number;
 	col : number;
 }
