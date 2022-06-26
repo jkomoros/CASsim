@@ -33,7 +33,7 @@ export const canonicalizePath = () => (dispatch ,getState) => {
 	const page = selectPage(state);
 	const pageExtra = selectPageExtra(state);
 
-	let path = [page];
+	const path = [page];
 	
 	if (page != 'sim') {
 		path.push(pageExtra);
@@ -60,7 +60,7 @@ const loadPage = (location) => (dispatch) => {
 	const pieces = location.split('/');
 
 	let page = pieces[0];
-	let pageExtra = pieces.length < 2 ? '' : pieces.slice(1).join('/');
+	const pageExtra = pieces.length < 2 ? '' : pieces.slice(1).join('/');
 
 	switch(page) {
 	case "sim":

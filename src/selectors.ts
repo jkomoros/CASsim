@@ -178,7 +178,7 @@ export const selectCurrentSimulation = createSelector(
 export const selectCurrentSimulationName = createSelector(
 	selectCurrentSimulation,
 	selectSimulationIndex,
-	(sim, index) => sim ? sim.name : index
+	(sim, index) => sim ? sim.name : String(index)
 );
 
 export const selectCurrentSimulationSimulatorName = createSelector(
