@@ -1,27 +1,44 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, TemplateResult } from 'lit';
 import { memoizedRenderer } from "../util.js";
+import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
+import { Simulation } from '../simulation.js';
+import { SimulationFrame } from '../types.js';
+import './run-summary.js';
 
 const DEFAULT_FONT_SIZE_PX_HEIGHT = 16;
 
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
+@customElement('frame-visualization')
 class FrameVisualization extends LitElement {
-	static get properties() {
-		return {
-			simulation: {type:Object},
-			frame: { type: Object },
-			width: {type:Number},
-			height: {type:Number},
-			scale: {type:Number},
-			animationLength: {type:Number},
-			runStatuses: {type:Object},
-			runIndex: {type:Number},
-		};
-	}
 
-	static get styles() {
+	@property({ type : Object })
+	simulation: Simulation;
+
+	@property({ type : Object })
+	frame: SimulationFrame;
+
+	@property({ type : Number })
+	width: number;
+
+	@property({ type : Number })
+	height: number;
+
+	@property({ type : Number })
+	scale: number;
+
+	@property({ type : Number })
+	animationLength: number;
+
+	@property({ type : Array })
+	runStatuses: number[];
+
+	@property({ type : Number })
+	runIndex: number;
+
+	static override get styles() {
 		return [
 			css`
 				:host {
@@ -74,7 +91,7 @@ class FrameVisualization extends LitElement {
 		return this.simulation.clipStatus;
 	}
 
-	render() {
+	override render() : TemplateResult {
 		const scale = this.scale || 1.0;
 		const containerStyles = {
 			'font-size': '' + DEFAULT_FONT_SIZE_PX_HEIGHT * scale + 'px'
@@ -95,7 +112,7 @@ class FrameVisualization extends LitElement {
 		`;
 	}
 
-	_renderer(scale) {
+	_renderer(scale : number ) : HTMLElement | TemplateResult {
 		const ele = memoizedRenderer(this.simulation, this);
 		if (!ele) return html`<div class='message'><div><div><em>Loading...</em></div><div><span>If this message doesn't go away soon, check the console for errors.</span></div></div></div>`;
 		ele.frame = this.frame;
@@ -106,4 +123,8 @@ class FrameVisualization extends LitElement {
 	}
 }
 
-window.customElements.define("frame-visualization", FrameVisualization);
+declare global {
+	interface HTMLElementTagNameMap {
+		'frame-visualization': FrameVisualization;
+	}
+}
