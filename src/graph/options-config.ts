@@ -1,4 +1,5 @@
 import {
+	ForceLayoutGraphOptions,
 	GraphType,
 	OptionsConfigMap,
 	OptionsOverridesMap
@@ -9,6 +10,10 @@ import {
 } from './bloom.js';
 
 import {
+	ForceLayoutGraph
+} from './force-layout.js';
+
+import {
 	PreferentialAttachmentGraph
 } from './preferential-attachment.js';
 
@@ -16,7 +21,7 @@ const GRAPH_TYPE_PROPERTY = 'graphType';
 
 //When adding new graph types, make sure they have a .name and .description
 //static getter.
-export const GRAPH_TYPES = {
+export const GRAPH_TYPES : {[typ : GraphType] : typeof ForceLayoutGraph} = {
 	[BloomGraph.name]: BloomGraph,
 	[PreferentialAttachmentGraph.name]: PreferentialAttachmentGraph,
 };
@@ -70,7 +75,7 @@ export const graphOptionsConfig = (overrides : OptionsOverridesMap = {}, graphTy
 };
 
 //Pass it the values object and overrides, and it returns a tuple of GraphType( call .make()) and options to pass to it.
-export const graphOptionsFromConfig = (values, overrides = {}) => {
+export const graphOptionsFromConfig = (values, overrides = {}) : [typeof ForceLayoutGraph, ForceLayoutGraphOptions] => {
 	//BloomGraph's static optionsFromConfig is just forcelayoutgraph's
 	const options = BloomGraph.optionsFromConfig(values, overrides);
 	const graphTypeName = overrides[GRAPH_TYPE_PROPERTY] || GRAPH_TYPE_PROPERTY;
