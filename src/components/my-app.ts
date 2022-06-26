@@ -1,9 +1,10 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, TemplateResult } from 'lit';
 import { connect } from "pwa-helpers/connect-mixin.js";
 import { installMediaQueryWatcher } from "pwa-helpers/media-query.js";
 import { installOfflineWatcher } from "pwa-helpers/network.js";
 import { installRouter } from "pwa-helpers/router.js";
 import { updateMetadata } from "pwa-helpers/metadata.js";
+import { customElement, property, state } from 'lit/decorators.js';
 
 // This element is connected to the Redux store.
 import { store } from "../store.js";
@@ -18,20 +19,27 @@ import {
 	updateLayout
 } from "../actions/data.js";
 
+import {
+	RootState
+} from '../types.js';
+
 //Note: also hard-coded in styles() below as --controls-width.
 //You might also want to tweak run-summmary.NO_BORDER threshold values too
 const CONTROLS_WIDTH = '18em';
 
+@customElement('my-app')
 class MyApp extends connect(store)(LitElement) {
-	static get properties() {
-		return {
-			appTitle: { type: String },
-			_page: { type: String },
-			_offline: { type: Boolean }
-		};
-	}
 
-	static get styles() {
+	@property({ type : String })
+	appTitle: string;
+
+	@state()
+	_page: string;
+
+	@state()
+	_offline: boolean;
+
+	static override get styles() {
 		return [
 			css`
 				:host {
@@ -93,7 +101,7 @@ class MyApp extends connect(store)(LitElement) {
 		];
 	}
 
-	render() {
+	override render() : TemplateResult {
 		// Anything that's related to rendering should be done in here.
 		return html`
 			<!-- Main content -->
@@ -104,7 +112,7 @@ class MyApp extends connect(store)(LitElement) {
 		`;
 	}
 
-	firstUpdated() {
+	override firstUpdated() {
 		installRouter((location) => store.dispatch(navigate(decodeURIComponent(location.pathname))));
 		installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
 		//Consider the layout to be 'large' (auto expand the simulation controls) if there's at least 2.5x the controls width left over for the stage, and the height is at least 2x the controls width.
@@ -112,7 +120,7 @@ class MyApp extends connect(store)(LitElement) {
 		installMediaQueryWatcher(query ,(matches) => store.dispatch(updateLayout(matches)));
 	}
 
-	updated(changedProps) {
+	override updated(changedProps) {
 		if (changedProps.has("_page")) {
 			const pageTitle = this.appTitle + " - " + this._page;
 			updateMetadata({
@@ -123,10 +131,14 @@ class MyApp extends connect(store)(LitElement) {
 		}
 	}
 
-	stateChanged(state) {
+	override stateChanged(state : RootState) {
 		this._page = state.app.page;
 		this._offline = state.app.offline;
 	}
 }
 
-window.customElements.define("my-app", MyApp);
+declare global {
+	interface HTMLElementTagNameMap {
+		'my-app': MyApp;
+	}
+}
