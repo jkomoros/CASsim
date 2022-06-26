@@ -1,9 +1,15 @@
 import { LitElement, html, css, svg } from 'lit';
 import { SharedStyles } from "./shared-styles.js";
+import { customElement, property } from 'lit/decorators.js';
 
 import {
 	hash
 } from '../util.js';
+
+import {
+	ChartData,
+	ScoreConfigID
+} from '../types.js';
 
 const DEFAULT_RUN_COLORS = [
 	//Indianred
@@ -34,17 +40,22 @@ const TICK_PROPORTION = 0.3;
 const TICK_INTERVALS = [0.05, 0.10, 0.25, 0.5, 1.0, 2.5, 5.0, 10.0, 25.0, 50.0, 100.0, 250.0, 500.0, 1000.0, 2500.0, 5000.0, 10000.0];
 const INTERMEDIATE_TICK_COUNT = 6;
 
+@customElement('run-chart')
 class RunChart extends LitElement {
-	static get properties() {
-		return {
-			data: {type:Object},
-			configIDs: {type:Object},
-			runIndex: {type:Number},
-			frameIndex: {type:Number},
-		};
-	}
 
-	static get styles() {
+	@property({ type : Object })
+	data: ChartData;
+
+	@property({ type : Object })
+	configIDs: {[typ : ScoreConfigID]: true};
+
+	@property({ type : Number })
+	runIndex: number;
+
+	@property({ type : Number })
+	frameIndex: number;
+
+	static override get styles() {
 		return [
 			SharedStyles,
 			css`
@@ -241,7 +252,7 @@ class RunChart extends LitElement {
 		return color;
 	}
 
-	render() {
+	override render() {
 		const rect = this.getBoundingClientRect();
 		const enabledConfigIDs = this._enabledConfigIDs;
 		const padding = rect.width * PADDING_PROPORTION;
@@ -274,4 +285,8 @@ class RunChart extends LitElement {
 	}
 }
 
-window.customElements.define("run-chart", RunChart);
+declare global {
+	interface HTMLElementTagNameMap {
+		'run-chart': RunChart;
+	}
+}
