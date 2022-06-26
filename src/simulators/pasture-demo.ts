@@ -79,7 +79,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	}
 
 	override generateGraph(simOptions : PastureSimOptions, _rnd : RandomGenerator, simWidth : number, simHeight : number) : Graph {
-		const starterValues : PastureGraphNodeValues =  {value:0.0, growthRate: 0.05, emoji:'🌿'};
+		const starterValues : PastureGraphNodeValues =  {value:0.0, growthRate: simOptions.growthRate, emoji:'🌿'};
 		return RectangleGraph.make(simOptions.rows, simOptions.cols, simWidth, simHeight, {starterValues, nodeMargin: 0.1, diagonal:true});
 	}
 
