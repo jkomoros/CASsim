@@ -17,6 +17,7 @@ import {
 } from '../graph/graph.js';
 
 import {
+	DistributionOptions,
 	OptionsConfigMap,
 	RandomGenerator,
 	ScoreConfigItem
@@ -44,7 +45,11 @@ type StandingOvationSimOptions = {
 	filledSeatProportion : number;
 	rows: number;
 	cols: number;
-	//TODO: extend with other options
+	performanceQuality: DistributionOptions;
+	ovationPropensity: DistributionOptions;
+	standingThreshold: DistributionOptions;
+	forwardStandingFalloff: DistributionOptions;
+	fomoThreshold: DistributionOptions;
 };
 
 type StandingOvationSimulationFrameExtra = {
