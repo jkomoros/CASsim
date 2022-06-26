@@ -5,7 +5,8 @@ import {
 } from '../agent-simulator.js';
 
 import {
-	RectangleGraph
+	RectangleGraph,
+	RectangleGraphNodeValues
 }from '../graph/rectangle.js';
 
 import {
@@ -18,6 +19,7 @@ import {
 
 import {
 	DistributionOptions,
+	GraphNodeValues,
 	OptionsConfigMap,
 	RandomGenerator,
 	ScoreConfigItem
@@ -69,7 +71,7 @@ class StandingOvationSimulator extends AgentSimulator {
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	override generateAgent(parentAgent : StandingOvationAgent, otherAgents : StandingOvationAgent[], graph : Graph, simOptions : StandingOvationSimOptions, rnd : RandomGenerator) : StandingOvationAgent {
+	override generateAgent(_parentAgent : StandingOvationAgent, _otherAgents : StandingOvationAgent[], _graph : Graph, simOptions : StandingOvationSimOptions, rnd : RandomGenerator) : StandingOvationAgent {
 		return {
 			...this.baseAgent(rnd),
 			standing: false,
@@ -198,15 +200,20 @@ class StandingOvationSimulator extends AgentSimulator {
 export default StandingOvationSimulator;
 
 import { PositionedGraphRenderer } from '../renderer.js';
+import { StyleInfo } from 'lit/directives/style-map.js';
+import { PositionedGraph } from '../graph/positioned.js';
 
 class StandingOvationRenderer extends PositionedGraphRenderer {
 
-	agentEmoji(agent) {
+	override agentEmoji(agent : StandingOvationAgent) : string {
 		return agent.standing ? '👏' : '😐';
 	}
 
-	nodeAdditionalStyles(node) {
-		if (node.row == 0) {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	override nodeAdditionalStyles(node : GraphNodeValues, _graph : PositionedGraph) : StyleInfo {
+		//TODO: is there a better way to do this?
+		const rectNode = node as RectangleGraphNodeValues;
+		if (rectNode.row == 0) {
 			return {
 				'border-top-width': '20px',
 				'border-top-color': 'firebrick',
