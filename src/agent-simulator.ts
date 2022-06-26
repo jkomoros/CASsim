@@ -180,7 +180,7 @@ export class AgentSimulator extends BaseSimulator {
 		original agent (or null) and the remaining items are new agents that
 		should be spawned. The newly spawned agents won't be ticked this frame.
 	*/
-	agentTick(agent : Agent, agents : Agent[], graph : Graph, frame : AgentSimulationFrame, rnd : RandomGenerator) : Agent {
+	agentTick(agent : Agent, agents : Agent[], graph : Graph, frame : AgentSimulationFrame, rnd : RandomGenerator) : Agent | Agent[] {
 		const typ = agent['type'] || '';
 		const typeMethod = typ + 'AgentTick';
 		if (this[typeMethod]) return this[typeMethod](agent, graph, frame, rnd);
@@ -196,7 +196,7 @@ export class AgentSimulator extends BaseSimulator {
 		see agentTick for more about behavior of arguments and return values.
 	*/
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	defaultAgentTick(agent : Agent, _agents : Agent[], _graph : Graph, _frame : AgentSimulationFrame, _rnd : RandomGenerator) : Agent {
+	defaultAgentTick(agent : Agent, _agents : Agent[], _graph : Graph, _frame : AgentSimulationFrame, _rnd : RandomGenerator) : Agent | Agent[] {
 		return agent;
 	}
 
