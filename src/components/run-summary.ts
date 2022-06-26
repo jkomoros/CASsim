@@ -1,24 +1,32 @@
 import { LitElement, html, css } from 'lit';
 import { SharedStyles } from "./shared-styles.js";
+import { customElement, property } from 'lit/decorators.js';
 
 //This number is the point at which compact versions of runSummary should have no-border.
 //These numbers are tied to the border size below, as well as the var(--controls-width);
 const NO_BORDER_COMPACT_COUNT_THRESHOLD = 25;
 const NO_BORDER_COUNT_THRESHOLD = 100;
 
+@customElement('run-summary')
 class RunSummary extends LitElement {
-	static get properties() {
-		return {
-			selectedIndex: {type: Number},
-			statuses: {type: Array},
-			//If true, then statuses beyond the selectedIndex will be rendered as indeterminate
-			clipFuture: {type:Boolean},
-			centerPercentage: {type:Boolean},
-			compact: {type:Boolean},
-		};
-	}
 
-	static get styles() {
+	@property({ type : Number })
+	selectedIndex: number;
+
+	@property({ type : Array })
+	statuses: number[];
+
+	//If true, then statuses beyond the selectedIndex will be rendered as indeterminate
+	@property({ type : Boolean })
+	clipFuture: boolean;
+
+	@property({ type : Boolean })
+	centerPercentage: boolean;
+
+	@property({ type : Boolean })
+	compact: boolean;
+
+	static override get styles() {
 		return [
 			SharedStyles,
 			css`
@@ -79,7 +87,7 @@ class RunSummary extends LitElement {
 		];
 	}
 
-	render() {
+	override render() {
 		const statuses = this.clipFuture ? this.statuses.map((value, index) => index <= this.selectedIndex ? value : -1) : this.statuses;
 		const successCount = statuses.map(value => value == 1.0 ? 1.0 : 0.0).reduce((prev, curr) => prev + curr, 0);
 		const denominator = statuses.map(value => value < 0.0 ? 0 : 1).reduce((prev, curr) => prev + curr, 0);
@@ -88,15 +96,19 @@ class RunSummary extends LitElement {
 		return html`
 				<div class='statuses ${this.centerPercentage ? 'center-percentage' : ''} ${statuses.length > (this.compact ? NO_BORDER_COMPACT_COUNT_THRESHOLD : NO_BORDER_COUNT_THRESHOLD) ? 'no-border' : ''}'>
 					<span>${successPercentage}</span>
-					<div class='output'>${statuses.map((status, index) => html`<div class='status ${this.selectedIndex == index ? 'selected' : ''} ${status < 0 ? 'indeterminate' : (status == 1.0 ? 'success' : 'failure')}' @click=${this._handleStatusClicked} .index=${index}></div>`)}</div>
+					<div class='output'>${statuses.map((status, index) => html`<div class='status ${this.selectedIndex == index ? 'selected' : ''} ${status < 0 ? 'indeterminate' : (status == 1.0 ? 'success' : 'failure')}' @click=${this._handleStatusClicked} data-index=${index}></div>`)}</div>
 				</div>
 		`;
 	}
 
 	_handleStatusClicked(e) {
 		const ele = e.composedPath()[0];
-		this.dispatchEvent(new CustomEvent('run-clicked', {composed:true, detail: {index: ele.index}}));
+		this.dispatchEvent(new CustomEvent('run-clicked', {composed:true, detail: {index: parseInt(ele.dataset.index)}}));
 	}
 }
 
-window.customElements.define("run-summary", RunSummary);
+declare global {
+	interface HTMLElementTagNameMap {
+		'run-summary': RunSummary;
+	}
+}
