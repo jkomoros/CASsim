@@ -266,7 +266,7 @@ const advanceFrame = () => {
 	store.dispatch(nextFrameIndex(true));
 };
 
-export const nextFrameIndex = (fromInterval) => (dispatch, getState) => {
+export const nextFrameIndex = (fromInterval = false) => (dispatch, getState) => {
 	const state = getState();
 	//Don't allow anything but the interval to advance (so a user can't hit the arrow key and advance when playing)
 	if (!fromInterval && selectPlaying(state)) return;
@@ -334,7 +334,7 @@ export const nextFrameIndex = (fromInterval) => (dispatch, getState) => {
 	dispatch(updatePlaying(false));
 };
 
-export const prevFrameIndex = (fromInterval) => (dispatch, getState) => {
+export const prevFrameIndex = (fromInterval = false) => (dispatch, getState) => {
 	const state = getState();
 	//Don't allow anything but the interval to advance (so a user can't hit the arrow key and advance when playing)
 	if (!fromInterval && selectPlaying(state)) return;
