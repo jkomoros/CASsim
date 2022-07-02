@@ -33,6 +33,11 @@ export interface NormalizedSimOptions extends SimOptions {
 
 }
 
+export interface PackedRawSimulationConfig {
+    version: number;
+    configs: RawSimulationConfig[];
+}
+
 export interface RawSimulationConfig {
     //Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL. May be omitted.
 	name? : SimulationConfigName;
