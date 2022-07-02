@@ -1,4 +1,5 @@
-import { html, css} from 'lit';
+import { html, css, TemplateResult} from 'lit';
+import { customElement, state } from 'lit/decorators.js';
 import { PageViewElement } from "./page-view-element.js";
 import { connect } from "pwa-helpers/connect-mixin.js";
 
@@ -107,6 +108,18 @@ import {
 	packConfigJSON
 } from "../config.js";
 
+import {
+	DialogType,
+	PackedRawSimulationConfig,
+	RootState,
+	SimulationFrame,
+	SimulatorType
+} from '../types.js';
+
+import {
+	Simulation
+} from '../simulation.js';
+
 //Size in px that we want to allow around the visualization edge. Pixels per 100
 //px of width.
 const VISUALIZATION_PADDING = 8;
@@ -140,42 +153,93 @@ const fetchData = async(filename) => {
 	store.dispatch(loadData(blob));
 };
 
+@customElement('sim-view')
 class SimView extends connect(store)(PageViewElement) {
-	static get properties() {
-		return {
-			// This is the data from the store.
-			_currentFrame: { type: Object },
-			_requiredSimulatorsLoaded: {type: Boolean},
-			_requiredSimulatorNames: {type: Object},
-			_currentSimulation: { type: Object },
-			_currentSimulationName: {type: String},
-			_currentSimulationLastChanged: {type:Number},
-			_animationLength: {type:Number},
-			_pageExtra: { type: String },
-			_simulationIndex: { type: Number },
-			_runIndex: { type: Number },
-			_frameIndex: { type: Number },
-			_filename: {type:String},
-			_dialogOpen: {type: Boolean},
-			_dialogType: {type: String},
-			_dialogExtras: {type:Object},
-			_configData: {type: Object},
-			_height: {type: Number},
-			_width: {type: Number},
-			_scale: {type: Number},
-			_configurationExpanded: {type:Boolean},
-			_descriptionExpanded: {type:Boolean},
-			_dataIsFullyLoaded: {type:Boolean},
-			_screenshotting: {type:Boolean},
-			_runStatues: {type:Object},
-			_hashForCurrentState: {type:String},
-			//Note: this is calculated in this._resizeVisualzation, NOT in state
-			_needsMarginLeft : {type:Boolean},
-			_resizeVisualization: {type:Boolean},
-		};
-	}
 
-	static get styles() {
+	// This is the data from the store.
+	@state()
+	_currentFrame: SimulationFrame;
+
+	@state()
+	_requiredSimulatorsLoaded: boolean;
+
+	@state()
+	_requiredSimulatorNames: SimulatorType[];
+
+	@state()
+	_currentSimulation: Simulation;
+
+	@state()
+	_currentSimulationName: SimulatorType;
+
+	@state()
+	_currentSimulationLastChanged: number;
+
+	@state()
+	_animationLength: number;
+
+	@state()
+	_pageExtra: string;
+
+	@state()
+	_simulationIndex: number;
+
+	@state()
+	_runIndex: number;
+
+	@state()
+	_frameIndex: number;
+
+	@state()
+	_filename: string;
+
+	@state()
+	_dialogOpen: boolean;
+
+	@state()
+	_dialogType: DialogType;
+
+	@state()
+	_dialogExtras: {[key : string]: unknown};
+
+	@state()
+	_configData: PackedRawSimulationConfig;
+
+	@state()
+	_height: number;
+
+	@state()
+	_width: number;
+
+	@state()
+	_scale: number;
+
+	@state()
+	_configurationExpanded: boolean;
+
+	@state()
+	_descriptionExpanded: boolean;
+
+	@state()
+	_dataIsFullyLoaded: boolean;
+
+	@state()
+	_screenshotting: boolean;
+
+	@state()
+	_runStatuses: number[];
+
+	@state()
+	_hashForCurrentState: string;
+
+	//Note: this is calculated in this._resizeVisualzation, NOT in state
+	@state()
+	_needsMarginLeft : boolean;
+
+	@state()
+	_resizeVisualization: boolean;
+
+	static override get styles() {
 		return [
 			SharedStyles,
 			ButtonSharedStyles,
@@ -213,7 +277,7 @@ class SimView extends connect(store)(PageViewElement) {
 		];
 	}
 
-	firstUpdated() {
+	override firstUpdated() {
 		document.addEventListener('keydown', e => this._handleKeyDown(e));
 		window.addEventListener('resize', () => this.resizeVisualization());
 		this.resizeVisualization();
@@ -251,7 +315,7 @@ class SimView extends connect(store)(PageViewElement) {
 
 	}
 
-	render() {
+	override render() : TemplateResult {
 		const colors = this._currentSimulation ? Object.entries(this._currentSimulation.colors || {}).map(entry => '--' + entry[0] + '-color: ' + entry[1].hex + ';').join(' ') : '';
 		const includeRunStatuses = this._currentSimulation && (this._screenshotting ? this._currentSimulation.screenshotDisplayStatus : this._currentSimulation.displayStatus);
 		return html`
@@ -286,7 +350,7 @@ class SimView extends connect(store)(PageViewElement) {
 	}
 
 	// This is called every time something is updated in the store.
-	stateChanged(state) {
+	override stateChanged(state : RootState) {
 		this._configData = packConfigJSON(selectConfigData(state));
 		this._requiredSimulatorsLoaded = selectRequiredSimulatorsLoaded(state);
 		this._requiredSimulatorNames = selectRequiredSimulatorNames(state);
@@ -366,6 +430,7 @@ class SimView extends connect(store)(PageViewElement) {
 		const eles = this.shadowRoot.querySelectorAll('input[type=radio]');
 		let selectedEle = null;
 		for (const ele of eles) {
+			if (!(ele instanceof HTMLInputElement)) continue;
 			if (ele.checked && !ele.disabled) {
 				selectedEle = ele;
 				break;
@@ -381,7 +446,7 @@ class SimView extends connect(store)(PageViewElement) {
 		store.dispatch(closeDialog());
 	}
 
-	updated(changedProps) {
+	override updated(changedProps) {
 		if (changedProps.has('_filename') && this._filename) {
 			fetchData(this._filename);
 		}
@@ -433,4 +498,8 @@ class SimView extends connect(store)(PageViewElement) {
 	}
 }
 
-window.customElements.define("sim-view", SimView);
+declare global {
+	interface HTMLElementTagNameMap {
+		'sim-view': SimView;
+	}
+}
