@@ -78,6 +78,8 @@ const DEFAULT_REPEAT = false;
 export const SIMULATORS = {};
 export const KNOWN_SIMULATOR_NAMES = {};
 
+export type SimulationsMap = {[name : SimulationConfigName] : Simulation};
+
 //Returns an array of the names of simulators in this data blob.
 export const extractSimulatorNamesFromRawConfig = data => {
 	const result = {};
@@ -173,7 +175,7 @@ export class SimulationCollection {
 		return this._simulations[nameOrIndex];
 	}
 
-	get simulationsMap() : {[name : SimulationConfigName] : Simulation} {
+	get simulationsMap() : SimulationsMap {
 		return this._nameIndex;
 	}
 
