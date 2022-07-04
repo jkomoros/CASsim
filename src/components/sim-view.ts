@@ -346,7 +346,7 @@ class SimView extends connect(store)(PageViewElement) {
 			break;
 		}
 		return html`
-			${extras.options.map((item, index) => html`<div class='row'><input id=${item.path} type='radio' name='add' .checked=${index == selectedIndex} .disabled=${item.disabled} .value=${item.value} .path=${item.path}><label for=${item.value}><strong>${item.value}</strong>${item.description ? html`: ${item.description}` : ''}</label></div>`)}
+			${extras.options.map((item, index) => html`<div class='row'><input id=${item.path} type='radio' name='add' .checked=${index == selectedIndex} .disabled=${item.disabled} .value=${item.value} data-path=${item.path}><label for=${item.value}><strong>${item.value}</strong>${item.description ? html`: ${item.description}` : ''}</label></div>`)}
 			<div class='row right'><button class='round' @click=${this._handleAddFieldButtonClicked}>${PLUS_ICON}</button></div>
 			`;
 	}
@@ -439,7 +439,7 @@ class SimView extends connect(store)(PageViewElement) {
 			}
 		}
 		if (selectedEle){
-			store.dispatch(updateCurrentSimulationOptions(selectedEle.path, DEFAULT_SENTINEL));
+			store.dispatch(updateCurrentSimulationOptions(selectedEle.dataset.path, DEFAULT_SENTINEL));
 		}
 		store.dispatch(closeDialog());
 	}
