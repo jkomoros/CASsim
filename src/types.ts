@@ -442,6 +442,8 @@ export type Position = Coordinates & Size;
 
 export type RowCol = [number, number];
 
+export type ChartConfigIDsMap = {[name : ScoreConfigID] : true};
+
 export type AppState = {
     page : string;
     pageExtra : string;
@@ -480,7 +482,7 @@ export type DataState = {
 	descriptionExpanded : boolean,
 	chartSingleRun : boolean,
 	//An object of key => true. An empty object means "all chart configs"
-	chartConfigIDs : {[name : ScoreConfigID] : true},
+	chartConfigIDs : ChartConfigIDsMap,
 	//The options-paths whose "Advanced" zippy should be shown as expanded. ''
 	//is the top level 
 	pathExpanded : {[path : OptionsPath] : true},
