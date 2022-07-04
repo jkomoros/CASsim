@@ -214,6 +214,17 @@ export type PlayType = string;
 //TODO: tigthen
 export type DialogType = string;
 
+type DialogTypeAddFieldOption = {
+    path: OptionsPath,
+    value: OptionValue,
+    description: string,
+    disabled: boolean
+};
+
+export type DialogTypeAddFieldExtras = {
+    options: DialogTypeAddFieldOption[];
+}
+
 //TODO: tighten;
 export type DistributionType = string;
 
