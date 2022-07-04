@@ -216,7 +216,7 @@ export type DialogType = string;
 
 type DialogTypeAddFieldOption = {
     path: OptionsPath,
-    value: OptionValue,
+    value: string,
     description: string,
     disabled: boolean
 };
