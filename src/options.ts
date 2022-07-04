@@ -39,7 +39,7 @@ const ALLOWED_BEHAVIOR_NAMES = {
 import {
 	OptionsConfig,
 	OptionsConfigMap,
-	OptionsConfigExample
+	OptionsConfigInput
 } from './types.js';
 
 import {
@@ -57,7 +57,7 @@ export const configIsAdvanced = (config : OptionsConfig) : boolean => {
 };
 
 //Returns a string describing the problem, or '' if no problem
-export const optionsConfigValidator = (config : OptionsConfig) : string => {
+export const optionsConfigValidator = (config : OptionsConfigInput) : string => {
 	if (!config) return 'Config must be an object';
 	//The top-level expectation is basically an object with examples.
 	return optionsLeafValidator({
@@ -65,22 +65,22 @@ export const optionsConfigValidator = (config : OptionsConfig) : string => {
 	});
 };
 
-export const configIsMap = (config : OptionsConfigExample) : config is OptionsConfigMap => {
+export const configIsMap = (config : OptionsConfigInput) : config is OptionsConfigMap => {
 	return typeof config == 'object' && !Array.isArray(config) && config[EXAMPLE_PROPERTY_NAME] == undefined;
 };
 
-export const configIsConfig = (config : OptionsConfigExample) : config is OptionsConfig => {
+export const configIsConfig = (config : OptionsConfigInput) : config is OptionsConfig => {
 	return typeof config == 'object' && !Array.isArray(config) && config[EXAMPLE_PROPERTY_NAME] != undefined;
 };
 
-const shortNameForOptionsLeaf = (leaf : OptionsConfigExample) : string => {
+const shortNameForOptionsLeaf = (leaf : OptionsConfigInput) : string => {
 	if (!leaf || typeof leaf != 'object') return '';
 	//Only read out shortName on objects that are actually leafs
 	if (!configIsConfig(leaf)) return '';
 	return leaf.shortName || '';
 };
 
-const optionsLeafValidator = (config : OptionsConfigExample) : string => {
+const optionsLeafValidator = (config : OptionsConfigInput) : string => {
 	if (!config || typeof config != 'object') return 'Config must be an object';
 	if (Array.isArray(config)) return 'Config may not be an array';
 	if (configIsMap(config)) {
@@ -402,7 +402,7 @@ export const configForPath = (optionsConfig, path) => {
 
 //Given an optionsConfig, it returns an object that is like it, but with any
 //missing shortNames in it or its children replaced.
-export const optionsConfigWithDefaultedShortNames = (optionsConfig : OptionsConfigExample) : OptionsConfigExample => {
+export const optionsConfigWithDefaultedShortNames = (optionsConfig : OptionsConfigInput) : OptionsConfigInput => {
 	if (!optionsConfig) return optionsConfig;
 	if (typeof optionsConfig != 'object') return optionsConfig;
 	//We know this is a single item if it's a valid optionsConfig so we can assert optionsConfig.map will have precisely one item
