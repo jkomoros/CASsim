@@ -1,4 +1,5 @@
-import { LitElement, html, css} from 'lit';
+import { LitElement, html, css, TemplateResult} from 'lit';
+import { customElement, state } from 'lit/decorators.js';
 import { connect } from "pwa-helpers/connect-mixin.js";
 
 // This element is connected to the Redux store.
@@ -69,12 +70,26 @@ import {
 import { ButtonSharedStyles } from "./button-shared-styles.js";
 import { SharedStyles } from "./shared-styles.js";
 
+import {
+	ChartConfigIDsMap,
+	ChartData,
+	Filename,
+	ModificationsPathMap,
+	OptionsPath,
+	RootState
+} from '../types.js';
+
+import {
+	Simulation,
+	SimulationsMap
+} from '../simulation.js';
+
 import './run-summary.js';
 import './run-chart.js';
 import './options-control.js';
 import './multi-select.js';
 
-const optionsForMultiSelect = (chartData) => {
+const optionsForMultiSelect = (chartData : ChartData) => {
 	const result = {};
 	for (const [key, value] of Object.entries(chartData || {})) {
 		if (!value) continue;
@@ -88,36 +103,79 @@ const optionsForMultiSelect = (chartData) => {
 	return result;
 };
 
+@customElement('simulation-controls')
 class SimulationControls extends connect(store)(LitElement) {
-	static get properties() {
-		return {
-			_showControsl : {type:Boolean},
-			_warning: {type:String},
-			_hasModifications: {type:Boolean},
-			_modifiedPaths: {type:Object},
-			_configurationExpanded: {type:Boolean},
-			_chartExpanded: {type:Boolean},
-			_chartData: {type:Object},
-			_chartSingleRun: {type:Boolean},
-			_chartConfigIDs: {type:String},
-			_currentSimulationHasChartableData: {type:Boolean},
-			_descriptionExpanded: {type:Boolean},
-			_filename: {type:String},
-			_datafiles: {type:Array},
-			_simulationsMap: { type:Object },
-			_simulationIndex: { type:Number },
-			_simulationMaxRunIndex: { type:Number },
-			_maxFrameIndex: { type: Number },
-			_simulation: { type: Object},
-			_frameIndex: { type: Number },
-			_runIndex: {type: Number},
-			_runStatuses: { type:Array },
-			_playing: {type: Boolean},
-			_pathExpanded: {type:Object},
-		};
-	}
 
-	static get styles() {
+	@state()
+	_showControls : boolean;
+
+	@state()
+	_warning: string;
+
+	@state()
+	_hasModifications: boolean;
+
+	@state()
+	_modifiedPaths: ModificationsPathMap;
+
+	@state()
+	_configurationExpanded: boolean;
+
+	@state()
+	_chartExpanded: boolean;
+
+	@state()
+	_chartData: ChartData;
+
+	@state()
+	_chartSingleRun: boolean;
+
+	@state()
+	_chartConfigIDs: ChartConfigIDsMap;
+
+	@state()
+	_currentSimulationHasChartableData: boolean;
+
+	@state()
+	_descriptionExpanded: boolean;
+
+	@state()
+	_filename: Filename;
+
+	@state()
+	_datafiles: Filename[];
+
+	@state()
+	_simulationsMap: SimulationsMap;
+
+	@state()
+	_simulationIndex: number;
+
+	@state()
+	_simulationMaxRunIndex: number;
+	
+	@state()
+	_maxFrameIndex: number;
+
+	@state()
+	_simulation: Simulation;
+
+	@state()
+	_frameIndex: number;
+
+	@state()
+	_runIndex: number;
+
+	@state()
+	_runStatuses: number[];
+
+	@state()
+	_playing: boolean;
+
+	@state()
+	_pathExpanded: {[path : OptionsPath]: true}
+
+	static override get styles() {
 		return [
 			SharedStyles,
 			ButtonSharedStyles,
@@ -166,7 +224,7 @@ class SimulationControls extends connect(store)(LitElement) {
 	}
 
 
-	render() {
+	override render() : TemplateResult {
 
 		const rawDescription = this._simulation ? this._simulation.rawDescription : '';
 		const datafiles = [...this._datafiles] || [];
@@ -249,7 +307,7 @@ class SimulationControls extends connect(store)(LitElement) {
 	}
 
 	// This is called every time something is updated in the store.
-	stateChanged(state) {
+	override stateChanged(state : RootState) {
 		this._showControls = selectShowControls(state);
 		this._warning = selectWarning(state);
 		this._hasModifications = selectHasModifications(state);
@@ -375,4 +433,8 @@ class SimulationControls extends connect(store)(LitElement) {
 	}
 }
 
-window.customElements.define("simulation-controls", SimulationControls);
+declare global {
+	interface HTMLElementTagNameMap {
+		'simulation-controls': SimulationControls;
+	}
+}
