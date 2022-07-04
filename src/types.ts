@@ -112,6 +112,10 @@ export type OptionsPath = string;
 
 export type PartialSimulationFrame = object;
 
+export type ModificationsPathMap = {
+    [path: OptionsPath]: OptionValue;
+}
+
 export interface SimulationFrame extends PartialSimulationFrame {
     index : number;
     simOptions : NormalizedSimOptions;
