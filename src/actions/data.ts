@@ -111,6 +111,7 @@ import {
 	DEFAULT_SENTINEL,
 	parseHash,
 } from '../util.js';
+import { DialogType, DialogTypeAddFieldExtras, Filename } from '../types.js';
 
 export const loadData = (blob) => (dispatch) => {
 	let data;
@@ -384,7 +385,7 @@ export const prevFrameIndex = (fromInterval = false) => (dispatch, getState) => 
 	dispatch(updatePlaying(false));
 };
 
-export const updateFilename = (filename, skipCanonicalize) => (dispatch, getState) => {
+export const updateFilename = (filename : Filename, skipCanonicalize = false) => (dispatch, getState) => {
 	const state = getState();
 	const currentFilename = selectFilename(state);
 	if (currentFilename == filename) return;
@@ -487,7 +488,7 @@ export const removeModificationsForPath = (path) => {
 	};
 };
 
-export const openDialog = (typ, optExtras) => {
+export const openDialog = (typ : DialogType, optExtras? : DialogTypeAddFieldExtras) => {
 	return {
 		type: UPDATE_DIALOG_OPEN,
 		open: true,
