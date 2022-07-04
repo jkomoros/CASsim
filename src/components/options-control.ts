@@ -31,6 +31,7 @@ import {
 } from '../actions/data.js';
 
 import {
+	DialogTypeAddFieldExtras,
 	OptionsConfig,
 	OptionsPath,
 	OptionValue
@@ -232,7 +233,7 @@ class OptionsControl extends LitElement {
 		const example = this.config.example;
 		const nulledEntries = this._nulledEntries(true);
 
-		const extras = {
+		const extras : DialogTypeAddFieldExtras = {
 			options: nulledEntries.map(entry => ({
 				path: this.path ? this.path + '.' + entry[0] : entry[0],
 				value: entry[0],
