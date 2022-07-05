@@ -240,8 +240,8 @@ class SimulationControls extends connect(store)(LitElement) {
 				</div>
 				<div class='row'>
 					<label for='simulationIndex'>Simulation</label>
-					<select class='flex' id='simulationIndex' .value=${this._simulationIndex} @change=${this._handleSimulationIndexChanged} .disabled=${this._playing}>
-						${Object.entries(this._simulationsMap || {}).map((entry, index) => html`<option .value=${index} .selected=${index == this._simulationIndex} .title=${entry[1].description}>${entry[1].title}</option>`)}
+					<select class='flex' id='simulationIndex' .value=${String(this._simulationIndex)} @change=${this._handleSimulationIndexChanged} .disabled=${this._playing}>
+						${Object.entries(this._simulationsMap || {}).map((entry, index) => html`<option .value=${String(index)} .selected=${index == this._simulationIndex} .title=${entry[1].description}>${entry[1].title}</option>`)}
 					</select>
 					<div>
 						<button class='small' .disabled=${this._playing} @click=${this._handleShowJSONClicked}>${CODE_ICON}</button>
@@ -253,11 +253,11 @@ class SimulationControls extends connect(store)(LitElement) {
 				<div class='row'>
 					<div>
 						<label for='runIndex'>Run</label>
-						<input id='runIndex' .value=${this._runIndex} type='number' min='0' max=${this._simulationMaxRunIndex} @change=${this._handleRunIndexChanged} .readonly=${this._playing}>
+						<input id='runIndex' .value=${String(this._runIndex)} type='number' min='0' max=${this._simulationMaxRunIndex} @change=${this._handleRunIndexChanged} .readonly=${this._playing}>
 					</div>
 					<div>
 						<label for='frameIndex'>Frame</label>
-						<input id='frameIndex' .value=${this._frameIndex} type='number' min='0' max=${this._maxFrameIndex} @change=${this._handleFrameIndexChanged} .readonly=${this._playing}>
+						<input id='frameIndex' .value=${String(this._frameIndex)} type='number' min='0' max=${this._maxFrameIndex} @change=${this._handleFrameIndexChanged} .readonly=${this._playing}>
 					</div>
 					<div>
 						<button class='small' .disabled=${this._playing} @click=${this._handlePlayClicked}>${PLAY_ICON}</button>
