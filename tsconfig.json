@@ -27,7 +27,9 @@
             "no-missing-element-type-definition": "error",
             "no-unknown-event": "error"
           },
-          "globalEvents": []
+          "globalEvents": [
+            "toggle"
+          ]
         }
       ]
     },
