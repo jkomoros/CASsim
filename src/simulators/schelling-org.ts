@@ -106,6 +106,9 @@ const DEFAULT_COMPELLING_VALUE = 0.5;
 
 const DEFAULT_NORTH_STAR_EMOJI = '🌟';
 
+interface SchellingOrgSimulationFrame extends AgentSimulationFrame {
+}
+
 //bias is where in the range of min to max the value will be. 0.5 will be
 //equally likely across whole range, whereas a bias of 0.0 will be very
 //pessimistic (very bottom edge of range, and bias of 1.0 will be extremely
@@ -1169,7 +1172,7 @@ const COLLABORATOR_CIRCLE_FACTOR = 7;
 class SchellingOrgRenderer extends LitElement {
 
 	@property({ type: Object })
-	frame: AgentSimulationFrame;
+	frame: SchellingOrgSimulationFrame;
 
 	@property({ type: Number })
 	width: number;
