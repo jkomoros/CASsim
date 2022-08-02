@@ -17,7 +17,6 @@ import {
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
-const EMOJI_PROPERTY_NAME = 'emoji';
 const NORTH_STAR_PROPERTY_NAME = 'northStar';
 const OFFSET_PROPERTY_NAME = 'offset';
 const STRENGTH_PROPERTY_NAME = 'strength';
@@ -55,7 +54,7 @@ const SHORT_NAMES = {
 	epsilon:'eps',
 	beliefs: 'blfs',
 	compelling: 'cmp',
-	[EMOJI_PROPERTY_NAME]: 'em',
+	emoji: 'em',
 	[NORTH_STAR_PROPERTY_NAME]: 'nS',
 	[OFFSET_PROPERTY_NAME]: 'ofst',
 	[STRENGTH_PROPERTY_NAME]: 'str',
@@ -268,7 +267,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		for (let i = 0; i < collaboratorsCount; i++) {
 			collaborators.push({
 				index: i,
-				[EMOJI_PROPERTY_NAME]: emojiValues[i % emojiValues.length],
+				emoji: emojiValues[i % emojiValues.length],
 				epsilon: collaboratorEpsilonValue,
 				broadcastLikelihood,
 				compelling: defaultCompellingValue,
@@ -716,9 +715,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 								description: "The epsilon for this specific individual",
 								optional:true,
 							},
-							[EMOJI_PROPERTY_NAME]: {
+							emoji: {
 								example: 'A',
-								shortName: SHORT_NAMES[EMOJI_PROPERTY_NAME] || '',
+								shortName: SHORT_NAMES.emoji || '',
 								description: 'The specific emoji',
 								optional:true,
 							},
@@ -819,9 +818,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 										description: "The epsilon for this specific individual",
 										optional:true,
 									},
-									[EMOJI_PROPERTY_NAME]: {
+									emoji: {
 										example: 'A',
-										shortName: SHORT_NAMES[EMOJI_PROPERTY_NAME] || '',
+										shortName: SHORT_NAMES.emoji || '',
 										description: 'The specific emoji',
 										optional:true,
 									},
@@ -1053,12 +1052,12 @@ class SchellingOrgSimulator extends BaseSimulator {
 			},
 			[NORTH_STAR_PROPERTY_NAME]: {
 				example: {
-					[EMOJI_PROPERTY_NAME]: {
+					emoji: {
 						example: DEFAULT_NORTH_STAR_EMOJI,
 						optional: true,
 						backfill: true,
 						default: true,
-						shortName: SHORT_NAMES[EMOJI_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.emoji || '',
 						description: "The emoji to render for the north star",
 					},
 					[OFFSET_TYPE_PROPERTY_NAME]: {
@@ -1352,7 +1351,7 @@ class SchellingOrgRenderer extends LitElement {
 		const width = this._northStarWidth();
 		const x = this.width * northStar[OFFSET_PROPERTY_NAME];
 		const y = (this.height / 40) + (width / 2);
-		return svg`<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width}' opacity='${northStar[BELIEVABILITY_PROPERTY_NAME]}'>${northStar[EMOJI_PROPERTY_NAME]}</text>`;
+		return svg`<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width}' opacity='${northStar[BELIEVABILITY_PROPERTY_NAME]}'>${northStar.emoji}</text>`;
 	}
 
 	_collaboratorVerticalLine() {
@@ -1398,7 +1397,7 @@ class SchellingOrgRenderer extends LitElement {
 
 		return svg`
 		${projectPosition && !this._disableSelection ? svg`<path class='selected-project' d='M ${projectPosition[0]},${projectPosition[1]} L ${x}, ${y}'></path>` : ''}
-		<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width * 0.8}' class='${collaborator[BELIEVES_PROPERTY_NAME] ? 'believer' : 'non-believer'}'>${collaborator[EMOJI_PROPERTY_NAME]}</text>
+		<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width * 0.8}' class='${collaborator[BELIEVES_PROPERTY_NAME] ? 'believer' : 'non-believer'}'>${collaborator.emoji}</text>
 		${this._communication ? '' : svg`<path class='wall' d='M ${x + width},${y - width / 2} L ${x + width},${y + width /2}' stroke-width='${width / 10}'></path>`}`;
 	}
 
