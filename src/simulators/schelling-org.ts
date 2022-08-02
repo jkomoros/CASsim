@@ -17,7 +17,6 @@ import {
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
-const ERROR_PROPERTY_NAME = 'error';
 const COLLABORATORS_PROPERTY_NAME = 'collaborators';
 const PROJECTS_PROPERTY_NAME = 'projects';
 const CONNECTIONS_PROPERTY_NAME = 'connections';
@@ -52,7 +51,7 @@ const RANDOM_INDIVIDUAL_PROPERTY_NAME = 'randomIndividual';
 
 const SHORT_NAMES = {
 	value: 'v',
-	[ERROR_PROPERTY_NAME]: 'e',
+	error: 'e',
 	count: 'n',
 	[COLLABORATORS_PROPERTY_NAME]: 'c',
 	[PROJECTS_PROPERTY_NAME]: 'p',
@@ -253,7 +252,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		//Assign final value/error values now that we know each one's extra/error
 		for (let i = 0; i < projectsCount; i++) {
 			if (projects[i].value === undefined) projects[i].value = 1.0 + (rnd() * projects[i][MAX_EXTRA_VALUE_PROPERTY_NAME]);
-			if (projects[i][ERROR_PROPERTY_NAME] === undefined) projects[i][ERROR_PROPERTY_NAME] = 0.0 + (rnd() * projects[i][MAX_ERROR_VALUE_PROPERTY_NAME]);
+			if (projects[i].error === undefined) projects[i].error = 0.0 + (rnd() * projects[i][MAX_ERROR_VALUE_PROPERTY_NAME]);
 			projects[i].value += (rnd() * projects[i][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] * 2) - projects[i][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME];
 		}
 
@@ -307,7 +306,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					bias = (northStarBias + optimismBias) / 2;
 				}
 
-				personalBeliefs[j] = randomValueWithBias(rnd, project.value - project[ERROR_PROPERTY_NAME], project.value + project[ERROR_PROPERTY_NAME], bias);
+				personalBeliefs[j] = randomValueWithBias(rnd, project.value - project.error, project.value + project.error, bias);
 			}
 			collaborators[i][BELIEFS_PROPERTY_NAME] = personalBeliefs;
 		}
@@ -972,9 +971,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 								description: "Value is the height of the project, in units of 1.0 = width",
 								optional: true
 							},
-							[ERROR_PROPERTY_NAME]: {
+							error: {
 								example: 0.0,
-								shortName: SHORT_NAMES[ERROR_PROPERTY_NAME] || '',
+								shortName: SHORT_NAMES.error || '',
 								step: 0.05,
 								description: "The error bars for this value; collaborators will consider the true value to be somewhere within value +/- this value",
 								optional: true
@@ -1022,9 +1021,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 										description: "Value is the height of the project, in units of 1.0 = width",
 										optional: true
 									},
-									[ERROR_PROPERTY_NAME]: {
+									error: {
 										example: 0.0,
-										shortName: SHORT_NAMES[ERROR_PROPERTY_NAME] || '',
+										shortName: SHORT_NAMES.error || '',
 										step: 0.05,
 										description: "The error bars for this value; collaborators will consider the true value to be somewhere within value +/- this value",
 										optional: true
@@ -1414,7 +1413,7 @@ class SchellingOrgRenderer extends LitElement {
 
 		const width = this._projectWidth();
 		//Size is so the largest bar goes to the top of the area, or smaller if under 2.0 total size
-		const maxVerticalRelativeSize = Math.max(Math.max(...this._projects.map(project => project.value + project[ERROR_PROPERTY_NAME])), 2.0);
+		const maxVerticalRelativeSize = Math.max(Math.max(...this._projects.map(project => project.value + project.error)), 2.0);
 
 		//Spread it across the size avaialble; this.height/3 - some padding to not go all the way to the top
 		let projectAvailableHeight = this.height / 3;
@@ -1431,13 +1430,13 @@ class SchellingOrgRenderer extends LitElement {
 
 		const ERROR_BAR_CAP_WIDTH = 8;
 
-		const hasError = project[ERROR_PROPERTY_NAME] != 0.0;
+		const hasError = project.error != 0.0;
 		const errorStartX = position[0] - (width / ERROR_BAR_CAP_WIDTH);
 		const errorEndX = position[0] + (width / ERROR_BAR_CAP_WIDTH);
 		const beliefStartX = position[0] - (width / ERROR_BAR_CAP_WIDTH / 2);
 		const beliefWidth = width / ERROR_BAR_CAP_WIDTH;
-		const errorStartY = y - (project[ERROR_PROPERTY_NAME] * verticalScaleFactor);
-		const errorEndY = y + (project[ERROR_PROPERTY_NAME] * verticalScaleFactor);
+		const errorStartY = y - (project.error * verticalScaleFactor);
+		const errorEndY = y + (project.error * verticalScaleFactor);
 
 		const errorStrokeWidth = width / 40;
 
