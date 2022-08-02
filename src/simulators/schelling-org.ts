@@ -17,7 +17,6 @@ import {
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
-const CONNECTIONS_PROPERTY_NAME = 'connections';
 const COMMUNICATION_PROPERTY_NAME = 'communication';
 const MAX_EXTRA_VALUE_PROPERTY_NAME = 'maxExtraValue';
 const MAX_ERROR_VALUE_PROPERTY_NAME = 'maxErrorValue';
@@ -53,7 +52,7 @@ const SHORT_NAMES = {
 	count: 'n',
 	collaborators: 'c',
 	projects: 'p',
-	[CONNECTIONS_PROPERTY_NAME]: 'c',
+	connections: 'c',
 	display: 'dsp',
 	debug: 'dbg',
 	[COMMUNICATION_PROPERTY_NAME]: 'o',
@@ -113,10 +112,17 @@ type Project = {
 	error: number;
 }
 
+type Connection = {
+	i: number;
+	j: number;
+	active: boolean;
+}
+
 interface SchellingOrgSimulationFrame extends AgentSimulationFrame {
 	display: DisplayValue;
 	collaborators: Collaborator[];
 	projects: Project[];
+	connections: Connection[];
 }
 
 //bias is where in the range of min to max the value will be. 0.5 will be
@@ -350,7 +356,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 			[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME]: -1,
 			[NORTH_STAR_PROPERTY_NAME]: northStarValue,
 			[COMMUNICATION_PROPERTY_NAME]: communicationValue,
-			[CONNECTIONS_PROPERTY_NAME]: connections,
+			connections,
 			collaborators,
 			projects
 		};
@@ -399,21 +405,21 @@ class SchellingOrgSimulator extends BaseSimulator {
 		}
 
 		//Make sure anything that was active in the last frame isn't rendered as active now 
-		const newConnections = frame[CONNECTIONS_PROPERTY_NAME].map(connection => ({...connection, active: false}));
+		const newConnections = frame.connections.map(connection => ({...connection, active: false}));
 
 		return {
 			...frame,
 			[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME]: -1,
 			projects,
 			collaborators,
-			[CONNECTIONS_PROPERTY_NAME]: newConnections
+			connections: newConnections
 		};
 	}
 
 	_communicationRound(frame, rnd) {
 
 		//Copy connections
-		let connections = frame[CONNECTIONS_PROPERTY_NAME].map(connection => ({...connection}));
+		let connections = frame.connections.map(connection => ({...connection}));
 		//Set all of them to not active
 		connections = connections.map(connection => ({...connection, active: false}));
 
@@ -497,7 +503,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 			...frame,
 			[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME]: projectIndex,
 			collaborators,
-			[CONNECTIONS_PROPERTY_NAME]: connections
+			connections
 		};
 	}
 
@@ -538,7 +544,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 	override frameValidator(frame) {
 		const projects = frame.projects;
 		const collaborators = frame.collaborators;
-		const connections = frame[CONNECTIONS_PROPERTY_NAME];
+		const connections = frame.connections;
 		if (projects) {
 			for (const [index, project] of projects.entries()) {
 				if (project.index != index) throw new Error('Project ' + index + ' has an invalid index');
@@ -1292,7 +1298,7 @@ class SchellingOrgRenderer extends LitElement {
 
 	get _connections() {
 		if (!this.frame) return [];
-		return this.frame[CONNECTIONS_PROPERTY_NAME] || [];
+		return this.frame.connections || [];
 	}
 
 	get _collaborators() {
