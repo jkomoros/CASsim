@@ -17,7 +17,6 @@ import {
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
-const TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME = 'twiddleValueAmount';
 const AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME = 'avgConnectionLikelihood';
 const CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME = 'connectionLikelihoodSpread';
 const BROADCAST_LIKELIHOOD_PROPERTY_NAME = 'broadcastLikelihood';
@@ -55,7 +54,7 @@ const SHORT_NAMES = {
 	communication: 'o',
 	maxExtraValue: 'mExtV',
 	maxErrorValue: 'mErrV',
-	[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: 'tVA',
+	twiddleValueAmount: 'tVA',
 	[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: 'aCL',
 	[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: 'cLS',
 	[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: 'bL',
@@ -169,7 +168,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const collaboratorsCount = simOptions.collaborators.count;
 		const projectExtraValue = simOptions.projects.maxExtraValue;
 		const projectErrorValue = simOptions.projects.maxErrorValue;
-		const projectTwiddleValueAmount = simOptions.projects[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME];
+		const projectTwiddleValueAmount = simOptions.projects.twiddleValueAmount;
 		const communicationValue = simOptions.communication;
 		const displayValue = simOptions.display;
 		const northStarValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? deepCopy(simOptions[NORTH_STAR_PROPERTY_NAME]) : undefined;
@@ -250,7 +249,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				selected: false,
 				maxExtraValue: projectExtraValue,
 				maxErrorValue: projectErrorValue,
-				[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: projectTwiddleValueAmount,
+				twiddleValueAmount: projectTwiddleValueAmount,
 				northStarBias
 			});
 		}
@@ -267,7 +266,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		for (let i = 0; i < projectsCount; i++) {
 			if (projects[i].value === undefined) projects[i].value = 1.0 + (rnd() * projects[i].maxExtraValue);
 			if (projects[i].error === undefined) projects[i].error = 0.0 + (rnd() * projects[i].maxErrorValue);
-			projects[i].value += (rnd() * projects[i][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] * 2) - projects[i][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME];
+			projects[i].value += (rnd() * projects[i].twiddleValueAmount * 2) - projects[i].twiddleValueAmount;
 		}
 
 		const emojiValues = Object.values(PROFESSIONAL_PEOPLE_EMOJIS);
@@ -941,9 +940,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 						step: 0.05,
 						description: 'Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.'
 					},
-					[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: {
+					twiddleValueAmount: {
 						example: 0.0,
-						shortName: SHORT_NAMES[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.twiddleValueAmount || '',
 						optional: true,
 						backfill: true,
 						step: 0.01,
@@ -971,9 +970,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 								optional: true,
 								description: 'Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.'
 							},
-							[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: {
+							twiddleValueAmount: {
 								example: 0.0,
-								shortName: SHORT_NAMES[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] || '',
+								shortName: SHORT_NAMES.twiddleValueAmount || '',
 								optional: true,
 								step: 0.01,
 								description: "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number."
@@ -1021,9 +1020,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 										optional: true,
 										description: 'Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.'
 									},
-									[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: {
+									twiddleValueAmount: {
 										example: 0.0,
-										shortName: SHORT_NAMES[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] || '',
+										shortName: SHORT_NAMES.twiddleValueAmount || '',
 										optional: true,
 										step: 0.01,
 										description: "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number."
