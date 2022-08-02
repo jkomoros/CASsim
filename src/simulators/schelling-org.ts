@@ -17,7 +17,6 @@ import {
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
-const BROADCAST_LIKELIHOOD_PROPERTY_NAME = 'broadcastLikelihood';
 const INDIVIDUALS_PROPERTY_NAME = 'individuals';
 const MARKED_PROPERTY_NAME = 'marked';
 const EPSILON_PROPERTY_NAME = 'epsilon';
@@ -55,7 +54,7 @@ const SHORT_NAMES = {
 	twiddleValueAmount: 'tVA',
 	avgConnectionLikelihood: 'aCL',
 	connectionLikelihoodSpread: 'cLS',
-	[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: 'bL',
+	broadcastLikelihood: 'bL',
 	[INDIVIDUALS_PROPERTY_NAME]: 'i',
 	[MARKED_PROPERTY_NAME]: 'mrkd',
 	[EPSILON_PROPERTY_NAME]:'eps',
@@ -178,7 +177,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const avgConnectionLikelihood = simOptions.collaborators.avgConnectionLikelihood;
 		const connectionLikelihoodSpread = simOptions.collaborators.connectionLikelihoodSpread;
 		const defaultCompellingValue = simOptions.collaborators[COMPELLING_PROPERTY_NAME];
-		const broadcastLikelihood = simOptions.collaborators[BROADCAST_LIKELIHOOD_PROPERTY_NAME];
+		const broadcastLikelihood = simOptions.collaborators.broadcastLikelihood;
 		const communicationStrategy = simOptions.collaborators[COMMUNICATION_STRATEGY_PROPERTY_NAME];
 		//This might be undefined if not provided
 		const optimismValue = simOptions.collaborators[OPTIMISM_PROPERTY_NAME];
@@ -276,7 +275,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				index: i,
 				[EMOJI_PROPERTY_NAME]: emojiValues[i % emojiValues.length],
 				[EPSILON_PROPERTY_NAME]: collaboratorEpsilonValue,
-				[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: broadcastLikelihood,
+				broadcastLikelihood,
 				[COMPELLING_PROPERTY_NAME]: defaultCompellingValue,
 				avgConnectionLikelihood,
 				connectionLikelihoodSpread,
@@ -429,7 +428,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		
 		const collaborators = [...frame.collaborators];
 
-		const doBroadcast = rnd() <= collaborators[primaryConnection.i][BROADCAST_LIKELIHOOD_PROPERTY_NAME];
+		const doBroadcast = rnd() <= collaborators[primaryConnection.i].broadcastLikelihood;
 
 		//If we do broadcast, then we'll transmit to each connection where sender is the sender, and the value is greater than the primaryConnection value.
 		const connectionsToSend = doBroadcast ? connections.filter(connection => connection.i == primaryConnection.i && connection[STRENGTH_PROPERTY_NAME] >= primaryConnection[STRENGTH_PROPERTY_NAME]) : [primaryConnection];
@@ -659,9 +658,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 						optional: true,
 						backfill: true,
 					},
-					[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: {
+					broadcastLikelihood: {
 						example: 0.0,
-						shortName: SHORT_NAMES[BROADCAST_LIKELIHOOD_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.broadcastLikelihood || '',
 						description: 'For each time a speaker is selected to present, how likely are they are they to broadcast to multiple people, with any individual with a connection equal to or stronger than the selected connection is communicated with at once?',
 						min: 0.0,
 						max: 1.0,
@@ -749,9 +748,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 								step: 0.05,
 								optional:true,
 							},
-							[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: {
+							broadcastLikelihood: {
 								example: 0.0,
-								shortName: SHORT_NAMES[BROADCAST_LIKELIHOOD_PROPERTY_NAME] || '',
+								shortName: SHORT_NAMES.broadcastLikelihood || '',
 								description: 'For each time a speaker is selected to present, how likely are they are they to broadcast to multiple people, with any individual with a connection equal to or stronger than the selected connection is communicated with at once?',
 								min: 0.0,
 								max: 1.0,
@@ -852,9 +851,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 										step: 0.05,
 										optional:true,
 									},
-									[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: {
+									broadcastLikelihood: {
 										example: 0.0,
-										shortName: SHORT_NAMES[BROADCAST_LIKELIHOOD_PROPERTY_NAME] || '',
+										shortName: SHORT_NAMES[BELIEFS_PROPERTY_NAME].broadcastLikelihood || '',
 										description: 'For each time a speaker is selected to present, how likely are they are they to broadcast to multiple people, with any individual with a connection equal to or stronger than the selected connection is communicated with at once?',
 										min: 0.0,
 										max: 1.0,
