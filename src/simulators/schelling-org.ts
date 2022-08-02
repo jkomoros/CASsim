@@ -23,7 +23,6 @@ const ERROR_PROPERTY_NAME = 'error';
 const COLLABORATORS_PROPERTY_NAME = 'collaborators';
 const PROJECTS_PROPERTY_NAME = 'projects';
 const CONNECTIONS_PROPERTY_NAME = 'connections';
-const DISPLAY_PROPERTY_NAME = 'display';
 const DEBUG_PROPERTY_NAME = 'debug';
 const COMMUNICATION_PROPERTY_NAME = 'communication';
 const MAX_EXTRA_VALUE_PROPERTY_NAME = 'maxExtraValue';
@@ -61,7 +60,7 @@ const SHORT_NAMES = {
 	[COLLABORATORS_PROPERTY_NAME]: 'c',
 	[PROJECTS_PROPERTY_NAME]: 'p',
 	[CONNECTIONS_PROPERTY_NAME]: 'c',
-	[DISPLAY_PROPERTY_NAME]: 'dsp',
+	display: 'dsp',
 	[DEBUG_PROPERTY_NAME]: 'dbg',
 	[COMMUNICATION_PROPERTY_NAME]: 'o',
 	[MAX_EXTRA_VALUE_PROPERTY_NAME]: 'mExtV',
@@ -106,7 +105,12 @@ const DEFAULT_COMPELLING_VALUE = 0.5;
 
 const DEFAULT_NORTH_STAR_EMOJI = '🌟';
 
+type DisplayValue = {
+
+}
+
 interface SchellingOrgSimulationFrame extends AgentSimulationFrame {
+	display: DisplayValue;
 }
 
 //bias is where in the range of min to max the value will be. 0.5 will be
@@ -157,7 +161,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const projectErrorValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_ERROR_VALUE_PROPERTY_NAME];
 		const projectTwiddleValueAmount = simOptions[PROJECTS_PROPERTY_NAME][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME];
 		const communicationValue = simOptions[COMMUNICATION_PROPERTY_NAME];
-		const displayValue = simOptions[DISPLAY_PROPERTY_NAME];
+		const displayValue = simOptions.display;
 		const northStarValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? deepCopy(simOptions[NORTH_STAR_PROPERTY_NAME]) : undefined;
 		const collaboratorEpsilonValue = simOptions[COLLABORATORS_PROPERTY_NAME][EPSILON_PROPERTY_NAME];
 		let individualProjectOverrides = simOptions[PROJECTS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
@@ -336,7 +340,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		}
 
 		return {
-			[DISPLAY_PROPERTY_NAME]: displayValue,
+			display: displayValue,
 			[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME]: -1,
 			[NORTH_STAR_PROPERTY_NAME]: northStarValue,
 			[COMMUNICATION_PROPERTY_NAME]: communicationValue,
@@ -572,7 +576,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 	
 	override get optionsConfig() {
 		return {
-			[DISPLAY_PROPERTY_NAME]: {
+			display: {
 				example: {
 					[DEBUG_PROPERTY_NAME]: {
 						example: true,
@@ -593,7 +597,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 						optional: true
 					}
 				},
-				shortName: SHORT_NAMES[DISPLAY_PROPERTY_NAME] || '',
+				shortName: SHORT_NAMES.display || '',
 				optional: true,
 				backfill: true,
 				description: "An optional object that controls how things render. If not provided, will be interpreted as though it enables no optional rendering.",
@@ -1029,7 +1033,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 										optional: true
 									}
 								},
-								shortName: SHORT_NAMES[DISPLAY_PROPERTY_NAME] || '',
+								shortName: SHORT_NAMES.display || '',
 								description: "A specific project",
 								optional:true,
 							}
@@ -1297,13 +1301,13 @@ class SchellingOrgRenderer extends LitElement {
 
 	get _debug() {
 		if (!this.frame) return false;
-		const displayValue = this.frame[DISPLAY_PROPERTY_NAME] || {};
+		const displayValue = this.frame.display || {};
 		return displayValue[DEBUG_PROPERTY_NAME] || false;
 	}
 
 	get _disableSelection() {
 		if (!this.frame) return false;
-		const displayValue = this.frame[DISPLAY_PROPERTY_NAME] || {};
+		const displayValue = this.frame.display || {};
 		return displayValue[DISABLE_SELECTION_PROPERTY_NAME] || false;
 	}
 
@@ -1314,7 +1318,7 @@ class SchellingOrgRenderer extends LitElement {
 
 	get _renderBeliefTicks() {
 		if (!this.frame) return false;
-		const displayValue = this.frame[DISPLAY_PROPERTY_NAME] || {};
+		const displayValue = this.frame.display || {};
 		const val = displayValue[DISABLE_BELIEFS_PROPERTY_NAME] || false;
 		return !val;
 	}
