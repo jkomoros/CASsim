@@ -8,6 +8,10 @@ import {
 } from '../simulator.js';
 
 import {
+	AgentSimulationFrame
+} from '../agent-simulator.js';
+
+import {
 	PROFESSIONAL_PEOPLE_EMOJIS
 } from '../emojis.js';
 
@@ -1155,6 +1159,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 export default SchellingOrgSimulator;
 
 import { LitElement, html, css, svg} from 'lit';
+import { property } from 'lit/decorators.js';
 
 const COLLABORATOR_CIRCLE_FACTOR = 7;
 
@@ -1162,15 +1167,17 @@ const COLLABORATOR_CIRCLE_FACTOR = 7;
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
 class SchellingOrgRenderer extends LitElement {
-	static get properties() {
-		return {
-			frame: { type: Object },
-			width: {type:Number},
-			height: {type:Number},
-		};
-	} 
 
-	static get styles() {
+	@property({ type: Object })
+	frame: AgentSimulationFrame;
+
+	@property({ type: Number })
+	width: number;
+
+	@property({ type: Number })
+	height: number;
+
+	static override get styles() {
 		return [
 			css`
 
@@ -1253,7 +1260,7 @@ class SchellingOrgRenderer extends LitElement {
 		];
 	}
 
-	render() {
+	override render() {
 		return html`
 			<svg viewBox='0 0 ${this.width} ${this.height}'>
 				${this._debugRender()}
