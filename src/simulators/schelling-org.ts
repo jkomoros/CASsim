@@ -17,7 +17,6 @@ import {
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
-const INDIVIDUALS_PROPERTY_NAME = 'individuals';
 const MARKED_PROPERTY_NAME = 'marked';
 const EPSILON_PROPERTY_NAME = 'epsilon';
 const BELIEFS_PROPERTY_NAME = 'beliefs';
@@ -55,7 +54,7 @@ const SHORT_NAMES = {
 	avgConnectionLikelihood: 'aCL',
 	connectionLikelihoodSpread: 'cLS',
 	broadcastLikelihood: 'bL',
-	[INDIVIDUALS_PROPERTY_NAME]: 'i',
+	individuals: 'i',
 	[MARKED_PROPERTY_NAME]: 'mrkd',
 	[EPSILON_PROPERTY_NAME]:'eps',
 	[BELIEFS_PROPERTY_NAME]: 'blfs',
@@ -170,8 +169,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const displayValue = simOptions.display;
 		const northStarValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? deepCopy(simOptions[NORTH_STAR_PROPERTY_NAME]) : undefined;
 		const collaboratorEpsilonValue = simOptions.collaborators[EPSILON_PROPERTY_NAME];
-		let individualProjectOverrides = simOptions.projects[INDIVIDUALS_PROPERTY_NAME];
-		let individualCollaboratorOverrides = simOptions.collaborators[INDIVIDUALS_PROPERTY_NAME];
+		let individualProjectOverrides = simOptions.projects.individuals;
+		let individualCollaboratorOverrides = simOptions.collaborators.individuals;
 		const randomCollaboratorIndividualValues = simOptions.collaborators[RANDOM_INDIVIDUAL_PROPERTY_NAME];
 		const randomProjectIndividualValues = simOptions.projects[RANDOM_INDIVIDUAL_PROPERTY_NAME];
 		const avgConnectionLikelihood = simOptions.collaborators.avgConnectionLikelihood;
@@ -513,7 +512,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 	override optionsValidator(normalizedSimOptions) {
 		//Our validations are mainly served by the config in optionsConfig.
-		const individuals = normalizedSimOptions.collaborators[INDIVIDUALS_PROPERTY_NAME];
+		const individuals = normalizedSimOptions.collaborators.individuals;
 		if (!individuals) return;
 		const numProjects = normalizedSimOptions.projects.count;
 		for (const [i, individual] of individuals.entries()) {
@@ -801,7 +800,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 						description: "If set, then the individuals array will be set so that a random individual has this configuration provided",
 						optional: true,
 					},
-					[INDIVIDUALS_PROPERTY_NAME]: {
+					individuals: {
 						optional: true,
 						backfill: true,
 						example: [
@@ -853,7 +852,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 									},
 									broadcastLikelihood: {
 										example: 0.0,
-										shortName: SHORT_NAMES[BELIEFS_PROPERTY_NAME].broadcastLikelihood || '',
+										shortName: SHORT_NAMES.broadcastLikelihood || '',
 										description: 'For each time a speaker is selected to present, how likely are they are they to broadcast to multiple people, with any individual with a connection equal to or stronger than the selected connection is communicated with at once?',
 										min: 0.0,
 										max: 1.0,
@@ -904,7 +903,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 								optional: true
 							}
 						],
-						shortName: SHORT_NAMES[INDIVIDUALS_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.individuals || '',
 						description: "individuals is set to override the computed individuals with the given properties. null values will be ignored, and keys not in the override will be left in place."
 					}
 				},
@@ -993,7 +992,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 						optional:true,
 						description: "If provided, each run the individuals overrides will have a random individual provided precisely these overrides"
 					},
-					[INDIVIDUALS_PROPERTY_NAME]: {
+					individuals: {
 						example: [
 							{
 								example: {
@@ -1044,7 +1043,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 								optional:true,
 							}
 						],
-						shortName: SHORT_NAMES[INDIVIDUALS_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.individuals || '',
 						optional: true,
 						backfill: true,
 						description: "individuals is set to override the computed individuals with the given properties. null values will be ignored, and keys not in the override will be left in place."
