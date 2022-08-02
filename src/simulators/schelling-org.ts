@@ -17,7 +17,6 @@ import {
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
-const EPSILON_PROPERTY_NAME = 'epsilon';
 const BELIEFS_PROPERTY_NAME = 'beliefs';
 const COMPELLING_PROPERTY_NAME = 'compelling';
 const EMOJI_PROPERTY_NAME = 'emoji';
@@ -55,7 +54,7 @@ const SHORT_NAMES = {
 	broadcastLikelihood: 'bL',
 	individuals: 'i',
 	marked: 'mrkd',
-	[EPSILON_PROPERTY_NAME]:'eps',
+	epsilon:'eps',
 	[BELIEFS_PROPERTY_NAME]: 'blfs',
 	[COMPELLING_PROPERTY_NAME]: 'cmp',
 	[EMOJI_PROPERTY_NAME]: 'em',
@@ -167,7 +166,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const communicationValue = simOptions.communication;
 		const displayValue = simOptions.display;
 		const northStarValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? deepCopy(simOptions[NORTH_STAR_PROPERTY_NAME]) : undefined;
-		const collaboratorEpsilonValue = simOptions.collaborators[EPSILON_PROPERTY_NAME];
+		const collaboratorEpsilonValue = simOptions.collaborators.epsilon;
 		let individualProjectOverrides = simOptions.projects.individuals;
 		let individualCollaboratorOverrides = simOptions.collaborators.individuals;
 		const randomCollaboratorIndividualValues = simOptions.collaborators[RANDOM_INDIVIDUAL_PROPERTY_NAME];
@@ -272,7 +271,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 			collaborators.push({
 				index: i,
 				[EMOJI_PROPERTY_NAME]: emojiValues[i % emojiValues.length],
-				[EPSILON_PROPERTY_NAME]: collaboratorEpsilonValue,
+				epsilon: collaboratorEpsilonValue,
 				broadcastLikelihood,
 				[COMPELLING_PROPERTY_NAME]: defaultCompellingValue,
 				avgConnectionLikelihood,
@@ -370,7 +369,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 			let maxProjectValue = 0.0;
 			let maxProjects = [];
 			for (const [projectIndex, projectBelief] of collaborator[BELIEFS_PROPERTY_NAME].entries()) {
-				if (Math.abs(projectBelief - maxProjectValue) < collaborators[i][EPSILON_PROPERTY_NAME]) {
+				if (Math.abs(projectBelief - maxProjectValue) < collaborators[i].epsilon) {
 					//Effectively equal
 					maxProjects.push(projectIndex);
 					continue;
@@ -622,11 +621,11 @@ class SchellingOrgSimulator extends BaseSimulator {
 						shortName: SHORT_NAMES.count || '',
 						description: "How many collaborators there should be"
 					},
-					[EPSILON_PROPERTY_NAME]: {
+					epsilon: {
 						example: 0.0,
 						optional: true,
 						backfill: true,
-						shortName: SHORT_NAMES[EPSILON_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.epsilon || '',
 						step: 0.05,
 						description: "Project values within this amount of each other will be considered to be the same"
 					},
@@ -712,9 +711,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 								description: "The starter beliefs of this individual of the values of projects. Must be an array of the same length as number of projects",
 								optional: true,
 							},
-							[EPSILON_PROPERTY_NAME]: {
+							epsilon: {
 								example: 0.5,
-								shortName: SHORT_NAMES[EPSILON_PROPERTY_NAME] || '',
+								shortName: SHORT_NAMES.epsilon || '',
 								step: 0.05,
 								description: "The epsilon for this specific individual",
 								optional:true,
@@ -815,9 +814,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 										description: "The starter beliefs of this individual of the values of projects. Must be an array of the same length as number of projects",
 										optional: true,
 									},
-									[EPSILON_PROPERTY_NAME]: {
+									epsilon: {
 										example: 0.5,
-										shortName: SHORT_NAMES[EPSILON_PROPERTY_NAME] || '',
+										shortName: SHORT_NAMES.epsilon || '',
 										step: 0.05,
 										description: "The epsilon for this specific individual",
 										optional:true,
