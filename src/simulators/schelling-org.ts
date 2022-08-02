@@ -17,7 +17,6 @@ import {
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
-const PROJECTS_PROPERTY_NAME = 'projects';
 const CONNECTIONS_PROPERTY_NAME = 'connections';
 const COMMUNICATION_PROPERTY_NAME = 'communication';
 const MAX_EXTRA_VALUE_PROPERTY_NAME = 'maxExtraValue';
@@ -53,7 +52,7 @@ const SHORT_NAMES = {
 	error: 'e',
 	count: 'n',
 	collaborators: 'c',
-	[PROJECTS_PROPERTY_NAME]: 'p',
+	projects: 'p',
 	[CONNECTIONS_PROPERTY_NAME]: 'c',
 	display: 'dsp',
 	debug: 'dbg',
@@ -109,9 +108,15 @@ type Collaborator = {
 	beliefs: number[];
 }
 
+type Project = {
+	value: number;
+	error: number;
+}
+
 interface SchellingOrgSimulationFrame extends AgentSimulationFrame {
 	display: DisplayValue;
 	collaborators: Collaborator[];
+	projects: Project[];
 }
 
 //bias is where in the range of min to max the value will be. 0.5 will be
@@ -156,19 +161,19 @@ class SchellingOrgSimulator extends BaseSimulator {
 	}
 
 	_firstFrameGenerator(simOptions, rnd) {
-		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
+		const projectsCount = simOptions.projects.count;
 		const collaboratorsCount = simOptions.collaborators.count;
-		const projectExtraValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_EXTRA_VALUE_PROPERTY_NAME];
-		const projectErrorValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_ERROR_VALUE_PROPERTY_NAME];
-		const projectTwiddleValueAmount = simOptions[PROJECTS_PROPERTY_NAME][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME];
+		const projectExtraValue = simOptions.projects[MAX_EXTRA_VALUE_PROPERTY_NAME];
+		const projectErrorValue = simOptions.projects[MAX_ERROR_VALUE_PROPERTY_NAME];
+		const projectTwiddleValueAmount = simOptions.projects[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME];
 		const communicationValue = simOptions[COMMUNICATION_PROPERTY_NAME];
 		const displayValue = simOptions.display;
 		const northStarValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? deepCopy(simOptions[NORTH_STAR_PROPERTY_NAME]) : undefined;
 		const collaboratorEpsilonValue = simOptions.collaborators[EPSILON_PROPERTY_NAME];
-		let individualProjectOverrides = simOptions[PROJECTS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
+		let individualProjectOverrides = simOptions.projects[INDIVIDUALS_PROPERTY_NAME];
 		let individualCollaboratorOverrides = simOptions.collaborators[INDIVIDUALS_PROPERTY_NAME];
 		const randomCollaboratorIndividualValues = simOptions.collaborators[RANDOM_INDIVIDUAL_PROPERTY_NAME];
-		const randomProjectIndividualValues = simOptions[PROJECTS_PROPERTY_NAME][RANDOM_INDIVIDUAL_PROPERTY_NAME];
+		const randomProjectIndividualValues = simOptions.projects[RANDOM_INDIVIDUAL_PROPERTY_NAME];
 		const avgConnectionLikelihood = simOptions.collaborators[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME];
 		const connectionLikelihoodSpread = simOptions.collaborators[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME];
 		const defaultCompellingValue = simOptions.collaborators[COMPELLING_PROPERTY_NAME];
@@ -347,14 +352,14 @@ class SchellingOrgSimulator extends BaseSimulator {
 			[COMMUNICATION_PROPERTY_NAME]: communicationValue,
 			[CONNECTIONS_PROPERTY_NAME]: connections,
 			collaborators,
-			[PROJECTS_PROPERTY_NAME]: projects
+			projects
 		};
 	}
 
 	_selectFinalProject(frame, simOptions, rnd) {
 		const collaboratorsCount = simOptions.collaborators.count;
-		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
-		let projects = [...frame[PROJECTS_PROPERTY_NAME]];
+		const projectsCount = simOptions.projects.count;
+		let projects = [...frame.projects];
 		let collaborators = [...frame.collaborators];
 		//Go through each collaborator and pick a project for them.
 		const selectedProjects = {};
@@ -399,7 +404,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		return {
 			...frame,
 			[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME]: -1,
-			[PROJECTS_PROPERTY_NAME]: projects,
+			projects,
 			collaborators,
 			[CONNECTIONS_PROPERTY_NAME]: newConnections
 		};
@@ -433,7 +438,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const communicationStrategy = collaborators[primaryConnection.i][COMMUNICATION_STRATEGY_PROPERTY_NAME];
 
 		//By default we do COMMUNCATION_STRATEGY_RANDOM
-		let projectIndex = Math.floor(rnd() * frame[PROJECTS_PROPERTY_NAME].length);
+		let projectIndex = Math.floor(rnd() * frame.projects.length);
 
 		if (communicationStrategy !== COMMUNICATION_STRATEGY_RANDOM) {
 			let extremeValue = communicationStrategy == COMMUNICATION_STRATEGY_MIN ? Number.MAX_SAFE_INTEGER : -1 * Number.MAX_SAFE_INTEGER;
@@ -510,7 +515,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		//Our validations are mainly served by the config in optionsConfig.
 		const individuals = normalizedSimOptions.collaborators[INDIVIDUALS_PROPERTY_NAME];
 		if (!individuals) return;
-		const numProjects = normalizedSimOptions[PROJECTS_PROPERTY_NAME].count;
+		const numProjects = normalizedSimOptions.projects.count;
 		for (const [i, individual] of individuals.entries()) {
 			if (!individual) continue;
 			if (!individual[BELIEFS_PROPERTY_NAME]) continue;
@@ -523,7 +528,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const communicationRounds = simOptions[COMMUNICATION_PROPERTY_NAME];
 		//If we aren't done yet signal indeterminate.
 		if (frame.index < communicationRounds) return [-1];
-		for (const project of frame[PROJECTS_PROPERTY_NAME]) {
+		for (const project of frame.projects) {
 			//If we find a single selected project then we succeeded.
 			if (project.selected) return [1.0];
 		}
@@ -531,7 +536,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 	}
 
 	override frameValidator(frame) {
-		const projects = frame[PROJECTS_PROPERTY_NAME];
+		const projects = frame.projects;
 		const collaborators = frame.collaborators;
 		const connections = frame[CONNECTIONS_PROPERTY_NAME];
 		if (projects) {
@@ -565,7 +570,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const parts = path.split('.');
 		if (parts.length == 4 && parts[3] == BELIEFS_PROPERTY_NAME){
 			const base = super.defaultValueForPath(path, simOptions);
-			const length = simOptions[PROJECTS_PROPERTY_NAME].count;
+			const length = simOptions.projects.count;
 			const result = [];
 			for (let i = 0; i < length; i++) {
 				result.push(base[0]);
@@ -909,7 +914,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				shortName: SHORT_NAMES.collaborators || '',
 				description: "Information on the collaborators"
 			},
-			[PROJECTS_PROPERTY_NAME]: {
+			projects: {
 				example: {
 					count: {
 						example: 4,
@@ -1048,7 +1053,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				optional: true,
 				backfill: true,
 				default: true,
-				shortName: SHORT_NAMES[PROJECTS_PROPERTY_NAME] || '',
+				shortName: SHORT_NAMES.projects || '',
 				description: "Information on projects"
 			},
 			[NORTH_STAR_PROPERTY_NAME]: {
@@ -1282,7 +1287,7 @@ class SchellingOrgRenderer extends LitElement {
 
 	get _projects() {
 		if (!this.frame) return [];
-		return this.frame[PROJECTS_PROPERTY_NAME] || [];
+		return this.frame.projects || [];
 	}
 
 	get _connections() {
@@ -1403,13 +1408,13 @@ class SchellingOrgRenderer extends LitElement {
 	}
 
 	_projectWidth() {
-		return projectWidth(this.frame[PROJECTS_PROPERTY_NAME].length, this.width);
+		return projectWidth(this.frame.projects.length, this.width);
 	}
 
 	//Returns the x, y of the bottom center of the project bar
 	_projectPosition(index) {
 		if (index == undefined) return null;
-		const x = projectX(index, this.frame[PROJECTS_PROPERTY_NAME].length, this.width);
+		const x = projectX(index, this.frame.projects.length, this.width);
 		const y = this.height / 3;
 		return [x, y];
 	}
