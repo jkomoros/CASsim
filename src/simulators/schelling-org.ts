@@ -17,7 +17,6 @@ import {
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
-const COUNT_PROPERTY_NAME = 'count';
 const VALUE_PROPERTY_NAME = 'value';
 const ERROR_PROPERTY_NAME = 'error';
 const COLLABORATORS_PROPERTY_NAME = 'collaborators';
@@ -55,7 +54,7 @@ const RANDOM_INDIVIDUAL_PROPERTY_NAME = 'randomIndividual';
 const SHORT_NAMES = {
 	[VALUE_PROPERTY_NAME]: 'v',
 	[ERROR_PROPERTY_NAME]: 'e',
-	[COUNT_PROPERTY_NAME]: 'n',
+	count: 'n',
 	[COLLABORATORS_PROPERTY_NAME]: 'c',
 	[PROJECTS_PROPERTY_NAME]: 'p',
 	[CONNECTIONS_PROPERTY_NAME]: 'c',
@@ -154,8 +153,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 	}
 
 	_firstFrameGenerator(simOptions, rnd) {
-		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME][COUNT_PROPERTY_NAME];
-		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME][COUNT_PROPERTY_NAME];
+		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
+		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
 		const projectExtraValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_EXTRA_VALUE_PROPERTY_NAME];
 		const projectErrorValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_ERROR_VALUE_PROPERTY_NAME];
 		const projectTwiddleValueAmount = simOptions[PROJECTS_PROPERTY_NAME][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME];
@@ -350,8 +349,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 	}
 
 	_selectFinalProject(frame, simOptions, rnd) {
-		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME][COUNT_PROPERTY_NAME];
-		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME][COUNT_PROPERTY_NAME];
+		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
+		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
 		let projects = [...frame[PROJECTS_PROPERTY_NAME]];
 		let collaborators = [...frame[COLLABORATORS_PROPERTY_NAME]];
 		//Go through each collaborator and pick a project for them.
@@ -563,7 +562,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const parts = path.split('.');
 		if (parts.length == 4 && parts[3] == BELIEFS_PROPERTY_NAME){
 			const base = super.defaultValueForPath(path, simOptions);
-			const length = simOptions[PROJECTS_PROPERTY_NAME][COUNT_PROPERTY_NAME];
+			const length = simOptions[PROJECTS_PROPERTY_NAME].count;
 			const result = [];
 			for (let i = 0; i < length; i++) {
 				result.push(base[0]);
@@ -612,9 +611,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 			},
 			[COLLABORATORS_PROPERTY_NAME]: {
 				example: {
-					[COUNT_PROPERTY_NAME]: {
+					count: {
 						example: 4,
-						shortName: SHORT_NAMES[COUNT_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.count || '',
 						description: "How many collaborators there should be"
 					},
 					[EPSILON_PROPERTY_NAME]: {
@@ -909,9 +908,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 			},
 			[PROJECTS_PROPERTY_NAME]: {
 				example: {
-					[COUNT_PROPERTY_NAME]: {
+					count: {
 						example: 4,
-						shortName: SHORT_NAMES[COUNT_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.count || '',
 						description: "How many projects there are"
 					},
 					[MAX_EXTRA_VALUE_PROPERTY_NAME]: {
