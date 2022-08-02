@@ -23,7 +23,6 @@ const ERROR_PROPERTY_NAME = 'error';
 const COLLABORATORS_PROPERTY_NAME = 'collaborators';
 const PROJECTS_PROPERTY_NAME = 'projects';
 const CONNECTIONS_PROPERTY_NAME = 'connections';
-const DEBUG_PROPERTY_NAME = 'debug';
 const COMMUNICATION_PROPERTY_NAME = 'communication';
 const MAX_EXTRA_VALUE_PROPERTY_NAME = 'maxExtraValue';
 const MAX_ERROR_VALUE_PROPERTY_NAME = 'maxErrorValue';
@@ -61,7 +60,7 @@ const SHORT_NAMES = {
 	[PROJECTS_PROPERTY_NAME]: 'p',
 	[CONNECTIONS_PROPERTY_NAME]: 'c',
 	display: 'dsp',
-	[DEBUG_PROPERTY_NAME]: 'dbg',
+	debug: 'dbg',
 	[COMMUNICATION_PROPERTY_NAME]: 'o',
 	[MAX_EXTRA_VALUE_PROPERTY_NAME]: 'mExtV',
 	[MAX_ERROR_VALUE_PROPERTY_NAME]: 'mErrV',
@@ -106,7 +105,7 @@ const DEFAULT_COMPELLING_VALUE = 0.5;
 const DEFAULT_NORTH_STAR_EMOJI = '🌟';
 
 type DisplayValue = {
-
+	debug: boolean;
 }
 
 interface SchellingOrgSimulationFrame extends AgentSimulationFrame {
@@ -578,9 +577,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 		return {
 			display: {
 				example: {
-					[DEBUG_PROPERTY_NAME]: {
+					debug: {
 						example: true,
-						shortName: SHORT_NAMES[DEBUG_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.debug || '',
 						description: "If true, then the SVG will render debug information",
 						optional: true,
 					},
@@ -1301,8 +1300,7 @@ class SchellingOrgRenderer extends LitElement {
 
 	get _debug() {
 		if (!this.frame) return false;
-		const displayValue = this.frame.display || {};
-		return displayValue[DEBUG_PROPERTY_NAME] || false;
+		return this.frame.display?.debug || false;
 	}
 
 	get _disableSelection() {
