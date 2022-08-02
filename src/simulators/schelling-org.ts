@@ -17,7 +17,6 @@ import {
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
-const COLLABORATORS_PROPERTY_NAME = 'collaborators';
 const PROJECTS_PROPERTY_NAME = 'projects';
 const CONNECTIONS_PROPERTY_NAME = 'connections';
 const COMMUNICATION_PROPERTY_NAME = 'communication';
@@ -53,7 +52,7 @@ const SHORT_NAMES = {
 	value: 'v',
 	error: 'e',
 	count: 'n',
-	[COLLABORATORS_PROPERTY_NAME]: 'c',
+	collaborators: 'c',
 	[PROJECTS_PROPERTY_NAME]: 'p',
 	[CONNECTIONS_PROPERTY_NAME]: 'c',
 	display: 'dsp',
@@ -105,8 +104,14 @@ type DisplayValue = {
 	debug: boolean;
 }
 
+type Collaborator = {
+	index: number;
+	beliefs: number[];
+}
+
 interface SchellingOrgSimulationFrame extends AgentSimulationFrame {
 	display: DisplayValue;
+	collaborators: Collaborator[];
 }
 
 //bias is where in the range of min to max the value will be. 0.5 will be
@@ -152,25 +157,25 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 	_firstFrameGenerator(simOptions, rnd) {
 		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
-		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
+		const collaboratorsCount = simOptions.collaborators.count;
 		const projectExtraValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_EXTRA_VALUE_PROPERTY_NAME];
 		const projectErrorValue = simOptions[PROJECTS_PROPERTY_NAME][MAX_ERROR_VALUE_PROPERTY_NAME];
 		const projectTwiddleValueAmount = simOptions[PROJECTS_PROPERTY_NAME][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME];
 		const communicationValue = simOptions[COMMUNICATION_PROPERTY_NAME];
 		const displayValue = simOptions.display;
 		const northStarValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? deepCopy(simOptions[NORTH_STAR_PROPERTY_NAME]) : undefined;
-		const collaboratorEpsilonValue = simOptions[COLLABORATORS_PROPERTY_NAME][EPSILON_PROPERTY_NAME];
+		const collaboratorEpsilonValue = simOptions.collaborators[EPSILON_PROPERTY_NAME];
 		let individualProjectOverrides = simOptions[PROJECTS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
-		let individualCollaboratorOverrides = simOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
-		const randomCollaboratorIndividualValues = simOptions[COLLABORATORS_PROPERTY_NAME][RANDOM_INDIVIDUAL_PROPERTY_NAME];
+		let individualCollaboratorOverrides = simOptions.collaborators[INDIVIDUALS_PROPERTY_NAME];
+		const randomCollaboratorIndividualValues = simOptions.collaborators[RANDOM_INDIVIDUAL_PROPERTY_NAME];
 		const randomProjectIndividualValues = simOptions[PROJECTS_PROPERTY_NAME][RANDOM_INDIVIDUAL_PROPERTY_NAME];
-		const avgConnectionLikelihood = simOptions[COLLABORATORS_PROPERTY_NAME][AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME];
-		const connectionLikelihoodSpread = simOptions[COLLABORATORS_PROPERTY_NAME][CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME];
-		const defaultCompellingValue = simOptions[COLLABORATORS_PROPERTY_NAME][COMPELLING_PROPERTY_NAME];
-		const broadcastLikelihood = simOptions[COLLABORATORS_PROPERTY_NAME][BROADCAST_LIKELIHOOD_PROPERTY_NAME];
-		const communicationStrategy = simOptions[COLLABORATORS_PROPERTY_NAME][COMMUNICATION_STRATEGY_PROPERTY_NAME];
+		const avgConnectionLikelihood = simOptions.collaborators[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME];
+		const connectionLikelihoodSpread = simOptions.collaborators[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME];
+		const defaultCompellingValue = simOptions.collaborators[COMPELLING_PROPERTY_NAME];
+		const broadcastLikelihood = simOptions.collaborators[BROADCAST_LIKELIHOOD_PROPERTY_NAME];
+		const communicationStrategy = simOptions.collaborators[COMMUNICATION_STRATEGY_PROPERTY_NAME];
 		//This might be undefined if not provided
-		const optimismValue = simOptions[COLLABORATORS_PROPERTY_NAME][OPTIMISM_PROPERTY_NAME];
+		const optimismValue = simOptions.collaborators[OPTIMISM_PROPERTY_NAME];
 		const believabilityValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? simOptions[NORTH_STAR_PROPERTY_NAME][BELIEVABILITY_PROPERTY_NAME] : 1.0;
 
 		if (northStarValue && northStarValue[OFFSET_TYPE_PROPERTY_NAME] != OFFSET_TYPE_MANUAL) {
@@ -341,16 +346,16 @@ class SchellingOrgSimulator extends BaseSimulator {
 			[NORTH_STAR_PROPERTY_NAME]: northStarValue,
 			[COMMUNICATION_PROPERTY_NAME]: communicationValue,
 			[CONNECTIONS_PROPERTY_NAME]: connections,
-			[COLLABORATORS_PROPERTY_NAME]: collaborators,
+			collaborators,
 			[PROJECTS_PROPERTY_NAME]: projects
 		};
 	}
 
 	_selectFinalProject(frame, simOptions, rnd) {
-		const collaboratorsCount = simOptions[COLLABORATORS_PROPERTY_NAME].count;
+		const collaboratorsCount = simOptions.collaborators.count;
 		const projectsCount = simOptions[PROJECTS_PROPERTY_NAME].count;
 		let projects = [...frame[PROJECTS_PROPERTY_NAME]];
-		let collaborators = [...frame[COLLABORATORS_PROPERTY_NAME]];
+		let collaborators = [...frame.collaborators];
 		//Go through each collaborator and pick a project for them.
 		const selectedProjects = {};
 		for (let i = 0; i < collaboratorsCount; i++) {
@@ -395,7 +400,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 			...frame,
 			[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME]: -1,
 			[PROJECTS_PROPERTY_NAME]: projects,
-			[COLLABORATORS_PROPERTY_NAME]: collaborators,
+			collaborators,
 			[CONNECTIONS_PROPERTY_NAME]: newConnections
 		};
 	}
@@ -416,7 +421,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 		const primaryConnection = connections[connectionIndex];
 		
-		const collaborators = [...frame[COLLABORATORS_PROPERTY_NAME]];
+		const collaborators = [...frame.collaborators];
 
 		const doBroadcast = rnd() <= collaborators[primaryConnection.i][BROADCAST_LIKELIHOOD_PROPERTY_NAME];
 
@@ -486,7 +491,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		return {
 			...frame,
 			[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME]: projectIndex,
-			[COLLABORATORS_PROPERTY_NAME]: collaborators,
+			collaborators,
 			[CONNECTIONS_PROPERTY_NAME]: connections
 		};
 	}
@@ -503,7 +508,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 	override optionsValidator(normalizedSimOptions) {
 		//Our validations are mainly served by the config in optionsConfig.
-		const individuals = normalizedSimOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
+		const individuals = normalizedSimOptions.collaborators[INDIVIDUALS_PROPERTY_NAME];
 		if (!individuals) return;
 		const numProjects = normalizedSimOptions[PROJECTS_PROPERTY_NAME].count;
 		for (const [i, individual] of individuals.entries()) {
@@ -527,7 +532,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 	override frameValidator(frame) {
 		const projects = frame[PROJECTS_PROPERTY_NAME];
-		const collaborators = frame[COLLABORATORS_PROPERTY_NAME];
+		const collaborators = frame.collaborators;
 		const connections = frame[CONNECTIONS_PROPERTY_NAME];
 		if (projects) {
 			for (const [index, project] of projects.entries()) {
@@ -607,7 +612,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				shortName: SHORT_NAMES[COMMUNICATION_PROPERTY_NAME] || '',
 				description: "How many rounds of communication should be allowed between agents before they decide. 0 is no communication and will render a line of collaborators with walls between them."
 			},
-			[COLLABORATORS_PROPERTY_NAME]: {
+			collaborators: {
 				example: {
 					count: {
 						example: 4,
@@ -901,7 +906,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				optional: true,
 				backfill: true,
 				default: true,
-				shortName: SHORT_NAMES[COLLABORATORS_PROPERTY_NAME] || '',
+				shortName: SHORT_NAMES.collaborators || '',
 				description: "Information on the collaborators"
 			},
 			[PROJECTS_PROPERTY_NAME]: {
@@ -1287,7 +1292,7 @@ class SchellingOrgRenderer extends LitElement {
 
 	get _collaborators() {
 		if (!this.frame) return [];
-		return this.frame[COLLABORATORS_PROPERTY_NAME] || [];
+		return this.frame.collaborators || [];
 	}
 
 	get _communication() {
@@ -1359,7 +1364,7 @@ class SchellingOrgRenderer extends LitElement {
 	}
 
 	_collaboratorWidth() {
-		return this.width / (this.frame[COLLABORATORS_PROPERTY_NAME].length * 2 - 1);
+		return this.width / (this.frame.collaborators.length * 2 - 1);
 	}
 
 	_collaboratorPosition(index) {
@@ -1371,7 +1376,7 @@ class SchellingOrgRenderer extends LitElement {
 			return [x,y];
 		}
 		//Along a circle.
-		const numCollaborators = this.frame[COLLABORATORS_PROPERTY_NAME].length;
+		const numCollaborators = this.frame.collaborators.length;
 		const r = this._collaboratorCircleRadius();
 		const cx = this.width / 2;
 		const cy = this._collaboratorVerticalLine();
