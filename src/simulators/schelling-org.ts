@@ -405,7 +405,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		connections = connections.map(connection => ({...connection, active: false}));
 
 		//Pick a connection randomly, samping from ones with higher connection weights higher.
-		const urn = new Urn(rnd);
+		const urn = new Urn<number>(rnd);
 		for (const connection of connections) {
 			urn.add(connection.index, connection[STRENGTH_PROPERTY_NAME]);
 		}
