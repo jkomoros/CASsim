@@ -17,7 +17,6 @@ import {
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
-const BELIEFS_PROPERTY_NAME = 'beliefs';
 const COMPELLING_PROPERTY_NAME = 'compelling';
 const EMOJI_PROPERTY_NAME = 'emoji';
 const NORTH_STAR_PROPERTY_NAME = 'northStar';
@@ -55,7 +54,7 @@ const SHORT_NAMES = {
 	individuals: 'i',
 	marked: 'mrkd',
 	epsilon:'eps',
-	[BELIEFS_PROPERTY_NAME]: 'blfs',
+	beliefs: 'blfs',
 	[COMPELLING_PROPERTY_NAME]: 'cmp',
 	[EMOJI_PROPERTY_NAME]: 'em',
 	[NORTH_STAR_PROPERTY_NAME]: 'nS',
@@ -315,7 +314,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 				personalBeliefs[j] = randomValueWithBias(rnd, project.value - project.error, project.value + project.error, bias);
 			}
-			collaborators[i][BELIEFS_PROPERTY_NAME] = personalBeliefs;
+			collaborators[i].beliefs = personalBeliefs;
 		}
 
 		//connections is array of objs, {i, j, strength, index}, where i is the
@@ -368,7 +367,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 			//We do this within the loop because later each collaborator will have their own beliefs.
 			let maxProjectValue = 0.0;
 			let maxProjects = [];
-			for (const [projectIndex, projectBelief] of collaborator[BELIEFS_PROPERTY_NAME].entries()) {
+			for (const [projectIndex, projectBelief] of collaborator.beliefs.entries()) {
 				if (Math.abs(projectBelief - maxProjectValue) < collaborators[i].epsilon) {
 					//Effectively equal
 					maxProjects.push(projectIndex);
@@ -440,8 +439,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 		if (communicationStrategy !== COMMUNICATION_STRATEGY_RANDOM) {
 			let extremeValue = communicationStrategy == COMMUNICATION_STRATEGY_MIN ? Number.MAX_SAFE_INTEGER : -1 * Number.MAX_SAFE_INTEGER;
 			for (let connection of connectionsToSend) {
-				const senderBeliefs = collaborators[connection.i][BELIEFS_PROPERTY_NAME];
-				const recieverBeliefs = collaborators[connection.j][BELIEFS_PROPERTY_NAME];
+				const senderBeliefs = collaborators[connection.i].beliefs;
+				const recieverBeliefs = collaborators[connection.j].beliefs;
 				for (let i = 0; i < senderBeliefs.length; i++) {
 					const senderProjectBelief = senderBeliefs[i];
 					const receiverProjectBelief = recieverBeliefs[i];
@@ -475,8 +474,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 		for (const connection of connectionsToSend) {
 			connection.active = true;
 
-			const senderBeliefs = collaborators[connection.i][BELIEFS_PROPERTY_NAME];
-			const recieverBeliefs = collaborators[connection.j][BELIEFS_PROPERTY_NAME];
+			const senderBeliefs = collaborators[connection.i].beliefs;
+			const recieverBeliefs = collaborators[connection.j].beliefs;
 
 			const senderProjectBelief = senderBeliefs[projectIndex];
 			const receiverProjectBelief = recieverBeliefs[projectIndex];
@@ -515,8 +514,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const numProjects = normalizedSimOptions.projects.count;
 		for (const [i, individual] of individuals.entries()) {
 			if (!individual) continue;
-			if (!individual[BELIEFS_PROPERTY_NAME]) continue;
-			if (individual[BELIEFS_PROPERTY_NAME].length != numProjects) throw new Error('Collaborator ' + i + ' had beliefs provided but they didn\'t match the number of projects');
+			if (!individual.beliefs) continue;
+			if (individual.beliefs.length != numProjects) throw new Error('Collaborator ' + i + ' had beliefs provided but they didn\'t match the number of projects');
 		}
 		return;
 	}
@@ -546,7 +545,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		if (collaborators) {
 			for (const [index, collaborator] of collaborators.entries()) {
 				if (collaborator.index != index) throw new Error('Collaborator ' + index + ' has an invalid index');
-				if (typeof collaborator[BELIEFS_PROPERTY_NAME] != 'object' || !Array.isArray(collaborator[BELIEFS_PROPERTY_NAME]) || collaborator[BELIEFS_PROPERTY_NAME].length != projects.length) throw new Error('Collaborator ' + index + ' has an invalid beliefs');
+				if (typeof collaborator.beliefs != 'object' || !Array.isArray(collaborator.beliefs) || collaborator.beliefs.length != projects.length) throw new Error('Collaborator ' + index + ' has an invalid beliefs');
 			}
 		} else {
 			throw new Error('Collaborators is not provided');
@@ -565,7 +564,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 	override defaultValueForPath(path, simOptions) {
 		const parts = path.split('.');
-		if (parts.length == 4 && parts[3] == BELIEFS_PROPERTY_NAME){
+		if (parts.length == 4 && parts[3] == 'beliefs'){
 			const base = super.defaultValueForPath(path, simOptions);
 			const length = simOptions.projects.count;
 			const result = [];
@@ -701,13 +700,13 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[RANDOM_INDIVIDUAL_PROPERTY_NAME]: {
 						example: {
-							[BELIEFS_PROPERTY_NAME]: {
+							beliefs: {
 								example: [
 									{
 										example: 0.0,
 									}
 								],
-								shortName: SHORT_NAMES[BELIEFS_PROPERTY_NAME] || '',
+								shortName: SHORT_NAMES.beliefs || '',
 								description: "The starter beliefs of this individual of the values of projects. Must be an array of the same length as number of projects",
 								optional: true,
 							},
@@ -804,13 +803,13 @@ class SchellingOrgSimulator extends BaseSimulator {
 						example: [
 							{
 								example: {
-									[BELIEFS_PROPERTY_NAME]: {
+									beliefs: {
 										example: [
 											{
 												example: 0.0,
 											}
 										],
-										shortName: SHORT_NAMES[BELIEFS_PROPERTY_NAME] || '',
+										shortName: SHORT_NAMES.beliefs || '',
 										description: "The starter beliefs of this individual of the values of projects. Must be an array of the same length as number of projects",
 										optional: true,
 									},
