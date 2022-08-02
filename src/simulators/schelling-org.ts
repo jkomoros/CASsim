@@ -17,7 +17,6 @@ import {
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
-const MAX_ERROR_VALUE_PROPERTY_NAME = 'maxErrorValue';
 const TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME = 'twiddleValueAmount';
 const AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME = 'avgConnectionLikelihood';
 const CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME = 'connectionLikelihoodSpread';
@@ -55,7 +54,7 @@ const SHORT_NAMES = {
 	debug: 'dbg',
 	communication: 'o',
 	maxExtraValue: 'mExtV',
-	[MAX_ERROR_VALUE_PROPERTY_NAME]: 'mErrV',
+	maxErrorValue: 'mErrV',
 	[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: 'tVA',
 	[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: 'aCL',
 	[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: 'cLS',
@@ -169,7 +168,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const projectsCount = simOptions.projects.count;
 		const collaboratorsCount = simOptions.collaborators.count;
 		const projectExtraValue = simOptions.projects.maxExtraValue;
-		const projectErrorValue = simOptions.projects[MAX_ERROR_VALUE_PROPERTY_NAME];
+		const projectErrorValue = simOptions.projects.maxErrorValue;
 		const projectTwiddleValueAmount = simOptions.projects[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME];
 		const communicationValue = simOptions.communication;
 		const displayValue = simOptions.display;
@@ -250,7 +249,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				//We'll select this later based on which ones were actually selected.
 				selected: false,
 				maxExtraValue: projectExtraValue,
-				[MAX_ERROR_VALUE_PROPERTY_NAME]: projectErrorValue,
+				maxErrorValue: projectErrorValue,
 				[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: projectTwiddleValueAmount,
 				northStarBias
 			});
@@ -267,7 +266,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		//Assign final value/error values now that we know each one's extra/error
 		for (let i = 0; i < projectsCount; i++) {
 			if (projects[i].value === undefined) projects[i].value = 1.0 + (rnd() * projects[i].maxExtraValue);
-			if (projects[i].error === undefined) projects[i].error = 0.0 + (rnd() * projects[i][MAX_ERROR_VALUE_PROPERTY_NAME]);
+			if (projects[i].error === undefined) projects[i].error = 0.0 + (rnd() * projects[i].maxErrorValue);
 			projects[i].value += (rnd() * projects[i][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] * 2) - projects[i][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME];
 		}
 
@@ -934,11 +933,11 @@ class SchellingOrgSimulator extends BaseSimulator {
 						step: 0.05,
 						description: "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value"
 					},
-					[MAX_ERROR_VALUE_PROPERTY_NAME]: {
+					maxErrorValue: {
 						example: 0.0,
 						optional: true,
 						backfill: true,
-						shortName: SHORT_NAMES[MAX_ERROR_VALUE_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.maxErrorValue || '',
 						step: 0.05,
 						description: 'Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.'
 					},
@@ -965,9 +964,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 								optional: true,
 								description: "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value"
 							},
-							[MAX_ERROR_VALUE_PROPERTY_NAME]: {
+							maxErrorValue: {
 								example: 0.0,
-								shortName: SHORT_NAMES[MAX_ERROR_VALUE_PROPERTY_NAME] || '',
+								shortName: SHORT_NAMES.maxErrorValue || '',
 								step: 0.05,
 								optional: true,
 								description: 'Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.'
@@ -1015,9 +1014,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 										optional: true,
 										description: "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value"
 									},
-									[MAX_ERROR_VALUE_PROPERTY_NAME]: {
+									maxErrorValue: {
 										example: 0.0,
-										shortName: SHORT_NAMES[MAX_ERROR_VALUE_PROPERTY_NAME] || '',
+										shortName: SHORT_NAMES.maxErrorValue || '',
 										step: 0.05,
 										optional: true,
 										description: 'Each project will get between 0.0 and this number randomly set, which are the "error bars" for the value; its value is considered by collaborators to be somewhere within those values.'
