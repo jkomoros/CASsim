@@ -139,7 +139,7 @@ const projectX = (index, projectCount, stageWidth = 1.0) => {
 
 class SchellingOrgSimulator extends BaseSimulator {
 
-	get name() {
+	override get name() {
 		return SCHELLING_ORG_SIMULATION_NAME;
 	}
 
@@ -484,7 +484,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		};
 	}
 
-	generator(frameIndex, previousFrame, simOptions, rnd) {
+	override generator(frameIndex, previousFrame, simOptions, rnd) {
 		const communicationRounds = simOptions[COMMUNICATION_PROPERTY_NAME];
 		if (frameIndex > communicationRounds) return null;
 		let frame = previousFrame || this._firstFrameGenerator(simOptions, rnd);
@@ -494,7 +494,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		return frame;
 	}
 
-	optionsValidator(normalizedSimOptions) {
+	override optionsValidator(normalizedSimOptions) {
 		//Our validations are mainly served by the config in optionsConfig.
 		const individuals = normalizedSimOptions[COLLABORATORS_PROPERTY_NAME][INDIVIDUALS_PROPERTY_NAME];
 		if (!individuals) return;
@@ -507,7 +507,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		return;
 	}
 
-	frameScorer(frame, simOptions) {
+	override frameScorer(frame, simOptions) {
 		const communicationRounds = simOptions[COMMUNICATION_PROPERTY_NAME];
 		//If we aren't done yet signal indeterminate.
 		if (frame.index < communicationRounds) return [-1];
@@ -518,7 +518,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		return [0.0];
 	}
 
-	frameValidator(frame) {
+	override frameValidator(frame) {
 		const projects = frame[PROJECTS_PROPERTY_NAME];
 		const collaborators = frame[COLLABORATORS_PROPERTY_NAME];
 		const connections = frame[CONNECTIONS_PROPERTY_NAME];
@@ -549,7 +549,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		}
 	}
 
-	defaultValueForPath(path, simOptions) {
+	override defaultValueForPath(path, simOptions) {
 		const parts = path.split('.');
 		if (parts.length == 4 && parts[3] == BELIEFS_PROPERTY_NAME){
 			const base = super.defaultValueForPath(path, simOptions);
@@ -563,7 +563,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		return super.defaultValueForPath(path, simOptions);
 	}
 	
-	get optionsConfig() {
+	override get optionsConfig() {
 		return {
 			[DISPLAY_PROPERTY_NAME]: {
 				example: {
@@ -1147,7 +1147,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		};
 	}
 
-	renderer() {
+	override renderer() {
 		return new SchellingOrgRenderer();
 	}
 }
