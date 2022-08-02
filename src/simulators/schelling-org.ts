@@ -17,7 +17,6 @@ import {
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
-const COMMUNICATION_PROPERTY_NAME = 'communication';
 const MAX_EXTRA_VALUE_PROPERTY_NAME = 'maxExtraValue';
 const MAX_ERROR_VALUE_PROPERTY_NAME = 'maxErrorValue';
 const TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME = 'twiddleValueAmount';
@@ -55,7 +54,7 @@ const SHORT_NAMES = {
 	connections: 'c',
 	display: 'dsp',
 	debug: 'dbg',
-	[COMMUNICATION_PROPERTY_NAME]: 'o',
+	communication: 'o',
 	[MAX_EXTRA_VALUE_PROPERTY_NAME]: 'mExtV',
 	[MAX_ERROR_VALUE_PROPERTY_NAME]: 'mErrV',
 	[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: 'tVA',
@@ -123,6 +122,7 @@ interface SchellingOrgSimulationFrame extends AgentSimulationFrame {
 	collaborators: Collaborator[];
 	projects: Project[];
 	connections: Connection[];
+	communication: boolean;
 }
 
 //bias is where in the range of min to max the value will be. 0.5 will be
@@ -172,7 +172,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const projectExtraValue = simOptions.projects[MAX_EXTRA_VALUE_PROPERTY_NAME];
 		const projectErrorValue = simOptions.projects[MAX_ERROR_VALUE_PROPERTY_NAME];
 		const projectTwiddleValueAmount = simOptions.projects[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME];
-		const communicationValue = simOptions[COMMUNICATION_PROPERTY_NAME];
+		const communicationValue = simOptions.communication;
 		const displayValue = simOptions.display;
 		const northStarValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? deepCopy(simOptions[NORTH_STAR_PROPERTY_NAME]) : undefined;
 		const collaboratorEpsilonValue = simOptions.collaborators[EPSILON_PROPERTY_NAME];
@@ -355,7 +355,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 			display: displayValue,
 			[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME]: -1,
 			[NORTH_STAR_PROPERTY_NAME]: northStarValue,
-			[COMMUNICATION_PROPERTY_NAME]: communicationValue,
+			communication: communicationValue,
 			connections,
 			collaborators,
 			projects
@@ -508,7 +508,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 	}
 
 	override generator(frameIndex, previousFrame, simOptions, rnd) {
-		const communicationRounds = simOptions[COMMUNICATION_PROPERTY_NAME];
+		const communicationRounds = simOptions.communication;
 		if (frameIndex > communicationRounds) return null;
 		let frame = previousFrame || this._firstFrameGenerator(simOptions, rnd);
 		frame = {...frame, index: frameIndex};
@@ -531,7 +531,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 	}
 
 	override frameScorer(frame, simOptions) {
-		const communicationRounds = simOptions[COMMUNICATION_PROPERTY_NAME];
+		const communicationRounds = simOptions.communication;
 		//If we aren't done yet signal indeterminate.
 		if (frame.index < communicationRounds) return [-1];
 		for (const project of frame.projects) {
@@ -615,12 +615,12 @@ class SchellingOrgSimulator extends BaseSimulator {
 				description: "An optional object that controls how things render. If not provided, will be interpreted as though it enables no optional rendering.",
 				advanced: true
 			},
-			[COMMUNICATION_PROPERTY_NAME]: {
+			communication: {
 				example: 0,
 				optional: true,
 				backfill: true,
 				default: true,
-				shortName: SHORT_NAMES[COMMUNICATION_PROPERTY_NAME] || '',
+				shortName: SHORT_NAMES.communication || '',
 				description: "How many rounds of communication should be allowed between agents before they decide. 0 is no communication and will render a line of collaborators with walls between them."
 			},
 			collaborators: {
@@ -1308,7 +1308,7 @@ class SchellingOrgRenderer extends LitElement {
 
 	get _communication() {
 		if (!this.frame) return false;
-		return this.frame[COMMUNICATION_PROPERTY_NAME];
+		return this.frame.communication;
 	}
 
 	get _debug() {
