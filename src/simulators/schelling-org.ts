@@ -17,7 +17,6 @@ import {
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
-const CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME = 'connectionLikelihoodSpread';
 const BROADCAST_LIKELIHOOD_PROPERTY_NAME = 'broadcastLikelihood';
 const INDIVIDUALS_PROPERTY_NAME = 'individuals';
 const MARKED_PROPERTY_NAME = 'marked';
@@ -55,7 +54,7 @@ const SHORT_NAMES = {
 	maxErrorValue: 'mErrV',
 	twiddleValueAmount: 'tVA',
 	avgConnectionLikelihood: 'aCL',
-	[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: 'cLS',
+	connectionLikelihoodSpread: 'cLS',
 	[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: 'bL',
 	[INDIVIDUALS_PROPERTY_NAME]: 'i',
 	[MARKED_PROPERTY_NAME]: 'mrkd',
@@ -177,7 +176,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const randomCollaboratorIndividualValues = simOptions.collaborators[RANDOM_INDIVIDUAL_PROPERTY_NAME];
 		const randomProjectIndividualValues = simOptions.projects[RANDOM_INDIVIDUAL_PROPERTY_NAME];
 		const avgConnectionLikelihood = simOptions.collaborators.avgConnectionLikelihood;
-		const connectionLikelihoodSpread = simOptions.collaborators[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME];
+		const connectionLikelihoodSpread = simOptions.collaborators.connectionLikelihoodSpread;
 		const defaultCompellingValue = simOptions.collaborators[COMPELLING_PROPERTY_NAME];
 		const broadcastLikelihood = simOptions.collaborators[BROADCAST_LIKELIHOOD_PROPERTY_NAME];
 		const communicationStrategy = simOptions.collaborators[COMMUNICATION_STRATEGY_PROPERTY_NAME];
@@ -280,7 +279,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				[BROADCAST_LIKELIHOOD_PROPERTY_NAME]: broadcastLikelihood,
 				[COMPELLING_PROPERTY_NAME]: defaultCompellingValue,
 				avgConnectionLikelihood,
-				[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: connectionLikelihoodSpread,
+				connectionLikelihoodSpread,
 				[OPTIMISM_PROPERTY_NAME]: optimismValue,
 				[COMMUNICATION_STRATEGY_PROPERTY_NAME]: communicationStrategy,
 				[BELIEVES_PROPERTY_NAME]: rnd() < believabilityValue
@@ -335,7 +334,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					if (i == j) continue;
 					const sender = collaborators[i];
 					const senderAvgConnectionLikelihood = sender.avgConnectionLikelihood;
-					const senderConnectionLikelihoodSpread = sender[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME];
+					const senderConnectionLikelihoodSpread = sender.connectionLikelihoodSpread;
 					const minConnectionLikelihood = senderAvgConnectionLikelihood - senderConnectionLikelihoodSpread;
 					const maxConnectionLikelihood = senderAvgConnectionLikelihood + senderConnectionLikelihoodSpread;
 					let strength = (maxConnectionLikelihood - minConnectionLikelihood) * rnd() + minConnectionLikelihood;
@@ -642,11 +641,11 @@ class SchellingOrgSimulator extends BaseSimulator {
 						step: 0.05,
 						description: "We compute a range of possible connection likelihoods based on [avgConnectionLikelihood - connectionLikelihoodSpread, avgConnectionLikelihood + connectionLikelihoodSpread] Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength."
 					},
-					[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: {
+					connectionLikelihoodSpread: {
 						example: 0.5,
 						optional: true,
 						backfill: true,
-						shortName: SHORT_NAMES[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.connectionLikelihoodSpread || '',
 						step: 0.05,
 						description: "We compute a range of possible connection likelihoods based on [avgConnectionLikelihood - connectionLikelihoodSpread, avgConnectionLikelihood + connectionLikelihoodSpread] Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength."
 					},
@@ -735,10 +734,10 @@ class SchellingOrgSimulator extends BaseSimulator {
 								description: 'avgConnectionLikelihood for this individual',
 								optional:true,
 							},
-							[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: {
+							connectionLikelihoodSpread: {
 								example: 0.5,
-								shortName: SHORT_NAMES[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] || '',
-								description: CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME + ' for this individual',
+								shortName: SHORT_NAMES.connectionLikelihoodSpread || '',
+								description: 'connectionLikelihoodSpread for this individual',
 								optional:true,
 							},
 							[COMPELLING_PROPERTY_NAME]: {
@@ -838,10 +837,10 @@ class SchellingOrgSimulator extends BaseSimulator {
 										description: 'avgConnectionLikelihood for this individual',
 										optional:true,
 									},
-									[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME]: {
+									connectionLikelihoodSpread: {
 										example: 0.5,
-										shortName: SHORT_NAMES[CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME] || '',
-										description: CONNECTION_LIKELIHOOD_SPREAD_PROPERTY_NAME + ' for this individual',
+										shortName: SHORT_NAMES.connectionLikelihoodSpread || '',
+										description: 'connectionLikelihoodSpread for this individual',
 										optional:true,
 									},
 									[COMPELLING_PROPERTY_NAME]: {
