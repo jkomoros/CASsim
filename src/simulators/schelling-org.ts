@@ -17,7 +17,6 @@ import {
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
-const MAX_EXTRA_VALUE_PROPERTY_NAME = 'maxExtraValue';
 const MAX_ERROR_VALUE_PROPERTY_NAME = 'maxErrorValue';
 const TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME = 'twiddleValueAmount';
 const AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME = 'avgConnectionLikelihood';
@@ -55,7 +54,7 @@ const SHORT_NAMES = {
 	display: 'dsp',
 	debug: 'dbg',
 	communication: 'o',
-	[MAX_EXTRA_VALUE_PROPERTY_NAME]: 'mExtV',
+	maxExtraValue: 'mExtV',
 	[MAX_ERROR_VALUE_PROPERTY_NAME]: 'mErrV',
 	[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: 'tVA',
 	[AVG_CONNECTION_LIKELIHOOD_PROPERTY_NAME]: 'aCL',
@@ -169,7 +168,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 	_firstFrameGenerator(simOptions, rnd) {
 		const projectsCount = simOptions.projects.count;
 		const collaboratorsCount = simOptions.collaborators.count;
-		const projectExtraValue = simOptions.projects[MAX_EXTRA_VALUE_PROPERTY_NAME];
+		const projectExtraValue = simOptions.projects.maxExtraValue;
 		const projectErrorValue = simOptions.projects[MAX_ERROR_VALUE_PROPERTY_NAME];
 		const projectTwiddleValueAmount = simOptions.projects[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME];
 		const communicationValue = simOptions.communication;
@@ -250,7 +249,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				index: i,
 				//We'll select this later based on which ones were actually selected.
 				selected: false,
-				[MAX_EXTRA_VALUE_PROPERTY_NAME]: projectExtraValue,
+				maxExtraValue: projectExtraValue,
 				[MAX_ERROR_VALUE_PROPERTY_NAME]: projectErrorValue,
 				[TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME]: projectTwiddleValueAmount,
 				northStarBias
@@ -267,7 +266,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 		//Assign final value/error values now that we know each one's extra/error
 		for (let i = 0; i < projectsCount; i++) {
-			if (projects[i].value === undefined) projects[i].value = 1.0 + (rnd() * projects[i][MAX_EXTRA_VALUE_PROPERTY_NAME]);
+			if (projects[i].value === undefined) projects[i].value = 1.0 + (rnd() * projects[i].maxExtraValue);
 			if (projects[i].error === undefined) projects[i].error = 0.0 + (rnd() * projects[i][MAX_ERROR_VALUE_PROPERTY_NAME]);
 			projects[i].value += (rnd() * projects[i][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME] * 2) - projects[i][TWIDDLE_VALUE_AMOUNT_PROPERTY_NAME];
 		}
@@ -927,11 +926,11 @@ class SchellingOrgSimulator extends BaseSimulator {
 						shortName: SHORT_NAMES.count || '',
 						description: "How many projects there are"
 					},
-					[MAX_EXTRA_VALUE_PROPERTY_NAME]: {
+					maxExtraValue: {
 						example: 0.0,
 						optional: true,
 						backfill: true,
-						shortName: SHORT_NAMES[MAX_EXTRA_VALUE_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.maxExtraValue || '',
 						step: 0.05,
 						description: "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value"
 					},
@@ -959,9 +958,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 								description: "A marked project shows up distinctively; collaborators, when deciding between two projects that look like the same value, will prefer the marked one.",
 								optional: true
 							},
-							[MAX_EXTRA_VALUE_PROPERTY_NAME]: {
+							maxExtraValue: {
 								example: 0.0,
-								shortName: SHORT_NAMES[MAX_EXTRA_VALUE_PROPERTY_NAME] || '',
+								shortName: SHORT_NAMES.maxExtraValue || '',
 								step: 0.05,
 								optional: true,
 								description: "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value"
@@ -1009,9 +1008,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 										description: "A marked project shows up distinctively; collaborators, when deciding between two projects that look like the same value, will prefer the marked one.",
 										optional: true
 									},
-									[MAX_EXTRA_VALUE_PROPERTY_NAME]: {
+									maxExtraValue: {
 										example: 0.0,
-										shortName: SHORT_NAMES[MAX_EXTRA_VALUE_PROPERTY_NAME] || '',
+										shortName: SHORT_NAMES.maxExtraValue || '',
 										step: 0.05,
 										optional: true,
 										description: "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value"
