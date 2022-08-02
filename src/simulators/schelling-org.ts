@@ -17,7 +17,6 @@ import {
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
-const MARKED_PROPERTY_NAME = 'marked';
 const EPSILON_PROPERTY_NAME = 'epsilon';
 const BELIEFS_PROPERTY_NAME = 'beliefs';
 const COMPELLING_PROPERTY_NAME = 'compelling';
@@ -55,7 +54,7 @@ const SHORT_NAMES = {
 	connectionLikelihoodSpread: 'cLS',
 	broadcastLikelihood: 'bL',
 	individuals: 'i',
-	[MARKED_PROPERTY_NAME]: 'mrkd',
+	marked: 'mrkd',
 	[EPSILON_PROPERTY_NAME]:'eps',
 	[BELIEFS_PROPERTY_NAME]: 'blfs',
 	[COMPELLING_PROPERTY_NAME]: 'cmp',
@@ -383,7 +382,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 			}
 
 			//If any of the projects that are max value are marked, only selected from them.
-			if (maxProjects.some(projectIndex => projects[projectIndex][MARKED_PROPERTY_NAME])) maxProjects = maxProjects.filter(projectIndex => projects[projectIndex][MARKED_PROPERTY_NAME]);
+			if (maxProjects.some(projectIndex => projects[projectIndex].marked)) maxProjects = maxProjects.filter(projectIndex => projects[projectIndex].marked);
 
 			const selectedProject = maxProjects[Math.floor(rnd() * maxProjects.length)];
 			selectedProjects[selectedProject] = (selectedProjects[selectedProject] || 0) + 1;
@@ -946,9 +945,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 					},
 					[RANDOM_INDIVIDUAL_PROPERTY_NAME]: {
 						example: {
-							[MARKED_PROPERTY_NAME]: {
+							marked: {
 								example: false,
-								shortName: SHORT_NAMES[MARKED_PROPERTY_NAME] || '',
+								shortName: SHORT_NAMES.marked || '',
 								description: "A marked project shows up distinctively; collaborators, when deciding between two projects that look like the same value, will prefer the marked one.",
 								optional: true
 							},
@@ -996,9 +995,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 						example: [
 							{
 								example: {
-									[MARKED_PROPERTY_NAME]: {
+									marked: {
 										example: false,
-										shortName: SHORT_NAMES[MARKED_PROPERTY_NAME] || '',
+										shortName: SHORT_NAMES.marked || '',
 										description: "A marked project shows up distinctively; collaborators, when deciding between two projects that look like the same value, will prefer the marked one.",
 										optional: true
 									},
@@ -1449,7 +1448,7 @@ class SchellingOrgRenderer extends LitElement {
 
 		const errorStrokeWidth = width / 40;
 
-		const marked = project[MARKED_PROPERTY_NAME];
+		const marked = project.marked;
 		const markStartX = errorStartX - (width / 12);
 		const markEndX = errorEndX;
 		//Deliberately not at center
