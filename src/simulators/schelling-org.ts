@@ -17,7 +17,6 @@ import {
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
-const COMPELLING_PROPERTY_NAME = 'compelling';
 const EMOJI_PROPERTY_NAME = 'emoji';
 const NORTH_STAR_PROPERTY_NAME = 'northStar';
 const OFFSET_PROPERTY_NAME = 'offset';
@@ -55,7 +54,7 @@ const SHORT_NAMES = {
 	marked: 'mrkd',
 	epsilon:'eps',
 	beliefs: 'blfs',
-	[COMPELLING_PROPERTY_NAME]: 'cmp',
+	compelling: 'cmp',
 	[EMOJI_PROPERTY_NAME]: 'em',
 	[NORTH_STAR_PROPERTY_NAME]: 'nS',
 	[OFFSET_PROPERTY_NAME]: 'ofst',
@@ -172,7 +171,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const randomProjectIndividualValues = simOptions.projects[RANDOM_INDIVIDUAL_PROPERTY_NAME];
 		const avgConnectionLikelihood = simOptions.collaborators.avgConnectionLikelihood;
 		const connectionLikelihoodSpread = simOptions.collaborators.connectionLikelihoodSpread;
-		const defaultCompellingValue = simOptions.collaborators[COMPELLING_PROPERTY_NAME];
+		const defaultCompellingValue = simOptions.collaborators.compelling;
 		const broadcastLikelihood = simOptions.collaborators.broadcastLikelihood;
 		const communicationStrategy = simOptions.collaborators[COMMUNICATION_STRATEGY_PROPERTY_NAME];
 		//This might be undefined if not provided
@@ -272,7 +271,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				[EMOJI_PROPERTY_NAME]: emojiValues[i % emojiValues.length],
 				epsilon: collaboratorEpsilonValue,
 				broadcastLikelihood,
-				[COMPELLING_PROPERTY_NAME]: defaultCompellingValue,
+				compelling: defaultCompellingValue,
 				avgConnectionLikelihood,
 				connectionLikelihoodSpread,
 				[OPTIMISM_PROPERTY_NAME]: optimismValue,
@@ -469,7 +468,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 			}
 		}
 
-		const senderCompelling = collaborators[primaryConnection.i][COMPELLING_PROPERTY_NAME];
+		const senderCompelling = collaborators[primaryConnection.i].compelling;
 		
 		for (const connection of connectionsToSend) {
 			connection.active = true;
@@ -644,9 +643,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 						step: 0.05,
 						description: "We compute a range of possible connection likelihoods based on [avgConnectionLikelihood - connectionLikelihoodSpread, avgConnectionLikelihood + connectionLikelihoodSpread] Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength."
 					},
-					[COMPELLING_PROPERTY_NAME]: {
+					compelling: {
 						example: DEFAULT_COMPELLING_VALUE,
-						shortName: SHORT_NAMES[COMPELLING_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.compelling || '',
 						description: 'When each individual speaks to another, how much does the receiver update their beliefs, between their old belief and new belief? 0.5 would be moving halfway from old belief to new belief',
 						min: 0.0,
 						max: 1.0,
@@ -735,9 +734,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 								description: 'connectionLikelihoodSpread for this individual',
 								optional:true,
 							},
-							[COMPELLING_PROPERTY_NAME]: {
+							compelling: {
 								example: DEFAULT_COMPELLING_VALUE,
-								shortName: SHORT_NAMES[COMPELLING_PROPERTY_NAME] || '',
+								shortName: SHORT_NAMES.compelling || '',
 								description: 'When this person speaks to another person, how much does the receiver update their beliefs? 0.5 means the receiver would move their belief to be halfway between their previous belief and the speaker\'s belief',
 								max: 1.0,
 								min: 0.0,
@@ -838,9 +837,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 										description: 'connectionLikelihoodSpread for this individual',
 										optional:true,
 									},
-									[COMPELLING_PROPERTY_NAME]: {
+									compelling: {
 										example: DEFAULT_COMPELLING_VALUE,
-										shortName: SHORT_NAMES[COMPELLING_PROPERTY_NAME] || '',
+										shortName: SHORT_NAMES.compelling || '',
 										description: 'When this person speaks to another person, how much does the receiver update their beliefs? 0.5 means the receiver would move their belief to be halfway between their previous belief and the speaker\'s belief',
 										max: 1.0,
 										min: 0.0,
