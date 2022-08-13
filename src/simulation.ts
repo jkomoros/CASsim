@@ -117,7 +117,7 @@ export const defaultValueForConfigPath = (config : SimulationConfig, path : Opti
 	return simulation.defaultValueForOptionsPath(path);
 };
 
-export const setSimulationPropertyInConfig = (config, path, value) => {
+export const setSimulationPropertyInConfig = (config : SimulationConfig, path : OptionsPath, value : OptionValue) : SimulationConfig => {
 	if (value == DEFAULT_SENTINEL) {
 		try {
 			value = defaultValueForConfigPath(config, path);
