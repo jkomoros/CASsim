@@ -8,7 +8,7 @@ import {
 } from '../util.js';
 
 import {
-	forceRadial
+	forceRadial, SimulationNodeDatum
 } from 'd3';
 
 import {
@@ -70,10 +70,12 @@ const OPTIONS_CONFIG = {
 
 type BloomGraphNodeValues = GraphNodeValues & {
 	level : number;
+	levelRadius : number;
 }
 
 type BloomGraphEdge = GraphEdge & {
 	level : number;
+	type : 'primary' | 'peer';
 }
 
 /*
@@ -196,7 +198,7 @@ export class BloomGraph extends ForceLayoutGraph {
 	override installExtraForces(simulation : LayoutSimulation) {
 		const width = this.availableWidth;
 		const height = this.availableHeight;
-		simulation.force('radial', forceRadial().strength(() => 0.5).radius(d => d.levelRadius).x(width / 2).y(height / 2));
+		simulation.force('radial', forceRadial().strength(() => 0.5).radius((d : SimulationNodeDatum) => (d as BloomGraphNodeValues).levelRadius).x(width / 2).y(height / 2));
 	}
 }
 
