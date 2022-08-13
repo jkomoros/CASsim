@@ -57,7 +57,7 @@ export const configIsAdvanced = (config : OptionsConfig) : boolean => {
 };
 
 //Returns a string describing the problem, or '' if no problem
-export const optionsConfigValidator = (config : OptionsConfigInput) : string => {
+export const optionsConfigValidator = (config : OptionsConfigMap) : string => {
 	if (!config) return 'Config must be an object';
 	//The top-level expectation is basically an object with examples.
 	return optionsLeafValidator({
@@ -400,22 +400,26 @@ export const configForPath = (optionsConfig, path) => {
 	return configForPath(example[firstPart], restParts);
 };
 
+export const optionsConfigWithDefaultedShortNames = (optionsConfig : OptionsConfigMap) : OptionsConfigMap => {
+	return optionsConfigWithDefaultedShortNamesInner(optionsConfig) as OptionsConfigMap;
+};
+
 //Given an optionsConfig, it returns an object that is like it, but with any
 //missing shortNames in it or its children replaced.
-export const optionsConfigWithDefaultedShortNames = (optionsConfig : OptionsConfigInput) : OptionsConfigInput => {
+const optionsConfigWithDefaultedShortNamesInner = (optionsConfig : OptionsConfigInput) : OptionsConfigInput => {
 	if (!optionsConfig) return optionsConfig;
 	if (typeof optionsConfig != 'object') return optionsConfig;
 	//We know this is a single item if it's a valid optionsConfig so we can assert optionsConfig.map will have precisely one item
-	if (Array.isArray(optionsConfig)) return optionsConfig.map(sub => optionsConfigWithDefaultedShortNames(sub)) as [OptionsConfig];
+	if (Array.isArray(optionsConfig)) return optionsConfig.map(sub => optionsConfigWithDefaultedShortNamesInner(sub)) as [OptionsConfig];
 	const example = optionsConfig.example;
 	if (example !== undefined && (!example || typeof example !== 'object')) return optionsConfig;
 
 	let result : OptionsConfig | OptionsConfigMap = {...optionsConfig};
 	if (configIsConfig(optionsConfig)) {
-		result.example = optionsConfigWithDefaultedShortNames(result.example);
+		result.example = optionsConfigWithDefaultedShortNamesInner(result.example);
 	} else {
 		for (const [key, value] of Object.entries(optionsConfig)) {
-			result[key] = optionsConfigWithDefaultedShortNames(value);
+			result[key] = optionsConfigWithDefaultedShortNamesInner(value);
 		}
 	}
 
