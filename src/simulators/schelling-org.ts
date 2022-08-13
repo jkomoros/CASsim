@@ -574,7 +574,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		return super.defaultValueForPath(path, simOptions);
 	}
 	
-	override get optionsConfig() {
+	override get optionsConfig() : OptionsConfigMap {
 		return {
 			display: {
 				example: {
@@ -1168,6 +1168,7 @@ export default SchellingOrgSimulator;
 import { html, css, svg} from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { BaseRenderer } from '../renderer.js';
+import { OptionsConfigMap } from '../types.js';
 
 const COLLABORATOR_CIRCLE_FACTOR = 7;
 
