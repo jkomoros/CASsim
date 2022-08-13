@@ -42,7 +42,8 @@ import {
 	SimulationConfigName,
 	SimulationFrame,
 	SimulatorType,
-	Modifications
+	Modifications,
+	OptionValue
 } from './types.js';
 
 import {
@@ -103,9 +104,11 @@ export const extractSimulatorNamesFromModifications = (modifications : Modificat
 
 export const configWithDefaultedSimOptions = (config : RawSimulationConfig) : SimulationConfig => {
 	if (config[SIM_OPTIONS_PROPERTY]) return config as SimulationConfig;
+	const simOptions = defaultValueForConfigPath({...config, simOptions: null}, SIM_OPTIONS_PROPERTY);
+	if (typeof simOptions != 'object') throw new Error('simOptions property not object');
 	return {
 		...config,
-		[SIM_OPTIONS_PROPERTY]: defaultValueForConfigPath({...config, simOptions: null}, SIM_OPTIONS_PROPERTY)
+		[SIM_OPTIONS_PROPERTY]: simOptions
 	};
 };
 
@@ -556,7 +559,7 @@ export class Simulation {
 		return true;
 	}
 
-	defaultValueForOptionsPath(path) {
+	defaultValueForOptionsPath(path : OptionsPath) : OptionValue {
 		const parts = path.split('.');
 		if (parts[0] == SIM_OPTIONS_PROPERTY) {
 			return this._simulator.defaultValueForPath(parts.slice(1).join('.'), this.simOptions);
