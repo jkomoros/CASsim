@@ -113,9 +113,9 @@ class AgentDemoSimulator extends AgentSimulator {
 		const oS = simOptions.opportunities.structure;
 		const oV = simOptions.opportunities.value;
 
-		let [graphType, graphOptions] = graphOptionsFromConfig(oS);
+		const [graphType, graphOptions] = graphOptionsFromConfig(oS);
 
-		graphOptions = {
+		const extendedGraphOptions = {
 			...graphOptions,
 			nodeValues: {
 				value: 0.0,
@@ -123,7 +123,7 @@ class AgentDemoSimulator extends AgentSimulator {
 			},
 		};
 
-		return graphType.make(simWidth, simHeight, rnd, graphOptions);
+		return graphType.make(simWidth, simHeight, rnd, extendedGraphOptions);
 	}
 
 	override generateAgent(parentAgent : LuckSurfaceAreaAgent, _otherAgents : LuckSurfaceAreaAgent[], _graph : Graph, simOptions : LuckSurfaceAreaSimOptions, rnd : RandomGenerator) : LuckSurfaceAreaAgent {
