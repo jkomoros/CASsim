@@ -14,7 +14,7 @@ import {
 	FrameScore,
 	FrameScores,
 	NormalizedSimOptions,
-	OptionsConfig,
+	OptionsConfigMap,
 	OptionsPath,
 	OptionValue,
 	PartialSimulationFrame,
@@ -158,7 +158,7 @@ export class BaseSimulator {
 		return 10000;
 	}
 	
-	get optionsConfig() : OptionsConfig {
+	get optionsConfig() : OptionsConfigMap {
 		return {};
 	}
 
