@@ -43,7 +43,8 @@ import {
 	SimulationFrame,
 	SimulatorType,
 	Modifications,
-	OptionValue
+	OptionValue,
+	SimulationConfigDisplay
 } from './types.js';
 
 import {
@@ -458,11 +459,11 @@ export class Simulation {
 		return this._config[FRAME_DELAY_PROPERTY] || DEFAULT_FRAME_DELAY;
 	}
 
-	get display() {
+	get display() : SimulationConfigDisplay {
 		return this._config[DISPLAY_PROPERTY] || {};
 	}
 
-	get displayStatus() {
+	get displayStatus() : boolean {
 		return this.display[STATUS_DISPLAY_PROPERTY] ? true : false;
 	}
 
