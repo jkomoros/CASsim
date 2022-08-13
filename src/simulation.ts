@@ -41,7 +41,8 @@ import {
 	SimulationConfig,
 	SimulationConfigName,
 	SimulationFrame,
-	SimulatorType
+	SimulatorType,
+	Modifications
 } from './types.js';
 
 import {
@@ -90,11 +91,12 @@ export const extractSimulatorNamesFromRawConfig = (data : RawSimulationConfig[])
 	return Object.keys(result);
 };
 
-export const extractSimulatorNamesFromModifications = modifications => {
-	const result = {};
+export const extractSimulatorNamesFromModifications = (modifications : Modifications) => {
+	const result : {[name : string] : true} = {};
 	for (const mod of modifications) {
 		if (mod.path != SIM_PROPERTY) continue;
-		result[mod.value] = true;
+		//mod.value is safely string because mod.path is SIM_PROPERTY
+		result[mod.value as string] = true;
 	}
 	return Object.keys(result);
 };
