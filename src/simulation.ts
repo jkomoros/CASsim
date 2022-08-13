@@ -77,7 +77,7 @@ const DEFAULT_FRAME_DELAY = 100;
 const DEFAULT_EXTRA_FINAL_FRAME_COUNT = 0;
 const DEFAULT_REPEAT = false;
 
-export const SIMULATORS = {};
+export const SIMULATORS : {[name : SimulatorType] : BaseSimulator} = {};
 export const KNOWN_SIMULATOR_NAMES = {};
 
 export type SimulationsMap = {[name : SimulationConfigName] : Simulation};
