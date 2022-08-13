@@ -147,9 +147,9 @@ export type OptionValueMap = {
     [key : string]: OptionValue
 };
 
-export type OptionsConfigInput = OptionsConfigExample | OptionsConfigMap;
+export type OptionsConfigInput = OptionsConfig | OptionsConfigMap;
 
-export type OptionsConfigExample = number | boolean | string | [OptionsConfig] | OptionsConfig | OptionsConfigMap;
+export type OptionsConfigExample = number | boolean | string | [OptionsConfig] | OptionsConfigMap;
 
 export type OptionsConfig = {
     //Example is the most important property and the only reserved word. If an object in the config has 
