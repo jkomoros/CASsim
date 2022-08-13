@@ -147,7 +147,7 @@ export type OptionValueMap = {
     [key : string]: OptionValue
 };
 
-export type OptionsConfigInput = OptionsConfig | OptionsConfigMap;
+export type OptionsConfigInput = OptionsConfig | OptionsConfigMap | OptionsConfigExample;
 
 export type OptionsConfigExample = number | boolean | string | [OptionsConfig] | OptionsConfigMap;
 
