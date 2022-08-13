@@ -135,7 +135,7 @@ const randomValueWithBias = (rnd, min, max, bias = 0.5) => {
 	const normalizedBias = (bias * 2 - 1);
 	const percentMin = normalizedBias > 0.0 ? normalizedBias : 0.0;
 	const percentMax = normalizedBias < 0.0 ? 1.0 + normalizedBias : 1.0;
-	let percentage = (percentMax - percentMin) * rnd() + percentMin;
+	const percentage = (percentMax - percentMin) * rnd() + percentMin;
 	return (max - min) * percentage + min;
 };
 
@@ -353,8 +353,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 	_selectFinalProject(frame, simOptions, rnd) {
 		const collaboratorsCount = simOptions.collaborators.count;
 		const projectsCount = simOptions.projects.count;
-		let projects = [...frame.projects];
-		let collaborators = [...frame.collaborators];
+		const projects = [...frame.projects];
+		const collaborators = [...frame.collaborators];
 		//Go through each collaborator and pick a project for them.
 		const selectedProjects = {};
 		for (let i = 0; i < collaboratorsCount; i++) {
@@ -436,7 +436,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 		if (communicationStrategy !== COMMUNICATION_STRATEGY_RANDOM) {
 			let extremeValue = communicationStrategy == COMMUNICATION_STRATEGY_MIN ? Number.MAX_SAFE_INTEGER : -1 * Number.MAX_SAFE_INTEGER;
-			for (let connection of connectionsToSend) {
+			for (const connection of connectionsToSend) {
 				const senderBeliefs = collaborators[connection.i].beliefs;
 				const recieverBeliefs = collaborators[connection.j].beliefs;
 				for (let i = 0; i < senderBeliefs.length; i++) {
