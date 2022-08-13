@@ -42,8 +42,7 @@ import {
 	SimulationConfigName,
 	SimulationFrame,
 	SimulatorType,
-	Modifications,
-	OptionsConfig
+	Modifications
 } from './types.js';
 
 import {
