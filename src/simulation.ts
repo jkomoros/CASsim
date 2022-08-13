@@ -403,11 +403,11 @@ export class Simulation {
 		}
 	}
 
-	cloneWithModification(path : OptionsPath, value) {
+	cloneWithModification(path : OptionsPath, value : OptionValue) : Simulation {
 		return this.cloneWithConfig(setSimulationPropertyInConfig(this.config, path, value));
 	}
 
-	cloneWithConfig(config : SimulationConfig) {
+	cloneWithConfig(config : SimulationConfig) : Simulation {
 		return new Simulation(config, this.index, config);
 	}
 
