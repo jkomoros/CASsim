@@ -42,7 +42,8 @@ import {
 	SimulationConfigName,
 	SimulationFrame,
 	SimulatorType,
-	Modifications
+	Modifications,
+	OptionsConfig
 } from './types.js';
 
 import {
@@ -105,11 +106,11 @@ export const configWithDefaultedSimOptions = (config : RawSimulationConfig) : Si
 	if (config[SIM_OPTIONS_PROPERTY]) return config as SimulationConfig;
 	return {
 		...config,
-		[SIM_OPTIONS_PROPERTY]: defaultValueForConfigPath(config, SIM_OPTIONS_PROPERTY)
+		[SIM_OPTIONS_PROPERTY]: defaultValueForConfigPath({...config, simOptions: null}, SIM_OPTIONS_PROPERTY)
 	};
 };
 
-export const defaultValueForConfigPath = (config, path) => {
+export const defaultValueForConfigPath = (config : SimulationConfig, path : OptionsPath) => {
 	const simulation = new Simulation(config, 0);
 	return simulation.defaultValueForOptionsPath(path);
 };
