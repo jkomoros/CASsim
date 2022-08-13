@@ -81,8 +81,8 @@ export const KNOWN_SIMULATOR_NAMES = {};
 export type SimulationsMap = {[name : SimulationConfigName] : Simulation};
 
 //Returns an array of the names of simulators in this data blob.
-export const extractSimulatorNamesFromRawConfig = data => {
-	const result = {};
+export const extractSimulatorNamesFromRawConfig = (data : RawSimulationConfig[]) => {
+	const result : {[name : string] : true} = {};
 	for (const item of data) {
 		if (!item[SIM_PROPERTY]) continue;
 		result[item[SIM_PROPERTY]] = true;
