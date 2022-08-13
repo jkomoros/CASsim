@@ -415,9 +415,9 @@ export class Simulation {
 		return Math.max(this._lastChanged, ...this._runs.map(run => run.lastChanged));
 	}
 
-	get scoreData() {
+	get scoreData() : ChartData {
 		//TODO memoize somehow
-		const result = {};
+		const result : ChartData = {};
 		for (const run of this._runs) {
 			const data = run.scoreData;
 			for (const [key, value] of Object.entries(data)) {
