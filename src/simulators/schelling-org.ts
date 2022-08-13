@@ -1165,24 +1165,19 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 export default SchellingOrgSimulator;
 
-import { LitElement, html, css, svg} from 'lit';
+import { html, css, svg} from 'lit';
 import { property } from 'lit/decorators.js';
+import { BaseRenderer } from '../renderer.js';
 
 const COLLABORATOR_CIRCLE_FACTOR = 7;
 
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
-class SchellingOrgRenderer extends LitElement {
+class SchellingOrgRenderer extends BaseRenderer {
 
 	@property({ type: Object })
-	frame: SchellingOrgSimulationFrame;
-
-	@property({ type: Number })
-	width: number;
-
-	@property({ type: Number })
-	height: number;
+	override frame: SchellingOrgSimulationFrame;
 
 	static override get styles() {
 		return [
