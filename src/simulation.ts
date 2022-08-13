@@ -273,7 +273,7 @@ export class SimulationRun {
 		return this._maxFrameIndex;
 	}
 
-	_ensureFrameDataUpTo(frameIndex) {
+	_ensureFrameDataUpTo(frameIndex : number) : void {
 		if (frameIndex > this._maxFrameIndex) return;
 		if (frameIndex > this._simulatorMaxFrameIndex) frameIndex = this._simulatorMaxFrameIndex;
 		//We deliberately try to fetch one more frame than requested, so we'll
@@ -310,7 +310,7 @@ export class SimulationRun {
 	}
 
 	//Will only be called when all lower frames exist
-	_calculateFrameAt(frameIndex) {
+	_calculateFrameAt(frameIndex : number) : SimulationFrame {
 		const previousFrame = frameIndex == 0 ? null : this._frames[frameIndex - 1];
 		const rnd = makeSeededRandom('' + this._simulation.seed + this._index + frameIndex);
 		const sim = this._simulation.simulator;
