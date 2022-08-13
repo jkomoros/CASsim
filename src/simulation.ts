@@ -197,7 +197,7 @@ export class SimulationRun {
 	_maxFrameIndex : number;
 	_lastChanged : number;
 
-	constructor(simulation, index) {
+	constructor(simulation : Simulation, index : number) {
 		this._simulation = simulation;
 		this._index = index;
 		this._frames = [];
@@ -212,7 +212,7 @@ export class SimulationRun {
 		return this._simulation;
 	}
 
-	frame(frameIndex) {
+	frame(frameIndex : number) : SimulationFrame {
 		this._ensureFrameDataUpTo(frameIndex);
 		if (frameIndex >= this._frames.length) return null;
 		return this._frames[frameIndex];
@@ -222,7 +222,7 @@ export class SimulationRun {
 		return this._scoreData;	
 	}
 
-	successScore(frameIndex) {
+	successScore(frameIndex : number) : number {
 		this._ensureFrameDataUpTo(frameIndex);
 		if (frameIndex >= this._frames.length) return -1;
 		return this._successScores[frameIndex];
@@ -233,7 +233,7 @@ export class SimulationRun {
 	//before you get to it. But if you try to jump to some index, we won't
 	//notice it's illegal until after you jump to it. This allows you to
 	//explicitly probe.
-	frameIndexLegal(frameIndex) {
+	frameIndexLegal(frameIndex : number) : boolean {
 		this._ensureFrameDataUpTo(frameIndex);
 		return frameIndex < this._frames.length;
 	}
