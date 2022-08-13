@@ -38,6 +38,11 @@ export interface PackedRawSimulationConfig {
     configs: RawSimulationConfig[];
 }
 
+export interface SimulationConfigDisplay {
+    //If true, then a status line will be rendered beneath the diagram. This changes the height of the final screenshot from the configured value.
+    status? : boolean;
+}
+
 export interface RawSimulationConfig {
     //Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL. May be omitted.
 	name? : SimulationConfigName;
@@ -67,10 +72,7 @@ export interface RawSimulationConfig {
 	//If true, then when all rounds have played, it will loop back around to first round and continue playing.
 	repeat? : boolean;
 	//Configures whether or not to display certain things. May be omitted.
-	display? : {
-		//If true, then a status line will be rendered beneath the diagram. This changes the height of the final screenshot from the configured value.
-		status? : boolean;
-	};
+	display? : SimulationConfigDisplay;
 	//These colors will be provided to the simulation renderer as `--primary-color` etc CSS variables.
 	colors? : {
 		primary? : CSSColor;
