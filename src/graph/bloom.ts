@@ -198,7 +198,7 @@ export class BloomGraph extends ForceLayoutGraph {
 	override installExtraForces(simulation : LayoutSimulation) {
 		const width = this.availableWidth;
 		const height = this.availableHeight;
-		simulation.force('radial', forceRadial().strength(() => 0.5).radius((d : SimulationNodeDatum) => (d as BloomGraphNodeValues).levelRadius).x(width / 2).y(height / 2));
+		simulation.force('radial', forceRadial((d : SimulationNodeDatum) => (d as BloomGraphNodeValues).levelRadius).strength(() => 0.5).x(width / 2).y(height / 2));
 	}
 }
 
