@@ -51,7 +51,6 @@ import {
 	BaseSimulator
 } from './simulator.js';
 
-const HEIGHT_PROPERTY = 'height';
 const WIDTH_PROPERTY = 'width';
 const COLORS_PROPERTY = 'colors';
 const COLOR_PRIMARY_PROPERTY = 'primary';
@@ -476,7 +475,7 @@ export class Simulation {
 	}
 
 	get height() {
-		return this._config[HEIGHT_PROPERTY];
+		return this._config.height;
 	}
 
 	get name() {
@@ -598,7 +597,7 @@ export class Simulation {
 					description: 'The width of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal width in pixels.',
 					advanced: true
 				},
-				[HEIGHT_PROPERTY]: {
+				height: {
 					example: 450,
 					shortName: 'h',
 					description: 'The height of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal height in pixels--although if displayf status is true then it will be slightly taller.',
