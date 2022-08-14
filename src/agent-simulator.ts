@@ -31,6 +31,7 @@ export type Agent = {
 	id : string;
 	node? : GraphNodeID;
 	emoji? : string;
+	type? : string;
 };
 
 type AgentSimulationFrameExtra = {
@@ -187,7 +188,7 @@ export class AgentSimulator extends BaseSimulator {
 		should be spawned. The newly spawned agents won't be ticked this frame.
 	*/
 	agentTick(agent : Agent, agents : Agent[], graph : Graph, frame : AgentSimulationFrame, rnd : RandomGenerator) : Agent | Agent[] {
-		const typ = agent['type'] || '';
+		const typ = agent.type || '';
 		const typeMethod = typ + 'AgentTick';
 		if (this[typeMethod]) return this[typeMethod](agent, graph, frame, rnd);
 		return this.defaultAgentTick(agent, agents, graph, frame, rnd);
