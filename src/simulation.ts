@@ -64,7 +64,6 @@ const DESCRIPTION_PROPERTY = 'description';
 const AUTO_GENERATE_PROPERTY = 'autoGenerate';
 const AUTO_PLAY_PROPERTY = 'autoPlay';
 const DISPLAY_PROPERTY = 'display';
-const STATUS_DISPLAY_PROPERTY = 'status';
 const CLIP_STATUS_PROPERTY = 'clipStatus';
 const TITLE_PROPERTY = 'title';
 
@@ -463,7 +462,7 @@ export class Simulation {
 	}
 
 	get displayStatus() : boolean {
-		return this.display[STATUS_DISPLAY_PROPERTY] ? true : false;
+		return this.display.status ? true : false;
 	}
 
 	get screenshotDisplayStatus() {
@@ -606,7 +605,7 @@ export class Simulation {
 				[HEIGHT_PROPERTY]: {
 					example: 450,
 					shortName: 'h',
-					description: 'The height of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal height in pixels--although if ' + DISPLAY_PROPERTY + '.' + STATUS_DISPLAY_PROPERTY + ' is true then it will be slightly taller.',
+					description: 'The height of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal height in pixels--although if ' + DISPLAY_PROPERTY + '. status is true then it will be slightly taller.',
 					advanced: true
 				},
 				[FRAME_DELAY_PROPERTY]: {
@@ -659,7 +658,7 @@ export class Simulation {
 				},
 				[DISPLAY_PROPERTY]: {
 					example: {
-						[STATUS_DISPLAY_PROPERTY]: {
+						status: {
 							example: true,
 							shortName: 's',
 							description: "If provided, will render a status line of runs summary beneath the visuazliation, including in the screenshot output",
@@ -668,13 +667,13 @@ export class Simulation {
 						screenshotStatus: {
 							example: true,
 							shortName: 'sS',
-							description: "If true, then the status line will be included (as in " + STATUS_DISPLAY_PROPERTY + ") but only in the screenshot output",
+							description: "If true, then the status line will be included (as in status) but only in the screenshot output",
 							optional: true,
 						},
 						[CLIP_STATUS_PROPERTY]: {
 							example: true,
 							shortName: 'cS',
-							description: "If provided, and " + STATUS_DISPLAY_PROPERTY + " is true, then it will hide future runs in the rendered status bar.",
+							description: "If provided, and status is true, then it will hide future runs in the rendered status bar.",
 							optional: true
 						}
 					},
