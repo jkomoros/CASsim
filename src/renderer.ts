@@ -158,7 +158,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	}
 
 	agentEmoji(agent : Agent) : string {
-		return agent['emoji'] || '🧑‍⚕️';
+		return agent.emoji || '🧑‍⚕️';
 	}
 
 	agentNodeID(agent : Agent) : GraphNodeID {

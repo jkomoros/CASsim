@@ -29,7 +29,8 @@ import {
 
 export type Agent = {
 	id : string;
-	node? : GraphNodeID
+	node? : GraphNodeID;
+	emoji? : string;
 };
 
 type AgentSimulationFrameExtra = {
