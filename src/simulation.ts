@@ -49,7 +49,6 @@ import {
 
 
 //Also duplicated into screenshot.js
-const EXTRA_FINAL_FRAME_COUNT_PROPERTY = 'extraFinalFrameCount';
 const DEFAULT_FRAME_DELAY = 100;
 const DEFAULT_EXTRA_FINAL_FRAME_COUNT = 0;
 const DEFAULT_REPEAT = false;
@@ -542,7 +541,7 @@ export class Simulation {
 	}
 
 	get extraFinalFrameCount() {
-		return this._config[EXTRA_FINAL_FRAME_COUNT_PROPERTY] || DEFAULT_EXTRA_FINAL_FRAME_COUNT;
+		return this._config.extraFinalFrameCount || DEFAULT_EXTRA_FINAL_FRAME_COUNT;
 	}
 
 	get optionsConfig() {
@@ -627,7 +626,7 @@ export class Simulation {
 					advanced: true,
 					optional: true
 				},
-				[EXTRA_FINAL_FRAME_COUNT_PROPERTY]: {
+				extraFinalFrameCount: {
 					example: DEFAULT_EXTRA_FINAL_FRAME_COUNT,
 					shortName: 'eFFC',
 					description: 'The number of additional frames to pause at the end of a round',
