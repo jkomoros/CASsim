@@ -51,7 +51,6 @@ import {
 	BaseSimulator
 } from './simulator.js';
 
-const AUTO_GENERATE_PROPERTY = 'autoGenerate';
 const AUTO_PLAY_PROPERTY = 'autoPlay';
 const TITLE_PROPERTY = 'title';
 
@@ -535,7 +534,7 @@ export class Simulation {
 	//Called when the simulation is active in the view. Might be called multiple
 	//times. Will return true if it did something.
 	activate() {
-		if (! this.config[AUTO_GENERATE_PROPERTY]) return false;
+		if (! this.config.autoGenerate) return false;
 		if (this._activated) return false;
 		if (!this._runs.some(run => !run.complete)) return false;
 		this._runs.forEach(run => run.run());
@@ -616,7 +615,7 @@ export class Simulation {
 					advanced: true,
 					optional: true
 				},
-				[AUTO_GENERATE_PROPERTY]: {
+				autoGenerate: {
 					example: true,
 					shortName: 'aG',
 					description: 'if true, then it will automatically generate all frames for all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.',
