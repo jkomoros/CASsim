@@ -51,10 +51,6 @@ import {
 	BaseSimulator
 } from './simulator.js';
 
-const COLOR_PRIMARY_PROPERTY = 'primary';
-const COLOR_SECONDARY_PROPERTY = 'secondary';
-const COLOR_DISABLED_PROPERTY = 'disabled';
-const COLOR_BACKGROUND_PROPERTY = 'background';
 const DESCRIPTION_PROPERTY = 'description';
 const AUTO_GENERATE_PROPERTY = 'autoGenerate';
 const AUTO_PLAY_PROPERTY = 'autoPlay';
@@ -677,28 +673,28 @@ export class Simulation {
 				},
 				colors: {
 					example: {
-						[COLOR_PRIMARY_PROPERTY]: {
+						primary: {
 							example: "#fb8c00",
 							shortName: 'p',
 							description: "Primary color",
 							behavior: "color",
 							optional: true,
 						},
-						[COLOR_SECONDARY_PROPERTY]: {
+						secondary: {
 							example: "#51b9a3",
 							shortName: 's',
 							description: "Secondary color",
 							behavior: "color",
 							optional: true
 						},
-						[COLOR_DISABLED_PROPERTY]: {
+						disabled: {
 							example: "ECCCCCC",
 							shortName: 'd',
 							description: "Disabled color",
 							behavior: "color",
 							optional: true
 						},
-						[COLOR_BACKGROUND_PROPERTY]: {
+						background: {
 							example: "transparent",
 							shortName: 'b',
 							description: "Background color",
