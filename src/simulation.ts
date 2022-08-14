@@ -54,7 +54,6 @@ import {
 const HEIGHT_PROPERTY = 'height';
 const WIDTH_PROPERTY = 'width';
 const RUNS_PROPERTY = 'runs';
-const SEED_PROPERTY = 'seed';
 const COLORS_PROPERTY = 'colors';
 const COLOR_PRIMARY_PROPERTY = 'primary';
 const COLOR_SECONDARY_PROPERTY = 'secondary';
@@ -378,7 +377,7 @@ export class Simulation {
 			throw new Error('Invalid config: ' + configProblem);
 		}
 		this._altName = (index || 0).toString();
-		this._seed = this._config[SEED_PROPERTY] || '' + Date.now();
+		this._seed = this._config.seed || '' + Date.now();
 		this._fingerprint = '';
 		this._runs = [];
 		this._optionConfig = null;
@@ -619,7 +618,7 @@ export class Simulation {
 					shortName: 'r',
 					description: 'How many runs in the simulation to run',
 				},
-				[SEED_PROPERTY]: {
+				seed: {
 					example: '',
 					shortName: 'sd',
 					description: 'If omitted, will use a value derived from current time. The deterministic value to feed to seed.',
