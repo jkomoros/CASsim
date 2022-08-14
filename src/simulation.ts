@@ -51,7 +51,6 @@ import {
 	BaseSimulator
 } from './simulator.js';
 
-const COLORS_PROPERTY = 'colors';
 const COLOR_PRIMARY_PROPERTY = 'primary';
 const COLOR_SECONDARY_PROPERTY = 'secondary';
 const COLOR_DISABLED_PROPERTY = 'disabled';
@@ -387,7 +386,7 @@ export class Simulation {
 			if (!config) continue;
 			if (!config.id) throw new Error('scoreConfig #' + index + ' is missing id, a requried property');
 		}
-		this._colors = Object.fromEntries(Object.entries(this._config[COLORS_PROPERTY] || {}).map(entry => [entry[0], color(entry[1])]));
+		this._colors = Object.fromEntries(Object.entries(this._config.colors || {}).map(entry => [entry[0], color(entry[1])]));
 		this._lastChanged = Date.now();
 		this._activated = false;
 		for (let i = 0; i < config.runs; i++) {
@@ -676,7 +675,7 @@ export class Simulation {
 					optional: true,
 					advanced: true,
 				},
-				[COLORS_PROPERTY]: {
+				colors: {
 					example: {
 						[COLOR_PRIMARY_PROPERTY]: {
 							example: "#fb8c00",
