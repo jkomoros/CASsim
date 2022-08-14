@@ -41,6 +41,8 @@ export interface PackedRawSimulationConfig {
 export interface SimulationConfigDisplay {
     //If true, then a status line will be rendered beneath the diagram. This changes the height of the final screenshot from the configured value.
     status? : boolean;
+    //If true, then when screenshotting the status line will be rendered beneath the diagram.
+    screenshotStatus? : boolean;
 }
 
 export interface RawSimulationConfig {
