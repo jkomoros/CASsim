@@ -124,6 +124,23 @@ export type ModificationsPathMap = {
     [path: OptionsPath]: OptionValue;
 }
 
+export type URLArgsMap = {
+    //DIFF_URL_KEY
+    d? : string;
+    //RUN_INDEX_URL_KEY
+    r? : string;
+    //CHART_SINGLE_RUN_URL_KEY
+    cSR? : string;
+    //CHART_CONFIG_IDS_URL_KEY
+    cI? : string;
+    //EXPANDED_URL_KEY
+    e? : string;
+    //CHART_EXPANDED_URL_KEY
+    t? : string;
+    //CONFIGURATION_EXPANDED_URL_KEY
+    o? : string;
+}
+
 export interface SimulationFrame extends PartialSimulationFrame {
     index : number;
     simOptions : NormalizedSimOptions;

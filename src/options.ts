@@ -23,6 +23,7 @@ export const IS_ROOT_PROPERTY_NAME = '@@isRoot';
 
 export const COLOR_BEHAVIOR_NAME = 'color';
 
+//These keys are set in types.ts:URLKeyMap
 export const DIFF_URL_KEY = 'd';
 export const RUN_INDEX_URL_KEY = 'r';
 export const CHART_SINGLE_RUN_URL_KEY = 'cSR';
