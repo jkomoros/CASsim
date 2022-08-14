@@ -183,11 +183,11 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	}
 
 	agentHeight(agent : Agent) : number {
-		return agent['height'] === undefined ? this.agentSize(agent) : agent['height'];
+		return agent.height === undefined ? this.agentSize(agent) : agent.height;
 	}
 
 	agentWidth(agent : Agent) : number {
-		return agent['width'] === undefined ? this.agentSize(agent) : agent['width'];
+		return agent.width === undefined ? this.agentSize(agent) : agent.width;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars

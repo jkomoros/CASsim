@@ -34,6 +34,8 @@ export type Agent = {
 	type? : string;
 	x? : number;
 	y? : number;
+	height? : number;
+	width? : number;
 };
 
 type AgentSimulationFrameExtra = {
