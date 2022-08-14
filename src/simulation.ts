@@ -30,10 +30,6 @@ import {
 } from './color.js';
 
 import {
-	NAME_PROPERTY as CONFIG_NAME_PROPERTY
-} from './config.js';
-
-import {
 	OptionsPath,
 	RawSimulationConfig,
 	ScoreConfig,
@@ -53,7 +49,6 @@ import {
 
 
 //Also duplicated into screenshot.js
-export const NAME_PROPERTY = CONFIG_NAME_PROPERTY;
 const REPEAT_PROPERTY = 'repeat';
 const FRAME_DELAY_PROPERTY = 'frameDelay';
 const EXTRA_FINAL_FRAME_COUNT_PROPERTY = 'extraFinalFrameCount';
@@ -336,7 +331,7 @@ export class Simulation {
 
 	constructor(config : SimulationConfig, index : number, unmodifiedConfig? : RawSimulationConfig) {
 
-		const name = config[NAME_PROPERTY];
+		const name = config.name;
 		if (name) {
 			if (typeof name != 'string') throw new Error('Name was provided but not a string');
 			if (!name.match(/^[0-9a-zA-Z-_]+$/)) throw new Error('Name had invalid characters in it');
@@ -469,7 +464,7 @@ export class Simulation {
 	}
 
 	get name() {
-		return this._config[NAME_PROPERTY] || this._altName || '';
+		return this._config.name || this._altName || '';
 	}
 
 	get title() {
@@ -561,7 +556,7 @@ export class Simulation {
 		}
 		const result = {
 			example: {
-				[NAME_PROPERTY]: {
+				name: {
 					example: '',
 					shortName: 'n',
 					description: 'Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL.',
@@ -570,7 +565,7 @@ export class Simulation {
 				title: {
 					example: '',
 					shortName: 't',
-					description: 'The human-readable version of name, with pretty formatting. Will use a transformation of ' + NAME_PROPERTY + 'like "two-words" -> "Two Words" if not provided.',
+					description: 'The human-readable version of name, with pretty formatting. Will use a transformation of name like "two-words" -> "Two Words" if not provided.',
 					advanced: true,
 					optional: true
 				},
