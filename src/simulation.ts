@@ -53,7 +53,6 @@ import {
 
 const HEIGHT_PROPERTY = 'height';
 const WIDTH_PROPERTY = 'width';
-const RUNS_PROPERTY = 'runs';
 const COLORS_PROPERTY = 'colors';
 const COLOR_PRIMARY_PROPERTY = 'primary';
 const COLOR_SECONDARY_PROPERTY = 'secondary';
@@ -393,7 +392,7 @@ export class Simulation {
 		this._colors = Object.fromEntries(Object.entries(this._config[COLORS_PROPERTY] || {}).map(entry => [entry[0], color(entry[1])]));
 		this._lastChanged = Date.now();
 		this._activated = false;
-		for (let i = 0; i < config[RUNS_PROPERTY]; i++) {
+		for (let i = 0; i < config.runs; i++) {
 			const run = new SimulationRun(this, i);
 			this._runs.push(run);
 		}
@@ -613,7 +612,7 @@ export class Simulation {
 					optional: true,
 					advanced: true
 				},
-				[RUNS_PROPERTY]: {
+				runs: {
 					example: 10,
 					shortName: 'r',
 					description: 'How many runs in the simulation to run',
