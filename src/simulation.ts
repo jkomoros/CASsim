@@ -51,7 +51,6 @@ import {
 	BaseSimulator
 } from './simulator.js';
 
-const DESCRIPTION_PROPERTY = 'description';
 const AUTO_GENERATE_PROPERTY = 'autoGenerate';
 const AUTO_PLAY_PROPERTY = 'autoPlay';
 const TITLE_PROPERTY = 'title';
@@ -482,7 +481,7 @@ export class Simulation {
 	}
 
 	get rawDescription() {
-		return this._config[DESCRIPTION_PROPERTY] || '';
+		return this._config.description || '';
 	}
 
 	get description() {
@@ -578,7 +577,7 @@ export class Simulation {
 					advanced: true,
 					optional: true
 				},
-				[DESCRIPTION_PROPERTY]: {
+				description: {
 					example: '',
 					shortName: 'd',
 					description: 'The human-readable description of the config. Optional. Will use name if not provided.',
