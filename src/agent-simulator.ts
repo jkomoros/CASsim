@@ -151,7 +151,7 @@ export class AgentSimulator extends BaseSimulator {
 	/* 
 		Create the graph and the agents
 	*/
-	override generateFirstFrame(simOptions, rnd, simWidth, simHeight) : AgentPartialSimulationFrame {
+	override generateFirstFrame(simOptions : SimOptions, rnd : RandomGenerator, simWidth : number, simHeight : number) : AgentPartialSimulationFrame {
 		//The default generator will expand this with index and simOptions.
 		const graph = this.generateGraph(simOptions, rnd, simWidth, simHeight);
 		const agents = this.generateAgents(graph, simOptions, rnd, simWidth, simHeight);
