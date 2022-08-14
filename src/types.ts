@@ -43,6 +43,8 @@ export interface SimulationConfigDisplay {
     status? : boolean;
     //If true, then when screenshotting the status line will be rendered beneath the diagram.
     screenshotStatus? : boolean;
+    //If true then runs in the future won't be shown what their result will be until it happens
+    clipStatus? : boolean;
 }
 
 export interface RawSimulationConfig {
