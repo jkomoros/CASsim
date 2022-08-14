@@ -27,6 +27,9 @@ import {
 } from './util.js';
 
 import {
+	Modifications,
+	RawSimulationConfig,
+	SimulationConfig,
 	RootState
 } from './types.js';
 
@@ -121,8 +124,8 @@ export const selectCurrentSimulatorShadowedModifications = createSelector(
 	(index, modifications) => shadowedModificationsForSimIndex(modifications, index)
 );
 
-const modfifiedConfigData = (rawConfigData, modifications, simulatorsLoaded = true) => {
-	if (!simulatorsLoaded) return rawConfigData;
+const modfifiedConfigData = (rawConfigData : RawSimulationConfig[], modifications : Modifications, simulatorsLoaded = true) : SimulationConfig[] => {
+	if (!simulatorsLoaded) return rawConfigData.map(config => ({...config, simOptions: null}));
 	//If any of them are missing simOptions, set them to the default
 	let data = rawConfigData.map(config => configWithDefaultedSimOptions(config));
 	for (const modification of modifications) {
