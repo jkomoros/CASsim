@@ -65,7 +65,6 @@ const AUTO_GENERATE_PROPERTY = 'autoGenerate';
 const AUTO_PLAY_PROPERTY = 'autoPlay';
 const DISPLAY_PROPERTY = 'display';
 const STATUS_DISPLAY_PROPERTY = 'status';
-const SCREENSHOT_STATUS_DISPLAY_PROPERTY = 'screenshotStatus';
 const CLIP_STATUS_PROPERTY = 'clipStatus';
 const TITLE_PROPERTY = 'title';
 
@@ -468,7 +467,7 @@ export class Simulation {
 	}
 
 	get screenshotDisplayStatus() {
-		const result = this.display[SCREENSHOT_STATUS_DISPLAY_PROPERTY];
+		const result = this.display.screenshotStatus;
 		if (result != undefined) return result;
 		return this.displayStatus;
 	}
@@ -666,7 +665,7 @@ export class Simulation {
 							description: "If provided, will render a status line of runs summary beneath the visuazliation, including in the screenshot output",
 							optional: true,
 						},
-						[SCREENSHOT_STATUS_DISPLAY_PROPERTY]: {
+						screenshotStatus: {
 							example: true,
 							shortName: 'sS',
 							description: "If true, then the status line will be included (as in " + STATUS_DISPLAY_PROPERTY + ") but only in the screenshot output",
