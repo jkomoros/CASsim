@@ -40,7 +40,8 @@ import {
 	SimulatorType,
 	Modifications,
 	OptionValue,
-	SimulationConfigDisplay
+	SimulationConfigDisplay,
+	ScoreConfigItem
 } from './types.js';
 
 import {
@@ -408,21 +409,21 @@ export class Simulation {
 		return this._config.sim;
 	}
 
-	get simulator() {
+	get simulator() : BaseSimulator {
 		return this._simulator;
 	}
 
 	//config might have a different shape than the underlying data because it will have normalization on it.
-	get config() {
+	get config() : SimulationConfig {
 		return this._config;
 	}
 
 	//rawConfig is the un-normalized config, exactly as passed in from data.
-	get rawConfig() {
+	get rawConfig() : SimulationConfig {
 		return this._rawConfig;
 	}
 
-	get index() {
+	get index() : number {
 		return this._index;
 	}
 
@@ -430,7 +431,7 @@ export class Simulation {
 		return this._colors;
 	}
 
-	get frameDelay() {
+	get frameDelay() : number {
 		return this._config.frameDelay || DEFAULT_FRAME_DELAY;
 	}
 
@@ -442,38 +443,38 @@ export class Simulation {
 		return this.display.status ? true : false;
 	}
 
-	get screenshotDisplayStatus() {
+	get screenshotDisplayStatus() : boolean {
 		const result = this.display.screenshotStatus;
 		if (result != undefined) return result;
 		return this.displayStatus;
 	}
 
-	get clipStatus() {
+	get clipStatus() : boolean {
 		return this.display.clipStatus ? true : false;
 	}
 
-	get width() {
+	get width() : number {
 		return this._config.width;
 	}
 
-	get height() {
+	get height() : number {
 		return this._config.height;
 	}
 
-	get name() {
+	get name() : string {
 		return this._config.name || this._altName || '';
 	}
 
-	get title() {
+	get title() : string {
 		if (this._config.title) return this._config.title;
 		return idToTitle(this.name);
 	}
 
-	get rawDescription() {
+	get rawDescription() : string {
 		return this._config.description || '';
 	}
 
-	get description() {
+	get description() : string {
 		return this.rawDescription || this.title;
 	}
 
@@ -481,39 +482,39 @@ export class Simulation {
 		return this.config[SIM_OPTIONS_PROPERTY];
 	}
 
-	get seed() {
+	get seed() : string {
 		return this._seed;
 	}
 
-	get maxRunIndex() {
+	get maxRunIndex() : number {
 		return this._runs.length - 1;
 	}
 
-	get runs() {
+	get runs() : SimulationRun[] {
 		return this._runs;
 	}
 
-	get autoPlay() {
+	get autoPlay() : boolean {
 		return this._config.autoPlay || false;
 	}
 
-	get repeat() {
+	get repeat() : boolean {
 		return this._config.repeat || DEFAULT_REPEAT;
 	}
 
-	get maxFrameIndex() {
+	get maxFrameIndex() : number {
 		return this._maxFrameIndex;
 	}
 
-	get scoreConfig() {
+	get scoreConfig() : ScoreConfigItem[] {
 		return this._scoreConfig;
 	}
 
-	get unmodifiedConfig() {
+	get unmodifiedConfig() : RawSimulationConfig {
 		return this._unmodifiedConfig;
 	}
 
-	get baseFingerprint() {
+	get baseFingerprint() : string {
 		if (!this._fingerprint) {
 			const config = this._unmodifiedConfig || this._config;
 			this._fingerprint = stringHash(JSON.stringify(config));
@@ -540,7 +541,7 @@ export class Simulation {
 		return defaultValueForConfig(configForPath(this.optionsConfig, path));
 	}
 
-	get extraFinalFrameCount() {
+	get extraFinalFrameCount() : number {
 		return this._config.extraFinalFrameCount || DEFAULT_EXTRA_FINAL_FRAME_COUNT;
 	}
 
