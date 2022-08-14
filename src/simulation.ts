@@ -63,7 +63,6 @@ const COLOR_BACKGROUND_PROPERTY = 'background';
 const DESCRIPTION_PROPERTY = 'description';
 const AUTO_GENERATE_PROPERTY = 'autoGenerate';
 const AUTO_PLAY_PROPERTY = 'autoPlay';
-const DISPLAY_PROPERTY = 'display';
 const CLIP_STATUS_PROPERTY = 'clipStatus';
 const TITLE_PROPERTY = 'title';
 
@@ -458,7 +457,7 @@ export class Simulation {
 	}
 
 	get display() : SimulationConfigDisplay {
-		return this._config[DISPLAY_PROPERTY] || {};
+		return this._config.display || {};
 	}
 
 	get displayStatus() : boolean {
@@ -605,7 +604,7 @@ export class Simulation {
 				[HEIGHT_PROPERTY]: {
 					example: 450,
 					shortName: 'h',
-					description: 'The height of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal height in pixels--although if ' + DISPLAY_PROPERTY + '. status is true then it will be slightly taller.',
+					description: 'The height of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal height in pixels--although if displayf status is true then it will be slightly taller.',
 					advanced: true
 				},
 				[FRAME_DELAY_PROPERTY]: {
@@ -656,7 +655,7 @@ export class Simulation {
 					advanced: true,
 					optional: true
 				},
-				[DISPLAY_PROPERTY]: {
+				display: {
 					example: {
 						status: {
 							example: true,
