@@ -49,7 +49,6 @@ import {
 
 
 //Also duplicated into screenshot.js
-const FRAME_DELAY_PROPERTY = 'frameDelay';
 const EXTRA_FINAL_FRAME_COUNT_PROPERTY = 'extraFinalFrameCount';
 const DEFAULT_FRAME_DELAY = 100;
 const DEFAULT_EXTRA_FINAL_FRAME_COUNT = 0;
@@ -433,7 +432,7 @@ export class Simulation {
 	}
 
 	get frameDelay() {
-		return this._config[FRAME_DELAY_PROPERTY] || DEFAULT_FRAME_DELAY;
+		return this._config.frameDelay || DEFAULT_FRAME_DELAY;
 	}
 
 	get display() : SimulationConfigDisplay {
@@ -587,7 +586,7 @@ export class Simulation {
 					description: 'The height of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal height in pixels--although if displayf status is true then it will be slightly taller.',
 					advanced: true
 				},
-				[FRAME_DELAY_PROPERTY]: {
+				frameDelay: {
 					example: DEFAULT_FRAME_DELAY,
 					shortName: 'fD',
 					step: 50,
