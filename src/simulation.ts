@@ -51,7 +51,6 @@ import {
 	BaseSimulator
 } from './simulator.js';
 
-const AUTO_PLAY_PROPERTY = 'autoPlay';
 const TITLE_PROPERTY = 'title';
 
 //Also duplicated into screenshot.js
@@ -504,7 +503,7 @@ export class Simulation {
 	}
 
 	get autoPlay() {
-		return this._config[AUTO_PLAY_PROPERTY] || false;
+		return this._config.autoPlay || false;
 	}
 
 	get repeat() {
@@ -622,7 +621,7 @@ export class Simulation {
 					advanced: true,
 					optional: true
 				},
-				[AUTO_PLAY_PROPERTY]: {
+				autoPlay: {
 					example: true,
 					shortName: 'aP',
 					description: 'If set, will automatically start playing when simulation is loaded',
