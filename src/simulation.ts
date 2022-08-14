@@ -185,7 +185,7 @@ export class SimulationRun {
 		this._lastChanged = Date.now();
 	}
 
-	get simulation() {
+	get simulation() : Simulation {
 		return this._simulation;
 	}
 
@@ -195,7 +195,7 @@ export class SimulationRun {
 		return this._frames[frameIndex];
 	}
 
-	get scoreData() {
+	get scoreData() : ChartData {
 		return this._scoreData;	
 	}
 
@@ -216,29 +216,29 @@ export class SimulationRun {
 	}
 
 	//Ensure that we know the state of all frames
-	run() {
+	run() : void {
 		this._ensureFrameDataUpTo(this._simulation.maxFrameIndex);
 	}
 
-	get lastChanged() {
+	get lastChanged() : number {
 		return this._lastChanged;
 	}
 
-	_changed() {
+	_changed() : void {
 		this._lastChanged = Date.now();
 	}
 
 	//Whether this has been run to completion (the state of all frames up to the
 	//null frame is known), either directly via run() or indirectly by having
 	//requested all frames up to and past the end.
-	get complete() {
+	get complete() : boolean {
 		return this._maxFrameIndex != Number.MAX_SAFE_INTEGER;
 	}
 	
 	//Returns 0.0 for complete failure, 1.0 for complete success, inbetween for
 	//inbetween, and negative value if indeterminate (e.g. it is not yet
 	//complete or the simulator doesn't implement a frameScorer)
-	get finalStatus() {
+	get finalStatus() : number {
 		if (!this.complete) return -1.0;
 		return this.successScore(this.maxFrameIndex);
 	}
@@ -246,7 +246,7 @@ export class SimulationRun {
 	//This returns the max valid frame index with the tighest known limit. It
 	//starts off effectively infinite, but once we discover the last frame, we
 	//update it to that.
-	get maxFrameIndex() {
+	get maxFrameIndex() : number {
 		return this._maxFrameIndex;
 	}
 
