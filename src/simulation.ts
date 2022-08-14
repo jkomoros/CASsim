@@ -51,7 +51,6 @@ import {
 	BaseSimulator
 } from './simulator.js';
 
-const WIDTH_PROPERTY = 'width';
 const COLORS_PROPERTY = 'colors';
 const COLOR_PRIMARY_PROPERTY = 'primary';
 const COLOR_SECONDARY_PROPERTY = 'secondary';
@@ -471,7 +470,7 @@ export class Simulation {
 	}
 
 	get width() {
-		return this._config[WIDTH_PROPERTY];
+		return this._config.width;
 	}
 
 	get height() {
@@ -591,7 +590,7 @@ export class Simulation {
 					advanced: true,
 					optional: true
 				},
-				[WIDTH_PROPERTY]: {
+				width: {
 					example: 800,
 					shortName: 'w',
 					description: 'The width of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal width in pixels.',
