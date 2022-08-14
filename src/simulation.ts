@@ -51,7 +51,6 @@ import {
 	BaseSimulator
 } from './simulator.js';
 
-const TITLE_PROPERTY = 'title';
 
 //Also duplicated into screenshot.js
 export const NAME_PROPERTY = CONFIG_NAME_PROPERTY;
@@ -474,7 +473,7 @@ export class Simulation {
 	}
 
 	get title() {
-		if (this._config[TITLE_PROPERTY]) return this._config[TITLE_PROPERTY];
+		if (this._config.title) return this._config.title;
 		return idToTitle(this.name);
 	}
 
@@ -568,7 +567,7 @@ export class Simulation {
 					description: 'Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL.',
 					advanced: true
 				},
-				[TITLE_PROPERTY]: {
+				title: {
 					example: '',
 					shortName: 't',
 					description: 'The human-readable version of name, with pretty formatting. Will use a transformation of ' + NAME_PROPERTY + 'like "two-words" -> "Two Words" if not provided.',
