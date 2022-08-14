@@ -47,6 +47,13 @@ export interface SimulationConfigDisplay {
     clipStatus? : boolean;
 }
 
+export interface ColorsMap {
+    primary? : CSSColor;
+    secondary? : CSSColor;
+    disabled? : CSSColor;
+    background? : CSSColor;
+}
+
 export interface RawSimulationConfig {
     //Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL. May be omitted.
 	name? : SimulationConfigName;
@@ -78,12 +85,7 @@ export interface RawSimulationConfig {
 	//Configures whether or not to display certain things. May be omitted.
 	display? : SimulationConfigDisplay;
 	//These colors will be provided to the simulation renderer as `--primary-color` etc CSS variables.
-	colors? : {
-		primary? : CSSColor;
-		secondary? : CSSColor;
-		disabled? : CSSColor;
-		background? : CSSColor;
-	};
+	colors? : ColorsMap;
 	//The simulator type to run, which must be one of the names of a simulator in simulators/ directory.
 	sim: SimulatorType;
 	//The options to feed to the simulator. These will be different shapes depending on the value of "sim". If this is missing or null, then the simulator's default simOptions will be used. See each specific simulator's documentation for the specific config shapes it expects.
