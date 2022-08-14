@@ -44,6 +44,11 @@ export type AgentSimulationFrame = SimulationFrame & AgentSimulationFrameExtra;
 
 export type NodeScorer = (neighbor : GraphNodeValues, length : number, path : GraphEdge[]) => number;
 
+export type RowColOptionalSimOptions = SimOptions & {
+	rows? : number;
+	cols? : number;
+}
+
 export class AgentSimulator extends BaseSimulator {
 
 	/*
@@ -51,8 +56,8 @@ export class AgentSimulator extends BaseSimulator {
 		graph that agents will traverse. You might also want to override
 		graphConstructor.
 	*/
-	generateGraph(simOptions : SimOptions, _rnd : RandomGenerator, simWidth : number, simHeight : number) : Graph {
-		return RectangleGraph.make(simOptions['rows'] || 5, simOptions['cols'] || 5, simWidth, simHeight);
+	generateGraph(simOptions : RowColOptionalSimOptions, _rnd : RandomGenerator, simWidth : number, simHeight : number) : Graph {
+		return RectangleGraph.make(simOptions.rows || 5, simOptions.cols || 5, simWidth, simHeight);
 	}
 
 	//baseAgent returns an object with just a random, stable ID 
