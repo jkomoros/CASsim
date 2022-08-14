@@ -30,7 +30,8 @@ import {
 	Modifications,
 	RawSimulationConfig,
 	SimulationConfig,
-	RootState
+	RootState,
+	URLArgsMap
 } from './types.js';
 
 const selectRawConfigData = (state : RootState) => state.data ? state.data.data : [];
@@ -264,9 +265,9 @@ export const selectHashForCurrentState = createSelector(
 	selectDescriptionExpanded,
 	selectChartConfigIDs,
 	(urlDiff, runIndex, singleRun, chartExpanded, configurationExpanded, descriptionExpanded, configIDs) => {
-		const pieces = {};
+		const pieces : URLArgsMap = {};
 		if (urlDiff) pieces[DIFF_URL_KEY] = urlDiff;
-		if (runIndex) pieces[RUN_INDEX_URL_KEY] = runIndex;
+		if (runIndex) pieces[RUN_INDEX_URL_KEY] = String(runIndex);
 		if (singleRun) pieces[CHART_SINGLE_RUN_URL_KEY] = '1';
 		if (configIDs && Object.keys(configIDs).length) pieces[CHART_CONFIG_IDS_URL_KEY] = Object.keys(configIDs).join(',');
 
