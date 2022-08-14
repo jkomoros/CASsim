@@ -41,7 +41,8 @@ import {
 	Modifications,
 	OptionValue,
 	SimulationConfigDisplay,
-	ScoreConfigItem
+	ScoreConfigItem,
+	ColorsMap
 } from './types.js';
 
 import {
@@ -321,7 +322,7 @@ export class Simulation {
 
 	_scoreConfig : ScoreConfig;
 
-	_colors : unknown;
+	_colors : ColorsMap;
 
 	_lastChanged : number;
 
@@ -427,7 +428,7 @@ export class Simulation {
 		return this._index;
 	}
 
-	get colors() {
+	get colors() : ColorsMap {
 		return this._colors;
 	}
 
