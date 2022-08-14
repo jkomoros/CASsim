@@ -32,6 +32,8 @@ export type Agent = {
 	node? : GraphNodeID;
 	emoji? : string;
 	type? : string;
+	x? : number;
+	y? : number;
 };
 
 type AgentSimulationFrameExtra = {

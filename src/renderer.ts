@@ -171,13 +171,13 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	}
 
 	agentX(agent : Agent) : number {
-		if (agent['x'] !== undefined) return agent['x'] as number;
+		if (agent.x !== undefined) return agent.x;
 		const rnd = makeSeededRandom(agent.id);
 		return this.width * rnd();
 	}
 
 	agentY(agent : Agent) : number {
-		if (agent['y'] !== undefined) return agent['y'] as number;
+		if (agent.y !== undefined) return agent.y;
 		const rnd = makeSeededRandom(agent.id);
 		return this.height * rnd();
 	}
