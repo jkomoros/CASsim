@@ -63,7 +63,6 @@ const COLOR_BACKGROUND_PROPERTY = 'background';
 const DESCRIPTION_PROPERTY = 'description';
 const AUTO_GENERATE_PROPERTY = 'autoGenerate';
 const AUTO_PLAY_PROPERTY = 'autoPlay';
-const CLIP_STATUS_PROPERTY = 'clipStatus';
 const TITLE_PROPERTY = 'title';
 
 //Also duplicated into screenshot.js
@@ -471,7 +470,7 @@ export class Simulation {
 	}
 
 	get clipStatus() {
-		return this.display[CLIP_STATUS_PROPERTY] ? true : false;
+		return this.display.clipStatus ? true : false;
 	}
 
 	get width() {
@@ -669,7 +668,7 @@ export class Simulation {
 							description: "If true, then the status line will be included (as in status) but only in the screenshot output",
 							optional: true,
 						},
-						[CLIP_STATUS_PROPERTY]: {
+						clipStatus: {
 							example: true,
 							shortName: 'cS',
 							description: "If provided, and status is true, then it will hide future runs in the rendered status bar.",
