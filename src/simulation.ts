@@ -49,7 +49,6 @@ import {
 
 
 //Also duplicated into screenshot.js
-const REPEAT_PROPERTY = 'repeat';
 const FRAME_DELAY_PROPERTY = 'frameDelay';
 const EXTRA_FINAL_FRAME_COUNT_PROPERTY = 'extraFinalFrameCount';
 const DEFAULT_FRAME_DELAY = 100;
@@ -501,7 +500,7 @@ export class Simulation {
 	}
 
 	get repeat() {
-		return this._config[REPEAT_PROPERTY] || DEFAULT_REPEAT;
+		return this._config.repeat || DEFAULT_REPEAT;
 	}
 
 	get maxFrameIndex() {
@@ -622,7 +621,7 @@ export class Simulation {
 					advanced: true,
 					optional: true
 				},
-				[REPEAT_PROPERTY]: {
+				repeat: {
 					example: true,
 					shortName: 'rpt',
 					description: 'If true, will loop back around to the beginning of the round when being played. Gif screenshotting also respects this value',
