@@ -44,7 +44,7 @@ export class Urn<T> {
 	}
 }
 
-export const uniquePairs = (arr) => arr.flatMap((item1, index1) => arr.flatMap((item2, index2) => (index1 > index2) ? [[item1,item2]] : []));
+export const uniquePairs = <T>(arr : T[]) => arr.flatMap((item1 : T, index1 : number) => arr.flatMap((item2 : T, index2 : number) => (index1 > index2) ? [[item1,item2]] : []));
 
 const randomCharSetNumbers = '0123456789';
 const randomCharSetLetters = 'abcdef';
