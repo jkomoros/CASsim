@@ -22,6 +22,10 @@ export type Color = {
     rgbaStr : CSSColor;
 }
 
+export type EmojiSet = {
+    [name : string]: string;
+};
+
 //TODO: lock this down dynamically based on allowed simulator types
 export type SimulatorType = string;
 
