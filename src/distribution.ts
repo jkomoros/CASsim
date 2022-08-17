@@ -6,6 +6,7 @@ import {
 	DistributionOptions,
 	OptionsConfig,
 	OptionsConfigMap,
+	OptionValueMap,
 	RandomGenerator
 } from './types.js';
 
@@ -243,7 +244,7 @@ export class DistributionConfig {
 
 		if (includedTypes[MIN_MAX]) {
 			const includesOtherTypes = Object.keys(includedTypes).length > 1;
-			const hide = values => values.distribution && values.distribution != MIN_MAX;
+			const hide = (values : OptionValueMap) : boolean => values.distribution && values.distribution != MIN_MAX;
 			example.min = {
 				example: this._options.min,
 				min: this._options.limitMin,
