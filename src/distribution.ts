@@ -25,7 +25,7 @@ export const NORMAL = 'normal';
 export const MIN_MAX = 'min-max';
 export const FIXED = 'fixed';
 
-const LEGAL_TYPES = {
+const LEGAL_TYPES : {[name : string] : string} = {
 	[LINEAR]: 'A linear distribution between average +/- spread',
 	[NORMAL]: 'A normal distributino with mean of average and standard deviation of spread',
 	[MIN_MAX]: 'A linear distribution between min and max',
@@ -310,7 +310,7 @@ export class DistributionConfig {
 		if (normalizedOptions.min > normalizedOptions.max) throw new Error('min was greater than max');
 		if (normalizedOptions.limitMin > normalizedOptions.limitMax) throw new Error('limitMin was greater than limitMax');
 		if (!Object.keys(LEGAL_ROUND_TYPES).some(type => normalizedOptions.round === type)) throw new Error('round was not a legal value: \'' + normalizedOptions.round + '\'. Legal values are: ' + Object.keys(LEGAL_ROUND_TYPES).map(str => "'" + str + "'").join(', '));
-		const seenTypes = {};
+		const seenTypes : {[name : string] : true} = {};
 		for (const type of normalizedOptions.types) {
 			if (!LEGAL_TYPES[type]) throw new Error(type + ' is not a legal type');
 			if (seenTypes[type]) throw new Error(type + ' was duplicated in the list');
