@@ -222,7 +222,13 @@ export const configObjectIsValid = (optionsConfig, value) => {
 	if (value && Array.isArray(example) != Array.isArray(value)) return 'Example was an array but value was not or vice versa';
 
 	if (typeof example == 'object' && value) {
+		if (typeof value != 'object') {
+			return 'Example was object but value was not';
+		}
 		if (Array.isArray(example)) {
+			if (!Array.isArray(value)) {
+				return 'Example was array but value was not';
+			}
 			for (const [valueKey, valueValue] of value.entries()) {
 				const problem = configObjectIsValid(example[0], valueValue);
 				if (problem) {
