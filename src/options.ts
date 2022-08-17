@@ -195,7 +195,7 @@ export const configObjectIsValid = (optionsConfig : OptionsConfig, value : Optio
 	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
 	if (typeof value == 'object' && !example) {
 		//This happens if it's a naked object. Verify each sub-property matches
-		const seenKeys = {};
+		const seenKeys : {[name : string] : true} = {};
 		for (const [valueKey, valueValue] of Object.entries(value)) {
 			seenKeys[valueKey] = true;
 			if (typeof optionsConfig !== 'object') return valueKey + ' still remained in path but no object';
