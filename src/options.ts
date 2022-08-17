@@ -41,7 +41,8 @@ import {
 	OptionsConfig,
 	OptionsConfigMap,
 	OptionsConfigInput,
-	OptionValue
+	OptionValue,
+	SimulationConfig
 } from './types.js';
 
 import {
@@ -187,7 +188,8 @@ const optionsLeafValidator = (config : OptionsConfigInput) : string => {
 };
 
 //Returns a string describing problems, or '' if no problems
-export const configObjectIsValid = (optionsConfig, value) => {
+//TODO: ideally SimulationConfig could be passed as an OptionValue and type checker wouldn't complain
+export const configObjectIsValid = (optionsConfig : OptionsConfig, value : OptionValue | SimulationConfig) : string=> {
 	//Note: this is tested implicitly via tests for maySetPropertyInConfigObject 
 	if (!optionsConfig) return 'no optionsConfig provided';
 	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
