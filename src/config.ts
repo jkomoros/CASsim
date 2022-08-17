@@ -2,6 +2,11 @@ import {
 	deepCopy
 } from './util.js';
 
+import {
+	RawSimulationConfig,
+	PackedRawSimulationConfig
+} from './types.js';
+
 //This is the current version of the expected data payload. We should increment
 //this when large, breaking changes in how the data is packed are created.
 export const FORMAT_VERSION = 1;
@@ -14,7 +19,7 @@ const HIDDEN_PROPERTY = 'hidden';
 const EXTEND_PROPERTY = 'extend';
 
 //Given a raw JSON blob, unpacks and returns the array of different configs.
-export const unpackConfigJSON = (rawData) => {
+export const unpackConfigJSON = (rawData : PackedRawSimulationConfig) : RawSimulationConfig[] => {
 	if (!rawData || typeof rawData != 'object') throw new Error('Payload is not an object');
 	const version = rawData[VERSION_PROPERTY_NAME] || 1;
 	if (version > FORMAT_VERSION) throw new Error('Unknown version for data payload: ' + version);
@@ -47,9 +52,9 @@ const extendConfig = (config, configsByName, pathNames = {}) => {
 };
 
 //We expand depencencies before even storing in state, pretending the underylying config included each config in order fully specified.
-const expandDependencies = (rawConfigs) => {
+const expandDependencies = (rawConfigs : RawSimulationConfig[]) : RawSimulationConfig[] => {
 	rawConfigs = deepCopy(rawConfigs);
-	const configByName = {};
+	const configByName : {[name : string] : RawSimulationConfig} = {};
 	for (const config of rawConfigs) {
 		configByName[config[NAME_PROPERTY]] = config;
 	}
