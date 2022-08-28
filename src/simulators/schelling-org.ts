@@ -18,7 +18,6 @@ import {
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 const NORTH_STAR_PROPERTY_NAME = 'northStar';
-const DISABLE_SELECTION_PROPERTY_NAME = 'disableSelection';
 const LAST_COMMUNICATED_PROJECT_PROPERTY_NAME = 'lastCommunicatedProject';
 const DISABLE_BELIEFS_PROPERTY_NAME = 'disableBeliefs';
 const RANDOM_INDIVIDUAL_PROPERTY_NAME = 'randomIndividual';
@@ -56,7 +55,7 @@ const SHORT_NAMES = {
 	communicationStrategy: 'cS',
 	believability: 'blv',
 	believes: 'blv',
-	[DISABLE_SELECTION_PROPERTY_NAME]: 'dSel',
+	disableSelection: 'dSel',
 	[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME]: 'lCP',
 	[DISABLE_BELIEFS_PROPERTY_NAME]: 'dBlf',
 	[RANDOM_INDIVIDUAL_PROPERTY_NAME]: 'rI',
@@ -76,7 +75,8 @@ const DEFAULT_COMPELLING_VALUE = 0.5;
 const DEFAULT_NORTH_STAR_EMOJI = '🌟';
 
 type DisplayValue = {
-	debug: boolean;
+	debug?: boolean;
+	disableSelection? : boolean;
 }
 
 type Collaborator = {
@@ -580,9 +580,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 						description: "If true, then each individuals' beliefs about the value of a project will be rendered as a tick mark",
 						optional: true
 					},
-					[DISABLE_SELECTION_PROPERTY_NAME]: {
+					disableSelection: {
 						example: true,
-						shortName: SHORT_NAMES[DISABLE_SELECTION_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.disableSelection || '',
 						description: 'If true, then the line connecting each collaborator to the project they pick won\'t be rendered',
 						optional: true
 					}
@@ -1293,8 +1293,7 @@ class SchellingOrgRenderer extends BaseRenderer {
 
 	get _disableSelection() {
 		if (!this.frame) return false;
-		const displayValue = this.frame.display || {};
-		return displayValue[DISABLE_SELECTION_PROPERTY_NAME] || false;
+		return this.frame.display?.disableSelection || false;
 	}
 
 	get _lastCommunicatedProject() {
