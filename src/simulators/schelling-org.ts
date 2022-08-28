@@ -75,11 +75,15 @@ type DisplayValue = {
 	disableBeliefs? : boolean;
 }
 
-type NorthStarValue = {
-	strength: number;
-	offset: number;
-	believability: number;
-	emoji: string;
+type NorthStarOptions = {
+	emoji? : string;
+	offsetType? : 'manual' | 'random' | 'random-project';
+	minOffset? : number;
+	maxOffset? : number;		
+	offset? : number;
+	strength? : number;
+	spread? : number;
+	believability? : number;
 }
 
 type Collaborator = {
@@ -98,14 +102,66 @@ type Connection = {
 	active: boolean;
 }
 
-interface SchellingOrgSimulationFrame extends AgentSimulationFrame {
+interface SchellingOrgSimulationFramePartial {
 	display: DisplayValue;
 	collaborators: Collaborator[];
 	projects: Project[];
 	connections: Connection[];
 	communication: boolean;
 	lastCommunicatedProject: number;
-	northStar: NorthStarValue;
+	northStar: NorthStarOptions;
+}
+
+interface SchellingOrgSimulationFrame extends AgentSimulationFrame, SchellingOrgSimulationFramePartial {}
+
+type CommunicationStrategy = 'random' | 'min' | 'max' | 'disagreement';
+
+type CollaboratorIndividualOptions = {
+	beliefs?: number[]
+	epsilon?: number;
+	emoji?: string;
+	avgConnectionLikelihood?:number;
+	connectionLikelihoodSpread?: number;
+	compelling?:number;
+	broadcastLikelihood?:number;
+	optimism?:number;
+	believes?: boolean;
+	communicationStrategy?: CommunicationStrategy;
+}
+
+type ProjectIndividualOptions = {
+	marked? : boolean;
+	maxExtraValue? : number;
+	maxErrorValue? : number;
+	twiddleValueAmount? : number;
+	value? : number;
+	error? : number;
+}
+
+interface SchellingOrgSimOptions {
+	display? : DisplayValue;
+	communication? : boolean;
+	collaborators? : {
+		count: number;
+		epsilon?: number;
+		avgConnectionLikelihood? : number;
+		connectionLikelihoodSpread? : number;
+		compelling? : number;
+		broadcastLikelihood? : number;
+		optimism? : number;
+		communicationStrategy? : CommunicationStrategy;
+		randomIndividual?: CollaboratorIndividualOptions;
+		individuals?: CollaboratorIndividualOptions[];
+	};
+	projects?: {
+		count: number;
+		maxExtraValue?: number;
+		maxErrorValue?: number;
+		twiddleValueAmount? : number;
+		randomIndividual? : ProjectIndividualOptions;
+		individuals? : ProjectIndividualOptions[];
+	}
+	northStar? : NorthStarOptions;
 }
 
 //bias is where in the range of min to max the value will be. 0.5 will be
@@ -149,7 +205,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		return SCHELLING_ORG_SIMULATION_NAME;
 	}
 
-	_firstFrameGenerator(simOptions, rnd) {
+	_firstFrameGenerator(simOptions : SchellingOrgSimOptions, rnd : RandomGenerator) : SchellingOrgSimulationFramePartial {
 		const projectsCount = simOptions.projects.count;
 		const collaboratorsCount = simOptions.collaborators.count;
 		const projectExtraValue = simOptions.projects.maxExtraValue;
