@@ -18,7 +18,6 @@ import {
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 const NORTH_STAR_PROPERTY_NAME = 'northStar';
-const SPREAD_PROPERTY_NAME = 'spread';
 const OFFSET_TYPE_PROPERTY_NAME = 'offsetType';
 const MIN_OFFSET_PROPERTY_NAME = 'minOffset';
 const MAX_OFFSET_PROPERTY_NAME = 'maxOffset';
@@ -56,7 +55,7 @@ const SHORT_NAMES = {
 	[NORTH_STAR_PROPERTY_NAME]: 'nS',
 	offset: 'ofst',
 	strength: 'str',
-	[SPREAD_PROPERTY_NAME]: 'sprd',
+	spread: 'sprd',
 	[OFFSET_TYPE_PROPERTY_NAME]: 'oT',
 	[MIN_OFFSET_PROPERTY_NAME]: 'minO',
 	[MAX_OFFSET_PROPERTY_NAME]: 'maxO',
@@ -209,7 +208,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				//and highest values at the extremes are given by strength,
 				//where strength of 1.0 will have the extremes be 0.0..1.0
 				const northStarOffset = northStarValue.offset;
-				const northStarSpread = northStarValue[SPREAD_PROPERTY_NAME];
+				const northStarSpread = northStarValue.spread;
 				const northStarStrength = northStarValue.strength;
 				const minNorthStarBias = 0.5 - (0.5 * northStarStrength);
 				const maxNorthStarBias = 0.5 + (0.5 * northStarStrength);
@@ -1126,12 +1125,12 @@ class SchellingOrgSimulator extends BaseSimulator {
 						max: 1.0,
 						step: 0.05
 					},
-					[SPREAD_PROPERTY_NAME]: {
+					spread: {
 						example: 0.25,
 						optional: true,
 						backfill: true,
 						default: true,
-						shortName: SHORT_NAMES[SPREAD_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.spread || '',
 						description: 'How wide is the positive effect of the northstar affect (trading off linearly from the offset position to plus or minus by this amount)',
 						min: 0.0,
 						max: 1.0,
