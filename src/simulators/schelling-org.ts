@@ -18,7 +18,6 @@ import {
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 const NORTH_STAR_PROPERTY_NAME = 'northStar';
-const DISABLE_BELIEFS_PROPERTY_NAME = 'disableBeliefs';
 const RANDOM_INDIVIDUAL_PROPERTY_NAME = 'randomIndividual';
 
 const SHORT_NAMES = {
@@ -56,7 +55,7 @@ const SHORT_NAMES = {
 	believes: 'blv',
 	disableSelection: 'dSel',
 	lastCommunicatedProject: 'lCP',
-	[DISABLE_BELIEFS_PROPERTY_NAME]: 'dBlf',
+	disableBeliefs: 'dBlf',
 	[RANDOM_INDIVIDUAL_PROPERTY_NAME]: 'rI',
 };
 
@@ -76,6 +75,7 @@ const DEFAULT_NORTH_STAR_EMOJI = '🌟';
 type DisplayValue = {
 	debug?: boolean;
 	disableSelection? : boolean;
+	disableBeliefs? : boolean;
 }
 
 type Collaborator = {
@@ -574,9 +574,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 						description: "If true, then the SVG will render debug information",
 						optional: true,
 					},
-					[DISABLE_BELIEFS_PROPERTY_NAME]: {
+					disableBeliefs: {
 						example: true,
-						shortName: SHORT_NAMES[DISABLE_BELIEFS_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.disableBeliefs || '',
 						description: "If true, then each individuals' beliefs about the value of a project will be rendered as a tick mark",
 						optional: true
 					},
@@ -1303,9 +1303,8 @@ class SchellingOrgRenderer extends BaseRenderer {
 
 	get _renderBeliefTicks() {
 		if (!this.frame) return false;
-		const displayValue = this.frame.display || {};
-		const val = displayValue[DISABLE_BELIEFS_PROPERTY_NAME] || false;
-		return !val;
+		const value = this.frame.display?.disableBeliefs || false;
+		return !value;
 	}
 
 	get _northStar() {
