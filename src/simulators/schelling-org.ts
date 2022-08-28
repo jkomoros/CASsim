@@ -474,7 +474,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		};
 	}
 
-	_communicationRound(frame, rnd) {
+	_communicationRound(frame : SchellingOrgSimulationFrame, rnd : RandomGenerator) : SchellingOrgSimulationFrame {
 
 		//Copy connections
 		let connections = frame.connections.map(connection => ({...connection}));
