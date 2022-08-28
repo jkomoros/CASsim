@@ -18,7 +18,6 @@ import {
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 const NORTH_STAR_PROPERTY_NAME = 'northStar';
-const OPTIMISM_PROPERTY_NAME = 'optimism';
 const COMMUNICATION_STRATEGY_PROPERTY_NAME = 'communicationStrategy';
 const BELIEVABILITY_PROPERTY_NAME = 'believability';
 const BELIEVES_PROPERTY_NAME = 'believes';
@@ -56,7 +55,7 @@ const SHORT_NAMES = {
 	offsetType: 'oT',
 	minOffset: 'minO',
 	maxOffset: 'maxO',
-	[OPTIMISM_PROPERTY_NAME]: 'opt',
+	optimism: 'opt',
 	[COMMUNICATION_STRATEGY_PROPERTY_NAME]: 'cS',
 	[BELIEVABILITY_PROPERTY_NAME]: 'blv',
 	[BELIEVES_PROPERTY_NAME]: 'blv',
@@ -168,7 +167,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const broadcastLikelihood = simOptions.collaborators.broadcastLikelihood;
 		const communicationStrategy = simOptions.collaborators[COMMUNICATION_STRATEGY_PROPERTY_NAME];
 		//This might be undefined if not provided
-		const optimismValue = simOptions.collaborators[OPTIMISM_PROPERTY_NAME];
+		const optimismValue = simOptions.collaborators.optimism;
 		const believabilityValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? simOptions[NORTH_STAR_PROPERTY_NAME][BELIEVABILITY_PROPERTY_NAME] : 1.0;
 
 		if (northStarValue && northStarValue.offsetType != OFFSET_TYPE_MANUAL) {
@@ -267,7 +266,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				compelling: defaultCompellingValue,
 				avgConnectionLikelihood,
 				connectionLikelihoodSpread,
-				[OPTIMISM_PROPERTY_NAME]: optimismValue,
+				optimism: optimismValue,
 				[COMMUNICATION_STRATEGY_PROPERTY_NAME]: communicationStrategy,
 				[BELIEVES_PROPERTY_NAME]: rnd() < believabilityValue
 			});
@@ -294,7 +293,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				//the mix with optimism/northStarBias might be out of whack for
 				//this one collababorator compared to their peers)
 				const northStarBias = collaborators[i][BELIEVES_PROPERTY_NAME] ? project.northStarBias : (project.northStarBias !== undefined ? 0.5 : undefined);
-				const optimismBias = collaborators[i][OPTIMISM_PROPERTY_NAME];
+				const optimismBias = collaborators[i].optimism;
 				let bias = 0.5;
 				if (northStarBias === undefined && optimismBias !== undefined) {
 					bias = optimismBias;
@@ -656,9 +655,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 						optional: true,
 						backfill: true,
 					},
-					[OPTIMISM_PROPERTY_NAME]: {
+					optimism: {
 						example: 0.5,
-						shortName: SHORT_NAMES[OPTIMISM_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.optimism || '',
 						description: 'How optimistic or pessimistic the individual is. 1.0 is extremely optimistic--every value will be at the top of the possible range. 0.0 is extremely pessimistic--every value will be at the bottom of the possible range.',
 						min: 0.0,
 						max: 1.0,
@@ -745,9 +744,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 								step: 0.05,
 								optional: true,
 							},
-							[OPTIMISM_PROPERTY_NAME]: {
+							optimism: {
 								example: 0.5,
-								shortName: SHORT_NAMES[OPTIMISM_PROPERTY_NAME] || '',
+								shortName: SHORT_NAMES.optimism || '',
 								description: 'How optimistic or pessimistic the individual is. 1.0 is extremely optimistic--every value will be at the top of the possible range. 0.0 is extremely pessimistic--every value will be at the bottom of the possible range.',
 								min: 0.0,
 								max: 1.0,
@@ -848,9 +847,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 										step: 0.05,
 										optional: true,
 									},
-									[OPTIMISM_PROPERTY_NAME]: {
+									optimism: {
 										example: 0.5,
-										shortName: SHORT_NAMES[OPTIMISM_PROPERTY_NAME] || '',
+										shortName: SHORT_NAMES.optimism || '',
 										description: 'How optimistic or pessimistic the individual is. 1.0 is extremely optimistic--every value will be at the top of the possible range. 0.0 is extremely pessimistic--every value will be at the bottom of the possible range.',
 										min: 0.0,
 										max: 1.0,
