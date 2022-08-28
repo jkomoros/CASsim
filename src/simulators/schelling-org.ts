@@ -114,6 +114,8 @@ type Project = {
 type Connection = {
 	i: number;
 	j: number;
+	index: number;
+	strength: number;
 	active: boolean;
 }
 
@@ -384,7 +386,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		//connections is array of objs, {i, j, strength, index}, where i is the
 		//speaker, j is the listener, and strength is between 0.0 to 1.0 about
 		//how strong the connection is (how likely it is to be picked.)
-		const connections = [];
+		const connections : Connection[] = [];
 		if (communicationValue) {
 			let count = 0;
 			for (let i = 0; i < collaboratorsCount; i++) {
@@ -399,7 +401,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					let strength = (maxConnectionLikelihood - minConnectionLikelihood) * rnd() + minConnectionLikelihood;
 					if (strength < 0.0) strength = 0.0;
 					if (strength > 1.0) strength = 1.0;
-					connections.push({i, j, strength, index:count});
+					connections.push({i, j, strength, index:count, active: false});
 					count++;
 				}
 			}
