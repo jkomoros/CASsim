@@ -117,7 +117,7 @@ interface SchellingOrgSimulationFrame extends AgentSimulationFrame {
 //equally likely across whole range, whereas a bias of 0.0 will be very
 //pessimistic (very bottom edge of range, and bias of 1.0 will be extremely
 //optimistic)
-const randomValueWithBias = (rnd, min, max, bias = 0.5) => {
+const randomValueWithBias = (rnd : RandomGenerator, min : number, max : number, bias = 0.5) : number => {
 	if (bias < 0.0) bias = 0.0;
 	if (bias > 1.0) bias = 1.0;
 
@@ -139,11 +139,11 @@ const randomValueWithBias = (rnd, min, max, bias = 0.5) => {
 	return (max - min) * percentage + min;
 };
 
-const projectWidth = (projectCount, stageWidth = 1.0) => {
+const projectWidth = (projectCount : number, stageWidth = 1.0) : number => {
 	return stageWidth / (projectCount * 3 - 1);
 };
 
-const projectX = (index, projectCount, stageWidth = 1.0) => {
+const projectX = (index : number, projectCount : number, stageWidth = 1.0) : number => {
 	const width = projectWidth(projectCount, stageWidth);
 	return index * (width * 3) + width;
 };
@@ -1168,7 +1168,7 @@ export default SchellingOrgSimulator;
 import { html, css, svg} from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { BaseRenderer } from '../renderer.js';
-import { OptionsConfigMap } from '../types.js';
+import { OptionsConfigMap, RandomGenerator } from '../types.js';
 
 const COLLABORATOR_CIRCLE_FACTOR = 7;
 
