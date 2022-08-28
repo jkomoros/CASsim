@@ -18,7 +18,6 @@ import {
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 const NORTH_STAR_PROPERTY_NAME = 'northStar';
-const MIN_OFFSET_PROPERTY_NAME = 'minOffset';
 const MAX_OFFSET_PROPERTY_NAME = 'maxOffset';
 const OPTIMISM_PROPERTY_NAME = 'optimism';
 const COMMUNICATION_STRATEGY_PROPERTY_NAME = 'communicationStrategy';
@@ -56,7 +55,7 @@ const SHORT_NAMES = {
 	strength: 'str',
 	spread: 'sprd',
 	offsetType: 'oT',
-	[MIN_OFFSET_PROPERTY_NAME]: 'minO',
+	minOffset: 'minO',
 	[MAX_OFFSET_PROPERTY_NAME]: 'maxO',
 	[OPTIMISM_PROPERTY_NAME]: 'opt',
 	[COMMUNICATION_STRATEGY_PROPERTY_NAME]: 'cS',
@@ -174,7 +173,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const believabilityValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? simOptions[NORTH_STAR_PROPERTY_NAME][BELIEVABILITY_PROPERTY_NAME] : 1.0;
 
 		if (northStarValue && northStarValue.offsetType != OFFSET_TYPE_MANUAL) {
-			const minOffset = northStarValue[MIN_OFFSET_PROPERTY_NAME];
+			const minOffset = northStarValue.minOffset;
 			const maxOffset = northStarValue[MAX_OFFSET_PROPERTY_NAME];
 			if (northStarValue.offsetType == OFFSET_TYPE_RANDOM) {
 				northStarValue.offset = (maxOffset - minOffset) * rnd() + minOffset;
@@ -1069,21 +1068,21 @@ class SchellingOrgSimulator extends BaseSimulator {
 							},
 							{
 								value: OFFSET_TYPE_RANDOM,
-								description: 'The offset is a random value per run, between ' + MIN_OFFSET_PROPERTY_NAME + ' and ' + MAX_OFFSET_PROPERTY_NAME,
+								description: 'The offset is a random value per run, between minOffset and ' + MAX_OFFSET_PROPERTY_NAME,
 							},
 							{
 								value: OFFSET_TYPE_RANDOM_PROJECT,
-								description: 'The offset is a random value per run, between ' + MIN_OFFSET_PROPERTY_NAME + ' and ' + MAX_OFFSET_PROPERTY_NAME + ', but snapped to be precisely above a project',
+								description: 'The offset is a random value per run, between minOffset and ' + MAX_OFFSET_PROPERTY_NAME + ', but snapped to be precisely above a project',
 							},
 						]
 					},
-					[MIN_OFFSET_PROPERTY_NAME]: {
+					minOffset: {
 						example: 0.0,
 						optional: true,
 						backfill: true,
 						default: true,
 						hide: values => values.offsetType == OFFSET_TYPE_MANUAL,
-						shortName: SHORT_NAMES[MIN_OFFSET_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.minOffset || '',
 						description: 'The lowest random offset to choose if offsetType is randomly selected',
 						min: 0.0,
 						max: 1.0,
