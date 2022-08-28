@@ -17,8 +17,6 @@ import {
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
-const NORTH_STAR_PROPERTY_NAME = 'northStar';
-
 const SHORT_NAMES = {
 	value: 'v',
 	error: 'e',
@@ -41,7 +39,7 @@ const SHORT_NAMES = {
 	beliefs: 'blfs',
 	compelling: 'cmp',
 	emoji: 'em',
-	[NORTH_STAR_PROPERTY_NAME]: 'nS',
+	northStar: 'nS',
 	offset: 'ofst',
 	strength: 'str',
 	spread: 'sprd',
@@ -77,6 +75,13 @@ type DisplayValue = {
 	disableBeliefs? : boolean;
 }
 
+type NorthStarValue = {
+	strength: number;
+	offset: number;
+	believability: number;
+	emoji: string;
+}
+
 type Collaborator = {
 	index: number;
 	beliefs: number[];
@@ -100,6 +105,7 @@ interface SchellingOrgSimulationFrame extends AgentSimulationFrame {
 	connections: Connection[];
 	communication: boolean;
 	lastCommunicatedProject: number;
+	northStar: NorthStarValue;
 }
 
 //bias is where in the range of min to max the value will be. 0.5 will be
@@ -151,7 +157,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const projectTwiddleValueAmount = simOptions.projects.twiddleValueAmount;
 		const communicationValue = simOptions.communication;
 		const displayValue = simOptions.display;
-		const northStarValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? deepCopy(simOptions[NORTH_STAR_PROPERTY_NAME]) : undefined;
+		const northStarValue = simOptions.northStar ? deepCopy(simOptions.northStar) : undefined;
 		const collaboratorEpsilonValue = simOptions.collaborators.epsilon;
 		let individualProjectOverrides = simOptions.projects.individuals;
 		let individualCollaboratorOverrides = simOptions.collaborators.individuals;
@@ -164,7 +170,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const communicationStrategy = simOptions.collaborators.communicationStrategy;
 		//This might be undefined if not provided
 		const optimismValue = simOptions.collaborators.optimism;
-		const believabilityValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? simOptions[NORTH_STAR_PROPERTY_NAME].believability : 1.0;
+		const believabilityValue = simOptions.northStar ? simOptions.northStar.believability : 1.0;
 
 		if (northStarValue && northStarValue.offsetType != OFFSET_TYPE_MANUAL) {
 			const minOffset = northStarValue.minOffset;
@@ -331,7 +337,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		return {
 			display: displayValue,
 			lastCommunicatedProject: -1,
-			[NORTH_STAR_PROPERTY_NAME]: northStarValue,
+			northStar: northStarValue,
 			communication: communicationValue,
 			connections,
 			collaborators,
@@ -1039,7 +1045,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				shortName: SHORT_NAMES.projects || '',
 				description: "Information on projects"
 			},
-			[NORTH_STAR_PROPERTY_NAME]: {
+			northStar: {
 				example: {
 					emoji: {
 						example: DEFAULT_NORTH_STAR_EMOJI,
@@ -1140,7 +1146,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 						step: 0.05
 					}
 				},
-				shortName: SHORT_NAMES[NORTH_STAR_PROPERTY_NAME] || '',
+				shortName: SHORT_NAMES.northStar || '',
 				description: "Information on an (optional) north star, which people will tend to pick towards",
 				optional: true
 			}
@@ -1308,7 +1314,7 @@ class SchellingOrgRenderer extends BaseRenderer {
 
 	get _northStar() {
 		if (!this.frame) return null;
-		return this.frame[NORTH_STAR_PROPERTY_NAME];
+		return this.frame.northStar;
 	}
 
 	_northStarWidth() {
