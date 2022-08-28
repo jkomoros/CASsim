@@ -98,11 +98,13 @@ type Collaborator = {
 	communicationStrategy: CommunicationStrategy;
 	believes: boolean;
 	beliefs?: number[];
+	project? : number;
 }
 
 type Project = {
 	index: number;
 	selected: boolean;
+	marked?: boolean;
 	value?: number;
 	error?: number;
 	maxExtraValue: number;
@@ -418,7 +420,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		};
 	}
 
-	_selectFinalProject(frame, simOptions, rnd) {
+	_selectFinalProject(frame : SchellingOrgSimulationFrame, simOptions : SchellingOrgSimOptions, rnd : RandomGenerator) : SchellingOrgSimulationFrame {
 		const collaboratorsCount = simOptions.collaborators.count;
 		const projectsCount = simOptions.projects.count;
 		const projects = [...frame.projects];
