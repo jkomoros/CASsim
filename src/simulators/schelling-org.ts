@@ -92,8 +92,14 @@ type Collaborator = {
 }
 
 type Project = {
-	value: number;
-	error: number;
+	index: number;
+	selected: boolean;
+	value?: number;
+	error?: number;
+	maxExtraValue: number;
+	maxErrorValue: number;
+	twiddleValueAmount: number;
+	northStarBias: number;
 }
 
 type Connection = {
@@ -250,7 +256,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		}
 
 		//Assign basic values to projects.
-		let projects = [];
+		let projects : Project[] = [];
 		for (let i = 0; i < projectsCount; i++) {
 
 			//Default of no northStar bias
