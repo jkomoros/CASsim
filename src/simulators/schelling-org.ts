@@ -18,7 +18,6 @@ import {
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 const NORTH_STAR_PROPERTY_NAME = 'northStar';
-const BELIEVES_PROPERTY_NAME = 'believes';
 const DISABLE_SELECTION_PROPERTY_NAME = 'disableSelection';
 const LAST_COMMUNICATED_PROJECT_PROPERTY_NAME = 'lastCommunicatedProject';
 const DISABLE_BELIEFS_PROPERTY_NAME = 'disableBeliefs';
@@ -56,7 +55,7 @@ const SHORT_NAMES = {
 	optimism: 'opt',
 	communicationStrategy: 'cS',
 	believability: 'blv',
-	[BELIEVES_PROPERTY_NAME]: 'blv',
+	believes: 'blv',
 	[DISABLE_SELECTION_PROPERTY_NAME]: 'dSel',
 	[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME]: 'lCP',
 	[DISABLE_BELIEFS_PROPERTY_NAME]: 'dBlf',
@@ -266,7 +265,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				connectionLikelihoodSpread,
 				optimism: optimismValue,
 				communicationStrategy,
-				[BELIEVES_PROPERTY_NAME]: rnd() < believabilityValue
+				believes: rnd() < believabilityValue
 			});
 		}
 
@@ -279,7 +278,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		//Override individuals' values
 		collaborators = collaborators.map((item, index) => individualCollaboratorOverrides[index] ? {...item, ...individualCollaboratorOverrides[index]} : item);
 
-		if (northStarValue) northStarValue.believability = collaborators.filter(collaborator => collaborator[BELIEVES_PROPERTY_NAME]).length / collaboratorsCount;
+		if (northStarValue) northStarValue.believability = collaborators.filter(collaborator => collaborator.believes).length / collaboratorsCount;
 
 		//Set basic beliefs
 		for (let i = 0; i < collaboratorsCount; i++) {
@@ -290,7 +289,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				//there is a north star bias we'll treat it as 0.5 (otherwise
 				//the mix with optimism/northStarBias might be out of whack for
 				//this one collababorator compared to their peers)
-				const northStarBias = collaborators[i][BELIEVES_PROPERTY_NAME] ? project.northStarBias : (project.northStarBias !== undefined ? 0.5 : undefined);
+				const northStarBias = collaborators[i].believes ? project.northStarBias : (project.northStarBias !== undefined ? 0.5 : undefined);
 				const optimismBias = collaborators[i].optimism;
 				let bias = 0.5;
 				if (northStarBias === undefined && optimismBias !== undefined) {
@@ -751,9 +750,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 								step: 0.05,
 								optional: true
 							},
-							[BELIEVES_PROPERTY_NAME]: {
+							believes: {
 								example: true,
-								shortName: SHORT_NAMES[BELIEVES_PROPERTY_NAME] || '',
+								shortName: SHORT_NAMES.believes || '',
 								description: 'Whether this person believes in the north star or not. If they don\'t believe then they will not be influenced by the effect.',
 								optional: true
 							},
@@ -854,9 +853,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 										step: 0.05,
 										optional: true
 									},
-									[BELIEVES_PROPERTY_NAME]: {
+									believes: {
 										example: true,
-										shortName: SHORT_NAMES[BELIEVES_PROPERTY_NAME] || '',
+										shortName: SHORT_NAMES.believes || '',
 										description: 'Whether this person believes in the north star or not. If they don\'t believe then they will not be influenced by the effect.',
 										optional: true
 									},
@@ -1136,7 +1135,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 						backfill: true,
 						default: true,
 						shortName: SHORT_NAMES.believability || '',
-						description: 'The proportion of collaborators who will believe in this north star (will have their ' + BELIEVES_PROPERTY_NAME + ' set to true).',
+						description: 'The proportion of collaborators who will believe in this north star (will have their believes set to true).',
 						min: 0.0,
 						max: 1.0,
 						step: 0.05
@@ -1385,7 +1384,7 @@ class SchellingOrgRenderer extends BaseRenderer {
 
 		return svg`
 		${projectPosition && !this._disableSelection ? svg`<path class='selected-project' d='M ${projectPosition[0]},${projectPosition[1]} L ${x}, ${y}'></path>` : ''}
-		<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width * 0.8}' class='${collaborator[BELIEVES_PROPERTY_NAME] ? 'believer' : 'non-believer'}'>${collaborator.emoji}</text>
+		<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width * 0.8}' class='${collaborator.believes ? 'believer' : 'non-believer'}'>${collaborator.emoji}</text>
 		${this._communication ? '' : svg`<path class='wall' d='M ${x + width},${y - width / 2} L ${x + width},${y + width /2}' stroke-width='${width / 10}'></path>`}`;
 	}
 
