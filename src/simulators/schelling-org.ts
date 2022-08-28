@@ -18,7 +18,6 @@ import {
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 const NORTH_STAR_PROPERTY_NAME = 'northStar';
-const COMMUNICATION_STRATEGY_PROPERTY_NAME = 'communicationStrategy';
 const BELIEVABILITY_PROPERTY_NAME = 'believability';
 const BELIEVES_PROPERTY_NAME = 'believes';
 const DISABLE_SELECTION_PROPERTY_NAME = 'disableSelection';
@@ -56,7 +55,7 @@ const SHORT_NAMES = {
 	minOffset: 'minO',
 	maxOffset: 'maxO',
 	optimism: 'opt',
-	[COMMUNICATION_STRATEGY_PROPERTY_NAME]: 'cS',
+	communicationStrategy: 'cS',
 	[BELIEVABILITY_PROPERTY_NAME]: 'blv',
 	[BELIEVES_PROPERTY_NAME]: 'blv',
 	[DISABLE_SELECTION_PROPERTY_NAME]: 'dSel',
@@ -165,7 +164,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const connectionLikelihoodSpread = simOptions.collaborators.connectionLikelihoodSpread;
 		const defaultCompellingValue = simOptions.collaborators.compelling;
 		const broadcastLikelihood = simOptions.collaborators.broadcastLikelihood;
-		const communicationStrategy = simOptions.collaborators[COMMUNICATION_STRATEGY_PROPERTY_NAME];
+		const communicationStrategy = simOptions.collaborators.communicationStrategy;
 		//This might be undefined if not provided
 		const optimismValue = simOptions.collaborators.optimism;
 		const believabilityValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? simOptions[NORTH_STAR_PROPERTY_NAME][BELIEVABILITY_PROPERTY_NAME] : 1.0;
@@ -267,7 +266,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				avgConnectionLikelihood,
 				connectionLikelihoodSpread,
 				optimism: optimismValue,
-				[COMMUNICATION_STRATEGY_PROPERTY_NAME]: communicationStrategy,
+				communicationStrategy,
 				[BELIEVES_PROPERTY_NAME]: rnd() < believabilityValue
 			});
 		}
@@ -422,7 +421,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 
 		//Which project to communicate about.
-		const communicationStrategy = collaborators[primaryConnection.i][COMMUNICATION_STRATEGY_PROPERTY_NAME];
+		const communicationStrategy = collaborators[primaryConnection.i].communicationStrategy;
 
 		//By default we do COMMUNCATION_STRATEGY_RANDOM
 		let projectIndex = Math.floor(rnd() * frame.projects.length);
@@ -664,9 +663,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 						step: 0.05,
 						optional: true
 					},
-					[COMMUNICATION_STRATEGY_PROPERTY_NAME]: {
+					communicationStrategy: {
 						example: COMMUNICATION_STRATEGY_RANDOM,
-						shortName: SHORT_NAMES[COMMUNICATION_STRATEGY_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.communicationStrategy || '',
 						description: 'The communication strategy the individual will use when deciding which project to communicate about',
 						options: [
 							{
@@ -759,9 +758,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 								description: 'Whether this person believes in the north star or not. If they don\'t believe then they will not be influenced by the effect.',
 								optional: true
 							},
-							[COMMUNICATION_STRATEGY_PROPERTY_NAME]: {
+							communicationStrategy: {
 								example: COMMUNICATION_STRATEGY_RANDOM,
-								shortName: SHORT_NAMES[COMMUNICATION_STRATEGY_PROPERTY_NAME] || '',
+								shortName: SHORT_NAMES.communicationStrategy || '',
 								description: 'The communication strategy the individual will use when deciding which project to communicate about',
 								options: [
 									{
@@ -862,9 +861,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 										description: 'Whether this person believes in the north star or not. If they don\'t believe then they will not be influenced by the effect.',
 										optional: true
 									},
-									[COMMUNICATION_STRATEGY_PROPERTY_NAME]: {
+									communicationStrategy: {
 										example: COMMUNICATION_STRATEGY_RANDOM,
-										shortName: SHORT_NAMES[COMMUNICATION_STRATEGY_PROPERTY_NAME] || '',
+										shortName: SHORT_NAMES.communicationStrategy || '',
 										description: 'The communication strategy the individual will use when deciding which project to communicate about',
 										options: [
 											{
