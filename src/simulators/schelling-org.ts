@@ -18,7 +18,6 @@ import {
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 const NORTH_STAR_PROPERTY_NAME = 'northStar';
-const RANDOM_INDIVIDUAL_PROPERTY_NAME = 'randomIndividual';
 
 const SHORT_NAMES = {
 	value: 'v',
@@ -56,7 +55,7 @@ const SHORT_NAMES = {
 	disableSelection: 'dSel',
 	lastCommunicatedProject: 'lCP',
 	disableBeliefs: 'dBlf',
-	[RANDOM_INDIVIDUAL_PROPERTY_NAME]: 'rI',
+	randomIndividual: 'rI',
 };
 
 const OFFSET_TYPE_MANUAL = 'manual';
@@ -156,8 +155,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const collaboratorEpsilonValue = simOptions.collaborators.epsilon;
 		let individualProjectOverrides = simOptions.projects.individuals;
 		let individualCollaboratorOverrides = simOptions.collaborators.individuals;
-		const randomCollaboratorIndividualValues = simOptions.collaborators[RANDOM_INDIVIDUAL_PROPERTY_NAME];
-		const randomProjectIndividualValues = simOptions.projects[RANDOM_INDIVIDUAL_PROPERTY_NAME];
+		const randomCollaboratorIndividualValues = simOptions.collaborators.randomIndividual;
+		const randomProjectIndividualValues = simOptions.projects.randomIndividual;
 		const avgConnectionLikelihood = simOptions.collaborators.avgConnectionLikelihood;
 		const connectionLikelihoodSpread = simOptions.collaborators.connectionLikelihoodSpread;
 		const defaultCompellingValue = simOptions.collaborators.compelling;
@@ -686,7 +685,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 						optional: true,
 						backfill: true,
 					},
-					[RANDOM_INDIVIDUAL_PROPERTY_NAME]: {
+					randomIndividual: {
 						example: {
 							beliefs: {
 								example: [
@@ -781,7 +780,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 								optional:true
 							}
 						},
-						shortName: SHORT_NAMES[RANDOM_INDIVIDUAL_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.randomIndividual || '',
 						description: "If set, then the individuals array will be set so that a random individual has this configuration provided",
 						optional: true,
 					},
@@ -929,7 +928,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 						step: 0.01,
 						description: "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number."
 					},
-					[RANDOM_INDIVIDUAL_PROPERTY_NAME]: {
+					randomIndividual: {
 						example: {
 							marked: {
 								example: false,
@@ -973,7 +972,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 								optional: true
 							}
 						},
-						shortName: SHORT_NAMES[RANDOM_INDIVIDUAL_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.randomIndividual || '',
 						optional:true,
 						description: "If provided, each run the individuals overrides will have a random individual provided precisely these overrides"
 					},
