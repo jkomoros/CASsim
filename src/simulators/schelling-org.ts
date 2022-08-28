@@ -18,7 +18,6 @@ import {
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 const NORTH_STAR_PROPERTY_NAME = 'northStar';
-const OFFSET_TYPE_PROPERTY_NAME = 'offsetType';
 const MIN_OFFSET_PROPERTY_NAME = 'minOffset';
 const MAX_OFFSET_PROPERTY_NAME = 'maxOffset';
 const OPTIMISM_PROPERTY_NAME = 'optimism';
@@ -56,7 +55,7 @@ const SHORT_NAMES = {
 	offset: 'ofst',
 	strength: 'str',
 	spread: 'sprd',
-	[OFFSET_TYPE_PROPERTY_NAME]: 'oT',
+	offsetType: 'oT',
 	[MIN_OFFSET_PROPERTY_NAME]: 'minO',
 	[MAX_OFFSET_PROPERTY_NAME]: 'maxO',
 	[OPTIMISM_PROPERTY_NAME]: 'opt',
@@ -174,10 +173,10 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const optimismValue = simOptions.collaborators[OPTIMISM_PROPERTY_NAME];
 		const believabilityValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? simOptions[NORTH_STAR_PROPERTY_NAME][BELIEVABILITY_PROPERTY_NAME] : 1.0;
 
-		if (northStarValue && northStarValue[OFFSET_TYPE_PROPERTY_NAME] != OFFSET_TYPE_MANUAL) {
+		if (northStarValue && northStarValue.offsetType != OFFSET_TYPE_MANUAL) {
 			const minOffset = northStarValue[MIN_OFFSET_PROPERTY_NAME];
 			const maxOffset = northStarValue[MAX_OFFSET_PROPERTY_NAME];
-			if (northStarValue[OFFSET_TYPE_PROPERTY_NAME] == OFFSET_TYPE_RANDOM) {
+			if (northStarValue.offsetType == OFFSET_TYPE_RANDOM) {
 				northStarValue.offset = (maxOffset - minOffset) * rnd() + minOffset;
 			} else {
 				//Random choce of projects
@@ -1057,12 +1056,12 @@ class SchellingOrgSimulator extends BaseSimulator {
 						shortName: SHORT_NAMES.emoji || '',
 						description: "The emoji to render for the north star",
 					},
-					[OFFSET_TYPE_PROPERTY_NAME]: {
+					offsetType: {
 						example: OFFSET_TYPE_MANUAL,
 						optional: true,
 						backfill: true,
 						default: true,
-						shortName: SHORT_NAMES[OFFSET_TYPE_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.offsetType || '',
 						options: [
 							{
 								value: OFFSET_TYPE_MANUAL,
@@ -1083,9 +1082,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 						optional: true,
 						backfill: true,
 						default: true,
-						hide: values => values[OFFSET_TYPE_PROPERTY_NAME] == OFFSET_TYPE_MANUAL,
+						hide: values => values.offsetType == OFFSET_TYPE_MANUAL,
 						shortName: SHORT_NAMES[MIN_OFFSET_PROPERTY_NAME] || '',
-						description: 'The lowest random offset to choose if ' + OFFSET_TYPE_PROPERTY_NAME + ' is randomly selected',
+						description: 'The lowest random offset to choose if offsetType is randomly selected',
 						min: 0.0,
 						max: 1.0,
 						step: 0.05,
@@ -1095,9 +1094,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 						optional: true,
 						backfill: true,
 						default: true,
-						hide: values => values[OFFSET_TYPE_PROPERTY_NAME] == OFFSET_TYPE_MANUAL,
+						hide: values => values.offsetType == OFFSET_TYPE_MANUAL,
 						shortName: SHORT_NAMES[MAX_OFFSET_PROPERTY_NAME] || '',
-						description: 'The highest random offset to choose if ' + OFFSET_TYPE_PROPERTY_NAME + ' is randomly selected',
+						description: 'The highest random offset to choose if offsetType is randomly selected',
 						min: 0.0,
 						max: 1.0,
 						step: 0.05,
@@ -1107,9 +1106,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 						optional: true,
 						backfill: true,
 						default: true,
-						hide: (values) => values[OFFSET_TYPE_PROPERTY_NAME] != OFFSET_TYPE_MANUAL,
+						hide: (values) => values.offsetType != OFFSET_TYPE_MANUAL,
 						shortName: SHORT_NAMES.offset || '',
-						description: "How far from fully at left to fully at right is the northstar? This value will be used directly if " + OFFSET_TYPE_PROPERTY_NAME + " is " + OFFSET_TYPE_MANUAL + ", otherwise it will be set implicitly.",
+						description: "How far from fully at left to fully at right is the northstar? This value will be used directly if offsetType is " + OFFSET_TYPE_MANUAL + ", otherwise it will be set implicitly.",
 						min: 0.0,
 						max: 1.0,
 						step: 0.05,
