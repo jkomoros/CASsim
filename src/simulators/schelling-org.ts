@@ -426,7 +426,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const projects = [...frame.projects];
 		const collaborators = [...frame.collaborators];
 		//Go through each collaborator and pick a project for them.
-		const selectedProjects = {};
+		const selectedProjects : {[projectIndex : number] : number} = {};
 		for (let i = 0; i < collaboratorsCount; i++) {
 
 			const collaborator = collaborators[i];
@@ -434,7 +434,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 			//Collect all of the projects of max height/
 			//We do this within the loop because later each collaborator will have their own beliefs.
 			let maxProjectValue = 0.0;
-			let maxProjects = [];
+			let maxProjects : number[] = [];
 			for (const [projectIndex, projectBelief] of collaborator.beliefs.entries()) {
 				if (Math.abs(projectBelief - maxProjectValue) < collaborators[i].epsilon) {
 					//Effectively equal
