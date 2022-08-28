@@ -12,7 +12,7 @@ const DEFAULT_FONT_SIZE_PX_HEIGHT = 16;
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
 @customElement('frame-visualization')
-class FrameVisualization extends LitElement {
+export class FrameVisualization extends LitElement {
 
 	@property({ type : Object })
 	simulation: Simulation;

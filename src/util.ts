@@ -1,5 +1,8 @@
+import { FrameVisualization } from './components/frame-visualization.js';
+import { BaseRenderer } from './renderer.js';
+import { Simulation } from './simulation.js';
 import {
-	RandomGenerator
+	RandomGenerator, SimulatorType
 } from './types.js';
 
 /*
@@ -136,7 +139,7 @@ export const setPropertyInObject = (obj, path, value) => {
 
 export const parseHash = (hash : string) : {[arg : string] : string} => {
 	if (hash.startsWith('#')) hash = hash.substring(1);
-	const args = {};
+	const args : {[arg : string] : string} = {};
 	if (!hash) return args;
 	for (const part of hash.split('&')) {
 		const [key, val] = part.split('=');
@@ -145,9 +148,9 @@ export const parseHash = (hash : string) : {[arg : string] : string} => {
 	return args;
 };
 
-const memoizedRendererMaps = {};
+const memoizedRendererMaps : {[name : SimulatorType] : WeakMap<FrameVisualization, BaseRenderer>} = {};
 
-export const memoizedRenderer = (simulation, frameVisualizer) => {
+export const memoizedRenderer = (simulation : Simulation, frameVisualizer : FrameVisualization) : BaseRenderer => {
 	if (!simulation) return null;
 	const simulatorName = simulation.simulatorName;
 	if (!memoizedRendererMaps[simulatorName]) {
