@@ -18,7 +18,6 @@ import {
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 const NORTH_STAR_PROPERTY_NAME = 'northStar';
-const BELIEVABILITY_PROPERTY_NAME = 'believability';
 const BELIEVES_PROPERTY_NAME = 'believes';
 const DISABLE_SELECTION_PROPERTY_NAME = 'disableSelection';
 const LAST_COMMUNICATED_PROJECT_PROPERTY_NAME = 'lastCommunicatedProject';
@@ -56,7 +55,7 @@ const SHORT_NAMES = {
 	maxOffset: 'maxO',
 	optimism: 'opt',
 	communicationStrategy: 'cS',
-	[BELIEVABILITY_PROPERTY_NAME]: 'blv',
+	believability: 'blv',
 	[BELIEVES_PROPERTY_NAME]: 'blv',
 	[DISABLE_SELECTION_PROPERTY_NAME]: 'dSel',
 	[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME]: 'lCP',
@@ -167,7 +166,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const communicationStrategy = simOptions.collaborators.communicationStrategy;
 		//This might be undefined if not provided
 		const optimismValue = simOptions.collaborators.optimism;
-		const believabilityValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? simOptions[NORTH_STAR_PROPERTY_NAME][BELIEVABILITY_PROPERTY_NAME] : 1.0;
+		const believabilityValue = simOptions[NORTH_STAR_PROPERTY_NAME] ? simOptions[NORTH_STAR_PROPERTY_NAME].believability : 1.0;
 
 		if (northStarValue && northStarValue.offsetType != OFFSET_TYPE_MANUAL) {
 			const minOffset = northStarValue.minOffset;
@@ -280,7 +279,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		//Override individuals' values
 		collaborators = collaborators.map((item, index) => individualCollaboratorOverrides[index] ? {...item, ...individualCollaboratorOverrides[index]} : item);
 
-		if (northStarValue) northStarValue[BELIEVABILITY_PROPERTY_NAME] = collaborators.filter(collaborator => collaborator[BELIEVES_PROPERTY_NAME]).length / collaboratorsCount;
+		if (northStarValue) northStarValue.believability = collaborators.filter(collaborator => collaborator[BELIEVES_PROPERTY_NAME]).length / collaboratorsCount;
 
 		//Set basic beliefs
 		for (let i = 0; i < collaboratorsCount; i++) {
@@ -1131,12 +1130,12 @@ class SchellingOrgSimulator extends BaseSimulator {
 						max: 1.0,
 						step: 0.05,
 					},
-					[BELIEVABILITY_PROPERTY_NAME]: {
+					believability: {
 						example: 1.0,
 						optional: true,
 						backfill: true,
 						default: true,
-						shortName: SHORT_NAMES[BELIEVABILITY_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.believability || '',
 						description: 'The proportion of collaborators who will believe in this north star (will have their ' + BELIEVES_PROPERTY_NAME + ' set to true).',
 						min: 0.0,
 						max: 1.0,
@@ -1340,7 +1339,7 @@ class SchellingOrgRenderer extends BaseRenderer {
 		const width = this._northStarWidth();
 		const x = this.width * northStar.offset;
 		const y = (this.height / 40) + (width / 2);
-		return svg`<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width}' opacity='${northStar[BELIEVABILITY_PROPERTY_NAME]}'>${northStar.emoji}</text>`;
+		return svg`<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width}' opacity='${northStar.believability}'>${northStar.emoji}</text>`;
 	}
 
 	_collaboratorVerticalLine() {
