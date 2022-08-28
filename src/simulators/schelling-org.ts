@@ -18,7 +18,6 @@ import {
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 const NORTH_STAR_PROPERTY_NAME = 'northStar';
-const OFFSET_PROPERTY_NAME = 'offset';
 const STRENGTH_PROPERTY_NAME = 'strength';
 const SPREAD_PROPERTY_NAME = 'spread';
 const OFFSET_TYPE_PROPERTY_NAME = 'offsetType';
@@ -56,7 +55,7 @@ const SHORT_NAMES = {
 	compelling: 'cmp',
 	emoji: 'em',
 	[NORTH_STAR_PROPERTY_NAME]: 'nS',
-	[OFFSET_PROPERTY_NAME]: 'ofst',
+	offset: 'ofst',
 	[STRENGTH_PROPERTY_NAME]: 'str',
 	[SPREAD_PROPERTY_NAME]: 'sprd',
 	[OFFSET_TYPE_PROPERTY_NAME]: 'oT',
@@ -181,7 +180,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 			const minOffset = northStarValue[MIN_OFFSET_PROPERTY_NAME];
 			const maxOffset = northStarValue[MAX_OFFSET_PROPERTY_NAME];
 			if (northStarValue[OFFSET_TYPE_PROPERTY_NAME] == OFFSET_TYPE_RANDOM) {
-				northStarValue[OFFSET_PROPERTY_NAME] = (maxOffset - minOffset) * rnd() + minOffset;
+				northStarValue.offset = (maxOffset - minOffset) * rnd() + minOffset;
 			} else {
 				//Random choce of projects
 				const choices = [];
@@ -193,7 +192,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				}
 				if (choices.length) {
 					//If there are no choices, falling back on the value of offset is a reasonable thing to do
-					northStarValue[OFFSET_PROPERTY_NAME] = choices[Math.floor(choices.length * rnd())];
+					northStarValue.offset = choices[Math.floor(choices.length * rnd())];
 				}
 			}
 		}
@@ -210,7 +209,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				//linearly on either side of offset by spread. And the lowest
 				//and highest values at the extremes are given by strength,
 				//where strength of 1.0 will have the extremes be 0.0..1.0
-				const northStarOffset = northStarValue[OFFSET_PROPERTY_NAME];
+				const northStarOffset = northStarValue.offset;
 				const northStarSpread = northStarValue[SPREAD_PROPERTY_NAME];
 				const northStarStrength = northStarValue[STRENGTH_PROPERTY_NAME];
 				const minNorthStarBias = 0.5 - (0.5 * northStarStrength);
@@ -1069,7 +1068,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 						options: [
 							{
 								value: OFFSET_TYPE_MANUAL,
-								description: 'The offset is specifically the value of ' + OFFSET_PROPERTY_NAME
+								description: 'The offset is specifically the value of offset'
 							},
 							{
 								value: OFFSET_TYPE_RANDOM,
@@ -1105,13 +1104,13 @@ class SchellingOrgSimulator extends BaseSimulator {
 						max: 1.0,
 						step: 0.05,
 					},
-					[OFFSET_PROPERTY_NAME]: {
+					offset: {
 						example: 0.5,
 						optional: true,
 						backfill: true,
 						default: true,
 						hide: (values) => values[OFFSET_TYPE_PROPERTY_NAME] != OFFSET_TYPE_MANUAL,
-						shortName: SHORT_NAMES[OFFSET_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.offset || '',
 						description: "How far from fully at left to fully at right is the northstar? This value will be used directly if " + OFFSET_TYPE_PROPERTY_NAME + " is " + OFFSET_TYPE_MANUAL + ", otherwise it will be set implicitly.",
 						min: 0.0,
 						max: 1.0,
@@ -1346,7 +1345,7 @@ class SchellingOrgRenderer extends BaseRenderer {
 		const northStar = this._northStar;
 		if (!northStar) return '';
 		const width = this._northStarWidth();
-		const x = this.width * northStar[OFFSET_PROPERTY_NAME];
+		const x = this.width * northStar.offset;
 		const y = (this.height / 40) + (width / 2);
 		return svg`<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width}' opacity='${northStar[BELIEVABILITY_PROPERTY_NAME]}'>${northStar.emoji}</text>`;
 	}
