@@ -18,7 +18,6 @@ import {
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 const NORTH_STAR_PROPERTY_NAME = 'northStar';
-const LAST_COMMUNICATED_PROJECT_PROPERTY_NAME = 'lastCommunicatedProject';
 const DISABLE_BELIEFS_PROPERTY_NAME = 'disableBeliefs';
 const RANDOM_INDIVIDUAL_PROPERTY_NAME = 'randomIndividual';
 
@@ -56,7 +55,7 @@ const SHORT_NAMES = {
 	believability: 'blv',
 	believes: 'blv',
 	disableSelection: 'dSel',
-	[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME]: 'lCP',
+	lastCommunicatedProject: 'lCP',
 	[DISABLE_BELIEFS_PROPERTY_NAME]: 'dBlf',
 	[RANDOM_INDIVIDUAL_PROPERTY_NAME]: 'rI',
 };
@@ -101,6 +100,7 @@ interface SchellingOrgSimulationFrame extends AgentSimulationFrame {
 	projects: Project[];
 	connections: Connection[];
 	communication: boolean;
+	lastCommunicatedProject: number;
 }
 
 //bias is where in the range of min to max the value will be. 0.5 will be
@@ -331,7 +331,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 		return {
 			display: displayValue,
-			[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME]: -1,
+			lastCommunicatedProject: -1,
 			[NORTH_STAR_PROPERTY_NAME]: northStarValue,
 			communication: communicationValue,
 			connections,
@@ -387,7 +387,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 		return {
 			...frame,
-			[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME]: -1,
+			lastCommunicatedProject: -1,
 			projects,
 			collaborators,
 			connections: newConnections
@@ -479,7 +479,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 		return {
 			...frame,
-			[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME]: projectIndex,
+			lastCommunicatedProject: projectIndex,
 			collaborators,
 			connections
 		};
@@ -1298,7 +1298,7 @@ class SchellingOrgRenderer extends BaseRenderer {
 
 	get _lastCommunicatedProject() {
 		if (!this.frame) return -1;
-		return this.frame[LAST_COMMUNICATED_PROJECT_PROPERTY_NAME];
+		return this.frame.lastCommunicatedProject;
 	}
 
 	get _renderBeliefTicks() {
