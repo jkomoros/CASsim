@@ -126,7 +126,7 @@ interface SchellingOrgSimulationFramePartial {
 	collaborators: Collaborator[];
 	projects: Project[];
 	connections: Connection[];
-	communication: boolean;
+	communication: number;
 	lastCommunicatedProject: number;
 	northStar: NorthStarOptions;
 }
@@ -159,7 +159,7 @@ type ProjectIndividualOptions = {
 
 interface SchellingOrgSimOptions {
 	display? : DisplayValue;
-	communication? : boolean;
+	communication? : number;
 	collaborators? : {
 		count: number;
 		epsilon?: number;
