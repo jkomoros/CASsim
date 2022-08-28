@@ -88,7 +88,16 @@ type NorthStarOptions = {
 
 type Collaborator = {
 	index: number;
-	beliefs: number[];
+	emoji: string;
+	epsilon: number;
+	broadcastLikelihood: number;
+	compelling: number;
+	avgConnectionLikelihood: number;
+	connectionLikelihoodSpread: number;
+	optimism: number;
+	communicationStrategy: CommunicationStrategy;
+	believes: boolean;
+	beliefs?: number[];
 }
 
 type Project = {
@@ -320,7 +329,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const emojiValues = Object.values(PROFESSIONAL_PEOPLE_EMOJIS);
 
 		//Assign basic values to collaborators.
-		let collaborators = [];
+		let collaborators : Collaborator[] = [];
 		for (let i = 0; i < collaboratorsCount; i++) {
 			collaborators.push({
 				index: i,
