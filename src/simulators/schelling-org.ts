@@ -18,7 +18,6 @@ import {
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 const NORTH_STAR_PROPERTY_NAME = 'northStar';
-const STRENGTH_PROPERTY_NAME = 'strength';
 const SPREAD_PROPERTY_NAME = 'spread';
 const OFFSET_TYPE_PROPERTY_NAME = 'offsetType';
 const MIN_OFFSET_PROPERTY_NAME = 'minOffset';
@@ -56,7 +55,7 @@ const SHORT_NAMES = {
 	emoji: 'em',
 	[NORTH_STAR_PROPERTY_NAME]: 'nS',
 	offset: 'ofst',
-	[STRENGTH_PROPERTY_NAME]: 'str',
+	strength: 'str',
 	[SPREAD_PROPERTY_NAME]: 'sprd',
 	[OFFSET_TYPE_PROPERTY_NAME]: 'oT',
 	[MIN_OFFSET_PROPERTY_NAME]: 'minO',
@@ -211,7 +210,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				//where strength of 1.0 will have the extremes be 0.0..1.0
 				const northStarOffset = northStarValue.offset;
 				const northStarSpread = northStarValue[SPREAD_PROPERTY_NAME];
-				const northStarStrength = northStarValue[STRENGTH_PROPERTY_NAME];
+				const northStarStrength = northStarValue.strength;
 				const minNorthStarBias = 0.5 - (0.5 * northStarStrength);
 				const maxNorthStarBias = 0.5 + (0.5 * northStarStrength);
 				const projectXOffset = projectX(i, projectsCount);
@@ -413,7 +412,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		//Pick a connection randomly, samping from ones with higher connection weights higher.
 		const urn = new Urn<number>(rnd);
 		for (const connection of connections) {
-			urn.add(connection.index, connection[STRENGTH_PROPERTY_NAME]);
+			urn.add(connection.index, connection.strength);
 		}
 		const connectionIndex = urn.pick();
 
@@ -424,7 +423,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		const doBroadcast = rnd() <= collaborators[primaryConnection.i].broadcastLikelihood;
 
 		//If we do broadcast, then we'll transmit to each connection where sender is the sender, and the value is greater than the primaryConnection value.
-		const connectionsToSend = doBroadcast ? connections.filter(connection => connection.i == primaryConnection.i && connection[STRENGTH_PROPERTY_NAME] >= primaryConnection[STRENGTH_PROPERTY_NAME]) : [primaryConnection];
+		const connectionsToSend = doBroadcast ? connections.filter(connection => connection.i == primaryConnection.i && connection.strength >= primaryConnection.strength) : [primaryConnection];
 
 
 		//Which project to communicate about.
@@ -552,7 +551,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				if (connection.index != index) throw new Error('Connection ' + index + ' has an invalid index');
 				if (connection.i < 0 || connection.i >= collaborators.length) throw new Error('Connection ' + index + ' has an invalid index for i');
 				if (connection.j < 0 || connection.j >= collaborators.length) throw new Error('Connection ' + index + ' has an invalid index for j');
-				if (connection[STRENGTH_PROPERTY_NAME] < 0 || connection[STRENGTH_PROPERTY_NAME] > 1.0) throw new Error('Connection ' + index + ' has an invalid strength');
+				if (connection.strength < 0 || connection.strength > 1.0) throw new Error('Connection ' + index + ' has an invalid strength');
 			}
 		} else {
 			throw new Error('Connections is not provided');
@@ -1116,12 +1115,12 @@ class SchellingOrgSimulator extends BaseSimulator {
 						max: 1.0,
 						step: 0.05,
 					},
-					[STRENGTH_PROPERTY_NAME]: {
+					strength: {
 						example: 0.5,
 						optional: true,
 						backfill: true,
 						default: true,
-						shortName: SHORT_NAMES[STRENGTH_PROPERTY_NAME] || '',
+						shortName: SHORT_NAMES.strength || '',
 						description: "How strong is the north star effect?",
 						min: 0.0,
 						max: 1.0,
@@ -1325,7 +1324,7 @@ class SchellingOrgRenderer extends BaseRenderer {
 
 	_northStarWidth() {
 		if (!this._northStar) return 0;
-		return this._projectWidth() * this._northStar[STRENGTH_PROPERTY_NAME];
+		return this._projectWidth() * this._northStar.strength;
 	}
 
 	_debugRender() {
@@ -1466,7 +1465,7 @@ class SchellingOrgRenderer extends BaseRenderer {
 		const jPos = this._collaboratorPosition(connection.j);
 
 		//There will be two connections rendered on top of each other (each way). But because we use opacity, they will naturally blend.
-		return svg`<path class='connection ${connection.active ? 'active' : ''}' stroke-opacity='${connection.active ? 1.0 : connection[STRENGTH_PROPERTY_NAME]}' d='M ${iPos[0]},${iPos[1]} L ${jPos[0]}, ${jPos[1]}' ></path>`;
+		return svg`<path class='connection ${connection.active ? 'active' : ''}' stroke-opacity='${connection.active ? 1.0 : connection.strength}' d='M ${iPos[0]},${iPos[1]} L ${jPos[0]}, ${jPos[1]}' ></path>`;
 	}
 
 }
