@@ -357,8 +357,9 @@ class SimulationControls extends connect(store)(LitElement) {
 		store.dispatch(updateChartConfigIDs(ele.values));
 	}
 
-	_handleChartSingleRunUpdated(e) {
+	_handleChartSingleRunUpdated(e : Event) {
 		const ele = e.composedPath()[0];
+		if (!(ele instanceof HTMLInputElement)) throw new Error('Not checkbox input');
 		store.dispatch(updateChartSingleRun(ele.checked));
 	}
 
@@ -366,18 +367,21 @@ class SimulationControls extends connect(store)(LitElement) {
 		store.dispatch(clearModifications());
 	}
 
-	_handleConfigurationExpandedToggled(e) {
+	_handleConfigurationExpandedToggled(e : Event) {
 		const ele = e.composedPath()[0];
+		if (!(ele instanceof HTMLDetailsElement)) throw new Error('not details object');
 		store.dispatch(updateConfigurationExpanded( ele.open));
 	}
 
-	_handleChartExpandedToggled(e) {
+	_handleChartExpandedToggled(e : Event) {
 		const ele = e.composedPath()[0];
+		if (!(ele instanceof HTMLDetailsElement)) throw new Error('not details object');
 		store.dispatch(updateChartExpanded(ele.open));	
 	}
 
-	_handleDescriptionExpandedToggled(e) {
+	_handleDescriptionExpandedToggled(e : Event) {
 		const ele = e.composedPath()[0];
+		if (!(ele instanceof HTMLDetailsElement)) throw new Error('not details object');
 		store.dispatch(updateDescriptionExpanded( ele.open));
 	}
 
