@@ -52,7 +52,7 @@ export const graphOptionsConfig = (overrides : OptionsOverridesMap = {}, graphTy
 			options: Object.keys(GRAPH_TYPES).map(key => ({value: key, description: GRAPH_TYPES[key].description})),
 		}
 	};
-	const propNameByGraphType = {};
+	const propNameByGraphType : {[name : string] : string[]} = {};
 	for (const name of graphTypes) {
 		const typ = GRAPH_TYPES[name];
 		if (!typ) throw new Error("Unknown graphtype: " + name);
@@ -75,11 +75,11 @@ export const graphOptionsConfig = (overrides : OptionsOverridesMap = {}, graphTy
 };
 
 //Pass it the values object and overrides, and it returns a tuple of GraphType( call .make()) and options to pass to it.
-export const graphOptionsFromConfig = (values, overrides = {}) : [typeof ForceLayoutGraph, ForceLayoutGraphOptions] => {
+export const graphOptionsFromConfig = (values : OptionsConfigMap, overrides : OptionsOverridesMap = {}) : [typeof ForceLayoutGraph, ForceLayoutGraphOptions] => {
 	//BloomGraph's static optionsFromConfig is just forcelayoutgraph's
 	const options = BloomGraph.optionsFromConfig(values, overrides);
 	const graphTypeName = overrides[GRAPH_TYPE_PROPERTY] || GRAPH_TYPE_PROPERTY;
-	const graphType = values[graphTypeName];
+	const graphType = values[graphTypeName] as string;
 	const constructor = GRAPH_TYPES[graphType];
 	return [constructor, options];
 };
