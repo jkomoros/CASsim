@@ -132,9 +132,9 @@ class OptionsControl extends LitElement {
 		return result;
 	}
 
-	_dottedPath(nextPart) {
+	_dottedPath(nextPart : string | number) : string {
 		const path = this.path || '';
-		if (!path) return nextPart;
+		if (!path) return String(nextPart);
 		return path + '.' + nextPart;
 	}
 
