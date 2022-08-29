@@ -8,7 +8,7 @@ import {
 } from './button-shared-styles';
 
 @customElement('multi-select')
-class MultiSelect extends LitElement {
+export class MultiSelect extends LitElement {
 
 	@property({ type : Boolean })
 	disabled: boolean;

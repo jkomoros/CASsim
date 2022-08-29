@@ -89,6 +89,10 @@ import './run-chart.js';
 import './options-control.js';
 import './multi-select.js';
 
+import {
+	MultiSelect
+} from './multi-select.js';
+
 const optionsForMultiSelect = (chartData : ChartData) => {
 	const result : {[id : string] : {title: string, description: string}} = {};
 	for (const [key, value] of Object.entries(chartData || {})) {
@@ -347,8 +351,9 @@ class SimulationControls extends connect(store)(LitElement) {
 		store.dispatch(removeModificationsForPath(e.detail.path));
 	}
 
-	_handleChartConfigIDsUpdated(e) {
+	_handleChartConfigIDsUpdated(e : Event) {
 		const ele = e.composedPath()[0];
+		if (!(ele instanceof MultiSelect)) throw new Error('Not multi select as expected');
 		store.dispatch(updateChartConfigIDs(ele.values));
 	}
 
