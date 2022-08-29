@@ -572,7 +572,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		};
 	}
 
-	override generator(frameIndex, previousFrame, simOptions, rnd, runIndex, simWidth, simHeight) {
+	override generator(frameIndex : number, previousFrame : SchellingOrgSimulationFrame, simOptions : SchellingOrgSimOptions, rnd : RandomGenerator, runIndex : number, simWidth : number, simHeight : number) : SchellingOrgSimulationFrame {
 		const communicationRounds = simOptions.communication;
 		if (frameIndex > communicationRounds) return null;
 		let frame = previousFrame || this._firstFrameGenerator(simOptions, rnd, runIndex, simWidth, simHeight);
