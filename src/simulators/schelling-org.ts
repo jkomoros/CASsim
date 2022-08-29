@@ -565,7 +565,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		}
 
 		return {
-			...frame,
+			...frame,	
 			lastCommunicatedProject: projectIndex,
 			collaborators,
 			connections
@@ -582,7 +582,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		return frame;
 	}
 
-	override optionsValidator(normalizedSimOptions) {
+	override optionsValidator(normalizedSimOptions : SchellingOrgSimOptions) : void {
 		//Our validations are mainly served by the config in optionsConfig.
 		const individuals = normalizedSimOptions.collaborators.individuals;
 		if (!individuals) return;
@@ -595,7 +595,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		return;
 	}
 
-	override frameScorer(frame, simOptions) {
+	override frameScorer(frame : SchellingOrgSimulationFrame, simOptions : SchellingOrgSimOptions) : number[] {
 		const communicationRounds = simOptions.communication;
 		//If we aren't done yet signal indeterminate.
 		if (frame.index < communicationRounds) return [-1];
@@ -606,7 +606,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		return [0.0];
 	}
 
-	override frameValidator(frame) {
+	override frameValidator(frame : SchellingOrgSimulationFrame) : void {
 		const projects = frame.projects;
 		const collaborators = frame.collaborators;
 		const connections = frame.connections;
