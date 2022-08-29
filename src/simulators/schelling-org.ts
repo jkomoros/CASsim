@@ -647,7 +647,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 	override defaultValueForPath(path : OptionsPath, simOptions : SchellingOrgSimOptions) : OptionValue {
 		const parts = path.split('.');
 		if (parts.length == 4 && parts[3] == 'beliefs'){
-			const base = super.defaultValueForPath(path, simOptions);
+			const base = super.defaultValueForPath(path, simOptions) as OptionValue[];
 			const length = simOptions.projects.count;
 			const result = [];
 			for (let i = 0; i < length; i++) {
