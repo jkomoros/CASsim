@@ -425,13 +425,13 @@ class SimulationControls extends connect(store)(LitElement) {
 		store.dispatch(updateSimulationIndex(ele.value));
 	}
 
-	_handleFrameIndexChanged(e) {
+	_handleFrameIndexChanged(e : Event) {
 		const ele = e.composedPath()[0];
 		if (!(ele instanceof HTMLInputElement)) throw new Error('not an input element');
 		store.dispatch(updateFrameIndex(ele.value));
 	}
 
-	_handleRunIndexChanged(e) {
+	_handleRunIndexChanged(e : Event) {
 		const ele = e.composedPath()[0];
 		if (!(ele instanceof HTMLInputElement)) throw new Error('not an input element');
 		store.dispatch(updateRunIndex(ele.value));
