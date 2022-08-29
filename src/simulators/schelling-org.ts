@@ -224,7 +224,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		return SCHELLING_ORG_SIMULATION_NAME;
 	}
 
-	_firstFrameGenerator(simOptions : SchellingOrgSimOptions, rnd : RandomGenerator) : SchellingOrgSimulationFramePartial {
+	_firstFrameGenerator(simOptions : SchellingOrgSimOptions, rnd : RandomGenerator, runIndex :number, simWidth : number, simHeight : number) : SchellingOrgSimulationFrame {
 		const projectsCount = simOptions.projects.count;
 		const collaboratorsCount = simOptions.collaborators.count;
 		const projectExtraValue = simOptions.projects.maxExtraValue;
@@ -410,6 +410,13 @@ class SchellingOrgSimulator extends BaseSimulator {
 		}
 
 		return {
+			index: 0,
+			simOptions,
+			runIndex,
+			width: simWidth,
+			height: simHeight,
+			agents: [],
+			graph: null,
 			display: displayValue,
 			lastCommunicatedProject: -1,
 			northStar: northStarValue,
@@ -565,10 +572,10 @@ class SchellingOrgSimulator extends BaseSimulator {
 		};
 	}
 
-	override generator(frameIndex, previousFrame, simOptions, rnd) {
+	override generator(frameIndex, previousFrame, simOptions, rnd, runIndex, simWidth, simHeight) {
 		const communicationRounds = simOptions.communication;
 		if (frameIndex > communicationRounds) return null;
-		let frame = previousFrame || this._firstFrameGenerator(simOptions, rnd);
+		let frame = previousFrame || this._firstFrameGenerator(simOptions, rnd, runIndex, simWidth, simHeight);
 		frame = {...frame, index: frameIndex};
 		if (frame.index < communicationRounds) frame = this._communicationRound(frame, rnd);
 		if (frame.index == communicationRounds) frame = this._selectFinalProject(frame, simOptions, rnd);
