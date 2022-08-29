@@ -15,6 +15,13 @@ import {
 	PROFESSIONAL_PEOPLE_EMOJIS
 } from '../emojis.js';
 
+import {
+	OptionsConfigMap,
+	OptionsPath,
+	OptionValue,
+	RandomGenerator
+} from '../types.js';
+
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
 const SHORT_NAMES = {
@@ -637,7 +644,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		}
 	}
 
-	override defaultValueForPath(path, simOptions) {
+	override defaultValueForPath(path : OptionsPath, simOptions : SchellingOrgSimOptions) : OptionValue {
 		const parts = path.split('.');
 		if (parts.length == 4 && parts[3] == 'beliefs'){
 			const base = super.defaultValueForPath(path, simOptions);
@@ -1245,7 +1252,6 @@ export default SchellingOrgSimulator;
 import { html, css, svg} from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { BaseRenderer } from '../renderer.js';
-import { OptionsConfigMap, RandomGenerator } from '../types.js';
 
 const COLLABORATOR_CIRCLE_FACTOR = 7;
 
