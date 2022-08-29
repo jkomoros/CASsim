@@ -20,7 +20,8 @@ import {
 	GraphExplorationResult,
 	GraphNodeExplorationResult,
 	GraphNodeValuesMap,
-	GraphExplorationTargetResult
+	GraphExplorationTargetResult,
+	GraphExplorationCollectionResult
 } from '../types.js';
 
 import {
@@ -215,7 +216,7 @@ export class Graph {
 	//Returns the values objects for all neighbors up to ply hops away from
 	//identifier.
 	neighbors(identifier : GraphNodeIdentifier, ply = 1) : GraphNodeValuesMap {
-		const includeNode = (_nodevalues, _path, length) => length <= ply;
+		const includeNode : GraphExplorationNodeTester = (_nodevalues, _path, length) => length <= ply;
 		const result = this.exploreGraph(identifier, includeNode, () => 1);
 		return Object.fromEntries(Object.entries(result).map(entry => [entry[0], entry[1].node]));
 	}
@@ -261,8 +262,8 @@ export class Graph {
 	*/
 	exploreGraph(fromNodeIdentifier : GraphNodeIdentifier, includeNode : GraphExplorationNodeTester = () => true, edgeScorer : GraphExplorationEdgeScorer = () => 1, targetFound : GraphExplorationNodeTester = undefined, rnd : RandomGenerator = undefined) : GraphExplorationResult {
 		const fromID = Graph.packID(fromNodeIdentifier);
-		const visitedNodes = {};
-		const collection = {};
+		const visitedNodes : {[id : GraphNodeID] : true} = {};
+		const collection : GraphExplorationCollectionResult = {};
 		//Each one should be {path: [...previousNodes, node], length: 1, node: node}
 		const itemsToVisit : GraphNodeExplorationResult[] = [{path: [], length: 0, node: this.node(fromID)}];
 		while (itemsToVisit.length) {
@@ -302,7 +303,7 @@ export class Graph {
 	shortestPath(fromNodeIdentifier : GraphNodeIdentifier, toNodeIdentifer : GraphNodeIdentifier, edgeScorer : GraphExplorationEdgeScorer = () => 1, rnd : RandomGenerator = Math.random) : GraphExplorationTargetResult {
 		//TODO: memoize
 		const toNodeID = Graph.packID(toNodeIdentifer);
-		const targetFound = (nodeValues) => nodeValues.id == toNodeID;
+		const targetFound : GraphExplorationNodeTester = (nodeValues) => nodeValues.id == toNodeID;
 		//We get a GraphExplorationTargetResult because we pass a targetFound that is not undefined
 		return this.exploreGraph(fromNodeIdentifier, undefined, edgeScorer, targetFound, rnd) as GraphExplorationTargetResult;
 	}
