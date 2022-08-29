@@ -120,7 +120,7 @@ class MyApp extends connect(store)(LitElement) {
 		installMediaQueryWatcher(query ,(matches) => store.dispatch(updateLayout(matches)));
 	}
 
-	override updated(changedProps) {
+	override updated(changedProps : Map<string, MyApp[keyof MyApp]>) {
 		if (changedProps.has("_page")) {
 			const pageTitle = this.appTitle + " - " + this._page;
 			updateMetadata({
