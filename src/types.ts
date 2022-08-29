@@ -112,7 +112,9 @@ export interface ScoreConfigItem {
 
 export type ScoreConfig = null | ScoreConfigItem[];
 
-export type ChartData = {[id : ScoreConfigID]: {data: number[], config: ScoreConfigItem}[]}
+export type ChartDataItem = {data: number[], config: ScoreConfigItem};
+
+export type ChartData = {[id : ScoreConfigID]: ChartDataItem[]}
 
 export type FrameScore = number;
 

@@ -8,6 +8,7 @@ import {
 
 import {
 	ChartData,
+	ChartDataItem,
 	ScoreConfigID
 } from '../types.js';
 
@@ -182,7 +183,7 @@ class RunChart extends LitElement {
 	}
 
 	//max - min
-	_interval(range) {
+	_interval(range : number) : number {
 		let low = 0;
 		let high = TICK_INTERVALS.length - 1;
 
@@ -242,7 +243,7 @@ class RunChart extends LitElement {
 		return [{value: minY, bold: true}, ...middle, {value:maxY, title: ''+maxY, bold: true}];
 	}
 
-	_colorForRun(run) {
+	_colorForRun(run : ChartDataItem) {
 		let color = run.config.color;
 		if (!color) {
 			const h = Math.abs(hash(run.config.id));
