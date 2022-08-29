@@ -161,7 +161,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 	*/
 	static optionsFromConfig(values : OptionValueMap, overrides : OptionsOverridesMap = {}) : ForceLayoutGraphOptions {
 		const config = this.OPTIONS_CONFIG;
-		const reversed = {};
+		const reversed : {[value : string] : string} = {};
 		for (const [key, value] of Object.entries(overrides)) {
 			if (!value) continue;
 			reversed[value] = key;
@@ -346,7 +346,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 
 		simulation.tick(300);
 
-		const result = {};
+		const result : {[id : GraphNodeID] : Coordinates} = {};
 		for (const node of nodes) {
 			result[node.id] = {x:node.x, y: node.y};
 		}
