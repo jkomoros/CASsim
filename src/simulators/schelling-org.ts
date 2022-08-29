@@ -1444,7 +1444,7 @@ class SchellingOrgRenderer extends BaseRenderer {
 		return this.width / (this.frame.collaborators.length * 2 - 1);
 	}
 
-	_collaboratorPosition(index) {
+	_collaboratorPosition(index : number) {
 		if (!this._communication) {
 			//Simple linear positioning
 			const width = this._collaboratorWidth();
@@ -1464,7 +1464,7 @@ class SchellingOrgRenderer extends BaseRenderer {
 		return [x,y];
 	}
 
-	_collaboratorSVG(collaborator) {
+	_collaboratorSVG(collaborator : Collaborator) {
 
 		const width = this._collaboratorWidth();
 		const position = this._collaboratorPosition(collaborator.index);
@@ -1484,14 +1484,14 @@ class SchellingOrgRenderer extends BaseRenderer {
 	}
 
 	//Returns the x, y of the bottom center of the project bar
-	_projectPosition(index) {
+	_projectPosition(index : number) : [number, number] {
 		if (index == undefined) return null;
 		const x = projectX(index, this.frame.projects.length, this.width);
 		const y = this.height / 3;
 		return [x, y];
 	}
 
-	_projectSVG(project) {
+	_projectSVG(project : Project) {
 
 		const width = this._projectWidth();
 		//Size is so the largest bar goes to the top of the area, or smaller if under 2.0 total size
@@ -1542,7 +1542,7 @@ class SchellingOrgRenderer extends BaseRenderer {
 					` : ''}`;
 	}
 
-	_connectionSVG(connection) {
+	_connectionSVG(connection : Connection) {
 
 		const iPos = this._collaboratorPosition(connection.i);
 		const jPos = this._collaboratorPosition(connection.j);
