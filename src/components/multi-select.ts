@@ -42,7 +42,7 @@ export class MultiSelect extends LitElement {
 		];
 	}
 
-	_defaultOption(key, optionValue) {
+	_defaultOption(key : string, optionValue : string | {title : string, description: string}) : {title: string, description: string} {
 		const title = optionValue && typeof optionValue == 'object' && optionValue.title ? optionValue.title : (typeof optionValue == 'string' ? optionValue : key);
 		const description = optionValue && typeof optionValue == 'object' && optionValue.description ? optionValue.description : ''; 
 		return {
