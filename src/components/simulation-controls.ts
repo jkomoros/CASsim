@@ -90,7 +90,7 @@ import './options-control.js';
 import './multi-select.js';
 
 const optionsForMultiSelect = (chartData : ChartData) => {
-	const result = {};
+	const result : {[id : string] : {title: string, description: string}} = {};
 	for (const [key, value] of Object.entries(chartData || {})) {
 		if (!value) continue;
 		if (!value.length) continue;
@@ -343,7 +343,7 @@ class SimulationControls extends connect(store)(LitElement) {
 		store.dispatch(updateWarning(''));
 	}
 
-	_handleUndoClicked(e) {
+	_handleUndoClicked(e : CustomEvent) {
 		store.dispatch(removeModificationsForPath(e.detail.path));
 	}
 
