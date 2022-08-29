@@ -1,8 +1,8 @@
-import { css, html } from 'lit';
+import { css, html, TemplateResult } from 'lit';
 import { HELP_ICON } from './my-icons.js';
 
 //if you use help, also make sure to include ButtonSharedStyles
-export const help = (message, disabled = false) => {
+export const help = (message : string, disabled = false) : TemplateResult => {
 	return html`<button class='small help' title="${message}" .disabled=${disabled}>${HELP_ICON}</button>`;
 };
 
