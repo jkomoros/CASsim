@@ -385,11 +385,11 @@ class SimulationControls extends connect(store)(LitElement) {
 		store.dispatch(updateDescriptionExpanded( ele.open));
 	}
 
-	_handleStatusClicked(e) {
+	_handleStatusClicked(e : CustomEvent) {
 		store.dispatch(updateRunIndex(e.detail.index));
 	}
 
-	_handlePathToggled(e) {
+	_handlePathToggled(e : CustomEvent) {
 		store.dispatch(updatePathExpanded(e.detail.path, e.detail.open));
 	}
 
@@ -413,31 +413,35 @@ class SimulationControls extends connect(store)(LitElement) {
 		store.dispatch(resetSimulation());
 	}
 
-	_handleFilenameChanged(e) {
+	_handleFilenameChanged(e : Event) {
 		const ele = e.composedPath()[0];
+		if (!(ele instanceof HTMLSelectElement)) throw new Error('not a select element');
 		store.dispatch(updateFilename(ele.value));
 	}
 
-	_handleSimulationIndexChanged(e) {
+	_handleSimulationIndexChanged(e : Event) {
 		const ele = e.composedPath()[0];
+		if (!(ele instanceof HTMLSelectElement)) throw new Error('not a select element');
 		store.dispatch(updateSimulationIndex(ele.value));
 	}
 
 	_handleFrameIndexChanged(e) {
 		const ele = e.composedPath()[0];
+		if (!(ele instanceof HTMLInputElement)) throw new Error('not an input element');
 		store.dispatch(updateFrameIndex(ele.value));
 	}
 
 	_handleRunIndexChanged(e) {
 		const ele = e.composedPath()[0];
+		if (!(ele instanceof HTMLInputElement)) throw new Error('not an input element');
 		store.dispatch(updateRunIndex(ele.value));
 	}
 
-	_handleOptionChanged(e) {
+	_handleOptionChanged(e : CustomEvent) {
 		store.dispatch(updateCurrentSimulationOptions(e.detail.path, e.detail.value));
 	}
 
-	_handleOpenDialog(e) {
+	_handleOpenDialog(e : CustomEvent) {
 		store.dispatch(openDialog(e.detail.type, e.detail.extras));
 	}
 }
