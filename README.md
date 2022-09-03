@@ -50,7 +50,7 @@ Then run `npm install canvas` and `npm install`
 
 ## Running
 
-Run `polymer serve` from command line.
+Run `npm run start` from command line.
 
 Visit http://localhost:8081
 
