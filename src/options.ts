@@ -203,6 +203,7 @@ export const configObjectIsValid = (optionsConfig : OptionsConfig, value : Optio
 	if (!optionsConfig) return 'no optionsConfig provided';
 	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
 	if (typeof value == 'object' && !example) {
+		const optionConfigMap = optionsConfig as OptionsConfigMap;
 		//This happens if it's a naked object. Verify each sub-property matches
 		const seenKeys : {[name : string] : true} = {};
 		for (const [valueKey, valueValue] of Object.entries(value)) {
@@ -210,7 +211,7 @@ export const configObjectIsValid = (optionsConfig : OptionsConfig, value : Optio
 			if (typeof optionsConfig !== 'object') return valueKey + ' still remained in path but no object';
 			//recurse into sub-objects or array
 			//Basic value recursion
-			const problem = configObjectIsValid(optionsConfig[valueKey], valueValue);
+			const problem = configObjectIsValid(optionConfigMap[valueKey], valueValue);
 			if (problem) {
 				return valueKey + ': ' + problem;
 			}
@@ -218,7 +219,7 @@ export const configObjectIsValid = (optionsConfig : OptionsConfig, value : Optio
 		//Verify that if there were more keys expected to be there they are valid (i.e. they might be optional)
 		for (const configKey of Object.keys(optionsConfig)) {
 			if (seenKeys[configKey]) continue;
-			const problem = configObjectIsValid(optionsConfig[configKey], value[configKey]);
+			const problem = configObjectIsValid(optionConfigMap[configKey], value[configKey]);
 			if (problem) {
 				return configKey + ': ' + problem;
 			} 
