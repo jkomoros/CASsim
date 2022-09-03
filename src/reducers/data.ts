@@ -43,7 +43,7 @@ import {
 	DEFAULT_SENTINEL
 } from "../util.js";
 
-const INITIAL_STATE = {
+const INITIAL_STATE : DataState = {
 	filename: DEFAULT_FILE_NAME,
 	loadingSimulators: {},
 	loadedSimulators: {},
