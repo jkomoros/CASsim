@@ -149,7 +149,7 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 		}
 
 		if (PRINT_EDGE_COUNTS) {
-			const edgeCounts = {};
+			const edgeCounts : {[id : string] : number} = {};
 			for (const node of Object.keys(this.nodes())) {
 				const edges = this.edges(node);
 				const count = Object.keys(edges).length;
