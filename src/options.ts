@@ -55,6 +55,10 @@ import {
 
 //See README.md for more about the canonical shape of optionsLeaf objects.
 
+type OptionConfigWithRoot = OptionsConfig & {
+	'@@isRoot': boolean;
+};
+
 export const configIsAdvanced = (config : OptionsConfig) : boolean => {
 	return config && config.advanced;
 };
@@ -146,12 +150,14 @@ const optionsLeafValidator = (config : OptionsConfigInput) : string => {
 
 	//TODO: much of this is now handled by the typechecker and could just be skipped, right?
 
+	const rootConfig = config as OptionConfigWithRoot;
+
 	if (config.description !== undefined && typeof config.description != 'string') return DESCRIPTION_PROPERTY_NAME + ' must be a string if provided';
 	if (config.optional !== undefined && typeof config.optional != 'boolean') return OPTIONAL_PROPERTY_NAME + ' must be a boolean if provided';
 	if (config.backfill !== undefined && typeof config.backfill != 'boolean') return BACKFILL_PROPERTY_NAME + ' must be a boolean if provided';
 	if (config.default !== undefined && typeof config.default != 'boolean') return DEFAULT_PROPERTY_NAME + ' must be a boolean if provided';
 	if (config.advanced !== undefined && typeof config.advanced != 'boolean') return ADVANCED_PROPERTY_NAME + ' must be a boolean if provided';
-	if (config[IS_ROOT_PROPERTY_NAME] !== undefined && typeof config[IS_ROOT_PROPERTY_NAME] != 'boolean') return IS_ROOT_PROPERTY_NAME + ' must be a boolean if provided';
+	if (rootConfig[IS_ROOT_PROPERTY_NAME] !== undefined && typeof rootConfig[IS_ROOT_PROPERTY_NAME] != 'boolean') return IS_ROOT_PROPERTY_NAME + ' must be a boolean if provided';
 
 	if (config.backfill && !config.optional) return 'If ' + BACKFILL_PROPERTY_NAME + ' is true, then ' + OPTIONAL_PROPERTY_NAME + 'must also be true';
 	if (config.default && !config.optional) return 'If ' + DEFAULT_PROPERTY_NAME + ' is true, then ' + OPTIONAL_PROPERTY_NAME + 'must also be true';
