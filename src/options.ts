@@ -22,6 +22,7 @@ const HIDE_PROPERTY_NAME = 'hide';
 export const IS_ROOT_PROPERTY_NAME = '@@isRoot';
 
 export const COLOR_BEHAVIOR_NAME = 'color';
+const SEED_BEHAVIOR_NAME = 'seed';
 
 //These keys are set in types.ts:URLKeyMap
 export const DIFF_URL_KEY = 'd';
@@ -33,8 +34,9 @@ export const CHART_EXPANDED_URL_KEY = 't';
 export const CONFIGURATION_EXPANDED_URL_KEY = 'o';
 export const DESCRIPTION_EXPANDED_URL_KEY = 'd';
 
-const ALLOWED_BEHAVIOR_NAMES = {
+const ALLOWED_BEHAVIOR_NAMES : {[name in OptionConfigBehavior]: true} = {
 	[COLOR_BEHAVIOR_NAME]: true,
+	[SEED_BEHAVIOR_NAME]: true
 };
 
 import {
@@ -42,7 +44,8 @@ import {
 	OptionsConfigMap,
 	OptionsConfigInput,
 	OptionValue,
-	SimulationConfig
+	SimulationConfig,
+	OptionConfigBehavior
 } from './types.js';
 
 import {
