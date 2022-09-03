@@ -1,4 +1,8 @@
 import {
+	AnyAction
+} from "redux";
+
+import {
 	LOAD_DATA,
 	UPDATE_FILENAME,
 	UPDATE_SIMULATION_INDEX,
@@ -84,7 +88,7 @@ const INITIAL_STATE : DataState = {
 	dialogExtras: {},
 };
 
-const data = (state : DataState = INITIAL_STATE, action) : DataState => {
+const data = (state : DataState = INITIAL_STATE, action : AnyAction) : DataState => {
 	switch (action.type) {
 	case LOAD_DATA:
 		return {
