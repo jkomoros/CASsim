@@ -121,6 +121,8 @@ export type FrameScores = FrameScore[];
 //into.
 export type OptionsPath = string;
 
+export type ShortenedOptionsPath = string;
+
 export type PartialSimulationFrame = object;
 
 export type ModificationsPathMap = {

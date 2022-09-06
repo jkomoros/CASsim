@@ -48,7 +48,8 @@ import {
 	OptionConfigBehavior,
 	OptionValueMap,
 	OptionsPath,
-	OptionValueOrSimulationConfig
+	OptionValueOrSimulationConfig,
+	ShortenedOptionsPath
 } from './types.js';
 
 import {
@@ -391,7 +392,7 @@ export const defaultValueForConfig = (optionsConfig : OptionsConfig, skipOptiona
 };
 
 //Returns a path like path, but with and valid shortNames replacing long names
-export const shortenPathWithConfig = (optionsConfig : OptionsConfig, path : OptionsPath) : OptionsPath => {
+export const shortenPathWithConfig = (optionsConfig : OptionsConfig, path : OptionsPath) : ShortenedOptionsPath => {
 	const parts = path.split('.');
 	const firstPart = parts[0];
 	const restParts = parts.slice(1).join('.');
