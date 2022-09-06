@@ -391,7 +391,7 @@ export const defaultValueForConfig = (optionsConfig : OptionsConfig, skipOptiona
 };
 
 //Returns a path like path, but with and valid shortNames replacing long names
-export const shortenPathWithConfig = (optionsConfig, path) => {
+export const shortenPathWithConfig = (optionsConfig : OptionsConfig, path : OptionsPath) : OptionsPath => {
 	const parts = path.split('.');
 	const firstPart = parts[0];
 	const restParts = parts.slice(1).join('.');
