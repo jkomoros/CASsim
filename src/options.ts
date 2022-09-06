@@ -545,7 +545,7 @@ export const suggestMissingShortNames = (existing : ShortNameMap) : ShortNameMap
 };
 
 //returns the longName of the thing this conflicts with, or '' if not conflict.
-const shortNameConflict = (existing, shortName) => {
+const shortNameConflict = (existing : ShortNameMap, shortName : string) : string => {
 	if (existing[shortName]) return shortName;
 	for (const [key,value] of Object.entries(existing)) {
 		if (value == shortName) return key;
