@@ -353,7 +353,7 @@ export const ensureBackfill = (optionsConfig : OptionsConfig, obj : OptionValue)
 //recurse into subObjects will have skipOptional true. This leads to behavior
 //where the top-level item requested will be returned even if optional (which is
 //useful for e.g. getting an optional value to add)
-export const defaultValueForConfig = (optionsConfig, skipOptional? : boolean) : OptionValue => {
+export const defaultValueForConfig = (optionsConfig : OptionsConfig, skipOptional? : boolean) : OptionValue => {
 	if (!optionsConfig) return undefined;
 	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
 	if (example == undefined) {
@@ -362,7 +362,15 @@ export const defaultValueForConfig = (optionsConfig, skipOptional? : boolean) : 
 			if (typeof value != 'object') return false;
 			if (value[EXAMPLE_PROPERTY_NAME] == undefined) return true;
 			return !(value[OPTIONAL_PROPERTY_NAME] && !value[DEFAULT_PROPERTY_NAME]);
-		}).map(entry => [entry[0], defaultValueForConfig(entry[1], true)]).filter(entry => entry[1] !== undefined));
+		}).map(entry => {
+			const key = entry[0];
+			const value = entry[1];
+			//Value should all be OptionConfigMap or OptionConfig
+			if (typeof value != 'object') return entry;
+			//Also shouldn't happen, arrays are only allowed immediately under an example.
+			if (Array.isArray(value)) return entry;
+			return [key, defaultValueForConfig(value, true)];
+		}).filter(entry => entry[1] !== undefined));
 	}
 	if (skipOptional && optionsConfig[OPTIONAL_PROPERTY_NAME] && !optionsConfig[DEFAULT_PROPERTY_NAME]) return undefined;
 	if (typeof example == 'object') {
