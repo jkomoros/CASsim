@@ -465,8 +465,9 @@ const optionsConfigWithDefaultedShortNamesInner = (optionsConfig : OptionsConfig
 	if (configIsConfig(optionsConfig)) {
 		result.example = optionsConfigWithDefaultedShortNamesInner(result.example);
 	} else {
+		const innerResult = result as OptionsConfigMap;
 		for (const [key, value] of Object.entries(optionsConfig)) {
-			result[key] = optionsConfigWithDefaultedShortNamesInner(value);
+			innerResult[key] = optionsConfigWithDefaultedShortNamesInner(value) as OptionsConfigMap;
 		}
 	}
 
