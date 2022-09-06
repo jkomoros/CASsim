@@ -50,7 +50,8 @@ import {
 	OptionsPath,
 	OptionValueOrSimulationConfig,
 	ShortenedOptionsPath,
-	ShortNameMap
+	ShortNameMap,
+	Modifications
 } from './types.js';
 
 import {
@@ -789,7 +790,7 @@ export const unpackModificationsFromURL = (url, simCollection, currentSimIndex =
 	return [modifications, warning];
 };
 
-export const shadowedModificationsForSimIndex = (modifications, simIndex) => {
+export const shadowedModificationsForSimIndex = (modifications : Modifications, simIndex : number) : {[path : OptionsPath] : OptionValue} => {
 	const mods = {};
 	for (const mod of modifications) {
 		if (mod.simulationIndex != simIndex) continue;
