@@ -251,9 +251,10 @@ export const configObjectIsValid = (optionsConfig : OptionsConfig, value : Optio
 			}
 		} else {
 			const seenKeys : {[key : string] : true} = {};
+			const valueMap = value as OptionValueMap;
 			for (const [exampleKey, exampleValue] of Object.entries(example)) {
 				seenKeys[exampleKey] = true;
-				const problem = configObjectIsValid(exampleValue, value[exampleKey]);
+				const problem = configObjectIsValid(exampleValue, valueMap[exampleKey]);
 				if (problem) {
 					return exampleKey + ': ' + problem;
 				}	
