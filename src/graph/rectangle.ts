@@ -1,6 +1,7 @@
 import {
 	GraphEdge,
 	GraphNodeID,
+	GraphNodeIdentifier,
 	GraphNodeValues,
 	RectangleGraphOptions,
 	RowCol
@@ -204,7 +205,7 @@ export class RectangleGraph extends PositionedGraph {
 	}
 
 	//We return width and height directly.
-	override calculateNodePosition(identifier) {
+	override calculateNodePosition(identifier : GraphNodeIdentifier) {
 		const node = this.node(identifier) as RectangleGraphNodeValues;
 		const nodeWidth = this.nodeWidth();
 		const nodeHeight = this.nodeHeight();
