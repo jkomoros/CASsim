@@ -471,7 +471,7 @@ const optionsConfigWithDefaultedShortNamesInner = (optionsConfig : OptionsConfig
 		}
 	}
 
-	const existing = {};
+	const existing : {[key : string] : string}= {};
 	const subItemsEntries = configIsConfig(optionsConfig) ? Object.entries(result.example) : Object.entries(result);
 	for (const [key, val] of subItemsEntries) {
 		let shortName = '';
