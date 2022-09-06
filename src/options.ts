@@ -296,7 +296,7 @@ export const maySetPropertyInConfigObject = (optionsConfig : OptionsConfig, obj 
 //modifications have to be made. It returns an array: the object, and a boolean
 //for whether changes were made. Note that when setting defaults, it uses
 //defaultValueForConfig and does NOT use simulator.defaultValueForPath.
-export const ensureBackfill = (optionsConfig, obj) => {
+export const ensureBackfill = (optionsConfig : OptionsConfig, obj : OptionValue) : [OptionValue, boolean] => {
 	if (!optionsConfig) return [obj, false];
 	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
 	if (example == undefined) {
@@ -305,7 +305,7 @@ export const ensureBackfill = (optionsConfig, obj) => {
 			const [backfillDefaulted] = ensureBackfill(optionsConfig, defaulted);
 			return [backfillDefaulted, true];
 		}
-		const result : OptionsConfigMap = {};
+		const result : OptionValueMap = {};
 		let changesMade = false;
 		const optionsConfigMap = optionsConfig as OptionsConfigMap;
 		for (const [key, value] of Object.entries(optionsConfigMap)) {

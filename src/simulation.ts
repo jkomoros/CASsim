@@ -43,7 +43,8 @@ import {
 	SimulationConfigDisplay,
 	ScoreConfigItem,
 	ColorsMap,
-	SimOptions
+	SimOptions,
+	OptionValueMap
 } from './types.js';
 
 import {
@@ -343,7 +344,7 @@ export class Simulation {
 		const configCopy = deepCopy(config);
 		const rawSimOptions = configCopy.simOptions || this._simulator.defaultValueForPath('', null);
 		const [updatedSimOptionsConfig] = ensureBackfill(optionsConfigWithDefaultedShortNames(this._simulator.optionsConfig), rawSimOptions);
-		configCopy.simOptions = this._simulator.normalizeOptions(updatedSimOptionsConfig);
+		configCopy.simOptions = this._simulator.normalizeOptions(updatedSimOptionsConfig as OptionValueMap);
 		try {
 			this._simulator.optionsValidator(configCopy.simOptions);
 		} catch (err) {
