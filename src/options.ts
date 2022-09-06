@@ -250,7 +250,7 @@ export const configObjectIsValid = (optionsConfig : OptionsConfig, value : Optio
 				}
 			}
 		} else {
-			const seenKeys = {};
+			const seenKeys : {[key : string] : true} = {};
 			for (const [exampleKey, exampleValue] of Object.entries(example)) {
 				seenKeys[exampleKey] = true;
 				const problem = configObjectIsValid(exampleValue, value[exampleKey]);
