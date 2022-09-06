@@ -19,7 +19,8 @@ import {
 	OptionsConfigMap,
 	OptionsPath,
 	OptionValue,
-	RandomGenerator
+	RandomGenerator,
+	SimOptions
 } from '../types.js';
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
@@ -164,7 +165,7 @@ type ProjectIndividualOptions = {
 	error? : number;
 }
 
-interface SchellingOrgSimOptions {
+interface SchellingOrgSimOptions extends SimOptions {
 	display? : DisplayValue;
 	communication? : number;
 	collaborators? : {

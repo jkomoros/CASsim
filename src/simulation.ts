@@ -42,7 +42,8 @@ import {
 	OptionValue,
 	SimulationConfigDisplay,
 	ScoreConfigItem,
-	ColorsMap
+	ColorsMap,
+	SimOptions
 } from './types.js';
 
 import {
@@ -82,7 +83,7 @@ export const extractSimulatorNamesFromModifications = (modifications : Modificat
 
 export const configWithDefaultedSimOptions = (config : RawSimulationConfig) : SimulationConfig => {
 	if (config[SIM_OPTIONS_PROPERTY]) return config as SimulationConfig;
-	const simOptions = defaultValueForConfigPath({...config, simOptions: null}, SIM_OPTIONS_PROPERTY);
+	const simOptions = defaultValueForConfigPath({...config, simOptions: null}, SIM_OPTIONS_PROPERTY) as SimOptions;
 	if (typeof simOptions != 'object') throw new Error('simOptions property not object');
 	return {
 		...config,

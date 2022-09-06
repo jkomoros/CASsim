@@ -29,13 +29,10 @@ export type EmojiSet = {
 //TODO: lock this down dynamically based on allowed simulator types
 export type SimulatorType = string;
 
-//TODO: define more
-export type SimOptions = object;
+//TODO: shouldn't this just be OptionValue (minus SimulationConfig?)
+export type SimOptions = OptionValueMap;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface NormalizedSimOptions extends SimOptions {
-
-}
+export type NormalizedSimOptions = OptionValueMap;
 
 export interface PackedRawSimulationConfig {
     version: number;
