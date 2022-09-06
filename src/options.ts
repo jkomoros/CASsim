@@ -437,9 +437,12 @@ export const configForPath = (optionsConfig : OptionsConfig, path : OptionsPath)
 	const restParts = parts.slice(1).join('.');
 	if (!firstPart) return optionsConfig;
 	if (!optionsConfig) return undefined;
-	if (optionsConfig[firstPart]) return configForPath(optionsConfig[firstPart], restParts);
-	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
+	const optionsConfigMap = optionsConfig as OptionsConfigMap;
+	if (optionsConfigMap[firstPart]) return configForPath(optionsConfigMap[firstPart], restParts);
+	const example = optionsConfig.example;
 	if (!example) return undefined;
+	//It's not legal to select into a thing that's not an OptionsConfig.
+	if (typeof example != 'object') return undefined;
 	if (Array.isArray(example)) return configForPath(example[0], restParts);
 	return configForPath(example[firstPart], restParts);
 };
