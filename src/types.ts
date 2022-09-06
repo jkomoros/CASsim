@@ -172,7 +172,7 @@ export type OptionConfigOptionItem = {
     description? : string;
 }
 
-export type OptionValue = number | boolean | string | OptionValue[] | OptionValueMap;
+export type OptionValue = number | boolean | string | OptionValue[] | OptionValueMap | SimulationConfig;
 
 export type OptionValueMap = {
     [key : string]: OptionValue
