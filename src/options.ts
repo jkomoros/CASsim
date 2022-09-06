@@ -493,7 +493,8 @@ const optionsConfigWithDefaultedShortNamesInner = (optionsConfig : OptionsConfig
 			});
 		} else {
 			result = {...result};
-			Object.entries(suggestions).forEach(entry => result[entry[0]] = {...result[entry[0]], shortName: entry[1]});
+			const innerResult = result as OptionsConfigMap;
+			Object.entries(suggestions).forEach(entry => innerResult[entry[0]] = {...innerResult[entry[0]], shortName: entry[1]});
 		}
 	}
 	return result;
