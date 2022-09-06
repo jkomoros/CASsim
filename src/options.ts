@@ -591,7 +591,7 @@ const longNamePieces = (longName : string) : string[] => {
 
 const MIN_LONG_NAME_LENGTH = 3;
 
-const suggestedShortName = (longName, existing) => {
+const suggestedShortName = (longName : string, existing : ShortNameMap) : string => {
 	//The default shortName is the first character, and then every upperCase
 	//letter after.
 	//don't shorten words that are already quite short
@@ -606,7 +606,7 @@ const suggestedShortName = (longName, existing) => {
 	return suggestedShortNameExpandIndex(longName, existing, differentIndex);
 };
 
-const suggestedShortNameExpandIndex = (longName, existing, expandIndex) => {
+const suggestedShortNameExpandIndex = (longName : string, existing : ShortNameMap, expandIndex : number) : string => {
 	//Don't shorten words that are already quite short
 	if (longName.length <= MIN_LONG_NAME_LENGTH) return '';
 	const pieces = longNamePieces(longName);
@@ -616,8 +616,8 @@ const suggestedShortNameExpandIndex = (longName, existing, expandIndex) => {
 	return '';
 };
 
-const shortNamesValid = (shortNamesMap : {[key : string] : string}) : boolean => {
-	const existingShortNames = {};
+const shortNamesValid = (shortNamesMap : ShortNameMap) : boolean => {
+	const existingShortNames : {[key : string] : true} = {};
 	for (const [key, val] of Object.entries(shortNamesMap)) {
 		//A shortName conflicts with a long name, and it's not that the longName
 		//and shortName for this item are the same.
