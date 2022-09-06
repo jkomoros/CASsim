@@ -47,7 +47,8 @@ import {
 	SimulationConfig,
 	OptionConfigBehavior,
 	OptionValueMap,
-	OptionsPath
+	OptionsPath,
+	OptionValueOrSimulationConfig
 } from './types.js';
 
 import {
@@ -284,7 +285,7 @@ export const configObjectIsValid = (optionsConfig : OptionsConfig, value : Optio
 };
 
 //Returns a string describing the problem, or an empty string if no problem
-export const maySetPropertyInConfigObject = (optionsConfig : OptionsConfig, obj : OptionValue, path : OptionsPath, value : OptionValue) : string => {
+export const maySetPropertyInConfigObject = (optionsConfig : OptionsConfig, obj : OptionValueOrSimulationConfig, path : OptionsPath, value : OptionValue) : string => {
 	const updatedObj = setPropertyInObject(obj, path, value);
 	return configObjectIsValid(optionsConfig, updatedObj);
 };
