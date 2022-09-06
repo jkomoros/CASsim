@@ -133,9 +133,11 @@ export type ModificationsPathMap = {
     [path: OptionsPath]: OptionValue;
 }
 
+export type URLDiffHash = string;
+
 export type URLArgsMap = {
     //DIFF_URL_KEY
-    d? : string;
+    d? : URLDiffHash;
     //RUN_INDEX_URL_KEY
     r? : string;
     //CHART_SINGLE_RUN_URL_KEY

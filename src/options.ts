@@ -40,6 +40,11 @@ const ALLOWED_BEHAVIOR_NAMES : {[name in OptionConfigBehavior]: true} = {
 };
 
 import {
+	configWithDefaultedSimOptions,
+	SimulationCollection
+} from './simulation.js';
+
+import {
 	OptionsConfig,
 	OptionsConfigMap,
 	OptionsConfigInput,
@@ -51,7 +56,8 @@ import {
 	OptionValueOrSimulationConfig,
 	ShortenedOptionsPath,
 	ShortNameMap,
-	Modifications
+	Modifications,
+	URLDiffHash
 } from './types.js';
 
 import {
@@ -635,7 +641,7 @@ const shortNamesValid = (shortNamesMap : ShortNameMap) : boolean => {
 //thing changed. 3 balances that, while also giving a 1/4096 chance of colliding.
 const FINGERPRINT_CHARACTER_LENGTH = 3;
 
-export const packModificationsForURL = (modifications = [], simCollection, currentSimIndex = -1) => {
+export const packModificationsForURL = (modifications : Modifications = [], simCollection : SimulationCollection, currentSimIndex = -1) : URLDiffHash => {
 	//Allowed characters in URL based on this answer: https://stackoverflow.com/questions/26088849/url-fragment-allowed-characters
 	//We avoid '=' and '&' in the hash, since those will be used for other parameters
 	//URL looks like: 
@@ -661,7 +667,7 @@ export const packModificationsForURL = (modifications = [], simCollection, curre
 		const simulation = simCollection.simulations[simIndex];
 		if (!simulation) return '';
 		//The simulator could change partway through, which would make the shortNames change.
-		let diffedSimulation = simulation.cloneWithConfig(simulation.unmodifiedConfig);
+		let diffedSimulation = simulation.cloneWithConfig(configWithDefaultedSimOptions(simulation.unmodifiedConfig));
 		const keyValuePairs = [];
 		const fingerprintPieces = [];
 		fingerprintPieces.push(diffedSimulation.baseFingerprint.substring(0,FINGERPRINT_CHARACTER_LENGTH));
