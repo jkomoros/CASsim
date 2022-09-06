@@ -1,5 +1,6 @@
 import {
 	GraphEdge,
+	GraphNodeID,
 	GraphNodeValues,
 	RectangleGraphOptions,
 	RowCol
@@ -156,11 +157,13 @@ export class RectangleGraph extends PositionedGraph {
 	}
 
 	get rows() : number {
-		return this.lastNodeIdentifier()[0] + 1;
+		const id = this.lastNodeIdentifier() as GraphNodeID[];
+		return (id[0] as number) + 1;
 	}
 
 	get cols() : number {
-		return this.lastNodeIdentifier()[1] + 1;
+		const id = this.lastNodeIdentifier() as GraphNodeID[];
+		return (id[1] as number) + 1;
 	}
 
 	override get width() : number {
