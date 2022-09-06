@@ -121,6 +121,8 @@ export type FrameScores = FrameScore[];
 //into.
 export type OptionsPath = string;
 
+//ShortenedOptionsPath is like OptionsPath, but some of the path items are
+//shortened based on OptionsConfig.shortName.
 export type ShortenedOptionsPath = string;
 
 export type PartialSimulationFrame = object;
