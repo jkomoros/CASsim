@@ -405,7 +405,7 @@ export const shortenPathWithConfig = (optionsConfig : OptionsConfig, path : Opti
 };
 
 //returns a path like shortPath, but with all shortNames expanded to long names
-export const expandPathWithConfig = (optionsConfig, shortPath) => {
+export const expandPathWithConfig = (optionsConfig : OptionsConfig, shortPath : ShortenedOptionsPath) : OptionsPath => {
 	const parts = shortPath.split('.');
 	const firstPart = parts[0];
 	const restParts = parts.slice(1).join('.');
