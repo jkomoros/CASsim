@@ -125,6 +125,8 @@ export type OptionsPath = string;
 //shortened based on OptionsConfig.shortName.
 export type ShortenedOptionsPath = string;
 
+export type ShortNameMap = {[key : string] : string};
+
 export type PartialSimulationFrame = object;
 
 export type ModificationsPathMap = {
