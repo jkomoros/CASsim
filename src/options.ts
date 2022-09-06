@@ -49,7 +49,8 @@ import {
 	OptionValueMap,
 	OptionsPath,
 	OptionValueOrSimulationConfig,
-	ShortenedOptionsPath
+	ShortenedOptionsPath,
+	ShortNameMap
 } from './types.js';
 
 import {
@@ -471,7 +472,7 @@ const optionsConfigWithDefaultedShortNamesInner = (optionsConfig : OptionsConfig
 		}
 	}
 
-	const existing : {[key : string] : string}= {};
+	const existing : ShortNameMap = {};
 	const subItemsEntries = configIsConfig(optionsConfig) ? Object.entries(result.example) : Object.entries(result);
 	for (const [key, val] of subItemsEntries) {
 		let shortName = '';
@@ -504,10 +505,10 @@ const optionsConfigWithDefaultedShortNamesInner = (optionsConfig : OptionsConfig
 //return a map of longName->shortName for any ones that exist as longName but
 //have no shortName. Not to be used directly ( use
 //suggestMissingShrotNamesForOptionConfig); exported only for testing.
-export const suggestMissingShortNames = (existing : {[key : string] : string}) : {[key : string] : string} => {
+export const suggestMissingShortNames = (existing : ShortNameMap) : ShortNameMap => {
 	//First, verify that existing is not ALREADY invalid before we start
 	if (!shortNamesValid(existing)) return {};
-	const suggestions :  {[key : string] : string} = {};
+	const suggestions :  ShortNameMap = {};
 	for (const [longName, shortName] of Object.entries(existing)) {
 		//if there's already a shortName then we don't need to try one
 		if (shortName) continue;
