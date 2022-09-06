@@ -555,7 +555,7 @@ const shortNameConflict = (existing : ShortNameMap, shortName : string) : string
 
 //returns the index of pieces into one/two where they first differ. Pieces can
 //be the string longName or a pre-split pieces.
-const firstDifferentPieceIndex = (one, two) => {
+const firstDifferentPieceIndex = (one : string | string[], two : string | string[]) : number => {
 	if (typeof one == 'string') one = longNamePieces(one);
 	if (typeof two == 'string') two = longNamePieces(two);
 	let index = 0;
@@ -569,7 +569,7 @@ const firstDifferentPieceIndex = (one, two) => {
 };
 
 //cuts a longName intp pieces where the first bit is a piece, and each upper case letter starts a new piece
-const longNamePieces = (longName) => {
+const longNamePieces = (longName : string) : string[] => {
 	const result = [];
 	let currentPiece = '';
 	for (const char of longName) {
