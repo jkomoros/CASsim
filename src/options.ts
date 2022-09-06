@@ -799,7 +799,7 @@ export const unpackModificationsFromURL = (url : URLDiffHash, simCollection : Si
 };
 
 export const shadowedModificationsForSimIndex = (modifications : Modifications, simIndex : number) : {[path : OptionsPath] : OptionValue} => {
-	const mods = {};
+	const mods : {[path : OptionsPath] : OptionValue} = {};
 	for (const mod of modifications) {
 		if (mod.simulationIndex != simIndex) continue;
 		mods[mod.path] = mod.value;
