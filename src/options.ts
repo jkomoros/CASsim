@@ -330,10 +330,11 @@ export const ensureBackfill = (optionsConfig : OptionsConfig, obj : OptionValue)
 			const changesMade = results.some(arr => arr[1]);
 			return changesMade ? [results.map(arr => arr[0]), true] : [obj, false];
 		}
-		const result = {};
+		const result : OptionValueMap = {};
+		const objMap = obj as OptionValueMap;
 		let changesMade = false;
 		for (const [key, value] of Object.entries(example)) {
-			const [newValue, changed] = ensureBackfill(value, obj[key]);
+			const [newValue, changed] = ensureBackfill(value, objMap[key]);
 			result[key] = newValue;
 			if (changed) changesMade = true;
 		}
