@@ -340,11 +340,11 @@ export class Simulation {
 			throw new Error('Unknown simulator name: ' + config.sim);
 		}
 		const configCopy = deepCopy(config);
-		const rawSimOptions = configCopy[SIM_OPTIONS_PROPERTY] || this._simulator.defaultValueForPath('', null);
+		const rawSimOptions = configCopy.simOptions || this._simulator.defaultValueForPath('', null);
 		const [updatedSimOptionsConfig] = ensureBackfill(optionsConfigWithDefaultedShortNames(this._simulator.optionsConfig), rawSimOptions);
-		configCopy[SIM_OPTIONS_PROPERTY] = this._simulator.normalizeOptions(updatedSimOptionsConfig);
+		configCopy.simOptions = this._simulator.normalizeOptions(updatedSimOptionsConfig);
 		try {
-			this._simulator.optionsValidator(configCopy[SIM_OPTIONS_PROPERTY]);
+			this._simulator.optionsValidator(configCopy.simOptions);
 		} catch (err) {
 			throw new Error('Sim problems: ' + err);
 		}
