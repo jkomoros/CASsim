@@ -53,7 +53,6 @@ import {
 	OptionConfigBehavior,
 	OptionValueMap,
 	OptionsPath,
-	OptionValueOrSimulationConfig,
 	ShortenedOptionsPath,
 	ShortNameMap,
 	Modifications,
@@ -295,7 +294,7 @@ export const configObjectIsValid = (optionsConfig : OptionsConfig, value : Optio
 };
 
 //Returns a string describing the problem, or an empty string if no problem
-export const maySetPropertyInConfigObject = (optionsConfig : OptionsConfig, obj : OptionValueOrSimulationConfig, path : OptionsPath, value : OptionValue) : string => {
+export const maySetPropertyInConfigObject = (optionsConfig : OptionsConfig, obj : OptionValueMap | SimulationConfig, path : OptionsPath, value : OptionValue) : string => {
 	const updatedObj = setPropertyInObject(obj, path, value);
 	return configObjectIsValid(optionsConfig, updatedObj);
 };

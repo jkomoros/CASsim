@@ -2,6 +2,8 @@ import { FrameVisualization } from './components/frame-visualization.js';
 import { BaseRenderer } from './renderer.js';
 import { Simulation } from './simulation.js';
 import {
+	OptionsPath,
+	OptionValue,
 	RandomGenerator, SimulatorType
 } from './types.js';
 
@@ -107,14 +109,16 @@ export const DEFAULT_SENTINEL = {default: true};
 //path is a dotted list of accessors in the object, returns a new object with
 //the modifications. If value is DELETE_SENTINEL then it will delete the implied
 //property.
-export const setPropertyInObject = (obj, path, value) => {
-	return setPropertyInObjectInner(obj, path, value);
+export const setPropertyInObject = <T extends object>(obj : T, path : OptionsPath, value : OptionValue) : T => {
+	const result = setPropertyInObjectInner(obj, path, value) as T;
+	return result;
 };
 
-const setPropertyInObjectInner = (obj, path, value) => {
+const setPropertyInObjectInner = <T extends object>(objIn : T, path : OptionsPath, value : OptionValue) : T | OptionValue => {
 	if (path == '') return value;
 	const pathParts = path.split('.');
-	let firstPart = pathParts[0];
+	let firstPart : number | string = pathParts[0];
+	let obj : T | OptionValue = objIn;
 	if (obj === undefined || obj === null) {
 		if (path == '') return undefined;
 		//Create an array or an object based on if they key is a number
