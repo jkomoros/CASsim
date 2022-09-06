@@ -57,7 +57,8 @@ import {
 	ShortenedOptionsPath,
 	ShortNameMap,
 	Modifications,
-	URLDiffHash
+	URLDiffHash,
+	SimulatorType
 } from './types.js';
 
 import {
@@ -703,7 +704,7 @@ export const packModificationsForURL = (modifications : Modifications = [], simC
 	return result.join(';');
 };
 
-export const unpackSimNamesFromURL = (url) => {
+export const unpackSimNamesFromURL = (url : URLDiffHash) : SimulatorType[] => {
 	if (!url) return [];
 	//Can unpack a URL modifications packed with packModificationsFromURL and
 	//detect items that include a packed or unpacked modification of the sim
