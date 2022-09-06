@@ -2,7 +2,8 @@ import {
 	ForceLayoutGraphOptions,
 	GraphType,
 	OptionsConfigMap,
-	OptionsOverridesMap
+	OptionsOverridesMap,
+	OptionValueMap
 } from '../types.js';
 
 import {
@@ -75,7 +76,7 @@ export const graphOptionsConfig = (overrides : OptionsOverridesMap = {}, graphTy
 };
 
 //Pass it the values object and overrides, and it returns a tuple of GraphType( call .make()) and options to pass to it.
-export const graphOptionsFromConfig = (values : OptionsConfigMap, overrides : OptionsOverridesMap = {}) : [typeof ForceLayoutGraph, ForceLayoutGraphOptions] => {
+export const graphOptionsFromConfig = (values : OptionValueMap, overrides : OptionsOverridesMap = {}) : [typeof ForceLayoutGraph, ForceLayoutGraphOptions] => {
 	//BloomGraph's static optionsFromConfig is just forcelayoutgraph's
 	const options = BloomGraph.optionsFromConfig(values, overrides);
 	const graphTypeName = overrides[GRAPH_TYPE_PROPERTY] || GRAPH_TYPE_PROPERTY;

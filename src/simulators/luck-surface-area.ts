@@ -27,6 +27,7 @@ import {
 	DistributionOptions,
 	GraphNodeValues,
 	OptionsConfigMap,
+	OptionValueMap,
 	RandomGenerator,
 	ScoreConfigItem,
 	SimulatorType
@@ -85,7 +86,7 @@ type LuckSurfaceAreaSimOptions = {
 			falloff : DistributionOptions;
 		};
 		//TODO: be more precise in this type
-		structure : OptionsConfigMap;
+		structure : OptionValueMap;
 	}
 };
 

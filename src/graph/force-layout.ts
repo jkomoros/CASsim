@@ -36,6 +36,7 @@ import {
 	GraphNodeValues,
 	OptionsConfigMap,
 	OptionsOverridesMap,
+	OptionValueMap,
 	RandomGenerator
 } from '../types.js';
 
@@ -158,7 +159,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 	/*
 		Given the values option based on optionsConfig, pass back to this to get the options values to pass to constructor.
 	*/
-	static optionsFromConfig(values : OptionsConfigMap, overrides : OptionsOverridesMap = {}) : ForceLayoutGraphOptions {
+	static optionsFromConfig(values : OptionValueMap, overrides : OptionsOverridesMap = {}) : ForceLayoutGraphOptions {
 		const config = this.OPTIONS_CONFIG;
 		const reversed : {[value : string] : string} = {};
 		for (const [key, value] of Object.entries(overrides)) {
