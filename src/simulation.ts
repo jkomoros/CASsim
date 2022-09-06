@@ -86,7 +86,7 @@ export const configWithDefaultedSimOptions = (config : RawSimulationConfig) : Si
 	if (typeof simOptions != 'object') throw new Error('simOptions property not object');
 	return {
 		...config,
-		[SIM_OPTIONS_PROPERTY]: simOptions
+		simOptions
 	};
 };
 
