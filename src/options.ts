@@ -431,7 +431,7 @@ export const expandPathWithConfig = (optionsConfig : OptionsConfig, shortPath : 
 	return firstPartResult + '.' + expandPathWithConfig(config, restParts);
 };
 
-export const configForPath = (optionsConfig, path) => {
+export const configForPath = (optionsConfig : OptionsConfig, path : OptionsPath) : OptionsConfig => {
 	const parts = path.split('.');
 	const firstPart = parts[0];
 	const restParts = parts.slice(1).join('.');
