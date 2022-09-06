@@ -357,7 +357,12 @@ export const defaultValueForConfig = (optionsConfig, skipOptional? : boolean) : 
 	if (!optionsConfig) return undefined;
 	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
 	if (example == undefined) {
-		return Object.fromEntries(Object.entries(optionsConfig).filter(entry => !(entry[1][OPTIONAL_PROPERTY_NAME] && !entry[1][DEFAULT_PROPERTY_NAME])).map(entry => [entry[0], defaultValueForConfig(entry[1], true)]).filter(entry => entry[1] !== undefined));
+		return Object.fromEntries(Object.entries(optionsConfig).filter(entry => {
+			const value = entry[1];
+			if (typeof value != 'object') return false;
+			if (value[EXAMPLE_PROPERTY_NAME] == undefined) return true;
+			return !(value[OPTIONAL_PROPERTY_NAME] && !value[DEFAULT_PROPERTY_NAME]);
+		}).map(entry => [entry[0], defaultValueForConfig(entry[1], true)]).filter(entry => entry[1] !== undefined));
 	}
 	if (skipOptional && optionsConfig[OPTIONAL_PROPERTY_NAME] && !optionsConfig[DEFAULT_PROPERTY_NAME]) return undefined;
 	if (typeof example == 'object') {
