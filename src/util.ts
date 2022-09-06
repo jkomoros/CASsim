@@ -108,6 +108,10 @@ export const DEFAULT_SENTINEL = {default: true};
 //the modifications. If value is DELETE_SENTINEL then it will delete the implied
 //property.
 export const setPropertyInObject = (obj, path, value) => {
+	return setPropertyInObjectInner(obj, path, value);
+};
+
+const setPropertyInObjectInner = (obj, path, value) => {
 	if (path == '') return value;
 	const pathParts = path.split('.');
 	let firstPart = pathParts[0];
@@ -118,7 +122,7 @@ export const setPropertyInObject = (obj, path, value) => {
 	}
 
 	const restParts = pathParts.slice(1);
-	const innerResult = setPropertyInObject(obj[firstPart], restParts.join('.'), value);
+	const innerResult = setPropertyInObjectInner(obj[firstPart], restParts.join('.'), value);
 	if (Array.isArray(obj)){
 		firstPart = parseInt(firstPart);
 		const result = [...obj];
