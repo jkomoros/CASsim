@@ -300,13 +300,14 @@ export const ensureBackfill = (optionsConfig, obj) => {
 	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
 	if (example == undefined) {
 		if (!obj) {
-			let defaulted = defaultValueForConfig(optionsConfig);
-			[defaulted] = ensureBackfill(optionsConfig, defaulted);
-			return [defaulted, true];
+			const defaulted = defaultValueForConfig(optionsConfig);
+			const [backfillDefaulted] = ensureBackfill(optionsConfig, defaulted);
+			return [backfillDefaulted, true];
 		}
-		const result = {};
+		const result : OptionsConfigMap = {};
 		let changesMade = false;
-		for (const [key, value] of Object.entries(optionsConfig)) {
+		const optionsConfigMap = optionsConfig as OptionsConfigMap;
+		for (const [key, value] of Object.entries(optionsConfigMap)) {
 			const [newValue, changed] = ensureBackfill(value, obj[key]);
 			result[key] = newValue;
 			if (changed) changesMade = true;
