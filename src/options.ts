@@ -486,7 +486,11 @@ const optionsConfigWithDefaultedShortNamesInner = (optionsConfig : OptionsConfig
 	if (Object.keys(suggestions).length) {
 		if (configIsConfig(result)) {
 			if (typeof result.example == 'object') result.example = {...result.example};
-			Object.entries(suggestions).forEach(entry => result.example[entry[0]] = {...result.example[entry[0]], shortName: entry[1]});
+			const innerResult = result;
+			Object.entries(suggestions).forEach(entry => {
+				if (typeof innerResult.example != 'object' || !innerResult.example || Array.isArray(innerResult.example)) return;
+				innerResult.example[entry[0]] = {...innerResult.example[entry[0]], shortName: entry[1]};	
+			});
 		} else {
 			result = {...result};
 			Object.entries(suggestions).forEach(entry => result[entry[0]] = {...result[entry[0]], shortName: entry[1]});
