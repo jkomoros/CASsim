@@ -733,8 +733,8 @@ export const unpackSimNamesFromURL = (url : URLDiffHash) : SimulatorType[] => {
 	return simNames;
 };
 
-export const unpackModificationsFromURL = (url, simCollection, currentSimIndex = -1) => {
-	const modifications = [];
+export const unpackModificationsFromURL = (url : URLDiffHash, simCollection : SimulationCollection, currentSimIndex = -1) : [modifications: Modifications, warning: string] => {
+	const modifications : Modifications = [];
 	const urlParts = url.split(';');
 	let warning = '';
 	//For now, we just completely ignore simulator version number
@@ -745,9 +745,9 @@ export const unpackModificationsFromURL = (url, simCollection, currentSimIndex =
 		const simulationIndex = versionParts.length == 2 ? parseInt(versionParts[0]) : currentSimIndex;
 		const simulation = simCollection ? simCollection.simulations[simulationIndex] : null;
 		//The simulator might change in the middle, so we'l lhave to clone copies...
-		let diffedSimulation = simulation.cloneWithConfig(simulation.unmodifiedConfig);
+		let diffedSimulation = simulation.cloneWithConfig(configWithDefaultedSimOptions(simulation.unmodifiedConfig));
 		const keyValuesParts = keyValuesPart.split(',');
-		let simulatorFingerprints = [];
+		let simulatorFingerprints : string[] = [];
 		let simulatorIndex = 0;
 		for (const [index, part] of keyValuesParts.entries()) {
 			if (index == 0) {
@@ -759,7 +759,8 @@ export const unpackModificationsFromURL = (url, simCollection, currentSimIndex =
 				//The first pair is always the version section, don't process it
 				continue;
 			}
-			let [key, value] = part.split(':');
+			let [key, rawValue] = part.split(':');
+			let value : string | boolean | number | {DELETE: boolean} | {default:boolean} = rawValue;
 			if (value == 'd') value = DEFAULT_SENTINEL;
 			if (value == 'x') value = DELETE_SENTINEL;
 			if (value == 'n') value = null;
