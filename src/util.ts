@@ -122,14 +122,14 @@ export const setPropertyInObject = (obj, path, value) => {
 	if (Array.isArray(obj)){
 		firstPart = parseInt(firstPart);
 		const result = [...obj];
-		if (value === DELETE_SENTINEL && restParts == '') {
+		if (value === DELETE_SENTINEL && restParts.length == 0) {
 			result.splice(firstPart, 1);
 		} else {
 			result[firstPart] = innerResult;
 		}
 		return result;
 	}
-	if (value === DELETE_SENTINEL && restParts == '') {
+	if (value === DELETE_SENTINEL && restParts.length == 0) {
 		const result = {...obj};
 		delete result[firstPart];
 		return result;
