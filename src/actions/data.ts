@@ -606,7 +606,7 @@ export const updateKnownDatafiles : AppActionCreator = (datafiles) => (dispatch)
 	});
 };
 
-export const updateKnownSimulatorNames : AppActionCreator = (simulatorNames) => (dispatch) => {
+export const updateKnownSimulatorNames : AppActionCreator = (simulatorNames : SimulatorType[]) => (dispatch) => {
 	if (!Array.isArray(simulatorNames)) {
 		console.warn('simulatorsNames is not an array');
 		return;
