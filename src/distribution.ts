@@ -148,9 +148,10 @@ class Distribution {
 	}
 }
 
-const EXAMPLE_OPTIONS = {
+const EXAMPLE_OPTIONS : DistributionOptions = {
 	types: [...Object.keys(LEGAL_TYPES)],
 	distribution: LINEAR,
+	onlyDistribution: null,
 	average: 0.5,
 	spread: 0.0,
 	min: 0.0,
@@ -191,8 +192,8 @@ export class DistributionConfig {
 			...EXAMPLE_OPTIONS,
 			...options,
 		};
-		normalizedOptions.types = options.types || (options.distribution ? [options.distribution] : EXAMPLE_OPTIONS.types);
-		normalizedOptions.distribution = options.distribution || normalizedOptions.types[0];
+		normalizedOptions.types = options.types || (options.onlyDistribution ? [options.onlyDistribution] : EXAMPLE_OPTIONS.types);
+		normalizedOptions.distribution = options.onlyDistribution || options.distribution || normalizedOptions.types[0];
 		normalizedOptions.shortName = options.shortName || '';
 		normalizedOptions.description = options.description === undefined ? 'A value with a ' + normalizedOptions.distribution + ' distribution' : options.description;
 		normalizedOptions.min = options.min === undefined ? normalizedOptions.limitMin : options.min;
