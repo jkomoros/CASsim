@@ -45,8 +45,8 @@ export const KNOWN_SIMULATOR_NAMES : SimulatorType[] = ${JSON.stringify(simulato
 
 });
 
-const screenshotScript = 'src/tools/screenshot.js';
+const screenshotScript = 'tools/screenshot.ts';
 
-gulp.task('generate', makeExecutor('node ' + screenshotScript));
-gulp.task('generate:screenshot', makeExecutor('node ' + screenshotScript + ' screenshot'));
-gulp.task('generate:gif', makeExecutor('node ' + screenshotScript + ' gif'));
+gulp.task('generate', makeExecutor('npx ts-node ' + screenshotScript));
+gulp.task('generate:screenshot', makeExecutor('npx ts-node ' + screenshotScript + ' screenshot'));
+gulp.task('generate:gif', makeExecutor('npx ts-node ' + screenshotScript + ' gif'));
