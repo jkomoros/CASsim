@@ -101,8 +101,9 @@ class RunSummary extends LitElement {
 		`;
 	}
 
-	_handleStatusClicked(e) {
+	_handleStatusClicked(e : MouseEvent) {
 		const ele = e.composedPath()[0];
+		if (!(ele instanceof HTMLElement)) throw new Error('not an element as expected');
 		this.dispatchEvent(new CustomEvent('run-clicked', {composed:true, detail: {index: parseInt(ele.dataset.index)}}));
 	}
 }
