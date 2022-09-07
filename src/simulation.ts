@@ -706,7 +706,7 @@ export class Simulation {
 				},
 				[SIM_PROPERTY]: {
 					//TODO: use the constant
-					example: KNOWN_SIMULATOR_TYPES.length ? Object.keys(KNOWN_SIMULATOR_TYPES)[0] : '',
+					example: KNOWN_SIMULATOR_TYPES.length ? KNOWN_SIMULATOR_TYPES[0] : '',
 					shortName: SIM_PROPERTY_SHORT_NAME,
 					options: KNOWN_SIMULATOR_TYPES.map(name => ({value: name})),
 					description: 'The simulator type to run. Only simulators in the simulators directory are supported',
