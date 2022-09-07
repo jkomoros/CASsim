@@ -7,7 +7,6 @@
       "declarationMap": true,
       "sourceMap": true,
       "inlineSources": true,
-      "rootDir": "./src",
       "noUnusedLocals": true,
       "useDefineForClassFields": false,
       "noUnusedParameters": true,
