@@ -1,13 +1,21 @@
 /*eslint-env node*/
 
-const puppeteer = require("puppeteer");
-const fs = require('fs');
-const path = require('path');
-const { promisify } = require('util');
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="./modules.d.ts" />
+
+import puppeteer from "puppeteer";
+import * as fs from "fs";
+import * as path from "path";
+import GIFEncoder from "gifencoder";
+import glob from "glob";
+import { PNG } from "pngjs";
+import { promisify } from 'util';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const sizeOf = promisify(require('image-size'));
-const GIFEncoder = require('gifencoder');
-const glob = require("glob");
-const PNG = require('pngjs').PNG;
+
+import {
+	RawSimulationConfig
+} from "../src/types.js";
 
 const SCREENSHOT_DIR = 'screenshots';
 
@@ -21,7 +29,6 @@ const PREVIOUS_FRAME_METHOD_VARIABLE = 'previous_frame';
 const RENDER_COMPLETE_VARIABLE = 'render_complete';
 
 //Duplicated in simulations.js
-const NAME_PROPERTY = 'name';
 const REPEAT_PROPERTY = 'repeat';
 const FRAME_DELAY_PROPERTY = 'frameDelay';
 const EXTRA_FINAL_FRAME_COUNT_PROPERTY = 'extraFinalFrameCount';
@@ -43,7 +50,7 @@ const clearScreenshotsDir = () => {
 	}
 };
 
-const padInt = (val, length) => {
+const padInt = (val : number, length : number) : string => {
 	let result = val.toString();
 	while (result.length < length) {
 		result = '0' + result;
@@ -51,7 +58,7 @@ const padInt = (val, length) => {
 	return result;
 };
 
-const sanitizeSimulationName = (name) => {
+const sanitizeSimulationName = (name : string) : string => {
 	//Simulation name are [a-zA-z0-0-_], but '_' is the delimiter for us
 	return name.split('_').join('-');
 };
@@ -83,8 +90,7 @@ const generateScreenshots = async () => {
 	const frameLength = currentFrameIndex.toString().length;
 	do {
 		console.log('Working on state #' + currentSimulationName + ' : ' + currentRunIndex + ' : ' + currentFrameIndex);
-		const ele = await page.evaluateHandle('document.querySelector("my-app").shadowRoot.querySelector("sim-view").shadowRoot.querySelector("frame-visualization")');
-		
+		const ele : puppeteer.ElementHandle<Element> = await page.evaluateHandle('document.querySelector("my-app").shadowRoot.querySelector("sim-view").shadowRoot.querySelector("frame-visualization")');
 		
 		const safeSimulationName = sanitizeSimulationName(currentSimulationName);
 
@@ -107,7 +113,7 @@ const generateScreenshots = async () => {
 	await browser.close();
 };
 
-const gifNameForFile = (fileName) => {
+const gifNameForFile = (fileName : string) : string => {
 	//Needs to be updated every time the logic for filename saving is changed.
 	const filenameParts = fileName.split('.');
 	if (filenameParts[1].toLowerCase() == 'gif') return '';
@@ -116,7 +122,15 @@ const gifNameForFile = (fileName) => {
 	return pieces[1];
 };
 
-const DEFAULT_GIF_CONFIG = {
+type GifInfo = {
+	delay?: number;
+	extraFinalFrameCount?: number;
+	repeat?: boolean;
+	width?: number;
+	height?: number;
+}
+
+const DEFAULT_GIF_CONFIG : GifInfo = {
 	//in ms
 	delay: DEFAULT_FRAME_DELAY,
 	extraFinalFrameCount: DEFAULT_EXTRA_FINAL_FRAME_COUNT,
@@ -126,11 +140,11 @@ const DEFAULT_GIF_CONFIG = {
 //TODO: allow specifying a different file
 const CONFIG_DATA_FILE = 'data/default.json';
 
-const configForGif = (configData, gifName) => {
+const configForGif = (configData : RawSimulationConfig[], gifName : string) => {
 	for (const config of configData) {
-		const safeName = sanitizeSimulationName(config[NAME_PROPERTY]);
+		const safeName = sanitizeSimulationName(config.name);
 		if (safeName != gifName) continue;
-		const gifInfo = {};
+		const gifInfo : GifInfo = {};
 		const delay = config[FRAME_DELAY_PROPERTY];
 		if (delay != undefined) gifInfo.delay = delay;
 		const extraFinalFrameCount = config[EXTRA_FINAL_FRAME_COUNT_PROPERTY];
@@ -149,8 +163,8 @@ const configForGif = (configData, gifName) => {
 // - repeat
 // - extraFinalFrameCount
 const gifInfos = async () => {
-	const result = {};
-	const illegalGifs = {};
+	const result : {[name : string] : GifInfo} = {};
+	const illegalGifs : {[name : string] : true} = {};
 	const files = fs.readdirSync(SCREENSHOT_DIR);
 	for (const file of files) {
 		const gifName = gifNameForFile(file);
@@ -168,7 +182,7 @@ const gifInfos = async () => {
 	for (const name of Object.keys(illegalGifs)) {
 		delete result[name];
 	}
-	const rawConfigData = fs.readFileSync(CONFIG_DATA_FILE);
+	const rawConfigData = fs.readFileSync(CONFIG_DATA_FILE).toString();
 	const configData = JSON.parse(rawConfigData);
 	const configs = configData[CONFIGS_PROPERTY_NAME];
 	for (const name of Object.keys(result)) {
@@ -177,7 +191,7 @@ const gifInfos = async () => {
 	return result;
 };
 
-const frameIsFinalInRound = (firstFileName, secondFileName) => {
+const frameIsFinalInRound = (firstFileName : string, secondFileName : string) : boolean => {
 	if (!secondFileName) return true;
 	const firstFile = path.basename(firstFileName, '.png');
 	const secondFile = path.basename(secondFileName, '.png');
@@ -189,11 +203,11 @@ const frameIsFinalInRound = (firstFileName, secondFileName) => {
 	return false;
 };
 
-const generateGifs = async (infos) => {
+const generateGifs = async (infos : {[name : string] : GifInfo}) => {
 	for (const [gifName, info] of Object.entries(infos)) {
 		console.log("Generating gif " + gifName + " (this could take awhile)");
 
-		const matches = await new Promise((resolve, reject) => {
+		const matches : string[] = await new Promise((resolve, reject) => {
 			//This order has been confirmed to be the correct order in testing, as
 			//long as numbers are padded with prefixed 0's (lexicographic ordering)
 			glob(path.join(SCREENSHOT_DIR, 'screenshot_' + gifName + '_*_*.png'), (er, matches) => {
@@ -213,7 +227,7 @@ const generateGifs = async (infos) => {
 
 		for (const [index, match] of matches.entries()) {
 			console.log('Loading png ' + match);
-			let nextMatch = index + 1 < matches.length ? matches[index + 1] : '';
+			const nextMatch = index + 1 < matches.length ? matches[index + 1] : '';
 			encoder.setDelay(frameIsFinalInRound(match, nextMatch) ? finalFrameDelay : normalDelay);
 			const png = PNG.sync.read(fs.readFileSync(match));
 			encoder.addFrame(png.data);

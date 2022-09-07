@@ -1,13 +1,12 @@
 {
     "compilerOptions": {
       "target": "es2019",
-      "module": "es2020",
+      "module": "CommonJS",
       "lib": ["es2020", "DOM", "DOM.Iterable"],
       "declaration": true,
       "declarationMap": true,
       "sourceMap": true,
       "inlineSources": true,
-      "rootDir": "./src",
       "noUnusedLocals": true,
       "useDefineForClassFields": false,
       "noUnusedParameters": true,
@@ -17,6 +16,7 @@
       "allowSyntheticDefaultImports": true,
       "experimentalDecorators": true,
       "forceConsistentCasingInFileNames": true,
+      "esModuleInterop": true,
       "noImplicitOverride": true,
       "noImplicitThis": true,
       "noEmitOnError": true,
@@ -34,7 +34,5 @@
           ]
         }
       ]
-    },
-    "include": ["src/**/*.ts"],
-    "exclude": ["tools/**/*.ts"]
+    }
   }
