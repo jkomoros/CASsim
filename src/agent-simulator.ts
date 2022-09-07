@@ -54,6 +54,12 @@ export type RowColOptionalSimOptions = SimOptions & {
 	cols? : number;
 }
 
+
+
+type AnyAgentTicker = {
+	[name : string] : (agent : Agent, agents : Agent[], graph : Graph, frame : AgentSimulationFrame, rnd : RandomGenerator) => Agent | Agent[];
+}
+
 export class AgentSimulator extends BaseSimulator {
 
 	/*
@@ -194,7 +200,8 @@ export class AgentSimulator extends BaseSimulator {
 	agentTick(agent : Agent, agents : Agent[], graph : Graph, frame : AgentSimulationFrame, rnd : RandomGenerator) : Agent | Agent[] {
 		const typ = agent.type || '';
 		const typeMethod = typ + 'AgentTick';
-		if (this[typeMethod]) return this[typeMethod](agent, agents, graph, frame, rnd);
+		const thisTicker = (this as unknown) as AnyAgentTicker;
+		if (thisTicker[typeMethod]) return thisTicker[typeMethod](agent, agents, graph, frame, rnd);
 		return this.defaultAgentTick(agent, agents, graph, frame, rnd);
 	}
 
