@@ -9,8 +9,12 @@ import {
 	selectDataIsFullyLoaded
 } from '../selectors.js';
 
+import {
+	AppActionCreator
+} from '../store.js';
+
 //if silent is true, then just passively updates the URL to reflect what it should be.
-export const navigatePathTo = (path, silent) => (dispatch) => {
+export const navigatePathTo : AppActionCreator = (path, silent) => (dispatch) => {
 	//If we're already pointed there, no need to navigate
 	if ('/' + path === window.location.pathname) return;
 	//Don't replace search or hash if they exist. If htey don't exist, these
@@ -24,7 +28,7 @@ export const navigatePathTo = (path, silent) => (dispatch) => {
 	dispatch(navigate(path));
 };
 
-export const canonicalizePath = () => (dispatch ,getState) => {
+export const canonicalizePath : AppActionCreator = () => (dispatch ,getState) => {
 
 	const state = getState();
 
@@ -46,7 +50,7 @@ export const canonicalizePath = () => (dispatch ,getState) => {
 	dispatch(navigatePathTo(path.join('/'), true));
 };
 
-export const navigate = (path) => (dispatch) => {
+export const navigate : AppActionCreator = (path) => (dispatch) => {
 	// Extract the page name from path.
 	const page = path === "/" ? "sim" : path.slice(1);
 
@@ -55,7 +59,7 @@ export const navigate = (path) => (dispatch) => {
 	dispatch(loadPage(page));
 };
 
-const loadPage = (location) => (dispatch) => {
+const loadPage : AppActionCreator = (location) => (dispatch) => {
 
 	const pieces = location.split('/');
 
@@ -82,7 +86,7 @@ const updatePage = (page, pageExtra) => {
 	};
 };
 
-export const updateOffline = (offline) => (dispatch) => {
+export const updateOffline : AppActionCreator = (offline) => (dispatch) => {
 	dispatch({
 		type: UPDATE_OFFLINE,
 		offline
