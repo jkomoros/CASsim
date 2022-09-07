@@ -530,42 +530,42 @@ export const updatePlayType : AppActionCreator = (typ : PlayType) => (dispatch) 
 	});
 };
 
-export const updateDelayCount = (count) => {
+export const updateDelayCount = (count : number) : AnyAction => {
 	return {
 		type: UPDATE_DELAY_COUNT,
 		count
 	};
 };
 
-export const updateShowControls = (show) => {
+export const updateShowControls = (show : boolean) : AnyAction => {
 	return {
 		type: UPDATE_SHOW_CONTROLS,
 		show
 	};
 };
 
-export const updateConfigurationExpanded = (expanded) => {
+export const updateConfigurationExpanded = (expanded : boolean) : AnyAction => {
 	return {
 		type: UPDATE_CONFIGURATION_EXPANDED,
 		expanded
 	};
 };
 
-export const updateDescriptionExpanded = (expanded) => {
+export const updateDescriptionExpanded = (expanded : boolean) : AnyAction => {
 	return {
 		type: UPDATE_DESCRIPTION_EXPANDED,
 		expanded
 	};
 };
 
-export const updateChartExpanded = (expanded) => {
+export const updateChartExpanded = (expanded : boolean) : AnyAction => {
 	return {
 		type: UPDATE_CHART_EXPANDED,
 		expanded
 	};
 };
 
-export const updatePathExpanded = (path, expanded) => {
+export const updatePathExpanded = (path : OptionsPath, expanded : boolean) : AnyAction => {
 	return {
 		type: UPDATE_PATH_EXPANDED,
 		path,
