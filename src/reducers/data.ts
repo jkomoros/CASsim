@@ -38,6 +38,10 @@ import {
 } from "../actions/data.js";
 
 import {
+	SimulatorType
+} from "../dynamic-types.js";
+
+import {
 	DataState
 } from "../types.js";
 
@@ -171,7 +175,7 @@ const data = (state : DataState = INITIAL_STATE, action : AnyAction) : DataState
 			scale: action.scale
 		};
 	case SIMULATOR_LOADED:
-		const loading = state.loadingSimulators[action.name] ? Object.fromEntries(Object.entries(state.loadingSimulators).filter(entry => entry[0] != action.name)) : state.loadingSimulators;
+		const loading = state.loadingSimulators[action.name as SimulatorType] ? Object.fromEntries(Object.entries(state.loadingSimulators).filter(entry => entry[0] != action.name)) : state.loadingSimulators;
 		return {
 			...state,
 			loadingSimulators: loading,

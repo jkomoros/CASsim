@@ -34,6 +34,10 @@ import {
 	URLArgsMap
 } from './types.js';
 
+import {
+	SimulatorType
+} from './dynamic-types.js';
+
 const selectRawConfigData = (state : RootState) => state.data ? state.data.data : [];
 const selectModifications = (state : RootState) => state.data ? state.data.modifications : [];
 export const selectHash = (state : RootState) => state.data ? state.data.hash : '';
@@ -102,7 +106,7 @@ export const selectRequiredSimulatorNames = createSelector(
 		const rawConfigNames = extractSimulatorNamesFromRawConfig(data);
 		const modificationNames = extractSimulatorNamesFromModifications(modifications);
 		const hashNames = unpackSimNamesFromURL(parseHash(hash)[DIFF_URL_KEY]);
-		return [...new Set([...rawConfigNames, ...modificationNames, ...hashNames])];
+		return [...new Set([...rawConfigNames, ...modificationNames, ...hashNames])] as SimulatorType[];
 	}
 );
 

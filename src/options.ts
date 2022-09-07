@@ -56,9 +56,12 @@ import {
 	ShortenedOptionsPath,
 	ShortNameMap,
 	Modifications,
-	URLDiffHash,
-	SimulatorType
+	URLDiffHash
 } from './types.js';
+
+import {
+	SimulatorType
+} from './dynamic-types.js';
 
 import {
 	DELETE_SENTINEL,
@@ -713,7 +716,7 @@ export const unpackSimNamesFromURL = (url : URLDiffHash) : SimulatorType[] => {
 	//Can unpack a URL modifications packed with packModificationsFromURL and
 	//detect items that include a packed or unpacked modification of the sim
 	//name. Returns an array of any it finds.
-	const simNames = [];
+	const simNames : SimulatorType[] = [];
 	const urlParts = url.split(';');
 	//For now, we just completely ignore simulator version number
 	for (const urlPart of urlParts) {
@@ -730,7 +733,7 @@ export const unpackSimNamesFromURL = (url : URLDiffHash) : SimulatorType[] => {
 				//Values is a string, which means it is wrapped in a ''
 				value = value.split("'").join('');
 				value = decodeURIComponent(value);
-				simNames.push(value);
+				simNames.push(value as SimulatorType);
 			}
 		}
 	}

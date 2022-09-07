@@ -37,7 +37,6 @@ import {
 	SimulationConfig,
 	SimulationConfigName,
 	SimulationFrame,
-	SimulatorType,
 	Modifications,
 	OptionValue,
 	SimulationConfigDisplay,
@@ -46,6 +45,10 @@ import {
 	SimOptions,
 	OptionValueMap
 } from './types.js';
+
+import {
+	SimulatorType
+} from './dynamic-types.js';
 
 import {
 	BaseSimulator
@@ -60,7 +63,7 @@ const DEFAULT_FRAME_DELAY = 100;
 const DEFAULT_EXTRA_FINAL_FRAME_COUNT = 0;
 const DEFAULT_REPEAT = false;
 
-export const SIMULATORS : {[name : SimulatorType] : BaseSimulator} = {};
+export const SIMULATORS : {[name in SimulatorType] +? : BaseSimulator} = {};
 
 export type SimulationsMap = {[name : SimulationConfigName] : Simulation};
 

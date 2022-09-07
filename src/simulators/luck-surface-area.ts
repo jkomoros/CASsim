@@ -30,8 +30,11 @@ import {
 	OptionValueMap,
 	RandomGenerator,
 	ScoreConfigItem,
-	SimulatorType
 } from '../types.js';
+
+import {
+	SimulatorType
+} from '../dynamic-types.js';
 
 import {
 	Graph

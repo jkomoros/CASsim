@@ -23,9 +23,12 @@ import {
 	GraphNodeValues,
 	OptionsConfigMap,
 	RandomGenerator,
-	ScoreConfigItem,
-	SimulatorType
+	ScoreConfigItem
 } from '../types.js';
+
+import {
+	SimulatorType
+} from '../dynamic-types.js';
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'standing-ovation';

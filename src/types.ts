@@ -1,3 +1,4 @@
+import { SimulatorType } from './dynamic-types.js';
 
 export type RandomGenerator = () => number;
 
@@ -25,9 +26,6 @@ export type Color = {
 export type EmojiSet = {
     [name : string]: string;
 };
-
-//TODO: lock this down dynamically based on allowed simulator types
-export type SimulatorType = string;
 
 //TODO: shouldn't this just be OptionValue (minus SimulationConfig?)
 export type SimOptions = OptionValueMap;
@@ -490,8 +488,8 @@ export type AppState = {
 
 export type DataState = {
     filename : Filename;
-	loadingSimulators : {[name : SimulatorType] : true},
-	loadedSimulators : {[name : SimulatorType] : true},
+	loadingSimulators : {[name in SimulatorType] +? : true},
+	loadedSimulators : {[name in SimulatorType] +? : true},
 	data : RawSimulationConfig[],
 	//A list of objects with {simulationIndex: <index>, path: <dottedPath>, value}
 	modifications : Modifications,

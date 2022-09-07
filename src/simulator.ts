@@ -21,9 +21,12 @@ import {
 	RandomGenerator,
 	ScoreConfig,
 	SimOptions,
-	SimulationFrame,
-	SimulatorType
+	SimulationFrame
 } from './types.js';
+
+import {
+	SimulatorType
+} from './dynamic-types.js';
 
 import {
 	stringHash
@@ -40,7 +43,7 @@ export class BaseSimulator {
 	}
 
 	get name() : SimulatorType {
-		return 'INVALID-NAME';
+		return '';
 	}
 
 	//The default generator will call this.generateFirstFrame(simOptions, rnd)

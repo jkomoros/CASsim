@@ -6,9 +6,12 @@ import {
 	OptionsConfigMap,
 	RandomGenerator,
 	ScoreConfigItem,
-	SimulationFrame,
-	SimulatorType
+	SimulationFrame
 } from '../types.js';
+
+import {
+	SimulatorType
+} from '../dynamic-types.js';
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'dice-roll-demo';

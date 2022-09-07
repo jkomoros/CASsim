@@ -5,8 +5,13 @@ import {
 	OptionsPath,
 	OptionValue,
 	OptionValueMap,
-	RandomGenerator, SimulationConfig, SimulatorType
+	RandomGenerator,
+	SimulationConfig
 } from './types.js';
+
+import {
+	SimulatorType
+} from './dynamic-types.js';
 
 /*
 	Urn is a class that selects a random item out of a distribution, where each
@@ -158,7 +163,7 @@ export const parseHash = (hash : string) : {[arg : string] : string} => {
 	return args;
 };
 
-const memoizedRendererMaps : {[name : SimulatorType] : WeakMap<FrameVisualization, BaseRenderer>} = {};
+const memoizedRendererMaps : {[name in SimulatorType] +? : WeakMap<FrameVisualization, BaseRenderer>} = {};
 
 export const memoizedRenderer = (simulation : Simulation, frameVisualizer : FrameVisualization) : BaseRenderer => {
 	if (!simulation) return null;

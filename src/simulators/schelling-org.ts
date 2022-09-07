@@ -20,9 +20,12 @@ import {
 	OptionsPath,
 	OptionValue,
 	RandomGenerator,
-	SimOptions,
-	SimulatorType
+	SimOptions
 } from '../types.js';
+
+import {
+	SimulatorType
+} from '../dynamic-types.js';
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
