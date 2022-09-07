@@ -38,7 +38,7 @@ import {
 	OptionValueMap
 } from '../types.js';
 
-const doHide = (subConfig, parentValue, rootValue) => subConfig.hide ? subConfig.hide(parentValue, rootValue) : false;
+const doHide = (subConfig : OptionsConfig, parentValue : OptionValueMap, rootValue : OptionValueMap) => subConfig.hide ? subConfig.hide(parentValue, rootValue) : false;
 
 @customElement('options-control')
 class OptionsControl extends LitElement {
@@ -56,7 +56,7 @@ class OptionsControl extends LitElement {
 	value: OptionValue;
 
 	@property({ type : Object })
-	rootValue: OptionValue;
+	rootValue: OptionValueMap;
 
 	@property({ type : Boolean })
 	readonly: boolean;
@@ -154,7 +154,7 @@ class OptionsControl extends LitElement {
 
 	_nulledEntries(includeHidden = false) : [string, OptionsConfig][] {
 		const config = this.config || {};
-		const nonNullValue = this.value || {};
+		const nonNullValue = this.value as OptionValueMap || {};
 		if (!config.example) return [];
 		if (Array.isArray(config.example)) return [];
 		return Object.entries(config.example).filter(entry => entry[1].optional && nonNullValue[entry[0]] == undefined && (includeHidden ? true : !doHide(entry[1], nonNullValue, this.rootValue)));
@@ -176,16 +176,17 @@ class OptionsControl extends LitElement {
 				return html`${val.map((item, index) => html`<options-control .readonly=${this.readonly} .rootValue=${this._rootValue} .disallowDelete=${config.min === val.length} .value=${item} .config=${example[0]} .name=${String(index)} .path=${this._dottedPath(index)} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}`;
 			}
 			const deletedSubPaths = this._deletedSubPaths;
+			const exampleMap = example;
 			//value might be null
 			const nonNullValue = this.value as OptionValueMap || {};
 			//We iterate through in the order the EXAMPLE defines them so they show up in order.
 			const nonAdvancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined || deletedSubPaths[entry[0]]).filter(entry => !doHide(entry[1], nonNullValue, this.rootValue)).filter(entry => !entry[1].advanced).map((entry) : [string, OptionValue] => [entry[0], nonNullValue[entry[0]]]);
 			const advancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined || deletedSubPaths[entry[0]]).filter(entry => !doHide(entry[1], nonNullValue, this.rootValue)).filter(entry => entry[1].advanced).map((entry) : [string, OptionValue] => [entry[0], nonNullValue[entry[0]]]);
 			return html`
-				${nonAdvancedEntries.map(entry => html`<options-control .rootValue=${this._rootValue} .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}
+				${nonAdvancedEntries.map(entry => html`<options-control .rootValue=${this._rootValue} .readonly=${this.readonly} .value=${entry[1]} .config=${exampleMap[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}
 				${advancedEntries.length ? html`<details .open=${this.pathExpanded[this.path || '']} @toggle=${this._handleDetailsToggle}>
 					<summary><label>Advanced</label></summary>
-					${advancedEntries.map(entry => html`<options-control .rootValue=${this._rootValue} .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}
+					${advancedEntries.map(entry => html`<options-control .rootValue=${this._rootValue} .readonly=${this.readonly} .value=${entry[1]} .config=${exampleMap[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}
 				</details>` : ''}`;
 		}
 		//We might have this.value === undefined if we were deleted
@@ -239,7 +240,7 @@ class OptionsControl extends LitElement {
 				path: this.path ? this.path + '.' + entry[0] : entry[0],
 				value: entry[0],
 				description: example[entry[0]].description || '',
-				disabled: doHide(example[entry[0]], this.value || {}, this.rootValue),
+				disabled: doHide(example[entry[0]], this.value as OptionValueMap || {}, this.rootValue),
 			}))
 		};
 
