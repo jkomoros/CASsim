@@ -116,6 +116,7 @@ import {
 } from '../util.js';
 
 import {
+	ChartConfigIDsMap,
 	DialogType,
 	DialogTypeAddFieldExtras,
 	Filename,
@@ -678,7 +679,7 @@ const ingestHash : AppActionCreator = (hash) => (dispatch, getState) => {
 			if (!isNaN(val) && val) dispatch(updateChartSingleRun(true));
 			break;
 		case CHART_CONFIG_IDS_URL_KEY:
-			const ids = Object.fromEntries(value.split(',').map(key => [key, true]));
+			const ids : ChartConfigIDsMap = Object.fromEntries(value.split(',').map(key => [key, true]));
 			dispatch(updateChartConfigIDs(ids));
 			break;
 		case EXPANDED_URL_KEY:
@@ -746,7 +747,7 @@ export const updateChartSingleRun = (singleRun : boolean) : AnyAction => {
 };
 
 //ids should be an object of key => true. An object with no keys means "all items"
-export const updateChartConfigIDs = (ids) : AnyAction => {
+export const updateChartConfigIDs = (ids : ChartConfigIDsMap) : AnyAction => {
 	return {
 		type: UPDATE_CHART_CONFIG_IDS,
 		ids,
