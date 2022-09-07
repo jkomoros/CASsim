@@ -2,6 +2,10 @@ export const UPDATE_PAGE = "UPDATE_PAGE";
 export const UPDATE_OFFLINE = "UPDATE_OFFLINE";
 
 import {
+	AnyAction
+} from 'redux';
+
+import {
 	selectPage,
 	selectPageExtra,
 	selectCurrentSimulationName,
@@ -78,7 +82,7 @@ const loadPage : AppActionCreator = (location) => (dispatch) => {
 	dispatch(updatePage(page, pageExtra));
 };
 
-const updatePage = (page, pageExtra) => {
+const updatePage = (page : string, pageExtra : string) : AnyAction => {
 	return {
 		type: UPDATE_PAGE,
 		page,
