@@ -2,7 +2,11 @@ import {
 	prng_alea
 } from 'esm-seedrandom';
 
-export const makeSeededRandom = seed => {
+import {
+	RandomGenerator
+} from './types';
+
+export const makeSeededRandom = (seed : string) : RandomGenerator => {
 	const rnd = prng_alea(seed);
 	return () => rnd.quick();
 };
