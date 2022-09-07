@@ -10,6 +10,10 @@ import {
 	CANCEL_ICON
 } from './my-icons.js';
 
+import {
+	makeDialogShouldCloseEvent
+} from '../events.js';
+
 @customElement('dialog-element')
 export class DialogElement extends LitElement {
 
@@ -148,7 +152,7 @@ export class DialogElement extends LitElement {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	_shouldClose(_canelled? : boolean) {
 		//Override point for sub classes
-		this.dispatchEvent(new CustomEvent('dialog-should-close'));
+		this.dispatchEvent(makeDialogShouldCloseEvent());
 	}
 
 	_focusInputOnOpen() {
