@@ -33,6 +33,7 @@ import {
 import {
 	DialogTypeAddFieldExtras,
 	OptionsConfig,
+	OptionsConfigMap,
 	OptionsPath,
 	OptionValue,
 	OptionValueMap
@@ -232,7 +233,7 @@ class OptionsControl extends LitElement {
 	}
 
 	_handleAddNulledClicked() {
-		const example = this.config.example;
+		const example = this.config.example as OptionsConfigMap;
 		const nulledEntries = this._nulledEntries(true);
 
 		const extras : DialogTypeAddFieldExtras = {
