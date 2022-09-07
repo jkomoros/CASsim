@@ -34,7 +34,8 @@ import {
 	DialogTypeAddFieldExtras,
 	OptionsConfig,
 	OptionsPath,
-	OptionValue
+	OptionValue,
+	OptionValueMap
 } from '../types.js';
 
 const doHide = (subConfig, parentValue, rootValue) => subConfig.hide ? subConfig.hide(parentValue, rootValue) : false;
@@ -176,10 +177,10 @@ class OptionsControl extends LitElement {
 			}
 			const deletedSubPaths = this._deletedSubPaths;
 			//value might be null
-			const nonNullValue = this.value || {};
+			const nonNullValue = this.value as OptionValueMap || {};
 			//We iterate through in the order the EXAMPLE defines them so they show up in order.
-			const nonAdvancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined || deletedSubPaths[entry[0]]).filter(entry => !doHide(entry[1], nonNullValue, this.rootValue)).filter(entry => !entry[1].advanced).map(entry => [entry[0], nonNullValue[entry[0]]]);
-			const advancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined || deletedSubPaths[entry[0]]).filter(entry => !doHide(entry[1], nonNullValue, this.rootValue)).filter(entry => entry[1].advanced).map(entry => [entry[0], nonNullValue[entry[0]]]);
+			const nonAdvancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined || deletedSubPaths[entry[0]]).filter(entry => !doHide(entry[1], nonNullValue, this.rootValue)).filter(entry => !entry[1].advanced).map((entry) : [string, OptionValue] => [entry[0], nonNullValue[entry[0]]]);
+			const advancedEntries = Object.entries(example).filter(entry => nonNullValue[entry[0]] != undefined || deletedSubPaths[entry[0]]).filter(entry => !doHide(entry[1], nonNullValue, this.rootValue)).filter(entry => entry[1].advanced).map((entry) : [string, OptionValue] => [entry[0], nonNullValue[entry[0]]]);
 			return html`
 				${nonAdvancedEntries.map(entry => html`<options-control .rootValue=${this._rootValue} .readonly=${this.readonly} .value=${entry[1]} .config=${example[entry[0]]} .name=${entry[0]} .path=${this._dottedPath(entry[0])} .pathExpanded=${this.pathExpanded} .modifiedPaths=${this.modifiedPaths}></options-control>`)}
 				${advancedEntries.length ? html`<details .open=${this.pathExpanded[this.path || '']} @toggle=${this._handleDetailsToggle}>
