@@ -51,6 +51,9 @@ import {
 	BaseSimulator
 } from './simulator.js';
 
+import {
+	KNOWN_SIMULATOR_NAMES
+} from './dynamic-types.js';
 
 //Also duplicated into screenshot.js
 const DEFAULT_FRAME_DELAY = 100;
@@ -58,7 +61,6 @@ const DEFAULT_EXTRA_FINAL_FRAME_COUNT = 0;
 const DEFAULT_REPEAT = false;
 
 export const SIMULATORS : {[name : SimulatorType] : BaseSimulator} = {};
-export const KNOWN_SIMULATOR_NAMES : {[name : SimulatorType] : true} = {};
 
 export type SimulationsMap = {[name : SimulationConfigName] : Simulation};
 
@@ -701,9 +703,9 @@ export class Simulation {
 				},
 				[SIM_PROPERTY]: {
 					//TODO: use the constant
-					example: Object.keys(KNOWN_SIMULATOR_NAMES).length ? Object.keys(SIMULATORS)[0] : '',
+					example: KNOWN_SIMULATOR_NAMES.length ? Object.keys(KNOWN_SIMULATOR_NAMES)[0] : '',
 					shortName: SIM_PROPERTY_SHORT_NAME,
-					options: Object.keys(KNOWN_SIMULATOR_NAMES).map(name => ({value: name})),
+					options: KNOWN_SIMULATOR_NAMES.map(name => ({value: name})),
 					description: 'The simulator type to run. Only simulators in the simulators directory are supported',
 					//Advanced while this is the only option
 					advanced: true,

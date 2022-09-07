@@ -17,8 +17,6 @@ export const UPDATE_PATH_EXPANDED = 'UPDATE_PATH_EXPANDED';
 export const UPDATE_SCALE = 'UPDATE_SCALE';
 export const SIMULATOR_LOADING = 'SIMULATOR_LOADING';
 export const SIMULATOR_LOADED = 'SIMULATOR_LOADED';
-export const UPDATE_KNOWN_SIMULATOR_NAMES = 'UPDATE_KNOWN_SIMULATOR_NAMES';
-export const UPDATE_KNOWN_DATAFILES = 'UPDATE_KNOWN_DATAFILES';
 export const UPDATE_RESIZE_VISUALIZATION = 'UPDATE_RESIZE_VISUALIZATION';
 export const REPLACE_MODIFICATIONS = 'REPLACE_MODIFICATIONS';
 export const CLEAR_MODIFICATIONS = 'CLEAR_MODIFICATIONS';
@@ -34,7 +32,6 @@ export const DIALOG_TYPE_ADD_FIELD = 'add-field';
 
 //Also in gulpfile.js
 export const DATA_DIRECTORY = 'data';
-export const LISTINGS_JSON_PATH = 'src/listings.json';
 
 export const DEFAULT_FILE_NAME = 'default';
 
@@ -102,7 +99,6 @@ import {
 } from '../store.js';
 
 import {
-	KNOWN_SIMULATOR_NAMES,
 	SIMULATORS,
 } from '../simulation.js';
 
@@ -594,37 +590,6 @@ export const simulatorLoaded : AppActionCreator = (simulatorConstructor) => (dis
 	dispatch({
 		type: SIMULATOR_LOADED,
 		name,
-	});
-};
-
-export const updateKnownDatafiles : AppActionCreator = (datafiles) => (dispatch) => {
-	if (!Array.isArray(datafiles)) {
-		console.warn('datafiles is not an array');
-		return;
-	}
-	dispatch({
-		type: UPDATE_KNOWN_DATAFILES,
-		datafiles,
-	});
-};
-
-export const updateKnownSimulatorNames : AppActionCreator = (simulatorNames : SimulatorType[]) => (dispatch) => {
-	if (!Array.isArray(simulatorNames)) {
-		console.warn('simulatorsNames is not an array');
-		return;
-	}
-	//Yes, this is bad, bad, bad. I don't want to pass around
-	//knownSimulatorNames from state into Simulation all of the time (we have to
-	//clone them a bunch in random places) for no good reason, so we'll store
-	//them on the side for the drop down. We already re-generate them when this
-	//changes by having the selectors invalidate when knownSimulatorNames
-	//changes, even though we don't pass it to the SimulationCollection/Simulation constructors.
-	for (const name of simulatorNames) {
-		KNOWN_SIMULATOR_NAMES[name] = true;
-	}
-	dispatch({
-		type: UPDATE_KNOWN_SIMULATOR_NAMES,
-		simulatorNames,
 	});
 };
 

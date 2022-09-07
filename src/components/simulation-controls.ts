@@ -19,7 +19,6 @@ import {
 	selectPathExpanded,
 	selectDescriptionExpanded,
 	selectFilename,
-	selectKnownDatafiles,
 	selectHasModifications,
 	selectCurrentSimulationRunStatuses,
 	selectCurrentSimulatorShadowedModifications,
@@ -93,6 +92,10 @@ import {
 	MultiSelect
 } from './multi-select.js';
 
+import {
+	KNOWN_DATA_FILES
+} from '../dynamic-types.js';
+
 const optionsForMultiSelect = (chartData : ChartData) => {
 	const result : {[id : string] : {title: string, description: string}} = {};
 	for (const [key, value] of Object.entries(chartData || {})) {
@@ -145,9 +148,6 @@ class SimulationControls extends connect(store)(LitElement) {
 
 	@state()
 	_filename: Filename;
-
-	@state()
-	_datafiles: Filename[];
 
 	@state()
 	_simulationsMap: SimulationsMap;
@@ -231,7 +231,7 @@ class SimulationControls extends connect(store)(LitElement) {
 	override render() : TemplateResult {
 
 		const rawDescription = this._simulation ? this._simulation.rawDescription : '';
-		const datafiles = [...this._datafiles] || [];
+		const datafiles = [...KNOWN_DATA_FILES];
 		const datafilesMap = Object.fromEntries(datafiles.map(file => [file, true]));
 		if (!datafilesMap[this._filename]) datafiles.push(this._filename);
 		return html`
@@ -325,7 +325,6 @@ class SimulationControls extends connect(store)(LitElement) {
 		this._chartConfigIDs = selectChartConfigIDs(state);
 		this._pathExpanded = selectPathExpanded(state);
 		this._filename = selectFilename(state);
-		this._datafiles = selectKnownDatafiles(state);
 		this._simulationsMap = selectSimulationsMap(state);
 		this._simulationIndex = selectSimulationIndex(state);
 		this._simulationMaxRunIndex = selectCurrentSimulationMaxRunIndex(state);

@@ -15,11 +15,8 @@ import {
 	updateCurrentSimulationOptions,
 	DIALOG_TYPE_JSON,
 	DATA_DIRECTORY,
-	LISTINGS_JSON_PATH,
 	togglePlaying,
 	updateScale,
-	updateKnownDatafiles,
-	updateKnownSimulatorNames,
 	simulationChanged,
 	enableScreenshotting,
 	canonicalizeHash,
@@ -136,19 +133,6 @@ import {
 //Size in px that we want to allow around the visualization edge. Pixels per 100
 //px of width.
 const VISUALIZATION_PADDING = 8;
-
-const fetchListings = async() => {
-	let res;
-	try {
-		res = await fetch(LISTINGS_JSON_PATH);
-	} catch(err) {
-		console.warn('Couldn\'t load listings');
-		return;
-	}
-	const data = await res.json();
-	store.dispatch(updateKnownDatafiles(data.datafiles));
-	store.dispatch(updateKnownSimulatorNames(data.simulatorNames));
-};
 
 const fetchData = async(filename : string) => {
 	let res;
@@ -294,7 +278,6 @@ class SimView extends connect(store)(PageViewElement) {
 		document.addEventListener('keydown', e => this._handleKeyDown(e));
 		window.addEventListener('resize', () => this.resizeVisualization());
 		this.resizeVisualization();
-		fetchListings();
 		window.addEventListener('hashchange', () => this._handleHashChange());
 		//We don't yet have all of the information to fully parse this, but the
 		//hash might include information we need to know what simulators to

@@ -7,7 +7,7 @@
   "license": "BSD-3-Clause",
   "repository": "Polymer/pwa-starter-kit",
   "scripts": {
-    "start": "gulp generate-json && npm run serve",
+    "start": "gulp generate-types && npm run serve",
     "start:clean": "npm install && npm run build:clean && npm run start",
     "serve": "tsc --watch --preserveWatchOutput & wds --node-resolve --port=8081",
     "build": "npm run build:clean && npm run build:typescript && npm run build:rollup && npm run build:service-worker",

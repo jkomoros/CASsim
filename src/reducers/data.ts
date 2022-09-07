@@ -22,8 +22,6 @@ import {
 	UPDATE_PATH_EXPANDED,
 	SIMULATOR_LOADED,
 	SIMULATOR_LOADING,
-	UPDATE_KNOWN_DATAFILES,
-	UPDATE_KNOWN_SIMULATOR_NAMES,
 	UPDATE_RESIZE_VISUALIZATION,
 	REPLACE_MODIFICATIONS,
 	CLEAR_MODIFICATIONS,
@@ -51,8 +49,6 @@ const INITIAL_STATE : DataState = {
 	filename: DEFAULT_FILE_NAME,
 	loadingSimulators: {},
 	loadedSimulators: {},
-	knownDatafiles: [],
-	knownSimulatorNames: [],
 	data: [],
 	//A list of objects with {simulationIndex: <index>, path: <dottedPath>, value}
 	modifications: [],
@@ -185,16 +181,6 @@ const data = (state : DataState = INITIAL_STATE, action : AnyAction) : DataState
 		return {
 			...state,
 			loadingSimulators: {...state.loadingSimulators, [action.name]: true},
-		};
-	case UPDATE_KNOWN_DATAFILES:
-		return {
-			...state,
-			knownDatafiles: action.datafiles
-		};
-	case UPDATE_KNOWN_SIMULATOR_NAMES:
-		return {
-			...state,
-			knownSimulatorNames: action.simulatorNames
 		};
 	case UPDATE_RESIZE_VISUALIZATION:
 		return {

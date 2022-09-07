@@ -18,11 +18,10 @@ const makeExecutor = cmdAndArgs => {
 };
 
 const SIMULATORS_DIR = 'src/simulators/';
-//Also in actions/data.js
-const LISTINGS_JSON_PATH = 'src/listings.json';
+const DYNAMIC_TYPES_FILE = 'src/dynamic-types.ts';
 const DATA_DIRECTORY = 'data';
 
-gulp.task('generate-json', (done) => {
+gulp.task('generate-types', (done) => {
 	const simulatorNames = [];
 	const datafiles = [];
 	for (const simulator of fs.readdirSync(SIMULATORS_DIR)) {
@@ -35,13 +34,11 @@ gulp.task('generate-json', (done) => {
 		const filename = path.basename(file, '.json');
 		datafiles.push(filename);
 	}
-	const result = {
-		simulatorNames,
-		datafiles
-	};
+	const data =`export const KNOWN_DATA_FILES = ${JSON.stringify(datafiles, null, '\t')};
 
-	const blob = JSON.stringify(result, '', '\t');
-	fs.writeFileSync(LISTINGS_JSON_PATH, blob);
+export const KNOWN_SIMULATOR_NAMES = ${JSON.stringify(simulatorNames, null, '\t')};`;
+
+	fs.writeFileSync(DYNAMIC_TYPES_FILE, data);
 	done();
 
 });

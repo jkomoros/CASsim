@@ -3,7 +3,6 @@ bower_components/
 *.log
 
 frame_data.json
-src/listings.json
 
 build/
 dist/

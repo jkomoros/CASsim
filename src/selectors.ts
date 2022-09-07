@@ -56,8 +56,6 @@ export const selectPathExpanded = (state : RootState) => state.data ? state.data
 export const selectScale = (state : RootState) => state.data ? state.data.scale : 1.0;
 export const selectLoadedSimulators = (state : RootState) => state.data ? state.data.loadedSimulators : {};
 export const selectLoadingSimulators = (state : RootState) => state.data ? state.data.loadingSimulators : {};
-export const selectKnownDatafiles = (state : RootState) => state.data ? state.data.knownDatafiles : [];
-export const selectKnownSimulatorNames = (state : RootState) => state.data ? state.data.knownSimulatorNames : [];
 export const selectResizeVisualization = (state : RootState) => state.data ? state.data.resizeVisualization : false;
 export const selectChartSingleRun = (state : RootState) => state.data ? state.data.chartSingleRun : false;
 export const selectChartConfigIDs = (state : RootState) => state.data ? state.data.chartConfigIDs : {};
@@ -141,8 +139,6 @@ export const selectConfigData = createSelector(
 	selectRawConfigData,
 	selectModifications,
 	selectRequiredSimulatorsLoaded, 
-	selectKnownSimulatorNames,
-	//We don't actually pass knownSimulatorNames, we just need to retickle this when they change
 	(rawConfigData, modifications, simulatorsLoaded) => modfifiedConfigData(rawConfigData, modifications, simulatorsLoaded)
 );
 
@@ -156,8 +152,6 @@ export const selectSimulationCollection = createSelector(
 	selectConfigData,
 	selectRequiredSimulatorsLoaded,
 	selectRawConfigData,
-	selectKnownSimulatorNames,
-	//We don't actually pass knownSimulatorNames, we just need to retickle this when they change
 	(rawConfig, simulatorsLoaded, unmodifiedConfigData) => simulatorsLoaded ? new SimulationCollection(rawConfig, unmodifiedConfigData) : null
 );
 

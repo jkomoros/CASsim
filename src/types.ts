@@ -492,8 +492,6 @@ export type DataState = {
     filename : Filename;
 	loadingSimulators : {[name : SimulatorType] : true},
 	loadedSimulators : {[name : SimulatorType] : true},
-	knownDatafiles : Filename[],
-	knownSimulatorNames : SimulatorType[],
 	data : RawSimulationConfig[],
 	//A list of objects with {simulationIndex: <index>, path: <dottedPath>, value}
 	modifications : Modifications,
