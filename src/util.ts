@@ -4,7 +4,8 @@ import { Simulation } from './simulation.js';
 import {
 	OptionsPath,
 	OptionValue,
-	RandomGenerator, SimulatorType
+	OptionValueMap,
+	RandomGenerator, SimulationConfig, SimulatorType
 } from './types.js';
 
 /*
@@ -109,16 +110,16 @@ export const DEFAULT_SENTINEL = {default: true};
 //path is a dotted list of accessors in the object, returns a new object with
 //the modifications. If value is DELETE_SENTINEL then it will delete the implied
 //property.
-export const setPropertyInObject = <T extends object>(obj : T, path : OptionsPath, value : OptionValue) : T => {
+export const setPropertyInObject = <T extends OptionValueMap | SimulationConfig>(obj : T, path : OptionsPath, value : OptionValue) : T => {
 	const result = setPropertyInObjectInner(obj, path, value) as T;
 	return result;
 };
 
-const setPropertyInObjectInner = <T extends object>(objIn : T, path : OptionsPath, value : OptionValue) : T | OptionValue => {
+const setPropertyInObjectInner = <T extends OptionValueMap | SimulationConfig>(objIn : T, path : OptionsPath, value : OptionValue) : OptionValue | SimulationConfig => {
 	if (path == '') return value;
 	const pathParts = path.split('.');
 	let firstPart : number | string = pathParts[0];
-	let obj : T | OptionValue = objIn;
+	let obj : OptionValue | SimulationConfig = objIn;
 	if (obj === undefined || obj === null) {
 		if (path == '') return undefined;
 		//Create an array or an object based on if they key is a number
@@ -126,7 +127,7 @@ const setPropertyInObjectInner = <T extends object>(objIn : T, path : OptionsPat
 	}
 
 	const restParts = pathParts.slice(1);
-	const innerResult = setPropertyInObjectInner(obj[firstPart], restParts.join('.'), value);
+	const innerResult = setPropertyInObjectInner(obj[firstPart], restParts.join('.'), value) as OptionValue;
 	if (Array.isArray(obj)){
 		firstPart = parseInt(firstPart);
 		const result = [...obj];
