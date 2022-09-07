@@ -55,7 +55,7 @@ import {
 } from './simulator.js';
 
 import {
-	KNOWN_SIMULATOR_NAMES
+	KNOWN_SIMULATOR_TYPES
 } from './dynamic-types.js';
 
 //Also duplicated into screenshot.js
@@ -706,9 +706,9 @@ export class Simulation {
 				},
 				[SIM_PROPERTY]: {
 					//TODO: use the constant
-					example: KNOWN_SIMULATOR_NAMES.length ? Object.keys(KNOWN_SIMULATOR_NAMES)[0] : '',
+					example: KNOWN_SIMULATOR_TYPES.length ? Object.keys(KNOWN_SIMULATOR_TYPES)[0] : '',
 					shortName: SIM_PROPERTY_SHORT_NAME,
-					options: KNOWN_SIMULATOR_NAMES.map(name => ({value: name})),
+					options: KNOWN_SIMULATOR_TYPES.map(name => ({value: name})),
 					description: 'The simulator type to run. Only simulators in the simulators directory are supported',
 					//Advanced while this is the only option
 					advanced: true,

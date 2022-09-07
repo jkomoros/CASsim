@@ -38,7 +38,7 @@ gulp.task('generate-types', (done) => {
 
 export type SimulatorType = '' | ${simulatorNames.map(item => '\'' + item + '\'').join(' | ')};
 
-export const KNOWN_SIMULATOR_NAMES : SimulatorType[] = ${JSON.stringify(simulatorNames, null, '\t').split('"').join("'")};`;
+export const KNOWN_SIMULATOR_TYPES : SimulatorType[] = ${JSON.stringify(simulatorNames, null, '\t').split('"').join("'")};`;
 
 	fs.writeFileSync(DYNAMIC_TYPES_FILE, data);
 	done();
