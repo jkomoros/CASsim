@@ -461,7 +461,7 @@ class SimView extends connect(store)(PageViewElement) {
 		store.dispatch(closeDialog());
 	}
 
-	override updated(changedProps) {
+	override updated(changedProps : Map<string, SimView[keyof SimView]>) {
 		if (changedProps.has('_filename') && this._filename) {
 			fetchData(this._filename);
 		}
