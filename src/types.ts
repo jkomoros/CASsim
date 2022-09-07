@@ -225,7 +225,7 @@ export type OptionsConfig = {
 	options? : OptionConfigOptionItem[];
 	//Hide (optional) is a function that is passed the values of the _parent_ (meaning it can inspect its siblings values), as well as rootValues.
 	//If it returns true, it will be hidden from the UI (although values in it will still be there)
-	hide?: (parentValues : OptionValueMap) => boolean;
+	hide?: (parentValues : OptionValueMap, rootValue : OptionValueMap) => boolean;
 	//Whether the field is allowed to just not be provided. Defaults to false
     optional? : boolean;
 	//If true, then when this value is being generated as a a default, value, it will be included even if optional. May only be
