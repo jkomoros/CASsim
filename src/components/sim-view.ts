@@ -77,6 +77,14 @@ const SETUP_METHOD_VARIABLE = 'setup_method';
 const PREVIOUS_FRAME_METHOD_VARIABLE = 'previous_frame';
 const RENDER_COMPLETE_VARIABLE = 'render_complete';
 
+declare global {
+	interface Window {
+		[RENDER_COMPLETE_VARIABLE] : boolean;
+		[PREVIOUS_FRAME_METHOD_VARIABLE] : () => void;
+		[SETUP_METHOD_VARIABLE]: () => void;
+	}
+  }
+
 window[RENDER_COMPLETE_VARIABLE] = false;
 
 window[PREVIOUS_FRAME_METHOD_VARIABLE] = () => {
