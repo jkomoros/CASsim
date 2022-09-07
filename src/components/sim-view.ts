@@ -82,7 +82,7 @@ declare global {
 		[CURRENT_SIMULATION_INDEX_VARIABLE] : number;
 		[CURRENT_RUN_INDEX_VARIABLE] : number;
 		[CURRENT_FRAME_INDEX_VARIABLE] : number;
-		[CURRENT_SIMULATION_NAME_VARIABLE] : SimulatorType;
+		[CURRENT_SIMULATION_NAME_VARIABLE] : string;
 	}
   }
 
@@ -167,7 +167,7 @@ class SimView extends connect(store)(PageViewElement) {
 	_currentSimulation: Simulation;
 
 	@state()
-	_currentSimulationName: SimulatorType;
+	_currentSimulationName: string;
 
 	@state()
 	_currentSimulationLastChanged: number;
