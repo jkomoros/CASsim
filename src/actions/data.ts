@@ -96,7 +96,9 @@ import {
 	CHART_CONFIG_IDS_URL_KEY
 } from '../options.js';
 
-import { store } from '../store.js';
+import {
+	store
+} from '../store.js';
 
 import {
 	KNOWN_SIMULATOR_NAMES,
@@ -111,7 +113,12 @@ import {
 	DEFAULT_SENTINEL,
 	parseHash,
 } from '../util.js';
-import { DialogType, DialogTypeAddFieldExtras, Filename } from '../types.js';
+
+import {
+	DialogType,
+	DialogTypeAddFieldExtras,
+	Filename
+} from '../types.js';
 
 export const loadData = (blob) => (dispatch) => {
 	let data;
