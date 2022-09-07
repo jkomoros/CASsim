@@ -1,5 +1,8 @@
 /*eslint-env node*/
 
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="./modules.d.ts" />
+
 import * as puppeteer from "puppeteer";
 import * as fs from "fs";
 import * as path from "path";
@@ -12,7 +15,7 @@ const sizeOf = promisify(require('image-size'));
 
 import {
 	RawSimulationConfig
-} from "../types.js";
+} from "../src/types.js";
 
 const SCREENSHOT_DIR = 'screenshots';
 
@@ -26,7 +29,6 @@ const PREVIOUS_FRAME_METHOD_VARIABLE = 'previous_frame';
 const RENDER_COMPLETE_VARIABLE = 'render_complete';
 
 //Duplicated in simulations.js
-const NAME_PROPERTY = 'name';
 const REPEAT_PROPERTY = 'repeat';
 const FRAME_DELAY_PROPERTY = 'frameDelay';
 const EXTRA_FINAL_FRAME_COUNT_PROPERTY = 'extraFinalFrameCount';
@@ -140,7 +142,7 @@ const CONFIG_DATA_FILE = 'data/default.json';
 
 const configForGif = (configData : RawSimulationConfig[], gifName : string) => {
 	for (const config of configData) {
-		const safeName = sanitizeSimulationName(config[NAME_PROPERTY]);
+		const safeName = sanitizeSimulationName(config.name);
 		if (safeName != gifName) continue;
 		const gifInfo : GifInfo = {};
 		const delay = config[FRAME_DELAY_PROPERTY];
