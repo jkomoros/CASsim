@@ -251,7 +251,7 @@ export type Modification = {
 export type Modifications = Modification[];
 
 //TODO: tighten
-export type PlayType = string;
+export type PlayType = 'frame' | 'round' | 'simulation';
 
 //TODO: tigthen
 export type DialogType = string;

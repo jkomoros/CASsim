@@ -40,13 +40,13 @@ export const DEFAULT_FILE_NAME = 'default';
 
 //When playing forward into the next frame, where do we stop?
 //Frame == stop at the end of a round
-export const PLAY_TYPE_FRAME = 'frame';
+export const PLAY_TYPE_FRAME : PlayType = 'frame';
 //Round == stop at the end of a simulation
-export const PLAY_TYPE_ROUND = 'round';
+export const PLAY_TYPE_ROUND : PlayType = 'round';
 //Play all frames across all simulations
-export const PLAY_TYPE_SIMULATION = 'simulation';
+export const PLAY_TYPE_SIMULATION : PlayType = 'simulation';
 
-export const LEGAL_PLAY_TYPES = {
+export const LEGAL_PLAY_TYPES : {[typ in PlayType] : true} = {
 	[PLAY_TYPE_FRAME]: true,
 	[PLAY_TYPE_ROUND]: true,
 	[PLAY_TYPE_SIMULATION]: true,
@@ -117,7 +117,8 @@ import {
 import {
 	DialogType,
 	DialogTypeAddFieldExtras,
-	Filename
+	Filename,
+	PlayType
 } from '../types.js';
 
 export const loadData = (blob) => (dispatch) => {
@@ -511,7 +512,7 @@ export const closeDialog = () => {
 	};
 };
 
-export const updatePlayType = (typ) => {
+export const updatePlayType = (typ : PlayType) => {
 	if (!LEGAL_PLAY_TYPES[typ]) {
 		console.warn(typ + ' is not a legal playType');
 		return {};
