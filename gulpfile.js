@@ -26,8 +26,8 @@ gulp.task('generate-json', (done) => {
 	const simulatorNames = [];
 	const datafiles = [];
 	for (const simulator of fs.readdirSync(SIMULATORS_DIR)) {
-		if (!simulator.endsWith('.js')) continue;
-		const filename = path.basename(simulator, '.js');
+		if (!simulator.endsWith('.ts')) continue;
+		const filename = path.basename(simulator, '.ts');
 		simulatorNames.push(filename);
 	}
 	for (const file of fs.readdirSync(DATA_DIRECTORY)) {
