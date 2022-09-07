@@ -216,6 +216,8 @@ export class DistributionConfig {
 
 		if (includedTypes[LINEAR] || includedTypes[NORMAL] || includedTypes[FIXED]) {
 			const includesOtherTypes = includedTypes[MIN_MAX];
+			const disableAverage = this._options.types.length == 1 && this._options.distribution == MIN_MAX;
+			const disableSpread = this._options.types.length == 1 && (this._options.distribution == MIN_MAX || this._options.distribution == FIXED);
 			example.average = {
 				example: this._options.average,
 				min: this._options.limitMin,
@@ -224,7 +226,7 @@ export class DistributionConfig {
 				backfill: includesOtherTypes,
 				optional: includesOtherTypes,
 				default: includesOtherTypes,
-				hide: values => values.distribution && values.distribution == MIN_MAX,
+				hide: values => disableAverage || (values.distribution && values.distribution == MIN_MAX),
 				shortName: 'a',
 				description: 'The average value for ' + this._options.name + '.' + (includesOtherTypes ? ' Only for types ' + LINEAR + ', ' + FIXED + ', and ' + NORMAL : '')
 			};
@@ -234,7 +236,7 @@ export class DistributionConfig {
 				max: this._options.limitMax,
 				step: this._options.step,
 				shortName: 's',
-				hide: values => values.distribution && (values.distribution == MIN_MAX || values.distribution == FIXED),
+				hide: values => disableSpread || (values.distribution && (values.distribution == MIN_MAX || values.distribution == FIXED)),
 				optional:true,
 				backfill: true,
 				default: true,
