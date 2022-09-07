@@ -97,6 +97,7 @@ import {
 } from '../options.js';
 
 import {
+	AppActionCreator,
 	store
 } from '../store.js';
 
@@ -121,7 +122,7 @@ import {
 	PlayType
 } from '../types.js';
 
-export const loadData = (blob) => (dispatch) => {
+export const loadData : AppActionCreator = (blob) => (dispatch) => {
 	let data;
 	try {
 		data = unpackConfigJSON(blob);
@@ -142,7 +143,7 @@ const importSimulator = (simName) => {
 	return import(`../simulators/${simName}.js`);
 };
 
-export const fetchNeededSimulators = () => (dispatch, getState) => {
+export const fetchNeededSimulators : AppActionCreator = () => (dispatch, getState) => {
 	const state = getState();
 	const loadedSimulators = selectLoadedSimulators(state);
 	const loadingSimulators = selectLoadingSimulators(state);
@@ -182,7 +183,7 @@ const updateScreenshotting = (on) => {
 	};
 };
 
-export const enableScreenshotting = () => (dispatch) => {
+export const enableScreenshotting : AppActionCreator = () => (dispatch) => {
 	dispatch(updateScreenshotting(true));
 	dispatch(updateShowControls(false));
 	dispatch(updateResizeVisualization(false));
@@ -190,7 +191,7 @@ export const enableScreenshotting = () => (dispatch) => {
 	dispatch(advanceToLastFrameInConfig());
 };
 
-export const verifyValidIndexes = () => (dispatch, getState) => {
+export const verifyValidIndexes : AppActionCreator = () => (dispatch, getState) => {
 	const simulationIndex = selectSimulationIndex(getState());
 	//All of these dispatches will be either noops or cut it to a valid index
 	dispatch(updateSimulationIndex(simulationIndex));
@@ -202,7 +203,7 @@ export const verifyValidIndexes = () => (dispatch, getState) => {
 	dispatch(updateFrameIndex(frameIndex));
 };
 
-export const updateWithSimPageExtra = (pageExtra) => (dispatch, getState) => {
+export const updateWithSimPageExtra : AppActionCreator = (pageExtra) => (dispatch, getState) => {
 	const parts = pageExtra.split('/');
 	//The last piece is the trailing slash
 	//TODO: handle malformed URLs better
@@ -220,12 +221,12 @@ export const updateWithSimPageExtra = (pageExtra) => (dispatch, getState) => {
 	if (selectDataIsFullyLoaded(getState())) dispatch(updateSimulationIndex(simulationIndex, true));
 };
 
-export const resetSimulation = () => (dispatch) => {
+export const resetSimulation : AppActionCreator = () => (dispatch) => {
 	dispatch(updateRunIndex(0));
 	dispatch(updateFrameIndex(0));
 };
 
-const simulationActivated = () => (dispatch, getState) => {
+const simulationActivated : AppActionCreator = () => (dispatch, getState) => {
 	//This might be called multiple times per simulation activation
 	const state = getState();
 	const simulation = selectCurrentSimulation(state);
@@ -236,14 +237,14 @@ const simulationActivated = () => (dispatch, getState) => {
 	}
 };
 
-export const togglePlaying = () => (dispatch, getState) => {
+export const togglePlaying : AppActionCreator = () => (dispatch, getState) => {
 	const playing = selectPlaying(getState());
 	dispatch(updatePlaying(!playing));
 };
 
 let playingInterval = -1;
 
-export const updatePlaying = (enabled) => (dispatch, getState) => {
+export const updatePlaying : AppActionCreator = (enabled) => (dispatch, getState) => {
 	const state = getState();
 	const playing = selectPlaying(state);
 	if (playing == enabled) return;
@@ -259,14 +260,14 @@ export const updatePlaying = (enabled) => (dispatch, getState) => {
 	});
 };
 
-export const advanceToLastFrameInConfig =() => (dispatch) => {
+export const advanceToLastFrameInConfig : AppActionCreator = () => (dispatch) => {
 	//All of these will be set to the highest number they can be before being set.
 	dispatch(updateSimulationIndex(Number.MAX_SAFE_INTEGER));
 	dispatch(updateRunIndex(Number.MAX_SAFE_INTEGER));
 	dispatch(updateFrameIndex(Number.MAX_SAFE_INTEGER));
 };
 
-export const advanceToLastFrameInRun = () => (dispatch) => {
+export const advanceToLastFrameInRun : AppActionCreator = () => (dispatch) => {
 	//Just try to jump too far in the future and updateFramIndex will cut us back.
 	dispatch(updateFrameIndex(Number.MAX_SAFE_INTEGER));
 };
@@ -275,7 +276,7 @@ const advanceFrame = () => {
 	store.dispatch(nextFrameIndex(true));
 };
 
-export const nextFrameIndex = (fromInterval = false) => (dispatch, getState) => {
+export const nextFrameIndex : AppActionCreator = (fromInterval = false) => (dispatch, getState) => {
 	const state = getState();
 	//Don't allow anything but the interval to advance (so a user can't hit the arrow key and advance when playing)
 	if (!fromInterval && selectPlaying(state)) return;
@@ -343,7 +344,7 @@ export const nextFrameIndex = (fromInterval = false) => (dispatch, getState) => 
 	dispatch(updatePlaying(false));
 };
 
-export const prevFrameIndex = (fromInterval = false) => (dispatch, getState) => {
+export const prevFrameIndex : AppActionCreator = (fromInterval = false) => (dispatch, getState) => {
 	const state = getState();
 	//Don't allow anything but the interval to advance (so a user can't hit the arrow key and advance when playing)
 	if (!fromInterval && selectPlaying(state)) return;
@@ -393,7 +394,7 @@ export const prevFrameIndex = (fromInterval = false) => (dispatch, getState) => 
 	dispatch(updatePlaying(false));
 };
 
-export const updateFilename = (filename : Filename, skipCanonicalize = false) => (dispatch, getState) => {
+export const updateFilename : AppActionCreator = (filename : Filename, skipCanonicalize = false) => (dispatch, getState) => {
 	const state = getState();
 	const currentFilename = selectFilename(state);
 	if (currentFilename == filename) return;
@@ -407,7 +408,7 @@ export const updateFilename = (filename : Filename, skipCanonicalize = false) =>
 	if (!skipCanonicalize) dispatch(canonicalizePath());
 };
 
-export const updateSimulationIndex = (index, skipCanonicalize? : boolean) => (dispatch, getState) => {
+export const updateSimulationIndex : AppActionCreator = (index, skipCanonicalize? : boolean) => (dispatch, getState) => {
 	index = parseInt(index);
 	const currentIndex = selectSimulationIndex(getState());
 	if (index < 0) index = 0;
@@ -423,7 +424,7 @@ export const updateSimulationIndex = (index, skipCanonicalize? : boolean) => (di
 	if (!skipCanonicalize) dispatch(canonicalizePath());
 };
 
-export const updateFrameIndex = (index) => (dispatch, getState) => {
+export const updateFrameIndex : AppActionCreator = (index) => (dispatch, getState) => {
 	if (typeof index == 'string') index = parseInt(index);
 	const state = getState();
 	const run = selectCurrentSimulationRun(state);
@@ -443,7 +444,7 @@ export const updateFrameIndex = (index) => (dispatch, getState) => {
 	});
 };
 
-export const updateRunIndex = (index) => (dispatch, getState) => {
+export const updateRunIndex : AppActionCreator  = (index) => (dispatch, getState) => {
 	if (typeof index == 'string') index = parseInt(index);
 	const state = getState();
 	if (index < 0) {
@@ -461,7 +462,7 @@ export const updateRunIndex = (index) => (dispatch, getState) => {
 	dispatch(verifyValidIndexes());
 };
 
-export const updateCurrentSimulationOptions = (path, value) => (dispatch, getState) => {
+export const updateCurrentSimulationOptions : AppActionCreator = (path, value) => (dispatch, getState) => {
 	const state = getState();
 	const simulation = selectCurrentSimulation(state);
 	const valueOrDefault = value == DEFAULT_SENTINEL ? simulation.defaultValueForOptionsPath(path) : value;
@@ -566,7 +567,7 @@ export const updatePathExpanded = (path, expanded) => {
 	};
 };
 
-export const updateScale = (scale) => (dispatch, getState) => {
+export const updateScale : AppActionCreator = (scale) => (dispatch, getState) => {
 	if (scale == selectScale(getState())) return;
 	dispatch({
 		type: UPDATE_SCALE,
@@ -574,7 +575,7 @@ export const updateScale = (scale) => (dispatch, getState) => {
 	});
 };
 
-export const simulatorLoaded = (simulatorConstructor) => (dispatch) => {
+export const simulatorLoaded : AppActionCreator = (simulatorConstructor) => (dispatch) => {
 	if (!simulatorConstructor) {
 		console.warn('No simulator provided');
 		return;
@@ -588,7 +589,7 @@ export const simulatorLoaded = (simulatorConstructor) => (dispatch) => {
 	});
 };
 
-export const updateKnownDatafiles = (datafiles) => (dispatch) => {
+export const updateKnownDatafiles : AppActionCreator = (datafiles) => (dispatch) => {
 	if (!Array.isArray(datafiles)) {
 		console.warn('datafiles is not an array');
 		return;
@@ -599,7 +600,7 @@ export const updateKnownDatafiles = (datafiles) => (dispatch) => {
 	});
 };
 
-export const updateKnownSimulatorNames = (simulatorNames) => (dispatch) => {
+export const updateKnownSimulatorNames : AppActionCreator = (simulatorNames) => (dispatch) => {
 	if (!Array.isArray(simulatorNames)) {
 		console.warn('simulatorsNames is not an array');
 		return;
@@ -626,11 +627,11 @@ export const updateResizeVisualization = (resize) => {
 	};
 };
 
-export const updateLayout = (wide) => (dispatch) => {
+export const updateLayout : AppActionCreator = (wide) => (dispatch) => {
 	dispatch(updateConfigurationExpanded(wide));
 };
 
-export const clearModifications = () => (dispatch, getState) => {
+export const clearModifications : AppActionCreator = () => (dispatch, getState) => {
 	if (!selectHasModifications(getState())) return;
 	if (!confirm('OK to throw away modifications you have made? This cannot be undone')) return;
 	dispatch({
@@ -644,14 +645,14 @@ export const simulationChanged = () => {
 	};
 };
 
-export const canonicalizeHash = () => (dispatch, getState) => {
+export const canonicalizeHash : AppActionCreator = () => (dispatch, getState) => {
 	const state = getState();
 	if (!selectDataIsFullyLoaded(state)) return;
 	const hash = selectHashForCurrentState(state);
 	dispatch(updateHash(hash));
 };
 
-const ingestHash = (hash) => (dispatch, getState) => {
+const ingestHash : AppActionCreator = (hash) => (dispatch, getState) => {
 	const state = getState();
 	const pieces = parseHash(hash);
 	for (const [key, value] of Object.entries(pieces)) {
@@ -696,7 +697,7 @@ const ingestHash = (hash) => (dispatch, getState) => {
 	}
 };
 
-export const updateHash = (hash, comesFromURL = false) => (dispatch, getState) => {
+export const updateHash : AppActionCreator = (hash, comesFromURL = false) => (dispatch, getState) => {
 	if (hash.startsWith('#')) hash = hash.substring(1);
 	const state = getState();
 	const dataFullyLoaded = selectDataIsFullyLoaded(state);
