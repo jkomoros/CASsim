@@ -194,7 +194,7 @@ export class AgentSimulator extends BaseSimulator {
 	agentTick(agent : Agent, agents : Agent[], graph : Graph, frame : AgentSimulationFrame, rnd : RandomGenerator) : Agent | Agent[] {
 		const typ = agent.type || '';
 		const typeMethod = typ + 'AgentTick';
-		if (this[typeMethod]) return this[typeMethod](agent, graph, frame, rnd);
+		if (this[typeMethod]) return this[typeMethod](agent, agents, graph, frame, rnd);
 		return this.defaultAgentTick(agent, agents, graph, frame, rnd);
 	}
 
