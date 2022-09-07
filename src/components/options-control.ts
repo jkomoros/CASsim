@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 
 import {
 	COLOR_BEHAVIOR_NAME,
-	IS_ROOT_PROPERTY_NAME
+	isRoot,
 } from "../options.js";
 
 import {
@@ -163,7 +163,7 @@ class OptionsControl extends LitElement {
 	get _rootValue() : OptionValue {
 		const config = this.config || {};
 		if (config.example === undefined) return this.rootValue;
-		return config[IS_ROOT_PROPERTY_NAME] ? this.value : this.rootValue;
+		return isRoot(config) ? this.value : this.rootValue;
 	}
 
 	_innerControl() : TemplateResult {
