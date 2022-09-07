@@ -6,8 +6,8 @@
 import * as puppeteer from "puppeteer";
 import * as fs from "fs";
 import * as path from "path";
-import { GIFEncoder } from "gifencoder";
-import * as glob from "glob";
+import GIFEncoder from "gifencoder";
+import glob from "glob";
 import { PNG } from "pngjs";
 import { promisify } from 'util';
 // eslint-disable-next-line @typescript-eslint/no-var-requires

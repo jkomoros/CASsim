@@ -31,4 +31,6 @@ declare module 'gifencoder' {
 		addFrame(ctx: CanvasRenderingContext2D | Buffer): void;
 		finish(): void;
 	}
+
+	export = GIFEncoder;
 }

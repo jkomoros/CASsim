@@ -16,6 +16,7 @@
       "allowSyntheticDefaultImports": true,
       "experimentalDecorators": true,
       "forceConsistentCasingInFileNames": true,
+      "esModuleInterop": true,
       "noImplicitOverride": true,
       "noImplicitThis": true,
       "noEmitOnError": true,
