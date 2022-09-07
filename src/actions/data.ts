@@ -512,15 +512,15 @@ export const closeDialog = () => {
 	};
 };
 
-export const updatePlayType = (typ : PlayType) => {
+export const updatePlayType = (typ : PlayType) => (dispatch) => {
 	if (!LEGAL_PLAY_TYPES[typ]) {
 		console.warn(typ + ' is not a legal playType');
-		return {};
+		return;
 	}
-	return {
+	dispatch({
 		type: UPDATE_PLAY_TYPE,
 		playType: typ,
-	};
+	});
 };
 
 export const updateDelayCount = (count) => {
