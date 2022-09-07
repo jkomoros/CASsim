@@ -81,7 +81,11 @@ declare global {
 	interface Window {
 		[RENDER_COMPLETE_VARIABLE] : boolean;
 		[PREVIOUS_FRAME_METHOD_VARIABLE] : () => void;
-		[SETUP_METHOD_VARIABLE]: () => void;
+		[SETUP_METHOD_VARIABLE] : () => void;
+		[CURRENT_SIMULATION_INDEX_VARIABLE] : number;
+		[CURRENT_RUN_INDEX_VARIABLE] : number;
+		[CURRENT_FRAME_INDEX_VARIABLE] : number;
+		[CURRENT_SIMULATION_NAME_VARIABLE] : SimulatorType;
 	}
   }
 
