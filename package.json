@@ -13,7 +13,7 @@
     "build": "npm run build:clean && npm run build:typescript; npm run build:rollup && npm run build:service-worker",
     "build:clean": "npm run build:clean:build && npm run build:clean:typescript",
     "build:clean:build": "rm -rf build/",
-    "build:clean:typescript": "find src -name '*.map' -type f -delete && find src -name '*.js' -type f -delete && find src -name '*.d.ts' -type f -delete",
+    "build:clean:typescript": "find src -name '*.map' -type f -delete && find src -name '*.js' -type f -delete && find src -name '*.d.ts' ! -name 'modules.d.ts' -type f -delete",
     "build:rollup": "rollup -c",
     "build:typescript": "tsc",
     "build:service-worker": "workbox generateSW workbox-config.js",
