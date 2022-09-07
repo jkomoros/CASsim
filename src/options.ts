@@ -102,6 +102,11 @@ const shortNameForOptionsLeaf = (leaf : OptionsConfigInput) : string => {
 	return leaf.shortName || '';
 };
 
+export const isRoot = (config : OptionsConfig) : boolean => {
+	const configWithRoot = config as OptionConfigWithRoot;
+	return configWithRoot[IS_ROOT_PROPERTY_NAME];
+};
+
 const optionsLeafValidator = (config : OptionsConfigInput) : string => {
 	if (!config || typeof config != 'object') return 'Config must be an object';
 	if (Array.isArray(config)) return 'Config may not be an array';
