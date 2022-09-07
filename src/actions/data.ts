@@ -125,6 +125,7 @@ import {
 import { 
 	AnyAction
 } from 'redux';
+import { BaseSimulator } from '../simulator.js';
 
 export const loadData : AppActionCreator = (blob) => (dispatch) => {
 	let data;
@@ -165,7 +166,7 @@ export const fetchNeededSimulators : AppActionCreator = () => (dispatch, getStat
 				//The module might be a proper, uncompiled module, or might be a
 				//mangled, built module. Extract the default export in either
 				//case.
-				let simulator = null;
+				let simulator : BaseSimulator = null;
 				for (const [key, descriptor] of Object.entries(Object.getOwnPropertyDescriptors(mod))) {
 					if (key == 'default' || (key.endsWith('Default') && key.startsWith('$'))) {
 						simulator = descriptor.value;
@@ -579,7 +580,7 @@ export const updateScale : AppActionCreator = (scale) => (dispatch, getState) =>
 	});
 };
 
-export const simulatorLoaded : AppActionCreator = (simulatorConstructor) => (dispatch) => {
+export const simulatorLoaded : AppActionCreator = (simulatorConstructor : typeof BaseSimulator) => (dispatch) => {
 	if (!simulatorConstructor) {
 		console.warn('No simulator provided');
 		return;
