@@ -23,7 +23,8 @@ import {
 	GraphNodeValues,
 	OptionsConfigMap,
 	RandomGenerator,
-	ScoreConfigItem
+	ScoreConfigItem,
+	SimulatorType
 } from '../types.js';
 
 //Remember that the name must be the same as the filename of this file
@@ -65,7 +66,7 @@ interface StandingOvationSimulationFrame extends AgentSimulationFrame,  Standing
 
 class StandingOvationSimulator extends AgentSimulator {
 
-	override get name() {
+	override get name() : SimulatorType {
 		return SIMULATOR_NAME;
 	}
 

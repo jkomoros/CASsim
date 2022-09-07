@@ -6,7 +6,8 @@ import {
 	OptionsConfigMap,
 	RandomGenerator,
 	ScoreConfigItem,
-	SimulationFrame
+	SimulationFrame,
+	SimulatorType
 } from '../types.js';
 
 //Remember that the name must be the same as the filename of this file
@@ -31,7 +32,7 @@ interface DiceRollSimulationFrame extends SimulationFrame,  DiceRollSimulationFr
 
 class DiceRollDemoSimulator extends BaseSimulator {
 
-	override get name() : string {
+	override get name() : SimulatorType {
 		return SIMULATOR_NAME;
 	}
 

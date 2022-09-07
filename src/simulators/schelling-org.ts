@@ -20,7 +20,8 @@ import {
 	OptionsPath,
 	OptionValue,
 	RandomGenerator,
-	SimOptions
+	SimOptions,
+	SimulatorType
 } from '../types.js';
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
@@ -228,7 +229,7 @@ const projectX = (index : number, projectCount : number, stageWidth = 1.0) : num
 
 class SchellingOrgSimulator extends BaseSimulator {
 
-	override get name() {
+	override get name() : SimulatorType {
 		return SCHELLING_ORG_SIMULATION_NAME;
 	}
 
