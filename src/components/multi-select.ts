@@ -7,6 +7,10 @@ import {
 	ButtonSharedStyles
 } from './button-shared-styles';
 
+import {
+	makeMultiSelectChangedEvent
+} from '../events.js';
+
 @customElement('multi-select')
 export class MultiSelect extends LitElement {
 
@@ -85,7 +89,7 @@ export class MultiSelect extends LitElement {
 		}
 
 		this.values = newValues;
-		this.dispatchEvent(new CustomEvent('change', {composed: true, detail: {values:newValues}}));
+		this.dispatchEvent(makeMultiSelectChangedEvent(newValues));
 	}
 
 
