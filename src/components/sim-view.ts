@@ -146,7 +146,7 @@ const fetchListings = async() => {
 	store.dispatch(updateKnownSimulatorNames(data.simulatorNames));
 };
 
-const fetchData = async(filename) => {
+const fetchData = async(filename : string) => {
 	let res;
 	filename = ('' + filename).toLowerCase();
 	filename = filename.split('/')[0];
@@ -302,13 +302,14 @@ class SimView extends connect(store)(PageViewElement) {
 		store.dispatch(updateHash(window.location.hash, true));
 	}
 
-	_handleKeyDown(e) {
+	_handleKeyDown(e : KeyboardEvent) {
 		//We have to hook this to issue content editable commands when we're
 		//active. But most of the time we don't want to do anything.
 		if (!this.active) return;
 
 		//Don't trigger keyboard shortcuts if the user is editing a text field
 		for (const ele of e.composedPath()) {
+			if (!(ele instanceof HTMLElement)) continue;
 			if (ele.localName == 'input') return;
 			if (ele.localName == 'textarea') return;
 		}
