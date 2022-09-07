@@ -115,11 +115,11 @@ export const setPropertyInObject = <T extends OptionValueMap | SimulationConfig>
 	return result;
 };
 
-const setPropertyInObjectInner = <T extends OptionValueMap | SimulationConfig>(objIn : T, path : OptionsPath, value : OptionValue) : OptionValue | SimulationConfig => {
+const setPropertyInObjectInner = <T extends OptionValueMap | OptionValue[] | SimulationConfig>(objIn : T, path : OptionsPath, value : OptionValue) : OptionValue | SimulationConfig => {
 	if (path == '') return value;
 	const pathParts = path.split('.');
 	let firstPart : number | string = pathParts[0];
-	let obj : OptionValue | SimulationConfig = objIn;
+	let obj : OptionValue[] | OptionValueMap | SimulationConfig = objIn;
 	if (obj === undefined || obj === null) {
 		if (path == '') return undefined;
 		//Create an array or an object based on if they key is a number
@@ -127,7 +127,8 @@ const setPropertyInObjectInner = <T extends OptionValueMap | SimulationConfig>(o
 	}
 
 	const restParts = pathParts.slice(1);
-	const innerResult = setPropertyInObjectInner(obj[firstPart], restParts.join('.'), value) as OptionValue;
+	const objMap = obj as OptionValueMap;
+	const innerResult = setPropertyInObjectInner(objMap[firstPart] as OptionValueMap, restParts.join('.'), value) as OptionValueMap;
 	if (Array.isArray(obj)){
 		firstPart = parseInt(firstPart);
 		const result = [...obj];
@@ -139,7 +140,7 @@ const setPropertyInObjectInner = <T extends OptionValueMap | SimulationConfig>(o
 		return result;
 	}
 	if (value === DELETE_SENTINEL && restParts.length == 0) {
-		const result = {...obj};
+		const result = {...obj} as OptionValueMap;
 		delete result[firstPart];
 		return result;
 	}
