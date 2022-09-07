@@ -3,7 +3,7 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="./modules.d.ts" />
 
-import * as puppeteer from "puppeteer";
+import puppeteer from "puppeteer";
 import * as fs from "fs";
 import * as path from "path";
 import GIFEncoder from "gifencoder";
