@@ -11,6 +11,9 @@
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended"
     ],
+    "plugins": [
+        "@typescript-eslint"
+    ],
     "parserOptions": {
         "ecmaVersion": 2022,
         "sourceType": "module"
