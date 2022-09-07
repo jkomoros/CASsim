@@ -119,6 +119,7 @@ import {
 	DialogType,
 	DialogTypeAddFieldExtras,
 	Filename,
+	Modifications,
 	OptionsPath,
 	PlayType,
 	SimulatorType
@@ -626,14 +627,14 @@ export const updateKnownSimulatorNames : AppActionCreator = (simulatorNames : Si
 	});
 };
 
-export const updateResizeVisualization = (resize) => {
+export const updateResizeVisualization = (resize : boolean) : AnyAction => {
 	return {
 		type: UPDATE_RESIZE_VISUALIZATION,
 		resize,
 	};
 };
 
-export const updateLayout : AppActionCreator = (wide) => (dispatch) => {
+export const updateLayout : AppActionCreator = (wide : boolean) => (dispatch) => {
 	dispatch(updateConfigurationExpanded(wide));
 };
 
@@ -723,21 +724,21 @@ export const updateHash : AppActionCreator = (hash, comesFromURL = false) => (di
 	});
 };
 
-const replaceModifications = (modifications) => {
+const replaceModifications = (modifications : Modifications) : AnyAction => {
 	return {
 		type: REPLACE_MODIFICATIONS,
 		modifications,
 	};
 };
 
-export const updateWarning = (message) => {
+export const updateWarning = (message : string) : AnyAction => {
 	return {
 		type: UPDATE_WARNING,
 		message
 	};
 };
 
-export const updateChartSingleRun = (singleRun) => {
+export const updateChartSingleRun = (singleRun : boolean) : AnyAction => {
 	return {
 		type: UPDATE_CHART_SINGLE_RUN,
 		singleRun,
@@ -745,7 +746,7 @@ export const updateChartSingleRun = (singleRun) => {
 };
 
 //ids should be an object of key => true. An object with no keys means "all items"
-export const updateChartConfigIDs = (ids) => {
+export const updateChartConfigIDs = (ids) : AnyAction => {
 	return {
 		type: UPDATE_CHART_CONFIG_IDS,
 		ids,
