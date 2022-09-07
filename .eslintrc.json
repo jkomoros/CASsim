@@ -4,10 +4,18 @@
         "es6": true,
         "mocha": true
     },
+    "parser": "@typescript-eslint/parser",
     "ignorePatterns": "build/**",
-    "extends": "eslint:recommended",
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "plugins": [
+        "@typescript-eslint"
+    ],
     "parserOptions": {
-        "ecmaVersion": 2020,
+        "ecmaVersion": 2022,
         "sourceType": "module"
     },
     "rules": {
@@ -25,6 +33,11 @@
         ],
         "no-console": "off",
         "no-case-declarations": "off",
-        "no-fallthrough": "off"
+        "no-fallthrough": "off",
+        "prefer-const": [ "error",
+            {
+                "destructuring" : "all"
+            }
+        ]
     }
 }

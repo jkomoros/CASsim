@@ -50,7 +50,7 @@ Then run `npm install canvas` and `npm install`
 
 ## Running
 
-Run `polymer serve` from command line.
+Run `npm run start` from command line.
 
 Visit http://localhost:8081
 
@@ -211,7 +211,7 @@ passed the result of a frame's frameScorer, and tells the harness if it was a
 success (1.0), a failure (0.0), inbetween (0.0 to 1.0) or indeterminate / not
 yet finished (a negative number).
 
-`frameValidator(frame, normalizedSimOptions) => (no return value)` - This method
+`frameValidator(frame) => (no return value)` - This method
 is optional, just to ensure for yourself that your generator hasn't output
 invalid frames. Throw an error if the frame is incorrectly structured.
 

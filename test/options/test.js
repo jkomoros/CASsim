@@ -416,6 +416,19 @@ describe('optionsConfigValidator', () => {
 		assert.strictEqual(result != '', expectedProblem);
 	});
 
+	it('handles basic object with two examples nested directly ', async () => {
+		const config = {
+			foo: {
+				example: {
+					example: 3,
+				},
+			}
+		};
+		const result = optionsConfigValidator(config);
+		const expectedProblem = true;
+		assert.strictEqual(result != '', expectedProblem);
+	});
+
 	it('handles basic object with min not on array or number', async () => {
 		const config = {
 			foo: {
