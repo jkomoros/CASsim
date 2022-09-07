@@ -34,11 +34,11 @@ gulp.task('generate-types', (done) => {
 		const filename = path.basename(file, '.json');
 		datafiles.push(filename);
 	}
-	const data =`export const KNOWN_DATA_FILES = ${JSON.stringify(datafiles, null, '\t')};
+	const data =`export const KNOWN_DATA_FILES = ${JSON.stringify(datafiles, null, '\t').split('"').join("'")};
 
 export type SimulatorType = '' | ${simulatorNames.map(item => '\'' + item + '\'').join(' | ')};
 
-export const KNOWN_SIMULATOR_NAMES : SimulatorType[] = ${JSON.stringify(simulatorNames, null, '\t')};`;
+export const KNOWN_SIMULATOR_NAMES : SimulatorType[] = ${JSON.stringify(simulatorNames, null, '\t').split('"').join("'")};`;
 
 	fs.writeFileSync(DYNAMIC_TYPES_FILE, data);
 	done();
