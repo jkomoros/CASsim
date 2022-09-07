@@ -119,8 +119,14 @@ import {
 	DialogType,
 	DialogTypeAddFieldExtras,
 	Filename,
-	PlayType
+	OptionsPath,
+	PlayType,
+	SimulatorType
 } from '../types.js';
+
+import { 
+	AnyAction
+} from 'redux';
 
 export const loadData : AppActionCreator = (blob) => (dispatch) => {
 	let data;
@@ -139,7 +145,7 @@ export const loadData : AppActionCreator = (blob) => (dispatch) => {
 	dispatch(simulationActivated());
 };
 
-const importSimulator = (simName) => {
+const importSimulator = (simName : SimulatorType) => {
 	return import(`../simulators/${simName}.js`);
 };
 
@@ -176,7 +182,7 @@ export const fetchNeededSimulators : AppActionCreator = () => (dispatch, getStat
 	}
 };
 
-const updateScreenshotting = (on) => {
+const updateScreenshotting = (on : boolean) : AnyAction => {
 	return {
 		type: UPDATE_SCREENSHOTTING,
 		on
@@ -490,7 +496,7 @@ export const updateCurrentSimulationOptions : AppActionCreator = (path, value) =
 	dispatch(verifyValidIndexes());
 };
 
-export const removeModificationsForPath = (path) => {
+export const removeModificationsForPath = (path : OptionsPath) : AnyAction => {
 	return {
 		type: REMOVE_MODIFICATIONS_FOR_PATH,
 		path
@@ -513,7 +519,7 @@ export const closeDialog = () => {
 	};
 };
 
-export const updatePlayType = (typ : PlayType) => (dispatch) => {
+export const updatePlayType : AppActionCreator = (typ : PlayType) => (dispatch) => {
 	if (!LEGAL_PLAY_TYPES[typ]) {
 		console.warn(typ + ' is not a legal playType');
 		return;
