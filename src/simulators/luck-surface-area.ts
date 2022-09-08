@@ -24,10 +24,8 @@ import {
 } from '../graph/options-config.js';
 
 import {
-	DistributionOptions,
 	GraphNodeValues,
 	OptionsConfigMap,
-	OptionValueMap,
 	RandomGenerator,
 	ScoreConfigItem,
 } from '../types.js';
@@ -39,6 +37,10 @@ import {
 import {
 	Graph
 } from '../graph/graph.js';
+
+import {
+	LuckSurfaceAreaSimOptions
+} from './types/luck-surface-area.js';
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'luck-surface-area';
@@ -73,24 +75,6 @@ type LuckSurfaceAreaAgent = Agent & {
 	emoji : string;
 	value : number;
 	cost : number;
-};
-
-type LuckSurfaceAreaSimOptions = {
-	agents : {
-		count : number;
-		cost : DistributionOptions;
-		starterStrength : DistributionOptions;
-		starterValue : DistributionOptions;
-	},
-	rounds : number;
-	opportunities : {
-		value : {
-			likelihood : DistributionOptions;
-			falloff : DistributionOptions;
-		};
-		//TODO: be more precise in this type
-		structure : OptionValueMap;
-	}
 };
 
 interface LuckSurfaceAreaSimulationFrame extends AgentSimulationFrame {
