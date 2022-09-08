@@ -64,6 +64,7 @@ const DEFAULT_EXTRA_FINAL_FRAME_COUNT = 0;
 const DEFAULT_REPEAT = false;
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 450;
+const DEFAULT_RUNS = 10;
 
 export const SIMULATORS : {[name in SimulatorType] +? : BaseSimulator} = {};
 
@@ -384,7 +385,8 @@ export class Simulation {
 		this._colors = Object.fromEntries(Object.entries(this._config.colors || {}).map(entry => [entry[0], color(entry[1])]));
 		this._lastChanged = Date.now();
 		this._activated = false;
-		for (let i = 0; i < config.runs; i++) {
+		const runCount = config.runs || DEFAULT_RUNS;
+		for (let i = 0; i < runCount; i++) {
 			const run = new SimulationRun(this, i);
 			this._runs.push(run);
 		}
@@ -605,7 +607,7 @@ export class Simulation {
 					advanced: true
 				},
 				runs: {
-					example: 10,
+					example: DEFAULT_RUNS,
 					shortName: 'r',
 					description: 'How many runs in the simulation to run',
 				},

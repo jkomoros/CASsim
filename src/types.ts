@@ -68,6 +68,8 @@ interface RawSimulationConfigCommon {
 	title? : string;
 	//A longer description of the simulation. If not provided will use title or name.
 	description?: string;
+    //How many runs to generate in the set, defaults to 10 if not provided.
+	runs? : number;
 	//Height and width. Mainly used for aspect ratio, but for screenshotting this will be the literal height and width in pixels (modulo if you include the display.status)
 	//The base random number seed for each run (each run and frame gets its own initialized seed based on this.) If omitted, will use a value derived from current time, leading to nondeterministic behavior.
 	seed? : string;
@@ -88,15 +90,11 @@ interface RawSimulationConfigCommon {
 }
 
 export interface RawSimulationConfigBase extends RawSimulationConfigCommon {
-	//How many runs to generate in the set
-	runs : number;
     //If true, then this config will not be included; typically you only include this for things that other configs will extend.
 	base : true;
 }
 
 export interface RawSimulationConfigExtended extends RawSimulationConfigCommon {
-	//How many runs to generate in the set
-	runs? : number;
 	//If set, then this config will extend and overlay the config given by "this-is-another-name". It will not copy over any 'base' config value, and for object values, it will entirely overwrite the value. Note that these extensions won't be visible at all in the UI; the transformation is done before the UI sees it, and the UI operates as though each config is fully specified. You may point to configs that extend other configs, but cycles are not allowed.
 	extend : SimulationConfigName;
 }

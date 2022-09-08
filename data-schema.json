@@ -389,7 +389,6 @@
               },
               "required": [
                 "base",
-                "runs",
                 "sim",
                 "simOptions"
               ],
@@ -535,7 +534,6 @@
               },
               "required": [
                 "base",
-                "runs",
                 "sim",
                 "simOptions"
               ],
@@ -681,7 +679,6 @@
               },
               "required": [
                 "base",
-                "runs",
                 "sim",
                 "simOptions"
               ],
@@ -827,7 +824,6 @@
               },
               "required": [
                 "base",
-                "runs",
                 "sim",
                 "simOptions"
               ],
@@ -973,7 +969,6 @@
               },
               "required": [
                 "base",
-                "runs",
                 "sim",
                 "simOptions"
               ],
@@ -1104,7 +1099,6 @@
         }
       },
       "required": [
-        "runs",
         "base"
       ],
       "type": "object"
