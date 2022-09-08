@@ -1,6 +1,6 @@
 import { SimulatorType } from './types-dynamic.js';
 
-import { RawSimulationConfig } from './simulator-types.js';
+import { RawSimulationConfig } from './types-simulator.js';
 
 export type RandomGenerator = () => number;
 
