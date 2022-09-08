@@ -13,6 +13,10 @@ import {
 	SimulatorType
 } from '../dynamic-types.js';
 
+import {
+	DiceRollSimulationOptions
+} from './types/dice-roll-demo.js';
+
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'dice-roll-demo';
 
@@ -21,12 +25,6 @@ type DiceRollSimulationFrameExtra = {
 	score: number;
 	lastRoll: number;
 	success: boolean;
-}
-
-type DiceRollSimulationOptions = {
-	die : number;
-	targetScore : number;
-	bust : number;
 }
 
 interface DiceRollSimulationFrame extends SimulationFrame,  DiceRollSimulationFrameExtra {
