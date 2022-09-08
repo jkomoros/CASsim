@@ -19,7 +19,6 @@ import {
 } from '../graph/graph.js';
 
 import {
-	DistributionOptions,
 	GraphNodeValues,
 	OptionsConfigMap,
 	RandomGenerator,
@@ -29,6 +28,10 @@ import {
 import {
 	SimulatorType
 } from '../dynamic-types.js';
+
+import {
+	StandingOvationSimOptions
+} from './types/standing-ovation.js';
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'standing-ovation';
@@ -47,17 +50,6 @@ type StandingOvationAgent = Agent & {
 	forwardStandingFalloff: number;
 	fomoThreshold: number;
 }
-
-type StandingOvationSimOptions = {
-	filledSeatProportion : number;
-	rows: number;
-	cols: number;
-	performanceQuality: DistributionOptions;
-	ovationPropensity: DistributionOptions;
-	standingThreshold: DistributionOptions;
-	forwardStandingFalloff: DistributionOptions;
-	fomoThreshold: DistributionOptions;
-};
 
 type StandingOvationSimulationFrameExtra = {
 	changesMade: boolean;
