@@ -60,6 +60,7 @@ export interface ColorsMap {
 interface RawSimulationConfigCommon {
     //Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL. May be omitted.
 	name? : SimulationConfigName;
+    //Height and width. Mainly used for aspect ratio, but for screenshotting this will be the literal height and width in pixels (modulo if you include the display.status)
     //Width of simulation canvas. Defaults to 800 if not provided.
     width? : number;
     //Height of simulation canvas. Defaults to 450 if not provided.
@@ -70,7 +71,6 @@ interface RawSimulationConfigCommon {
 	description?: string;
     //How many runs to generate in the set, defaults to 10 if not provided.
 	runs? : number;
-	//Height and width. Mainly used for aspect ratio, but for screenshotting this will be the literal height and width in pixels (modulo if you include the display.status)
 	//The base random number seed for each run (each run and frame gets its own initialized seed based on this.) If omitted, will use a value derived from current time, leading to nondeterministic behavior.
 	seed? : string;
 	//How many milliseconds to wait before advancing to the next frame when playing.
