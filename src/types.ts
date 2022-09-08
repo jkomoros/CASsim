@@ -34,9 +34,11 @@ export type SimOptions = OptionValueMap;
 
 export type NormalizedSimOptions = OptionValueMap;
 
+export type PackedRawSimulationConfigItem = RawSimulationConfig | RawSimulationConfigPartial;
+
 export interface PackedRawSimulationConfig {
     version: number;
-    configs: RawSimulationConfig[];
+    configs: PackedRawSimulationConfigItem[];
 }
 
 export interface SimulationConfigDisplay {

@@ -3,7 +3,8 @@ import {
 } from './util.js';
 
 import {
-	PackedRawSimulationConfig
+	PackedRawSimulationConfig,
+	PackedRawSimulationConfigItem
 } from './types.js';
 
 import {
@@ -30,7 +31,7 @@ export const unpackConfigJSON = (rawData : PackedRawSimulationConfig) : RawSimul
 	if (!rawData || typeof rawData != 'object') throw new Error('Payload is not an object');
 	const version = rawData[VERSION_PROPERTY_NAME] || 1;
 	if (version > FORMAT_VERSION) throw new Error('Unknown version for data payload: ' + version);
-	return expandDependencies(rawData[CONFIGS_PROPERTY_NAME] || []);
+	return expandDependencies(rawData.configs || []);
 };
 
 //Given configs, outputs a POJO that can be serialized and stored. Primarily
@@ -43,9 +44,9 @@ export const packConfigJSON = (configs : RawSimulationConfig[]) : PackedRawSimul
 	};
 };
 
-const extendConfig = (config : RawSimulationConfig, configsByName: {[name : string]: RawSimulationConfig}, pathNames : {[name : string] : boolean} = {}) : RawSimulationConfig => {
+const extendConfig = (config : PackedRawSimulationConfigItem, configsByName: {[name : string]: PackedRawSimulationConfigItem}, pathNames : {[name : string] : boolean} = {}) : RawSimulationConfig => {
 	const extend = config[EXTEND_PROPERTY];
-	if (!extend) return config;
+	if (!extend) return config as RawSimulationConfig;
 	if (pathNames[extend]) throw new Error('Cycle detected in extend pointers in raw config');
 	if (!configsByName[extend]) throw new Error(EXTEND_PROPERTY + ' poitns to unknown config name: ' + extend);
 	const base = extendConfig(configsByName[extend], configsByName, {...pathNames, [extend]: true});
@@ -59,9 +60,9 @@ const extendConfig = (config : RawSimulationConfig, configsByName: {[name : stri
 };
 
 //We expand depencencies before even storing in state, pretending the underylying config included each config in order fully specified.
-const expandDependencies = (rawConfigs : RawSimulationConfig[]) : RawSimulationConfig[] => {
+const expandDependencies = (rawConfigs : PackedRawSimulationConfigItem[]) : RawSimulationConfig[] => {
 	rawConfigs = deepCopy(rawConfigs);
-	const configByName : {[name : string] : RawSimulationConfig} = {};
+	const configByName : {[name : string] : PackedRawSimulationConfigItem} = {};
 	for (const config of rawConfigs) {
 		configByName[config[NAME_PROPERTY]] = config;
 	}
