@@ -41,6 +41,7 @@ import {
 
 import {
 	makeOptionChangedEvent,
+	makePathToggledEvent,
 	makeUndoClickedEvent
 } from '../events.js';
 
@@ -234,7 +235,7 @@ class OptionsControl extends LitElement {
 	_handleDetailsToggle(e : Event) {
 		const ele = e.composedPath()[0];
 		if (!(ele instanceof HTMLDetailsElement)) throw new Error('not details element');
-		this.dispatchEvent(new CustomEvent('path-toggled', {composed: true, detail: {path: this.path || '', open:ele.open}}));
+		this.dispatchEvent(makePathToggledEvent(this.path || '', ele.open));
 	}
 
 	_handleAddNulledClicked() {

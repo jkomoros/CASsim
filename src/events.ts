@@ -48,3 +48,14 @@ export type RunClickedEvent = CustomEvent<RunClickedEventDetail>;
 export const makeRunClickedEvent = (index: number) : RunClickedEvent => {
 	return new CustomEvent('run-clicked', {composed: true, detail: {index}});
 };
+
+type PathToggledEventDetail = {
+	path: OptionsPath;
+	open: boolean;
+};
+
+export type PathToggledEvent = CustomEvent<PathToggledEventDetail>;
+
+export const makePathToggledEvent = (path : OptionsPath, open: boolean) : PathToggledEvent => {
+	return new CustomEvent('path-toggled', {composed: true, detail: {path, open}});
+};

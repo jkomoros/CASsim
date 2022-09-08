@@ -98,6 +98,7 @@ import {
 
 import {
 	OptionChangedEvent,
+	PathToggledEvent,
 	RunClickedEvent,
 	UndoClickedEvent
 } from '../events.js';
@@ -394,7 +395,7 @@ class SimulationControls extends connect(store)(LitElement) {
 		store.dispatch(updateRunIndex(e.detail.index));
 	}
 
-	_handlePathToggled(e : CustomEvent) {
+	_handlePathToggled(e : PathToggledEvent) {
 		store.dispatch(updatePathExpanded(e.detail.path, e.detail.open));
 	}
 
