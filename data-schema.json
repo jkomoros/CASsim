@@ -389,11 +389,9 @@
               },
               "required": [
                 "base",
-                "height",
                 "runs",
                 "sim",
-                "simOptions",
-                "width"
+                "simOptions"
               ],
               "type": "object"
             },
@@ -537,11 +535,9 @@
               },
               "required": [
                 "base",
-                "height",
                 "runs",
                 "sim",
-                "simOptions",
-                "width"
+                "simOptions"
               ],
               "type": "object"
             },
@@ -685,11 +681,9 @@
               },
               "required": [
                 "base",
-                "height",
                 "runs",
                 "sim",
-                "simOptions",
-                "width"
+                "simOptions"
               ],
               "type": "object"
             },
@@ -833,11 +827,9 @@
               },
               "required": [
                 "base",
-                "height",
                 "runs",
                 "sim",
-                "simOptions",
-                "width"
+                "simOptions"
               ],
               "type": "object"
             },
@@ -981,11 +973,9 @@
               },
               "required": [
                 "base",
-                "height",
                 "runs",
                 "sim",
-                "simOptions",
-                "width"
+                "simOptions"
               ],
               "type": "object"
             },
@@ -1114,8 +1104,6 @@
         }
       },
       "required": [
-        "width",
-        "height",
         "runs",
         "base"
       ],

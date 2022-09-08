@@ -62,6 +62,8 @@ import {
 const DEFAULT_FRAME_DELAY = 100;
 const DEFAULT_EXTRA_FINAL_FRAME_COUNT = 0;
 const DEFAULT_REPEAT = false;
+const DEFAULT_WIDTH = 800;
+const DEFAULT_HEIGHT = 450;
 
 export const SIMULATORS : {[name in SimulatorType] +? : BaseSimulator} = {};
 
@@ -462,11 +464,11 @@ export class Simulation {
 	}
 
 	get width() : number {
-		return this._config.width;
+		return this._config.width || DEFAULT_WIDTH;
 	}
 
 	get height() : number {
-		return this._config.height;
+		return this._config.height || DEFAULT_HEIGHT;
 	}
 
 	get name() : string {
@@ -583,13 +585,13 @@ export class Simulation {
 					optional: true
 				},
 				width: {
-					example: 800,
+					example: DEFAULT_WIDTH,
 					shortName: 'w',
 					description: 'The width of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal width in pixels.',
 					advanced: true
 				},
 				height: {
-					example: 450,
+					example: DEFAULT_HEIGHT,
 					shortName: 'h',
 					description: 'The height of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal height in pixels--although if displayf status is true then it will be slightly taller.',
 					advanced: true

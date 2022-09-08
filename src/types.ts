@@ -60,6 +60,10 @@ export interface ColorsMap {
 interface RawSimulationConfigCommon {
     //Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL. May be omitted.
 	name? : SimulationConfigName;
+    //Width of simulation canvas. Defaults to 800 if not provided.
+    width? : number;
+    //Height of simulation canvas. Defaults to 450 if not provided.
+    height? : number;
 	//The human-readable description of the config. Optional. Will use a transformation of name like "two-words" -> "Two Words" if not provided.
 	title? : string;
 	//A longer description of the simulation. If not provided will use title or name.
@@ -84,8 +88,6 @@ interface RawSimulationConfigCommon {
 }
 
 export interface RawSimulationConfigBase extends RawSimulationConfigCommon {
-	width : number;
-	height : number;
 	//How many runs to generate in the set
 	runs : number;
     //If true, then this config will not be included; typically you only include this for things that other configs will extend.
@@ -93,8 +95,6 @@ export interface RawSimulationConfigBase extends RawSimulationConfigCommon {
 }
 
 export interface RawSimulationConfigExtended extends RawSimulationConfigCommon {
-    width? : number;
-	height? : number;
 	//How many runs to generate in the set
 	runs? : number;
 	//If set, then this config will extend and overlay the config given by "this-is-another-name". It will not copy over any 'base' config value, and for object values, it will entirely overwrite the value. Note that these extensions won't be visible at all in the UI; the transformation is done before the UI sees it, and the UI operates as though each config is fully specified. You may point to configs that extend other configs, but cycles are not allowed.
