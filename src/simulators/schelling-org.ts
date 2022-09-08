@@ -19,13 +19,19 @@ import {
 	OptionsConfigMap,
 	OptionsPath,
 	OptionValue,
-	RandomGenerator,
-	SimOptions
+	RandomGenerator
 } from '../types.js';
 
 import {
 	SimulatorType
 } from '../dynamic-types.js';
+
+import {
+	SchellingOrgSimOptions,
+	CommunicationStrategy,
+	DisplayValue,
+	NorthStarOptions
+} from './types/schelling-org.js';
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
@@ -81,23 +87,6 @@ const DEFAULT_COMPELLING_VALUE = 0.5;
 
 const DEFAULT_NORTH_STAR_EMOJI = '🌟';
 
-type DisplayValue = {
-	debug?: boolean;
-	disableSelection? : boolean;
-	disableBeliefs? : boolean;
-}
-
-type NorthStarOptions = {
-	emoji? : string;
-	offsetType? : 'manual' | 'random' | 'random-project';
-	minOffset? : number;
-	maxOffset? : number;		
-	offset? : number;
-	strength? : number;
-	spread? : number;
-	believability? : number;
-}
-
 type Collaborator = {
 	index: number;
 	emoji: string;
@@ -145,55 +134,6 @@ interface SchellingOrgSimulationFramePartial {
 
 interface SchellingOrgSimulationFrame extends AgentSimulationFrame, SchellingOrgSimulationFramePartial {}
 
-type CommunicationStrategy = 'random' | 'min' | 'max' | 'disagreement';
-
-type CollaboratorIndividualOptions = {
-	beliefs?: number[]
-	epsilon?: number;
-	emoji?: string;
-	avgConnectionLikelihood?:number;
-	connectionLikelihoodSpread?: number;
-	compelling?:number;
-	broadcastLikelihood?:number;
-	optimism?:number;
-	believes?: boolean;
-	communicationStrategy?: CommunicationStrategy;
-}
-
-type ProjectIndividualOptions = {
-	marked? : boolean;
-	maxExtraValue? : number;
-	maxErrorValue? : number;
-	twiddleValueAmount? : number;
-	value? : number;
-	error? : number;
-}
-
-interface SchellingOrgSimOptions extends SimOptions {
-	display? : DisplayValue;
-	communication? : number;
-	collaborators? : {
-		count: number;
-		epsilon?: number;
-		avgConnectionLikelihood? : number;
-		connectionLikelihoodSpread? : number;
-		compelling? : number;
-		broadcastLikelihood? : number;
-		optimism? : number;
-		communicationStrategy? : CommunicationStrategy;
-		randomIndividual?: CollaboratorIndividualOptions;
-		individuals?: CollaboratorIndividualOptions[];
-	};
-	projects?: {
-		count: number;
-		maxExtraValue?: number;
-		maxErrorValue?: number;
-		twiddleValueAmount? : number;
-		randomIndividual? : ProjectIndividualOptions;
-		individuals? : ProjectIndividualOptions[];
-	}
-	northStar? : NorthStarOptions;
-}
 
 //bias is where in the range of min to max the value will be. 0.5 will be
 //equally likely across whole range, whereas a bias of 0.0 will be very
