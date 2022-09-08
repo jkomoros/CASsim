@@ -15,7 +15,7 @@ const sizeOf = promisify(require('image-size'));
 
 import {
 	RawSimulationConfig
-} from "../src/types.js";
+} from "../src/types-simulator.js";
 
 const SCREENSHOT_DIR = 'screenshots';
 
