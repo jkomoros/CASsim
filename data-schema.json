@@ -393,7 +393,7 @@
       "properties": {
         "configs": {
           "items": {
-            "$ref": "#/definitions/RawSimulationConfig"
+            "$ref": "#/definitions/PackedRawSimulationConfigItem"
           },
           "type": "array"
         },
@@ -406,6 +406,16 @@
         "configs"
       ],
       "type": "object"
+    },
+    "PackedRawSimulationConfigItem": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/RawSimulationConfig"
+        },
+        {
+          "$ref": "#/definitions/RawSimulationConfigPartial"
+        }
+      ]
     },
     "PastureDemoRawSimulationConfig": {
       "additionalProperties": false,
@@ -528,6 +538,65 @@
           "$ref": "#/definitions/StandingOvationRawSimulationConfig"
         }
       ]
+    },
+    "RawSimulationConfigPartial": {
+      "additionalProperties": false,
+      "properties": {
+        "autoGenerate": {
+          "type": "boolean"
+        },
+        "autoPlay": {
+          "type": "boolean"
+        },
+        "colors": {
+          "$ref": "#/definitions/ColorsMap"
+        },
+        "description": {
+          "type": "string"
+        },
+        "display": {
+          "$ref": "#/definitions/SimulationConfigDisplay"
+        },
+        "extend": {
+          "$ref": "#/definitions/SimulationConfigName"
+        },
+        "extraFinalFrameCount": {
+          "type": "number"
+        },
+        "frameDelay": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        },
+        "hidden": {
+          "type": "boolean"
+        },
+        "name": {
+          "$ref": "#/definitions/SimulationConfigName"
+        },
+        "repeat": {
+          "type": "boolean"
+        },
+        "runs": {
+          "type": "number"
+        },
+        "seed": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "width": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "width",
+        "height",
+        "runs"
+      ],
+      "type": "object"
     },
     "RoundType": {
       "type": "string"

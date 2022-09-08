@@ -17,7 +17,7 @@
     "build:rollup": "rollup -c",
     "build:typescript": "tsc",
     "build:service-worker": "workbox generateSW workbox-config.js",
-    "generate:schema": "ts-json-schema-generator --path 'src/**/*.ts' --type 'PackedRawSimulationConfig' --tsconfig tsconfig.json > data-schema.json",
+    "generate:schema": "ts-json-schema-generator --type 'PackedRawSimulationConfig' --tsconfig tsconfig.json > data-schema.json",
     "deploy": "npm run build && firebase deploy",
     "test": "npm run test:options",
     "test:options": "mocha -r esm test/options --timeout=10000"
