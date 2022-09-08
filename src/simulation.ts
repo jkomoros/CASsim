@@ -50,16 +50,13 @@ import {
 } from './simulator-types.js';
 
 import {
-	SimulatorType
-} from './dynamic-types.js';
+	SimulatorType,
+	KNOWN_SIMULATOR_TYPES
+} from './types-dynamic.js';
 
 import {
 	BaseSimulator
 } from './simulator.js';
-
-import {
-	KNOWN_SIMULATOR_TYPES
-} from './dynamic-types.js';
 
 //Also duplicated into screenshot.js
 const DEFAULT_FRAME_DELAY = 100;

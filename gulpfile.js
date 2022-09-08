@@ -18,7 +18,7 @@ const makeExecutor = cmdAndArgs => {
 };
 
 const SIMULATORS_DIR = 'src/simulators/';
-const DYNAMIC_TYPES_FILE = 'src/dynamic-types.ts';
+const DYNAMIC_TYPES_FILE = 'src/types-dynamic.ts';
 const DATA_DIRECTORY = 'data';
 
 gulp.task('generate-types', (done) => {

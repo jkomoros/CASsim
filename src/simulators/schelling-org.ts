@@ -24,7 +24,7 @@ import {
 
 import {
 	SimulatorType
-} from '../dynamic-types.js';
+} from '../types-dynamic.js';
 
 import {
 	SchellingOrgSimOptions,

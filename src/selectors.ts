@@ -39,7 +39,7 @@ import {
 
 import {
 	SimulatorType
-} from './dynamic-types.js';
+} from './types-dynamic.js';
 
 const selectRawConfigData = (state : RootState) => state.data ? state.data.data : [];
 const selectModifications = (state : RootState) => state.data ? state.data.modifications : [];
