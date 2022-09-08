@@ -1,5 +1,12 @@
 import {
-	OptionsPath, OptionValue
+	DIALOG_TYPE_ADD_FIELD
+} from './actions/data.js';
+
+import {
+	DialogType,
+	DialogTypeAddFieldExtras,
+	OptionsPath,
+	OptionValue
 } from './types.js';
 
 export type DialogShouldCloseEvent = CustomEvent<null>;
@@ -58,4 +65,17 @@ export type PathToggledEvent = CustomEvent<PathToggledEventDetail>;
 
 export const makePathToggledEvent = (path : OptionsPath, open: boolean) : PathToggledEvent => {
 	return new CustomEvent('path-toggled', {composed: true, detail: {path, open}});
+};
+
+type AddFieldDialogEventDetail = {
+	type : DialogType;
+	extras: DialogTypeAddFieldExtras;
+}
+
+type OpenDialogEventDetail = AddFieldDialogEventDetail;
+
+export type OpenDialogEvent = CustomEvent<OpenDialogEventDetail>;
+
+export const makeOpenDialogAddFieldEvent = (extras: DialogTypeAddFieldExtras) : OpenDialogEvent => {
+	return new CustomEvent('open-dialog', {composed: true, detail: {type: DIALOG_TYPE_ADD_FIELD, extras}});
 };

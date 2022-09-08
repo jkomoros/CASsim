@@ -27,10 +27,6 @@ import {
 } from './my-icons.js';
 
 import {
-	DIALOG_TYPE_ADD_FIELD
-} from '../actions/data.js';
-
-import {
 	DialogTypeAddFieldExtras,
 	OptionsConfig,
 	OptionsConfigMap,
@@ -40,6 +36,7 @@ import {
 } from '../types.js';
 
 import {
+	makeOpenDialogAddFieldEvent,
 	makeOptionChangedEvent,
 	makePathToggledEvent,
 	makeUndoClickedEvent
@@ -251,7 +248,7 @@ class OptionsControl extends LitElement {
 			}))
 		};
 
-		this.dispatchEvent(new CustomEvent('open-dialog', {composed: true, detail: {type: DIALOG_TYPE_ADD_FIELD, extras}}));
+		this.dispatchEvent(makeOpenDialogAddFieldEvent(extras));
 	}
 
 }

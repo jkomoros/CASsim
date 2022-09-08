@@ -97,6 +97,7 @@ import {
 } from '../dynamic-types.js';
 
 import {
+	OpenDialogEvent,
 	OptionChangedEvent,
 	PathToggledEvent,
 	RunClickedEvent,
@@ -447,7 +448,7 @@ class SimulationControls extends connect(store)(LitElement) {
 		store.dispatch(updateCurrentSimulationOptions(e.detail.path, e.detail.value));
 	}
 
-	_handleOpenDialog(e : CustomEvent) {
+	_handleOpenDialog(e : OpenDialogEvent) {
 		store.dispatch(openDialog(e.detail.type, e.detail.extras));
 	}
 }
