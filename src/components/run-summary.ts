@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { SharedStyles } from "./shared-styles.js";
 import { customElement, property } from 'lit/decorators.js';
+import { makeRunClickedEvent } from '../events.js';
 
 //This number is the point at which compact versions of runSummary should have no-border.
 //These numbers are tied to the border size below, as well as the var(--controls-width);
@@ -104,7 +105,7 @@ class RunSummary extends LitElement {
 	_handleStatusClicked(e : MouseEvent) {
 		const ele = e.composedPath()[0];
 		if (!(ele instanceof HTMLElement)) throw new Error('not an element as expected');
-		this.dispatchEvent(new CustomEvent('run-clicked', {composed:true, detail: {index: parseInt(ele.dataset.index)}}));
+		this.dispatchEvent(makeRunClickedEvent(parseInt(ele.dataset.index)));
 	}
 }
 

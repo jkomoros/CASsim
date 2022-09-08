@@ -98,6 +98,7 @@ import {
 
 import {
 	OptionChangedEvent,
+	RunClickedEvent,
 	UndoClickedEvent
 } from '../events.js';
 
@@ -389,7 +390,7 @@ class SimulationControls extends connect(store)(LitElement) {
 		store.dispatch(updateDescriptionExpanded( ele.open));
 	}
 
-	_handleStatusClicked(e : CustomEvent) {
+	_handleStatusClicked(e : RunClickedEvent) {
 		store.dispatch(updateRunIndex(e.detail.index));
 	}
 

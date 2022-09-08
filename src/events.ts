@@ -38,3 +38,13 @@ export type OptionChangedEvent = CustomEvent<OptionChangedEventDetail>;
 export const makeOptionChangedEvent = (path : OptionsPath, value: OptionValue) : OptionChangedEvent => {
 	return new CustomEvent('option-changed', {composed: true, detail: {path, value}});
 };
+
+type RunClickedEventDetail = {
+	index: number;
+};
+
+export type RunClickedEvent = CustomEvent<RunClickedEventDetail>;
+
+export const makeRunClickedEvent = (index: number) : RunClickedEvent => {
+	return new CustomEvent('run-clicked', {composed: true, detail: {index}});
+};
