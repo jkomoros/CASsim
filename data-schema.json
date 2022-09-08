@@ -332,80 +332,10 @@
                 "autoPlay": {
                   "type": "boolean"
                 },
-                "colors": {
-                  "$ref": "#/definitions/ColorsMap"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "display": {
-                  "$ref": "#/definitions/SimulationConfigDisplay"
-                },
-                "extraFinalFrameCount": {
-                  "type": "number"
-                },
-                "frameDelay": {
-                  "type": "number"
-                },
-                "height": {
-                  "type": "number"
-                },
-                "hidden": {
+                "base": {
                   "const": true,
                   "type": "boolean"
                 },
-                "name": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "repeat": {
-                  "type": "boolean"
-                },
-                "runs": {
-                  "type": "number"
-                },
-                "seed": {
-                  "type": "string"
-                },
-                "sim": {
-                  "const": "dice-roll-demo",
-                  "type": "string"
-                },
-                "simOptions": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/definitions/DiceRollSimulationOptions"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "title": {
-                  "type": "string"
-                },
-                "width": {
-                  "type": "number"
-                }
-              },
-              "required": [
-                "height",
-                "hidden",
-                "runs",
-                "sim",
-                "simOptions",
-                "width"
-              ],
-              "type": "object"
-            },
-            {
-              "additionalProperties": false,
-              "properties": {
-                "autoGenerate": {
-                  "type": "boolean"
-                },
-                "autoPlay": {
-                  "type": "boolean"
-                },
                 "colors": {
                   "$ref": "#/definitions/ColorsMap"
                 },
@@ -414,9 +344,6 @@
                 },
                 "display": {
                   "$ref": "#/definitions/SimulationConfigDisplay"
-                },
-                "extend": {
-                  "$ref": "#/definitions/SimulationConfigName"
                 },
                 "extraFinalFrameCount": {
                   "type": "number"
@@ -461,6 +388,79 @@
                 }
               },
               "required": [
+                "base",
+                "height",
+                "runs",
+                "sim",
+                "simOptions",
+                "width"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "autoGenerate": {
+                  "type": "boolean"
+                },
+                "autoPlay": {
+                  "type": "boolean"
+                },
+                "colors": {
+                  "$ref": "#/definitions/ColorsMap"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "display": {
+                  "$ref": "#/definitions/SimulationConfigDisplay"
+                },
+                "extend": {
+                  "$ref": "#/definitions/SimulationConfigName"
+                },
+                "extraFinalFrameCount": {
+                  "type": "number"
+                },
+                "frameDelay": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                },
+                "name": {
+                  "$ref": "#/definitions/SimulationConfigName"
+                },
+                "repeat": {
+                  "type": "boolean"
+                },
+                "runs": {
+                  "type": "number"
+                },
+                "seed": {
+                  "type": "string"
+                },
+                "sim": {
+                  "const": "dice-roll-demo",
+                  "type": "string"
+                },
+                "simOptions": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/DiceRollSimulationOptions"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "title": {
+                  "type": "string"
+                },
+                "width": {
+                  "type": "number"
+                }
+              },
+              "required": [
                 "extend",
                 "sim",
                 "simOptions"
@@ -480,6 +480,10 @@
                 "autoPlay": {
                   "type": "boolean"
                 },
+                "base": {
+                  "const": true,
+                  "type": "boolean"
+                },
                 "colors": {
                   "$ref": "#/definitions/ColorsMap"
                 },
@@ -497,10 +501,6 @@
                 },
                 "height": {
                   "type": "number"
-                },
-                "hidden": {
-                  "const": true,
-                  "type": "boolean"
                 },
                 "name": {
                   "$ref": "#/definitions/SimulationConfigName"
@@ -536,8 +536,8 @@
                 }
               },
               "required": [
+                "base",
                 "height",
-                "hidden",
                 "runs",
                 "sim",
                 "simOptions",
@@ -628,6 +628,10 @@
                 "autoPlay": {
                   "type": "boolean"
                 },
+                "base": {
+                  "const": true,
+                  "type": "boolean"
+                },
                 "colors": {
                   "$ref": "#/definitions/ColorsMap"
                 },
@@ -645,10 +649,6 @@
                 },
                 "height": {
                   "type": "number"
-                },
-                "hidden": {
-                  "const": true,
-                  "type": "boolean"
                 },
                 "name": {
                   "$ref": "#/definitions/SimulationConfigName"
@@ -684,8 +684,8 @@
                 }
               },
               "required": [
+                "base",
                 "height",
-                "hidden",
                 "runs",
                 "sim",
                 "simOptions",
@@ -776,6 +776,10 @@
                 "autoPlay": {
                   "type": "boolean"
                 },
+                "base": {
+                  "const": true,
+                  "type": "boolean"
+                },
                 "colors": {
                   "$ref": "#/definitions/ColorsMap"
                 },
@@ -793,10 +797,6 @@
                 },
                 "height": {
                   "type": "number"
-                },
-                "hidden": {
-                  "const": true,
-                  "type": "boolean"
                 },
                 "name": {
                   "$ref": "#/definitions/SimulationConfigName"
@@ -832,8 +832,8 @@
                 }
               },
               "required": [
+                "base",
                 "height",
-                "hidden",
                 "runs",
                 "sim",
                 "simOptions",
@@ -924,6 +924,10 @@
                 "autoPlay": {
                   "type": "boolean"
                 },
+                "base": {
+                  "const": true,
+                  "type": "boolean"
+                },
                 "colors": {
                   "$ref": "#/definitions/ColorsMap"
                 },
@@ -941,10 +945,6 @@
                 },
                 "height": {
                   "type": "number"
-                },
-                "hidden": {
-                  "const": true,
-                  "type": "boolean"
                 },
                 "name": {
                   "$ref": "#/definitions/SimulationConfigName"
@@ -980,8 +980,8 @@
                 }
               },
               "required": [
+                "base",
                 "height",
-                "hidden",
                 "runs",
                 "sim",
                 "simOptions",
@@ -1072,6 +1072,10 @@
         "autoPlay": {
           "type": "boolean"
         },
+        "base": {
+          "const": true,
+          "type": "boolean"
+        },
         "colors": {
           "$ref": "#/definitions/ColorsMap"
         },
@@ -1089,10 +1093,6 @@
         },
         "height": {
           "type": "number"
-        },
-        "hidden": {
-          "const": true,
-          "type": "boolean"
         },
         "name": {
           "$ref": "#/definitions/SimulationConfigName"
@@ -1117,7 +1117,7 @@
         "width",
         "height",
         "runs",
-        "hidden"
+        "base"
       ],
       "type": "object"
     },

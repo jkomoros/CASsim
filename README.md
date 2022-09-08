@@ -90,8 +90,8 @@ these by hand in the JSON, by carefully reading the documentation for simulatorO
 	//A longer description of the simulation. If not provided will use title or name.
 	"description": "This is a longer description of what you'll notice in this particular configuration of the simulation.",
 	//If true, then this config will not be included; typically you only include this for things that other configs will extend.
-	"hidden": false,
-	//If set, then this config will extend and overlay the config given by "this-is-another-name". It will not copy over any 'hidden' config value, and for object values, it will entirely overwrite the value. Note that these extensions won't be visible at all in the UI; the transformation is done before the UI sees it, and the UI operates as though each config is fully specified. You may point to configs that extend other configs, but cycles are not allowed.
+	"base": false,
+	//If set, then this config will extend and overlay the config given by "this-is-another-name". It will not copy over any 'base' config value, and for object values, it will entirely overwrite the value. Note that these extensions won't be visible at all in the UI; the transformation is done before the UI sees it, and the UI operates as though each config is fully specified. You may point to configs that extend other configs, but cycles are not allowed.
 	"extend": "this-is-another-name",
 	//Height and width. Mainly used for aspect ratio, but for screenshotting this will be the literal height and width in pixels (modulo if you include the display.status)
 	"width": 800,

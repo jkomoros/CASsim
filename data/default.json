@@ -3,7 +3,7 @@
 	"configs": [
 		{
 			"name": "base",
-			"hidden": true,
+			"base": true,
 			"seed": "abcde",
 			"width": 800,
 			"height": 450,
