@@ -29,6 +29,10 @@ import {
 	SimulatorType
 } from '../dynamic-types.js';
 
+import {
+	PastureSimOptions
+} from './types/pasture-demo.js';
+
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'pasture-demo';
 
@@ -38,16 +42,6 @@ type PastureAgent = Agent & {
 	deathLikelihood: number;
 	spawnLikelihood: number;
 	node: GraphNodeID;
-};
-
-type PastureSimOptions = {
-	spawnLikelihood : number;
-	deathLikelihood : number;
-	growthRate: number;
-	rows: number;
-	cols: number;
-	agents: number;
-	rounds: number;
 };
 
 interface PastureSimulationFrame extends AgentSimulationFrame {
