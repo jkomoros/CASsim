@@ -19,13 +19,13 @@
 			"extraFinalFrameCount": 10,
 			"display": {
 				"screenshotStatus": true
-			},
-			"sim": "schelling-org"
+			}
 		},
 		{
 			"name": "base-situation",
 			"description": "No communication or difference in projects. A hopeless situation.",
 			"extend": "base",
+			"sim": "schelling-org",
 			"simOptions": {
 				"communication": 0,
 				"collaborators": {
@@ -43,6 +43,7 @@
 			"name": "single-marked-project",
 			"description": "Base situation, but with one project slightly marked. A huge difference!",
 			"extend": "base",
+			"sim": "schelling-org",
 			"simOptions": {
 				"communication": 0,
 				"collaborators": {
@@ -63,6 +64,7 @@
 			"name": "single-obviously-better",
 			"description": "One project is unambiguously better than the others. Another easy situation!",
 			"extend": "base",
+			"sim": "schelling-org",
 			"simOptions": {
 				"communication": 0,
 				"collaborators": {
@@ -83,6 +85,7 @@
 			"name": "two-standouts",
 			"description": "Two projects that are signficantly better, but very similar. Another hard situation!",
 			"extend": "base",
+			"sim": "schelling-org",
 			"simOptions": {
 				"communication": 0,
 				"collaborators": {
@@ -111,6 +114,7 @@
 			"name": "error-bars",
 			"description": "Adding error bars... doesn't help. Shocker!",
 			"extend": "base",
+			"sim": "schelling-org",
 			"simOptions": {
 				"communication": 0,
 				"collaborators": {
@@ -131,6 +135,7 @@
 			"name": "communication",
 			"description": "Now individuals can communicate with each other over multiple rounds, helping align beliefs (somewhat).",
 			"extend": "base",
+			"sim": "schelling-org",
 			"simOptions": {
 				"communication": 30,
 				"collaborators": {
@@ -152,6 +157,7 @@
 			"name": "communication-strength",
 			"description": "Different individuals have different amounts of connection strength to others",
 			"extend": "base",
+			"sim": "schelling-org",
 			"simOptions": {
 				"communication": 30,
 				"collaborators": {
@@ -174,6 +180,7 @@
 			"name": "pattern-baseline",
 			"description": "The baseline simulation that all of the specific patterns are tweaks on",
 			"extend": "base",
+			"sim": "schelling-org",
 			"simOptions": {
 				"communication": 30,
 				"collaborators": {
@@ -196,6 +203,7 @@
 			"name": "fewer-collaborators",
 			"description": "A smaller number of collaborators helps considerably",
 			"extend": "base",
+			"sim": "schelling-org",
 			"simOptions": {
 				"communication": 30,
 				"collaborators": {
@@ -218,6 +226,7 @@
 			"name": "fewer-projects",
 			"description": "Reducing the number of projects to pick from also helps a lot",
 			"extend": "base",
+			"sim": "schelling-org",
 			"simOptions": {
 				"communication": 30,
 				"collaborators": {
@@ -240,6 +249,7 @@
 			"name": "compelling-leader",
 			"description": "One very well connected person",
 			"extend": "base",
+			"sim": "schelling-org",
 			"simOptions": {
 				"communication": 30,
 				"collaborators": {
@@ -269,6 +279,7 @@
 			"name": "shared-mental-models",
 			"description": "Everyone is more likely to judge projects similarly because they share mental models.",
 			"extend": "base",
+			"sim": "schelling-org",
 			"simOptions": {
 				"communication": 30,
 				"collaborators": {
@@ -291,6 +302,7 @@
 			"name": "convincing-argument",
 			"description": "A convincing argument about one project in particular",
 			"extend": "base",
+			"sim": "schelling-org",
 			"simOptions": {
 				"communication": 30,
 				"collaborators": {
@@ -318,6 +330,7 @@
 			"name": "existential-threat",
 			"description": "Something that makes one item stand out obviously compared to others",
 			"extend": "base",
+			"sim": "schelling-org",
 			"simOptions": {
 				"communication": 30,
 				"collaborators": {
@@ -344,6 +357,7 @@
 			"name": "compelling-north-star",
 			"description": "A compelling shared north star",
 			"extend": "base",
+			"sim": "schelling-org",
 			"simOptions": {
 				"communication": 30,
 				"collaborators": {
@@ -376,6 +390,7 @@
 			"name": "unconvincing-north-star",
 			"description": "A north star that isn't very believable",
 			"extend": "base",
+			"sim": "schelling-org",
 			"simOptions": {
 				"communication": 30,
 				"collaborators": {
@@ -408,6 +423,7 @@
 			"name": "random-choice",
 			"description": "Everyone just agrees to a procedure where we randomly pick one and commit",
 			"extend": "base",
+			"sim": "schelling-org",
 			"simOptions": {
 				"communication": 30,
 				"collaborators": {
