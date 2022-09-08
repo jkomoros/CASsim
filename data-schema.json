@@ -1155,43 +1155,50 @@
             },
             "individuals": {
               "items": {
-                "additionalProperties": false,
-                "properties": {
-                  "avgConnectionLikelihood": {
-                    "type": "number"
-                  },
-                  "beliefs": {
-                    "items": {
-                      "type": "number"
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "avgConnectionLikelihood": {
+                        "type": "number"
+                      },
+                      "beliefs": {
+                        "items": {
+                          "type": "number"
+                        },
+                        "type": "array"
+                      },
+                      "believes": {
+                        "type": "boolean"
+                      },
+                      "broadcastLikelihood": {
+                        "type": "number"
+                      },
+                      "communicationStrategy": {
+                        "$ref": "#/definitions/CommunicationStrategy"
+                      },
+                      "compelling": {
+                        "type": "number"
+                      },
+                      "connectionLikelihoodSpread": {
+                        "type": "number"
+                      },
+                      "emoji": {
+                        "type": "string"
+                      },
+                      "epsilon": {
+                        "type": "number"
+                      },
+                      "optimism": {
+                        "type": "number"
+                      }
                     },
-                    "type": "array"
+                    "type": "object"
                   },
-                  "believes": {
-                    "type": "boolean"
-                  },
-                  "broadcastLikelihood": {
-                    "type": "number"
-                  },
-                  "communicationStrategy": {
-                    "$ref": "#/definitions/CommunicationStrategy"
-                  },
-                  "compelling": {
-                    "type": "number"
-                  },
-                  "connectionLikelihoodSpread": {
-                    "type": "number"
-                  },
-                  "emoji": {
-                    "type": "string"
-                  },
-                  "epsilon": {
-                    "type": "number"
-                  },
-                  "optimism": {
-                    "type": "number"
+                  {
+                    "type": "null"
                   }
-                },
-                "type": "object"
+                ]
               },
               "type": "array"
             },
@@ -1260,28 +1267,35 @@
             },
             "individuals": {
               "items": {
-                "additionalProperties": false,
-                "properties": {
-                  "error": {
-                    "type": "number"
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "error": {
+                        "type": "number"
+                      },
+                      "marked": {
+                        "type": "boolean"
+                      },
+                      "maxErrorValue": {
+                        "type": "number"
+                      },
+                      "maxExtraValue": {
+                        "type": "number"
+                      },
+                      "twiddleValueAmount": {
+                        "type": "number"
+                      },
+                      "value": {
+                        "type": "number"
+                      }
+                    },
+                    "type": "object"
                   },
-                  "marked": {
-                    "type": "boolean"
-                  },
-                  "maxErrorValue": {
-                    "type": "number"
-                  },
-                  "maxExtraValue": {
-                    "type": "number"
-                  },
-                  "twiddleValueAmount": {
-                    "type": "number"
-                  },
-                  "value": {
-                    "type": "number"
+                  {
+                    "type": "null"
                   }
-                },
-                "type": "object"
+                ]
               },
               "type": "array"
             },

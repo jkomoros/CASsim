@@ -56,7 +56,7 @@ export interface SchellingOrgSimOptions extends SimOptions {
 		optimism? : number;
 		communicationStrategy? : CommunicationStrategy;
 		randomIndividual?: CollaboratorIndividualOptions;
-		individuals?: CollaboratorIndividualOptions[];
+		individuals?: (CollaboratorIndividualOptions | null)[];
 	};
 	projects?: {
 		count: number;
@@ -64,7 +64,7 @@ export interface SchellingOrgSimOptions extends SimOptions {
 		maxErrorValue?: number;
 		twiddleValueAmount? : number;
 		randomIndividual? : ProjectIndividualOptions;
-		individuals? : ProjectIndividualOptions[];
+		individuals? : (ProjectIndividualOptions | null)[];
 	}
 	northStar? : NorthStarOptions;
 }
