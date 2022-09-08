@@ -1,3 +1,6 @@
+import {
+	OptionsPath
+} from './types.js';
 
 export type DialogShouldCloseEvent = CustomEvent<null>;
 
@@ -13,4 +16,14 @@ export type MultiSelectChangedEvent = CustomEvent<MultiSelectedChangedEventDetai
 
 export const makeMultiSelectChangedEvent = (changed : {[key : string] : true}) : MultiSelectChangedEvent => {
 	return new CustomEvent('changed', {composed: true, detail: changed});
+};
+
+type UndoClickedEventDetail = {
+	path: OptionsPath
+}
+
+export type UndoClickedEvent = CustomEvent<UndoClickedEventDetail>;
+
+export const makeUndoClickedEvent = (path : OptionsPath): UndoClickedEvent => {
+	return new CustomEvent('undo-clicked', {composed: true, detail: {path}});
 };

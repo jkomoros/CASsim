@@ -96,6 +96,10 @@ import {
 	KNOWN_DATA_FILES
 } from '../dynamic-types.js';
 
+import {
+	UndoClickedEvent
+} from '../events.js';
+
 const optionsForMultiSelect = (chartData : ChartData) => {
 	const result : {[id : string] : {title: string, description: string}} = {};
 	for (const [key, value] of Object.entries(chartData || {})) {
@@ -346,7 +350,7 @@ class SimulationControls extends connect(store)(LitElement) {
 		store.dispatch(updateWarning(''));
 	}
 
-	_handleUndoClicked(e : CustomEvent) {
+	_handleUndoClicked(e : UndoClickedEvent) {
 		store.dispatch(removeModificationsForPath(e.detail.path));
 	}
 

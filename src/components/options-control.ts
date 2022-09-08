@@ -38,6 +38,7 @@ import {
 	OptionValue,
 	OptionValueMap
 } from '../types.js';
+import { makeUndoClickedEvent } from '../events.js';
 
 const doHide = (subConfig : OptionsConfig, parentValue : OptionValueMap, rootValue : OptionValueMap) => subConfig.hide ? subConfig.hide(parentValue, rootValue) : false;
 
@@ -204,7 +205,7 @@ class OptionsControl extends LitElement {
 	}
 
 	_handleUndoClicked() {
-		this.dispatchEvent(new CustomEvent('undo-clicked', {composed: true, detail: {path:this.path}}));
+		this.dispatchEvent(makeUndoClickedEvent(this.path));
 	}
 
 	_handleNullableClicked() {
