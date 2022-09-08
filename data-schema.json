@@ -82,7 +82,14 @@
           "type": "string"
         },
         "simOptions": {
-          "$ref": "#/definitions/DiceRollSimulationOptions"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/DiceRollSimulationOptions"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "title": {
           "type": "string"
@@ -95,6 +102,7 @@
         "height",
         "runs",
         "sim",
+        "simOptions",
         "width"
       ],
       "type": "object"
@@ -241,7 +249,14 @@
           "type": "string"
         },
         "simOptions": {
-          "$ref": "#/definitions/LuckSurfaceAreaSimOptions"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LuckSurfaceAreaSimOptions"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "title": {
           "type": "string"
@@ -254,6 +269,7 @@
         "height",
         "runs",
         "sim",
+        "simOptions",
         "width"
       ],
       "type": "object"
@@ -467,7 +483,14 @@
           "type": "string"
         },
         "simOptions": {
-          "$ref": "#/definitions/PastureSimOptions"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PastureSimOptions"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "title": {
           "type": "string"
@@ -480,6 +503,7 @@
         "height",
         "runs",
         "sim",
+        "simOptions",
         "width"
       ],
       "type": "object"
@@ -651,7 +675,14 @@
           "type": "string"
         },
         "simOptions": {
-          "$ref": "#/definitions/SchellingOrgSimOptions"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SchellingOrgSimOptions"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "title": {
           "type": "string"
@@ -664,6 +695,7 @@
         "height",
         "runs",
         "sim",
+        "simOptions",
         "width"
       ],
       "type": "object"
@@ -939,7 +971,14 @@
           "type": "string"
         },
         "simOptions": {
-          "$ref": "#/definitions/StandingOvationSimOptions"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/StandingOvationSimOptions"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "title": {
           "type": "string"
@@ -952,6 +991,7 @@
         "height",
         "runs",
         "sim",
+        "simOptions",
         "width"
       ],
       "type": "object"

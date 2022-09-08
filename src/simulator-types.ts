@@ -25,27 +25,27 @@ import {
 
 export interface DiceRollDemoRawSimulationConfig extends RawSimulationConfigPartial {
 	sim: 'dice-roll-demo';
-	simOptions? : DiceRollSimulationOptions;
+	simOptions : DiceRollSimulationOptions | null;
 }
 
 export interface LuckSurfaceAreaRawSimulationConfig extends RawSimulationConfigPartial  {
 	sim: 'luck-surface-area';
-	simOptions? : LuckSurfaceAreaSimOptions;
+	simOptions : LuckSurfaceAreaSimOptions | null;
 }
 
 export interface PastureDemoRawSimulationConfig extends RawSimulationConfigPartial  {
 	sim: 'pasture-demo';
-	simOptions? : PastureSimOptions;
+	simOptions : PastureSimOptions | null;
 }
 
 export interface SchellingOrgRawSimulationConfig extends RawSimulationConfigPartial {
 	sim: 'schelling-org';
-	simOptions? : SchellingOrgSimOptions;
+	simOptions : SchellingOrgSimOptions | null;
 }
 
 export interface StandingOvationRawSimulationConfig extends RawSimulationConfigPartial {
 	sim: 'standing-ovation';
-	simOptions? : StandingOvationSimOptions;
+	simOptions : StandingOvationSimOptions | null;
 }
 
 export type RawSimulationConfig = DiceRollDemoRawSimulationConfig | LuckSurfaceAreaRawSimulationConfig | PastureDemoRawSimulationConfig | SchellingOrgRawSimulationConfig | StandingOvationRawSimulationConfig;
