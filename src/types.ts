@@ -55,7 +55,7 @@ export interface ColorsMap {
     background? : CSSColor;
 }
 
-export interface RawSimulationConfigInternal {
+export interface RawSimulationConfigPartial {
     //Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL. May be omitted.
 	name? : SimulationConfigName;
 	//The human-readable description of the config. Optional. Will use a transformation of name like "two-words" -> "Two Words" if not provided.

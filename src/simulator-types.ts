@@ -1,6 +1,6 @@
 //TODO: generate this file and don't have it in source-control.
 import {
-	RawSimulationConfigInternal
+	RawSimulationConfigPartial
 } from './types.js';
 
 import {
@@ -23,27 +23,27 @@ import {
 	StandingOvationSimOptions
 } from './simulators/types/standing-ovation.js';
 
-export interface DiceRollDemoRawSimulationConfig extends RawSimulationConfigInternal {
+export interface DiceRollDemoRawSimulationConfig extends RawSimulationConfigPartial {
 	sim: 'dice-roll-demo';
 	simOptions? : DiceRollSimulationOptions;
 }
 
-export interface LuckSurfaceAreaRawSimulationConfig extends RawSimulationConfigInternal  {
+export interface LuckSurfaceAreaRawSimulationConfig extends RawSimulationConfigPartial  {
 	sim: 'luck-surface-area';
 	simOptions? : LuckSurfaceAreaSimOptions;
 }
 
-export interface PastureDemoRawSimulationConfig extends RawSimulationConfigInternal  {
+export interface PastureDemoRawSimulationConfig extends RawSimulationConfigPartial  {
 	sim: 'pasture-demo';
 	simOptions? : PastureSimOptions;
 }
 
-export interface SchellingOrgRawSimulationConfig extends RawSimulationConfigInternal {
+export interface SchellingOrgRawSimulationConfig extends RawSimulationConfigPartial {
 	sim: 'schelling-org';
 	simOptions? : SchellingOrgSimOptions;
 }
 
-export interface StandingOvationRawSimulationConfig extends RawSimulationConfigInternal {
+export interface StandingOvationRawSimulationConfig extends RawSimulationConfigPartial {
 	sim: 'standing-ovation';
 	simOptions? : StandingOvationSimOptions;
 }
