@@ -97,6 +97,7 @@ import {
 } from '../dynamic-types.js';
 
 import {
+	OptionChangedEvent,
 	UndoClickedEvent
 } from '../events.js';
 
@@ -440,7 +441,7 @@ class SimulationControls extends connect(store)(LitElement) {
 		store.dispatch(updateRunIndex(ele.value));
 	}
 
-	_handleOptionChanged(e : CustomEvent) {
+	_handleOptionChanged(e : OptionChangedEvent) {
 		store.dispatch(updateCurrentSimulationOptions(e.detail.path, e.detail.value));
 	}
 

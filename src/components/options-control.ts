@@ -38,7 +38,11 @@ import {
 	OptionValue,
 	OptionValueMap
 } from '../types.js';
-import { makeUndoClickedEvent } from '../events.js';
+
+import {
+	makeOptionChangedEvent,
+	makeUndoClickedEvent
+} from '../events.js';
 
 const doHide = (subConfig : OptionsConfig, parentValue : OptionValueMap, rootValue : OptionValueMap) => subConfig.hide ? subConfig.hide(parentValue, rootValue) : false;
 
@@ -210,7 +214,7 @@ class OptionsControl extends LitElement {
 
 	_handleNullableClicked() {
 		const value = this.value && typeof this.value == 'object' && Object.keys(this.value).length == 0 && this.config.optional ? null : DELETE_SENTINEL;
-		this.dispatchEvent(new CustomEvent('option-changed', {composed: true, detail: {path: this.path, value:value}}));
+		this.dispatchEvent(makeOptionChangedEvent(this.path, value));
 	}
 
 	_handleInputChanged(e : Event) {
@@ -218,13 +222,13 @@ class OptionsControl extends LitElement {
 		if (!(ele instanceof HTMLInputElement) && !(ele instanceof HTMLSelectElement)) throw new Error('not input or select ele');
 		let value : (number | string | boolean) = (ele instanceof HTMLInputElement && ele.type == 'checkbox') ? ele.checked : ele.value;
 		if (typeof this.config.example == 'number' && typeof value == 'string') value = parseFloat(value);
-		this.dispatchEvent(new CustomEvent('option-changed', {composed: true, detail: {path: this.path, value:value}}));
+		this.dispatchEvent(makeOptionChangedEvent(this.path, value));
 	}
 
 	_handleAddArrayItem() {
 		const subPath = this.path + '.' + (this.value as []).length;
 		const value = DEFAULT_SENTINEL;
-		this.dispatchEvent(new CustomEvent('option-changed', {composed: true, detail: {path: subPath, value: value}}));
+		this.dispatchEvent(makeOptionChangedEvent(subPath, value));
 	}
 
 	_handleDetailsToggle(e : Event) {

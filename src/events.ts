@@ -1,5 +1,5 @@
 import {
-	OptionsPath
+	OptionsPath, OptionValue
 } from './types.js';
 
 export type DialogShouldCloseEvent = CustomEvent<null>;
@@ -26,4 +26,15 @@ export type UndoClickedEvent = CustomEvent<UndoClickedEventDetail>;
 
 export const makeUndoClickedEvent = (path : OptionsPath): UndoClickedEvent => {
 	return new CustomEvent('undo-clicked', {composed: true, detail: {path}});
+};
+
+type OptionChangedEventDetail = {
+	path: OptionsPath,
+	value: OptionValue
+};
+
+export type OptionChangedEvent = CustomEvent<OptionChangedEventDetail>;
+
+export const makeOptionChangedEvent = (path : OptionsPath, value: OptionValue) : OptionChangedEvent => {
+	return new CustomEvent('option-changed', {composed: true, detail: {path, value}});
 };
