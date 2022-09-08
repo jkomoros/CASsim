@@ -31,7 +31,6 @@ import {
 
 import {
 	OptionsPath,
-	RawSimulationConfig,
 	ScoreConfig,
 	ChartData,
 	SimulationConfig,
@@ -42,9 +41,13 @@ import {
 	SimulationConfigDisplay,
 	ScoreConfigItem,
 	ColorsMap,
-	SimOptions,
-	OptionValueMap
+	OptionValueMap,
+	WithRequiredProperty
 } from './types.js';
+
+import {
+	RawSimulationConfig
+} from './simulator-types.js';
 
 import {
 	SimulatorType
@@ -87,14 +90,14 @@ export const extractSimulatorNamesFromModifications = (modifications : Modificat
 	return Object.keys(result);
 };
 
-export const configWithDefaultedSimOptions = (config : RawSimulationConfig) : SimulationConfig => {
-	if (config[SIM_OPTIONS_PROPERTY]) return config as SimulationConfig;
-	const simOptions = defaultValueForConfigPath({...config, simOptions: null}, SIM_OPTIONS_PROPERTY) as SimOptions;
+export const configWithDefaultedSimOptions = <T extends RawSimulationConfig>(config : T) : WithRequiredProperty<T, 'simOptions'> => {
+	if (config[SIM_OPTIONS_PROPERTY]) return config as WithRequiredProperty<T, 'simOptions'>;
+	const simOptions = defaultValueForConfigPath({...config, simOptions: null}, SIM_OPTIONS_PROPERTY);
 	if (typeof simOptions != 'object') throw new Error('simOptions property not object');
 	return {
 		...config,
 		simOptions
-	};
+	} as WithRequiredProperty<T, 'simOptions'>;
 };
 
 export const defaultValueForConfigPath = (config : SimulationConfig, path : OptionsPath) => {

@@ -28,11 +28,14 @@ import {
 
 import {
 	Modifications,
-	RawSimulationConfig,
 	SimulationConfig,
 	RootState,
 	URLArgsMap
 } from './types.js';
+
+import {
+	RawSimulationConfig
+} from './simulator-types.js';
 
 import {
 	SimulatorType

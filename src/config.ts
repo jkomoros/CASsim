@@ -3,9 +3,12 @@ import {
 } from './util.js';
 
 import {
-	RawSimulationConfig,
 	PackedRawSimulationConfig
 } from './types.js';
+
+import {
+	RawSimulationConfig
+} from './simulator-types.js';
 
 import {
 	TypedObject

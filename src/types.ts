@@ -1,5 +1,7 @@
 import { SimulatorType } from './dynamic-types.js';
 
+import { RawSimulationConfig } from './simulator-types.js';
+
 export type RandomGenerator = () => number;
 
 export type SimulationConfigName = string;
@@ -53,7 +55,7 @@ export interface ColorsMap {
     background? : CSSColor;
 }
 
-export interface RawSimulationConfig {
+export interface RawSimulationConfigInternal {
     //Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL. May be omitted.
 	name? : SimulationConfigName;
 	//The human-readable description of the config. Optional. Will use a transformation of name like "two-words" -> "Two Words" if not provided.
@@ -85,16 +87,13 @@ export interface RawSimulationConfig {
 	display? : SimulationConfigDisplay;
 	//These colors will be provided to the simulation renderer as `--primary-color` etc CSS variables.
 	colors? : ColorsMap;
-	//The simulator type to run, which must be one of the names of a simulator in simulators/ directory.
-	sim: SimulatorType;
-	//The options to feed to the simulator. These will be different shapes depending on the value of "sim". If this is missing or null, then the simulator's default simOptions will be used. See each specific simulator's documentation for the specific config shapes it expects.
-	simOptions? : SimOptions;
 }
 
-export interface SimulationConfig extends RawSimulationConfig {
-    //An expanded SimulationConfig always has a simOptions
-    simOptions : SimOptions;
-}
+export type WithRequiredProperty<Type, Key extends keyof Type> = Type & {
+    [Property in Key]-?: Type[Property];
+  };
+
+export type SimulationConfig = WithRequiredProperty<RawSimulationConfig, 'simOptions'>;
 
 export type ScoreConfigID = string;
 
