@@ -52,7 +52,7 @@ import {
 import {
 	SimulatorType,
 	KNOWN_SIMULATOR_TYPES
-} from './types-dynamic.js';
+} from './types-dynamic.GENERATED.js';
 
 import {
 	BaseSimulator

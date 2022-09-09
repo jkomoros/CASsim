@@ -39,7 +39,7 @@ import {
 
 import {
 	SimulatorType
-} from "../types-dynamic";
+} from "../types-dynamic.GENERATED.js";
 
 import {
 	DataState

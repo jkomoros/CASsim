@@ -1,4 +1,4 @@
-import { SimulatorType } from './types-dynamic.js';
+import { SimulatorType } from './types-dynamic.GENERATED.js';
 
 import { RawSimulationConfig } from './types-simulator.js';
 

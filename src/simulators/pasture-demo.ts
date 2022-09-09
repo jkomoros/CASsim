@@ -27,7 +27,7 @@ import {
 
 import {
 	SimulatorType
-} from '../types-dynamic.js';
+} from '../types-dynamic.GENERATED.js';
 
 import {
 	PastureSimOptions

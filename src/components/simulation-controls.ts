@@ -94,7 +94,7 @@ import {
 
 import {
 	KNOWN_DATA_FILES
-} from '../types-dynamic.js';
+} from '../types-dynamic.GENERATED.js';
 
 import {
 	OpenDialogEvent,

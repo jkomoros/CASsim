@@ -3,7 +3,7 @@ bower_components/
 *.log
 
 frame_data.json
-src/types-dynamic.ts
+*.GENERATED.*
 
 build/
 dist/

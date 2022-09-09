@@ -11,7 +11,7 @@ import {
 
 import {
 	SimulatorType
-} from './types-dynamic.js';
+} from './types-dynamic.GENERATED.js';
 
 /*
 	Urn is a class that selects a random item out of a distribution, where each
