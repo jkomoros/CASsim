@@ -61,9 +61,10 @@ const extractOptionsConfigForSimulator = (simulatorFile : string) : OptionsConfi
 		throw new Error(simulatorFile + ' failed: ' + err);
 	}
 
-	console.log(output);
+	//TODO: error handle
 
-	return null;
+	return JSON.parse(output) as OptionsConfig;
+
 };
 
 (async() => {
