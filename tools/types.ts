@@ -12,29 +12,30 @@ const processTypes = () => {
 		if (stats.isDirectory()) continue;
 		if (!file.endsWith('.ts')) continue;
 		if (file.endsWith('.d.ts')) continue;
-		const config = extractOptionsConfigForSimulator(file);
+		const simulatorName = path.basename(file, '.ts');
+		const config = extractOptionsConfigForSimulator(simulatorName);
 
 		console.log(file, config);
 	}
 };
 
-const extractOptionsConfigForSimulator = (simulatorFile : string) : OptionsConfig => {
-	const filePath = path.join(SIMULATORS_DIR, path.basename(simulatorFile, '.ts') + '.js');
+const extractOptionsConfigForSimulator = (simulatorName : string) : OptionsConfig => {
+	const filePath = path.join(SIMULATORS_DIR, simulatorName + '.js');
 
 	const baseFileContents = fs.readFileSync(filePath).toString();
 
 	const lines = [];
-	let simulatorName = '';
+	let simulatorTypeName = '';
 	for (const line of baseFileContents.split('\n')) {
 		if (!line.includes('export default')) {
 			lines.push(line);
 			continue;
 		}
-		simulatorName = line.split('export default').join('').split(';').join('').trim();
+		simulatorTypeName = line.split('export default').join('').split(';').join('').trim();
 		break;
 	}
 
-	lines.push('const simulator = new ' + simulatorName + '();');
+	lines.push('const simulator = new ' + simulatorTypeName + '();');
 	lines.push('console.log(JSON.stringify(simulator.optionsConfig, null, "\t"));');
 
 	const fileContents = lines.join('\n');
@@ -45,7 +46,7 @@ const extractOptionsConfigForSimulator = (simulatorFile : string) : OptionsConfi
 	try{
 		output = execSync(command, {input: fileContents, cwd: SIMULATORS_DIR}).toString();
 	} catch (err) {
-		throw new Error(simulatorFile + ' failed: ' + err);
+		throw new Error(simulatorName + ' failed: ' + err);
 	}
 
 	//TODO: error handle
