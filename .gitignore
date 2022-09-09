@@ -4,7 +4,6 @@ bower_components/
 
 frame_data.json
 src/types-dynamic.ts
-src/simulators/types/cache
 
 build/
 dist/
