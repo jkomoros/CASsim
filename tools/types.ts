@@ -17,6 +17,7 @@ const processTypes = () => {
 		const config = extractOptionsConfigForSimulator(simulatorName);
 		createSimulatorTypeFile(simulatorName, config);
 	}
+	//TODO: for every file in simulators/types (including hte non-generated ones!) go through and generate types-simulator.GENERATED.ts
 };
 
 const camelCaseSimulatorName = (simulatorName : string) : string => {
