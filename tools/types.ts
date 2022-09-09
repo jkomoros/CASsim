@@ -4,6 +4,7 @@ import { execSync } from "child_process";
 import { OptionsConfig } from "../src/types.js";
 
 const SIMULATORS_DIR = 'src/simulators';
+const TYPES_DIR = path.join(SIMULATORS_DIR, 'types');
 
 const processTypes = () => {
 	const files = fs.readdirSync(SIMULATORS_DIR);
@@ -14,13 +15,27 @@ const processTypes = () => {
 		if (file.endsWith('.d.ts')) continue;
 		const simulatorName = path.basename(file, '.ts');
 		const config = extractOptionsConfigForSimulator(simulatorName);
-
-		console.log(file, config);
+		createSimulatorTypeFile(simulatorName, config);
 	}
 };
 
 const camelCaseSimulatorName = (simulatorName : string) : string => {
 	return simulatorName.split('-').map(piece => piece[0].toUpperCase() + piece.slice(1)).join('');
+};
+
+const createSimulatorTypeFile = (simulatorName : string, config : OptionsConfig) => {
+	const fileName = path.join(TYPES_DIR, simulatorName + '.GENERATED.ts');
+	const nonGeneratedFileName = path.join(TYPES_DIR, simulatorName + '.ts');
+	//Certain files are done by hand and should be skipped, e.g. schelling-org.
+	if (fs.existsSync(nonGeneratedFileName)) return;
+
+	const prettySimulatorName = camelCaseSimulatorName(simulatorName);
+	const simOptionsName = prettySimulatorName + 'SimOptions';
+
+	//TODO: export real content
+	const fileContents = 'export type ' + simOptionsName + ' = ' + JSON.stringify(config, null, '\t');
+
+	fs.writeFileSync(fileName, fileContents);
 };
 
 const extractOptionsConfigForSimulator = (simulatorName : string) : OptionsConfig => {
