@@ -19,6 +19,10 @@ const processTypes = () => {
 	}
 };
 
+const camelCaseSimulatorName = (simulatorName : string) : string => {
+	return simulatorName.split('-').map(piece => piece[0].toUpperCase() + piece.slice(1)).join('');
+};
+
 const extractOptionsConfigForSimulator = (simulatorName : string) : OptionsConfig => {
 	const filePath = path.join(SIMULATORS_DIR, simulatorName + '.js');
 
