@@ -26,13 +26,13 @@ const makeOptionsConfigCache = () => {
 		if (!file.endsWith('.ts')) continue;
 		if (file.endsWith('.d.ts')) continue;
 		const config = extractOptionsConfigForSimulator(file);
-		//TODO: store this.
+
 		console.log(file, config);
 	}
 };
 
 const extractOptionsConfigForSimulator = (simulatorFile : string) : OptionsConfig => {
-	const filePath = path.join(SIMULATORS_DIR, simulatorFile.split('.ts').join('.js'));
+	const filePath = path.join(SIMULATORS_DIR, path.basename(simulatorFile, '.ts') + '.js');
 
 	const baseFileContents = fs.readFileSync(filePath).toString();
 
