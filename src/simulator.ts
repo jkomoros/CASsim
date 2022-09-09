@@ -181,7 +181,7 @@ export class BaseSimulator {
 	}
 
 	renderer() : BaseRenderer {
-		return new BaseRenderer();
+		throw new Error('Unimplemented: Simulators should override this');
 	}
 
 	get fingerprint() : Fingerprint {

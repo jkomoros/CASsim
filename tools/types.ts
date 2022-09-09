@@ -33,16 +33,30 @@ const makeOptionsConfigCache = () => {
 
 const extractOptionsConfigForSimulator = (simulatorFile : string) : OptionsConfig => {
 	const filePath = path.join(SIMULATORS_DIR, simulatorFile.split('.ts').join('.js'));
-	const fileContents = `import Simulator from './${filePath}';
 
-const sim = new Simulator();
-console.log(sim.optionsConfig);`;
+	const baseFileContents = fs.readFileSync(filePath).toString();
+
+	const lines = [];
+	let simulatorName = '';
+	for (const line of baseFileContents.split('\n')) {
+		if (!line.includes('export default')) {
+			lines.push(line);
+			continue;
+		}
+		simulatorName = line.split('export default').join('').split(';').join('').trim();
+		break;
+	}
+
+	lines.push('const simulator = new ' + simulatorName + '();');
+	lines.push('console.log(JSON.stringify(simulator.optionsConfig, null, "\t"));');
+
+	const fileContents = lines.join('\n');
 
 	const command = 'node --input-type=module';
 
 	let output : string;
 	try{
-		output = execSync(command, {input: fileContents}).toString();
+		output = execSync(command, {input: fileContents, cwd: SIMULATORS_DIR}).toString();
 	} catch (err) {
 		throw new Error(simulatorFile + ' failed: ' + err);
 	}
