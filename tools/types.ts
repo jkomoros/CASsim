@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import { execSync } from "child_process";
 import { OptionsConfig } from "../src/types.js";
 
 const SIMULATORS_DIR = 'src/simulators';
@@ -30,18 +31,23 @@ const makeOptionsConfigCache = () => {
 	}
 };
 
-const GENERATED_EXTRACTION_FILE = path.join(TYPES_CACHE_DIR, 'extraction.TEMP.ts');
-
 const extractOptionsConfigForSimulator = (simulatorFile : string) : OptionsConfig => {
-	const filePath = path.join('..', '..', simulatorFile.split('.ts').join('.js'));
-	const fileContents = `import Simulator from '${filePath}';
+	const filePath = path.join(SIMULATORS_DIR, simulatorFile.split('.ts').join('.js'));
+	const fileContents = `import Simulator from './${filePath}';
 
 const sim = new Simulator();
 console.log(sim.optionsConfig);`;
 
-	fs.writeFileSync(GENERATED_EXTRACTION_FILE, fileContents);
+	const command = 'node --input-type=module';
 
-	//TODO: execute the script and return the OptionsConfig as JSON.
+	let output : string;
+	try{
+		output = execSync(command, {input: fileContents}).toString();
+	} catch (err) {
+		throw new Error(simulatorFile + ' failed: ' + err);
+	}
+
+	console.log(output);
 
 	return null;
 };
