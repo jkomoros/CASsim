@@ -71,11 +71,13 @@ const typescriptTypeForOptionsConfig = (config : OptionsConfig | OptionsConfigMa
 		return typeScriptTypeForMap(config);
 	}
 	const example = config.example;
+	if (config.options) {
+		return config.options.map(item => typeof item.value == 'string' ? '\'' + item.value + '\'' : item.value).join(' | ') + ';';
+	}
 	if (typeof example != 'object') {
 		//A simple case
 		return typeof example + ';';
 	}
-	//TODO: handle options and enumerate them
 	if (Array.isArray(example)) {
 		const subConfig = example[0];
 		let subDefinition = typescriptTypeForOptionsConfig(subConfig);
