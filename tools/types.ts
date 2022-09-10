@@ -48,7 +48,7 @@ const createSimulatorTypeFile = (simulatorName : string, config : OptionsConfig 
 const indentInnerPiece = (input : string) : string => {
 	const pieces = input.split('\n');
 	if (pieces.length == 1) return input;
-	for (let i = 0; i < pieces.length - 1; i++) {
+	for (let i = 1; i < pieces.length; i++) {
 		pieces[i] = '\t' + pieces[i];
 	}
 	return pieces.join('\n');
