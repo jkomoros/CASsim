@@ -1,4 +1,10 @@
-import { SimulatorType } from './dynamic-types.js';
+export * from './types-dynamic.GENERATED.js';
+
+export * from './types-simulator.GENERATED.js';
+
+import { SimulatorType } from './types-dynamic.GENERATED.js';
+
+import { RawSimulationConfig } from './types-simulator.GENERATED.js';
 
 export type RandomGenerator = () => number;
 
@@ -32,9 +38,11 @@ export type SimOptions = OptionValueMap;
 
 export type NormalizedSimOptions = OptionValueMap;
 
+export type PackedRawSimulationConfigItem = RawSimulationConfig | RawSimulationConfigBase;
+
 export interface PackedRawSimulationConfig {
     version: number;
-    configs: RawSimulationConfig[];
+    configs: PackedRawSimulationConfigItem[];
 }
 
 export interface SimulationConfigDisplay {
@@ -53,22 +61,20 @@ export interface ColorsMap {
     background? : CSSColor;
 }
 
-export interface RawSimulationConfig {
+interface RawSimulationConfigCommon {
     //Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL. May be omitted.
 	name? : SimulationConfigName;
+    //Height and width. Mainly used for aspect ratio, but for screenshotting this will be the literal height and width in pixels (modulo if you include the display.status)
+    //Width of simulation canvas. Defaults to 800 if not provided.
+    width? : number;
+    //Height of simulation canvas. Defaults to 450 if not provided.
+    height? : number;
 	//The human-readable description of the config. Optional. Will use a transformation of name like "two-words" -> "Two Words" if not provided.
 	title? : string;
 	//A longer description of the simulation. If not provided will use title or name.
 	description?: string;
-	//If true, then this config will not be included; typically you only include this for things that other configs will extend.
-	hidden? : boolean;
-	//If set, then this config will extend and overlay the config given by "this-is-another-name". It will not copy over any 'hidden' config value, and for object values, it will entirely overwrite the value. Note that these extensions won't be visible at all in the UI; the transformation is done before the UI sees it, and the UI operates as though each config is fully specified. You may point to configs that extend other configs, but cycles are not allowed.
-	extend? : SimulationConfigName;
-	//Height and width. Mainly used for aspect ratio, but for screenshotting this will be the literal height and width in pixels (modulo if you include the display.status)
-	width : number;
-	height : number;
-	//How many runs to generate in the set
-	runs : number;
+    //How many runs to generate in the set, defaults to 10 if not provided.
+	runs? : number;
 	//The base random number seed for each run (each run and frame gets its own initialized seed based on this.) If omitted, will use a value derived from current time, leading to nondeterministic behavior.
 	seed? : string;
 	//How many milliseconds to wait before advancing to the next frame when playing.
@@ -85,16 +91,23 @@ export interface RawSimulationConfig {
 	display? : SimulationConfigDisplay;
 	//These colors will be provided to the simulation renderer as `--primary-color` etc CSS variables.
 	colors? : ColorsMap;
-	//The simulator type to run, which must be one of the names of a simulator in simulators/ directory.
-	sim: SimulatorType;
-	//The options to feed to the simulator. These will be different shapes depending on the value of "sim". If this is missing or null, then the simulator's default simOptions will be used. See each specific simulator's documentation for the specific config shapes it expects.
-	simOptions? : SimOptions;
 }
 
-export interface SimulationConfig extends RawSimulationConfig {
-    //An expanded SimulationConfig always has a simOptions
-    simOptions : SimOptions;
+export interface RawSimulationConfigBase extends RawSimulationConfigCommon {
+    //If true, then this config will not be included; typically you only include this for things that other configs will extend.
+	base : true;
 }
+
+export interface RawSimulationConfigExtended extends RawSimulationConfigCommon {
+	//If set, then this config will extend and overlay the config given by "this-is-another-name". It will not copy over any 'base' config value, and for object values, it will entirely overwrite the value. Note that these extensions won't be visible at all in the UI; the transformation is done before the UI sees it, and the UI operates as though each config is fully specified. You may point to configs that extend other configs, but cycles are not allowed.
+	extend : SimulationConfigName;
+}
+
+export type WithRequiredProperty<Type, Key extends keyof Type> = Type & {
+    [Property in Key]-?: Type[Property];
+  };
+
+export type SimulationConfig = WithRequiredProperty<RawSimulationConfig, 'simOptions'>;
 
 export type ScoreConfigID = string;
 

@@ -24,21 +24,20 @@ import {
 } from '../graph/options-config.js';
 
 import {
-	DistributionOptions,
 	GraphNodeValues,
 	OptionsConfigMap,
-	OptionValueMap,
 	RandomGenerator,
 	ScoreConfigItem,
-} from '../types.js';
-
-import {
 	SimulatorType
-} from '../dynamic-types.js';
+} from '../types.js';
 
 import {
 	Graph
 } from '../graph/graph.js';
+
+import {
+	LuckSurfaceAreaSimOptions
+} from './types/luck-surface-area.GENERATED.js';
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'luck-surface-area';
@@ -73,24 +72,6 @@ type LuckSurfaceAreaAgent = Agent & {
 	emoji : string;
 	value : number;
 	cost : number;
-};
-
-type LuckSurfaceAreaSimOptions = {
-	agents : {
-		count : number;
-		cost : DistributionOptions;
-		starterStrength : DistributionOptions;
-		starterValue : DistributionOptions;
-	},
-	rounds : number;
-	opportunities : {
-		value : {
-			likelihood : DistributionOptions;
-			falloff : DistributionOptions;
-		};
-		//TODO: be more precise in this type
-		structure : OptionValueMap;
-	}
 };
 
 interface LuckSurfaceAreaSimulationFrame extends AgentSimulationFrame {
@@ -220,6 +201,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	}
 	
 	override get optionsConfig() : OptionsConfigMap {
+		//When you modify this method, re-run `npm run generate` to update the types and schema checking
 		return {
 			agents: {
 				description: 'Configuration related to agents',
@@ -300,6 +282,11 @@ class AgentDemoSimulator extends AgentSimulator {
 }
 
 export default AgentDemoSimulator;
+
+/************************************************************************
+*  All imports (including transitive ones) of lit must occur below the  *
+*  `export default ...` line that is immediately above this comment     *
+************************************************************************/
 
 import { PositionedGraphRenderer } from '../renderer.js';
 

@@ -22,12 +22,13 @@ import {
 	GraphNodeValues,
 	OptionsConfigMap,
 	RandomGenerator,
-	ScoreConfigItem
+	ScoreConfigItem,
+	SimulatorType
 } from '../types.js';
 
 import {
-	SimulatorType
-} from '../dynamic-types.js';
+	PastureDemoSimOptions
+} from './types/pasture-demo.GENERATED.js';
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'pasture-demo';
@@ -40,19 +41,9 @@ type PastureAgent = Agent & {
 	node: GraphNodeID;
 };
 
-type PastureSimOptions = {
-	spawnLikelihood : number;
-	deathLikelihood : number;
-	growthRate: number;
-	rows: number;
-	cols: number;
-	agents: number;
-	rounds: number;
-};
-
 interface PastureSimulationFrame extends AgentSimulationFrame {
 	agents : PastureAgent[];
-	simOptions: PastureSimOptions;
+	simOptions: PastureDemoSimOptions;
 }
 
 interface PastureGraphNodeValues extends GraphNodeValues {
@@ -70,7 +61,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	override generateAgent(parentAgent : PastureAgent, _otherAgents : PastureAgent[], _graph : Graph, simOptions : PastureSimOptions, rnd : RandomGenerator) : PastureAgent {
+	override generateAgent(parentAgent : PastureAgent, _otherAgents : PastureAgent[], _graph : Graph, simOptions : PastureDemoSimOptions, rnd : RandomGenerator) : PastureAgent {
 		const [emojiKey, emoji] = pickEmoji(GRAZING_FARM_ANIMALS_EMOJIS, parentAgent ? parentAgent.type : rnd);
 		return {
 			...this.baseAgent(rnd),
@@ -82,12 +73,12 @@ class AgentDemoSimulator extends AgentSimulator {
 		};
 	}
 
-	override generateGraph(simOptions : PastureSimOptions, _rnd : RandomGenerator, simWidth : number, simHeight : number) : Graph {
+	override generateGraph(simOptions : PastureDemoSimOptions, _rnd : RandomGenerator, simWidth : number, simHeight : number) : Graph {
 		const starterValues : PastureGraphNodeValues =  {id: '', value:0.0, growthRate: simOptions.growthRate, emoji:'🌿'};
 		return RectangleGraph.make(simOptions.rows, simOptions.cols, simWidth, simHeight, {starterValues, nodeMargin: 0.1, diagonal:true});
 	}
 
-	override numStarterAgents(_graph : Graph, simOptions : PastureSimOptions) : number {
+	override numStarterAgents(_graph : Graph, simOptions : PastureDemoSimOptions) : number {
 		return simOptions.agents;
 	}
 
@@ -136,6 +127,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	}
 	
 	override get optionsConfig() : OptionsConfigMap {
+		//When you modify this method, re-run `npm run generate` to update the types and schema checking
 		return {
 			'agents': {
 				example: 6,
@@ -205,6 +197,11 @@ class AgentDemoSimulator extends AgentSimulator {
 }
 
 export default AgentDemoSimulator;
+
+/************************************************************************
+*  All imports (including transitive ones) of lit must occur below the  *
+*  `export default ...` line that is immediately above this comment     *
+************************************************************************/
 
 import { PositionedGraphRenderer } from '../renderer.js';
 

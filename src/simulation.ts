@@ -31,7 +31,6 @@ import {
 
 import {
 	OptionsPath,
-	RawSimulationConfig,
 	ScoreConfig,
 	ChartData,
 	SimulationConfig,
@@ -42,26 +41,24 @@ import {
 	SimulationConfigDisplay,
 	ScoreConfigItem,
 	ColorsMap,
-	SimOptions,
-	OptionValueMap
+	OptionValueMap,
+	WithRequiredProperty,
+	SimulatorType,
+	KNOWN_SIMULATOR_TYPES,
+	RawSimulationConfig
 } from './types.js';
-
-import {
-	SimulatorType
-} from './dynamic-types.js';
 
 import {
 	BaseSimulator
 } from './simulator.js';
 
-import {
-	KNOWN_SIMULATOR_TYPES
-} from './dynamic-types.js';
-
 //Also duplicated into screenshot.js
 const DEFAULT_FRAME_DELAY = 100;
 const DEFAULT_EXTRA_FINAL_FRAME_COUNT = 0;
 const DEFAULT_REPEAT = false;
+const DEFAULT_WIDTH = 800;
+const DEFAULT_HEIGHT = 450;
+const DEFAULT_RUNS = 10;
 
 export const SIMULATORS : {[name in SimulatorType] +? : BaseSimulator} = {};
 
@@ -87,14 +84,14 @@ export const extractSimulatorNamesFromModifications = (modifications : Modificat
 	return Object.keys(result);
 };
 
-export const configWithDefaultedSimOptions = (config : RawSimulationConfig) : SimulationConfig => {
-	if (config[SIM_OPTIONS_PROPERTY]) return config as SimulationConfig;
-	const simOptions = defaultValueForConfigPath({...config, simOptions: null}, SIM_OPTIONS_PROPERTY) as SimOptions;
+export const configWithDefaultedSimOptions = <T extends RawSimulationConfig>(config : T) : WithRequiredProperty<T, 'simOptions'> => {
+	if (config[SIM_OPTIONS_PROPERTY]) return config as WithRequiredProperty<T, 'simOptions'>;
+	const simOptions = defaultValueForConfigPath({...config, simOptions: null}, SIM_OPTIONS_PROPERTY);
 	if (typeof simOptions != 'object') throw new Error('simOptions property not object');
 	return {
 		...config,
 		simOptions
-	};
+	} as WithRequiredProperty<T, 'simOptions'>;
 };
 
 export const defaultValueForConfigPath = (config : SimulationConfig, path : OptionsPath) => {
@@ -382,7 +379,8 @@ export class Simulation {
 		this._colors = Object.fromEntries(Object.entries(this._config.colors || {}).map(entry => [entry[0], color(entry[1])]));
 		this._lastChanged = Date.now();
 		this._activated = false;
-		for (let i = 0; i < config.runs; i++) {
+		const runCount = config.runs || DEFAULT_RUNS;
+		for (let i = 0; i < runCount; i++) {
 			const run = new SimulationRun(this, i);
 			this._runs.push(run);
 		}
@@ -462,11 +460,11 @@ export class Simulation {
 	}
 
 	get width() : number {
-		return this._config.width;
+		return this._config.width || DEFAULT_WIDTH;
 	}
 
 	get height() : number {
-		return this._config.height;
+		return this._config.height || DEFAULT_HEIGHT;
 	}
 
 	get name() : string {
@@ -583,13 +581,13 @@ export class Simulation {
 					optional: true
 				},
 				width: {
-					example: 800,
+					example: DEFAULT_WIDTH,
 					shortName: 'w',
 					description: 'The width of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal width in pixels.',
 					advanced: true
 				},
 				height: {
-					example: 450,
+					example: DEFAULT_HEIGHT,
 					shortName: 'h',
 					description: 'The height of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal height in pixels--although if displayf status is true then it will be slightly taller.',
 					advanced: true
@@ -603,7 +601,7 @@ export class Simulation {
 					advanced: true
 				},
 				runs: {
-					example: 10,
+					example: DEFAULT_RUNS,
 					shortName: 'r',
 					description: 'How many runs in the simulation to run',
 				},

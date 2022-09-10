@@ -6,12 +6,13 @@ import {
 	OptionsConfigMap,
 	RandomGenerator,
 	ScoreConfigItem,
-	SimulationFrame
+	SimulationFrame,
+	SimulatorType
 } from '../types.js';
 
 import {
-	SimulatorType
-} from '../dynamic-types.js';
+	DiceRollDemoSimOptions
+} from './types/dice-roll-demo.GENERATED.js';
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'dice-roll-demo';
@@ -23,14 +24,8 @@ type DiceRollSimulationFrameExtra = {
 	success: boolean;
 }
 
-type DiceRollSimulationOptions = {
-	die : number;
-	targetScore : number;
-	bust : number;
-}
-
 interface DiceRollSimulationFrame extends SimulationFrame,  DiceRollSimulationFrameExtra {
-	simOptions : DiceRollSimulationOptions;
+	simOptions : DiceRollDemoSimOptions;
 }
 
 class DiceRollDemoSimulator extends BaseSimulator {
@@ -95,6 +90,7 @@ class DiceRollDemoSimulator extends BaseSimulator {
 	}
 	
 	override get optionsConfig() : OptionsConfigMap {
+		//When you modify this method, re-run `npm run generate` to update the types and schema checking
 		return {
 			'die': {
 				example: 6,
@@ -126,6 +122,11 @@ class DiceRollDemoSimulator extends BaseSimulator {
 }
 
 export default DiceRollDemoSimulator;
+
+/************************************************************************
+*  All imports (including transitive ones) of lit must occur below the  *
+*  `export default ...` line that is immediately above this comment     *
+************************************************************************/
 
 import { BaseRenderer } from '../renderer.js';
 import { html, css } from 'lit';

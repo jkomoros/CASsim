@@ -19,16 +19,16 @@ import {
 } from '../graph/graph.js';
 
 import {
-	DistributionOptions,
 	GraphNodeValues,
 	OptionsConfigMap,
 	RandomGenerator,
-	ScoreConfigItem
+	ScoreConfigItem,
+	SimulatorType
 } from '../types.js';
 
 import {
-	SimulatorType
-} from '../dynamic-types.js';
+	StandingOvationSimOptions
+} from './types/standing-ovation.GENERATED.js';
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'standing-ovation';
@@ -47,17 +47,6 @@ type StandingOvationAgent = Agent & {
 	forwardStandingFalloff: number;
 	fomoThreshold: number;
 }
-
-type StandingOvationSimOptions = {
-	filledSeatProportion : number;
-	rows: number;
-	cols: number;
-	performanceQuality: DistributionOptions;
-	ovationPropensity: DistributionOptions;
-	standingThreshold: DistributionOptions;
-	forwardStandingFalloff: DistributionOptions;
-	fomoThreshold: DistributionOptions;
-};
 
 type StandingOvationSimulationFrameExtra = {
 	changesMade: boolean;
@@ -170,6 +159,7 @@ class StandingOvationSimulator extends AgentSimulator {
 	}
 	
 	override get optionsConfig() : OptionsConfigMap {
+		//When you modify this method, re-run `npm run generate` to update the types and schema checking
 		return {
 			rows: {
 				example: 5,
@@ -203,6 +193,11 @@ class StandingOvationSimulator extends AgentSimulator {
 }
 
 export default StandingOvationSimulator;
+
+/************************************************************************
+*  All imports (including transitive ones) of lit must occur below the  *
+*  `export default ...` line that is immediately above this comment     *
+************************************************************************/
 
 import { PositionedGraphRenderer } from '../renderer.js';
 import { StyleInfo } from 'lit/directives/style-map.js';

@@ -56,12 +56,9 @@ import {
 	ShortenedOptionsPath,
 	ShortNameMap,
 	Modifications,
-	URLDiffHash
-} from './types.js';
-
-import {
+	URLDiffHash,
 	SimulatorType
-} from './dynamic-types.js';
+} from './types.js';
 
 import {
 	DELETE_SENTINEL,
@@ -94,6 +91,7 @@ export const configIsMap = (config : OptionsConfigInput) : config is OptionsConf
 	return typeof config == 'object' && !Array.isArray(config) && config[EXAMPLE_PROPERTY_NAME] == undefined;
 };
 
+//Reimplemented in tools/types.ts
 export const configIsConfig = (config : OptionsConfigInput) : config is OptionsConfig => {
 	return typeof config == 'object' && !Array.isArray(config) && config[EXAMPLE_PROPERTY_NAME] != undefined;
 };

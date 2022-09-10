@@ -1,0 +1,1557 @@
+{
+  "$ref": "#/definitions/PackedRawSimulationConfig",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "CSSColor": {
+      "type": "string"
+    },
+    "ColorsMap": {
+      "additionalProperties": false,
+      "properties": {
+        "background": {
+          "$ref": "#/definitions/CSSColor"
+        },
+        "disabled": {
+          "$ref": "#/definitions/CSSColor"
+        },
+        "primary": {
+          "$ref": "#/definitions/CSSColor"
+        },
+        "secondary": {
+          "$ref": "#/definitions/CSSColor"
+        }
+      },
+      "type": "object"
+    },
+    "CommunicationStrategy": {
+      "enum": [
+        "random",
+        "min",
+        "max",
+        "disagreement"
+      ],
+      "type": "string"
+    },
+    "DiceRollDemoSimOptions": {
+      "additionalProperties": false,
+      "properties": {
+        "bust": {
+          "type": "number"
+        },
+        "die": {
+          "type": "number"
+        },
+        "targetScore": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "DisplayValue": {
+      "additionalProperties": false,
+      "properties": {
+        "debug": {
+          "type": "boolean"
+        },
+        "disableBeliefs": {
+          "type": "boolean"
+        },
+        "disableSelection": {
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "LuckSurfaceAreaSimOptions": {
+      "additionalProperties": false,
+      "properties": {
+        "agents": {
+          "additionalProperties": false,
+          "properties": {
+            "cost": {
+              "additionalProperties": false,
+              "properties": {
+                "average": {
+                  "type": "number"
+                },
+                "distribution": {
+                  "enum": [
+                    "linear",
+                    "normal",
+                    "min-max",
+                    "fixed"
+                  ],
+                  "type": "string"
+                },
+                "max": {
+                  "type": "number"
+                },
+                "min": {
+                  "type": "number"
+                },
+                "spread": {
+                  "type": "number"
+                }
+              },
+              "type": "object"
+            },
+            "count": {
+              "type": "number"
+            },
+            "starterStrength": {
+              "additionalProperties": false,
+              "properties": {
+                "average": {
+                  "type": "number"
+                },
+                "distribution": {
+                  "enum": [
+                    "linear",
+                    "normal",
+                    "min-max",
+                    "fixed"
+                  ],
+                  "type": "string"
+                },
+                "max": {
+                  "type": "number"
+                },
+                "min": {
+                  "type": "number"
+                },
+                "spread": {
+                  "type": "number"
+                }
+              },
+              "type": "object"
+            },
+            "starterValue": {
+              "additionalProperties": false,
+              "properties": {
+                "average": {
+                  "type": "number"
+                },
+                "distribution": {
+                  "enum": [
+                    "linear",
+                    "normal",
+                    "min-max",
+                    "fixed"
+                  ],
+                  "type": "string"
+                },
+                "max": {
+                  "type": "number"
+                },
+                "min": {
+                  "type": "number"
+                },
+                "spread": {
+                  "type": "number"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "opportunities": {
+          "additionalProperties": false,
+          "properties": {
+            "structure": {
+              "additionalProperties": false,
+              "properties": {
+                "childCount": {
+                  "type": "number"
+                },
+                "childFactor": {
+                  "type": "number"
+                },
+                "childLinkLikelihood": {
+                  "type": "number"
+                },
+                "distantNodeBoost": {
+                  "type": "number"
+                },
+                "edgeCount": {
+                  "type": "number"
+                },
+                "graphType": {
+                  "enum": [
+                    "BloomGraph",
+                    "PreferentialAttachmentGraph"
+                  ],
+                  "type": "string"
+                },
+                "iterations": {
+                  "type": "number"
+                },
+                "levels": {
+                  "type": "number"
+                },
+                "maxNodeSize": {
+                  "type": "number"
+                },
+                "minNodeSize": {
+                  "type": "number"
+                },
+                "noCollide": {
+                  "type": "boolean"
+                },
+                "nodeBoost": {
+                  "type": "number"
+                },
+                "nodeCount": {
+                  "type": "number"
+                },
+                "nodeMargin": {
+                  "type": "number"
+                },
+                "nodeSize": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "average": {
+                      "type": "number"
+                    },
+                    "distribution": {
+                      "enum": [
+                        "linear",
+                        "normal",
+                        "min-max",
+                        "fixed"
+                      ],
+                      "type": "string"
+                    },
+                    "max": {
+                      "type": "number"
+                    },
+                    "min": {
+                      "type": "number"
+                    },
+                    "spread": {
+                      "type": "number"
+                    }
+                  },
+                  "type": "object"
+                },
+                "randomLinkLikelihood": {
+                  "type": "number"
+                }
+              },
+              "type": "object"
+            },
+            "value": {
+              "additionalProperties": false,
+              "properties": {
+                "falloff": {
+                  "type": "number"
+                },
+                "likelihood": {
+                  "type": "number"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "rounds": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "NorthStarOptions": {
+      "additionalProperties": false,
+      "properties": {
+        "believability": {
+          "type": "number"
+        },
+        "emoji": {
+          "type": "string"
+        },
+        "maxOffset": {
+          "type": "number"
+        },
+        "minOffset": {
+          "type": "number"
+        },
+        "offset": {
+          "type": "number"
+        },
+        "offsetType": {
+          "enum": [
+            "manual",
+            "random",
+            "random-project"
+          ],
+          "type": "string"
+        },
+        "spread": {
+          "type": "number"
+        },
+        "strength": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "OptionValue": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/OptionValue"
+          },
+          "type": "array"
+        },
+        {
+          "$ref": "#/definitions/OptionValueMap"
+        }
+      ]
+    },
+    "OptionValueMap": {
+      "additionalProperties": {
+        "$ref": "#/definitions/OptionValue"
+      },
+      "type": "object"
+    },
+    "PackedRawSimulationConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "configs": {
+          "items": {
+            "$ref": "#/definitions/PackedRawSimulationConfigItem"
+          },
+          "type": "array"
+        },
+        "version": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "version",
+        "configs"
+      ],
+      "type": "object"
+    },
+    "PackedRawSimulationConfigItem": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/RawSimulationConfig"
+        },
+        {
+          "$ref": "#/definitions/RawSimulationConfigBase"
+        }
+      ]
+    },
+    "PastureDemoSimOptions": {
+      "additionalProperties": false,
+      "properties": {
+        "agents": {
+          "type": "number"
+        },
+        "cols": {
+          "type": "number"
+        },
+        "deathLikelihood": {
+          "type": "number"
+        },
+        "growthRate": {
+          "type": "number"
+        },
+        "rounds": {
+          "type": "number"
+        },
+        "rows": {
+          "type": "number"
+        },
+        "spawnLikelihood": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "RawSimulationConfig": {
+      "anyOf": [
+        {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "autoGenerate": {
+                  "type": "boolean"
+                },
+                "autoPlay": {
+                  "type": "boolean"
+                },
+                "base": {
+                  "const": true,
+                  "type": "boolean"
+                },
+                "colors": {
+                  "$ref": "#/definitions/ColorsMap"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "display": {
+                  "$ref": "#/definitions/SimulationConfigDisplay"
+                },
+                "extraFinalFrameCount": {
+                  "type": "number"
+                },
+                "frameDelay": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                },
+                "name": {
+                  "$ref": "#/definitions/SimulationConfigName"
+                },
+                "repeat": {
+                  "type": "boolean"
+                },
+                "runs": {
+                  "type": "number"
+                },
+                "seed": {
+                  "type": "string"
+                },
+                "sim": {
+                  "const": "dice-roll-demo",
+                  "type": "string"
+                },
+                "simOptions": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/DiceRollDemoSimOptions"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "title": {
+                  "type": "string"
+                },
+                "width": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "base",
+                "sim",
+                "simOptions"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "autoGenerate": {
+                  "type": "boolean"
+                },
+                "autoPlay": {
+                  "type": "boolean"
+                },
+                "colors": {
+                  "$ref": "#/definitions/ColorsMap"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "display": {
+                  "$ref": "#/definitions/SimulationConfigDisplay"
+                },
+                "extend": {
+                  "$ref": "#/definitions/SimulationConfigName"
+                },
+                "extraFinalFrameCount": {
+                  "type": "number"
+                },
+                "frameDelay": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                },
+                "name": {
+                  "$ref": "#/definitions/SimulationConfigName"
+                },
+                "repeat": {
+                  "type": "boolean"
+                },
+                "runs": {
+                  "type": "number"
+                },
+                "seed": {
+                  "type": "string"
+                },
+                "sim": {
+                  "const": "dice-roll-demo",
+                  "type": "string"
+                },
+                "simOptions": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/DiceRollDemoSimOptions"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "title": {
+                  "type": "string"
+                },
+                "width": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "extend",
+                "sim",
+                "simOptions"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "autoGenerate": {
+                  "type": "boolean"
+                },
+                "autoPlay": {
+                  "type": "boolean"
+                },
+                "base": {
+                  "const": true,
+                  "type": "boolean"
+                },
+                "colors": {
+                  "$ref": "#/definitions/ColorsMap"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "display": {
+                  "$ref": "#/definitions/SimulationConfigDisplay"
+                },
+                "extraFinalFrameCount": {
+                  "type": "number"
+                },
+                "frameDelay": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                },
+                "name": {
+                  "$ref": "#/definitions/SimulationConfigName"
+                },
+                "repeat": {
+                  "type": "boolean"
+                },
+                "runs": {
+                  "type": "number"
+                },
+                "seed": {
+                  "type": "string"
+                },
+                "sim": {
+                  "const": "luck-surface-area",
+                  "type": "string"
+                },
+                "simOptions": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/LuckSurfaceAreaSimOptions"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "title": {
+                  "type": "string"
+                },
+                "width": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "base",
+                "sim",
+                "simOptions"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "autoGenerate": {
+                  "type": "boolean"
+                },
+                "autoPlay": {
+                  "type": "boolean"
+                },
+                "colors": {
+                  "$ref": "#/definitions/ColorsMap"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "display": {
+                  "$ref": "#/definitions/SimulationConfigDisplay"
+                },
+                "extend": {
+                  "$ref": "#/definitions/SimulationConfigName"
+                },
+                "extraFinalFrameCount": {
+                  "type": "number"
+                },
+                "frameDelay": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                },
+                "name": {
+                  "$ref": "#/definitions/SimulationConfigName"
+                },
+                "repeat": {
+                  "type": "boolean"
+                },
+                "runs": {
+                  "type": "number"
+                },
+                "seed": {
+                  "type": "string"
+                },
+                "sim": {
+                  "const": "luck-surface-area",
+                  "type": "string"
+                },
+                "simOptions": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/LuckSurfaceAreaSimOptions"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "title": {
+                  "type": "string"
+                },
+                "width": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "extend",
+                "sim",
+                "simOptions"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "autoGenerate": {
+                  "type": "boolean"
+                },
+                "autoPlay": {
+                  "type": "boolean"
+                },
+                "base": {
+                  "const": true,
+                  "type": "boolean"
+                },
+                "colors": {
+                  "$ref": "#/definitions/ColorsMap"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "display": {
+                  "$ref": "#/definitions/SimulationConfigDisplay"
+                },
+                "extraFinalFrameCount": {
+                  "type": "number"
+                },
+                "frameDelay": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                },
+                "name": {
+                  "$ref": "#/definitions/SimulationConfigName"
+                },
+                "repeat": {
+                  "type": "boolean"
+                },
+                "runs": {
+                  "type": "number"
+                },
+                "seed": {
+                  "type": "string"
+                },
+                "sim": {
+                  "const": "pasture-demo",
+                  "type": "string"
+                },
+                "simOptions": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/PastureDemoSimOptions"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "title": {
+                  "type": "string"
+                },
+                "width": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "base",
+                "sim",
+                "simOptions"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "autoGenerate": {
+                  "type": "boolean"
+                },
+                "autoPlay": {
+                  "type": "boolean"
+                },
+                "colors": {
+                  "$ref": "#/definitions/ColorsMap"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "display": {
+                  "$ref": "#/definitions/SimulationConfigDisplay"
+                },
+                "extend": {
+                  "$ref": "#/definitions/SimulationConfigName"
+                },
+                "extraFinalFrameCount": {
+                  "type": "number"
+                },
+                "frameDelay": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                },
+                "name": {
+                  "$ref": "#/definitions/SimulationConfigName"
+                },
+                "repeat": {
+                  "type": "boolean"
+                },
+                "runs": {
+                  "type": "number"
+                },
+                "seed": {
+                  "type": "string"
+                },
+                "sim": {
+                  "const": "pasture-demo",
+                  "type": "string"
+                },
+                "simOptions": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/PastureDemoSimOptions"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "title": {
+                  "type": "string"
+                },
+                "width": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "extend",
+                "sim",
+                "simOptions"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "autoGenerate": {
+                  "type": "boolean"
+                },
+                "autoPlay": {
+                  "type": "boolean"
+                },
+                "base": {
+                  "const": true,
+                  "type": "boolean"
+                },
+                "colors": {
+                  "$ref": "#/definitions/ColorsMap"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "display": {
+                  "$ref": "#/definitions/SimulationConfigDisplay"
+                },
+                "extraFinalFrameCount": {
+                  "type": "number"
+                },
+                "frameDelay": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                },
+                "name": {
+                  "$ref": "#/definitions/SimulationConfigName"
+                },
+                "repeat": {
+                  "type": "boolean"
+                },
+                "runs": {
+                  "type": "number"
+                },
+                "seed": {
+                  "type": "string"
+                },
+                "sim": {
+                  "const": "schelling-org",
+                  "type": "string"
+                },
+                "simOptions": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/SchellingOrgSimOptions"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "title": {
+                  "type": "string"
+                },
+                "width": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "base",
+                "sim",
+                "simOptions"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "autoGenerate": {
+                  "type": "boolean"
+                },
+                "autoPlay": {
+                  "type": "boolean"
+                },
+                "colors": {
+                  "$ref": "#/definitions/ColorsMap"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "display": {
+                  "$ref": "#/definitions/SimulationConfigDisplay"
+                },
+                "extend": {
+                  "$ref": "#/definitions/SimulationConfigName"
+                },
+                "extraFinalFrameCount": {
+                  "type": "number"
+                },
+                "frameDelay": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                },
+                "name": {
+                  "$ref": "#/definitions/SimulationConfigName"
+                },
+                "repeat": {
+                  "type": "boolean"
+                },
+                "runs": {
+                  "type": "number"
+                },
+                "seed": {
+                  "type": "string"
+                },
+                "sim": {
+                  "const": "schelling-org",
+                  "type": "string"
+                },
+                "simOptions": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/SchellingOrgSimOptions"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "title": {
+                  "type": "string"
+                },
+                "width": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "extend",
+                "sim",
+                "simOptions"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "autoGenerate": {
+                  "type": "boolean"
+                },
+                "autoPlay": {
+                  "type": "boolean"
+                },
+                "base": {
+                  "const": true,
+                  "type": "boolean"
+                },
+                "colors": {
+                  "$ref": "#/definitions/ColorsMap"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "display": {
+                  "$ref": "#/definitions/SimulationConfigDisplay"
+                },
+                "extraFinalFrameCount": {
+                  "type": "number"
+                },
+                "frameDelay": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                },
+                "name": {
+                  "$ref": "#/definitions/SimulationConfigName"
+                },
+                "repeat": {
+                  "type": "boolean"
+                },
+                "runs": {
+                  "type": "number"
+                },
+                "seed": {
+                  "type": "string"
+                },
+                "sim": {
+                  "const": "standing-ovation",
+                  "type": "string"
+                },
+                "simOptions": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/StandingOvationSimOptions"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "title": {
+                  "type": "string"
+                },
+                "width": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "base",
+                "sim",
+                "simOptions"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "autoGenerate": {
+                  "type": "boolean"
+                },
+                "autoPlay": {
+                  "type": "boolean"
+                },
+                "colors": {
+                  "$ref": "#/definitions/ColorsMap"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "display": {
+                  "$ref": "#/definitions/SimulationConfigDisplay"
+                },
+                "extend": {
+                  "$ref": "#/definitions/SimulationConfigName"
+                },
+                "extraFinalFrameCount": {
+                  "type": "number"
+                },
+                "frameDelay": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                },
+                "name": {
+                  "$ref": "#/definitions/SimulationConfigName"
+                },
+                "repeat": {
+                  "type": "boolean"
+                },
+                "runs": {
+                  "type": "number"
+                },
+                "seed": {
+                  "type": "string"
+                },
+                "sim": {
+                  "const": "standing-ovation",
+                  "type": "string"
+                },
+                "simOptions": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/StandingOvationSimOptions"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "title": {
+                  "type": "string"
+                },
+                "width": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "extend",
+                "sim",
+                "simOptions"
+              ],
+              "type": "object"
+            }
+          ]
+        }
+      ]
+    },
+    "RawSimulationConfigBase": {
+      "additionalProperties": false,
+      "properties": {
+        "autoGenerate": {
+          "type": "boolean"
+        },
+        "autoPlay": {
+          "type": "boolean"
+        },
+        "base": {
+          "const": true,
+          "type": "boolean"
+        },
+        "colors": {
+          "$ref": "#/definitions/ColorsMap"
+        },
+        "description": {
+          "type": "string"
+        },
+        "display": {
+          "$ref": "#/definitions/SimulationConfigDisplay"
+        },
+        "extraFinalFrameCount": {
+          "type": "number"
+        },
+        "frameDelay": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        },
+        "name": {
+          "$ref": "#/definitions/SimulationConfigName"
+        },
+        "repeat": {
+          "type": "boolean"
+        },
+        "runs": {
+          "type": "number"
+        },
+        "seed": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "width": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "base"
+      ],
+      "type": "object"
+    },
+    "SchellingOrgSimOptions": {
+      "additionalProperties": {
+        "$ref": "#/definitions/OptionValue"
+      },
+      "properties": {
+        "collaborators": {
+          "additionalProperties": false,
+          "properties": {
+            "avgConnectionLikelihood": {
+              "type": "number"
+            },
+            "broadcastLikelihood": {
+              "type": "number"
+            },
+            "communicationStrategy": {
+              "$ref": "#/definitions/CommunicationStrategy"
+            },
+            "compelling": {
+              "type": "number"
+            },
+            "connectionLikelihoodSpread": {
+              "type": "number"
+            },
+            "count": {
+              "type": "number"
+            },
+            "epsilon": {
+              "type": "number"
+            },
+            "individuals": {
+              "items": {
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "avgConnectionLikelihood": {
+                        "type": "number"
+                      },
+                      "beliefs": {
+                        "items": {
+                          "type": "number"
+                        },
+                        "type": "array"
+                      },
+                      "believes": {
+                        "type": "boolean"
+                      },
+                      "broadcastLikelihood": {
+                        "type": "number"
+                      },
+                      "communicationStrategy": {
+                        "$ref": "#/definitions/CommunicationStrategy"
+                      },
+                      "compelling": {
+                        "type": "number"
+                      },
+                      "connectionLikelihoodSpread": {
+                        "type": "number"
+                      },
+                      "emoji": {
+                        "type": "string"
+                      },
+                      "epsilon": {
+                        "type": "number"
+                      },
+                      "optimism": {
+                        "type": "number"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            "optimism": {
+              "type": "number"
+            },
+            "randomIndividual": {
+              "additionalProperties": false,
+              "properties": {
+                "avgConnectionLikelihood": {
+                  "type": "number"
+                },
+                "beliefs": {
+                  "items": {
+                    "type": "number"
+                  },
+                  "type": "array"
+                },
+                "believes": {
+                  "type": "boolean"
+                },
+                "broadcastLikelihood": {
+                  "type": "number"
+                },
+                "communicationStrategy": {
+                  "$ref": "#/definitions/CommunicationStrategy"
+                },
+                "compelling": {
+                  "type": "number"
+                },
+                "connectionLikelihoodSpread": {
+                  "type": "number"
+                },
+                "emoji": {
+                  "type": "string"
+                },
+                "epsilon": {
+                  "type": "number"
+                },
+                "optimism": {
+                  "type": "number"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "required": [
+            "count"
+          ],
+          "type": "object"
+        },
+        "communication": {
+          "type": "number"
+        },
+        "display": {
+          "$ref": "#/definitions/DisplayValue"
+        },
+        "northStar": {
+          "$ref": "#/definitions/NorthStarOptions"
+        },
+        "projects": {
+          "additionalProperties": false,
+          "properties": {
+            "count": {
+              "type": "number"
+            },
+            "individuals": {
+              "items": {
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "error": {
+                        "type": "number"
+                      },
+                      "marked": {
+                        "type": "boolean"
+                      },
+                      "maxErrorValue": {
+                        "type": "number"
+                      },
+                      "maxExtraValue": {
+                        "type": "number"
+                      },
+                      "twiddleValueAmount": {
+                        "type": "number"
+                      },
+                      "value": {
+                        "type": "number"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            "maxErrorValue": {
+              "type": "number"
+            },
+            "maxExtraValue": {
+              "type": "number"
+            },
+            "randomIndividual": {
+              "additionalProperties": false,
+              "properties": {
+                "error": {
+                  "type": "number"
+                },
+                "marked": {
+                  "type": "boolean"
+                },
+                "maxErrorValue": {
+                  "type": "number"
+                },
+                "maxExtraValue": {
+                  "type": "number"
+                },
+                "twiddleValueAmount": {
+                  "type": "number"
+                },
+                "value": {
+                  "type": "number"
+                }
+              },
+              "type": "object"
+            },
+            "twiddleValueAmount": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "count"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "SimulationConfigDisplay": {
+      "additionalProperties": false,
+      "properties": {
+        "clipStatus": {
+          "type": "boolean"
+        },
+        "screenshotStatus": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "SimulationConfigName": {
+      "type": "string"
+    },
+    "StandingOvationSimOptions": {
+      "additionalProperties": false,
+      "properties": {
+        "cols": {
+          "type": "number"
+        },
+        "filledSeatProportion": {
+          "type": "number"
+        },
+        "fomoThreshold": {
+          "additionalProperties": false,
+          "properties": {
+            "average": {
+              "type": "number"
+            },
+            "distribution": {
+              "enum": [
+                "linear",
+                "normal",
+                "min-max",
+                "fixed"
+              ],
+              "type": "string"
+            },
+            "max": {
+              "type": "number"
+            },
+            "min": {
+              "type": "number"
+            },
+            "spread": {
+              "type": "number"
+            }
+          },
+          "type": "object"
+        },
+        "forwardStandingFalloff": {
+          "additionalProperties": false,
+          "properties": {
+            "average": {
+              "type": "number"
+            },
+            "distribution": {
+              "enum": [
+                "linear",
+                "normal",
+                "min-max",
+                "fixed"
+              ],
+              "type": "string"
+            },
+            "max": {
+              "type": "number"
+            },
+            "min": {
+              "type": "number"
+            },
+            "spread": {
+              "type": "number"
+            }
+          },
+          "type": "object"
+        },
+        "ovationPropensity": {
+          "additionalProperties": false,
+          "properties": {
+            "average": {
+              "type": "number"
+            },
+            "distribution": {
+              "enum": [
+                "linear",
+                "normal",
+                "min-max",
+                "fixed"
+              ],
+              "type": "string"
+            },
+            "max": {
+              "type": "number"
+            },
+            "min": {
+              "type": "number"
+            },
+            "spread": {
+              "type": "number"
+            }
+          },
+          "type": "object"
+        },
+        "performanceQuality": {
+          "additionalProperties": false,
+          "properties": {
+            "average": {
+              "type": "number"
+            },
+            "distribution": {
+              "enum": [
+                "linear",
+                "normal",
+                "min-max",
+                "fixed"
+              ],
+              "type": "string"
+            },
+            "max": {
+              "type": "number"
+            },
+            "min": {
+              "type": "number"
+            },
+            "spread": {
+              "type": "number"
+            }
+          },
+          "type": "object"
+        },
+        "rows": {
+          "type": "number"
+        },
+        "standingThreshold": {
+          "additionalProperties": false,
+          "properties": {
+            "average": {
+              "type": "number"
+            },
+            "distribution": {
+              "enum": [
+                "linear",
+                "normal",
+                "min-max",
+                "fixed"
+              ],
+              "type": "string"
+            },
+            "max": {
+              "type": "number"
+            },
+            "min": {
+              "type": "number"
+            },
+            "spread": {
+              "type": "number"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "rows",
+        "cols"
+      ],
+      "type": "object"
+    }
+  }
+}

@@ -28,15 +28,12 @@ import {
 
 import {
 	Modifications,
-	RawSimulationConfig,
 	SimulationConfig,
 	RootState,
-	URLArgsMap
+	URLArgsMap,
+	SimulatorType,
+	RawSimulationConfig
 } from './types.js';
-
-import {
-	SimulatorType
-} from './dynamic-types.js';
 
 const selectRawConfigData = (state : RootState) => state.data ? state.data.data : [];
 const selectModifications = (state : RootState) => state.data ? state.data.modifications : [];

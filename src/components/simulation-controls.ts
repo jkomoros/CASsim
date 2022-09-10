@@ -75,7 +75,8 @@ import {
 	Filename,
 	ModificationsPathMap,
 	OptionsPath,
-	RootState
+	RootState,
+	KNOWN_DATA_FILES
 } from '../types.js';
 
 import {
@@ -91,10 +92,6 @@ import './multi-select.js';
 import {
 	MultiSelect
 } from './multi-select.js';
-
-import {
-	KNOWN_DATA_FILES
-} from '../dynamic-types.js';
 
 import {
 	OpenDialogEvent,

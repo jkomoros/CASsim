@@ -58,9 +58,9 @@ Arrow keys left or right to move forward or backward in state. Spacebar toggles 
 
 The main config that will be loaded up is `data/default.json`. You can also create additional config files in that directory, and load them by changing the `default` in the URL to be the filename of the json file you want to load.
 
-Run `gulp generate` to generate screenshots, one for each state in your `data/default.json`, blowing away whatever was in the screenshots/ directory.
+Run `npm run screenshots` to generate screenshots, one for each state in your `data/default.json`, blowing away whatever was in the screenshots/ directory.
 
-If you only want to generate the screenshots, not the gifs, run `gulp generate:screenshot`. If you only want to generate the gifs based on already-generated screenshots, run `gulp generate:gif`.
+If you only want to generate the screenshots, not the gifs, run `npm run screenshots:png`. If you only want to generate the gifs based on already-generated screenshots, run `npm run screenshots:gif`.
 
 ## Deploying
 
@@ -90,8 +90,8 @@ these by hand in the JSON, by carefully reading the documentation for simulatorO
 	//A longer description of the simulation. If not provided will use title or name.
 	"description": "This is a longer description of what you'll notice in this particular configuration of the simulation.",
 	//If true, then this config will not be included; typically you only include this for things that other configs will extend.
-	"hidden": false,
-	//If set, then this config will extend and overlay the config given by "this-is-another-name". It will not copy over any 'hidden' config value, and for object values, it will entirely overwrite the value. Note that these extensions won't be visible at all in the UI; the transformation is done before the UI sees it, and the UI operates as though each config is fully specified. You may point to configs that extend other configs, but cycles are not allowed.
+	"base": false,
+	//If set, then this config will extend and overlay the config given by "this-is-another-name". It will not copy over any 'base' config value, and for object values, it will entirely overwrite the value. Note that these extensions won't be visible at all in the UI; the transformation is done before the UI sees it, and the UI operates as though each config is fully specified. You may point to configs that extend other configs, but cycles are not allowed.
 	"extend": "this-is-another-name",
 	//Height and width. Mainly used for aspect ratio, but for screenshotting this will be the literal height and width in pixels (modulo if you include the display.status)
 	"width": 800,
@@ -136,9 +136,28 @@ The harness comes with a couple of pre-built agent based models (`schelling-org`
 
 If you want to model your own problem, you'll likely want to create your own type of simulator. This section describes how to do that.
 
-In the `src/simulators/` directory, copy `dice-roll-demo.js` (a simulator that is extremely simple) to whatever file name you want. Then, customize the file. Note that the name property of your class must match the name of the file.
+In the `src/simulators/` directory, copy `dice-roll-demo.ts` (a simulator that is extremely simple) to whatever file name you want. Then, customize the file. Note that the name property of your class must match the name of the file.
 
-(If you want the new simulator to immediately show up in the drop down in the simulator options, you'll need to run `gulp generate-listings-json`. That will be run automatically when building or deploying.)
+(If you want the new simulator to immediately show up in the drop down in the simulator options, you'll need to run `npm run generate:config`. That will be run automatically when building or deploying.)
+
+Replace anywhere in the file that says `DiceRollDemo*` or `dice-roll-demo`. For example, replace the import at the top of
+
+```
+import {
+	DiceRollDemoSimOptions
+} from './types/dice-roll-demo.GENERATED.js';
+```
+
+with 
+
+```
+import {
+	CamelCasedSimulatorNameSimOptions
+} from './types/dashed-simulator-name.GENERATED.js';
+```
+
+You do **not** need to create `types/dashed-simulator-name.GENERATED.js`. Then, run `npm run generate` and it will 
+generate that file for you.
 
 If you want to do a simulator that has 'agents' making decisions, pasture-demo.js and standing-ovation.js are better starting points, because they demonstrate how to use graphs, AgentSimulator subclasess, etc.
 
@@ -246,8 +265,29 @@ leave.
 ### optionsConfig
 
 The object you emit from your Simulator's `get optionsConfig()` determines a lot
-of validation and UI logic for interacting with your simulation. It's a
-declarative format that has the following shape, called an optionsLeaf:
+of validation and UI logic for interacting with your simulation. 
+
+Note that typically you define your optionsConfig and then you `npm run generate:types`
+to automatically generate a typescript type for your simulator's SimOptions that is based
+on your optionsConfig shape. This helps ensure that you don't accidentally have differences
+between your optionsConfigs and the shape of SimOptions that you expect.
+
+You can also run `npm run generate` to generate all of the things automatically.
+It is customary to check in the `*.GENERATED.*` files so they don't have to be
+regenerated often. Every time your simulator's optionsConfig may have changed
+(including the first time you create the simulator file), you should run `npm run generate` again.
+
+In some cases your `SIMULATORSimOptions` type is complex, for example, it needs to have multiple
+sub-types that it also exports from `simulators/types/SIMUALATOR.ts`. In that case, just 
+manually create the `src/simulators/types/dashed-simulator-name.ts` file, and have it export
+`CameCasedSimulatorNameSimOptions` type, and the pipeline will skip generating one. You can
+see `schelling-org` for an example.
+
+When you modify a file in `data/*.json`, and if you've run `npm run generate` since the
+last time that one of hte optionsConfig changed, then you'll get schema-validation of the
+JSON files and configuration, helping spot errors early.
+
+It's a declarative format that has the following shape, called an optionsLeaf:
 ```
 {
 	//Example is the most important property and the only reserved word. If an object in the config has 
@@ -390,6 +430,12 @@ Your renderer is a custom element that will be inserted into the DOM to render
 your frame for the end user. Typically this is implemented as an svg, but it
 need not be.
 
+Your renderer is defined in your main simulator file, at the bottom below the
+main simulator. All imports (including transitive ones) of Lit must occur below
+the `export default SIMULATOR` line. If you copy/paste an example you'll see
+a comment warning you of this. This is necessary for `npm run generate:types` to
+be able to automatically generate your types for you.
+
 Your simulator custom element will receive the following properties:
 
 `width` - The precise configured width (not necessarily the actual layout width)
@@ -429,3 +475,27 @@ Don't forget that even though the harness will instatiate your custom elements
 directly, you must register them with the browser before they maybe used, with
 something like `window.customElements.define("schelling-org-renderer",
 SchellingOrgRenderer);`
+
+### Building / Generating
+
+There is a complex set of node commands for building and generating files.
+
+Confusingly, `npm run generate:types` requires a valid, complining typescript
+build (because it relies on executing compiled .js files for each simulator).
+This means that if you are missing the *.GENERATED.* files generated by `npm run generate`,
+then the build won't complete. That's why there's `npm run generate:stubs`, which
+generates little stubs that are enough for a typescript build, after which point you
+can run `npm run generate`. In practice you run `npm run generate:pre-build` which
+does the stub generation necessary to enable a basic build.
+
+On a fresh checkout where all GENERATED files are checked in: `npm run start`
+will get it running. If GENERATED files aren't checked in, `npm run start:clean`
+will get it running.
+
+Note that `npm run build` doesn't actually run the generation pipeline, assuming
+it's checked in. It's currently safest to run `npm run build:full` before
+deploying to fully guarentee all necesary files are generated.
+
+If you want to test a fully clean, no-generated-files checkout, you can run 
+`npm run build:clean:pristine` to get the checkout to a fully pristine state to test
+against.

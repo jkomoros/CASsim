@@ -3,5 +3,13 @@
         "src/**/*.d.ts": true,
         "src/**/*.js": true,
         "src/**/*.map": true
-    }
+    },
+    "json.schemas": [
+        {
+            "fileMatch": [
+                "/data/*.json"
+            ],
+            "url": "./data-schema.json"
+        }
+    ]
 }

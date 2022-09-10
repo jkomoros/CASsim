@@ -122,12 +122,9 @@ import {
 	DialogTypeAddFieldExtras,
 	PackedRawSimulationConfig,
 	RootState,
-	SimulationFrame
-} from '../types.js';
-
-import {
+	SimulationFrame,
 	SimulatorType
-} from '../dynamic-types.js';
+} from '../types.js';
 
 import {
 	Simulation

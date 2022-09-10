@@ -21,12 +21,9 @@ import {
 	RandomGenerator,
 	ScoreConfig,
 	SimOptions,
-	SimulationFrame
-} from './types.js';
-
-import {
+	SimulationFrame,
 	SimulatorType
-} from './dynamic-types.js';
+} from './types.js';
 
 import {
 	stringHash
@@ -162,6 +159,7 @@ export class BaseSimulator {
 	}
 	
 	get optionsConfig() : OptionsConfigMap {
+		//When you modify this method, re-run `npm run generate` to update the types and schema checking
 		return {};
 	}
 
@@ -181,7 +179,7 @@ export class BaseSimulator {
 	}
 
 	renderer() : BaseRenderer {
-		return new BaseRenderer();
+		throw new Error('Unimplemented: Simulators should override this');
 	}
 
 	get fingerprint() : Fingerprint {
