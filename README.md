@@ -465,3 +465,7 @@ will get it running.
 Note that `npm run build` doesn't actually run the generation pipeline, assuming
 it's checked in. It's currently safest to run `npm run build:full` before
 deploying to fully guarentee all necesary files are generated.
+
+If you want to test a fully clean, no-generated-files checkout, you can run 
+`npm run build:clean:pristine` to get the checkout to a fully pristine state to test
+against.
