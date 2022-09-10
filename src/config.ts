@@ -6,12 +6,9 @@ import {
 	PackedRawSimulationConfig,
 	PackedRawSimulationConfigItem,
 	RawSimulationConfigBase,
-	RawSimulationConfigExtended
-} from './types.js';
-
-import {
+	RawSimulationConfigExtended,
 	RawSimulationConfig
-} from './types-simulator.GENERATED.js';
+} from './types.js';
 
 import {
 	TypedObject

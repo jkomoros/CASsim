@@ -119,11 +119,8 @@ import {
 	Modifications,
 	OptionsPath,
 	PlayType,
-} from '../types.js';
-
-import {
 	SimulatorType
-} from '../types-dynamic.GENERATED.js';
+} from '../types.js';
 
 import { 
 	AnyAction

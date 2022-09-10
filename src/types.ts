@@ -1,3 +1,7 @@
+export * from './types-dynamic.GENERATED.js';
+
+export * from './types-simulator.GENERATED.js';
+
 import { SimulatorType } from './types-dynamic.GENERATED.js';
 
 import { RawSimulationConfig } from './types-simulator.GENERATED.js';

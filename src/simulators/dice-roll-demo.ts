@@ -6,12 +6,9 @@ import {
 	OptionsConfigMap,
 	RandomGenerator,
 	ScoreConfigItem,
-	SimulationFrame
-} from '../types.js';
-
-import {
+	SimulationFrame,
 	SimulatorType
-} from '../types-dynamic.GENERATED.js';
+} from '../types.js';
 
 import {
 	DiceRollDemoSimOptions

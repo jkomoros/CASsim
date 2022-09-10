@@ -22,12 +22,9 @@ import {
 	GraphNodeValues,
 	OptionsConfigMap,
 	RandomGenerator,
-	ScoreConfigItem
-} from '../types.js';
-
-import {
+	ScoreConfigItem,
 	SimulatorType
-} from '../types-dynamic.GENERATED.js';
+} from '../types.js';
 
 import {
 	StandingOvationSimOptions

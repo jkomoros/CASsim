@@ -6,12 +6,9 @@ import {
 	OptionValue,
 	OptionValueMap,
 	RandomGenerator,
-	SimulationConfig
-} from './types.js';
-
-import {
+	SimulationConfig,
 	SimulatorType
-} from './types-dynamic.GENERATED.js';
+} from './types.js';
 
 /*
 	Urn is a class that selects a random item out of a distribution, where each

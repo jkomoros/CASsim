@@ -38,11 +38,8 @@ import {
 } from "../actions/data.js";
 
 import {
+	DataState,
 	SimulatorType
-} from "../types-dynamic.GENERATED.js";
-
-import {
-	DataState
 } from "../types.js";
 
 import {

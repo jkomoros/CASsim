@@ -56,12 +56,9 @@ import {
 	ShortenedOptionsPath,
 	ShortNameMap,
 	Modifications,
-	URLDiffHash
-} from './types.js';
-
-import {
+	URLDiffHash,
 	SimulatorType
-} from './types-dynamic.GENERATED.js';
+} from './types.js';
 
 import {
 	DELETE_SENTINEL,

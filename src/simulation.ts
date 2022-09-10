@@ -42,17 +42,11 @@ import {
 	ScoreConfigItem,
 	ColorsMap,
 	OptionValueMap,
-	WithRequiredProperty
-} from './types.js';
-
-import {
-	RawSimulationConfig
-} from './types-simulator.GENERATED.js';
-
-import {
+	WithRequiredProperty,
 	SimulatorType,
-	KNOWN_SIMULATOR_TYPES
-} from './types-dynamic.GENERATED.js';
+	KNOWN_SIMULATOR_TYPES,
+	RawSimulationConfig
+} from './types.js';
 
 import {
 	BaseSimulator

@@ -19,12 +19,9 @@ import {
 	OptionsConfigMap,
 	OptionsPath,
 	OptionValue,
-	RandomGenerator
-} from '../types.js';
-
-import {
+	RandomGenerator,
 	SimulatorType
-} from '../types-dynamic.GENERATED.js';
+} from '../types.js';
 
 import {
 	SchellingOrgSimOptions,
