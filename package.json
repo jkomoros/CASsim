@@ -20,9 +20,9 @@
     "generate:schema": "ts-json-schema-generator --type 'PackedRawSimulationConfig' --tsconfig tsconfig.json > data-schema.json",
     "generate:types": "npx ts-node tools/types.ts",
     "generate:config": "npx ts-node tools/config.ts",
-    "generate:screenshots": "npx ts-node tools/screenshot.ts",
-    "generate:screenshots:png": "npx ts-node tools/screenshot.ts png",
-    "generate:screenshots:gif": "npx ts-node tools/screenshot.ts gif",
+    "screenshots": "npx ts-node tools/screenshot.ts",
+    "screenshots:png": "npx ts-node tools/screenshot.ts png",
+    "screenshots:gif": "npx ts-node tools/screenshot.ts gif",
     "deploy": "npm run build && firebase deploy",
     "test": "npm run test:options",
     "test:options": "mocha -r esm test/options --timeout=10000"
