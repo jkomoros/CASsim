@@ -253,6 +253,10 @@ to automatically generate a typescript type for your simulator's SimOptions that
 on your optionsConfig shape. This helps ensure that you don't accidentally have differences
 between your optionsConfigs and the shape of SimOptions that you expect.
 
+You can also run `npm run generate` to generate all of the things automatically.
+It is customary to check in the `*.GENERATED.*` files so they don't have to be
+regenerated often.
+
 It's a declarative format that has the following shape, called an optionsLeaf:
 ```
 {
