@@ -258,6 +258,10 @@ It is customary to check in the `*.GENERATED.*` files so they don't have to be
 regenerated often. Every time your simulator's optionsConfig may have changed
 (including the first time you create the simulator file), you should run `npm run generate` again.
 
+When you modify a file in `data/*.json`, and if you've run `npm run generate` since the
+last time that one of hte optionsConfig changed, then you'll get schema-validation of the
+JSON files and configuration, helping spot errors early.
+
 It's a declarative format that has the following shape, called an optionsLeaf:
 ```
 {
