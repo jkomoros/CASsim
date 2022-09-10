@@ -459,5 +459,5 @@ will get it running. If GENERATED files aren't checked in, `npm run start:clean`
 will get it running.
 
 Note that `npm run build` doesn't actually run the generation pipeline, assuming
-it's checked in; it's currently safest to run `npm run start:clean` and then
-`npm run build` before deploying.
+it's checked in. It's currently safest to run `npm run build:full` before
+deploying to fully guarentee all necesary files are generated.
