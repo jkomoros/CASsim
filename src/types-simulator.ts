@@ -6,15 +6,15 @@ import {
 
 import {
 	DiceRollDemoSimOptions
-} from './simulators/types/dice-roll-demo.js';
+} from './simulators/types/dice-roll-demo.GENERATED.js';
 
 import {
 	LuckSurfaceAreaSimOptions
-} from './simulators/types/luck-surface-area.js';
+} from './simulators/types/luck-surface-area.GENERATED.js';
 
 import {
 	PastureDemoSimOptions
-} from './simulators/types/pasture-demo.js';
+} from './simulators/types/pasture-demo.GENERATED.js';
 
 import {
 	SchellingOrgSimOptions
@@ -22,7 +22,7 @@ import {
 
 import {
 	StandingOvationSimOptions
-} from './simulators/types/standing-ovation.js';
+} from './simulators/types/standing-ovation.GENERATED.js';
 
 interface DiceRollDemoSimulationConfigExtra {
 	sim: 'dice-roll-demo';
