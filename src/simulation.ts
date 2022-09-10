@@ -47,7 +47,7 @@ import {
 
 import {
 	RawSimulationConfig
-} from './types-simulator.js';
+} from './types-simulator.GENERATED.js';
 
 import {
 	SimulatorType,

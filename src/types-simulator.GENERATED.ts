@@ -1,4 +1,3 @@
-//TODO: generate this file and don't have it in source-control.
 import {
 	RawSimulationConfigBase,
 	RawSimulationConfigExtended
@@ -18,7 +17,7 @@ import {
 
 import {
 	SchellingOrgSimOptions
-} from './simulators/types/schelling-org';
+} from './simulators/types/schelling-org.js';
 
 import {
 	StandingOvationSimOptions
@@ -26,37 +25,37 @@ import {
 
 interface DiceRollDemoSimulationConfigExtra {
 	sim: 'dice-roll-demo';
-	simOptions : DiceRollDemoSimOptions | null;
+	simOptions: DiceRollDemoSimOptions | null;
 }
 
 type DiceRollDemoRawSimulationConfig = (RawSimulationConfigBase & DiceRollDemoSimulationConfigExtra) | (RawSimulationConfigExtended & DiceRollDemoSimulationConfigExtra);
-
-interface LuckSurfaceAreaSimulationConfigExtra  {
+		
+interface LuckSurfaceAreaSimulationConfigExtra {
 	sim: 'luck-surface-area';
-	simOptions : LuckSurfaceAreaSimOptions | null;
+	simOptions: LuckSurfaceAreaSimOptions | null;
 }
 
 type LuckSurfaceAreaRawSimulationConfig = (RawSimulationConfigBase & LuckSurfaceAreaSimulationConfigExtra) | (RawSimulationConfigExtended & LuckSurfaceAreaSimulationConfigExtra);
-
+		
 interface PastureDemoSimulationConfigExtra {
 	sim: 'pasture-demo';
-	simOptions : PastureDemoSimOptions | null;
+	simOptions: PastureDemoSimOptions | null;
 }
 
 type PastureDemoRawSimulationConfig = (RawSimulationConfigBase & PastureDemoSimulationConfigExtra) | (RawSimulationConfigExtended & PastureDemoSimulationConfigExtra);
-
+		
 interface SchellingOrgSimulationConfigExtra {
 	sim: 'schelling-org';
-	simOptions : SchellingOrgSimOptions | null;
+	simOptions: SchellingOrgSimOptions | null;
 }
 
 type SchellingOrgRawSimulationConfig = (RawSimulationConfigBase & SchellingOrgSimulationConfigExtra) | (RawSimulationConfigExtended & SchellingOrgSimulationConfigExtra);
-
+		
 interface StandingOvationSimulationConfigExtra {
 	sim: 'standing-ovation';
-	simOptions : StandingOvationSimOptions | null;
+	simOptions: StandingOvationSimOptions | null;
 }
 
 type StandingOvationRawSimulationConfig = (RawSimulationConfigBase & StandingOvationSimulationConfigExtra) | (RawSimulationConfigExtended & StandingOvationSimulationConfigExtra);
-
+		
 export type RawSimulationConfig = DiceRollDemoRawSimulationConfig | LuckSurfaceAreaRawSimulationConfig | PastureDemoRawSimulationConfig | SchellingOrgRawSimulationConfig | StandingOvationRawSimulationConfig;
