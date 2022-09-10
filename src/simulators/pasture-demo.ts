@@ -30,7 +30,7 @@ import {
 } from '../types-dynamic.GENERATED.js';
 
 import {
-	PastureSimOptions
+	PastureDemoSimOptions
 } from './types/pasture-demo.js';
 
 //Remember that the name must be the same as the filename of this file
@@ -46,7 +46,7 @@ type PastureAgent = Agent & {
 
 interface PastureSimulationFrame extends AgentSimulationFrame {
 	agents : PastureAgent[];
-	simOptions: PastureSimOptions;
+	simOptions: PastureDemoSimOptions;
 }
 
 interface PastureGraphNodeValues extends GraphNodeValues {
@@ -64,7 +64,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	override generateAgent(parentAgent : PastureAgent, _otherAgents : PastureAgent[], _graph : Graph, simOptions : PastureSimOptions, rnd : RandomGenerator) : PastureAgent {
+	override generateAgent(parentAgent : PastureAgent, _otherAgents : PastureAgent[], _graph : Graph, simOptions : PastureDemoSimOptions, rnd : RandomGenerator) : PastureAgent {
 		const [emojiKey, emoji] = pickEmoji(GRAZING_FARM_ANIMALS_EMOJIS, parentAgent ? parentAgent.type : rnd);
 		return {
 			...this.baseAgent(rnd),
@@ -76,12 +76,12 @@ class AgentDemoSimulator extends AgentSimulator {
 		};
 	}
 
-	override generateGraph(simOptions : PastureSimOptions, _rnd : RandomGenerator, simWidth : number, simHeight : number) : Graph {
+	override generateGraph(simOptions : PastureDemoSimOptions, _rnd : RandomGenerator, simWidth : number, simHeight : number) : Graph {
 		const starterValues : PastureGraphNodeValues =  {id: '', value:0.0, growthRate: simOptions.growthRate, emoji:'🌿'};
 		return RectangleGraph.make(simOptions.rows, simOptions.cols, simWidth, simHeight, {starterValues, nodeMargin: 0.1, diagonal:true});
 	}
 
-	override numStarterAgents(_graph : Graph, simOptions : PastureSimOptions) : number {
+	override numStarterAgents(_graph : Graph, simOptions : PastureDemoSimOptions) : number {
 		return simOptions.agents;
 	}
 

@@ -14,7 +14,7 @@ import {
 } from '../types-dynamic.GENERATED.js';
 
 import {
-	DiceRollSimulationOptions
+	DiceRollDemoSimOptions
 } from './types/dice-roll-demo.js';
 
 //Remember that the name must be the same as the filename of this file
@@ -28,7 +28,7 @@ type DiceRollSimulationFrameExtra = {
 }
 
 interface DiceRollSimulationFrame extends SimulationFrame,  DiceRollSimulationFrameExtra {
-	simOptions : DiceRollSimulationOptions;
+	simOptions : DiceRollDemoSimOptions;
 }
 
 class DiceRollDemoSimulator extends BaseSimulator {

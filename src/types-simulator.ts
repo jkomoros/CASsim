@@ -5,7 +5,7 @@ import {
 } from './types.js';
 
 import {
-	DiceRollSimulationOptions
+	DiceRollDemoSimOptions
 } from './simulators/types/dice-roll-demo.js';
 
 import {
@@ -13,7 +13,7 @@ import {
 } from './simulators/types/luck-surface-area.js';
 
 import {
-	PastureSimOptions
+	PastureDemoSimOptions
 } from './simulators/types/pasture-demo.js';
 
 import {
@@ -26,7 +26,7 @@ import {
 
 interface DiceRollDemoSimulationConfigExtra {
 	sim: 'dice-roll-demo';
-	simOptions : DiceRollSimulationOptions | null;
+	simOptions : DiceRollDemoSimOptions | null;
 }
 
 type DiceRollDemoRawSimulationConfig = (RawSimulationConfigBase & DiceRollDemoSimulationConfigExtra) | (RawSimulationConfigExtended & DiceRollDemoSimulationConfigExtra);
@@ -40,7 +40,7 @@ type LuckSurfaceAreaRawSimulationConfig = (RawSimulationConfigBase & LuckSurface
 
 interface PastureDemoSimulationConfigExtra {
 	sim: 'pasture-demo';
-	simOptions : PastureSimOptions | null;
+	simOptions : PastureDemoSimOptions | null;
 }
 
 type PastureDemoRawSimulationConfig = (RawSimulationConfigBase & PastureDemoSimulationConfigExtra) | (RawSimulationConfigExtended & PastureDemoSimulationConfigExtra);

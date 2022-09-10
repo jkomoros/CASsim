@@ -1,4 +1,4 @@
-export type PastureSimOptions = {
+export type PastureDemoSimOptions = {
 	spawnLikelihood : number;
 	deathLikelihood : number;
 	growthRate: number;
