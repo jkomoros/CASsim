@@ -255,7 +255,8 @@ between your optionsConfigs and the shape of SimOptions that you expect.
 
 You can also run `npm run generate` to generate all of the things automatically.
 It is customary to check in the `*.GENERATED.*` files so they don't have to be
-regenerated often.
+regenerated often. Every time your simulator's optionsConfig may have changed
+(including the first time you create the simulator file), you should run `npm run generate` again.
 
 It's a declarative format that has the following shape, called an optionsLeaf:
 ```
