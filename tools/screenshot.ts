@@ -245,12 +245,12 @@ const generateGifs = async (infos : {[name : string] : GifInfo}) => {
 	}
 };
 
-const COMMAND_SCREENSHOT = 'screenshot';
+const COMMAND_PNG = 'png';
 const COMMAND_GIF = 'gif';
 const COMMAND_ALL = 'all';
 
 const DEFAULT_ARGS = {
-	[COMMAND_SCREENSHOT]: true,
+	[COMMAND_PNG]: true,
 	[COMMAND_GIF]: true
 };
 
@@ -262,7 +262,7 @@ const DEFAULT_ARGS = {
 		args = DEFAULT_ARGS;
 	}
 
-	if (args[COMMAND_SCREENSHOT]) {
+	if (args[COMMAND_PNG]) {
 		clearScreenshotsDir();
 		await generateScreenshots();
 	}
