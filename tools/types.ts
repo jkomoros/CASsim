@@ -17,12 +17,14 @@ ${GENERATED_COMMENT}
 
 import {
 	RawSimulationConfigBase,
-	RawSimulationConfigExtended
+	RawSimulationConfigExtended,
+	SimulatorType,
+	OptionValueMap
 } from './types.js';
 
 type RawSimulationConfigCommon = {
-	sim: string;
-	simOptions: {};
+	sim: SimulatorType;
+	simOptions: OptionValueMap;
 }
 
 export type RawSimulationConfig = (RawSimulationConfigBase & RawSimulationConfigCommon) | (RawSimulationConfigExtended & RawSimulationConfigCommon);
