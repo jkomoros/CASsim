@@ -22,10 +22,10 @@ import {
 
 type RawSimulationConfigCommon = {
 	sim: string;
-	simOptions: object;
+	simOptions: {};
 }
 
-export type RawSimulationConfig = (RawSimulationConfigBase & RawSimulationConfigCommon) | (RawSimulationConfigExtened & RawSimulationConfigCommon);
+export type RawSimulationConfig = (RawSimulationConfigBase & RawSimulationConfigCommon) | (RawSimulationConfigExtended & RawSimulationConfigCommon);
 `;
 		console.log('Generating stub content for ' + TYPES_SIMULATOR_FILE);
 		fs.writeFileSync(TYPES_SIMULATOR_FILE, stubContent);
@@ -41,7 +41,7 @@ export type RawSimulationConfig = (RawSimulationConfigBase & RawSimulationConfig
 		if (fs.existsSync(path.join(TYPES_DIR, simulatorName + '.GENERATED.ts'))) continue;
 		const stubContents = `//TEMP stub file
 ${GENERATED_COMMENT}
-export type ${camelCaseSimulatorName(simulatorName)}SimOptions = {[name : string] : unknown};
+export type ${camelCaseSimulatorName(simulatorName)}SimOptions = any;
 `;
 		console.log('Generating stub content for ' + simulatorName);
 		fs.writeFileSync(path.join(TYPES_DIR, simulatorName + '.GENERATED.ts'), stubContents);
