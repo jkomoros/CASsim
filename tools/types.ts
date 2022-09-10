@@ -60,6 +60,8 @@ const generateTypesSimulator = () : void =>  {
 
 	let filePrefix = `${GENERATED_COMMENT}
 
+//All of these exports are also re-exported from src/types.ts, so you should import them from there.
+
 import {
 	RawSimulationConfigBase,
 	RawSimulationConfigExtended
