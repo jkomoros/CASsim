@@ -258,6 +258,12 @@ It is customary to check in the `*.GENERATED.*` files so they don't have to be
 regenerated often. Every time your simulator's optionsConfig may have changed
 (including the first time you create the simulator file), you should run `npm run generate` again.
 
+In some cases your `SIMULATORSimOptions` type is complex, for example, it needs to have multiple
+sub-types that it also exports from `simulators/types/SIMUALATOR.ts`. In that case, just 
+manually create the `src/simulators/types/dashed-simulator-name.ts` file, and have it export
+`CameCasedSimulatorNameSimOptions` type, and the pipeline will skip generating one. You can
+see `schelling-org` for an example.
+
 When you modify a file in `data/*.json`, and if you've run `npm run generate` since the
 last time that one of hte optionsConfig changed, then you'll get schema-validation of the
 JSON files and configuration, helping spot errors early.
