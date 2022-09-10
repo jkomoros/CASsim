@@ -6,6 +6,8 @@ import { OptionsConfig, OptionsConfigMap } from "../src/types.js";
 const SIMULATORS_DIR = 'src/simulators';
 const TYPES_DIR = path.join(SIMULATORS_DIR, 'types');
 
+const TYPES_SIMULATOR_FILE = path.join('src', 'types-simulator.GENERATED.ts');
+
 const processTypes = () => {
 	const files = fs.readdirSync(SIMULATORS_DIR);
 	for (const file of files) {
@@ -17,7 +19,49 @@ const processTypes = () => {
 		const config = extractOptionsConfigForSimulator(simulatorName);
 		createSimulatorTypeFile(simulatorName, config);
 	}
-	//TODO: for every file in simulators/types (including hte non-generated ones!) go through and generate types-simulator.GENERATED.ts
+	generateTypesSimulator();
+};
+
+const generateTypesSimulator = () : void =>  {
+	const files = fs.readdirSync(TYPES_DIR);
+
+	let filePrefix = `import {
+	RawSimulationConfigBase,
+	RawSimulationConfigExtended
+} from './types.js';
+
+`;
+
+	let fileMain ='';
+
+	const simulatorNamesCamelCased = [];
+
+	for (const file of files) {
+		if (!file.endsWith('.ts')) continue;
+		if (file.endsWith('.d.ts')) continue;
+		const simulatorName = file.split('.')[0];
+		const simulatorNameCamelCased = camelCaseSimulatorName(simulatorName);
+		simulatorNamesCamelCased.push(simulatorNameCamelCased);
+		const generated = file.includes('.GENERATED.');
+		const importFile = './simulators/types/' + simulatorName + (generated ? '.GENERATED' : '') + '.js';
+		filePrefix += `import {
+	${simulatorNameCamelCased}SimOptions
+} from '${importFile}';
+
+`;
+		fileMain += `interface ${simulatorNameCamelCased}SimulationConfigExtra {
+	sim: '${simulatorName}';
+	simOptions: ${simulatorNameCamelCased}SimOptions | null;
+}
+
+type ${simulatorNameCamelCased}RawSimulationConfig = (RawSimulationConfigBase & ${simulatorNameCamelCased}SimulationConfigExtra) | (RawSimulationConfigExtended & ${simulatorNameCamelCased}SimulationConfigExtra);
+		
+`;
+	}
+
+	const fileSuffix = 'export type RawSimulationConfig = ' + simulatorNamesCamelCased.map(name => name + 'RawSimulationConfig').join(' | ') + ';';
+
+	fs.writeFileSync(TYPES_SIMULATOR_FILE, filePrefix + fileMain + fileSuffix);
 };
 
 const camelCaseSimulatorName = (simulatorName : string) : string => {
