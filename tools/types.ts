@@ -57,6 +57,7 @@ const indentInnerPiece = (input : string) : string => {
 const typeScriptTypeForMap = (configMap : OptionsConfigMap) : string => {
 	const outputPieces = ['{'];
 	for (const [key, subConfig] of Object.entries(configMap)) {
+		if (subConfig.description) outputPieces.push('\t//' + subConfig.description);
 		const piece = '\t' + key + (subConfig.optional ? '?' : '') + ': ' + indentInnerPiece(typescriptTypeForOptionsConfig(subConfig));
 		outputPieces.push(piece);
 	}
