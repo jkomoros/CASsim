@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { execSync } from "child_process";
-import { OptionsConfig } from "../src/types.js";
+import { OptionsConfig, OptionsConfigMap } from "../src/types.js";
 
 const SIMULATORS_DIR = 'src/simulators';
 const TYPES_DIR = path.join(SIMULATORS_DIR, 'types');
@@ -24,7 +24,14 @@ const camelCaseSimulatorName = (simulatorName : string) : string => {
 	return simulatorName.split('-').map(piece => piece[0].toUpperCase() + piece.slice(1)).join('');
 };
 
-const createSimulatorTypeFile = (simulatorName : string, config : OptionsConfig) => {
+const EXAMPLE_PROPERTY_NAME = 'example';
+
+//reimplemented from src/options.ts
+export const configIsConfig = (config : OptionsConfig | OptionsConfigMap) : config is OptionsConfig => {
+	return typeof config == 'object' && !Array.isArray(config) && config[EXAMPLE_PROPERTY_NAME] != undefined;
+};
+
+const createSimulatorTypeFile = (simulatorName : string, config : OptionsConfig | OptionsConfigMap) => {
 	const fileName = path.join(TYPES_DIR, simulatorName + '.GENERATED.ts');
 	const nonGeneratedFileName = path.join(TYPES_DIR, simulatorName + '.ts');
 	//Certain files are done by hand and should be skipped, e.g. schelling-org.
@@ -33,10 +40,55 @@ const createSimulatorTypeFile = (simulatorName : string, config : OptionsConfig)
 	const prettySimulatorName = camelCaseSimulatorName(simulatorName);
 	const simOptionsName = prettySimulatorName + 'SimOptions';
 
-	//TODO: export real content
-	const fileContents = 'export type ' + simOptionsName + ' = ' + JSON.stringify(config, null, '\t');
+	const fileContents = 'export type ' + simOptionsName + ' = ' + typescriptTypeForOptionsConfig(config);
 
 	fs.writeFileSync(fileName, fileContents);
+};
+
+const indentInnerPiece = (input : string) : string => {
+	const pieces = input.split('\n');
+	if (pieces.length == 1) return input;
+	for (let i = 0; i < pieces.length - 1; i++) {
+		pieces[i] = '\t' + pieces[i];
+	}
+	return pieces.join('\n');
+};
+
+const typeScriptTypeForMap = (configMap : OptionsConfigMap) : string => {
+	const outputPieces = ['{'];
+	for (const [key, subConfig] of Object.entries(configMap)) {
+		const piece = '\t' + key + (subConfig.optional ? '?' : '') + ': ' + indentInnerPiece(typescriptTypeForOptionsConfig(subConfig));
+		outputPieces.push(piece);
+	}
+	outputPieces.push('};');
+	return outputPieces.join('\n');
+};
+
+const typescriptTypeForOptionsConfig = (config : OptionsConfig | OptionsConfigMap) : string => {
+	if (!configIsConfig(config)) {
+		//Is a config map
+		return typeScriptTypeForMap(config);
+	}
+	const example = config.example;
+	if (typeof example != 'object') {
+		//A simple case
+		return typeof example + ';';
+	}
+	//TODO: handle spacing problems in subObjects output.
+	//TODO: handle options and enumerate them
+	if (Array.isArray(example)) {
+		const subConfig = example[0];
+		let subDefinition = typescriptTypeForOptionsConfig(subConfig);
+		subDefinition = subDefinition.split('\n').join('');
+		//Replace all whitespace, including \t, to a single space;
+		subDefinition = subDefinition.replace(/\s+/g, ' ');
+		subDefinition = subDefinition.trim();
+		//Cut off the last ';'
+		subDefinition = subDefinition.slice(0,subDefinition.length - 1);
+		if (subConfig.optional) return '(' + subDefinition + ' | null)[];';
+		return subDefinition + '[];';
+	}
+	return typeScriptTypeForMap(example);
 };
 
 const extractOptionsConfigForSimulator = (simulatorName : string) : OptionsConfig => {
@@ -71,7 +123,7 @@ const extractOptionsConfigForSimulator = (simulatorName : string) : OptionsConfi
 
 	//TODO: error handle
 
-	return JSON.parse(output) as OptionsConfig;
+	return JSON.parse(output) as (OptionsConfig | OptionsConfigMap);
 
 };
 
