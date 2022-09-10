@@ -8,7 +8,36 @@ const TYPES_DIR = path.join(SIMULATORS_DIR, 'types');
 
 const TYPES_SIMULATOR_FILE = path.join('src', 'types-simulator.GENERATED.ts');
 
+const ensureGeneratedStubsExist = () : void => {
+	if (!fs.existsSync(TYPES_SIMULATOR_FILE)) {
+		const stubContent = `//TEMP stub file
+export type RawSimulationConfig = any;
+`;
+		console.log('Generating stub content for ' + TYPES_SIMULATOR_FILE);
+		fs.writeFileSync(TYPES_SIMULATOR_FILE, stubContent);
+	}
+	const files = fs.readdirSync(SIMULATORS_DIR);
+	for (const file of files) {
+		const stats = fs.lstatSync(path.join(SIMULATORS_DIR, file));
+		if (stats.isDirectory()) continue;
+		if (!file.endsWith('.ts')) continue;
+		if (file.endsWith('.d.ts')) continue;
+		const simulatorName = path.basename(file, '.ts');
+		if (fs.existsSync(path.join(TYPES_DIR, simulatorName + '.ts'))) continue;
+		if (fs.existsSync(path.join(TYPES_DIR, simulatorName + '.GENERATED.ts'))) continue;
+		const stubContents = `
+export type ${camelCaseSimulatorName(simulatorName)}SimOptions = any;
+`;
+		console.log('Generating stub content for ' + simulatorName);
+		fs.writeFileSync(path.join(TYPES_DIR, simulatorName + '.GENERATED.ts'), stubContents);
+	}
+};
+
 const processTypes = () => {
+	//If there are no .GENERATED. files, even stubs, then
+	//extractOptionsConfigForSimulator might fail because it will have invalid
+	//imports.
+	ensureGeneratedStubsExist();
 	const files = fs.readdirSync(SIMULATORS_DIR);
 	for (const file of files) {
 		const stats = fs.lstatSync(path.join(SIMULATORS_DIR, file));
