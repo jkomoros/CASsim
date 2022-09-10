@@ -75,7 +75,6 @@ const typescriptTypeForOptionsConfig = (config : OptionsConfig | OptionsConfigMa
 		//A simple case
 		return typeof example + ';';
 	}
-	//TODO: handle spacing problems in subObjects output.
 	//TODO: handle options and enumerate them
 	if (Array.isArray(example)) {
 		const subConfig = example[0];
