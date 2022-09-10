@@ -81,10 +81,6 @@ const typescriptTypeForOptionsConfig = (config : OptionsConfig | OptionsConfigMa
 	if (Array.isArray(example)) {
 		const subConfig = example[0];
 		let subDefinition = typescriptTypeForOptionsConfig(subConfig);
-		subDefinition = subDefinition.split('\n').join('');
-		//Replace all whitespace, including \t, to a single space;
-		subDefinition = subDefinition.replace(/\s+/g, ' ');
-		subDefinition = subDefinition.trim();
 		//Cut off the last ';'
 		subDefinition = subDefinition.slice(0,subDefinition.length - 1);
 		if (subConfig.optional) return '(' + subDefinition + ' | null)[];';
