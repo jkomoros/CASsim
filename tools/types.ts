@@ -38,10 +38,6 @@ export type ${camelCaseSimulatorName(simulatorName)}SimOptions = any;
 };
 
 const processTypes = () => {
-	//If there are no .GENERATED. files, even stubs, then
-	//extractOptionsConfigForSimulator might fail because it will have invalid
-	//imports.
-	ensureGeneratedStubsExist();
 	const files = fs.readdirSync(SIMULATORS_DIR);
 	for (const file of files) {
 		const stats = fs.lstatSync(path.join(SIMULATORS_DIR, file));
@@ -211,6 +207,19 @@ const extractOptionsConfigForSimulator = (simulatorName : string) : OptionsConfi
 
 };
 
+const COMMAND_STUBS = 'stubs';
+
 (async() => {
-	processTypes();
+
+	const args = Object.fromEntries(process.argv.slice(2).map(item => [item, true]));
+
+	//If there are no .GENERATED. files, even stubs, then
+	//extractOptionsConfigForSimulator might fail because it will have invalid
+	//imports.
+	ensureGeneratedStubsExist();
+
+	if (!args[COMMAND_STUBS]) {
+		processTypes();
+	}
+
 })();
