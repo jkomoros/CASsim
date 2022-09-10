@@ -138,7 +138,7 @@ If you want to model your own problem, you'll likely want to create your own typ
 
 In the `src/simulators/` directory, copy `dice-roll-demo.js` (a simulator that is extremely simple) to whatever file name you want. Then, customize the file. Note that the name property of your class must match the name of the file.
 
-(If you want the new simulator to immediately show up in the drop down in the simulator options, you'll need to run `gulp generate-listings-json`. That will be run automatically when building or deploying.)
+(If you want the new simulator to immediately show up in the drop down in the simulator options, you'll need to run `npm run generate:config`. That will be run automatically when building or deploying.)
 
 If you want to do a simulator that has 'agents' making decisions, pasture-demo.js and standing-ovation.js are better starting points, because they demonstrate how to use graphs, AgentSimulator subclasess, etc.
 

@@ -30,7 +30,7 @@ export const UPDATE_CHART_CONFIG_IDS = 'UPDATE_CHART_CONFIG_IDS';
 export const DIALOG_TYPE_JSON = 'json';
 export const DIALOG_TYPE_ADD_FIELD = 'add-field';
 
-//Also in gulpfile.js
+//Also in tools/config.ts
 export const DATA_DIRECTORY = 'data';
 
 export const DEFAULT_FILE_NAME = 'default';

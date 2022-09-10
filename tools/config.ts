@@ -1,14 +1,11 @@
-/*eslint-env node*/
-
-const gulp = require('gulp');
-const fs = require('fs');
-const path = require('path');
+import * as fs from "fs";
+import * as path from "path";
 
 const SIMULATORS_DIR = 'src/simulators/';
 const DYNAMIC_TYPES_FILE = 'src/types-dynamic.GENERATED.ts';
 const DATA_DIRECTORY = 'data';
 
-gulp.task('generate-types', (done) => {
+const generateConfig = () => {
 	const simulatorNames = [];
 	const datafiles = [];
 	for (const simulator of fs.readdirSync(SIMULATORS_DIR)) {
@@ -28,6 +25,9 @@ export type SimulatorType = '' | ${simulatorNames.map(item => '\'' + item + '\''
 export const KNOWN_SIMULATOR_TYPES : SimulatorType[] = ${JSON.stringify(simulatorNames, null, '\t').split('"').join("'")};`;
 
 	fs.writeFileSync(DYNAMIC_TYPES_FILE, data);
-	done();
+};
 
-});
+(async() => {
+	generateConfig();
+})();
+
