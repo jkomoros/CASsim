@@ -90,6 +90,7 @@ class DiceRollDemoSimulator extends BaseSimulator {
 	}
 	
 	override get optionsConfig() : OptionsConfigMap {
+		//When you modify this method, re-run `npm run generate` to update the types and schema checking
 		return {
 			'die': {
 				example: 6,
