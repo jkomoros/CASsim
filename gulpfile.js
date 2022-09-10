@@ -2,20 +2,7 @@
 
 const gulp = require('gulp');
 const fs = require('fs');
-const spawnSync = require('child_process').spawnSync;
 const path = require('path');
-
-const makeExecutor = cmdAndArgs => {
-	return (cb) => {
-		const splitCmd = cmdAndArgs.split(' ');
-		const cmd = splitCmd[0];
-		const args = splitCmd.slice(1);
-		const result = spawnSync(cmd, args, {
-			stdio: 'inherit'
-		});
-		cb(result.error);
-	};
-};
 
 const SIMULATORS_DIR = 'src/simulators/';
 const DYNAMIC_TYPES_FILE = 'src/types-dynamic.GENERATED.ts';
@@ -44,9 +31,3 @@ export const KNOWN_SIMULATOR_TYPES : SimulatorType[] = ${JSON.stringify(simulato
 	done();
 
 });
-
-const screenshotScript = 'tools/screenshot.ts';
-
-gulp.task('generate', makeExecutor('npx ts-node ' + screenshotScript));
-gulp.task('generate:screenshot', makeExecutor('npx ts-node ' + screenshotScript + ' screenshot'));
-gulp.task('generate:gif', makeExecutor('npx ts-node ' + screenshotScript + ' gif'));

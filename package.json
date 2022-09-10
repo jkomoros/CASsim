@@ -19,6 +19,9 @@
     "build:service-worker": "workbox generateSW workbox-config.js",
     "generate:schema": "ts-json-schema-generator --type 'PackedRawSimulationConfig' --tsconfig tsconfig.json > data-schema.json",
     "generate:types": "npx ts-node tools/types.ts",
+    "generate:screenshots": "npx ts-node tools/screenshot.ts",
+    "generate:screenshots:png": "npx ts-node tools/screenshot.ts screenshot",
+    "generate:screenshots:gif": "npx ts-node tools/screenshot.ts gif",
     "deploy": "npm run build && firebase deploy",
     "test": "npm run test:options",
     "test:options": "mocha -r esm test/options --timeout=10000"
