@@ -193,6 +193,11 @@ class StandingOvationSimulator extends AgentSimulator {
 
 export default StandingOvationSimulator;
 
+/************************************************************************
+*  All imports (including transitive ones) of lit must occur below the  *
+*  `export default ...` line that is immediately above this comment     *
+************************************************************************/
+
 import { PositionedGraphRenderer } from '../renderer.js';
 import { StyleInfo } from 'lit/directives/style-map.js';
 import { PositionedGraph } from '../graph/positioned.js';

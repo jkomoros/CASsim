@@ -122,6 +122,11 @@ class DiceRollDemoSimulator extends BaseSimulator {
 
 export default DiceRollDemoSimulator;
 
+/************************************************************************
+*  All imports (including transitive ones) of lit must occur below the  *
+*  `export default ...` line that is immediately above this comment     *
+************************************************************************/
+
 import { BaseRenderer } from '../renderer.js';
 import { html, css } from 'lit';
 

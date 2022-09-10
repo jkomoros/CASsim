@@ -1191,6 +1191,11 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 export default SchellingOrgSimulator;
 
+/************************************************************************
+*  All imports (including transitive ones) of lit must occur below the  *
+*  `export default ...` line that is immediately above this comment     *
+************************************************************************/
+
 import { html, css, svg} from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { BaseRenderer } from '../renderer.js';

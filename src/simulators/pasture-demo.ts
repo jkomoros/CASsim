@@ -197,6 +197,11 @@ class AgentDemoSimulator extends AgentSimulator {
 
 export default AgentDemoSimulator;
 
+/************************************************************************
+*  All imports (including transitive ones) of lit must occur below the  *
+*  `export default ...` line that is immediately above this comment     *
+************************************************************************/
+
 import { PositionedGraphRenderer } from '../renderer.js';
 
 import { css } from 'lit';

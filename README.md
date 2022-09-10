@@ -246,8 +246,14 @@ leave.
 ### optionsConfig
 
 The object you emit from your Simulator's `get optionsConfig()` determines a lot
-of validation and UI logic for interacting with your simulation. It's a
-declarative format that has the following shape, called an optionsLeaf:
+of validation and UI logic for interacting with your simulation. 
+
+Note that typically you define your optionsConfig and then you `npm run generate:types`
+to automatically generate a typescript type for your simulator's SimOptions that is based
+on your optionsConfig shape. This helps ensure that you don't accidentally have differences
+between your optionsConfigs and the shape of SimOptions that you expect.
+
+It's a declarative format that has the following shape, called an optionsLeaf:
 ```
 {
 	//Example is the most important property and the only reserved word. If an object in the config has 
@@ -389,6 +395,12 @@ with alternating layers of "example" objects. Here's a more complex example:
 Your renderer is a custom element that will be inserted into the DOM to render
 your frame for the end user. Typically this is implemented as an svg, but it
 need not be.
+
+Your renderer is defined in your main simulator file, at the bottom below the
+main simulator. All imports (including transitive ones) of Lit must occur below
+the `export default SIMULATOR` line. If you copy/paste an example you'll see
+a comment warning you of this. This is necessary for `npm run generate:types` to
+be able to automatically generate your types for you.
 
 Your simulator custom element will receive the following properties:
 
