@@ -31,7 +31,7 @@ import {
 
 import {
 	StandingOvationSimOptions
-} from './types/standing-ovation.js';
+} from './types/standing-ovation.GENERATED.js';
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'standing-ovation';

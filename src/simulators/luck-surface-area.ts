@@ -40,7 +40,7 @@ import {
 
 import {
 	LuckSurfaceAreaSimOptions
-} from './types/luck-surface-area.js';
+} from './types/luck-surface-area.GENERATED.js';
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'luck-surface-area';

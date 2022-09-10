@@ -15,7 +15,7 @@ import {
 
 import {
 	DiceRollDemoSimOptions
-} from './types/dice-roll-demo.js';
+} from './types/dice-roll-demo.GENERATED.js';
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'dice-roll-demo';

@@ -31,7 +31,7 @@ import {
 
 import {
 	PastureDemoSimOptions
-} from './types/pasture-demo.js';
+} from './types/pasture-demo.GENERATED.js';
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'pasture-demo';
