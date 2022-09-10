@@ -32,7 +32,7 @@
       ],
       "type": "string"
     },
-    "DiceRollSimulationOptions": {
+    "DiceRollDemoSimOptions": {
       "additionalProperties": false,
       "properties": {
         "bust": {
@@ -45,11 +45,6 @@
           "type": "number"
         }
       },
-      "required": [
-        "die",
-        "targetScore",
-        "bust"
-      ],
       "type": "object"
     },
     "DisplayValue": {
@@ -67,63 +62,6 @@
       },
       "type": "object"
     },
-    "DistributionOptions": {
-      "additionalProperties": false,
-      "properties": {
-        "average": {
-          "type": "number"
-        },
-        "default": {
-          "type": "boolean"
-        },
-        "description": {
-          "type": "string"
-        },
-        "distribution": {
-          "$ref": "#/definitions/DistributionType"
-        },
-        "limitMax": {
-          "type": "number"
-        },
-        "limitMin": {
-          "type": "number"
-        },
-        "max": {
-          "type": "number"
-        },
-        "min": {
-          "type": "number"
-        },
-        "name": {
-          "type": "string"
-        },
-        "onlyDistribution": {
-          "$ref": "#/definitions/DistributionType"
-        },
-        "round": {
-          "$ref": "#/definitions/RoundType"
-        },
-        "shortName": {
-          "type": "string"
-        },
-        "spread": {
-          "type": "number"
-        },
-        "step": {
-          "type": "number"
-        },
-        "types": {
-          "items": {
-            "$ref": "#/definitions/DistributionType"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "DistributionType": {
-      "type": "string"
-    },
     "LuckSurfaceAreaSimOptions": {
       "additionalProperties": false,
       "properties": {
@@ -131,64 +69,196 @@
           "additionalProperties": false,
           "properties": {
             "cost": {
-              "$ref": "#/definitions/DistributionOptions"
+              "additionalProperties": false,
+              "properties": {
+                "average": {
+                  "type": "number"
+                },
+                "distribution": {
+                  "enum": [
+                    "linear",
+                    "normal",
+                    "min-max",
+                    "fixed"
+                  ],
+                  "type": "string"
+                },
+                "max": {
+                  "type": "number"
+                },
+                "min": {
+                  "type": "number"
+                },
+                "spread": {
+                  "type": "number"
+                }
+              },
+              "type": "object"
             },
             "count": {
               "type": "number"
             },
             "starterStrength": {
-              "$ref": "#/definitions/DistributionOptions"
+              "additionalProperties": false,
+              "properties": {
+                "average": {
+                  "type": "number"
+                },
+                "distribution": {
+                  "enum": [
+                    "linear",
+                    "normal",
+                    "min-max",
+                    "fixed"
+                  ],
+                  "type": "string"
+                },
+                "max": {
+                  "type": "number"
+                },
+                "min": {
+                  "type": "number"
+                },
+                "spread": {
+                  "type": "number"
+                }
+              },
+              "type": "object"
             },
             "starterValue": {
-              "$ref": "#/definitions/DistributionOptions"
+              "additionalProperties": false,
+              "properties": {
+                "average": {
+                  "type": "number"
+                },
+                "distribution": {
+                  "enum": [
+                    "linear",
+                    "normal",
+                    "min-max",
+                    "fixed"
+                  ],
+                  "type": "string"
+                },
+                "max": {
+                  "type": "number"
+                },
+                "min": {
+                  "type": "number"
+                },
+                "spread": {
+                  "type": "number"
+                }
+              },
+              "type": "object"
             }
           },
-          "required": [
-            "count",
-            "cost",
-            "starterStrength",
-            "starterValue"
-          ],
           "type": "object"
         },
         "opportunities": {
           "additionalProperties": false,
           "properties": {
             "structure": {
-              "$ref": "#/definitions/OptionValueMap"
+              "additionalProperties": false,
+              "properties": {
+                "childCount": {
+                  "type": "number"
+                },
+                "childFactor": {
+                  "type": "number"
+                },
+                "childLinkLikelihood": {
+                  "type": "number"
+                },
+                "distantNodeBoost": {
+                  "type": "number"
+                },
+                "edgeCount": {
+                  "type": "number"
+                },
+                "graphType": {
+                  "enum": [
+                    "BloomGraph",
+                    "PreferentialAttachmentGraph"
+                  ],
+                  "type": "string"
+                },
+                "iterations": {
+                  "type": "number"
+                },
+                "levels": {
+                  "type": "number"
+                },
+                "maxNodeSize": {
+                  "type": "number"
+                },
+                "minNodeSize": {
+                  "type": "number"
+                },
+                "noCollide": {
+                  "type": "boolean"
+                },
+                "nodeBoost": {
+                  "type": "number"
+                },
+                "nodeCount": {
+                  "type": "number"
+                },
+                "nodeMargin": {
+                  "type": "number"
+                },
+                "nodeSize": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "average": {
+                      "type": "number"
+                    },
+                    "distribution": {
+                      "enum": [
+                        "linear",
+                        "normal",
+                        "min-max",
+                        "fixed"
+                      ],
+                      "type": "string"
+                    },
+                    "max": {
+                      "type": "number"
+                    },
+                    "min": {
+                      "type": "number"
+                    },
+                    "spread": {
+                      "type": "number"
+                    }
+                  },
+                  "type": "object"
+                },
+                "randomLinkLikelihood": {
+                  "type": "number"
+                }
+              },
+              "type": "object"
             },
             "value": {
               "additionalProperties": false,
               "properties": {
                 "falloff": {
-                  "$ref": "#/definitions/DistributionOptions"
+                  "type": "number"
                 },
                 "likelihood": {
-                  "$ref": "#/definitions/DistributionOptions"
+                  "type": "number"
                 }
               },
-              "required": [
-                "likelihood",
-                "falloff"
-              ],
               "type": "object"
             }
           },
-          "required": [
-            "value",
-            "structure"
-          ],
           "type": "object"
         },
         "rounds": {
           "type": "number"
         }
       },
-      "required": [
-        "agents",
-        "rounds",
-        "opportunities"
-      ],
       "type": "object"
     },
     "NorthStarOptions": {
@@ -283,7 +353,7 @@
         }
       ]
     },
-    "PastureSimOptions": {
+    "PastureDemoSimOptions": {
       "additionalProperties": false,
       "properties": {
         "agents": {
@@ -308,15 +378,6 @@
           "type": "number"
         }
       },
-      "required": [
-        "spawnLikelihood",
-        "deathLikelihood",
-        "growthRate",
-        "rows",
-        "cols",
-        "agents",
-        "rounds"
-      ],
       "type": "object"
     },
     "RawSimulationConfig": {
@@ -373,7 +434,7 @@
                 "simOptions": {
                   "anyOf": [
                     {
-                      "$ref": "#/definitions/DiceRollSimulationOptions"
+                      "$ref": "#/definitions/DiceRollDemoSimOptions"
                     },
                     {
                       "type": "null"
@@ -443,7 +504,7 @@
                 "simOptions": {
                   "anyOf": [
                     {
-                      "$ref": "#/definitions/DiceRollSimulationOptions"
+                      "$ref": "#/definitions/DiceRollDemoSimOptions"
                     },
                     {
                       "type": "null"
@@ -663,7 +724,7 @@
                 "simOptions": {
                   "anyOf": [
                     {
-                      "$ref": "#/definitions/PastureSimOptions"
+                      "$ref": "#/definitions/PastureDemoSimOptions"
                     },
                     {
                       "type": "null"
@@ -733,7 +794,7 @@
                 "simOptions": {
                   "anyOf": [
                     {
-                      "$ref": "#/definitions/PastureSimOptions"
+                      "$ref": "#/definitions/PastureDemoSimOptions"
                     },
                     {
                       "type": "null"
@@ -1103,9 +1164,6 @@
       ],
       "type": "object"
     },
-    "RoundType": {
-      "type": "string"
-    },
     "SchellingOrgSimOptions": {
       "additionalProperties": {
         "$ref": "#/definitions/OptionValue"
@@ -1351,33 +1409,147 @@
           "type": "number"
         },
         "fomoThreshold": {
-          "$ref": "#/definitions/DistributionOptions"
+          "additionalProperties": false,
+          "properties": {
+            "average": {
+              "type": "number"
+            },
+            "distribution": {
+              "enum": [
+                "linear",
+                "normal",
+                "min-max",
+                "fixed"
+              ],
+              "type": "string"
+            },
+            "max": {
+              "type": "number"
+            },
+            "min": {
+              "type": "number"
+            },
+            "spread": {
+              "type": "number"
+            }
+          },
+          "type": "object"
         },
         "forwardStandingFalloff": {
-          "$ref": "#/definitions/DistributionOptions"
+          "additionalProperties": false,
+          "properties": {
+            "average": {
+              "type": "number"
+            },
+            "distribution": {
+              "enum": [
+                "linear",
+                "normal",
+                "min-max",
+                "fixed"
+              ],
+              "type": "string"
+            },
+            "max": {
+              "type": "number"
+            },
+            "min": {
+              "type": "number"
+            },
+            "spread": {
+              "type": "number"
+            }
+          },
+          "type": "object"
         },
         "ovationPropensity": {
-          "$ref": "#/definitions/DistributionOptions"
+          "additionalProperties": false,
+          "properties": {
+            "average": {
+              "type": "number"
+            },
+            "distribution": {
+              "enum": [
+                "linear",
+                "normal",
+                "min-max",
+                "fixed"
+              ],
+              "type": "string"
+            },
+            "max": {
+              "type": "number"
+            },
+            "min": {
+              "type": "number"
+            },
+            "spread": {
+              "type": "number"
+            }
+          },
+          "type": "object"
         },
         "performanceQuality": {
-          "$ref": "#/definitions/DistributionOptions"
+          "additionalProperties": false,
+          "properties": {
+            "average": {
+              "type": "number"
+            },
+            "distribution": {
+              "enum": [
+                "linear",
+                "normal",
+                "min-max",
+                "fixed"
+              ],
+              "type": "string"
+            },
+            "max": {
+              "type": "number"
+            },
+            "min": {
+              "type": "number"
+            },
+            "spread": {
+              "type": "number"
+            }
+          },
+          "type": "object"
         },
         "rows": {
           "type": "number"
         },
         "standingThreshold": {
-          "$ref": "#/definitions/DistributionOptions"
+          "additionalProperties": false,
+          "properties": {
+            "average": {
+              "type": "number"
+            },
+            "distribution": {
+              "enum": [
+                "linear",
+                "normal",
+                "min-max",
+                "fixed"
+              ],
+              "type": "string"
+            },
+            "max": {
+              "type": "number"
+            },
+            "min": {
+              "type": "number"
+            },
+            "spread": {
+              "type": "number"
+            }
+          },
+          "type": "object"
         }
       },
       "required": [
-        "filledSeatProportion",
         "rows",
-        "cols",
-        "performanceQuality",
-        "ovationPropensity",
-        "standingThreshold",
-        "forwardStandingFalloff",
-        "fomoThreshold"
+        "cols"
       ],
       "type": "object"
     }
