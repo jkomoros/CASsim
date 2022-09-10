@@ -7,7 +7,7 @@
   "license": "BSD-3-Clause",
   "repository": "Polymer/pwa-starter-kit",
   "scripts": {
-    "start": "npm run generate:config && npm run serve",
+    "start": "npm run generate && npm run serve",
     "start:clean": "npm install && npm run build:clean && npm run start",
     "serve": "tsc --watch --preserveWatchOutput & wds --node-resolve --port=8081",
     "build": "npm run build:clean && npm run build:typescript && npm run build:rollup && npm run build:service-worker",
@@ -17,6 +17,7 @@
     "build:rollup": "rollup -c",
     "build:typescript": "tsc",
     "build:service-worker": "workbox generateSW workbox-config.js",
+    "generate": "npm run generate:schema && npm run generate:types && npm run generate:config",
     "generate:schema": "ts-json-schema-generator --type 'PackedRawSimulationConfig' --tsconfig tsconfig.json > data-schema.json",
     "generate:types": "npx ts-node tools/types.ts",
     "generate:config": "npx ts-node tools/config.ts",
