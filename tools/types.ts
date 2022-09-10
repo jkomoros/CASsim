@@ -173,6 +173,11 @@ const typescriptTypeForOptionsConfig = (config : OptionsConfig | OptionsConfigMa
 const extractOptionsConfigForSimulator = (simulatorName : string) : OptionsConfig => {
 	const filePath = path.join(SIMULATORS_DIR, simulatorName + '.js');
 
+	if (!fs.existsSync(filePath)) {
+		console.warn(filePath + ' didn\'t exist as expected, because tsc has not been run. Run `npm run build` or `npm run start` and try again.\n\n');
+		throw new Error('Typescript build output not run');
+	}
+
 	const baseFileContents = fs.readFileSync(filePath).toString();
 
 	const lines = [];
