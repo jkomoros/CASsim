@@ -14,7 +14,18 @@ const ensureGeneratedStubsExist = () : void => {
 	if (!fs.existsSync(TYPES_SIMULATOR_FILE)) {
 		const stubContent = `//TEMP stub file
 ${GENERATED_COMMENT}
-export type RawSimulationConfig = any;
+
+import {
+	RawSimulationConfigBase,
+	RawSimulationConfigExtended
+} from './types.js';
+
+type RawSimulationConfigCommon = {
+	sim: string;
+	simOptions: object;
+}
+
+export type RawSimulationConfig = (RawSimulationConfigBase & RawSimulationConfigCommon) | (RawSimulationConfigExtened & RawSimulationConfigCommon);
 `;
 		console.log('Generating stub content for ' + TYPES_SIMULATOR_FILE);
 		fs.writeFileSync(TYPES_SIMULATOR_FILE, stubContent);
@@ -30,7 +41,7 @@ export type RawSimulationConfig = any;
 		if (fs.existsSync(path.join(TYPES_DIR, simulatorName + '.GENERATED.ts'))) continue;
 		const stubContents = `//TEMP stub file
 ${GENERATED_COMMENT}
-export type ${camelCaseSimulatorName(simulatorName)}SimOptions = any;
+export type ${camelCaseSimulatorName(simulatorName)}SimOptions = {[name : string] : unknown};
 `;
 		console.log('Generating stub content for ' + simulatorName);
 		fs.writeFileSync(path.join(TYPES_DIR, simulatorName + '.GENERATED.ts'), stubContents);
