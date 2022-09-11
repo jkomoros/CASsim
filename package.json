@@ -8,13 +8,13 @@
   "repository": "Polymer/pwa-starter-kit",
   "scripts": {
     "start": "npm run serve",
-    "start:bisect": "npm install && npm run build:clean && npm run start", 
+    "start:bisect": "npm install && npm run build:clean && npm run start",
     "start:clean": "npm install && npm run build:clean && npm run generate && npm run start",
     "serve": "tsc --watch --preserveWatchOutput & wds --node-resolve --port=8081",
     "build": "npm run build:pre && npm run build:post",
     "build:full": "npm run build:pre && npm run generate && npm run build:typescript && npm run build:post",
     "build:pre": "npm run build:clean && npm run generate:before-build && npm run build:typescript",
-    "build:post" : "npm run build:rollup && npm run build:service-worker",
+    "build:post": "npm run build:rollup",
     "build:minimal": "npm run generate:before-build && npm run build:typescript",
     "build:clean": "npm run build:clean:build && npm run build:clean:typescript",
     "build:clean:build": "rm -rf build/",
@@ -23,7 +23,6 @@
     "build:clean:pristine": "npm run build:clean && npm run build:clean:generated",
     "build:rollup": "rollup -c",
     "build:typescript": "tsc",
-    "build:service-worker": "workbox generateSW workbox-config.js",
     "generate": "npm run build:minimal && npm run generate:types && npm run generate:schema && npm run generate:config",
     "generate:before-build": "npm run generate:stubs && npm run generate:config",
     "generate:stubs": "npx ts-node tools/types.ts stubs",
@@ -85,7 +84,6 @@
     "ts-lit-plugin": "^1.2.1",
     "ts-node": "^10.9.1",
     "typescript": "^4.7.4",
-    "wct-mocha": "^1.0.0",
-    "workbox-cli": "^6.5.3"
+    "wct-mocha": "^1.0.0"
   }
 }
