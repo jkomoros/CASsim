@@ -10,8 +10,8 @@ import GIFEncoder from "gifencoder";
 import glob from "glob";
 import { PNG } from "pngjs";
 import { promisify } from 'util';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const sizeOf = promisify(require('image-size'));
+import {imageSize } from 'image-size';
+const sizeOf = promisify(imageSize);
 
 import {
 	RawSimulationConfig
@@ -171,13 +171,14 @@ const gifInfos = async () => {
 		if (!gifName) continue;
 		if (illegalGifs[gifName]) continue;
 		const dim = await sizeOf(path.join(SCREENSHOT_DIR,file));
+		if (!dim) throw new Error('no dimensions');
 		const previousDim = result[gifName];
 		if (previousDim && (previousDim.height != dim.height || previousDim.width != dim.width)) {
 			console.warn(gifName + ' had previous dimensions of [' + previousDim.height + ',' + previousDim.width + '] but dim of [' + dim.height + ',' + dim.width + '] for file ' + file);
 			illegalGifs[gifName] = true;
 			continue;
 		}
-		result[gifName] = dim;
+		result[gifName] = {height: dim.height || 0, width: dim.width || 0};
 	}
 	for (const name of Object.keys(illegalGifs)) {
 		delete result[name];
