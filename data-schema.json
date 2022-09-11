@@ -62,6 +62,63 @@
       },
       "type": "object"
     },
+    "DistributionOptions": {
+      "additionalProperties": false,
+      "properties": {
+        "average": {
+          "type": "number"
+        },
+        "default": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        },
+        "distribution": {
+          "$ref": "#/definitions/DistributionType"
+        },
+        "limitMax": {
+          "type": "number"
+        },
+        "limitMin": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "min": {
+          "type": "number"
+        },
+        "name": {
+          "type": "string"
+        },
+        "onlyDistribution": {
+          "$ref": "#/definitions/DistributionType"
+        },
+        "round": {
+          "$ref": "#/definitions/RoundType"
+        },
+        "shortName": {
+          "type": "string"
+        },
+        "spread": {
+          "type": "number"
+        },
+        "step": {
+          "type": "number"
+        },
+        "types": {
+          "items": {
+            "$ref": "#/definitions/DistributionType"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "DistributionType": {
+      "type": "string"
+    },
     "LuckSurfaceAreaSimOptions": {
       "additionalProperties": false,
       "properties": {
@@ -69,88 +126,16 @@
           "additionalProperties": false,
           "properties": {
             "cost": {
-              "additionalProperties": false,
-              "properties": {
-                "average": {
-                  "type": "number"
-                },
-                "distribution": {
-                  "enum": [
-                    "linear",
-                    "normal",
-                    "min-max",
-                    "fixed"
-                  ],
-                  "type": "string"
-                },
-                "max": {
-                  "type": "number"
-                },
-                "min": {
-                  "type": "number"
-                },
-                "spread": {
-                  "type": "number"
-                }
-              },
-              "type": "object"
+              "$ref": "#/definitions/DistributionOptions"
             },
             "count": {
               "type": "number"
             },
             "starterStrength": {
-              "additionalProperties": false,
-              "properties": {
-                "average": {
-                  "type": "number"
-                },
-                "distribution": {
-                  "enum": [
-                    "linear",
-                    "normal",
-                    "min-max",
-                    "fixed"
-                  ],
-                  "type": "string"
-                },
-                "max": {
-                  "type": "number"
-                },
-                "min": {
-                  "type": "number"
-                },
-                "spread": {
-                  "type": "number"
-                }
-              },
-              "type": "object"
+              "$ref": "#/definitions/DistributionOptions"
             },
             "starterValue": {
-              "additionalProperties": false,
-              "properties": {
-                "average": {
-                  "type": "number"
-                },
-                "distribution": {
-                  "enum": [
-                    "linear",
-                    "normal",
-                    "min-max",
-                    "fixed"
-                  ],
-                  "type": "string"
-                },
-                "max": {
-                  "type": "number"
-                },
-                "min": {
-                  "type": "number"
-                },
-                "spread": {
-                  "type": "number"
-                }
-              },
-              "type": "object"
+              "$ref": "#/definitions/DistributionOptions"
             }
           },
           "type": "object"
@@ -208,31 +193,7 @@
                   "type": "number"
                 },
                 "nodeSize": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "average": {
-                      "type": "number"
-                    },
-                    "distribution": {
-                      "enum": [
-                        "linear",
-                        "normal",
-                        "min-max",
-                        "fixed"
-                      ],
-                      "type": "string"
-                    },
-                    "max": {
-                      "type": "number"
-                    },
-                    "min": {
-                      "type": "number"
-                    },
-                    "spread": {
-                      "type": "number"
-                    }
-                  },
-                  "type": "object"
+                  "$ref": "#/definitions/DistributionOptions"
                 },
                 "randomLinkLikelihood": {
                   "type": "number"
@@ -1164,6 +1125,9 @@
       ],
       "type": "object"
     },
+    "RoundType": {
+      "type": "string"
+    },
     "SchellingOrgSimOptions": {
       "additionalProperties": {
         "$ref": "#/definitions/OptionValue"
@@ -1409,142 +1373,22 @@
           "type": "number"
         },
         "fomoThreshold": {
-          "additionalProperties": false,
-          "properties": {
-            "average": {
-              "type": "number"
-            },
-            "distribution": {
-              "enum": [
-                "linear",
-                "normal",
-                "min-max",
-                "fixed"
-              ],
-              "type": "string"
-            },
-            "max": {
-              "type": "number"
-            },
-            "min": {
-              "type": "number"
-            },
-            "spread": {
-              "type": "number"
-            }
-          },
-          "type": "object"
+          "$ref": "#/definitions/DistributionOptions"
         },
         "forwardStandingFalloff": {
-          "additionalProperties": false,
-          "properties": {
-            "average": {
-              "type": "number"
-            },
-            "distribution": {
-              "enum": [
-                "linear",
-                "normal",
-                "min-max",
-                "fixed"
-              ],
-              "type": "string"
-            },
-            "max": {
-              "type": "number"
-            },
-            "min": {
-              "type": "number"
-            },
-            "spread": {
-              "type": "number"
-            }
-          },
-          "type": "object"
+          "$ref": "#/definitions/DistributionOptions"
         },
         "ovationPropensity": {
-          "additionalProperties": false,
-          "properties": {
-            "average": {
-              "type": "number"
-            },
-            "distribution": {
-              "enum": [
-                "linear",
-                "normal",
-                "min-max",
-                "fixed"
-              ],
-              "type": "string"
-            },
-            "max": {
-              "type": "number"
-            },
-            "min": {
-              "type": "number"
-            },
-            "spread": {
-              "type": "number"
-            }
-          },
-          "type": "object"
+          "$ref": "#/definitions/DistributionOptions"
         },
         "performanceQuality": {
-          "additionalProperties": false,
-          "properties": {
-            "average": {
-              "type": "number"
-            },
-            "distribution": {
-              "enum": [
-                "linear",
-                "normal",
-                "min-max",
-                "fixed"
-              ],
-              "type": "string"
-            },
-            "max": {
-              "type": "number"
-            },
-            "min": {
-              "type": "number"
-            },
-            "spread": {
-              "type": "number"
-            }
-          },
-          "type": "object"
+          "$ref": "#/definitions/DistributionOptions"
         },
         "rows": {
           "type": "number"
         },
         "standingThreshold": {
-          "additionalProperties": false,
-          "properties": {
-            "average": {
-              "type": "number"
-            },
-            "distribution": {
-              "enum": [
-                "linear",
-                "normal",
-                "min-max",
-                "fixed"
-              ],
-              "type": "string"
-            },
-            "max": {
-              "type": "number"
-            },
-            "min": {
-              "type": "number"
-            },
-            "spread": {
-              "type": "number"
-            }
-          },
-          "type": "object"
+          "$ref": "#/definitions/DistributionOptions"
         }
       },
       "required": [

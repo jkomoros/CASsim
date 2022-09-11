@@ -293,6 +293,10 @@ export class DistributionConfig {
 			default: this._options.default,
 			backfill: true,
 			description: this._options.description,
+			typeInfo: {
+				typeName: 'DistributionOptions',
+				import: 'src/types.js'
+			}
 		};
 		if (this._options.shortName) result.shortName = this._options.shortName;
 		return result;
