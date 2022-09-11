@@ -372,13 +372,11 @@ export const defaultValueForConfig = (optionsConfig : OptionsConfig, skipOptiona
 	if (!optionsConfig) return undefined;
 	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
 	if (example == undefined) {
-		return Object.fromEntries(Object.entries(optionsConfig).filter(entry => {
+		const optionsConfigMap = optionsConfig as OptionsConfigMap;
+		return Object.fromEntries(Object.entries(optionsConfigMap).filter(entry => {
 			const value = entry[1];
-			//Value must be an OptionsConfig or OptionsConfigMap.
-			if (typeof value != 'object') return false;
-			if (Array.isArray(value)) return false;
-			if (value[EXAMPLE_PROPERTY_NAME] == undefined) return true;
-			return !(value[OPTIONAL_PROPERTY_NAME] && !value[DEFAULT_PROPERTY_NAME]);
+			//Value must be an OptionsConfig.
+			return !(value.optional && !value.default);
 		}).map(entry => {
 			const key = entry[0];
 			const value = entry[1];
