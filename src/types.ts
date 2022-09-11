@@ -173,6 +173,15 @@ export interface SimulationFrame extends PartialSimulationFrame {
 
 export type Fingerprint = string;
 
+export type OptionsConfigTypeInfo = {
+    //The name of the type, e.g. `DistributionOptions`
+    typeName: string,
+    //If set, a type with the name of name will be imported from the file (with an absolute path relative to root of project
+    //e.g. 'src/distribution.js'
+    //TODO: amke this optional when we support not imported ones.
+    import: string,
+}
+
 export type OptionsConfigMap = {
     [key : string] : OptionsConfig
 }
@@ -249,6 +258,8 @@ export type OptionsConfig = {
 	backfill? : boolean;
 	//Advanced options will only render UI if the user has enabled advanced mode. This is useful to hide infrequently needed options.
 	advanced? : boolean;
+    //typeInfo can be used to instruct `npm run generate:types` to not manually create a type but import it.
+    typeInfo? : OptionsConfigTypeInfo;
 };
 
 export type Filename = string;
