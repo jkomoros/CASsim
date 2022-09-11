@@ -1,4 +1,0 @@
-{
-    "displayName": "This is entirely here to make it so `npm run generate:types` can import a file. See #73.",
-    "type": "module"
-}
