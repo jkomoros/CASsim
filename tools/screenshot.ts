@@ -142,7 +142,7 @@ const CONFIG_DATA_FILE = 'data/default.json';
 
 const configForGif = (configData : RawSimulationConfig[], gifName : string) => {
 	for (const config of configData) {
-		const safeName = sanitizeSimulationName(config.name);
+		const safeName = sanitizeSimulationName(config.name || '');
 		if (safeName != gifName) continue;
 		const gifInfo : GifInfo = {};
 		const delay = config[FRAME_DELAY_PROPERTY];
@@ -216,10 +216,13 @@ const generateGifs = async (infos : {[name : string] : GifInfo}) => {
 			});
 		});
 
-		const normalDelay = info.delay;
-		const finalFrameDelay = info.delay * info.extraFinalFrameCount;
+		const normalDelay = info.delay || 0;
+		const finalFrameDelay = normalDelay * (info.extraFinalFrameCount || 0);
 
-		const encoder = new GIFEncoder(info.width, info.height);
+		const width = info.width || 0;
+		const height = info.height || 0;
+
+		const encoder = new GIFEncoder(width, height);
 		const stream = encoder.createReadStream().pipe(fs.createWriteStream(path.join(SCREENSHOT_DIR, gifName + '.gif')));
 		encoder.start();
 		//0 is repeat, -1 is no-repeat
