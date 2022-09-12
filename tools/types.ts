@@ -82,7 +82,7 @@ import {
 
 	let fileMain ='';
 
-	const simulatorNamesCamelCased = [];
+	const simulatorNamesCamelCased : string[] = [];
 
 	for (const file of files) {
 		if (!file.endsWith('.ts')) continue;
@@ -212,7 +212,7 @@ const extractOptionsConfigForSimulator = (simulatorName : string) : OptionsConfi
 
 	const baseFileContents = fs.readFileSync(filePath).toString();
 
-	const lines = [];
+	const lines : string[] = [];
 	let simulatorTypeName = '';
 	for (const line of baseFileContents.split('\n')) {
 		if (!line.includes('export default')) {
