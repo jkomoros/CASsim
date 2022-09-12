@@ -34,8 +34,9 @@
     "screenshots:png": "npx ts-node-esm tools/screenshot.ts png",
     "screenshots:gif": "npx ts-node-esm tools/screenshot.ts gif",
     "deploy": "npm run build && firebase deploy",
-    "test": "npm run test:options",
-    "test:options": "mocha -r esm test/options --timeout=10000"
+    "test": "npm run test:options && npm run test:type-generation",
+    "test:options": "mocha -r esm test/options --timeout=10000",
+    "test:type-generation": "mocha -r esm test/type-generation --timeout=1000"
   },
   "dependencies": {
     "@types/d3": "^7.4.0",
