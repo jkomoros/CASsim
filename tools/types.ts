@@ -129,6 +129,13 @@ const createSimulatorTypeFile = (simulatorName : string, config : OptionsConfig 
 	//Certain files are done by hand and should be skipped, e.g. schelling-org.
 	if (fs.existsSync(nonGeneratedFileName)) return;
 
+	const fileContents = simulatorTypeFileContents(simulatorName, config, fileName);
+
+	fs.writeFileSync(fileName, fileContents);
+};
+
+
+export const simulatorTypeFileContents = (simulatorName : string, config : OptionsConfig | OptionsConfigMap, fileName : string) => {
 	const prettySimulatorName = camelCaseSimulatorName(simulatorName);
 	const simOptionsName = prettySimulatorName + 'SimOptions';
 
@@ -147,11 +154,8 @@ const createSimulatorTypeFile = (simulatorName : string, config : OptionsConfig 
 
 	//NOTE: if this fileContents is not legal, then `npm run start` will barf... which will mean that
 	//future runs of `npm run generate:types` will be using old versions of the exported files.
-	const fileContents = GENERATED_COMMENT + (importsContent ? '\n\n' + importsContent : '') + '\n\nexport type ' + simOptionsName + ' = ' + mainType;
-
-	fs.writeFileSync(fileName, fileContents);
+	return GENERATED_COMMENT + (importsContent ? '\n\n' + importsContent : '') + '\n\nexport type ' + simOptionsName + ' = ' + mainType;
 };
-
 const indentInnerPiece = (input : string) : string => {
 	const pieces = input.split('\n');
 	if (pieces.length == 1) return input;
