@@ -7,7 +7,7 @@
       "declarationMap": true,
       "sourceMap": true,
       "inlineSources": true,
-      "rootDir": "./src",
+      "rootDir": ".",
       "noUnusedLocals": true,
       "useDefineForClassFields": false,
       "noUnusedParameters": true,
@@ -35,6 +35,5 @@
         }
       ]
     },
-    "include": ["src/**/*.ts"],
-    "exclude": ["tools/**/*.ts"]
+    "include": ["src/**/*.ts", "tools/**/*.ts"]
   }
