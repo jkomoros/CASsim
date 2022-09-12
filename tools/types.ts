@@ -172,7 +172,7 @@ const typeScriptTypeForMap = (configMap : OptionsConfigMap, imports : ImportsMap
 	return outputPieces.join('\n');
 };
 
-const typescriptTypeForOptionsConfig = (config : OptionsConfig | OptionsConfigMap, imports : ImportsMap) : string => {
+export const typescriptTypeForOptionsConfig = (config : OptionsConfig | OptionsConfigMap, imports : ImportsMap) : string => {
 	if (!configIsConfig(config)) {
 		//Is a config map
 		return typeScriptTypeForMap(config, imports);

@@ -1,16 +1,31 @@
 /*eslint-env node*/
 
 import {
-	isStep
-} from '../../src/util.js';
+	typescriptTypeForOptionsConfig
+} from '../../tools/types.js';
 
 import assert from 'assert';
 
 //TODO: replace with real tests
-describe('isStep', () => {
-	it('handles 1.0 / 1.0', async () => {
-		const result = isStep(1.0, 1.0);
-		const golden = true;
+describe('typescriptTypeForOptionsConfig', () => {
+	it('basic result', async () => {
+		const importsMap = {};
+		const input = {
+			foo: {
+				example: 3,
+				optional: true,
+			},
+			bar: {
+				example: true
+			}
+		};
+		const result = typescriptTypeForOptionsConfig(input, importsMap);
+		const golden = `{
+	foo?: number;
+	bar: boolean;
+};`;
+		const goldenImport = {};
 		assert.deepStrictEqual(result, golden);
+		assert.deepStrictEqual(importsMap, goldenImport);
 	});
 });
