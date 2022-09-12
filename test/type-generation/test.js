@@ -60,4 +60,31 @@ describe('typescriptTypeForOptionsConfig', () => {
 		assert.deepStrictEqual(result, golden);
 		assert.deepStrictEqual(importsMap, goldenImport);
 	});
+
+	it('basic result with import', async () => {
+		const importsMap = {};
+		const input = {
+			foo: {
+				example: 3,
+				optional: true,
+			},
+			bar: {
+				example: true,
+				typeInfo: {
+					typeName: 'DistributionOptions',
+					import: 'src/types.js'
+				}
+			}
+		};
+		const result = typescriptTypeForOptionsConfig(input, importsMap);
+		const golden = `{
+	foo?: number;
+	bar: DistributionOptions;
+};`;
+		const goldenImport = {
+			'DistributionOptions': 'src/types.js'
+		};
+		assert.deepStrictEqual(result, golden);
+		assert.deepStrictEqual(importsMap, goldenImport);
+	});
 });
