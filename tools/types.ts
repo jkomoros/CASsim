@@ -23,6 +23,12 @@ type SimpleTypeDefinition = baseTypeDefintion & {
 	type: 'simple';
 }
 
+type ImportTypeDefinition = baseTypeDefintion & {
+	value: string;
+	import: string;
+	type: 'import';
+}
+
 type MapTypeDefinition = baseTypeDefintion & {
 	value: {
 		[name : string]: TypeDefinition;
@@ -35,7 +41,7 @@ type ArrayTypeDefinition = baseTypeDefintion & {
 	type: 'array';
 }
 
-type TypeDefinition = SimpleTypeDefinition | MapTypeDefinition | ArrayTypeDefinition;
+type TypeDefinition = SimpleTypeDefinition | ImportTypeDefinition | MapTypeDefinition | ArrayTypeDefinition;
 
 const ensureGeneratedStubsExist = () : void => {
 	if (!fs.existsSync(TYPES_SIMULATOR_FILE)) {
@@ -159,15 +165,45 @@ const createSimulatorTypeFile = (simulatorName : string, config : OptionsConfig 
 	fs.writeFileSync(fileName, fileContents);
 };
 
+const combineImportsMap = (one :ImportsMap, two : ImportsMap) : ImportsMap => {
+	if (Object.keys(one).length == 0) return two;
+	if (Object.keys(two).length == 0) return one;
+	const result = {...one};
+	for (const [key, values] of Object.entries(two)) {
+		if (result[key]) {
+			for (const value of values) {
+				if (!result[key].some(val => val == value)) result[key].push(value);
+			}
+			continue;
+		}
+		result[key] = [...values];
+	}
+	return result;
+};
+
+const extractImportsMap = (definition : TypeDefinition) : ImportsMap => {
+	if (definition.type == 'simple') return {};
+	if (definition.type == 'array') return extractImportsMap(definition.value);
+	if (definition.type == 'map') {
+		let result : ImportsMap = {};
+		for (const value of Object.values(definition.value)) {
+			const newMap = extractImportsMap(value);
+			result = combineImportsMap(result, newMap);
+		}
+		return result;
+	}
+	return  {
+		[definition.import]: [definition.value]
+	};
+};
 
 export const simulatorTypeFileContents = (simulatorName : string, config : OptionsConfig | OptionsConfigMap, fileName : string) => {
 	const prettySimulatorName = camelCaseSimulatorName(simulatorName);
 	const simOptionsName = prettySimulatorName + 'SimOptions';
 
-	const imports : ImportsMap = {};
-	const mainType = typescriptTypeForOptionsConfig(config, imports);
+	const mainType = typescriptTypeForOptionsConfig(config);
 	const renderedType = renderTypeDefinition(mainType);
-
+	const imports = extractImportsMap(mainType);
 	const importsContent = Object.entries(imports).map((entry : [string, string[]]) : string => {
 		const names = entry[1];
 		const importString = entry[0];
@@ -185,6 +221,9 @@ export const simulatorTypeFileContents = (simulatorName : string, config : Optio
 
 const renderTypeDefinition = (definition : TypeDefinition, indent = '') : string => {
 	if (definition.type == 'simple') {
+		return definition.value + ';';
+	}
+	if (definition.type == 'import') {
 		return definition.value + ';';
 	}
 	if (definition.type == 'array') {
@@ -205,7 +244,7 @@ const renderTypeDefinition = (definition : TypeDefinition, indent = '') : string
 	return outputPieces.join('\n');
 };
 
-const typeScriptTypeForMap = (configMap : OptionsConfigMap, imports : ImportsMap, optional = false, description : string = undefined ) : TypeDefinition => {
+const typeScriptTypeForMap = (configMap : OptionsConfigMap, optional = false, description : string = undefined ) : TypeDefinition => {
 
 	const result : MapTypeDefinition = {
 		type: 'map',
@@ -215,7 +254,7 @@ const typeScriptTypeForMap = (configMap : OptionsConfigMap, imports : ImportsMap
 	};
 
 	for (const [key, subConfig] of Object.entries(configMap)) {
-		result.value[key] = typescriptTypeForOptionsConfig(subConfig, imports, subConfig.optional, subConfig.description);
+		result.value[key] = typescriptTypeForOptionsConfig(subConfig, subConfig.optional, subConfig.description);
 	}
 	return result;
 };
@@ -229,21 +268,20 @@ const simpleTypeDefinition = (value : string, optional = false, description : st
 	};
 };
 
-const typescriptTypeForOptionsConfig = (config : OptionsConfig | OptionsConfigMap, imports : ImportsMap, optional = false, description : string = undefined ) : TypeDefinition => {
+const typescriptTypeForOptionsConfig = (config : OptionsConfig | OptionsConfigMap, optional = false, description : string = undefined ) : TypeDefinition => {
 	if (!configIsConfig(config)) {
 		//Is a config map
-		return typeScriptTypeForMap(config, imports, optional, description);
+		return typeScriptTypeForMap(config, optional, description);
 	}
 	if (config.typeInfo) {
 		if (config.typeInfo.import) {
-			const current = imports[config.typeInfo.import];
-			if (current) {
-				if (!current.some(name => name == config.typeInfo.typeName)) {
-					current.push(config.typeInfo.typeName);
-				}
-			} else {
-				imports[config.typeInfo.import] = [config.typeInfo.typeName];
-			}
+			return {
+				type: 'import',
+				value: config.typeInfo.typeName,
+				import: config.typeInfo.import,
+				optional,
+				description
+			};
 		}
 		return simpleTypeDefinition(config.typeInfo.typeName, optional, description);
 	}
@@ -259,12 +297,12 @@ const typescriptTypeForOptionsConfig = (config : OptionsConfig | OptionsConfigMa
 	if (Array.isArray(example)) {
 		return {
 			type: 'array',
-			value: typescriptTypeForOptionsConfig(example[0], imports, example[0].optional, example[0].description),
+			value: typescriptTypeForOptionsConfig(example[0], example[0].optional, example[0].description),
 			optional,
 			description
 		};
 	}
-	return typeScriptTypeForMap(example, imports, optional, description);
+	return typeScriptTypeForMap(example, optional, description);
 };
 
 const extractOptionsConfigForSimulator = (simulatorName : string) : OptionsConfig => {
