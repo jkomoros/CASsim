@@ -260,7 +260,11 @@ const COMMAND_STUBS = 'stubs';
 (async() => {
 
 	//Only execute if running as main
-	if (!module.parent) return;
+	try {
+		if (!module.parent) return;
+	} catch (err) {
+		//expected for module to not be set when running as main
+	}
 
 	const args = Object.fromEntries(process.argv.slice(2).map(item => [item, true]));
 
