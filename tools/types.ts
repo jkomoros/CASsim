@@ -347,17 +347,15 @@ const extractOptionsConfigForSimulator = (simulatorName : string) : OptionsConfi
 };
 
 const COMMAND_STUBS = 'stubs';
+const COMMAND_FULL = 'full';
 
 (async() => {
 
-	//Only execute if running as main
-	try {
-		if (!module.parent) return;
-	} catch (err) {
-		//expected for module to not be set when running as main
-	}
-
 	const args = Object.fromEntries(process.argv.slice(2).map(item => [item, true]));
+
+	//This is kind of a hack, but this will help us note if we're running in a
+	//test context if these don't exist.
+	if (!args[COMMAND_STUBS] && !args[COMMAND_FULL]) return;
 
 	//If there are no .GENERATED. files, even stubs, then
 	//extractOptionsConfigForSimulator might fail because it will have invalid
