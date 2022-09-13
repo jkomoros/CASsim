@@ -259,6 +259,9 @@ const COMMAND_STUBS = 'stubs';
 
 (async() => {
 
+	//Only execute if running as main
+	if (!module.parent) return;
+
 	const args = Object.fromEntries(process.argv.slice(2).map(item => [item, true]));
 
 	//If there are no .GENERATED. files, even stubs, then
