@@ -187,6 +187,8 @@ export type OptionsConfigTypeInfoImport = OptionsConfigTypeInfoBase & {
 type OptionsConfigTypeInfoExtracted = OptionsConfigTypeInfoBase & {
     //If true, will be exported
     exported? : boolean;
+    //A list of other types it extends.
+    extends? : OptionsConfigTypeInfoImport[]
 }
 
 export type OptionsConfigTypeInfo = OptionsConfigTypeInfoImport | OptionsConfigTypeInfoExtracted;
