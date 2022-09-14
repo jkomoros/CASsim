@@ -179,6 +179,8 @@ export type OptionsConfigTypeInfo = {
     //If set, a type with the name of name will be imported from the file (with an absolute path relative to root of project
     //e.g. 'src/distribution.js' If not set, then it will define the type within the file.
     import?: string,
+    //If true, will be exported
+    exported? : boolean;
 }
 
 export type OptionsConfigMap = {

@@ -15,7 +15,7 @@ type ImportsMap = {[name: string]: string[]};
 
 type ExtractedTypeInfo = {
 	definition: TypeDefinition[]
-	//TODO: add exported
+	exported: boolean;
 }
 
 type ExtractedTypesMap = {[name : string]: ExtractedTypeInfo}
@@ -27,7 +27,8 @@ type baseTypeDefintion = {
 
 type ExtractedTypeDefinition = baseTypeDefintion & {
 	value: string;
-	definition: TypeDefinition,
+	definition: TypeDefinition;
+	exported: boolean;
 	type: 'extracted';
 }
 
@@ -218,7 +219,8 @@ const combineExtractedTypeInfo = (a : ExtractedTypeInfo, b : ExtractedTypeInfo) 
 	if (!a) return b;
 	if (!b) return a;
 	return {
-		definition: [...a.definition, ...b.definition]
+		definition: [...a.definition, ...b.definition],
+		exported: a.exported || b.exported
 	};
 };
 
@@ -238,7 +240,7 @@ const extractExtractedTypesMap = (definition : TypeDefinition) : ExtractedTypesM
 	if (definition.type == 'extracted') {
 		const subResults = extractExtractedTypesMap(definition.definition);
 		if (subResults[definition.value]) throw new Error('found duplicate type name in sub-type: ' + definition.value);
-		const newExtracedTypeInfo = combineExtractedTypeInfo(subResults[definition.value], {definition: [definition.definition]});
+		const newExtracedTypeInfo = combineExtractedTypeInfo(subResults[definition.value], {definition: [definition.definition], exported: definition.exported});
 		return {...subResults, [definition.value]: newExtracedTypeInfo};
 	}
 	const _exhaustiveCheck : never = definition;
@@ -267,7 +269,7 @@ export const simulatorTypeFileContents = (simulatorName : string, config : Optio
 		const name = entry[0];
 		const typeInfo = entry[1];
 		const renderedSubType = renderMultipleTypeDefinitions(typeInfo.definition);
-		return `type ${name} = ${renderedSubType}`;
+		return (typeInfo.exported ? 'export ' : '' ) + `type ${name} = ${renderedSubType}`;
 	}).join('\n\n');
 
 	//NOTE: if this fileContents is not legal, then `npm run start` will barf... which will mean that
@@ -359,6 +361,7 @@ const typescriptTypeForOptionsConfig = (config : OptionsConfig | OptionsConfigMa
 			type: 'extracted',
 			value: config.typeInfo.typeName,
 			definition: typescriptTypeForOptionsConfig(modifiedConfig),
+			exported: config.typeInfo.exported ? true : false,
 			optional,
 			description
 		};
