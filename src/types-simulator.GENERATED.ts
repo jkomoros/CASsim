@@ -21,7 +21,7 @@ import {
 
 import {
 	SchellingOrgSimOptions
-} from './simulators/types/schelling-org.js';
+} from './simulators/types/schelling-org.GENERATED.js';
 
 import {
 	StandingOvationSimOptions

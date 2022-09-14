@@ -604,6 +604,10 @@ class SchellingOrgSimulator extends BaseSimulator {
 		//When you modify this method, re-run `npm run generate` to update the types and schema checking
 		return {
 			display: {
+				typeInfo: {
+					typeName: 'DisplayValue',
+					exported: true
+				},
 				example: {
 					debug: {
 						example: true,
@@ -702,6 +706,10 @@ class SchellingOrgSimulator extends BaseSimulator {
 						example: COMMUNICATION_STRATEGY_RANDOM,
 						shortName: SHORT_NAMES.communicationStrategy || '',
 						description: 'The communication strategy the individual will use when deciding which project to communicate about',
+						typeInfo: {
+							typeName: 'CommunicationStrategy',
+							exported: true
+						},
 						options: [
 							{
 								value: COMMUNICATION_STRATEGY_RANDOM,
@@ -724,6 +732,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 						backfill: true,
 					},
 					randomIndividual: {
+						typeInfo: {
+							typeName: 'CollaboratorIndividualOptions'
+						},
 						example: {
 							beliefs: {
 								example: [
@@ -827,6 +838,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 						backfill: true,
 						example: [
 							{
+								typeInfo: {
+									typeName: 'CollaboratorIndividualOptions'
+								},
 								example: {
 									beliefs: {
 										example: [
@@ -967,6 +981,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 						description: "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number."
 					},
 					randomIndividual: {
+						typeInfo: {
+							typeName: 'ProjectIndividualOptions'
+						},
 						example: {
 							marked: {
 								example: false,
@@ -1017,6 +1034,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 					individuals: {
 						example: [
 							{
+								typeInfo: {
+									typeName: 'ProjectIndividualOptions'
+								},
 								example: {
 									marked: {
 										example: false,
@@ -1078,6 +1098,10 @@ class SchellingOrgSimulator extends BaseSimulator {
 				description: "Information on projects"
 			},
 			northStar: {
+				typeInfo: {
+					typeName: 'NorthStarOptions',
+					exported: true
+				},
 				example: {
 					emoji: {
 						example: DEFAULT_NORTH_STAR_EMOJI,

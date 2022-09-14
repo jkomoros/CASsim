@@ -280,8 +280,7 @@ regenerated often. Every time your simulator's optionsConfig may have changed
 In some cases your `SIMULATORSimOptions` type is complex, for example, it needs to have multiple
 sub-types that it also exports from `simulators/types/SIMUALATOR.ts`. In that case, just 
 manually create the `src/simulators/types/dashed-simulator-name.ts` file, and have it export
-`CameCasedSimulatorNameSimOptions` type, and the pipeline will skip generating one. You can
-see `schelling-org` for an example.
+`CameCasedSimulatorNameSimOptions` type, and the pipeline will skip generating one.
 
 When you modify a file in `data/*.json`, and if you've run `npm run generate` since the
 last time that one of hte optionsConfig changed, then you'll get schema-validation of the
