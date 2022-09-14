@@ -180,7 +180,7 @@ type OptionsConfigTypeInfoBase = {
 
 export type OptionsConfigTypeInfoImport = OptionsConfigTypeInfoBase & {
     //A type with the name of name will be imported from the file (with an absolute path relative to root of project
-    //e.g. 'src/distribution.js' If not set, then it will define the type within the file.
+    //e.g. 'src/distribution.js'
     import: string
 }
 
