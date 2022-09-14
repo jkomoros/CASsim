@@ -276,10 +276,144 @@ export const simulatorTypeFileContents = (simulatorName : string, config : Optio
 	return GENERATED_COMMENT + (importsContent ? '\n\n' + importsContent : '') + (extractedTypesContent ? '\n\n' + extractedTypesContent : '') + '\n\nexport type ' + simOptionsName + ' = ' + renderedType;
 };
 
+//Returns a TypeDefinition like definition, but where any descriptions are removed and optional is marked true
+//everywhere. This gives a canonical base type for purpose to comparing in renderMultipleTypeDefinitions.
+const makeTypeDefinitionOptionalNoTypeDefinition = (definition : TypeDefinition) : TypeDefinition => {
+	if (definition.type ==  'simple' || definition.type == 'import') {
+		if (definition.description || !definition.optional) {
+			return {
+				...definition, 
+				description : undefined, 
+				optional: true
+			};
+		}
+		return definition;
+	}
+	if (definition.type == 'array') {
+		const newValue = makeTypeDefinitionOptionalNoTypeDefinition(definition.value);
+		if (newValue != definition.value || definition.description || !definition.optional) {
+			return {
+				...definition, 
+				description: undefined, 
+				optional: true, 
+				value: newValue
+			};
+		}
+		return definition;
+	}
+	if (definition.type == 'map') {
+		const newValue : {[name : string] : TypeDefinition} = {};
+		let changesMade = false;
+		for (const [name, subDefinition] of Object.entries(definition.value)) {
+			const newSubDefinition = makeTypeDefinitionOptionalNoTypeDefinition(subDefinition);
+			if (newSubDefinition != subDefinition) changesMade = true;
+			newValue[name] = newSubDefinition;
+		}
+		if (changesMade || definition.description || !definition.optional) {
+			return {
+				...definition,
+				description: undefined,
+				optional: true,
+				value: newValue
+			};
+		}
+		return definition;
+	}
+	if (definition.type == 'extracted') {
+		const newDefinition = makeTypeDefinitionOptionalNoTypeDefinition(definition.definition);
+		if (newDefinition != definition.definition || definition.description || !definition.optional) {
+			return {
+				...definition, 
+				description: undefined, 
+				optional: true, 
+				definition: newDefinition
+			};
+		}
+		return definition;
+	}
+	const _exhaustiveCheck : never = definition;
+	return _exhaustiveCheck;
+};
+
+//Combines any typeDefinitions that are basically equivalent. Not to be confused
+//with the confusingly named mergeNearDuplicateTypeDefinitions, which takes a
+//subset known to be roughly equivalent.
+const combineNearDuplicateTypeDefinitions = (definitions : TypeDefinition[]) : TypeDefinition[] => {
+	const map : {[content : string] : TypeDefinition[]} = {};
+	for (const definition of definitions) {
+		const normalizedDefinition = makeTypeDefinitionOptionalNoTypeDefinition(definition);
+		const renderedType = renderTypeDefinition(normalizedDefinition);
+		if (map[renderedType]) {
+			map[renderedType].push(definition);
+		} else {
+			map[renderedType] = [definition];
+		}
+	}
+	return Object.values(map).map(definitions => mergeNearDuplicateTypeDefinitions(definitions));
+};
+
+const mergeNearDuplicateTypeDefinitions = (nearDuplicateDefinitions : TypeDefinition[]) : TypeDefinition => {
+	//nearDuplicateDefinitions should be ones that canonicalize to the same normalizedDefinition, as 
+	//idenfitied by combineNearDuplicateTypeDefinitions
+
+	//Handle the base cases
+	if (nearDuplicateDefinitions.length == 0) return null;
+	if (nearDuplicateDefinitions.length == 1) return nearDuplicateDefinitions[0];
+
+	//The type definitions are known to have effectively the same shape, modulo optional / description
+	const demoDefinition = nearDuplicateDefinitions[0];
+
+	//Even if there is no description for any and it gets set to 'undefined' that is fine
+	const description = nearDuplicateDefinitions.map(definition => definition.description || '').filter(description => description)[0];
+	const optional = nearDuplicateDefinitions.map(definition => definition.optional).some(optional => optional);
+
+	if (demoDefinition.type == 'simple' || demoDefinition.type == 'import') {
+		return {
+			...demoDefinition,
+			description,
+			optional
+		};
+	}
+
+	if (demoDefinition.type == 'array') {
+		return {
+			...demoDefinition,
+			value: mergeNearDuplicateTypeDefinitions(nearDuplicateDefinitions.map((definition : ArrayTypeDefinition) => definition.value)),
+			description,
+			optional
+		};
+	}
+
+	if (demoDefinition.type == 'map') {
+		const merged : {[name : string] : TypeDefinition} = {};
+		for (const name of Object.keys(demoDefinition.value)) {
+			merged[name] = mergeNearDuplicateTypeDefinitions(nearDuplicateDefinitions.map((definition : MapTypeDefinition) => definition.value[name]));
+		}
+		return {
+			...demoDefinition,
+			value: merged,
+			description,
+			optional
+		};
+	}
+
+	if (demoDefinition.type == 'extracted') {
+		return {
+			...demoDefinition,
+			definition: mergeNearDuplicateTypeDefinitions(nearDuplicateDefinitions.map((definition : ExtractedTypeDefinition) => definition.definition)),
+			description,
+			optional
+		};
+	}
+
+	const _exhaustiveCheck : never = demoDefinition;
+	return _exhaustiveCheck;
+};
+
 //Renders out multiple type definitions as a union, skipping any duplicate keys;
 const renderMultipleTypeDefinitions = (definitions : TypeDefinition[]) : string => {
 	const result : {[content : string] : true} = {};
-	for (const definition of definitions) {
+	for (const definition of combineNearDuplicateTypeDefinitions(definitions)) {
 		//Remember that renderedSubType will end in a ';'
 		const renderedSubType = renderTypeDefinition(definition);
 		if (result[renderedSubType]) continue;
