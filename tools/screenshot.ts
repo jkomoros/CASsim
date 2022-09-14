@@ -13,10 +13,6 @@ import { promisify } from 'util';
 import {imageSize } from 'image-size';
 const sizeOf = promisify(imageSize);
 
-import {
-	RawSimulationConfig
-} from "../src/types-simulator.GENERATED.js";
-
 const SCREENSHOT_DIR = 'screenshots';
 
 //rendevous point with screenshot service.
@@ -35,9 +31,7 @@ import {
 	DEFAULT_EXTRA_FINAL_FRAME_COUNT,
 	DEFAULT_REPEAT
 } from '../src/constants.js';
-
-//Duplicated in config.js
-const CONFIGS_PROPERTY_NAME = 'configs';
+import { PackedRawSimulationConfig, PackedRawSimulationConfigItem } from "../src/types.js";
 
 const clearScreenshotsDir = () => {
 	if (fs.existsSync(SCREENSHOT_DIR)) {
@@ -140,7 +134,7 @@ const DEFAULT_GIF_CONFIG : GifInfo = {
 //TODO: allow specifying a different file
 const CONFIG_DATA_FILE = 'data/default.json';
 
-const configForGif = (configData : RawSimulationConfig[], gifName : string) => {
+const configForGif = (configData : PackedRawSimulationConfigItem[], gifName : string) => {
 	for (const config of configData) {
 		const safeName = sanitizeSimulationName(config.name || '');
 		if (safeName != gifName) continue;
@@ -184,8 +178,8 @@ const gifInfos = async () => {
 		delete result[name];
 	}
 	const rawConfigData = fs.readFileSync(CONFIG_DATA_FILE).toString();
-	const configData = JSON.parse(rawConfigData);
-	const configs = configData[CONFIGS_PROPERTY_NAME];
+	const configData : PackedRawSimulationConfig = JSON.parse(rawConfigData);
+	const configs = configData.configs;
 	for (const name of Object.keys(result)) {
 		result[name] = {...result[name], ...configForGif(configs, name)};
 	}
