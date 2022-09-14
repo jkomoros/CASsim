@@ -257,34 +257,6 @@
       },
       "type": "object"
     },
-    "OptionValue": {
-      "anyOf": [
-        {
-          "type": "number"
-        },
-        {
-          "type": "boolean"
-        },
-        {
-          "type": "string"
-        },
-        {
-          "items": {
-            "$ref": "#/definitions/OptionValue"
-          },
-          "type": "array"
-        },
-        {
-          "$ref": "#/definitions/OptionValueMap"
-        }
-      ]
-    },
-    "OptionValueMap": {
-      "additionalProperties": {
-        "$ref": "#/definitions/OptionValue"
-      },
-      "type": "object"
-    },
     "PackedRawSimulationConfig": {
       "additionalProperties": false,
       "properties": {
@@ -1129,9 +1101,7 @@
       "type": "string"
     },
     "SchellingOrgSimOptions": {
-      "additionalProperties": {
-        "$ref": "#/definitions/OptionValue"
-      },
+      "additionalProperties": false,
       "properties": {
         "collaborators": {
           "additionalProperties": false,
@@ -1179,7 +1149,13 @@
                         "type": "number"
                       },
                       "communicationStrategy": {
-                        "$ref": "#/definitions/CommunicationStrategy"
+                        "enum": [
+                          "random",
+                          "min",
+                          "max",
+                          "disagreement"
+                        ],
+                        "type": "string"
                       },
                       "compelling": {
                         "type": "number"
@@ -1228,7 +1204,13 @@
                   "type": "number"
                 },
                 "communicationStrategy": {
-                  "$ref": "#/definitions/CommunicationStrategy"
+                  "enum": [
+                    "random",
+                    "min",
+                    "max",
+                    "disagreement"
+                  ],
+                  "type": "string"
                 },
                 "compelling": {
                   "type": "number"
