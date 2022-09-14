@@ -173,15 +173,23 @@ export interface SimulationFrame extends PartialSimulationFrame {
 
 export type Fingerprint = string;
 
-export type OptionsConfigTypeInfo = {
+type OptionsConfigTypeInfoBase = {
     //The name of the type, e.g. `DistributionOptions`
-    typeName: string,
-    //If set, a type with the name of name will be imported from the file (with an absolute path relative to root of project
+    typeName: string
+}
+
+export type OptionsConfigTypeInfoImport = OptionsConfigTypeInfoBase & {
+    //A type with the name of name will be imported from the file (with an absolute path relative to root of project
     //e.g. 'src/distribution.js' If not set, then it will define the type within the file.
-    import?: string,
+    import: string
+}
+
+type OptionsConfigTypeInfoExtracted = OptionsConfigTypeInfoBase & {
     //If true, will be exported
     exported? : boolean;
 }
+
+export type OptionsConfigTypeInfo = OptionsConfigTypeInfoImport | OptionsConfigTypeInfoExtracted;
 
 export type OptionsConfigMap = {
     [key : string] : OptionsConfig

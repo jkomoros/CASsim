@@ -1,8 +1,13 @@
 import * as fs from "fs";
 import * as path from "path";
 import { execSync } from "child_process";
-import { OptionsConfig, OptionsConfigMap } from "../src/types.js";
 import { configIsConfig } from "../src/options.js";
+import {
+	OptionsConfig,
+	OptionsConfigMap,
+	OptionsConfigTypeInfo,
+	OptionsConfigTypeInfoImport
+} from "../src/types.js";
 
 const SIMULATORS_DIR = 'src/simulators';
 const TYPES_DIR = path.join(SIMULATORS_DIR, 'types');
@@ -57,6 +62,10 @@ type ArrayTypeDefinition = baseTypeDefintion & {
 }
 
 type TypeDefinition = SimpleTypeDefinition | ImportTypeDefinition | MapTypeDefinition | ArrayTypeDefinition | ExtractedTypeDefinition;
+
+const typeInfoIsImported = (typeInfo : OptionsConfigTypeInfo) : typeInfo is OptionsConfigTypeInfoImport => {
+	return 'import' in typeInfo;
+};
 
 const ensureGeneratedStubsExist = () : void => {
 	if (!fs.existsSync(TYPES_SIMULATOR_FILE)) {
@@ -472,7 +481,7 @@ const typescriptTypeForOptionsConfig = (config : OptionsConfig | OptionsConfigMa
 		return typeScriptTypeForMap(config, optional, description);
 	}
 	if (config.typeInfo) {
-		if (config.typeInfo.import) {
+		if (typeInfoIsImported(config.typeInfo)) {
 			return {
 				type: 'import',
 				value: config.typeInfo.typeName,
