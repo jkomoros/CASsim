@@ -203,9 +203,13 @@ const extractImportsMap = (definition : TypeDefinition) : ImportsMap => {
 		}
 		return result;
 	}
-	return  {
-		[definition.import]: [definition.value]
-	};
+	if (definition.type == 'import') {
+		return  {
+			[definition.import]: [definition.value]
+		};
+	}
+	const _exhaustiveCheck : never = definition;
+	return _exhaustiveCheck;
 };
 
 const extractExtractedTypesMap = (definition : TypeDefinition) : ExtractedTypesMap => {
@@ -227,7 +231,8 @@ const extractExtractedTypesMap = (definition : TypeDefinition) : ExtractedTypesM
 		if (subResults[definition.value]) throw new Error('found duplicate type name in sub-type: ' + definition.value);
 		return {...subResults, [definition.value]: definition};
 	}
-	return null;
+	const _exhaustiveCheck : never = definition;
+	return _exhaustiveCheck;
 };
 
 export const simulatorTypeFileContents = (simulatorName : string, config : OptionsConfig | OptionsConfigMap, fileName : string) => {
@@ -271,15 +276,19 @@ const renderTypeDefinition = (definition : TypeDefinition, indent = '') : string
 		if (definition.value.optional) return '(' + subDefinition + ' | null)[];';
 		return subDefinition + '[];';
 	}
-	const outputPieces = ['{'];
-	for (const [key, subConfig] of Object.entries(definition.value)) {
-		const extraIndent = indent + '\t';
-		if (subConfig.description) outputPieces.push(extraIndent + '//' + subConfig.description);
-		const piece = extraIndent + key + (subConfig.optional ? '?' : '') + ': ' + renderTypeDefinition(subConfig, extraIndent);
-		outputPieces.push(piece);
+	if (definition.type == 'map') {
+		const outputPieces = ['{'];
+		for (const [key, subConfig] of Object.entries(definition.value)) {
+			const extraIndent = indent + '\t';
+			if (subConfig.description) outputPieces.push(extraIndent + '//' + subConfig.description);
+			const piece = extraIndent + key + (subConfig.optional ? '?' : '') + ': ' + renderTypeDefinition(subConfig, extraIndent);
+			outputPieces.push(piece);
+		}
+		outputPieces.push(indent + '};');
+		return outputPieces.join('\n');
 	}
-	outputPieces.push(indent + '};');
-	return outputPieces.join('\n');
+	const _exhaustiveCheck : never = definition;
+	return _exhaustiveCheck;
 };
 
 const typeScriptTypeForMap = (configMap : OptionsConfigMap, optional = false, description : string = undefined ) : TypeDefinition => {
