@@ -59,20 +59,21 @@ import {
 	selectHashForCurrentState,
 } from "../selectors.js";
 
+import {
+	CURRENT_SIMULATION_INDEX_VARIABLE,
+	CURRENT_RUN_INDEX_VARIABLE,
+	CURRENT_FRAME_INDEX_VARIABLE,
+	CURRENT_SIMULATION_NAME_VARIABLE,
+	SETUP_METHOD_VARIABLE,
+	PREVIOUS_FRAME_METHOD_VARIABLE,
+	RENDER_COMPLETE_VARIABLE
+} from '../constants.js';
+
 // We are lazy loading its reducer.
 import data from "../reducers/data.js";
 store.addReducers({
 	data
 });
-
-//rendevous point with screenshot service. Duplicated in screenshot.js
-const CURRENT_SIMULATION_INDEX_VARIABLE = 'current_simulation_index';
-const CURRENT_RUN_INDEX_VARIABLE = 'current_run_index';
-const CURRENT_FRAME_INDEX_VARIABLE = 'current_frame_index';
-const CURRENT_SIMULATION_NAME_VARIABLE = 'current_simulation_name';
-const SETUP_METHOD_VARIABLE = 'setup_method';
-const PREVIOUS_FRAME_METHOD_VARIABLE = 'previous_frame';
-const RENDER_COMPLETE_VARIABLE = 'render_complete';
 
 declare global {
 	interface Window {
