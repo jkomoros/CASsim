@@ -52,10 +52,12 @@ import {
 	BaseSimulator
 } from './simulator.js';
 
-//Also duplicated into screenshot.js
-const DEFAULT_FRAME_DELAY = 100;
-const DEFAULT_EXTRA_FINAL_FRAME_COUNT = 0;
-const DEFAULT_REPEAT = false;
+import {
+	DEFAULT_FRAME_DELAY,
+	DEFAULT_EXTRA_FINAL_FRAME_COUNT,
+	DEFAULT_REPEAT
+} from './constants.js';
+
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 450;
 const DEFAULT_RUNS = 10;

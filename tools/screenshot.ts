@@ -30,13 +30,11 @@ import {
 	RENDER_COMPLETE_VARIABLE
 } from '../src/constants.js';
 
-//Duplicated in simulations.js
-const REPEAT_PROPERTY = 'repeat';
-const FRAME_DELAY_PROPERTY = 'frameDelay';
-const EXTRA_FINAL_FRAME_COUNT_PROPERTY = 'extraFinalFrameCount';
-const DEFAULT_FRAME_DELAY = 100;
-const DEFAULT_EXTRA_FINAL_FRAME_COUNT = 0;
-const DEFAULT_REPEAT = false;
+import {
+	DEFAULT_FRAME_DELAY,
+	DEFAULT_EXTRA_FINAL_FRAME_COUNT,
+	DEFAULT_REPEAT
+} from '../src/constants.js';
 
 //Duplicated in config.js
 const CONFIGS_PROPERTY_NAME = 'configs';
@@ -147,11 +145,11 @@ const configForGif = (configData : RawSimulationConfig[], gifName : string) => {
 		const safeName = sanitizeSimulationName(config.name || '');
 		if (safeName != gifName) continue;
 		const gifInfo : GifInfo = {};
-		const delay = config[FRAME_DELAY_PROPERTY];
+		const delay = config.frameDelay;
 		if (delay != undefined) gifInfo.delay = delay;
-		const extraFinalFrameCount = config[EXTRA_FINAL_FRAME_COUNT_PROPERTY];
+		const extraFinalFrameCount = config.extraFinalFrameCount;
 		if (extraFinalFrameCount != undefined) gifInfo.extraFinalFrameCount = extraFinalFrameCount;
-		const repeat = config[REPEAT_PROPERTY];
+		const repeat = config.repeat;
 		if (repeat != undefined) gifInfo.repeat = repeat;
 		return {...DEFAULT_GIF_CONFIG, ...gifInfo};
 	}
