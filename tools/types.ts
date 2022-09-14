@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { execSync } from "child_process";
 import { OptionsConfig, OptionsConfigMap } from "../src/types.js";
+import { configIsConfig } from "../src/options.js";
 
 const SIMULATORS_DIR = 'src/simulators';
 const TYPES_DIR = path.join(SIMULATORS_DIR, 'types');
@@ -159,13 +160,6 @@ type ${simulatorNameCamelCased}RawSimulationConfig = (RawSimulationConfigBase & 
 
 const camelCaseSimulatorName = (simulatorName : string) : string => {
 	return simulatorName.split('-').map(piece => piece[0].toUpperCase() + piece.slice(1)).join('');
-};
-
-const EXAMPLE_PROPERTY_NAME = 'example';
-
-//reimplemented from src/options.ts
-export const configIsConfig = (config : OptionsConfig | OptionsConfigMap) : config is OptionsConfig => {
-	return typeof config == 'object' && !Array.isArray(config) && config[EXAMPLE_PROPERTY_NAME] != undefined;
 };
 
 const createSimulatorTypeFile = (simulatorName : string, config : OptionsConfig | OptionsConfigMap) => {
