@@ -229,7 +229,7 @@ const extractExtractedTypesMap = (definition : TypeDefinition) : ExtractedTypesM
 	if (definition.type == 'extracted') {
 		const subResults = extractExtractedTypesMap(definition.definition);
 		if (subResults[definition.value]) throw new Error('found duplicate type name in sub-type: ' + definition.value);
-		return {...subResults, [definition.value]: definition};
+		return {...subResults, [definition.value]: {definition: definition.definition}};
 	}
 	const _exhaustiveCheck : never = definition;
 	return _exhaustiveCheck;
