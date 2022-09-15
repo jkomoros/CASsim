@@ -30,7 +30,13 @@
             "no-unknown-event": "error"
           },
           "globalEvents": [
-            "toggle"
+            "toggle",
+            "dialog-should-close",
+            "undo-clicked",
+            "option-changed",
+            "run-clicked",
+            "path-toggled",
+            "open-dialog"
           ]
         }
       ]
