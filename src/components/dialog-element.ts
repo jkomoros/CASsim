@@ -29,15 +29,20 @@ export class DialogElement extends LitElement {
 	static override get styles() {
 		return [
 			css`
-			:host {
-				position:absolute;
-				height:100%;
-				width:100%;
-				top:0;
-				left:0;
+			.container {
+				position: absolute;
+				height: 100%;
+				width: 100%;
+				top: 0;
+				left: 0;
 				/* Note that card-preview has a z-index higher than this to
 				show up above it */
-				z-index:1000;
+				z-index: 1000;
+				display: none;
+			}
+
+			.container.open {
+				display: block;
 			}
 
 			.background {
@@ -103,18 +108,14 @@ export class DialogElement extends LitElement {
 
 	override render() : TemplateResult {
 		return html`
-			<style>
-				:host {
-					/* TODO: this is a hack to get it to override the static styles block */
-					display: ${this.open ? 'block' : 'none'} !important;
-				}
-			</style>
-			<div class='background ${this.mobile ? 'mobile': ''}' @click=${this._handleBackgroundClicked}>
-				<div class='content'>
-					<button class='small' id='close' @click=${this.cancel}>${CANCEL_ICON}</button>
-					<h2>${this.title || ''}</h2>
-					<div id='inner'>
-					${this.innerRender()}
+			<div class='container ${this.open ? 'open' : 'closed'}'>
+				<div class='background ${this.mobile ? 'mobile': ''}' @click=${this._handleBackgroundClicked}>
+					<div class='content'>
+						<button class='small' id='close' @click=${this.cancel}>${CANCEL_ICON}</button>
+						<h2>${this.title || ''}</h2>
+						<div id='inner'>
+						${this.innerRender()}
+						</div>
 					</div>
 				</div>
 			</div>
