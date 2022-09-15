@@ -57,7 +57,7 @@ export class DialogElement extends LitElement {
 				background-color:white;
 				padding:1em;
 				box-sizing: border-box;
-				box-shadow: var(--card-shadow);
+				box-shadow: 0 2px 6px #CCC;
 				position:relative;
 				display:flex;
 				flex-direction:column;
