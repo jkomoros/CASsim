@@ -5,61 +5,61 @@ import {
 } from '../../types.js';
 
 export type LuckSurfaceAreaSimOptions = {
-	//Configuration related to agents
+	/** Configuration related to agents */
 	agents?: {
-		//The number of agents
+		/** The number of agents */
 		count?: number;
-		//How much value cost an agent takes per time step
+		/** How much value cost an agent takes per time step */
 		cost?: DistributionOptions;
-		//The starter strength of agents that start at the beginning
+		/** The starter strength of agents that start at the beginning */
 		starterStrength?: DistributionOptions;
-		//The starter value of agents that start at the beginning
+		/** The starter value of agents that start at the beginning */
 		starterValue?: DistributionOptions;
 	};
-	//The number of rounds
+	/** The number of rounds */
 	rounds?: number;
-	//The opportunities to show up in the graph
+	/** The opportunities to show up in the graph */
 	opportunities?: {
-		//Properties related to how value shows up in the graph
+		/** Properties related to how value shows up in the graph */
 		value?: {
-			//In each time tick, the likelihood that a random node is 
+			/** In each time tick, the likelihood that a random node is  */
 			likelihood?: number;
-			//On each frame tick, what multiplier we should use to get the new node value
+			/** On each frame tick, what multiplier we should use to get the new node value */
 			falloff?: number;
 		};
-		//The static structure of the opportunity graph
+		/** The static structure of the opportunity graph */
 		structure?: {
-			//The type of graph to use
+			/** The type of graph to use */
 			graphType?: 'BloomGraph' | 'PreferentialAttachmentGraph';
-			//how many layers from default node to go to
+			/** how many layers from default node to go to */
 			levels?: number;
-			//how many children each child should have
+			/** how many children each child should have */
 			childCount?: number;
-			//at each level, the final childCount is childCount * Math.pow(childFactor, level)
+			/** at each level, the final childCount is childCount * Math.pow(childFactor, level) */
 			childFactor?: number;
-			//How likely the children of each parent node are to have connections amongst themselves. 1.0 is all connected, 0.0 is no connections.
+			/** How likely the children of each parent node are to have connections amongst themselves. 1.0 is all connected, 0.0 is no connections. */
 			childLinkLikelihood?: number;
-			//The smallest rendered nodeSize in pixels
+			/** The smallest rendered nodeSize in pixels */
 			minNodeSize?: number;
-			//The largest rendered nodeSize in pixels
+			/** The largest rendered nodeSize in pixels */
 			maxNodeSize?: number;
-			//The percentage size of nodes to start
+			/** The percentage size of nodes to start */
 			nodeSize?: DistributionOptions;
-			//How much space should be left between this node and other nodes, in units of percentage of this node's size
+			/** How much space should be left between this node and other nodes, in units of percentage of this node's size */
 			nodeMargin?: number;
-			// If true then there will be no collison forces
+			/**  If true then there will be no collison forces */
 			noCollide?: boolean;
-			//How likely two random children in the parent are to have an extra connection amongst themselves. 0.0 is no connections, 1.0 is all connections.
+			/** How likely two random children in the parent are to have an extra connection amongst themselves. 0.0 is no connections, 1.0 is all connections. */
 			randomLinkLikelihood?: number;
-			//How many nodes to create
+			/** How many nodes to create */
 			nodeCount?: number;
-			//How many iterations of adding edges we should do
+			/** How many iterations of adding edges we should do */
 			iterations?: number;
-			//How much to boost every node when choosing which one to add. Higher numbers make the preferential attachment effect weaker.
+			/** How much to boost every node when choosing which one to add. Higher numbers make the preferential attachment effect weaker. */
 			nodeBoost?: number;
-			//How much to boost every node when choosing which one to add. Higher numbers make the preferential attachment effect weaker.
+			/** How much to boost every node when choosing which one to add. Higher numbers make the preferential attachment effect weaker. */
 			distantNodeBoost?: number;
-			//How many edges, on each iteration, we should add
+			/** How many edges, on each iteration, we should add */
 			edgeCount?: number;
 		};
 	};

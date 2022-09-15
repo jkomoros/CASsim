@@ -36,12 +36,15 @@
       "additionalProperties": false,
       "properties": {
         "bust": {
+          "description": "The die number that, if it comes up, will bust",
           "type": "number"
         },
         "die": {
+          "description": "The maximum number on the die face",
           "type": "number"
         },
         "targetScore": {
+          "description": "The score we try to hit to win",
           "type": "number"
         }
       },
@@ -51,12 +54,15 @@
       "additionalProperties": false,
       "properties": {
         "debug": {
+          "description": "If true, then the SVG will render debug information",
           "type": "boolean"
         },
         "disableBeliefs": {
+          "description": "If true, then each individuals' beliefs about the value of a project will be rendered as a tick mark",
           "type": "boolean"
         },
         "disableSelection": {
+          "description": "If true, then the line connecting each collaborator to the project they pick won't be rendered",
           "type": "boolean"
         }
       },
@@ -124,44 +130,57 @@
       "properties": {
         "agents": {
           "additionalProperties": false,
+          "description": "Configuration related to agents",
           "properties": {
             "cost": {
-              "$ref": "#/definitions/DistributionOptions"
+              "$ref": "#/definitions/DistributionOptions",
+              "description": "How much value cost an agent takes per time step"
             },
             "count": {
+              "description": "The number of agents",
               "type": "number"
             },
             "starterStrength": {
-              "$ref": "#/definitions/DistributionOptions"
+              "$ref": "#/definitions/DistributionOptions",
+              "description": "The starter strength of agents that start at the beginning"
             },
             "starterValue": {
-              "$ref": "#/definitions/DistributionOptions"
+              "$ref": "#/definitions/DistributionOptions",
+              "description": "The starter value of agents that start at the beginning"
             }
           },
           "type": "object"
         },
         "opportunities": {
           "additionalProperties": false,
+          "description": "The opportunities to show up in the graph",
           "properties": {
             "structure": {
               "additionalProperties": false,
+              "description": "The static structure of the opportunity graph",
               "properties": {
                 "childCount": {
+                  "description": "how many children each child should have",
                   "type": "number"
                 },
                 "childFactor": {
+                  "description": "at each level, the final childCount is childCount * Math.pow(childFactor, level)",
                   "type": "number"
                 },
                 "childLinkLikelihood": {
+                  "description": "How likely the children of each parent node are to have connections amongst themselves. 1.0 is all connected, 0.0 is no connections.",
                   "type": "number"
                 },
                 "distantNodeBoost": {
+                  "description": "How much to boost every node when choosing which one to add. Higher numbers make the preferential attachment effect weaker.",
                   "type": "number"
                 },
                 "edgeCount": {
+                  "description": "How many edges, on each iteration, we should add",
                   "type": "number"
                 },
                 "graphType": {
+                  "description": "The type of graph to use",
                   "enum": [
                     "BloomGraph",
                     "PreferentialAttachmentGraph"
@@ -169,33 +188,43 @@
                   "type": "string"
                 },
                 "iterations": {
+                  "description": "How many iterations of adding edges we should do",
                   "type": "number"
                 },
                 "levels": {
+                  "description": "how many layers from default node to go to",
                   "type": "number"
                 },
                 "maxNodeSize": {
+                  "description": "The largest rendered nodeSize in pixels",
                   "type": "number"
                 },
                 "minNodeSize": {
+                  "description": "The smallest rendered nodeSize in pixels",
                   "type": "number"
                 },
                 "noCollide": {
+                  "description": "If true then there will be no collison forces",
                   "type": "boolean"
                 },
                 "nodeBoost": {
+                  "description": "How much to boost every node when choosing which one to add. Higher numbers make the preferential attachment effect weaker.",
                   "type": "number"
                 },
                 "nodeCount": {
+                  "description": "How many nodes to create",
                   "type": "number"
                 },
                 "nodeMargin": {
+                  "description": "How much space should be left between this node and other nodes, in units of percentage of this node's size",
                   "type": "number"
                 },
                 "nodeSize": {
-                  "$ref": "#/definitions/DistributionOptions"
+                  "$ref": "#/definitions/DistributionOptions",
+                  "description": "The percentage size of nodes to start"
                 },
                 "randomLinkLikelihood": {
+                  "description": "How likely two random children in the parent are to have an extra connection amongst themselves. 0.0 is no connections, 1.0 is all connections.",
                   "type": "number"
                 }
               },
@@ -203,11 +232,14 @@
             },
             "value": {
               "additionalProperties": false,
+              "description": "Properties related to how value shows up in the graph",
               "properties": {
                 "falloff": {
+                  "description": "On each frame tick, what multiplier we should use to get the new node value",
                   "type": "number"
                 },
                 "likelihood": {
+                  "description": "In each time tick, the likelihood that a random node is",
                   "type": "number"
                 }
               },
@@ -217,6 +249,7 @@
           "type": "object"
         },
         "rounds": {
+          "description": "The number of rounds",
           "type": "number"
         }
       },
@@ -226,18 +259,23 @@
       "additionalProperties": false,
       "properties": {
         "believability": {
+          "description": "The proportion of collaborators who will believe in this north star (will have their believes set to true).",
           "type": "number"
         },
         "emoji": {
+          "description": "The emoji to render for the north star",
           "type": "string"
         },
         "maxOffset": {
+          "description": "The highest random offset to choose if offsetType is randomly selected",
           "type": "number"
         },
         "minOffset": {
+          "description": "The lowest random offset to choose if offsetType is randomly selected",
           "type": "number"
         },
         "offset": {
+          "description": "How far from fully at left to fully at right is the northstar? This value will be used directly if offsetType is manual, otherwise it will be set implicitly.",
           "type": "number"
         },
         "offsetType": {
@@ -249,9 +287,11 @@
           "type": "string"
         },
         "spread": {
+          "description": "How wide is the positive effect of the northstar affect (trading off linearly from the offset position to plus or minus by this amount)",
           "type": "number"
         },
         "strength": {
+          "description": "How strong is the north star effect?",
           "type": "number"
         }
       },
@@ -290,24 +330,31 @@
       "additionalProperties": false,
       "properties": {
         "agents": {
+          "description": "The number of agents",
           "type": "number"
         },
         "cols": {
+          "description": "Number of cols in the map",
           "type": "number"
         },
         "deathLikelihood": {
+          "description": "On each frame, how likely a given agent is to die.",
           "type": "number"
         },
         "growthRate": {
+          "description": "How quickly value grows in each cell",
           "type": "number"
         },
         "rounds": {
+          "description": "The number of rounds",
           "type": "number"
         },
         "rows": {
+          "description": "Number of rows in the map",
           "type": "number"
         },
         "spawnLikelihood": {
+          "description": "On each frame, how likely a given agent is to spawn a child",
           "type": "number"
         }
       },
@@ -1105,50 +1152,64 @@
       "properties": {
         "collaborators": {
           "additionalProperties": false,
+          "description": "Information on the collaborators",
           "properties": {
             "avgConnectionLikelihood": {
+              "description": "We compute a range of possible connection likelihoods based on [avgConnectionLikelihood - connectionLikelihoodSpread, avgConnectionLikelihood + connectionLikelihoodSpread] Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength.",
               "type": "number"
             },
             "broadcastLikelihood": {
+              "description": "For each time a speaker is selected to present, how likely are they are they to broadcast to multiple people, with any individual with a connection equal to or stronger than the selected connection is communicated with at once?",
               "type": "number"
             },
             "communicationStrategy": {
-              "$ref": "#/definitions/CommunicationStrategy"
+              "$ref": "#/definitions/CommunicationStrategy",
+              "description": "The communication strategy the individual will use when deciding which project to communicate about"
             },
             "compelling": {
+              "description": "When each individual speaks to another, how much does the receiver update their beliefs, between their old belief and new belief? 0.5 would be moving halfway from old belief to new belief",
               "type": "number"
             },
             "connectionLikelihoodSpread": {
+              "description": "We compute a range of possible connection likelihoods based on [avgConnectionLikelihood - connectionLikelihoodSpread, avgConnectionLikelihood + connectionLikelihoodSpread] Numbers below 0.0 or 1.0 will be clipped, which is a convenient way of making a lot of them drop out or be maximum strength.",
               "type": "number"
             },
             "count": {
+              "description": "How many collaborators there should be",
               "type": "number"
             },
             "epsilon": {
+              "description": "Project values within this amount of each other will be considered to be the same",
               "type": "number"
             },
             "individuals": {
+              "description": "individuals is set to override the computed individuals with the given properties. null values will be ignored, and keys not in the override will be left in place.",
               "items": {
                 "anyOf": [
                   {
                     "additionalProperties": false,
                     "properties": {
                       "avgConnectionLikelihood": {
+                        "description": "avgConnectionLikelihood for this individual",
                         "type": "number"
                       },
                       "beliefs": {
+                        "description": "The starter beliefs of this individual of the values of projects. Must be an array of the same length as number of projects",
                         "items": {
                           "type": "number"
                         },
                         "type": "array"
                       },
                       "believes": {
+                        "description": "Whether this person believes in the north star or not. If they don't believe then they will not be influenced by the effect.",
                         "type": "boolean"
                       },
                       "broadcastLikelihood": {
+                        "description": "For each time a speaker is selected to present, how likely are they are they to broadcast to multiple people, with any individual with a connection equal to or stronger than the selected connection is communicated with at once?",
                         "type": "number"
                       },
                       "communicationStrategy": {
+                        "description": "The communication strategy the individual will use when deciding which project to communicate about",
                         "enum": [
                           "random",
                           "min",
@@ -1158,18 +1219,23 @@
                         "type": "string"
                       },
                       "compelling": {
+                        "description": "When this person speaks to another person, how much does the receiver update their beliefs? 0.5 means the receiver would move their belief to be halfway between their previous belief and the speaker's belief",
                         "type": "number"
                       },
                       "connectionLikelihoodSpread": {
+                        "description": "connectionLikelihoodSpread for this individual",
                         "type": "number"
                       },
                       "emoji": {
+                        "description": "The specific emoji",
                         "type": "string"
                       },
                       "epsilon": {
+                        "description": "The epsilon for this specific individual",
                         "type": "number"
                       },
                       "optimism": {
+                        "description": "How optimistic or pessimistic the individual is. 1.0 is extremely optimistic--every value will be at the top of the possible range. 0.0 is extremely pessimistic--every value will be at the bottom of the possible range.",
                         "type": "number"
                       }
                     },
@@ -1183,27 +1249,34 @@
               "type": "array"
             },
             "optimism": {
+              "description": "How optimistic or pessimistic the individual is. 1.0 is extremely optimistic--every value will be at the top of the possible range. 0.0 is extremely pessimistic--every value will be at the bottom of the possible range.",
               "type": "number"
             },
             "randomIndividual": {
               "additionalProperties": false,
+              "description": "If set, then the individuals array will be set so that a random individual has this configuration provided",
               "properties": {
                 "avgConnectionLikelihood": {
+                  "description": "avgConnectionLikelihood for this individual",
                   "type": "number"
                 },
                 "beliefs": {
+                  "description": "The starter beliefs of this individual of the values of projects. Must be an array of the same length as number of projects",
                   "items": {
                     "type": "number"
                   },
                   "type": "array"
                 },
                 "believes": {
+                  "description": "Whether this person believes in the north star or not. If they don't believe then they will not be influenced by the effect.",
                   "type": "boolean"
                 },
                 "broadcastLikelihood": {
+                  "description": "For each time a speaker is selected to present, how likely are they are they to broadcast to multiple people, with any individual with a connection equal to or stronger than the selected connection is communicated with at once?",
                   "type": "number"
                 },
                 "communicationStrategy": {
+                  "description": "The communication strategy the individual will use when deciding which project to communicate about",
                   "enum": [
                     "random",
                     "min",
@@ -1213,18 +1286,23 @@
                   "type": "string"
                 },
                 "compelling": {
+                  "description": "When this person speaks to another person, how much does the receiver update their beliefs? 0.5 means the receiver would move their belief to be halfway between their previous belief and the speaker's belief",
                   "type": "number"
                 },
                 "connectionLikelihoodSpread": {
+                  "description": "connectionLikelihoodSpread for this individual",
                   "type": "number"
                 },
                 "emoji": {
+                  "description": "The specific emoji",
                   "type": "string"
                 },
                 "epsilon": {
+                  "description": "The epsilon for this specific individual",
                   "type": "number"
                 },
                 "optimism": {
+                  "description": "How optimistic or pessimistic the individual is. 1.0 is extremely optimistic--every value will be at the top of the possible range. 0.0 is extremely pessimistic--every value will be at the bottom of the possible range.",
                   "type": "number"
                 }
               },
@@ -1237,42 +1315,54 @@
           "type": "object"
         },
         "communication": {
+          "description": "How many rounds of communication should be allowed between agents before they decide. 0 is no communication and will render a line of collaborators with walls between them.",
           "type": "number"
         },
         "display": {
-          "$ref": "#/definitions/DisplayValue"
+          "$ref": "#/definitions/DisplayValue",
+          "description": "An optional object that controls how things render. If not provided, will be interpreted as though it enables no optional rendering."
         },
         "northStar": {
-          "$ref": "#/definitions/NorthStarOptions"
+          "$ref": "#/definitions/NorthStarOptions",
+          "description": "Information on an (optional) north star, which people will tend to pick towards"
         },
         "projects": {
           "additionalProperties": false,
+          "description": "Information on projects",
           "properties": {
             "count": {
+              "description": "How many projects there are",
               "type": "number"
             },
             "individuals": {
+              "description": "individuals is set to override the computed individuals with the given properties. null values will be ignored, and keys not in the override will be left in place.",
               "items": {
                 "anyOf": [
                   {
                     "additionalProperties": false,
                     "properties": {
                       "error": {
+                        "description": "The error bars for this value; collaborators will consider the true value to be somewhere within value +/- this value",
                         "type": "number"
                       },
                       "marked": {
+                        "description": "A marked project shows up distinctively; collaborators, when deciding between two projects that look like the same value, will prefer the marked one.",
                         "type": "boolean"
                       },
                       "maxErrorValue": {
+                        "description": "Each project will get between 0.0 and this number randomly set, which are the \"error bars\" for the value; its value is considered by collaborators to be somewhere within those values.",
                         "type": "number"
                       },
                       "maxExtraValue": {
+                        "description": "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value",
                         "type": "number"
                       },
                       "twiddleValueAmount": {
+                        "description": "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number.",
                         "type": "number"
                       },
                       "value": {
+                        "description": "Value is the height of the project, in units of 1.0 = width",
                         "type": "number"
                       }
                     },
@@ -1286,36 +1376,46 @@
               "type": "array"
             },
             "maxErrorValue": {
+              "description": "Each project will get between 0.0 and this number randomly set, which are the \"error bars\" for the value; its value is considered by collaborators to be somewhere within those values.",
               "type": "number"
             },
             "maxExtraValue": {
+              "description": "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value",
               "type": "number"
             },
             "randomIndividual": {
               "additionalProperties": false,
+              "description": "If provided, each run the individuals overrides will have a random individual provided precisely these overrides",
               "properties": {
                 "error": {
+                  "description": "The error bars for this value; collaborators will consider the true value to be somewhere within value +/- this value",
                   "type": "number"
                 },
                 "marked": {
+                  "description": "A marked project shows up distinctively; collaborators, when deciding between two projects that look like the same value, will prefer the marked one.",
                   "type": "boolean"
                 },
                 "maxErrorValue": {
+                  "description": "Each project will get between 0.0 and this number randomly set, which are the \"error bars\" for the value; its value is considered by collaborators to be somewhere within those values.",
                   "type": "number"
                 },
                 "maxExtraValue": {
+                  "description": "Each project will get between 0.0 and this number randomly set on top of 1.0 for the value",
                   "type": "number"
                 },
                 "twiddleValueAmount": {
+                  "description": "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number.",
                   "type": "number"
                 },
                 "value": {
+                  "description": "Value is the height of the project, in units of 1.0 = width",
                   "type": "number"
                 }
               },
               "type": "object"
             },
             "twiddleValueAmount": {
+              "description": "After a value is set for each project, twiddle it up or down by a random amount beteen 0.0 and this number.",
               "type": "number"
             }
           },
@@ -1349,28 +1449,36 @@
       "additionalProperties": false,
       "properties": {
         "cols": {
+          "description": "Number of cols in the theater",
           "type": "number"
         },
         "filledSeatProportion": {
+          "description": "What percentage of seats should be filled",
           "type": "number"
         },
         "fomoThreshold": {
-          "$ref": "#/definitions/DistributionOptions"
+          "$ref": "#/definitions/DistributionOptions",
+          "description": "The threshold of what proportion in the audience must be standing before this person decideds to stand, too"
         },
         "forwardStandingFalloff": {
-          "$ref": "#/definitions/DistributionOptions"
+          "$ref": "#/definitions/DistributionOptions",
+          "description": "How quickly the impact of someone standing in front of this person falls off in mattering"
         },
         "ovationPropensity": {
-          "$ref": "#/definitions/DistributionOptions"
+          "$ref": "#/definitions/DistributionOptions",
+          "description": "How likely individuals are to do a standing ovation in the first place"
         },
         "performanceQuality": {
-          "$ref": "#/definitions/DistributionOptions"
+          "$ref": "#/definitions/DistributionOptions",
+          "description": "How high of quality the performance was"
         },
         "rows": {
+          "description": "Number of rows in the theater",
           "type": "number"
         },
         "standingThreshold": {
-          "$ref": "#/definitions/DistributionOptions"
+          "$ref": "#/definitions/DistributionOptions",
+          "description": "How high of a threshold individuals have for deciding to stand if individuals visible ahead of them stood"
         }
       },
       "required": [

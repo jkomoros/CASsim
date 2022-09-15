@@ -460,7 +460,7 @@ const renderTypeDefinition = (definition : TypeDefinition, indent = '') : string
 		const outputPieces = ['{'];
 		for (const [key, subConfig] of Object.entries(definition.value)) {
 			const extraIndent = indent + '\t';
-			if (subConfig.description) outputPieces.push(extraIndent + '//' + subConfig.description);
+			if (subConfig.description) outputPieces.push(extraIndent + '/** ' + subConfig.description + ' */');
 			const piece = extraIndent + key + (subConfig.optional ? '?' : '') + ': ' + renderTypeDefinition(subConfig, extraIndent);
 			outputPieces.push(piece);
 		}
