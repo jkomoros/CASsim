@@ -53,6 +53,7 @@ type StandingOvationSimulationFrameExtra = {
 }
 
 interface StandingOvationSimulationFrame extends AgentSimulationFrame,  StandingOvationSimulationFrameExtra {
+	simOptions: StandingOvationSimOptions,
 	agents : StandingOvationAgent[]
 }
 
