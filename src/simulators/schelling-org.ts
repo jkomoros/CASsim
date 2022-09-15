@@ -28,7 +28,7 @@ import {
 	CommunicationStrategy,
 	DisplayValue,
 	NorthStarOptions
-} from './types/schelling-org.js';
+} from './types/schelling-org.GENERATED.js';
 
 const SCHELLING_ORG_SIMULATION_NAME = 'schelling-org';
 
