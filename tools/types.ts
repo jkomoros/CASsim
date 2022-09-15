@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { execSync } from "child_process";
-import { configIsConfig } from "../src/options.js";
+import { configIsConfig } from "../src/constants.js";
 import {
 	OptionsConfig,
 	OptionsConfigMap,

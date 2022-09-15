@@ -2,7 +2,6 @@ export const SIM_PROPERTY = 'sim';
 export const SIM_OPTIONS_PROPERTY = 'simOptions';
 export const SIM_PROPERTY_SHORT_NAME = 'sm';
 
-const EXAMPLE_PROPERTY_NAME = 'example';
 const DESCRIPTION_PROPERTY_NAME = 'description';
 const ADVANCED_PROPERTY_NAME = 'advanced';
 const OPTIONAL_PROPERTY_NAME = 'optional';
@@ -68,6 +67,12 @@ import {
 	uniquePairs
 } from './util.js';
 
+import {
+	configIsConfig,
+	configIsMap,
+	EXAMPLE_PROPERTY_NAME
+} from './constants.js';
+
 //See README.md for more about the canonical shape of optionsLeaf objects.
 
 type OptionConfigWithRoot = OptionsConfig & {
@@ -85,15 +90,6 @@ export const optionsConfigValidator = (config : OptionsConfigMap) : string => {
 	return optionsLeafValidator({
 		example: config,
 	});
-};
-
-export const configIsMap = (config : OptionsConfigInput) : config is OptionsConfigMap => {
-	return typeof config == 'object' && !Array.isArray(config) && config[EXAMPLE_PROPERTY_NAME] == undefined;
-};
-
-//Reimplemented in tools/types.ts
-export const configIsConfig = (config : OptionsConfigInput) : config is OptionsConfig => {
-	return typeof config == 'object' && !Array.isArray(config) && config[EXAMPLE_PROPERTY_NAME] != undefined;
 };
 
 const shortNameForOptionsLeaf = (leaf : OptionsConfigInput) : string => {
