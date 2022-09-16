@@ -61,7 +61,7 @@ class StubSimulator extends AgentSimulator {
 	}
 
 	override renderer() {
-		return new PositionedGraphRenderer();
+		return new StubRenderer();
 	}
 }
 
@@ -74,4 +74,6 @@ export default StubSimulator;
 
 import { PositionedGraphRenderer } from '../renderer.js';
 
-window.customElements.define(SIMULATOR_NAME + "-renderer", PositionedGraphRenderer);
+class StubRenderer extends PositionedGraphRenderer {}
+
+window.customElements.define(SIMULATOR_NAME + "-renderer", StubRenderer);
