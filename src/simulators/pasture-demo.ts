@@ -33,7 +33,7 @@ import {
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'pasture-demo';
 
-type PastureAgent = Agent & {
+type PastureDemoAgent = Agent & {
 	emoji: string;
 	type: string;
 	deathLikelihood: number;
@@ -41,18 +41,18 @@ type PastureAgent = Agent & {
 	node: GraphNodeID;
 };
 
-interface PastureSimulationFrame extends AgentSimulationFrame {
-	agents : PastureAgent[];
+interface PastureDemoSimulationFrame extends AgentSimulationFrame {
+	agents : PastureDemoAgent[];
 	simOptions: PastureDemoSimOptions;
 }
 
-interface PastureGraphNodeValues extends GraphNodeValues {
+interface PastureDemoGraphNodeValues extends GraphNodeValues {
 	value: number;
 	growthRate: number;
 	emoji: string;
 }
 
-class AgentDemoSimulator extends AgentSimulator {
+class PastureDemoSimulator extends AgentSimulator {
 
 	override get name() : SimulatorType {
 		return SIMULATOR_NAME;
@@ -61,7 +61,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	override generateAgent(parentAgent : PastureAgent, _otherAgents : PastureAgent[], _graph : Graph, simOptions : PastureDemoSimOptions, rnd : RandomGenerator) : PastureAgent {
+	override generateAgent(parentAgent : PastureDemoAgent, _otherAgents : PastureDemoAgent[], _graph : Graph, simOptions : PastureDemoSimOptions, rnd : RandomGenerator) : PastureDemoAgent {
 		const [emojiKey, emoji] = pickEmoji(GRAZING_FARM_ANIMALS_EMOJIS, parentAgent ? parentAgent.type : rnd);
 		return {
 			...this.baseAgent(rnd),
@@ -74,7 +74,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	}
 
 	override generateGraph(simOptions : PastureDemoSimOptions, _rnd : RandomGenerator, simWidth : number, simHeight : number) : Graph {
-		const starterValues : PastureGraphNodeValues =  {id: '', value:0.0, growthRate: simOptions.growthRate, emoji:'🌿'};
+		const starterValues : PastureDemoGraphNodeValues =  {id: '', value:0.0, growthRate: simOptions.growthRate, emoji:'🌿'};
 		return RectangleGraph.make(simOptions.rows, simOptions.cols, simWidth, simHeight, {starterValues, nodeMargin: 0.1, diagonal:true});
 	}
 
@@ -82,13 +82,13 @@ class AgentDemoSimulator extends AgentSimulator {
 		return simOptions.agents;
 	}
 
-	override simulationComplete(frame : PastureSimulationFrame) : boolean {
+	override simulationComplete(frame : PastureDemoSimulationFrame) : boolean {
 		return frame.index >= frame.simOptions.rounds;
 	}
 
-	override defaultAgentTick(agent : PastureAgent, agents : PastureAgent[], graph : Graph, frame : PastureSimulationFrame, rnd : RandomGenerator) : PastureAgent | PastureAgent[] {
+	override defaultAgentTick(agent : PastureDemoAgent, agents : PastureDemoAgent[], graph : Graph, frame : PastureDemoSimulationFrame, rnd : RandomGenerator) : PastureDemoAgent | PastureDemoAgent[] {
 		if (rnd() < agent.deathLikelihood) return null;
-		const node = this.selectNodeToMoveTo(agent, agents, graph, frame, rnd, 1, (node : PastureGraphNodeValues) => node.value);
+		const node = this.selectNodeToMoveTo(agent, agents, graph, frame, rnd, 1, (node : PastureDemoGraphNodeValues) => node.value);
 		//Sometimes there won't be any open cells next to us.
 		if (!node) return agent;
 		graph.setNodeProperty(node, 'value', 0.0);
@@ -102,14 +102,14 @@ class AgentDemoSimulator extends AgentSimulator {
 		return newAgent;
 	}
 
-	override defaultNodeTick(node : PastureGraphNodeValues) : PastureGraphNodeValues {
+	override defaultNodeTick(node : PastureDemoGraphNodeValues) : PastureDemoGraphNodeValues {
 		return {...node, value: node.value + node.growthRate};
 	}
 
-	override frameScorer(frame : PastureSimulationFrame) : [number, number, number] {
+	override frameScorer(frame : PastureDemoSimulationFrame) : [number, number, number] {
 		const finalScore = this.simulationComplete(frame) ? 1.0 : -1;
 		const graph = new RectangleGraph(frame.graph);
-		return [finalScore, Object.keys(frame.agents).length, Object.values(graph.nodes()).map((values : PastureGraphNodeValues) => values.value).reduce((prev, next) => prev + next, 0)];
+		return [finalScore, Object.keys(frame.agents).length, Object.values(graph.nodes()).map((values : PastureDemoGraphNodeValues) => values.value).reduce((prev, next) => prev + next, 0)];
 	}
 
 	override scoreConfig() : [ScoreConfigItem, ScoreConfigItem, ScoreConfigItem] {
@@ -192,11 +192,11 @@ class AgentDemoSimulator extends AgentSimulator {
 	}
 
 	override renderer() {
-		return new AgentDemoRenderer();
+		return new PastureDemoRenderer();
 	}
 }
 
-export default AgentDemoSimulator;
+export default PastureDemoSimulator;
 
 /************************************************************************
 *  All imports (including transitive ones) of lit must occur below the  *
@@ -207,7 +207,7 @@ import { PositionedGraphRenderer } from '../renderer.js';
 
 import { css } from 'lit';
 
-class AgentDemoRenderer extends PositionedGraphRenderer {
+class PastureDemoRenderer extends PositionedGraphRenderer {
 	static override get styles() {
 		return [
 			...PositionedGraphRenderer.styles,
@@ -220,9 +220,9 @@ class AgentDemoRenderer extends PositionedGraphRenderer {
 		];
 	}
 
-	override nodeTextOpacity(node : PastureGraphNodeValues) : number {
+	override nodeTextOpacity(node : PastureDemoGraphNodeValues) : number {
 		return node.value;
 	}
 }
 
-window.customElements.define(SIMULATOR_NAME + "-renderer", AgentDemoRenderer);
+window.customElements.define(SIMULATOR_NAME + "-renderer", PastureDemoRenderer);
