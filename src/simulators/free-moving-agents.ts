@@ -7,6 +7,7 @@ import {
 import {
 	OptionsConfigMap,
 	SimulationFrame,
+	RandomGenerator,
 	SimulatorType
 } from '../types.js';
 
@@ -50,6 +51,15 @@ class FreeMovingAgentsSimulator extends AgentSimulator {
 	override numStarterAgents(_graph : Graph, baseFrame : SimulationFrame) : number {
 		const simOptions = baseFrame.simOptions as FreeMovingAgentsSimOptions;
 		return simOptions.agents;
+	}
+
+	override generateAgent(_parentAgent : FreeMovingAgentsAgent, _otherAgents : FreeMovingAgentsAgent[], _graph : Graph, baseFrame : SimulationFrame, rnd : RandomGenerator) : FreeMovingAgentsAgent {
+		return {
+			...this.baseAgent(rnd),
+			emoji: '🚗',
+			x: baseFrame.width * rnd(),
+			y: baseFrame.height * rnd()
+		};
 	}
 	
 	override get optionsConfig() : OptionsConfigMap {
