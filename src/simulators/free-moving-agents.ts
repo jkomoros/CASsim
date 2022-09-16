@@ -87,7 +87,6 @@ class FreeMovingAgentsSimulator extends AgentSimulator {
 	}
 
 	override defaultAgentTick(agent: FreeMovingAgentsAgent): FreeMovingAgentsAgent | FreeMovingAgentsAgent[] {
-		//TODO: each node should get its own speed
 		const speed = agent.speed;
 		const rotatedAgentAngle = normalizeAngle(agent.angle - ANGLE_MAX / 4);
 		const x = agent.x + (Math.cos(rotatedAgentAngle) * speed);
