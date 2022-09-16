@@ -2,6 +2,7 @@ import { FrameVisualization } from './components/frame-visualization.js';
 import { BaseRenderer } from './renderer.js';
 import { Simulation } from './simulation.js';
 import {
+	Angle,
 	OptionsPath,
 	OptionValue,
 	OptionValueMap,
@@ -97,6 +98,15 @@ export const deepFreeze = (obj : object) : void => {
 export function deepCopy<T extends object>(obj : T) : T {
 	return JSON.parse(JSON.stringify(obj));
 }
+
+export const ANGLE_MIN : Angle = 0.0;
+export const ANGLE_MAX : Angle = Math.PI * 2;
+
+export const normalizeAngle = (angle : Angle) : Angle => {
+	while (angle > ANGLE_MAX) angle -= ANGLE_MAX;
+	while (angle < ANGLE_MIN) angle += ANGLE_MIN;
+	return angle;
+};
 
 const IS_STEP_EPSILON = 0.0000001;
 

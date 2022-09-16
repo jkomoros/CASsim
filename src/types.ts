@@ -171,6 +171,9 @@ export interface SimulationFrame {
 
 export type Fingerprint = string;
 
+//In radians.
+export type Angle = number;
+
 type OptionsConfigTypeInfoBase = {
     //The name of the type, e.g. `DistributionOptions`
     typeName: string
