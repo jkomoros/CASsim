@@ -8,8 +8,13 @@ import {
 	OptionsConfigMap,
 	SimulationFrame,
 	RandomGenerator,
-	SimulatorType
+	SimulatorType,
+	Angle
 } from '../types.js';
+
+import {
+	randomAngle
+} from '../util.js';
 
 import {
 	Graph
@@ -24,6 +29,7 @@ const SIMULATOR_NAME = 'free-moving-agents';
 
 type FreeMovingAgentsAgent = Agent & {
 	emoji : string;
+	angle : Angle;
 };
 
 interface FreeMovingAgentsSimulationFrame extends AgentSimulationFrame {
@@ -58,7 +64,8 @@ class FreeMovingAgentsSimulator extends AgentSimulator {
 			...this.baseAgent(rnd),
 			emoji: '🐞',
 			x: baseFrame.width * rnd(),
-			y: baseFrame.height * rnd()
+			y: baseFrame.height * rnd(),
+			angle: randomAngle(rnd)
 		};
 	}
 	
@@ -101,6 +108,10 @@ class FreeMovingAgentsRenderer extends PositionedGraphRenderer {
 
 	override agentDefaultMaxNodeSize() : number {
 		return 50;
+	}
+
+	override agentRotation(agent: FreeMovingAgentsAgent): Angle {
+		return agent.angle;
 	}
 
 }
