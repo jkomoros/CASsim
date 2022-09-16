@@ -148,6 +148,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 
 	_graph() : PositionedGraph {
 		const data = this.graphData(this.frame);
+		if (!data) return null;
 		//Techncially it might be a positioned graph
 		return inflateGraph(data) as PositionedGraph;
 	}
@@ -317,6 +318,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 
 	override innerRender() : TemplateResult {
 		const graph = this._graph();
+		if (!graph) return html``;
 		const styles = {
 			'--node-radius': '' + 100 * graph.nodeRoundness + '%',
 			'height': '' + graph.height * this.scale + 'px',
