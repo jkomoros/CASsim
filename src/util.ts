@@ -108,6 +108,10 @@ export const normalizeAngle = (angle : Angle) : Angle => {
 	return angle;
 };
 
+export const randomAngle = (rnd : RandomGenerator = Math.random) : Angle => {
+	return (ANGLE_MAX - ANGLE_MIN) * rnd() + ANGLE_MIN;
+};
+
 const IS_STEP_EPSILON = 0.0000001;
 
 export const isStep = (value : number, step : number) : boolean => {
