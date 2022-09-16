@@ -13,8 +13,7 @@ import {
 } from '../types.js';
 
 import {
-	ANGLE_MAX,
-	normalizeAngle,
+	newPosition,
 	randomAngle
 } from '../util.js';
 
@@ -87,10 +86,7 @@ class FreeMovingAgentsSimulator extends AgentSimulator {
 	}
 
 	override defaultAgentTick(agent: FreeMovingAgentsAgent): FreeMovingAgentsAgent | FreeMovingAgentsAgent[] {
-		const speed = agent.speed;
-		const rotatedAgentAngle = normalizeAngle(agent.angle - ANGLE_MAX / 4);
-		const x = agent.x + (Math.cos(rotatedAgentAngle) * speed);
-		const y = agent.y + (Math.sin(rotatedAgentAngle) * speed);
+		const [x, y] = newPosition(agent.x, agent.y, agent.angle, agent.speed);
 		return {
 			...agent,
 			x,
