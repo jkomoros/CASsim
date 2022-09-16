@@ -41,7 +41,11 @@ const agentSpeed = new DistributionConfig({
 });
 
 type FreeMovingAgentsAgent = Agent & {
+	//Make a few optional properties in Agent required
 	emoji : string;
+	x : number;
+	y : number;
+	//Add a few new ones
 	angle : Angle;
 	speed : number;
 };
@@ -86,7 +90,7 @@ class FreeMovingAgentsSimulator extends AgentSimulator {
 	}
 
 	override defaultAgentTick(agent: FreeMovingAgentsAgent): FreeMovingAgentsAgent | FreeMovingAgentsAgent[] {
-		const [x, y] = newPosition(agent.x, agent.y, agent.angle, agent.speed);
+		const [x, y] = newPosition(agent);
 		return {
 			...agent,
 			x,
