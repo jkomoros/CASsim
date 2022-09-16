@@ -26,6 +26,7 @@
     "build:typescript": "tsc",
     "generate": "npm run build:minimal && npm run generate:types && npm run generate:schema && npm run generate:config",
     "generate:before-build": "npm run generate:stubs && npm run generate:config",
+    "generate:update-types": "npm run generate:types && npm run generate:schema",
     "generate:stubs": "npx ts-node-esm tools/types.ts stubs",
     "generate:types": "npx ts-node-esm tools/types.ts full",
     "generate:schema": "ts-json-schema-generator --type 'PackedRawSimulationConfig' --tsconfig tsconfig.json > data-schema.json",

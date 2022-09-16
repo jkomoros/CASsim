@@ -159,6 +159,8 @@ import {
 You do **not** need to create `types/dashed-simulator-name.GENERATED.js`. Then, run `npm run generate` and it will 
 generate that file for you. Be sure to check in `src/simulators/types/dashed-simulator-name.GENERATED.js` into source control!
 
+From this point on, ever time you update the object emitted by your simulator's optionConfig, you should regenerate types. `npm run generate` does a lot of extra steps to ensure it works, but `npm run generate:update-types` will do the two steps you need faster for just updating an existing type.
+
 ### Simulator Class
 
 Your customizable simulator is a class that must have the methods described below. Note that the `BaseSimulator` class provides stubs for most of these.
