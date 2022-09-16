@@ -12,6 +12,10 @@ import {
 } from './simulators/types/dice-roll-demo.GENERATED.js';
 
 import {
+	FreeMovingAgentsSimOptions
+} from './simulators/types/free-moving-agents.GENERATED.js';
+
+import {
 	LuckSurfaceAreaSimOptions
 } from './simulators/types/luck-surface-area.GENERATED.js';
 
@@ -37,6 +41,13 @@ interface DiceRollDemoSimulationConfigExtra {
 }
 
 type DiceRollDemoRawSimulationConfig = (RawSimulationConfigBase & DiceRollDemoSimulationConfigExtra) | (RawSimulationConfigExtended & DiceRollDemoSimulationConfigExtra);
+		
+interface FreeMovingAgentsSimulationConfigExtra {
+	sim: 'free-moving-agents';
+	simOptions: FreeMovingAgentsSimOptions | null;
+}
+
+type FreeMovingAgentsRawSimulationConfig = (RawSimulationConfigBase & FreeMovingAgentsSimulationConfigExtra) | (RawSimulationConfigExtended & FreeMovingAgentsSimulationConfigExtra);
 		
 interface LuckSurfaceAreaSimulationConfigExtra {
 	sim: 'luck-surface-area';
@@ -73,4 +84,4 @@ interface StubSimulationConfigExtra {
 
 type StubRawSimulationConfig = (RawSimulationConfigBase & StubSimulationConfigExtra) | (RawSimulationConfigExtended & StubSimulationConfigExtra);
 		
-export type RawSimulationConfig = DiceRollDemoRawSimulationConfig | LuckSurfaceAreaRawSimulationConfig | PastureDemoRawSimulationConfig | SchellingOrgRawSimulationConfig | StandingOvationRawSimulationConfig | StubRawSimulationConfig;
+export type RawSimulationConfig = DiceRollDemoRawSimulationConfig | FreeMovingAgentsRawSimulationConfig | LuckSurfaceAreaRawSimulationConfig | PastureDemoRawSimulationConfig | SchellingOrgRawSimulationConfig | StandingOvationRawSimulationConfig | StubRawSimulationConfig;
