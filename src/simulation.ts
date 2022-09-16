@@ -45,7 +45,9 @@ import {
 	WithRequiredProperty,
 	SimulatorType,
 	KNOWN_SIMULATOR_TYPES,
-	RawSimulationConfig
+	RawSimulationConfig,
+	OptionsConfig,
+	OptionsConfigMap
 } from './types.js';
 
 import {
@@ -61,6 +63,11 @@ import {
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 450;
 const DEFAULT_RUNS = 10;
+
+type OptionConfigWithRoot = OptionsConfig & {
+	'@@isRoot': boolean;
+};
+
 
 export const SIMULATORS : {[name in SimulatorType] +? : BaseSimulator} = {};
 
@@ -553,176 +560,182 @@ export class Simulation {
 		return this._config.extraFinalFrameCount || DEFAULT_EXTRA_FINAL_FRAME_COUNT;
 	}
 
-	get optionsConfig() {
+	get optionsConfig() : OptionsConfig {
 		if (this._optionConfig) return this._optionConfig;
 		const simOptionsConfig = optionsConfigWithDefaultedShortNames(this._simulator.optionsConfig);
 		const problem = optionsConfigValidator(simOptionsConfig);
 		if (problem) {
 			throw new Error('Invalid simOptions: ' + problem);
 		}
-		const result = {
-			example: {
-				name: {
-					example: '',
-					shortName: 'n',
-					description: 'Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL.',
-					advanced: true
-				},
-				title: {
-					example: '',
-					shortName: 't',
-					description: 'The human-readable version of name, with pretty formatting. Will use a transformation of name like "two-words" -> "Two Words" if not provided.',
-					advanced: true,
-					optional: true
-				},
-				description: {
-					example: '',
-					shortName: 'd',
-					description: 'The human-readable description of the config. Optional. Will use name if not provided.',
-					advanced: true,
-					optional: true
-				},
-				width: {
-					example: DEFAULT_WIDTH,
-					shortName: 'w',
-					description: 'The width of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal width in pixels.',
-					advanced: true
-				},
-				height: {
-					example: DEFAULT_HEIGHT,
-					shortName: 'h',
-					description: 'The height of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal height in pixels--although if displayf status is true then it will be slightly taller.',
-					advanced: true
-				},
-				frameDelay: {
-					example: DEFAULT_FRAME_DELAY,
-					shortName: 'fD',
-					step: 50,
-					description: 'How many milliseconds to wait before advancing to next frame when playing',
-					optional: true,
-					advanced: true
-				},
-				runs: {
-					example: DEFAULT_RUNS,
-					shortName: 'r',
-					description: 'How many runs in the simulation to run',
-				},
-				seed: {
-					example: '',
-					shortName: 'sd',
-					description: 'If omitted, will use a value derived from current time. The deterministic value to feed to seed.',
-					advanced: true,
-					optional: true
-				},
-				autoGenerate: {
-					example: true,
-					shortName: 'aG',
-					description: 'if true, then it will automatically generate all frames for all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.',
-					advanced: true,
-					optional: true
-				},
-				autoPlay: {
-					example: true,
-					shortName: 'aP',
-					description: 'If set, will automatically start playing when simulation is loaded',
-					advanced: true,
-					optional: true
-				},
-				repeat: {
-					example: true,
-					shortName: 'rpt',
-					description: 'If true, will loop back around to the beginning of the round when being played. Gif screenshotting also respects this value',
-					advanced: true,
-					optional: true
-				},
-				extraFinalFrameCount: {
-					example: DEFAULT_EXTRA_FINAL_FRAME_COUNT,
-					shortName: 'eFFC',
-					description: 'The number of additional frames to pause at the end of a round',
-					advanced: true,
-					optional: true
-				},
-				display: {
-					example: {
-						status: {
-							example: true,
-							shortName: 's',
-							description: "If provided, will render a status line of runs summary beneath the visuazliation, including in the screenshot output",
-							optional: true,
-						},
-						screenshotStatus: {
-							example: true,
-							shortName: 'sS',
-							description: "If true, then the status line will be included (as in status) but only in the screenshot output",
-							optional: true,
-						},
-						clipStatus: {
-							example: true,
-							shortName: 'cS',
-							description: "If provided, and status is true, then it will hide future runs in the rendered status bar.",
-							optional: true
-						}
+		//We have to do this innerResult/result thing because otherwise
+		//typescript sees the example.repeat and says, oh it must be a string
+		//type of OptionConfigExample. This allows us to be explciit about the
+		//example type.
+		const innerResult : OptionsConfigMap = {
+			name: {
+				example: '',
+				shortName: 'n',
+				description: 'Must be a string with only a-zA-z0-9_- characters. Will be shown in the URL.',
+				advanced: true
+			},
+			title: {
+				example: '',
+				shortName: 't',
+				description: 'The human-readable version of name, with pretty formatting. Will use a transformation of name like "two-words" -> "Two Words" if not provided.',
+				advanced: true,
+				optional: true
+			},
+			description: {
+				example: '',
+				shortName: 'd',
+				description: 'The human-readable description of the config. Optional. Will use name if not provided.',
+				advanced: true,
+				optional: true
+			},
+			width: {
+				example: DEFAULT_WIDTH,
+				shortName: 'w',
+				description: 'The width of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal width in pixels.',
+				advanced: true
+			},
+			height: {
+				example: DEFAULT_HEIGHT,
+				shortName: 'h',
+				description: 'The height of the canvas in pixels. For the interactive view, this is mainly used for aspect ratio, but for screenshot generation this will be the literal height in pixels--although if displayf status is true then it will be slightly taller.',
+				advanced: true
+			},
+			frameDelay: {
+				example: DEFAULT_FRAME_DELAY,
+				shortName: 'fD',
+				step: 50,
+				description: 'How many milliseconds to wait before advancing to next frame when playing',
+				optional: true,
+				advanced: true
+			},
+			runs: {
+				example: DEFAULT_RUNS,
+				shortName: 'r',
+				description: 'How many runs in the simulation to run',
+			},
+			seed: {
+				example: '',
+				shortName: 'sd',
+				description: 'If omitted, will use a value derived from current time. The deterministic value to feed to seed.',
+				advanced: true,
+				optional: true
+			},
+			autoGenerate: {
+				example: true,
+				shortName: 'aG',
+				description: 'if true, then it will automatically generate all frames for all runs immediately on creation. This can be very expensive; this should only be set to true for simulations with limited computational overhead.',
+				advanced: true,
+				optional: true
+			},
+			autoPlay: {
+				example: true,
+				shortName: 'aP',
+				description: 'If set, will automatically start playing when simulation is loaded',
+				advanced: true,
+				optional: true
+			},
+			extraFinalFrameCount: {
+				example: DEFAULT_EXTRA_FINAL_FRAME_COUNT,
+				shortName: 'eFFC',
+				description: 'The number of additional frames to pause at the end of a round',
+				advanced: true,
+				optional: true
+			},
+			display: {
+				example: {
+					status: {
+						example: true,
+						shortName: 's',
+						description: "If provided, will render a status line of runs summary beneath the visuazliation, including in the screenshot output",
+						optional: true,
 					},
-					shortName: 'dsp',
-					description: 'Properties to configure optional display characteristics',
-					optional: true,
-					advanced: true,
-				},
-				colors: {
-					example: {
-						primary: {
-							example: "#fb8c00",
-							shortName: 'p',
-							description: "Primary color",
-							behavior: "color",
-							optional: true,
-						},
-						secondary: {
-							example: "#51b9a3",
-							shortName: 's',
-							description: "Secondary color",
-							behavior: "color",
-							optional: true
-						},
-						disabled: {
-							example: "ECCCCCC",
-							shortName: 'd',
-							description: "Disabled color",
-							behavior: "color",
-							optional: true
-						},
-						background: {
-							example: "transparent",
-							shortName: 'b',
-							description: "Background color",
-							behavior: "color",
-							optional: true
-						}
+					screenshotStatus: {
+						example: true,
+						shortName: 'sS',
+						description: "If true, then the status line will be included (as in status) but only in the screenshot output",
+						optional: true,
 					},
-					shortName: 'clrs',
-					advanced: true,
-					description: "Colors",
-					optional: true,
+					clipStatus: {
+						example: true,
+						shortName: 'cS',
+						description: "If provided, and status is true, then it will hide future runs in the rendered status bar.",
+						optional: true
+					}
 				},
-				[SIM_PROPERTY]: {
-					//TODO: use the constant
-					example: KNOWN_SIMULATOR_TYPES.length ? KNOWN_SIMULATOR_TYPES[0] : '',
-					shortName: SIM_PROPERTY_SHORT_NAME,
-					options: KNOWN_SIMULATOR_TYPES.map(name => ({value: name})),
-					description: 'The simulator type to run. Only simulators in the simulators directory are supported',
-					//Advanced while this is the only option
-					advanced: true,
+				shortName: 'dsp',
+				description: 'Properties to configure optional display characteristics',
+				optional: true,
+				advanced: true,
+			},
+			colors: {
+				example: {
+					primary: {
+						example: "#fb8c00",
+						shortName: 'p',
+						description: "Primary color",
+						behavior: "color",
+						optional: true,
+					},
+					secondary: {
+						example: "#51b9a3",
+						shortName: 's',
+						description: "Secondary color",
+						behavior: "color",
+						optional: true
+					},
+					disabled: {
+						example: "ECCCCCC",
+						shortName: 'd',
+						description: "Disabled color",
+						behavior: "color",
+						optional: true
+					},
+					background: {
+						example: "transparent",
+						shortName: 'b',
+						description: "Background color",
+						behavior: "color",
+						optional: true
+					}
 				},
-				[SIM_OPTIONS_PROPERTY]: {
-					example: simOptionsConfig,
-					shortName: 'o',
-					description: 'Settings specific to this simulator',
-					//If not provided, the main harness will generate a default based on the simConfig
-					optional: true,
-					//Make sure hide() doesn't get the whole top level value but only things rooted to here or below
-					[IS_ROOT_PROPERTY_NAME]: true
-				}
+				shortName: 'clrs',
+				advanced: true,
+				description: "Colors",
+				optional: true,
+			},
+			repeat: {
+				example: true,
+				shortName: 'rpt',
+				description: 'If true, will loop back around to the beginning of the round when being played. Gif screenshotting also respects this value',
+				advanced: true,
+				optional: true
+			},
+			[SIM_PROPERTY]: {
+				//TODO: use the constant
+				example: KNOWN_SIMULATOR_TYPES.length ? KNOWN_SIMULATOR_TYPES[0] : '',
+				shortName: SIM_PROPERTY_SHORT_NAME,
+				options: KNOWN_SIMULATOR_TYPES.map(name => ({value: name})),
+				description: 'The simulator type to run. Only simulators in the simulators directory are supported',
+				//Advanced while this is the only option
+				advanced: true,
+			},
+			[SIM_OPTIONS_PROPERTY]: {
+				example: simOptionsConfig,
+				shortName: 'o',
+				description: 'Settings specific to this simulator',
+				//If not provided, the main harness will generate a default based on the simConfig
+				optional: true,
 			}
+		};
+		//Make sure hide() doesn't get the whole top level value but only things rooted to here or below
+		const innerResultSimOptions  = innerResult[SIM_OPTIONS_PROPERTY] as OptionConfigWithRoot;
+		innerResultSimOptions[IS_ROOT_PROPERTY_NAME] = true;
+		const result : OptionsConfig = {
+			example: innerResult
 		};
 		deepFreeze(result);
 		this._optionConfig = result;
