@@ -174,6 +174,13 @@ export type Fingerprint = string;
 //In radians.
 export type Angle = number;
 
+export type MovingObject = {
+    x : number;
+    y : number;
+    angle : Angle;
+    speed : number;
+}
+
 type OptionsConfigTypeInfoBase = {
     //The name of the type, e.g. `DistributionOptions`
     typeName: string

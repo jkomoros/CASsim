@@ -3,6 +3,7 @@ import { BaseRenderer } from './renderer.js';
 import { Simulation } from './simulation.js';
 import {
 	Angle,
+	MovingObject,
 	OptionsPath,
 	OptionValue,
 	OptionValueMap,
@@ -112,12 +113,24 @@ export const randomAngle = (rnd : RandomGenerator = Math.random) : Angle => {
 	return (ANGLE_MAX - ANGLE_MIN) * rnd() + ANGLE_MIN;
 };
 
-export const newPosition = (previousX : number, previousY : number, angle : Angle, speed : number) : [x : number, y: number] => {
+export function newPosition(previousX: number, previousY : number, angle : Angle, speed : number) : [x : number, y: number];
+export function newPosition(movingObject : MovingObject) : [x : number, y : number];
+export function newPosition(previousXOrMovingObject: number | MovingObject, previousY? : number, angle? : Angle, speed? : number) : [x : number, y: number] {
+	let previousX : number;
+	if (typeof previousXOrMovingObject == 'number') {
+		previousX = previousXOrMovingObject;
+	} else {
+		const movingObject = previousXOrMovingObject;
+		previousX = movingObject.x;
+		previousY = movingObject.y;
+		angle = movingObject.angle;
+		speed = movingObject.speed;
+	}
 	const rotatedAgentAngle = normalizeAngle(angle - ANGLE_MAX / 4);
 	const x = previousX + (Math.cos(rotatedAgentAngle) * speed);
 	const y = previousY + (Math.sin(rotatedAgentAngle) * speed);
 	return [x, y];
-};
+}
 
 const IS_STEP_EPSILON = 0.0000001;
 
