@@ -138,8 +138,6 @@ export type ShortenedOptionsPath = string;
 
 export type ShortNameMap = {[key : string] : string};
 
-export type PartialSimulationFrame = object;
-
 export type ModificationsPathMap = {
     [path: OptionsPath]: OptionValue;
 }
@@ -163,7 +161,7 @@ export type URLArgsMap = {
     o? : string;
 }
 
-export interface SimulationFrame extends PartialSimulationFrame {
+export interface SimulationFrame {
     index : number;
     simOptions : NormalizedSimOptions;
     runIndex : number;

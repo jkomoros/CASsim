@@ -17,7 +17,6 @@ import {
 	OptionsConfigMap,
 	OptionsPath,
 	OptionValue,
-	PartialSimulationFrame,
 	RandomGenerator,
 	ScoreConfig,
 	SimOptions,
@@ -56,14 +55,14 @@ export class BaseSimulator {
 	//your own method.
 	generator(frameIndex : number, previousFrame : SimulationFrame, simOptions : NormalizedSimOptions, rnd : RandomGenerator, runIndex : number, simWidth : number, simHeight : number) : SimulationFrame {
 		if (!previousFrame) {
-			const partialFrame : PartialSimulationFrame = this.generateFirstFrame(simOptions, rnd, simWidth, simHeight) || {};
-			const firstFrame = partialFrame as SimulationFrame;
-			firstFrame.index = frameIndex;
-			firstFrame.simOptions = simOptions;
-			firstFrame.runIndex = runIndex;
-			firstFrame.width = simWidth;
-			firstFrame.height = simHeight;
-			return firstFrame;
+			const firstFrame = {
+				index: frameIndex,
+				simOptions,
+				runIndex,
+				width: simWidth,
+				height: simHeight
+			};
+			return this.generateFirstFrame(firstFrame, rnd);
 		}
 		if (this.simulationComplete(previousFrame)) return null;
 		//Note: frame is only a shallow copy, so sub-generators will need to clone sub options.
@@ -76,8 +75,11 @@ export class BaseSimulator {
 
 	//This is called by the default generator to generate the first frame.
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	generateFirstFrame(_simOptions : NormalizedSimOptions, _rnd : RandomGenerator, _simWidth : number, _simHeight : number) : PartialSimulationFrame {
-		return {};
+	generateFirstFrame(baseFrame : SimulationFrame, _rnd : RandomGenerator) : SimulationFrame {
+		return {
+			...baseFrame
+			//Extend with extra properties here
+		};
 	}
 
 	//Called before generateFrame is called, for any non-first-frames. A chance

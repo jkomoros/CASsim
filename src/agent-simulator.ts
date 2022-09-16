@@ -21,7 +21,6 @@ import {
 	GraphExplorationEdgeScorer,
 	GraphNodeID,
 	GraphNodeValues,
-	PartialSimulationFrame,
 	RandomGenerator,
 	SimOptions,
 	SimulationFrame
@@ -42,8 +41,6 @@ type AgentSimulationFrameExtra = {
 	agents : Agent[],
 	graph: GraphData,
 }
-
-type AgentPartialSimulationFrame = PartialSimulationFrame & AgentSimulationFrameExtra;
 
 export type AgentSimulationFrame = SimulationFrame & AgentSimulationFrameExtra;
 
@@ -169,12 +166,13 @@ export class AgentSimulator extends BaseSimulator {
 	/* 
 		Create the graph and the agents
 	*/
-	override generateFirstFrame(simOptions : SimOptions, rnd : RandomGenerator, simWidth : number, simHeight : number) : AgentPartialSimulationFrame {
+	override generateFirstFrame(baseFrame : SimulationFrame, rnd : RandomGenerator) : AgentSimulationFrame {
 		//The default generator will expand this with index and simOptions.
-		const graph = this.generateGraph(simOptions, rnd, simWidth, simHeight);
-		const agents = this.generateAgents(graph, simOptions, rnd, simWidth, simHeight);
+		const graph = this.generateGraph(baseFrame.simOptions, rnd, baseFrame.width, baseFrame.height);
+		const agents = this.generateAgents(graph, baseFrame.simOptions, rnd, baseFrame.width, baseFrame.height);
 		return {
-			...(this.generateFirstFrameExtra(simOptions, rnd, simWidth, simHeight) || {}),
+			...baseFrame,
+			...(this.generateFirstFrameExtra(baseFrame.simOptions, rnd, baseFrame.width, baseFrame.height) || {}),
 			agents,
 			graph: graph ? graph.data : null
 		};

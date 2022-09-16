@@ -37,9 +37,10 @@ class DiceRollDemoSimulator extends BaseSimulator {
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	override generateFirstFrame() : DiceRollSimulationFrameExtra {
+	override generateFirstFrame(baseFrame : SimulationFrame) : DiceRollSimulationFrame {
 		//The default generator will expand this with index and simOptions.
 		return {
+			...baseFrame,
 			busted: false,
 			score: 0,
 			lastRoll: 0,
