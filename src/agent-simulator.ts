@@ -124,8 +124,8 @@ export class AgentSimulator extends BaseSimulator {
 		An override point for skipping placing agents at the beginning.
 	*/
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	skipPlacingAgents(_graph : Graph, _simOptions : SimOptions, _rnd : RandomGenerator) : boolean {
-		return false;
+	skipPlacingAgents(graph : Graph, _simOptions : SimOptions, _rnd : RandomGenerator) : boolean {
+		return !graph;
 	}
 
 	/*
@@ -137,9 +137,9 @@ export class AgentSimulator extends BaseSimulator {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	generateAgents(graph : Graph, simOptions : SimOptions, rnd : RandomGenerator, _simWidth : number, _simHeight : number) : Agent[] {
 		const agents = [];
-		const baseAvailableNodes = {...graph.nodes()};
-		const agentCount = this.numStarterAgents(graph, simOptions, rnd);
 		const skipPlacingAgents = this.skipPlacingAgents(graph, simOptions, rnd);
+		const baseAvailableNodes = skipPlacingAgents ? {} : {...graph.nodes()};
+		const agentCount = this.numStarterAgents(graph, simOptions, rnd);
 		for (let i = 0; i < agentCount; i++) {
 			const agent = this.generateAgent(null, agents, graph, simOptions, rnd);
 			if (!skipPlacingAgents) {
@@ -176,7 +176,7 @@ export class AgentSimulator extends BaseSimulator {
 		return {
 			...(this.generateFirstFrameExtra(simOptions, rnd, simWidth, simHeight) || {}),
 			agents,
-			graph: graph.data
+			graph: graph ? graph.data : null
 		};
 	}
 
@@ -307,7 +307,7 @@ export class AgentSimulator extends BaseSimulator {
 		Ticks all agents, and all nodes.
 	*/
 	override generateFrame(frame : AgentSimulationFrame, rnd : RandomGenerator) : void {
-		const graph = inflateGraph(frame.graph);
+		const graph = frame.graph ? inflateGraph(frame.graph) : null;
 		const newAgents = [...frame.agents];
 		const agentIterationOrder = [...frame.agents.keys()];
 		this.framePreTick(graph, frame, rnd);
@@ -329,14 +329,16 @@ export class AgentSimulator extends BaseSimulator {
 		//Filter out agents who died this tick (returned null)
 		const filteredNewAgents = newAgents.filter(agent => agent);
 		frame.agents = [...filteredNewAgents, ...this.spawnAgents(filteredNewAgents, graph, frame, rnd).filter(agent => agent)];
-		for (const [id, node] of Object.entries(graph.nodes())) {
-			const newNode = this.nodeTick(node, graph, frame, rnd);
-			//If we set the node to the same values as it was, then the graph
-			//will detect no changes were made.
-			graph.setNode(id, newNode);
+		if (graph) {
+			for (const [id, node] of Object.entries(graph.nodes())) {
+				const newNode = this.nodeTick(node, graph, frame, rnd);
+				//If we set the node to the same values as it was, then the graph
+				//will detect no changes were made.
+				graph.setNode(id, newNode);
+			}
 		}
 		this.framePostTick(graph, frame, rnd);
-		if (graph.changesMade) {
+		if (graph && graph.changesMade) {
 			frame.graph = graph.data;
 			graph.saved();
 		}
