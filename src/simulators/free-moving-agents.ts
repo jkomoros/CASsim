@@ -72,7 +72,7 @@ class FreeMovingAgentsSimulator extends AgentSimulator {
 	}
 
 	override renderer() {
-		return new PositionedGraphRenderer();
+		return new FreeMovingAgentsRenderer();
 	}
 }
 
@@ -85,4 +85,6 @@ export default FreeMovingAgentsSimulator;
 
 import { PositionedGraphRenderer } from '../renderer.js';
 
-window.customElements.define(SIMULATOR_NAME + "-renderer", PositionedGraphRenderer);
+class FreeMovingAgentsRenderer extends PositionedGraphRenderer {}
+
+window.customElements.define(SIMULATOR_NAME + "-renderer", FreeMovingAgentsRenderer);
