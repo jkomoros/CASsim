@@ -23,6 +23,7 @@ import {
 	OptionsConfigMap,
 	RandomGenerator,
 	ScoreConfigItem,
+	SimulationFrame,
 	SimulatorType
 } from '../types.js';
 
@@ -61,7 +62,8 @@ class PastureDemoSimulator extends AgentSimulator {
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	override generateAgent(parentAgent : PastureDemoAgent, _otherAgents : PastureDemoAgent[], _graph : Graph, simOptions : PastureDemoSimOptions, rnd : RandomGenerator) : PastureDemoAgent {
+	override generateAgent(parentAgent : PastureDemoAgent, _otherAgents : PastureDemoAgent[], _graph : Graph, baseFrame : SimulationFrame, rnd : RandomGenerator) : PastureDemoAgent {
+		const simOptions = baseFrame.simOptions as PastureDemoSimOptions;
 		const [emojiKey, emoji] = pickEmoji(GRAZING_FARM_ANIMALS_EMOJIS, parentAgent ? parentAgent.type : rnd);
 		return {
 			...this.baseAgent(rnd),
@@ -73,12 +75,14 @@ class PastureDemoSimulator extends AgentSimulator {
 		};
 	}
 
-	override generateGraph(simOptions : PastureDemoSimOptions, _rnd : RandomGenerator, simWidth : number, simHeight : number) : Graph {
+	override generateGraph(baseFrame : SimulationFrame) : Graph {
+		const simOptions = baseFrame.simOptions as PastureDemoSimOptions;
 		const starterValues : PastureDemoGraphNodeValues =  {id: '', value:0.0, growthRate: simOptions.growthRate, emoji:'🌿'};
-		return RectangleGraph.make(simOptions.rows, simOptions.cols, simWidth, simHeight, {starterValues, nodeMargin: 0.1, diagonal:true});
+		return RectangleGraph.make(simOptions.rows, simOptions.cols, baseFrame.width, baseFrame.height, {starterValues, nodeMargin: 0.1, diagonal:true});
 	}
 
-	override numStarterAgents(_graph : Graph, simOptions : PastureDemoSimOptions) : number {
+	override numStarterAgents(_graph : Graph, baseFrame : SimulationFrame) : number {
+		const simOptions = baseFrame.simOptions as PastureDemoSimOptions;
 		return simOptions.agents;
 	}
 
@@ -95,7 +99,7 @@ class PastureDemoSimulator extends AgentSimulator {
 		const newAgent = {...agent, node : node.id};
 		if (rnd() < agent.spawnLikelihood) {
 			//Spawn a new agent
-			const spawnedAgent = this.generateAgent(agent, agents, graph, frame.simOptions, rnd);
+			const spawnedAgent = this.generateAgent(agent, agents, graph, frame, rnd);
 			spawnedAgent.node = agent.node;
 			return [newAgent, spawnedAgent];
 		}

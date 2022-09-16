@@ -65,9 +65,13 @@ export class AgentSimulator extends BaseSimulator {
 		An override point for your generateFirstFrame. You should return the
 		graph that agents will traverse. You might also want to override
 		graphConstructor.
+
+		baseFrame will have only SimulationFrame properties, no extras.
 	*/
-	generateGraph(simOptions : RowColOptionalSimOptions, _rnd : RandomGenerator, simWidth : number, simHeight : number) : Graph {
-		return RectangleGraph.make(simOptions.rows || 5, simOptions.cols || 5, simWidth, simHeight);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	generateGraph(baseFrame : SimulationFrame, _rnd : RandomGenerator) : Graph {
+		const simOptions = baseFrame.simOptions as RowColOptionalSimOptions;
+		return RectangleGraph.make(simOptions.rows || 5, simOptions.cols || 5, baseFrame.width, baseFrame.height);
 	}
 
 	//baseAgent returns an object with just a random, stable ID 
@@ -85,8 +89,11 @@ export class AgentSimulator extends BaseSimulator {
 		parent that it's spawning from, but is likely null. otherAgents includes
 		other agents that exist so far. An agent must be an object, not an
 		array. Your return value should extend this.baseAgent(rnd);
+
+		baseFrame is only guranteed to have literally SimulationFrame options,
+		not anything else.
 	*/
-	generateAgent(_parentAgent : Agent, _otherAgents : Agent[], _graph : Graph, _simOptions : SimOptions, rnd : RandomGenerator) : Agent {
+	generateAgent(_parentAgent : Agent, _otherAgents : Agent[], _graph : Graph, _baseFrame : SimulationFrame, rnd : RandomGenerator) : Agent {
 		return {
 			...this.baseAgent(rnd)
 			//Your own properties would go here in your own generateAgent
@@ -95,9 +102,12 @@ export class AgentSimulator extends BaseSimulator {
 
 	/*
 		An override point for how many agents to generate by default.
+
+		baseFrame is only guaranteed to have literally SimulationFrame options,
+		nothing else.
 	*/
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	numStarterAgents(_graph : Graph, _simOptions : SimOptions, _rnd : RandomGenerator) : number {
+	numStarterAgents(_graph : Graph, _baseFrame : SimulationFrame, _rnd : RandomGenerator) : number {
 		return 0;
 	}
 
@@ -106,22 +116,27 @@ export class AgentSimulator extends BaseSimulator {
 		time. It is called for each pair of agents that might overlap. For
 		example, you could return true unless the type property of each was the
 		same.
+
+		baseFrame is only guaranteed to have exactly SimulationFrame properties.
 	*/
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	allowOverlappingAgents(_primaryAgent : Agent, _secondaryAgent : Agent, _graph : Graph, _simOptions : SimOptions, _rnd : RandomGenerator) : boolean {
+	allowOverlappingAgents(_primaryAgent : Agent, _secondaryAgent : Agent, _graph : Graph, _baseFrame : SimulationFrame, _rnd : RandomGenerator) : boolean {
 		return false;
 	}
 
-	allowAgentToOverlapWith(primaryAgent : Agent, secondaryAgent : Agent, graph : Graph, simOptions : SimOptions, rnd : RandomGenerator) : boolean {
+	allowAgentToOverlapWith(primaryAgent : Agent, secondaryAgent : Agent, graph : Graph, baseFrame : SimulationFrame, rnd : RandomGenerator) : boolean {
 		if (!primaryAgent || !secondaryAgent) return true;
-		return this.allowOverlappingAgents(primaryAgent, secondaryAgent, graph, simOptions, rnd);
+		return this.allowOverlappingAgents(primaryAgent, secondaryAgent, graph, baseFrame, rnd);
 	}
 
 	/*
 		An override point for skipping placing agents at the beginning.
+
+		baseFrame can only be relied on to literally have SimulationFrame, not
+		necesarily any other properties.
 	*/
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	skipPlacingAgents(graph : Graph, _simOptions : SimOptions, _rnd : RandomGenerator) : boolean {
+	skipPlacingAgents(graph : Graph, _baseFrame : SimulationFrame, _rnd : RandomGenerator) : boolean {
 		return !graph;
 	}
 
@@ -130,19 +145,21 @@ export class AgentSimulator extends BaseSimulator {
 		this.numStarterAgents() number of agents by calling this.generateAgent()
 		and randomly place them in the graph (unless skipPlacingAgents()) with no
 		overlap.
+
+		baseFrame is only guranteed to literlaly have SimulationFrame properties, not others.
 	*/
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	generateAgents(graph : Graph, simOptions : SimOptions, rnd : RandomGenerator, _simWidth : number, _simHeight : number) : Agent[] {
+	generateAgents(graph : Graph, baseFrame : SimulationFrame, rnd : RandomGenerator) : Agent[] {
 		const agents = [];
-		const skipPlacingAgents = this.skipPlacingAgents(graph, simOptions, rnd);
+		const skipPlacingAgents = this.skipPlacingAgents(graph, baseFrame, rnd);
 		const baseAvailableNodes = skipPlacingAgents ? {} : {...graph.nodes()};
-		const agentCount = this.numStarterAgents(graph, simOptions, rnd);
+		const agentCount = this.numStarterAgents(graph, baseFrame, rnd);
 		for (let i = 0; i < agentCount; i++) {
-			const agent = this.generateAgent(null, agents, graph, simOptions, rnd);
+			const agent = this.generateAgent(null, agents, graph, baseFrame, rnd);
 			if (!skipPlacingAgents) {
 				const availableNodes = {...baseAvailableNodes};
 				for (const existingAgent of agents) {
-					if (this.allowAgentToOverlapWith(existingAgent, agent, graph, simOptions, rnd)) continue;
+					if (this.allowAgentToOverlapWith(existingAgent, agent, graph, baseFrame, rnd)) continue;
 					delete availableNodes[existingAgent.node];
 				}
 				const nodeList = Object.keys(availableNodes);
@@ -168,8 +185,8 @@ export class AgentSimulator extends BaseSimulator {
 	*/
 	override generateFirstFrame(baseFrame : SimulationFrame, rnd : RandomGenerator) : AgentSimulationFrame {
 		//The default generator will expand this with index and simOptions.
-		const graph = this.generateGraph(baseFrame.simOptions, rnd, baseFrame.width, baseFrame.height);
-		const agents = this.generateAgents(graph, baseFrame.simOptions, rnd, baseFrame.width, baseFrame.height);
+		const graph = this.generateGraph(baseFrame, rnd);
+		const agents = this.generateAgents(graph, baseFrame, rnd);
 		return {
 			...baseFrame,
 			...(this.generateFirstFrameExtra(baseFrame.simOptions, rnd, baseFrame.width, baseFrame.height) || {}),
@@ -241,7 +258,7 @@ export class AgentSimulator extends BaseSimulator {
 		//Agents might have nulls for agents who have already died this tick.
 		const agentsByNode = Object.fromEntries(agents.filter(agent => agent).map(agent => [agent.node, agent]));
 		for (const neighbor of Object.keys(neighborsMap)) {
-			if (this.allowAgentToOverlapWith(agent, agentsByNode[neighbor], graph, frame.simOptions, rnd)) continue;
+			if (this.allowAgentToOverlapWith(agent, agentsByNode[neighbor], graph, frame, rnd)) continue;
 			delete neighborsMap[neighbor];
 		}
 		const urn = new Urn<GraphNodeValues>(rnd);

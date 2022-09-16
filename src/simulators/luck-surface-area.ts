@@ -28,6 +28,7 @@ import {
 	OptionsConfigMap,
 	RandomGenerator,
 	ScoreConfigItem,
+	SimulationFrame,
 	SimulatorType
 } from '../types.js';
 
@@ -94,7 +95,8 @@ class AgentDemoSimulator extends AgentSimulator {
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	override generateGraph(simOptions : LuckSurfaceAreaSimOptions, rnd : RandomGenerator, simWidth : number, simHeight : number) : Graph {
+	override generateGraph(baseFrame : SimulationFrame, rnd : RandomGenerator) : Graph {
+		const simOptions = baseFrame.simOptions as LuckSurfaceAreaSimOptions;
 		const oS = simOptions.opportunities.structure;
 		const oV = simOptions.opportunities.value;
 
@@ -108,10 +110,11 @@ class AgentDemoSimulator extends AgentSimulator {
 			},
 		};
 
-		return graphType.make(simWidth, simHeight, rnd, extendedGraphOptions);
+		return graphType.make(baseFrame.width, baseFrame.height, rnd, extendedGraphOptions);
 	}
 
-	override generateAgent(parentAgent : LuckSurfaceAreaAgent, _otherAgents : LuckSurfaceAreaAgent[], _graph : Graph, simOptions : LuckSurfaceAreaSimOptions, rnd : RandomGenerator) : LuckSurfaceAreaAgent {
+	override generateAgent(parentAgent : LuckSurfaceAreaAgent, _otherAgents : LuckSurfaceAreaAgent[], _graph : Graph, baseFrame : SimulationFrame, rnd : RandomGenerator) : LuckSurfaceAreaAgent {
+		const simOptions = baseFrame.simOptions as LuckSurfaceAreaSimOptions;
 		const [emojiType, emoji] = pickEmoji(PROFESSIONAL_PEOPLE_EMOJIS, parentAgent ? parentAgent.type : rnd);
 		return {
 			...this.baseAgent(rnd),
@@ -177,7 +180,8 @@ class AgentDemoSimulator extends AgentSimulator {
 		return newAgent;
 	}
 
-	override numStarterAgents(_graph : Graph, simOptions : LuckSurfaceAreaSimOptions) : number {
+	override numStarterAgents(_graph : Graph, baseFrame : SimulationFrame) : number {
+		const simOptions = baseFrame.simOptions as LuckSurfaceAreaSimOptions;
 		return simOptions.agents.count;
 	}
 

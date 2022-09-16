@@ -23,6 +23,7 @@ import {
 	OptionsConfigMap,
 	RandomGenerator,
 	ScoreConfigItem,
+	SimulationFrame,
 	SimulatorType
 } from '../types.js';
 
@@ -66,7 +67,8 @@ class StandingOvationSimulator extends AgentSimulator {
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	override generateAgent(_parentAgent : StandingOvationAgent, _otherAgents : StandingOvationAgent[], _graph : Graph, simOptions : StandingOvationSimOptions, rnd : RandomGenerator) : StandingOvationAgent {
+	override generateAgent(_parentAgent : StandingOvationAgent, _otherAgents : StandingOvationAgent[], _graph : Graph, baseFrame : SimulationFrame, rnd : RandomGenerator) : StandingOvationAgent {
+		const simOptions = baseFrame.simOptions as StandingOvationSimOptions;
 		return {
 			...this.baseAgent(rnd),
 			standing: false,
@@ -78,9 +80,10 @@ class StandingOvationSimulator extends AgentSimulator {
 		};
 	}
 
-	override generateGraph(simOptions : StandingOvationSimOptions, _rnd : RandomGenerator, simWidth : number, simHeight : number) : Graph {
+	override generateGraph(baseFrame : SimulationFrame) : Graph {
+		const simOptions = baseFrame.simOptions as StandingOvationSimOptions;
 		//Stage is to the left 
-		return RectangleGraph.make(simOptions.rows, simOptions.cols, simWidth, simHeight, {diagonalUp: true, noHorizontal: true, noDown: true});
+		return RectangleGraph.make(simOptions.rows, simOptions.cols, baseFrame.width, baseFrame.height, {diagonalUp: true, noHorizontal: true, noDown: true});
 	}
 
 	override generateFirstFrameExtra() : StandingOvationSimulationFrameExtra {
@@ -89,7 +92,8 @@ class StandingOvationSimulator extends AgentSimulator {
 		};
 	}
 
-	override numStarterAgents(graph: Graph, simOptions : StandingOvationSimOptions) : number {
+	override numStarterAgents(graph: Graph, baseFrame : SimulationFrame) : number {
+		const simOptions = baseFrame.simOptions as StandingOvationSimOptions;
 		return Math.floor(Object.keys(graph.nodes()).length * simOptions.filledSeatProportion);
 	}
 

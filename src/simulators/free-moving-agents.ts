@@ -6,6 +6,7 @@ import {
 
 import {
 	OptionsConfigMap,
+	SimulationFrame,
 	SimulatorType
 } from '../types.js';
 
@@ -46,7 +47,8 @@ class FreeMovingAgentsSimulator extends AgentSimulator {
 		return frame.index >= frame.simOptions.rounds;
 	}
 
-	override numStarterAgents(_graph : Graph, simOptions : FreeMovingAgentsSimOptions) : number {
+	override numStarterAgents(_graph : Graph, baseFrame : SimulationFrame) : number {
+		const simOptions = baseFrame.simOptions as FreeMovingAgentsSimOptions;
 		return simOptions.agents;
 	}
 	
