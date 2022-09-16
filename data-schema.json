@@ -129,8 +129,19 @@
       "additionalProperties": false,
       "properties": {
         "agents": {
-          "description": "The number of starter agents",
-          "type": "number"
+          "additionalProperties": false,
+          "description": "Information on agents",
+          "properties": {
+            "count": {
+              "description": "The number of starter agents",
+              "type": "number"
+            },
+            "speed": {
+              "$ref": "#/definitions/DistributionOptions",
+              "description": "The starter strength of agents that start at the beginning"
+            }
+          },
+          "type": "object"
         },
         "rounds": {
           "description": "The number of rounds",

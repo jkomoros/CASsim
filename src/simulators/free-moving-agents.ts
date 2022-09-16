@@ -23,15 +23,28 @@ import {
 } from '../graph/graph.js';
 
 import {
+	DistributionConfig,
+	FIXED
+} from '../distribution.js';
+
+import {
 	FreeMovingAgentsSimOptions
 } from './types/free-moving-agents.GENERATED.js';
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'free-moving-agents';
 
+const agentSpeed = new DistributionConfig({
+	average: 1.0,
+	distribution: FIXED,
+	default: true,
+	description: 'The starter strength of agents that start at the beginning'
+});
+
 type FreeMovingAgentsAgent = Agent & {
 	emoji : string;
 	angle : Angle;
+	speed : number;
 };
 
 interface FreeMovingAgentsSimulationFrame extends AgentSimulationFrame {
@@ -58,22 +71,24 @@ class FreeMovingAgentsSimulator extends AgentSimulator {
 
 	override numStarterAgents(_graph : Graph, baseFrame : SimulationFrame) : number {
 		const simOptions = baseFrame.simOptions as FreeMovingAgentsSimOptions;
-		return simOptions.agents;
+		return simOptions.agents.count;
 	}
 
 	override generateAgent(_parentAgent : FreeMovingAgentsAgent, _otherAgents : FreeMovingAgentsAgent[], _graph : Graph, baseFrame : SimulationFrame, rnd : RandomGenerator) : FreeMovingAgentsAgent {
+		const simOptions = baseFrame.simOptions as FreeMovingAgentsSimOptions;
 		return {
 			...this.baseAgent(rnd),
 			emoji: '🐞',
 			x: baseFrame.width * rnd(),
 			y: baseFrame.height * rnd(),
-			angle: randomAngle(rnd)
+			angle: randomAngle(rnd),
+			speed: agentSpeed.distribution(simOptions.agents.speed).sample(rnd),
 		};
 	}
 
 	override defaultAgentTick(agent: FreeMovingAgentsAgent): FreeMovingAgentsAgent | FreeMovingAgentsAgent[] {
 		//TODO: each node should get its own speed
-		const speed = 5.0;
+		const speed = agent.speed;
 		const rotatedAgentAngle = normalizeAngle(agent.angle - ANGLE_MAX / 4);
 		const x = agent.x + (Math.cos(rotatedAgentAngle) * speed);
 		const y = agent.y + (Math.sin(rotatedAgentAngle) * speed);
@@ -88,11 +103,21 @@ class FreeMovingAgentsSimulator extends AgentSimulator {
 		//When you modify this method, re-run `npm run generate` to update the types and schema checking
 		return {
 			agents: {
-				example: 5,
+				example: {
+					count: {
+						example: 5,
+						description: 'The number of starter agents',
+						shortName: 'n',
+						optional: true,
+						backfill: true,
+						default: true
+					},
+					speed: agentSpeed.optionsConfig
+				},
 				optional: true,
 				backfill: true,
 				default: true,
-				description: 'The number of starter agents'
+				description: 'Information on agents'
 			},
 			rounds: {
 				example: 150,
