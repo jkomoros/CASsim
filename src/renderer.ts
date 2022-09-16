@@ -318,15 +318,17 @@ export class PositionedGraphRenderer extends BaseRenderer {
 
 	override innerRender() : TemplateResult {
 		const graph = this._graph();
-		if (!graph) return html``;
+		const nodeRoundness = graph ? graph.nodeRoundness : 0.0;
+		const height = this.frame.height;
+		const width = this.frame.width;
 		const styles = {
-			'--node-radius': '' + 100 * graph.nodeRoundness + '%',
-			'height': '' + graph.height * this.scale + 'px',
-			'width': '' + graph.width * this.scale + 'px',
+			'--node-radius': '' + 100 * nodeRoundness + '%',
+			'height': '' + height * this.scale + 'px',
+			'width': '' + width * this.scale + 'px',
 		};
 		return html`
 			<div class='nodes' style=${styleMap(styles)}>
-				${Object.values(graph.nodes()).map(node => this.renderNode(node, graph))}
+				${Object.values((graph ? graph.nodes() : {})).map(node => this.renderNode(node, graph))}
 				${repeat(Object.values(this.agentData(this.frame)), agent => agent.id, agent => this.renderAgent(agent, graph))}
 				${graph && this.renderEdges(this.frame) ?
 		html`<svg viewBox='0 0 ${graph.width} ${graph.height}'>
