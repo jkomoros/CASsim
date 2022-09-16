@@ -97,6 +97,12 @@ export default FreeMovingAgentsSimulator;
 
 import { PositionedGraphRenderer } from '../renderer.js';
 
-class FreeMovingAgentsRenderer extends PositionedGraphRenderer {}
+class FreeMovingAgentsRenderer extends PositionedGraphRenderer {
+
+	override agentDefaultMaxNodeSize() : number {
+		return 50;
+	}
+
+}
 
 window.customElements.define(SIMULATOR_NAME + "-renderer", FreeMovingAgentsRenderer);
