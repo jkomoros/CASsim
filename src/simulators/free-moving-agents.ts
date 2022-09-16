@@ -45,10 +45,21 @@ class FreeMovingAgentsSimulator extends AgentSimulator {
 	override simulationComplete(frame : FreeMovingAgentsSimulationFrame) : boolean {
 		return frame.index >= frame.simOptions.rounds;
 	}
+
+	override numStarterAgents(_graph : Graph, simOptions : FreeMovingAgentsSimOptions) : number {
+		return simOptions.agents;
+	}
 	
 	override get optionsConfig() : OptionsConfigMap {
 		//When you modify this method, re-run `npm run generate` to update the types and schema checking
 		return {
+			agents: {
+				example: 5,
+				optional: true,
+				backfill: true,
+				default: true,
+				description: 'The number of starter agents'
+			},
 			rounds: {
 				example: 150,
 				optional: true,

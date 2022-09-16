@@ -128,6 +128,10 @@
     "FreeMovingAgentsSimOptions": {
       "additionalProperties": false,
       "properties": {
+        "agents": {
+          "description": "The number of starter agents",
+          "type": "number"
+        },
         "rounds": {
           "description": "The number of rounds",
           "type": "number"
