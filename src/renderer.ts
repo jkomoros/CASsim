@@ -20,6 +20,7 @@ import {
 } from './random.js';
 
 import {
+	Angle,
 	CSSColor,
 	GraphData,
 	GraphEdge,
@@ -33,7 +34,14 @@ import {
 	Agent,
 	AgentSimulationFrame
 } from './agent-simulator.js';
-import { PositionedGraph } from './graph/positioned.js';
+
+import {
+	PositionedGraph
+} from './graph/positioned.js';
+
+import {
+	ANGLE_MIN
+} from './util.js';
 
 @customElement('base-renderer')
 export class BaseRenderer extends LitElement {
@@ -171,6 +179,11 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		return 1.0;
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	agentRotation(_agent : Agent, _graph : Graph) : Angle {
+		return ANGLE_MIN;
+	}
+
 	agentX(agent : Agent) : number {
 		if (agent.x !== undefined) return agent.x;
 		const rnd = makeSeededRandom(agent.id);
@@ -266,7 +279,11 @@ export class PositionedGraphRenderer extends BaseRenderer {
 
 	renderAgent(agent : Agent, graph : PositionedGraph) : TemplateResult {
 		let styles = this._positionStyles(this.agentPosition(agent, graph));
-		styles = {...styles, 'opacity': String(this.agentOpacity(agent, graph))};
+		styles = {
+			...styles,
+			'opacity': String(this.agentOpacity(agent, graph)),
+			'transform': 'rotate(' + String(this.agentRotation(agent, graph)) + 'rad)'
+		};
 		const agentType = agent['type'] || '';
 		return html`<div class='agent ${agentType}' style=${styleMap(styles)}>${this.agentEmoji(agent)}</div>`;
 	}
