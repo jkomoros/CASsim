@@ -80,6 +80,13 @@
 			"runs": 1,
 			"sim": "luck-surface-area",
 			"simOptions": null
+		},
+		{
+			"name": "free-moving-agents-demo",
+			"description": "A demo of the free-moving-agents simulator",
+			"extend": "base",
+			"sim": "free-moving-agents",
+			"simOptions": null
 		}
 	]
 }
