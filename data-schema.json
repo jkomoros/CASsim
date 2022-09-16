@@ -1086,6 +1086,151 @@
               "type": "object"
             }
           ]
+        },
+        {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "autoGenerate": {
+                  "type": "boolean"
+                },
+                "autoPlay": {
+                  "type": "boolean"
+                },
+                "base": {
+                  "const": true,
+                  "type": "boolean"
+                },
+                "colors": {
+                  "$ref": "#/definitions/ColorsMap"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "display": {
+                  "$ref": "#/definitions/SimulationConfigDisplay"
+                },
+                "extraFinalFrameCount": {
+                  "type": "number"
+                },
+                "frameDelay": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                },
+                "name": {
+                  "$ref": "#/definitions/SimulationConfigName"
+                },
+                "repeat": {
+                  "type": "boolean"
+                },
+                "runs": {
+                  "type": "number"
+                },
+                "seed": {
+                  "type": "string"
+                },
+                "sim": {
+                  "const": "stub",
+                  "type": "string"
+                },
+                "simOptions": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/StubSimOptions"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "title": {
+                  "type": "string"
+                },
+                "width": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "base",
+                "sim",
+                "simOptions"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "autoGenerate": {
+                  "type": "boolean"
+                },
+                "autoPlay": {
+                  "type": "boolean"
+                },
+                "colors": {
+                  "$ref": "#/definitions/ColorsMap"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "display": {
+                  "$ref": "#/definitions/SimulationConfigDisplay"
+                },
+                "extend": {
+                  "$ref": "#/definitions/SimulationConfigName"
+                },
+                "extraFinalFrameCount": {
+                  "type": "number"
+                },
+                "frameDelay": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                },
+                "name": {
+                  "$ref": "#/definitions/SimulationConfigName"
+                },
+                "repeat": {
+                  "type": "boolean"
+                },
+                "runs": {
+                  "type": "number"
+                },
+                "seed": {
+                  "type": "string"
+                },
+                "sim": {
+                  "const": "stub",
+                  "type": "string"
+                },
+                "simOptions": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/StubSimOptions"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "title": {
+                  "type": "string"
+                },
+                "width": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "extend",
+                "sim",
+                "simOptions"
+              ],
+              "type": "object"
+            }
+          ]
         }
       ]
     },
@@ -1485,6 +1630,16 @@
         "rows",
         "cols"
       ],
+      "type": "object"
+    },
+    "StubSimOptions": {
+      "additionalProperties": false,
+      "properties": {
+        "rounds": {
+          "description": "The number of rounds",
+          "type": "number"
+        }
+      },
       "type": "object"
     }
   }

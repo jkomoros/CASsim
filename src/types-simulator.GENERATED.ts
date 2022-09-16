@@ -27,6 +27,10 @@ import {
 	StandingOvationSimOptions
 } from './simulators/types/standing-ovation.GENERATED.js';
 
+import {
+	StubSimOptions
+} from './simulators/types/stub.GENERATED.js';
+
 interface DiceRollDemoSimulationConfigExtra {
 	sim: 'dice-roll-demo';
 	simOptions: DiceRollDemoSimOptions | null;
@@ -62,4 +66,11 @@ interface StandingOvationSimulationConfigExtra {
 
 type StandingOvationRawSimulationConfig = (RawSimulationConfigBase & StandingOvationSimulationConfigExtra) | (RawSimulationConfigExtended & StandingOvationSimulationConfigExtra);
 		
-export type RawSimulationConfig = DiceRollDemoRawSimulationConfig | LuckSurfaceAreaRawSimulationConfig | PastureDemoRawSimulationConfig | SchellingOrgRawSimulationConfig | StandingOvationRawSimulationConfig;
+interface StubSimulationConfigExtra {
+	sim: 'stub';
+	simOptions: StubSimOptions | null;
+}
+
+type StubRawSimulationConfig = (RawSimulationConfigBase & StubSimulationConfigExtra) | (RawSimulationConfigExtended & StubSimulationConfigExtra);
+		
+export type RawSimulationConfig = DiceRollDemoRawSimulationConfig | LuckSurfaceAreaRawSimulationConfig | PastureDemoRawSimulationConfig | SchellingOrgRawSimulationConfig | StandingOvationRawSimulationConfig | StubRawSimulationConfig;
