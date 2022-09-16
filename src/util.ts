@@ -104,7 +104,7 @@ export const ANGLE_MAX : Angle = Math.PI * 2;
 
 export const normalizeAngle = (angle : Angle) : Angle => {
 	while (angle > ANGLE_MAX) angle -= ANGLE_MAX;
-	while (angle < ANGLE_MIN) angle += ANGLE_MIN;
+	while (angle < ANGLE_MIN) angle += ANGLE_MAX;
 	return angle;
 };
 
