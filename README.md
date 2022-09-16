@@ -157,7 +157,7 @@ import {
 ```
 
 You do **not** need to create `types/dashed-simulator-name.GENERATED.js`. Then, run `npm run generate` and it will 
-generate that file for you.
+generate that file for you. Be sure to check in `src/simulators/types/dashed-simulator-name.GENERATED.js` into source control!
 
 ### Simulator Class
 
