@@ -56,7 +56,7 @@ class FreeMovingAgentsSimulator extends AgentSimulator {
 	override generateAgent(_parentAgent : FreeMovingAgentsAgent, _otherAgents : FreeMovingAgentsAgent[], _graph : Graph, baseFrame : SimulationFrame, rnd : RandomGenerator) : FreeMovingAgentsAgent {
 		return {
 			...this.baseAgent(rnd),
-			emoji: '🚗',
+			emoji: '🐞',
 			x: baseFrame.width * rnd(),
 			y: baseFrame.height * rnd()
 		};
