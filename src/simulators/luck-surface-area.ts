@@ -86,7 +86,7 @@ interface LuckSurfaceAreaGraphNodeValues extends GraphNodeValues {
 	valueFalloff : number;
 }
 
-class AgentDemoSimulator extends AgentSimulator {
+class LuckSurfaceAreaSimulator extends AgentSimulator {
 
 	override get name() : SimulatorType {
 		return SIMULATOR_NAME;
@@ -285,7 +285,7 @@ class AgentDemoSimulator extends AgentSimulator {
 	}
 }
 
-export default AgentDemoSimulator;
+export default LuckSurfaceAreaSimulator;
 
 /************************************************************************
 *  All imports (including transitive ones) of lit must occur below the  *
