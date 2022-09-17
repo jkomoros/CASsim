@@ -67,10 +67,15 @@ export const RIGHTWARDS_INSECT_EMOJIS : EmojiSet = {
 	'snail': '🐌',
 };
 
+export const DOWNWARDS_INSECT_EMOJIS : EmojiSet = {
+	'scorpion': '🦂'
+};
+
 export const INSECT_EMOJIS : EmojiSet = {
 	...UPWARDS_INSECTS_EMOJIS,
 	...LEFTWARDS_INSECT_EMOJIS,
-	...RIGHTWARDS_INSECT_EMOJIS
+	...RIGHTWARDS_INSECT_EMOJIS,
+	...DOWNWARDS_INSECT_EMOJIS
 };
 
 export const ANIMAL_EMOJIS : EmojiSet = {
@@ -96,6 +101,7 @@ export const EMOJI_ROTATION : {[emoji : string] : Angle} = {
 	...emojiDirection(ROTATION_UP, UPWARDS_INSECTS_EMOJIS),
 	...emojiDirection(ROTATION_LEFT, LEFTWARDS_INSECT_EMOJIS),
 	...emojiDirection(ROTATION_RIGHT, RIGHTWARDS_INSECT_EMOJIS),
+	...emojiDirection(ROTATION_DOWN, DOWNWARDS_INSECT_EMOJIS),
 	...emojiDirection(ROTATION_DOWN, PEOPLE_EMOJI),
 	...emojiDirection(ROTATION_LEFT, GRAZING_FARM_ANIMALS_EMOJIS)
 };
