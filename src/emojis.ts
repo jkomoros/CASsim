@@ -45,8 +45,23 @@ export const GRAZING_FARM_ANIMALS_EMOJIS : EmojiSet = {
 	'goat': '🐐'
 };
 
+export const UPWARDS_INSECTS_EMOJIS : EmojiSet = {
+	'lady-beetle': '🐞',
+	'spider': '🕷️',
+};
+
+export const LEFTWARDS_INSECT_EMOJIS : EmojiSet = {
+	'ant': '🐜',
+};
+
+export const INSECT_EMOJIS : EmojiSet = {
+	...UPWARDS_INSECTS_EMOJIS,
+	...LEFTWARDS_INSECT_EMOJIS
+};
+
 export const ANIMAL_EMOJIS : EmojiSet = {
 	...GRAZING_FARM_ANIMALS_EMOJIS,
+	...INSECT_EMOJIS
 };
 
 const FULL_ROTATION =  Math.PI * 2;
