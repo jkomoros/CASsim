@@ -16,6 +16,7 @@ import {
 } from './util.js';
 
 import {
+	Angle,
 	GraphData,
 	GraphEdge,
 	GraphExplorationEdgeScorer,
@@ -35,6 +36,7 @@ export type Agent = {
 	y? : number;
 	height? : number;
 	width? : number;
+	angle? : Angle;
 };
 
 type AgentSimulationFrameExtra = {

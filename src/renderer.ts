@@ -180,8 +180,8 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	agentRotation(_agent : Agent, _graph : Graph) : Angle {
-		return ANGLE_MIN;
+	agentRotation(agent : Agent, _graph : Graph) : Angle {
+		return agent.angle === undefined ? ANGLE_MIN : agent.angle;
 	}
 
 	agentX(agent : Agent) : number {
