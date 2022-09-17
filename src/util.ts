@@ -9,7 +9,8 @@ import {
 	OptionValueMap,
 	RandomGenerator,
 	SimulationConfig,
-	SimulatorType
+	SimulatorType,
+	Size
 } from './types.js';
 
 /*
@@ -123,23 +124,58 @@ export const flipAngleVertically = (angle : Angle) : Angle => {
 	return ANGLE_MAX - angle;
 };
 
-export function newPosition(previousX: number, previousY : number, angle : Angle, speed : number) : [x : number, y: number];
-export function newPosition(movingObject : MovingObject) : [x : number, y : number];
-export function newPosition(previousXOrMovingObject: number | MovingObject, previousY? : number, angle? : Angle, speed? : number) : [x : number, y: number] {
+/**
+ *
+ * newPosition takes a previous x,y, angle and speed, and possibly a Size
+ * denoting the bounds of the stage, and returns a new x,y. If the simOptions is
+ * provided then implicitly movements outside of the space will be reflected.
+ *
+ * angle will only possibly be different from the passed in angle if a Size is
+ * provided
+ *
+ */
+export function newPosition(previousX: number, previousY : number, angle : Angle, speed : number, size? : Size) : [x : number, y: number, angle : Angle];
+export function newPosition(movingObject : MovingObject, size? : Size) : [x : number, y : number, angle : Angle];
+export function newPosition(previousXOrMovingObject: number | MovingObject, previousYOrSize? : number | Size, angle? : Angle, speed? : number, size? : Size) : [x : number, y: number, angle : Angle] {
 	let previousX : number;
+	let previousY : number;
 	if (typeof previousXOrMovingObject == 'number') {
 		previousX = previousXOrMovingObject;
+		if (typeof previousYOrSize != 'number') throw new Error('unexpected overload');
+		previousY = previousYOrSize;
 	} else {
 		const movingObject = previousXOrMovingObject;
 		previousX = movingObject.x;
 		previousY = movingObject.y;
 		angle = movingObject.angle;
 		speed = movingObject.speed;
+		if (typeof previousYOrSize == 'number') throw new Error('unexpected overload');
+		size = previousYOrSize;
 	}
 	angle = normalizeAngle(angle);
-	const x = previousX + (Math.cos(angle) * speed);
-	const y = previousY + (Math.sin(angle) * speed);
-	return [x, y];
+	let x = previousX + (Math.cos(angle) * speed);
+	let y = previousY + (Math.sin(angle) * speed);
+	if (size) {
+		if (x < 0) {
+			//left
+			x = Math.abs(x);
+			angle = flipAngleHorizontally(angle);
+		} else if(x > size.width) {
+			//right
+			x = size.width - (x - size.width);
+			angle = flipAngleHorizontally(angle);
+		}
+		if (y < 0) {
+			//up
+			y = Math.abs(y);
+			angle = flipAngleVertically(angle);
+		} else if (y > size.height) {
+			//down
+			y = size.height - (y - size.height);
+			angle = flipAngleVertically(angle);
+		}
+	}
+	return [x, y, angle];
 }
 
 const IS_STEP_EPSILON = 0.0000001;
