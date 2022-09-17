@@ -5,9 +5,9 @@ import {
 //CoordinatesID are considered equal if they have the same id
 type CoordinatesID = {id: string, radius? : number} & Coordinates;
 
-type FrameData<T extends Coordinates> = {
+type FrameData = {
 	format: 'flat';
-	items : T[];
+	items : CoordinatesID[];
 };
 
 const coordinatesIDEquivalent = (one: CoordinatesID, two: CoordinatesID) : boolean => {
@@ -30,17 +30,19 @@ export class CoordinatesMap<T extends CoordinatesID>{
 	}
 
 	//How to load up a PositionMap based on frameData. Should be memoized with a weakmap of FrameData.
-	static fromFrameData<F extends CoordinatesID>(frameData : FrameData<F>) : CoordinatesMap<F> {
+	static fromFrameData<F extends CoordinatesID>(frameData : FrameData, fullItems : F[]) : CoordinatesMap<F> {
 		//TODO: memoize based on a weak map
 		if (frameData.format != 'flat') throw new Error('Unsupported FrameData format: ' + frameData.format);
-		return new CoordinatesMap(frameData.items);
+		const itemsMap = Object.fromEntries(fullItems.map(item => [item.id, item]));
+		const expandedItems : F[] = frameData.items.map(item => itemsMap[item.id]);
+		return new CoordinatesMap<F>(expandedItems);
 	}
 
 	//Suitable to be stored in a property of a frame
-	toFrameData() : FrameData<T> {
+	toFrameData() : FrameData {
 		return {
 			format: 'flat',
-			items: [...this._items]
+			items: this._items.map(item => ({id: item.id, x: item.x, y: item.y, radius: item.radius}))
 		};
 	}
   
