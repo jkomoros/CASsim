@@ -136,6 +136,15 @@
               "description": "The number of starter agents",
               "type": "number"
             },
+            "emoji": {
+              "description": "What emoji to use for the agents",
+              "enum": [
+                "🐞",
+                "🕷️",
+                "🐜"
+              ],
+              "type": "string"
+            },
             "speed": {
               "$ref": "#/definitions/DistributionOptions",
               "description": "The starter strength of agents that start at the beginning"

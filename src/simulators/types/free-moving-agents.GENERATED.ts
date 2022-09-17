@@ -11,6 +11,8 @@ export type FreeMovingAgentsSimOptions = {
 		count?: number;
 		/** The starter strength of agents that start at the beginning */
 		speed?: DistributionOptions;
+		/** What emoji to use for the agents */
+		emoji?: '🐞' | '🕷️' | '🐜';
 	};
 	/** The number of rounds */
 	rounds?: number;

@@ -27,6 +27,10 @@ import {
 } from '../distribution.js';
 
 import {
+	INSECT_EMOJIS
+} from '../emojis.js';
+
+import {
 	FreeMovingAgentsSimOptions
 } from './types/free-moving-agents.GENERATED.js';
 
@@ -81,7 +85,7 @@ class FreeMovingAgentsSimulator extends AgentSimulator {
 		const simOptions = baseFrame.simOptions as FreeMovingAgentsSimOptions;
 		return {
 			...this.baseAgent(rnd),
-			emoji: '🐞',
+			emoji: simOptions.agents.emoji,
 			x: baseFrame.width * rnd(),
 			y: baseFrame.height * rnd(),
 			angle: randomAngle(rnd),
@@ -114,7 +118,15 @@ class FreeMovingAgentsSimulator extends AgentSimulator {
 						backfill: true,
 						default: true
 					},
-					speed: agentSpeed.optionsConfig
+					speed: agentSpeed.optionsConfig,
+					emoji: {
+						example: '🐞',
+						description: 'What emoji to use for the agents',
+						optional: true,
+						backfill: true,
+						default: true,
+						options: Object.values(INSECT_EMOJIS).map(emoji => ({value: emoji}))
+					}
 				},
 				optional: true,
 				backfill: true,
