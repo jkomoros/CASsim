@@ -42,6 +42,7 @@ import {
 import {
 	ANGLE_MIN
 } from './util.js';
+import { EMOJI_ROTATION } from './emojis.js';
 
 @customElement('base-renderer')
 export class BaseRenderer extends LitElement {
@@ -179,9 +180,8 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		return 1.0;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	emojiRotation(_emoji : string) : Angle {
-		return ANGLE_MIN;
+	emojiRotation(emoji : string) : Angle {
+		return EMOJI_ROTATION[emoji] || ANGLE_MIN;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
