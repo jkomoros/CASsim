@@ -14,6 +14,7 @@ import {
 
 import {
 	ANGLE_MAX,
+	ANGLE_MIN,
 	newPosition,
 	randomAngle
 } from '../util.js';
@@ -153,8 +154,12 @@ class FreeMovingAgentsRenderer extends PositionedGraphRenderer {
 		return 50;
 	}
 
-	override agentRotation(agent: FreeMovingAgentsAgent): Angle {
-		return agent.angle + (ANGLE_MAX / 4);
+	override emojiRotation(emoji: string): Angle {
+		switch (emoji) {
+		case '🐞':
+			return (ANGLE_MAX / 4);
+		}
+		return ANGLE_MIN;
 	}
 
 }
