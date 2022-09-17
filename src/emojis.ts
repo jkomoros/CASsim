@@ -70,12 +70,16 @@ const ROTATION_UP = FULL_ROTATION / 4;
 const ROTATION_LEFT = FULL_ROTATION / 2;
 const ROTATION_DOWN = FULL_ROTATION  * 3/4;
 
+const emojiDirection = (direction: Angle, emojis : EmojiSet) : {[emoji : string] : Angle} => {
+	return Object.fromEntries(Object.values(emojis).map(emoji => [emoji, direction]));
+};
+
 /**
  * A map of rotations for known emojis
  */
 export const EMOJI_ROTATION : {[emoji : string] : Angle} = {
-	...Object.fromEntries(Object.values(UPWARDS_INSECTS_EMOJIS).map(emoji => [emoji, ROTATION_UP])),
-	...Object.fromEntries(Object.values(LEFTWARDS_INSECT_EMOJIS).map(emoji => [emoji, ROTATION_LEFT])),
-	...Object.fromEntries(Object.values(PEOPLE_EMOJI).map(emoji => [emoji, ROTATION_DOWN])),
-	...Object.fromEntries(Object.values(GRAZING_FARM_ANIMALS_EMOJIS).map(emoji => [emoji, ROTATION_LEFT]))
+	...emojiDirection(ROTATION_UP, UPWARDS_INSECTS_EMOJIS),
+	...emojiDirection(ROTATION_LEFT, LEFTWARDS_INSECT_EMOJIS),
+	...emojiDirection(ROTATION_DOWN, PEOPLE_EMOJI),
+	...emojiDirection(ROTATION_LEFT, GRAZING_FARM_ANIMALS_EMOJIS)
 };
