@@ -40,7 +40,8 @@ import {
 } from './graph/positioned.js';
 
 import {
-	ANGLE_MIN
+	ANGLE_MIN,
+	normalizeAngle
 } from './util.js';
 
 import {
@@ -201,17 +202,20 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		return EMOJI_ROTATION[emoji] == Math.PI;
 	}
 
+	/**
+	 * Whether the emoji is oriented horizontally. If they are, then when
+	 * they're rotated between 90 and 270 degrees they'll be flipped vertically.
+	 */
+	emojiHorizontal(emoji : string) : boolean {
+		return EMOJI_ROTATION[emoji] == Math.PI || EMOJI_ROTATION[emoji] == 0.0;
+	}
+
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	agentRotation(agent : Agent, _graph : Graph) : Angle {
 		const baseAngle = agent.angle === undefined ? ANGLE_MIN : agent.angle;
 		const emoji = this.agentEmoji(agent);
 		const emojiAngle = this.emojiRotation(emoji);
 		return baseAngle + emojiAngle;
-	}
-
-	agentFlipped(agent : Agent) : boolean {
-		const emoji = this.agentEmoji(agent);
-		return this.emojiFlipped(emoji);
 	}
 
 	agentX(agent : Agent) : number {
@@ -309,10 +313,15 @@ export class PositionedGraphRenderer extends BaseRenderer {
 
 	renderAgent(agent : Agent, graph : PositionedGraph) : TemplateResult {
 		let styles = this._positionStyles(this.agentPosition(agent, graph));
+		const rotation = normalizeAngle(this.agentRotation(agent, graph));
+		let transform = 'rotate(' + String(rotation) + 'rad)';
+		const emoji = this.agentEmoji(agent);
+		transform += this.emojiFlipped(emoji) ? ' scaleX(-1) ' : '';
+		transform += (this.emojiHorizontal(emoji) && rotation > Math.PI / 2 && rotation < (Math.PI * 3 / 2)) ? ' scaleY(-1)' : '';
 		styles = {
 			...styles,
 			'opacity': String(this.agentOpacity(agent, graph)),
-			'transform': 'rotate(' + String(this.agentRotation(agent, graph)) + 'rad)' + (this.agentFlipped(agent) ? ' scaleX(-1) ' : '')
+			'transform': transform
 		};
 		const agentType = agent['type'] || '';
 		return html`<div class='agent ${agentType}' style=${styleMap(styles)}>${this.agentEmoji(agent)}</div>`;
