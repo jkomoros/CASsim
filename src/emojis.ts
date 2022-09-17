@@ -1,6 +1,7 @@
 //Returns [emojiName, emoji] from the set. keyOrRnd can be a function, in which
 
 import {
+	Angle,
 	EmojiSet, RandomGenerator
 } from './types.js';
 
@@ -46,4 +47,15 @@ export const GRAZING_FARM_ANIMALS_EMOJIS : EmojiSet = {
 
 export const ANIMAL_EMOJIS : EmojiSet = {
 	...GRAZING_FARM_ANIMALS_EMOJIS,
+};
+
+const FULL_ROTATION : Angle =  Math.PI * 2;
+
+const ROTATION_UP = FULL_ROTATION / 4;
+
+/**
+ * A map of rotations for known emojis
+ */
+export const EMOJI_ROTATION : {[emoji : string] : Angle} = {
+	'🐞': ROTATION_UP
 };
