@@ -74,8 +74,7 @@ const ROTATION_DOWN = FULL_ROTATION  * 3/4;
  * A map of rotations for known emojis
  */
 export const EMOJI_ROTATION : {[emoji : string] : Angle} = {
-	'🐞': ROTATION_UP,
-	'🕷': ROTATION_UP,
-	'🐜': ROTATION_LEFT,
-	'👮': ROTATION_DOWN,
+	...Object.fromEntries(Object.values(UPWARDS_INSECTS_EMOJIS).map(emoji => [emoji, ROTATION_UP])),
+	...Object.fromEntries(Object.values(LEFTWARDS_INSECT_EMOJIS).map(emoji => [emoji, ROTATION_LEFT])),
+	...Object.fromEntries(Object.values(PEOPLE_EMOJI).map(emoji => [emoji, ROTATION_DOWN]))
 };
