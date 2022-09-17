@@ -49,13 +49,16 @@ export const ANIMAL_EMOJIS : EmojiSet = {
 	...GRAZING_FARM_ANIMALS_EMOJIS,
 };
 
-const FULL_ROTATION : Angle =  Math.PI * 2;
+const FULL_ROTATION =  Math.PI * 2;
 
 const ROTATION_UP = FULL_ROTATION / 4;
+const ROTATION_LEFT = FULL_ROTATION / 2;
 
 /**
  * A map of rotations for known emojis
  */
 export const EMOJI_ROTATION : {[emoji : string] : Angle} = {
-	'🐞': ROTATION_UP
+	'🐞': ROTATION_UP,
+	'🕷': ROTATION_UP,
+	'🐜': ROTATION_LEFT,
 };
