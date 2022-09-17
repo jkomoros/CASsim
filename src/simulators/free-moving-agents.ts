@@ -23,7 +23,7 @@ import {
 
 import {
 	DistributionConfig,
-	FIXED
+	NORMAL
 } from '../distribution.js';
 
 import {
@@ -38,8 +38,10 @@ import {
 const SIMULATOR_NAME = 'free-moving-agents';
 
 const agentSpeed = new DistributionConfig({
-	average: 1.0,
-	distribution: FIXED,
+	average: 3.0,
+	spread: 1.5,
+	limitMax: 10.0,
+	distribution: NORMAL,
 	default: true,
 	description: 'The starter strength of agents that start at the beginning'
 });
