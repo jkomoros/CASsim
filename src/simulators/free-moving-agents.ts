@@ -113,7 +113,7 @@ class FreeMovingAgentsSimulator extends AgentSimulator {
 			agents: {
 				example: {
 					count: {
-						example: 5,
+						example: 20,
 						description: 'The number of starter agents',
 						shortName: 'n',
 						optional: true,
