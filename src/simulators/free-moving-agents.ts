@@ -90,12 +90,15 @@ class FreeMovingAgentsSimulator extends AgentSimulator {
 		};
 	}
 
-	override defaultAgentTick(agent: FreeMovingAgentsAgent): FreeMovingAgentsAgent | FreeMovingAgentsAgent[] {
-		const [x, y] = newPosition(agent);
+	override defaultAgentTick(agent: FreeMovingAgentsAgent, _agents : FreeMovingAgentsAgent[], _graph : Graph, frame : FreeMovingAgentsSimulationFrame): FreeMovingAgentsAgent | FreeMovingAgentsAgent[] {
+		//frame contains width, height, so we can pass it to express the
+		//allowable bounds, which will be reflected when they exceed them.
+		const [x, y, angle] = newPosition(agent, frame);
 		return {
 			...agent,
 			x,
-			y
+			y,
+			angle
 		};
 	}
 	
