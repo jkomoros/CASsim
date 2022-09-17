@@ -68,8 +68,6 @@ export class CoordinatesMap<T extends CoordinatesID>{
 		};
 	}
   
-	//radius of more than 0 will occupy more space
-	//TODO: add a radius? and also use radius of obj if provided.
 	updateObject(obj: T) {
 		if (this._items.some(item => coordinatesIDEquivalent(item, obj))) {
 			this.removeObject(obj);
@@ -99,7 +97,8 @@ export class CoordinatesMap<T extends CoordinatesID>{
 		const result = new Map<T, number>();
 		for (const item of this._items) {
 			const dist = distance(coord, item);
-			if (dist > searchRadius) continue;
+			const radius = item.radius || 0.0;
+			if (dist > (searchRadius - radius)) continue;
 			if (exclude.some(excludeItem => coordinatesIDEquivalent(excludeItem, item))) continue;
 			result.set(item, dist);
 		}
