@@ -68,6 +68,11 @@ export class CoordinatesMap<T extends CoordinatesID>{
 		};
 	}
   
+	/**
+	 * updateObject should be called to add items not yet in the map, or when
+	 * any of their relevant properties (e.g. x,y, radius) might have changed.
+	 * @param obj The object to add to the set.
+	 */
 	updateObject(obj: T) {
 		if (this._items.some(item => coordinatesIDEquivalent(item, obj))) {
 			this.removeObject(obj);
