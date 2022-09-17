@@ -180,8 +180,16 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	emojiRotation(_emoji : string) : Angle {
+		return ANGLE_MIN;
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	agentRotation(agent : Agent, _graph : Graph) : Angle {
-		return agent.angle === undefined ? ANGLE_MIN : agent.angle;
+		const baseAngle = agent.angle === undefined ? ANGLE_MIN : agent.angle;
+		const emoji = this.agentEmoji(agent);
+		const emojiAngle = this.emojiRotation(emoji);
+		return baseAngle + emojiAngle;
 	}
 
 	agentX(agent : Agent) : number {
