@@ -2,12 +2,17 @@ import {
 	Coordinates
 } from './types.js';
 
+import {
+	hash
+} from './util.js';
+
 //CoordinatesID are considered equal if they have the same id
 type CoordinatesID = {id: string, radius? : number} & Coordinates;
 
 type FrameData = {
 	format: 'flat';
-	items : CoordinatesID[];
+	hash: number,
+	items : string[];
 };
 
 const coordinatesIDEquivalent = (one: CoordinatesID, two: CoordinatesID) : boolean => {
@@ -21,6 +26,16 @@ const distance = (one : Coordinates, two : Coordinates) : number => {
 	return Math.sqrt(Math.pow(two.x - one.x, 2) + Math.pow(two.y - one.y, 2));
 };
 
+/**
+ * Returns a canonical hash value for the fullItems
+ * @param filteredFullItems Must be the full items, with no extraneous items.
+ */
+const hashValue = <T extends CoordinatesID>(filteredFullItems : T[]) : number => {
+	const sortedFullItems = [...filteredFullItems].sort((a, b) => a.id.localeCompare(b.id));
+	const json = JSON.stringify(sortedFullItems);
+	return hash(json);
+};
+
 export class CoordinatesMap<T extends CoordinatesID>{
 
 	_items : T[]
@@ -30,11 +45,17 @@ export class CoordinatesMap<T extends CoordinatesID>{
 	}
 
 	//How to load up a PositionMap based on frameData. Should be memoized with a weakmap of FrameData.
+	//fullItems may include items that were never in map, as long as it's a superset.
 	static fromFrameData<F extends CoordinatesID>(frameData : FrameData, fullItems : F[]) : CoordinatesMap<F> {
 		//TODO: memoize based on a weak map
 		if (frameData.format != 'flat') throw new Error('Unsupported FrameData format: ' + frameData.format);
+		const idMap = Object.fromEntries(frameData.items.map(id => [id, true]));
+		//Make sure we don't have an extra fullItems in there that weren't in the map
+		const filteredFullItems = fullItems.filter(item => idMap[item.id]);
+		const hashedValue = hashValue(filteredFullItems);
+		if (hashedValue != frameData.hash) throw new Error('The fullItems provided were not the same as the items when frameData was exported');
 		const itemsMap = Object.fromEntries(fullItems.map(item => [item.id, item]));
-		const expandedItems : F[] = frameData.items.map(item => itemsMap[item.id]);
+		const expandedItems : F[] = frameData.items.map(id => itemsMap[id]);
 		return new CoordinatesMap<F>(expandedItems);
 	}
 
@@ -42,7 +63,8 @@ export class CoordinatesMap<T extends CoordinatesID>{
 	toFrameData() : FrameData {
 		return {
 			format: 'flat',
-			items: this._items.map(item => ({id: item.id, x: item.x, y: item.y, radius: item.radius}))
+			hash: hashValue(this._items),
+			items: this._items.map(item => item.id)
 		};
 	}
   
