@@ -126,9 +126,9 @@ export function newPosition(previousXOrMovingObject: number | MovingObject, prev
 		angle = movingObject.angle;
 		speed = movingObject.speed;
 	}
-	const rotatedAgentAngle = normalizeAngle(angle - ANGLE_MAX / 4);
-	const x = previousX + (Math.cos(rotatedAgentAngle) * speed);
-	const y = previousY + (Math.sin(rotatedAgentAngle) * speed);
+	angle = normalizeAngle(angle);
+	const x = previousX + (Math.cos(angle) * speed);
+	const y = previousY + (Math.sin(angle) * speed);
 	return [x, y];
 }
 

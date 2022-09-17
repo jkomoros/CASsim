@@ -171,7 +171,8 @@ export interface SimulationFrame {
 
 export type Fingerprint = string;
 
-//In radians.
+//In radians. 0 is rightward, and rotation is counter-clockwise.
+//See https://stackoverflow.com/questions/20726410/what-are-the-conventions-regarding-angles-and-directions-in-2d-games
 export type Angle = number;
 
 export type MovingObject = {

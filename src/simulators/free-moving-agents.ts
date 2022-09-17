@@ -13,6 +13,7 @@ import {
 } from '../types.js';
 
 import {
+	ANGLE_MAX,
 	newPosition,
 	randomAngle
 } from '../util.js';
@@ -150,7 +151,7 @@ class FreeMovingAgentsRenderer extends PositionedGraphRenderer {
 	}
 
 	override agentRotation(agent: FreeMovingAgentsAgent): Angle {
-		return agent.angle;
+		return agent.angle + (ANGLE_MAX / 4);
 	}
 
 }
