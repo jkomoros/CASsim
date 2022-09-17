@@ -42,7 +42,10 @@ import {
 import {
 	ANGLE_MIN
 } from './util.js';
-import { EMOJI_ROTATION } from './emojis.js';
+
+import {
+	EMOJI_ROTATION
+} from './emojis.js';
 
 @customElement('base-renderer')
 export class BaseRenderer extends LitElement {
@@ -181,7 +184,21 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	}
 
 	emojiRotation(emoji : string) : Angle {
+		//Emojis that are flipped are already 
+		if (this.emojiFlipped(emoji)) return ANGLE_MIN;
 		return EMOJI_ROTATION[emoji] || ANGLE_MIN;
+	}
+
+	/**
+	 *
+	 * Whether the emoji shoul be flipped horizontally. Many emojis in the apple
+	 * set are facing left, which is the exact backward of our default orientation. 
+	 *
+	 * */
+	emojiFlipped(emoji : string) : boolean {
+		//Emojis that are turned facing left (the majority of the ones with a direction)
+		//Should be flipped.
+		return EMOJI_ROTATION[emoji] == Math.PI;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -190,6 +207,11 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		const emoji = this.agentEmoji(agent);
 		const emojiAngle = this.emojiRotation(emoji);
 		return baseAngle + emojiAngle;
+	}
+
+	agentFlipped(agent : Agent) : boolean {
+		const emoji = this.agentEmoji(agent);
+		return this.emojiFlipped(emoji);
 	}
 
 	agentX(agent : Agent) : number {
@@ -290,7 +312,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		styles = {
 			...styles,
 			'opacity': String(this.agentOpacity(agent, graph)),
-			'transform': 'rotate(' + String(this.agentRotation(agent, graph)) + 'rad)'
+			'transform': 'rotate(' + String(this.agentRotation(agent, graph)) + 'rad)' + (this.agentFlipped(agent) ? ' scaleX(-1) ' : '')
 		};
 		const agentType = agent['type'] || '';
 		return html`<div class='agent ${agentType}' style=${styleMap(styles)}>${this.agentEmoji(agent)}</div>`;
