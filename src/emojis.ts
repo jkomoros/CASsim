@@ -48,10 +48,19 @@ export const GRAZING_FARM_ANIMALS_EMOJIS : EmojiSet = {
 export const UPWARDS_INSECTS_EMOJIS : EmojiSet = {
 	'lady-beetle': '🐞',
 	'spider': '🕷️',
+	'butteryfly': '🦋',
+	'beetle': '🪲',
+	'cockroach': '🪳',
+	'fly': '🪰',
+	'worm': '🪱'
 };
 
 export const LEFTWARDS_INSECT_EMOJIS : EmojiSet = {
 	'ant': '🐜',
+	'caterpillar': '🐛',
+	'honeybee': '🐝',
+	'cricket': '🦗',
+	'mosquito': '🦟',
 };
 
 export const RIGHTWARDS_INSECT_EMOJIS : EmojiSet = {
