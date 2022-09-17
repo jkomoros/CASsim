@@ -54,9 +54,14 @@ export const LEFTWARDS_INSECT_EMOJIS : EmojiSet = {
 	'ant': '🐜',
 };
 
+export const RIGHTWARDS_INSECT_EMOJIS : EmojiSet = {
+	'snail': '🐌',
+};
+
 export const INSECT_EMOJIS : EmojiSet = {
 	...UPWARDS_INSECTS_EMOJIS,
-	...LEFTWARDS_INSECT_EMOJIS
+	...LEFTWARDS_INSECT_EMOJIS,
+	...RIGHTWARDS_INSECT_EMOJIS
 };
 
 export const ANIMAL_EMOJIS : EmojiSet = {
@@ -69,6 +74,7 @@ const FULL_ROTATION =  Math.PI * 2;
 const ROTATION_UP = FULL_ROTATION / 4;
 const ROTATION_LEFT = FULL_ROTATION / 2;
 const ROTATION_DOWN = FULL_ROTATION  * 3/4;
+const ROTATION_RIGHT = 0;
 
 const emojiDirection = (direction: Angle, emojis : EmojiSet) : {[emoji : string] : Angle} => {
 	return Object.fromEntries(Object.values(emojis).map(emoji => [emoji, direction]));
@@ -80,6 +86,7 @@ const emojiDirection = (direction: Angle, emojis : EmojiSet) : {[emoji : string]
 export const EMOJI_ROTATION : {[emoji : string] : Angle} = {
 	...emojiDirection(ROTATION_UP, UPWARDS_INSECTS_EMOJIS),
 	...emojiDirection(ROTATION_LEFT, LEFTWARDS_INSECT_EMOJIS),
+	...emojiDirection(ROTATION_RIGHT, RIGHTWARDS_INSECT_EMOJIS),
 	...emojiDirection(ROTATION_DOWN, PEOPLE_EMOJI),
 	...emojiDirection(ROTATION_LEFT, GRAZING_FARM_ANIMALS_EMOJIS)
 };
