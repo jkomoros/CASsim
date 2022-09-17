@@ -113,6 +113,16 @@ export const randomAngle = (rnd : RandomGenerator = Math.random) : Angle => {
 	return (ANGLE_MAX - ANGLE_MIN) * rnd() + ANGLE_MIN;
 };
 
+export const flipAngleHorizontally = (angle : Angle) : Angle => {
+	angle = normalizeAngle(angle);
+	return (ANGLE_MAX / 2) - angle;
+};
+
+export const flipAngleVertically = (angle : Angle) : Angle => {
+	angle = normalizeAngle(angle);
+	return ANGLE_MAX - angle;
+};
+
 export function newPosition(previousX: number, previousY : number, angle : Angle, speed : number) : [x : number, y: number];
 export function newPosition(movingObject : MovingObject) : [x : number, y : number];
 export function newPosition(previousXOrMovingObject: number | MovingObject, previousY? : number, angle? : Angle, speed? : number) : [x : number, y: number] {
