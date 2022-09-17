@@ -6,7 +6,8 @@ import {
 type CoordinatesID = {id: string, radius? : number} & Coordinates;
 
 type FrameData<T extends Coordinates> = {
-	items : T[]
+	format: 'flat';
+	items : T[];
 };
 
 const coordinatesIDEquivalent = (one: CoordinatesID, two: CoordinatesID) : boolean => {
@@ -31,12 +32,14 @@ export class CoordinatesMap<T extends CoordinatesID>{
 	//How to load up a PositionMap based on frameData. Should be memoized with a weakmap of FrameData.
 	static fromFrameData<F extends CoordinatesID>(frameData : FrameData<F>) : CoordinatesMap<F> {
 		//TODO: memoize based on a weak map
+		if (frameData.format != 'flat') throw new Error('Unsupported FrameData format: ' + frameData.format);
 		return new CoordinatesMap(frameData.items);
 	}
 
 	//Suitable to be stored in a property of a frame
 	toFrameData() : FrameData<T> {
 		return {
+			format: 'flat',
 			items: [...this._items]
 		};
 	}
