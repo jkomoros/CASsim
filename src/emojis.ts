@@ -53,6 +53,7 @@ const FULL_ROTATION =  Math.PI * 2;
 
 const ROTATION_UP = FULL_ROTATION / 4;
 const ROTATION_LEFT = FULL_ROTATION / 2;
+const ROTATION_DOWN = FULL_ROTATION  * 3/4;
 
 /**
  * A map of rotations for known emojis
@@ -61,4 +62,5 @@ export const EMOJI_ROTATION : {[emoji : string] : Angle} = {
 	'🐞': ROTATION_UP,
 	'🕷': ROTATION_UP,
 	'🐜': ROTATION_LEFT,
+	'👮': ROTATION_DOWN,
 };
