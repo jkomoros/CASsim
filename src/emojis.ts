@@ -147,9 +147,16 @@ export const DOWNWARDS_GENERIC_ANIMAL_EMOJIS : EmojiSet = {
 	'octopus': '🐙'
 };
 
+export const UPWARDS_GENERIC_ANIMAL_EMOJIS : EmojiSet = {
+	'lizard': '🦎',
+	'crab': '🦀',
+	'lobster': '🦞'
+};
+
 export const GENERIC_ANIMAL_EMOJIS : EmojiSet = {
 	...LEFTWARDS_GENERIC_ANIMAL_EMOJIS,
-	...DOWNWARDS_GENERIC_ANIMAL_EMOJIS
+	...DOWNWARDS_GENERIC_ANIMAL_EMOJIS,
+	...UPWARDS_GENERIC_ANIMAL_EMOJIS
 };
 
 export const ANIMAL_EMOJIS : EmojiSet = {
@@ -180,5 +187,6 @@ export const EMOJI_ROTATION : {[emoji : string] : Angle} = {
 	...emojiDirection(ROTATION_DOWN, PEOPLE_EMOJI),
 	...emojiDirection(ROTATION_LEFT, GRAZING_FARM_ANIMALS_EMOJIS),
 	...emojiDirection(ROTATION_LEFT, LEFTWARDS_GENERIC_ANIMAL_EMOJIS),
-	...emojiDirection(ROTATION_DOWN, DOWNWARDS_GENERIC_ANIMAL_EMOJIS)
+	...emojiDirection(ROTATION_DOWN, DOWNWARDS_GENERIC_ANIMAL_EMOJIS),
+	...emojiDirection(ROTATION_UP, UPWARDS_GENERIC_ANIMAL_EMOJIS)
 };
