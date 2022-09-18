@@ -454,7 +454,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦣',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			extinct: true
 		}
 	},
 	{
@@ -622,7 +623,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦤',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'bird'
+			kind: 'bird',
+			extinct: true
 		}
 	},
 	{
@@ -662,7 +664,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦕',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'reptile'
+			kind: 'reptile',
+			extinct: true
 		}
 	},
 	{
@@ -670,7 +673,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦖',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'reptile'
+			kind: 'reptile',
+			extinct: true
 		}
 	},
 	{

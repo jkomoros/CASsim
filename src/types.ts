@@ -39,7 +39,7 @@ export type EmojiInfo = {
     },
     animal? : {
         kind: 'insect' | 'mammal' | 'bird' | 'reptile' | 'fish',
-        //TODO: add extinct
+        extinct? : true,
         grazes? : true,
         //TODO: add habitat = 'forest' : 'jungle' | 'savanah' | 'farm' | 'pet' | 'ocean', and when we do, update GRAZING definition to also test for that
     }
