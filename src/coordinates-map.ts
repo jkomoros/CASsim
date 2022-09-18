@@ -3,20 +3,20 @@ import {
 } from './types.js';
 
 //CoordinatesID are considered equal if they have the same id
-type CoordinatesID = {id: string, radius? : number} & Coordinates;
+type CoordinatesMapItem = {id: string, radius? : number} & Coordinates;
 
 type CoordinatesMapFrameData = {
 	format: 'flat';
-	items : {[id : string]: Required<CoordinatesID>};
+	items : {[id : string]: Required<CoordinatesMapItem>};
 };
 
-const coordinatesIDEquivalent = (one: CoordinatesID, two: CoordinatesID) : boolean => {
+const coordinatesMapItemEquivalent = (one: CoordinatesMapItem, two: CoordinatesMapItem) : boolean => {
 	if (one == two) return true;
 	if (!one || !two) return false;
 	return one.id == two.id;
 };
 
-const coordinatesIDExactlyEquivalent = (one : CoordinatesID, two : CoordinatesID) : boolean => {
+const coordinatesMapItemExactlyEquivalent = (one : CoordinatesMapItem, two : CoordinatesMapItem) : boolean => {
 	if (one == two) return true;
 	if (!one || !two) return false;
 	if (one.id != two.id) return false;
@@ -31,7 +31,7 @@ const distance = (one : Coordinates, two : Coordinates) : number => {
 	return Math.sqrt(Math.pow(two.x - one.x, 2) + Math.pow(two.y - one.y, 2));
 };
 
-const coordinatesIDRecord = (input : CoordinatesID) : Required<CoordinatesID> => {
+const coordinatesMapItemRecord = (input : CoordinatesMapItem) : Required<CoordinatesMapItem> => {
 	return {
 		id: input.id,
 		x: input.x,
@@ -40,19 +40,19 @@ const coordinatesIDRecord = (input : CoordinatesID) : Required<CoordinatesID> =>
 	};
 };
 
-export class CoordinatesMap<T extends CoordinatesID>{
+export class CoordinatesMap<T extends CoordinatesMapItem>{
 
-	_itemsMap : {[id : string] : Required<CoordinatesID>};
+	_itemsMap : {[id : string] : Required<CoordinatesMapItem>};
 	_fullItemsMap : {[id : string] : T};
 
 	constructor(items : T[]) {
-		this._itemsMap = Object.fromEntries(items.map(item => [item.id, coordinatesIDRecord(item)]));
+		this._itemsMap = Object.fromEntries(items.map(item => [item.id, coordinatesMapItemRecord(item)]));
 		this._fullItemsMap = Object.fromEntries(items.map(item => [item.id, item]));
 	}
 
 	//How to load up a PositionMap based on frameData. Should be memoized with a weakmap of FrameData.
 	//fullItems may include items that were never in map, as long as it's a superset.
-	static fromFrameData<F extends CoordinatesID>(frameData : CoordinatesMapFrameData, fullItems : F[]) : CoordinatesMap<F> {
+	static fromFrameData<F extends CoordinatesMapItem>(frameData : CoordinatesMapFrameData, fullItems : F[]) : CoordinatesMap<F> {
 		//TODO: memoize based on a weak map
 		if (frameData.format != 'flat') throw new Error('Unsupported FrameData format: ' + frameData.format);
 		const itemsMap = Object.fromEntries(fullItems.map(item => [item.id, item]));
@@ -76,10 +76,10 @@ export class CoordinatesMap<T extends CoordinatesID>{
 	updateObject(obj: T) {
 		const existingItem = this._itemsMap[obj.id];
 		if (existingItem) {
-			if (coordinatesIDExactlyEquivalent(existingItem, obj)) return;
+			if (coordinatesMapItemExactlyEquivalent(existingItem, obj)) return;
 		}
 		this._fullItemsMap[obj.id] = obj;
-		this._itemsMap[obj.id] = coordinatesIDRecord(obj);
+		this._itemsMap[obj.id] = coordinatesMapItemRecord(obj);
 	}
 
 	removeObject(obj : T) {
@@ -107,7 +107,7 @@ export class CoordinatesMap<T extends CoordinatesID>{
 			const dist = distance(coord, item);
 			const radius = item.radius || 0.0;
 			if (dist > (searchRadius - radius)) continue;
-			if (exclude.some(excludeItem => coordinatesIDEquivalent(excludeItem, item))) continue;
+			if (exclude.some(excludeItem => coordinatesMapItemEquivalent(excludeItem, item))) continue;
 			result.set(this._fullItemsMap[item.id], dist);
 		}
 		return result;
