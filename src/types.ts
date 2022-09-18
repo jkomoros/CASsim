@@ -38,10 +38,10 @@ export type EmojiInfo = {
         //TODO: add gender
     },
     animal? : {
-        //TODO: break out by more than just insect
-        kind: 'insect' | 'other',
+        kind: 'insect' | 'mammal' | 'bird' | 'reptile' | 'fish',
+        //TODO: add extinct
         grazes? : true,
-        //TODO: add habitat = 'forest' : 'jungle' | 'farm', and when we do, update GRAZING definition to also test for that
+        //TODO: add habitat = 'forest' : 'jungle' | 'savanah' | 'farm' | 'pet' | 'ocean', and when we do, update GRAZING definition to also test for that
     }
 };
 
