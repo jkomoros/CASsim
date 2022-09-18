@@ -38,6 +38,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 
 	_itemsMap : {[id : string] : Required<CoordinatesMapItem>};
 	_fullItemsMap : {[id : string] : T};
+	_changesMade : boolean;
 
 	constructor(items : T[]) {
 		this._itemsMap = Object.fromEntries(items.map(item => [item.id, coordinatesMapItemRecord(item)]));
@@ -56,10 +57,19 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 
 	//Suitable to be stored in a property of a frame
 	toFrameData() : CoordinatesMapFrameData {
+		this._changesMade = false;
 		return {
 			format: 'flat',
 			items:{...this._itemsMap}
 		};
+	}
+
+	/**
+	 * Returns true if updateObject or removeObject has been called (and was not
+	 * a no-op) since the last time toFrameData was called.
+	 */
+	get changesMade() : boolean {
+		return this._changesMade;
 	}
   
 	/**
@@ -74,11 +84,14 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		}
 		this._fullItemsMap[obj.id] = obj;
 		this._itemsMap[obj.id] = coordinatesMapItemRecord(obj);
+		this._changesMade = true;
 	}
 
 	removeObject(obj : T) {
+		if (!this._itemsMap[obj.id] && !this._fullItemsMap[obj.id]) return;
 		delete this._itemsMap[obj.id];
 		delete this._fullItemsMap[obj.id];
+		this._changesMade = true;
 	}
   
 	//Will automatically exclude itself in results for the first varient
