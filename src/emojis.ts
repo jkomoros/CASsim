@@ -78,9 +78,75 @@ export const INSECT_EMOJIS : EmojiSet = {
 	...DOWNWARDS_INSECT_EMOJIS
 };
 
+//TODO: break these into smaller semantic collections
+export const LEFTWARDS_GENERIC_ANIMAL_EMOJIS : EmojiSet = {
+	'monkey': '🐒',
+	'gorilla': '🦍',
+	'dog': '🐕',
+	'guide-dog': '🦮',
+	'service-dog': '🐕‍🦺',
+	'poodle': '🐩',
+	'racoon': '🦝',
+	'cat': '🐈',
+	'black-cat': '🐈‍⬛',
+	'tiger': '🐅',
+	'leopard': '🐆',
+	'horse': '🐎',
+	'zebra': '🦓',
+	'deer': '🦌',
+	'pig': '🐖',
+	'camel': '🐪',
+	'two-hump-camel': '🐫',
+	'llama': '🦙',
+	'giraffe': '🦒',
+	'elephant': '🐘',
+	'mammoth': '🦣',
+	'rhinoceros': '🦏',
+	'hippopotamus': '🦛',
+	'mouse': '🐁',
+	'rat': '🐀',
+	'rabbit': '🐇',
+	'chipmunk': '🐿️',
+	'beaver': '🦫',
+	'hedgehog': '🦔',
+	'bat': '🦇',
+	'otter': '🦦',
+	'skunk': '🦨',
+	'kangaroo': '🦘',
+	'badger': '🦡',
+	'turkey': '🦃',
+	'rooster': '🐓',
+	'dove': '🕊️',
+	'eagle': '🦅',
+	'duck': '🦆',
+	'swan': '🦢',
+	'owl': '🦉',
+	'dodo': '🦤',
+	'flamingo': '🦩',
+	'parrot': '🦜',
+	'turtle': '🐢',
+	'snake': '🐍',
+	'sauropod': '🦕',
+	't-rex': '🦖',
+	'whale': '🐋',
+	'spouting-whale': '🐳',
+	'dolphin': '🐬',
+	'seal': '🦭',
+	'fish': '🐟',
+	'tropical-fish': '🐠',
+	'blowfish': '🐡',
+	'shark': '🦈',
+	'squid': '🦑'
+};
+
+export const GENERIC_ANIMAL_EMOJIS : EmojiSet = {
+	...LEFTWARDS_GENERIC_ANIMAL_EMOJIS
+};
+
 export const ANIMAL_EMOJIS : EmojiSet = {
 	...GRAZING_FARM_ANIMALS_EMOJIS,
-	...INSECT_EMOJIS
+	...INSECT_EMOJIS,
+	...LEFTWARDS_GENERIC_ANIMAL_EMOJIS
 };
 
 const FULL_ROTATION =  Math.PI * 2;
@@ -103,5 +169,6 @@ export const EMOJI_ROTATION : {[emoji : string] : Angle} = {
 	...emojiDirection(ROTATION_RIGHT, RIGHTWARDS_INSECT_EMOJIS),
 	...emojiDirection(ROTATION_DOWN, DOWNWARDS_INSECT_EMOJIS),
 	...emojiDirection(ROTATION_DOWN, PEOPLE_EMOJI),
-	...emojiDirection(ROTATION_LEFT, GRAZING_FARM_ANIMALS_EMOJIS)
+	...emojiDirection(ROTATION_LEFT, GRAZING_FARM_ANIMALS_EMOJIS),
+	...emojiDirection(ROTATION_LEFT, LEFTWARDS_GENERIC_ANIMAL_EMOJIS)
 };
