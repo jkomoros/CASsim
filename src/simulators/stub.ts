@@ -14,6 +14,10 @@ import {
 } from '../graph/graph.js';
 
 import {
+	PositionedGraph
+} from '../graph/positioned.js';
+
+import {
 	StubSimOptions
 } from './types/stub.GENERATED.js';
 
@@ -24,12 +28,12 @@ type StubAgent = Agent & {
 	emoji : string;
 };
 
-interface StubSimulationFrame extends AgentSimulationFrame {
+interface StubSimulationFrame extends AgentSimulationFrame<StubAgent> {
 	agents : StubAgent[];
 	simOptions : StubSimOptions;
 }
 
-class StubSimulator extends AgentSimulator {
+class StubSimulator extends AgentSimulator<StubAgent, StubSimulationFrame, Graph> {
 
 	override get name() : SimulatorType {
 		return SIMULATOR_NAME;
@@ -74,6 +78,6 @@ export default StubSimulator;
 
 import { PositionedGraphRenderer } from '../renderer.js';
 
-class StubRenderer extends PositionedGraphRenderer {}
+class StubRenderer extends PositionedGraphRenderer<StubAgent, StubSimulationFrame, PositionedGraph> {}
 
 window.customElements.define(SIMULATOR_NAME + "-renderer", StubRenderer);

@@ -7,7 +7,6 @@ import { repeat } from 'lit/directives/repeat.js';
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 
 import {
-	Graph,
 	inflateGraph,
 } from './graph/graph.js';
 
@@ -107,10 +106,10 @@ export class BaseRenderer extends LitElement {
 }
 
 @customElement('positioned-graph-renderer')
-export class PositionedGraphRenderer extends BaseRenderer {
+export class PositionedGraphRenderer<A extends Agent, F extends AgentSimulationFrame<A>, G extends PositionedGraph> extends BaseRenderer {
 	
 	@property({ type : Object })
-	override frame : AgentSimulationFrame;
+	override frame : F;
 
 	static override get styles() {
 		return [
@@ -155,32 +154,32 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	}
 	
 	//This is an override point for your renderer to tell the renderer where the positioned graph data is
-	graphData(frame : AgentSimulationFrame) : GraphData {
+	graphData(frame : F) : GraphData {
 		return frame.graph;
 	}
 
-	_graph() : PositionedGraph {
+	_graph() : G {
 		const data = this.graphData(this.frame);
 		if (!data) return null;
 		//Techncially it might be a positioned graph
-		return inflateGraph(data) as PositionedGraph;
+		return inflateGraph(data) as G;
 	}
 
 	//This is an override point for your renderer, to tell the renderer where the information on each agent is.
-	agentData(frame : AgentSimulationFrame) : Agent[] {
+	agentData(frame : F) : A[] {
 		return frame.agents;
 	}
 
-	agentEmoji(agent : Agent) : string {
+	agentEmoji(agent : A) : string {
 		return agent.emoji || '🧑‍⚕️';
 	}
 
-	agentNodeID(agent : Agent) : GraphNodeID {
+	agentNodeID(agent : A) : GraphNodeID {
 		return agent.node;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	agentOpacity(_agent : Agent, _graph : Graph) : number {
+	agentOpacity(_agent : A, _graph : G) : number {
 		return 1.0;
 	}
 
@@ -211,35 +210,35 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	agentRotation(agent : Agent, _graph : Graph) : Angle {
+	agentRotation(agent : A, _graph : G) : Angle {
 		const baseAngle = agent.angle === undefined ? ANGLE_MIN : agent.angle;
 		const emoji = this.agentEmoji(agent);
 		const emojiAngle = this.emojiRotation(emoji);
 		return baseAngle + emojiAngle;
 	}
 
-	agentX(agent : Agent) : number {
+	agentX(agent : A) : number {
 		if (agent.x !== undefined) return agent.x;
 		const rnd = makeSeededRandom(agent.id);
 		return this.width * rnd();
 	}
 
-	agentY(agent : Agent) : number {
+	agentY(agent : A) : number {
 		if (agent.y !== undefined) return agent.y;
 		const rnd = makeSeededRandom(agent.id);
 		return this.height * rnd();
 	}
 
-	agentHeight(agent : Agent) : number {
+	agentHeight(agent : A) : number {
 		return agent.height === undefined ? this.agentSize(agent) : agent.height;
 	}
 
-	agentWidth(agent : Agent) : number {
+	agentWidth(agent : A) : number {
 		return agent.width === undefined ? this.agentSize(agent) : agent.width;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	agentSizeMultiplier(_agent : Agent) : number {
+	agentSizeMultiplier(_agent : A) : number {
 		return 1.0;
 	}
 
@@ -251,11 +250,11 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		return 10;
 	}
 
-	agentSize(agent : Agent) : number {
+	agentSize(agent : A) : number {
 		return (this.agentDefaultMaxNodeSize() - this.agentDefaultMinNodeSize()) * this.agentSizeMultiplier(agent) + this.agentDefaultMinNodeSize();
 	}
 
-	agentPosition(agent : Agent, graph : PositionedGraph) : Position {
+	agentPosition(agent : A, graph : G) : Position {
 		if (!graph) {
 			return {
 				x: this.agentX(agent),
@@ -269,11 +268,11 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	nodeAdditionalStyles(_node : GraphNodeValues, _graph : PositionedGraph) : StyleInfo {
+	nodeAdditionalStyles(_node : GraphNodeValues, _graph : G) : StyleInfo {
 		return {};
 	}
 
-	renderNode(node : GraphNodeValues, graph : PositionedGraph) : TemplateResult {
+	renderNode(node : GraphNodeValues, graph : G) : TemplateResult {
 		let styles = this._positionStylesForNode(node, graph);
 		styles = {...styles, ['background-color']: this.nodeColor(node, graph)};
 		styles = {...styles, ...this.nodeAdditionalStyles(node, graph)};
@@ -284,26 +283,26 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	nodeText(node : GraphNodeValues, _graph : PositionedGraph) : string {
+	nodeText(node : GraphNodeValues, _graph : G) : string {
 		return node['emoji'] as string || '';
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	nodeTextOpacity(_node : GraphNodeValues, _graph : PositionedGraph) : number {
+	nodeTextOpacity(_node : GraphNodeValues, _graph : G) : number {
 		return 1.0;
 	}
  
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	nodeColorGradientPercentage(node : GraphNodeValues, _graph : PositionedGraph) : number {
+	nodeColorGradientPercentage(node : GraphNodeValues, _graph : G) : number {
 		return node['value'] as number || 0;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	renderEdges(_frame : AgentSimulationFrame) : boolean {
+	renderEdges(_frame : F) : boolean {
 		return false;
 	}
 
-	nodeColor(node : GraphNodeValues, graph : PositionedGraph) : CSSColor {
+	nodeColor(node : GraphNodeValues, graph : G) : CSSColor {
 		const style = getComputedStyle(this);
 		const primaryColor = style.getPropertyValue('--primary-color');
 		const secondaryColor = style.getPropertyValue('--secondary-color');
@@ -311,7 +310,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		return color;
 	}
 
-	renderAgent(agent : Agent, graph : PositionedGraph) : TemplateResult {
+	renderAgent(agent : A, graph : G) : TemplateResult {
 		let styles = this._positionStyles(this.agentPosition(agent, graph));
 		const rotation = normalizeAngle(this.agentRotation(agent, graph));
 		let transform = 'rotate(' + String(rotation) + 'rad)';
@@ -328,28 +327,28 @@ export class PositionedGraphRenderer extends BaseRenderer {
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	edgeColor(_edge : GraphEdge, _graph : PositionedGraph) : CSSColor {
+	edgeColor(_edge : GraphEdge, _graph : G) : CSSColor {
 		return 'var(--secondary-color)';
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	edgeWidth(_edge : GraphEdge, _graph : PositionedGraph) : string {
+	edgeWidth(_edge : GraphEdge, _graph : G) : string {
 		return '1';
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	edgeOpacity(_edge : GraphEdge, _graph : PositionedGraph ) : string {
+	edgeOpacity(_edge : GraphEdge, _graph : G ) : string {
 		return '1.0';
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	edgeDasharray(_edge : GraphEdge, _graph : PositionedGraph) : string {
+	edgeDasharray(_edge : GraphEdge, _graph : G) : string {
 		//Note: you might not be able to see the dasharray if edges overlap.
 		return '';
 	}
 
 	//must return svg. Note coordinates are viewBoxed so don't need any scaling.
-	renderEdge(edge : GraphEdge, graph : PositionedGraph) : SVGTemplateResult {
+	renderEdge(edge : GraphEdge, graph : G) : SVGTemplateResult {
 		if (!graph) return svg``;
 		const fromNodePosition = graph.nodePosition(edge.from);
 		const toNodePosition = graph.nodePosition(edge.to);
@@ -368,7 +367,7 @@ export class PositionedGraphRenderer extends BaseRenderer {
 		};
 	}
 
-	_positionStylesForNode(node : GraphNodeValues, graph : PositionedGraph) : StyleInfo {
+	_positionStylesForNode(node : GraphNodeValues, graph : G) : StyleInfo {
 		return this._positionStyles(graph ? graph.nodePosition(node) : {x: 0, y: 0, width: 10, height: 10});
 	}
 
@@ -398,6 +397,6 @@ export class PositionedGraphRenderer extends BaseRenderer {
 declare global {
 	interface HTMLElementTagNameMap {
 		'base-renderer': BaseRenderer;
-		'positioned-graph-renderer': PositionedGraphRenderer;
+		'positioned-graph-renderer': PositionedGraphRenderer<Agent, AgentSimulationFrame<Agent>, PositionedGraph>;
 	}
 }

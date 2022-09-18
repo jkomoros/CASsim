@@ -42,7 +42,7 @@ type PastureDemoAgent = Agent & {
 	node: GraphNodeID;
 };
 
-interface PastureDemoSimulationFrame extends AgentSimulationFrame {
+interface PastureDemoSimulationFrame extends AgentSimulationFrame<PastureDemoAgent> {
 	agents : PastureDemoAgent[];
 	simOptions: PastureDemoSimOptions;
 }
@@ -53,7 +53,7 @@ interface PastureDemoGraphNodeValues extends GraphNodeValues {
 	emoji: string;
 }
 
-class PastureDemoSimulator extends AgentSimulator {
+class PastureDemoSimulator extends AgentSimulator<PastureDemoAgent, PastureDemoSimulationFrame, RectangleGraph> {
 
 	override get name() : SimulatorType {
 		return SIMULATOR_NAME;
@@ -75,7 +75,7 @@ class PastureDemoSimulator extends AgentSimulator {
 		};
 	}
 
-	override generateGraph(baseFrame : SimulationFrame) : Graph {
+	override generateGraph(baseFrame : SimulationFrame) : RectangleGraph {
 		const simOptions = baseFrame.simOptions as PastureDemoSimOptions;
 		const starterValues : PastureDemoGraphNodeValues =  {id: '', value:0.0, growthRate: simOptions.growthRate, emoji:'🌿'};
 		return RectangleGraph.make(simOptions.rows, simOptions.cols, baseFrame.width, baseFrame.height, {starterValues, nodeMargin: 0.1, diagonal:true});
@@ -90,7 +90,7 @@ class PastureDemoSimulator extends AgentSimulator {
 		return frame.index >= frame.simOptions.rounds;
 	}
 
-	override defaultAgentTick(agent : PastureDemoAgent, agents : PastureDemoAgent[], graph : Graph, frame : PastureDemoSimulationFrame, rnd : RandomGenerator) : PastureDemoAgent | PastureDemoAgent[] {
+	override defaultAgentTick(agent : PastureDemoAgent, agents : PastureDemoAgent[], graph : RectangleGraph, frame : PastureDemoSimulationFrame, rnd : RandomGenerator) : PastureDemoAgent | PastureDemoAgent[] {
 		if (rnd() < agent.deathLikelihood) return null;
 		const node = this.selectNodeToMoveTo(agent, agents, graph, frame, rnd, 1, (node : PastureDemoGraphNodeValues) => node.value);
 		//Sometimes there won't be any open cells next to us.
@@ -211,7 +211,7 @@ import { PositionedGraphRenderer } from '../renderer.js';
 
 import { css } from 'lit';
 
-class PastureDemoRenderer extends PositionedGraphRenderer {
+class PastureDemoRenderer extends PositionedGraphRenderer<PastureDemoAgent, PastureDemoSimulationFrame, RectangleGraph> {
 	static override get styles() {
 		return [
 			...PositionedGraphRenderer.styles,

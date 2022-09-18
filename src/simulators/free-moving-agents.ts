@@ -22,6 +22,10 @@ import {
 } from '../graph/graph.js';
 
 import {
+	PositionedGraph
+} from '../graph/positioned.js';
+
+import {
 	DistributionConfig,
 	NORMAL
 } from '../distribution.js';
@@ -56,12 +60,12 @@ type FreeMovingAgentsAgent = Agent & {
 	speed : number;
 };
 
-interface FreeMovingAgentsSimulationFrame extends AgentSimulationFrame {
+interface FreeMovingAgentsSimulationFrame extends AgentSimulationFrame<FreeMovingAgentsAgent> {
 	agents : FreeMovingAgentsAgent[];
 	simOptions : FreeMovingAgentsSimOptions;
 }
 
-class FreeMovingAgentsSimulator extends AgentSimulator {
+class FreeMovingAgentsSimulator extends AgentSimulator<FreeMovingAgentsAgent, FreeMovingAgentsSimulationFrame, Graph> {
 
 	override get name() : SimulatorType {
 		return SIMULATOR_NAME;
@@ -160,7 +164,7 @@ export default FreeMovingAgentsSimulator;
 
 import { PositionedGraphRenderer } from '../renderer.js';
 
-class FreeMovingAgentsRenderer extends PositionedGraphRenderer {
+class FreeMovingAgentsRenderer extends PositionedGraphRenderer<FreeMovingAgentsAgent, FreeMovingAgentsSimulationFrame, PositionedGraph> {
 
 	override agentDefaultMaxNodeSize() : number {
 		return 50;

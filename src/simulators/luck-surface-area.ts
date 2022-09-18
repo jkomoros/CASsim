@@ -37,6 +37,10 @@ import {
 } from '../graph/graph.js';
 
 import {
+	PositionedGraph
+} from '../graph/positioned.js';
+
+import {
 	LuckSurfaceAreaSimOptions
 } from './types/luck-surface-area.GENERATED.js';
 
@@ -75,7 +79,7 @@ type LuckSurfaceAreaAgent = Agent & {
 	cost : number;
 };
 
-interface LuckSurfaceAreaSimulationFrame extends AgentSimulationFrame {
+interface LuckSurfaceAreaSimulationFrame extends AgentSimulationFrame<LuckSurfaceAreaAgent> {
 	agents : LuckSurfaceAreaAgent[];
 	simOptions : LuckSurfaceAreaSimOptions;
 }
@@ -86,7 +90,7 @@ interface LuckSurfaceAreaGraphNodeValues extends GraphNodeValues {
 	valueFalloff : number;
 }
 
-class LuckSurfaceAreaSimulator extends AgentSimulator {
+class LuckSurfaceAreaSimulator extends AgentSimulator<LuckSurfaceAreaAgent, LuckSurfaceAreaSimulationFrame, PositionedGraph> {
 
 	override get name() : SimulatorType {
 		return SIMULATOR_NAME;
@@ -95,7 +99,7 @@ class LuckSurfaceAreaSimulator extends AgentSimulator {
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	override generateGraph(baseFrame : SimulationFrame, rnd : RandomGenerator) : Graph {
+	override generateGraph(baseFrame : SimulationFrame, rnd : RandomGenerator) : PositionedGraph {
 		const simOptions = baseFrame.simOptions as LuckSurfaceAreaSimOptions;
 		const oS = simOptions.opportunities.structure;
 		const oV = simOptions.opportunities.value;
@@ -150,7 +154,7 @@ class LuckSurfaceAreaSimulator extends AgentSimulator {
 		return true;
 	}
 
-	override defaultAgentTick(agent : LuckSurfaceAreaAgent, agents : LuckSurfaceAreaAgent[], graph : Graph, frame : LuckSurfaceAreaSimulationFrame, rnd : RandomGenerator) : LuckSurfaceAreaAgent {
+	override defaultAgentTick(agent : LuckSurfaceAreaAgent, agents : LuckSurfaceAreaAgent[], graph : PositionedGraph, frame : LuckSurfaceAreaSimulationFrame, rnd : RandomGenerator) : LuckSurfaceAreaAgent {
 		const node = graph.node(agent.node) as LuckSurfaceAreaGraphNodeValues;
 		const newAgent = {
 			...agent,
@@ -294,7 +298,7 @@ export default LuckSurfaceAreaSimulator;
 
 import { PositionedGraphRenderer } from '../renderer.js';
 
-class LuckSurfaceAreaRenderer extends PositionedGraphRenderer {
+class LuckSurfaceAreaRenderer extends PositionedGraphRenderer<LuckSurfaceAreaAgent, LuckSurfaceAreaSimulationFrame, PositionedGraph> {
 
 	override renderEdges() : boolean {
 		return true;

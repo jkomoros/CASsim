@@ -53,12 +53,12 @@ type StandingOvationSimulationFrameExtra = {
 	changesMade: boolean;
 }
 
-interface StandingOvationSimulationFrame extends AgentSimulationFrame,  StandingOvationSimulationFrameExtra {
+interface StandingOvationSimulationFrame extends AgentSimulationFrame<StandingOvationAgent>,  StandingOvationSimulationFrameExtra {
 	simOptions: StandingOvationSimOptions,
 	agents : StandingOvationAgent[]
 }
 
-class StandingOvationSimulator extends AgentSimulator {
+class StandingOvationSimulator extends AgentSimulator<StandingOvationAgent,StandingOvationSimulationFrame,RectangleGraph> {
 
 	override get name() : SimulatorType {
 		return SIMULATOR_NAME;
@@ -80,7 +80,7 @@ class StandingOvationSimulator extends AgentSimulator {
 		};
 	}
 
-	override generateGraph(baseFrame : SimulationFrame) : Graph {
+	override generateGraph(baseFrame : SimulationFrame) : RectangleGraph {
 		const simOptions = baseFrame.simOptions as StandingOvationSimOptions;
 		//Stage is to the left 
 		return RectangleGraph.make(simOptions.rows, simOptions.cols, baseFrame.width, baseFrame.height, {diagonalUp: true, noHorizontal: true, noDown: true});
@@ -208,7 +208,7 @@ import { PositionedGraphRenderer } from '../renderer.js';
 import { StyleInfo } from 'lit/directives/style-map.js';
 import { PositionedGraph } from '../graph/positioned.js';
 
-class StandingOvationRenderer extends PositionedGraphRenderer {
+class StandingOvationRenderer extends PositionedGraphRenderer<StandingOvationAgent, StandingOvationSimulationFrame, RectangleGraph> {
 
 	override agentEmoji(agent : StandingOvationAgent) : string {
 		return agent.standing ? '👏' : '😐';

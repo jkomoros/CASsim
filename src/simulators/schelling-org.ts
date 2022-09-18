@@ -8,6 +8,7 @@ import {
 } from '../simulator.js';
 
 import {
+	Agent,
 	AgentSimulationFrame
 } from '../agent-simulator.js';
 
@@ -129,7 +130,7 @@ interface SchellingOrgSimulationFramePartial {
 	northStar: NorthStarOptions;
 }
 
-interface SchellingOrgSimulationFrame extends AgentSimulationFrame, SchellingOrgSimulationFramePartial {}
+interface SchellingOrgSimulationFrame extends AgentSimulationFrame<Agent>, SchellingOrgSimulationFramePartial {}
 
 
 //bias is where in the range of min to max the value will be. 0.5 will be
