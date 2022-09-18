@@ -16,7 +16,11 @@ export const pickEmoji = (emojiSet : EmojiSet, keyOrRnd : string | RandomGenerat
 	} else {
 		key = keyOrRnd;
 	}
-	return {name: key, emoji: emojiSet[key]};
+	return {
+		name: key, 
+		emoji: emojiSet[key],
+		direction: EMOJI_ROTATION[emojiSet[key]]
+	};
 };
 
 export const PROFESSIONAL_PEOPLE_EMOJIS : EmojiSet = {
@@ -169,10 +173,10 @@ export const ANIMAL_EMOJIS : EmojiSet = {
 
 const FULL_ROTATION =  Math.PI * 2;
 
-const ROTATION_UP = FULL_ROTATION / 4;
-const ROTATION_LEFT = FULL_ROTATION / 2;
-const ROTATION_DOWN = FULL_ROTATION  * 3/4;
-const ROTATION_RIGHT = 0;
+export const ROTATION_UP : Angle = FULL_ROTATION / 4;
+export const ROTATION_LEFT : Angle = FULL_ROTATION / 2;
+export const ROTATION_DOWN : Angle = FULL_ROTATION  * 3/4;
+export const ROTATION_RIGHT : Angle = 0;
 
 const emojiDirection = (direction: Angle, emojis : EmojiSet) : {[emoji : string] : Angle} => {
 	return Object.fromEntries(Object.values(emojis).map(emoji => [emoji, direction]));

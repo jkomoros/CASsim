@@ -31,7 +31,8 @@ export type Color = {
 
 export type EmojiInfo = {
     name: string
-    emoji: string
+    emoji: string,
+    direction: Angle
 };
 
 export type EmojiSet = {
