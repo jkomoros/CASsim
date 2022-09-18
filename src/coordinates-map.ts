@@ -2,17 +2,12 @@ import {
 	Coordinates
 } from './types.js';
 
-import {
-	hash
-} from './util.js';
-
 //CoordinatesID are considered equal if they have the same id
 type CoordinatesID = {id: string, radius? : number} & Coordinates;
 
 type CoordiantesMapFrameData = {
 	format: 'flat';
-	hash: number,
-	items : string[];
+	items : {[id : string]: Required<CoordinatesID>};
 };
 
 const coordinatesIDEquivalent = (one: CoordinatesID, two: CoordinatesID) : boolean => {
@@ -21,27 +16,38 @@ const coordinatesIDEquivalent = (one: CoordinatesID, two: CoordinatesID) : boole
 	return one.id == two.id;
 };
 
+const coordinatesIDExactlyEquivalent = (one : CoordinatesID, two : CoordinatesID) : boolean => {
+	if (one == two) return true;
+	if (!one || !two) return false;
+	if (one.id != two.id) return false;
+	if (one.x != two.x) return false;
+	if (one.y != two.y) return false;
+	if (one.radius != two.radius) return false;
+	return true;
+};
+
 const distance = (one : Coordinates, two : Coordinates) : number => {
 	if (!one || !two) return 0.0;
 	return Math.sqrt(Math.pow(two.x - one.x, 2) + Math.pow(two.y - one.y, 2));
 };
 
-/**
- * Returns a canonical hash value for the fullItems
- * @param filteredFullItems Must be the full items, with no extraneous items.
- */
-const hashValue = <T extends CoordinatesID>(filteredFullItems : T[]) : number => {
-	const sortedFullItems = [...filteredFullItems].sort((a, b) => a.id.localeCompare(b.id));
-	const json = JSON.stringify(sortedFullItems);
-	return hash(json);
+const coordinatesIDRecord = (input : CoordinatesID) : Required<CoordinatesID> => {
+	return {
+		id: input.id,
+		x: input.x,
+		y: input.y,
+		radius: input.radius || 0
+	};
 };
 
 export class CoordinatesMap<T extends CoordinatesID>{
 
-	_items : T[]
+	_itemsMap : {[id : string] : Required<CoordinatesID>};
+	_fullItemsMap : {[id : string] : T};
 
 	constructor(items : T[]) {
-		this._items = items;
+		this._itemsMap = Object.fromEntries(items.map(item => [item.id, coordinatesIDRecord(item)]));
+		this._fullItemsMap = Object.fromEntries(items.map(item => [item.id, item]));
 	}
 
 	//How to load up a PositionMap based on frameData. Should be memoized with a weakmap of FrameData.
@@ -49,13 +55,8 @@ export class CoordinatesMap<T extends CoordinatesID>{
 	static fromFrameData<F extends CoordinatesID>(frameData : CoordiantesMapFrameData, fullItems : F[]) : CoordinatesMap<F> {
 		//TODO: memoize based on a weak map
 		if (frameData.format != 'flat') throw new Error('Unsupported FrameData format: ' + frameData.format);
-		const idMap = Object.fromEntries(frameData.items.map(id => [id, true]));
-		//Make sure we don't have an extra fullItems in there that weren't in the map
-		const filteredFullItems = fullItems.filter(item => idMap[item.id]);
-		const hashedValue = hashValue(filteredFullItems);
-		if (hashedValue != frameData.hash) throw new Error('The fullItems provided were not the same as the items when frameData was exported');
 		const itemsMap = Object.fromEntries(fullItems.map(item => [item.id, item]));
-		const expandedItems : F[] = frameData.items.map(id => itemsMap[id]);
+		const expandedItems : F[] = Object.keys(frameData.items).map(id => itemsMap[id]);
 		return new CoordinatesMap<F>(expandedItems);
 	}
 
@@ -63,8 +64,7 @@ export class CoordinatesMap<T extends CoordinatesID>{
 	toFrameData() : CoordiantesMapFrameData {
 		return {
 			format: 'flat',
-			hash: hashValue(this._items),
-			items: this._items.map(item => item.id)
+			items:{...this._itemsMap}
 		};
 	}
   
@@ -74,14 +74,17 @@ export class CoordinatesMap<T extends CoordinatesID>{
 	 * @param obj The object to add to the set.
 	 */
 	updateObject(obj: T) {
-		if (this._items.some(item => coordinatesIDEquivalent(item, obj))) {
-			this.removeObject(obj);
+		const existingItem = this._itemsMap[obj.id];
+		if (existingItem) {
+			if (coordinatesIDExactlyEquivalent(existingItem, obj)) return;
 		}
-		this._items.push(obj);
+		this._fullItemsMap[obj.id] = obj;
+		this._itemsMap[obj.id] = coordinatesIDRecord(obj);
 	}
 
 	removeObject(obj : T) {
-		this._items = this._items.filter(item => !coordinatesIDEquivalent(item, obj));
+		delete this._itemsMap[obj.id];
+		delete this._fullItemsMap[obj.id];
 	}
   
 	//Will automatically exclude itself in results for the first varient
@@ -100,17 +103,17 @@ export class CoordinatesMap<T extends CoordinatesID>{
 		};
 		if (!exclude) exclude = [];
 		const result = new Map<T, number>();
-		for (const item of this._items) {
+		for (const item of Object.values(this._itemsMap)) {
 			const dist = distance(coord, item);
 			const radius = item.radius || 0.0;
 			if (dist > (searchRadius - radius)) continue;
 			if (exclude.some(excludeItem => coordinatesIDEquivalent(excludeItem, item))) continue;
-			result.set(item, dist);
+			result.set(this._fullItemsMap[item.id], dist);
 		}
 		return result;
 	}
 
 	getAllObjects() : T[] {
-		return [...this._items];
+		return Object.values(this._fullItemsMap);
 	}
 }
