@@ -119,13 +119,13 @@ class LuckSurfaceAreaSimulator extends AgentSimulator<LuckSurfaceAreaAgent, Luck
 
 	override generateAgent(parentAgent : LuckSurfaceAreaAgent, _otherAgents : LuckSurfaceAreaAgent[], _graph : Graph, baseFrame : SimulationFrame, rnd : RandomGenerator) : LuckSurfaceAreaAgent {
 		const simOptions = baseFrame.simOptions as LuckSurfaceAreaSimOptions;
-		const [emojiType, emoji] = pickEmoji(PROFESSIONAL_PEOPLE_EMOJIS, parentAgent ? parentAgent.type : rnd);
+		const emoji = pickEmoji(PROFESSIONAL_PEOPLE_EMOJIS, parentAgent ? parentAgent.type : rnd);
 		return {
 			...this.baseAgent(rnd),
 			//Your own properties would go here in your own generateAgent
 			strength: starterStrength.distribution(simOptions.agents.starterStrength).sample(rnd),
-			type:emojiType,
-			emoji: emoji,
+			type: emoji.name,
+			emoji: emoji.emoji,
 			value: starterValue.distribution(simOptions.agents.starterValue).sample(rnd),
 			cost: cost.distribution(simOptions.agents.cost).sample(rnd),
 		};

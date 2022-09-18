@@ -64,12 +64,12 @@ class PastureDemoSimulator extends AgentSimulator<PastureDemoAgent, PastureDemoS
 
 	override generateAgent(parentAgent : PastureDemoAgent, _otherAgents : PastureDemoAgent[], _graph : Graph, baseFrame : SimulationFrame, rnd : RandomGenerator) : PastureDemoAgent {
 		const simOptions = baseFrame.simOptions as PastureDemoSimOptions;
-		const [emojiKey, emoji] = pickEmoji(GRAZING_FARM_ANIMALS_EMOJIS, parentAgent ? parentAgent.type : rnd);
+		const emoji = pickEmoji(GRAZING_FARM_ANIMALS_EMOJIS, parentAgent ? parentAgent.type : rnd);
 		return {
 			...this.baseAgent(rnd),
 			node: '',
-			emoji: emoji,
-			type: emojiKey,
+			emoji: emoji.emoji,
+			type: emoji.name,
 			deathLikelihood: simOptions.deathLikelihood,
 			spawnLikelihood: simOptions.spawnLikelihood,
 		};

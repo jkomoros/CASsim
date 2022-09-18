@@ -29,6 +29,11 @@ export type Color = {
     rgbaStr : CSSColor;
 }
 
+export type EmojiInfo = {
+    name: string
+    emoji: string
+};
+
 export type EmojiSet = {
     [name : string]: string;
 };
