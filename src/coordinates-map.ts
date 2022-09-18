@@ -2,8 +2,20 @@ import {
 	Coordinates
 } from './types.js';
 
-//CoordinatesID are considered equal if they have the same id
-type CoordinatesMapItem = {id: string, radius? : number} & Coordinates;
+type CoordinatesMapItem = Coordinates & {
+	/**
+	 *  A CoordinatesMapItem is conidered equivalent to another (about the same
+	 *  underlying thing) if their IDs match. Typically this is something like
+	 *  Agent.id
+	 */
+	id : string;
+	/**
+	 * radius (0 if not provided) is how 'wide' this item is. It is treated as
+	 * taking up that much space in the map, so if any part of its area touches
+	 * another thing, they are considered to overlap.
+	 */
+	radius? : number;
+};
 
 type CoordinatesMapFrameData = {
 	format: 'flat';
