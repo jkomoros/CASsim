@@ -139,8 +139,17 @@ export const LEFTWARDS_GENERIC_ANIMAL_EMOJIS : EmojiSet = {
 	'squid': '🦑'
 };
 
+export const DOWNWARDS_GENERIC_ANIMAL_EMOJIS : EmojiSet = {
+	'orangutan': '🦧',
+	'baby-chick': '🐥',
+	'peacock': '🦚',
+	'crocodile': '🐊',
+	'octopus': '🐙'
+};
+
 export const GENERIC_ANIMAL_EMOJIS : EmojiSet = {
-	...LEFTWARDS_GENERIC_ANIMAL_EMOJIS
+	...LEFTWARDS_GENERIC_ANIMAL_EMOJIS,
+	...DOWNWARDS_GENERIC_ANIMAL_EMOJIS
 };
 
 export const ANIMAL_EMOJIS : EmojiSet = {
@@ -170,5 +179,6 @@ export const EMOJI_ROTATION : {[emoji : string] : Angle} = {
 	...emojiDirection(ROTATION_DOWN, DOWNWARDS_INSECT_EMOJIS),
 	...emojiDirection(ROTATION_DOWN, PEOPLE_EMOJI),
 	...emojiDirection(ROTATION_LEFT, GRAZING_FARM_ANIMALS_EMOJIS),
-	...emojiDirection(ROTATION_LEFT, LEFTWARDS_GENERIC_ANIMAL_EMOJIS)
+	...emojiDirection(ROTATION_LEFT, LEFTWARDS_GENERIC_ANIMAL_EMOJIS),
+	...emojiDirection(ROTATION_DOWN, DOWNWARDS_GENERIC_ANIMAL_EMOJIS)
 };
