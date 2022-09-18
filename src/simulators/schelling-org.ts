@@ -287,7 +287,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		for (let i = 0; i < collaboratorsCount; i++) {
 			collaborators.push({
 				index: i,
-				emoji: emojiValues[i % emojiValues.length],
+				emoji: emojiValues[i % emojiValues.length].emoji,
 				epsilon: collaboratorEpsilonValue,
 				broadcastLikelihood,
 				compelling: defaultCompellingValue,

@@ -131,7 +131,7 @@ class FreeMovingAgentsSimulator extends AgentSimulator<FreeMovingAgentsAgent, Fr
 						optional: true,
 						backfill: true,
 						default: true,
-						options: Object.values(INSECT_EMOJIS).map(emoji => ({value: emoji}))
+						options: Object.values(INSECT_EMOJIS).map(emoji => ({value: emoji.emoji}))
 					}
 				},
 				optional: true,

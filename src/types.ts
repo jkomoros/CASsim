@@ -32,11 +32,21 @@ export type Color = {
 export type EmojiInfo = {
     name: string
     emoji: string,
-    direction: Angle
+    direction: Angle,
+    person? : {
+        professional? : true,
+        //TODO: add gender
+    },
+    animal? : {
+        //TODO: break out by more than just insect
+        kind: 'insect' | 'other',
+        grazes? : true,
+        //TODO: add habitat = 'forest' : 'jungle' | 'farm', and when we do, update GRAZING definition to also test for that
+    }
 };
 
 export type EmojiSet = {
-    [name : string]: string;
+    [name : string]: EmojiInfo;
 };
 
 //TODO: shouldn't this just be OptionValue (minus SimulationConfig?)

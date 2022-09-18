@@ -44,7 +44,7 @@ import {
 } from './util.js';
 
 import {
-	EMOJI_ROTATION
+	EMOJI_TO_INFO_MAP
 } from './emojis.js';
 
 @customElement('base-renderer')
@@ -186,7 +186,8 @@ export class PositionedGraphRenderer<A extends Agent, F extends AgentSimulationF
 	emojiRotation(emoji : string) : Angle {
 		//Emojis that are flipped are already 
 		if (this.emojiFlipped(emoji)) return ANGLE_MIN;
-		return EMOJI_ROTATION[emoji] || ANGLE_MIN;
+		const info = EMOJI_TO_INFO_MAP[emoji];
+		return info ? info.direction : ANGLE_MIN;
 	}
 
 	/**
@@ -198,7 +199,9 @@ export class PositionedGraphRenderer<A extends Agent, F extends AgentSimulationF
 	emojiFlipped(emoji : string) : boolean {
 		//Emojis that are turned facing left (the majority of the ones with a direction)
 		//Should be flipped.
-		return EMOJI_ROTATION[emoji] == Math.PI;
+		const info = EMOJI_TO_INFO_MAP[emoji];
+		if (!info) return false;
+		return info.direction == Math.PI;
 	}
 
 	/**
@@ -206,7 +209,9 @@ export class PositionedGraphRenderer<A extends Agent, F extends AgentSimulationF
 	 * they're rotated between 90 and 270 degrees they'll be flipped vertically.
 	 */
 	emojiHorizontal(emoji : string) : boolean {
-		return EMOJI_ROTATION[emoji] == Math.PI || EMOJI_ROTATION[emoji] == 0.0;
+		const info = EMOJI_TO_INFO_MAP[emoji];
+		if (!info) return false;
+		return info.direction == Math.PI || info.direction == 0.0;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
