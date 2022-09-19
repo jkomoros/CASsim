@@ -216,7 +216,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		animal: {
 			kind: 'insect',
 			diet: 'herbivore',
-			habitat: 'forest'
+			habitat: 'forest',
+			flies: 'depicted',
 		}
 	},
 	{
@@ -226,7 +227,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		animal: {
 			kind: 'insect',
 			diet: 'herbivore',
-			habitat: 'forest'
+			habitat: 'forest',
+			flies: 'capable',
 		}
 	},
 	{
@@ -246,7 +248,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		animal: {
 			kind: 'insect',
 			diet: 'herbivore',
-			habitat: 'forest'
+			habitat: 'forest',
+			flies: 'capable',
 		}
 	},
 	{
@@ -286,7 +289,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		animal: {
 			kind: 'insect',
 			diet: 'herbivore',
-			habitat: 'forest'
+			habitat: 'forest',
+			flies: 'depicted'
 		}
 	},
 	{
@@ -296,7 +300,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		animal: {
 			kind: 'insect',
 			diet: 'herbivore',
-			habitat: 'forest'
+			habitat: 'forest',
+			flies: 'capable',
 		}
 	},
 	{
@@ -306,7 +311,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		animal: {
 			kind: 'insect',
 			diet: 'herbivore',
-			habitat: 'forest'
+			habitat: 'forest',
+			flies: 'capable'
 		}
 	},
 	{
@@ -635,7 +641,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		animal: {
 			kind: 'mammal',
 			diet: 'omnivore',
-			habitat: 'forest'
+			habitat: 'forest',
+			flies: 'depicted'
 		}
 	},
 	{
@@ -696,7 +703,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		animal: {
 			kind: 'bird',
 			diet: 'herbivore',
-			habitat: 'farm'
+			habitat: 'farm',
+			flies: 'capable'
 		}
 	},
 	{
@@ -706,7 +714,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		animal: {
 			kind: 'bird',
 			diet: 'herbivore',
-			habitat: 'forest'
+			habitat: 'forest',
+			flies: 'depicted'
 		}
 	},
 	{
@@ -716,7 +725,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		animal: {
 			kind: 'bird',
 			diet: 'omnivore',
-			habitat: 'forest'
+			habitat: 'forest',
+			flies: 'depicted'
 		}
 	},
 	{
@@ -727,7 +737,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'bird',
 			diet: 'herbivore',
 			habitat: 'farm',
-			swims: true
+			swims: true,
+			flies: 'capable'
 		}
 	},
 	{
@@ -738,7 +749,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'bird',
 			diet: 'herbivore',
 			habitat: 'farm',
-			swims: true
+			swims: true,
+			flies: 'capable'
 		}
 	},
 	{
@@ -748,7 +760,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		animal: {
 			kind: 'bird',
 			diet: 'omnivore',
-			habitat: 'forest'
+			habitat: 'forest',
+			flies: 'capable'
 		}
 	},
 	{
@@ -779,7 +792,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		animal: {
 			kind: 'bird',
 			diet: 'herbivore',
-			habitat: 'jungle'
+			habitat: 'jungle',
+			flies: 'capable'
 		}
 	},
 	{
@@ -1232,7 +1246,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'bird',
 			diet: 'herbivore',
 			habitat: 'forest',
-			face: true
+			face: true,
+			flies: 'capable'
 		}
 	},
 	{

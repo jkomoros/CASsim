@@ -54,6 +54,8 @@ export type EmojiInfo = {
         swims? : true,
         //For emojis who are the face of the animal. Often ROTATION_DOWN, but not always.
         face? : true,
+        //An animal that can fly. If it's actively depcted flying then it's 'depicted'
+        flies? : 'capable' | 'depicted'
         grazes? : true,
     }
 };
