@@ -42,7 +42,16 @@ export type EmojiInfo = {
         professional? : true,
         //TODO: add gender and skintone
     },
-    //TODO: add vehicles and plants
+    //TODO: add vehicles
+    plant? : {
+        habitat: 'forest' | 'grass' | 'house' | 'farm' | 'desert',
+        //Is the stem depicted, that could be connected to the ground and growing?
+        stem? : true,
+        //Is it a flower?
+        flower? : true,
+        //Is it a tree?
+        tree? : true
+    }
     animal? : {
         kind: 'insect' | 'mammal' | 'bird' | 'reptile' | 'fish' | 'amphibian',
         habitat: 'forest' | 'jungle' | 'savanah' | 'farm' | 'house' | 'ocean' | 'desert' | 'tundra';
