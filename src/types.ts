@@ -4,7 +4,7 @@ export * from './types-simulator.GENERATED.js';
 
 import {
 	RAW_EMOJIS
-} from './emoji-constants.js';
+} from './constants-emoji.js';
 
 import { SimulatorType } from './types-dynamic.GENERATED.js';
 

@@ -19,7 +19,7 @@ import {
 
 import {
 	RAW_EMOJIS
-} from './emoji-constants.js';
+} from './constants-emoji.js';
 
 //case it will be the source of randomness, or a key to select.
 export const pickEmoji = (emojiSet : EmojiSet, keyOrRnd : EmojiName | RandomGenerator) : EmojiInfo=> {
