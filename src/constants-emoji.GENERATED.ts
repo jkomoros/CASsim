@@ -55,7 +55,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-dark',
+		name: 'person-dark-skin',
 		emoji: '🧑🏿',
 		direction: ROTATION_UP,
 		person: {
@@ -65,7 +65,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-dark-red-hair',
+		name: 'person-dark-skin-red-hair',
 		emoji: '🧑🏿‍🦰',
 		direction: ROTATION_UP,
 		person: {
@@ -76,7 +76,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-dark-white-hair',
+		name: 'person-dark-skin-white-hair',
 		emoji: '🧑🏿‍🦳',
 		direction: ROTATION_UP,
 		person: {
@@ -87,7 +87,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-dark-curly-hair',
+		name: 'person-dark-skin-curly-hair',
 		emoji: '🧑🏿‍🦱',
 		direction: ROTATION_UP,
 		person: {
@@ -98,7 +98,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-dark-bald-hair',
+		name: 'person-dark-skin-bald-hair',
 		emoji: '🧑🏿‍🦲',
 		direction: ROTATION_UP,
 		person: {
@@ -109,7 +109,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-dark',
+		name: 'person-medium-dark-skin',
 		emoji: '🧑🏾',
 		direction: ROTATION_UP,
 		person: {
@@ -119,7 +119,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-dark-red-hair',
+		name: 'person-medium-dark-skin-red-hair',
 		emoji: '🧑🏾‍🦰',
 		direction: ROTATION_UP,
 		person: {
@@ -130,7 +130,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-dark-white-hair',
+		name: 'person-medium-dark-skin-white-hair',
 		emoji: '🧑🏾‍🦳',
 		direction: ROTATION_UP,
 		person: {
@@ -141,7 +141,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-dark-curly-hair',
+		name: 'person-medium-dark-skin-curly-hair',
 		emoji: '🧑🏾‍🦱',
 		direction: ROTATION_UP,
 		person: {
@@ -152,7 +152,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-dark-bald-hair',
+		name: 'person-medium-dark-skin-bald-hair',
 		emoji: '🧑🏾‍🦲',
 		direction: ROTATION_UP,
 		person: {
@@ -163,7 +163,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium',
+		name: 'person-medium-skin',
 		emoji: '🧑🏽',
 		direction: ROTATION_UP,
 		person: {
@@ -173,7 +173,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-red-hair',
+		name: 'person-medium-skin-red-hair',
 		emoji: '🧑🏽‍🦰',
 		direction: ROTATION_UP,
 		person: {
@@ -184,7 +184,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-white-hair',
+		name: 'person-medium-skin-white-hair',
 		emoji: '🧑🏽‍🦳',
 		direction: ROTATION_UP,
 		person: {
@@ -195,7 +195,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-curly-hair',
+		name: 'person-medium-skin-curly-hair',
 		emoji: '🧑🏽‍🦱',
 		direction: ROTATION_UP,
 		person: {
@@ -206,7 +206,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-bald-hair',
+		name: 'person-medium-skin-bald-hair',
 		emoji: '🧑🏽‍🦲',
 		direction: ROTATION_UP,
 		person: {
@@ -217,7 +217,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-light',
+		name: 'person-medium-light-skin',
 		emoji: '🧑🏼',
 		direction: ROTATION_UP,
 		person: {
@@ -227,7 +227,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-light-red-hair',
+		name: 'person-medium-light-skin-red-hair',
 		emoji: '🧑🏼‍🦰',
 		direction: ROTATION_UP,
 		person: {
@@ -238,7 +238,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-light-white-hair',
+		name: 'person-medium-light-skin-white-hair',
 		emoji: '🧑🏼‍🦳',
 		direction: ROTATION_UP,
 		person: {
@@ -249,7 +249,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-light-curly-hair',
+		name: 'person-medium-light-skin-curly-hair',
 		emoji: '🧑🏼‍🦱',
 		direction: ROTATION_UP,
 		person: {
@@ -260,7 +260,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-light-bald-hair',
+		name: 'person-medium-light-skin-bald-hair',
 		emoji: '🧑🏼‍🦲',
 		direction: ROTATION_UP,
 		person: {
@@ -271,7 +271,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-light',
+		name: 'person-light-skin',
 		emoji: '🧑🏻',
 		direction: ROTATION_UP,
 		person: {
@@ -281,7 +281,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-light-red-hair',
+		name: 'person-light-skin-red-hair',
 		emoji: '🧑🏻‍🦰',
 		direction: ROTATION_UP,
 		person: {
@@ -292,7 +292,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-light-white-hair',
+		name: 'person-light-skin-white-hair',
 		emoji: '🧑🏻‍🦳',
 		direction: ROTATION_UP,
 		person: {
@@ -303,7 +303,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-light-curly-hair',
+		name: 'person-light-skin-curly-hair',
 		emoji: '🧑🏻‍🦱',
 		direction: ROTATION_UP,
 		person: {
@@ -314,7 +314,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-light-bald-hair',
+		name: 'person-light-skin-bald-hair',
 		emoji: '🧑🏻‍🦲',
 		direction: ROTATION_UP,
 		person: {
@@ -379,7 +379,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-dark-female',
+		name: 'person-dark-skin-female',
 		emoji: '👩🏿',
 		direction: ROTATION_UP,
 		person: {
@@ -390,7 +390,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-dark-red-hair-female',
+		name: 'person-dark-skin-red-hair-female',
 		emoji: '👩🏿‍🦰',
 		direction: ROTATION_UP,
 		person: {
@@ -402,7 +402,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-dark-white-hair-female',
+		name: 'person-dark-skin-white-hair-female',
 		emoji: '👩🏿‍🦳',
 		direction: ROTATION_UP,
 		person: {
@@ -414,7 +414,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-dark-curly-hair-female',
+		name: 'person-dark-skin-curly-hair-female',
 		emoji: '👩🏿‍🦱',
 		direction: ROTATION_UP,
 		person: {
@@ -426,7 +426,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-dark-bald-hair-female',
+		name: 'person-dark-skin-bald-hair-female',
 		emoji: '👩🏿‍🦲',
 		direction: ROTATION_UP,
 		person: {
@@ -438,7 +438,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-dark-female',
+		name: 'person-medium-dark-skin-female',
 		emoji: '👩🏾',
 		direction: ROTATION_UP,
 		person: {
@@ -449,7 +449,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-dark-red-hair-female',
+		name: 'person-medium-dark-skin-red-hair-female',
 		emoji: '👩🏾‍🦰',
 		direction: ROTATION_UP,
 		person: {
@@ -461,7 +461,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-dark-white-hair-female',
+		name: 'person-medium-dark-skin-white-hair-female',
 		emoji: '👩🏾‍🦳',
 		direction: ROTATION_UP,
 		person: {
@@ -473,7 +473,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-dark-curly-hair-female',
+		name: 'person-medium-dark-skin-curly-hair-female',
 		emoji: '👩🏾‍🦱',
 		direction: ROTATION_UP,
 		person: {
@@ -485,7 +485,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-dark-bald-hair-female',
+		name: 'person-medium-dark-skin-bald-hair-female',
 		emoji: '👩🏾‍🦲',
 		direction: ROTATION_UP,
 		person: {
@@ -497,7 +497,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-female',
+		name: 'person-medium-skin-female',
 		emoji: '👩🏽',
 		direction: ROTATION_UP,
 		person: {
@@ -508,7 +508,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-red-hair-female',
+		name: 'person-medium-skin-red-hair-female',
 		emoji: '👩🏽‍🦰',
 		direction: ROTATION_UP,
 		person: {
@@ -520,7 +520,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-white-hair-female',
+		name: 'person-medium-skin-white-hair-female',
 		emoji: '👩🏽‍🦳',
 		direction: ROTATION_UP,
 		person: {
@@ -532,7 +532,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-curly-hair-female',
+		name: 'person-medium-skin-curly-hair-female',
 		emoji: '👩🏽‍🦱',
 		direction: ROTATION_UP,
 		person: {
@@ -544,7 +544,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-bald-hair-female',
+		name: 'person-medium-skin-bald-hair-female',
 		emoji: '👩🏽‍🦲',
 		direction: ROTATION_UP,
 		person: {
@@ -556,7 +556,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-light-female',
+		name: 'person-medium-light-skin-female',
 		emoji: '👩🏼',
 		direction: ROTATION_UP,
 		person: {
@@ -567,7 +567,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-light-red-hair-female',
+		name: 'person-medium-light-skin-red-hair-female',
 		emoji: '👩🏼‍🦰',
 		direction: ROTATION_UP,
 		person: {
@@ -579,7 +579,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-light-white-hair-female',
+		name: 'person-medium-light-skin-white-hair-female',
 		emoji: '👩🏼‍🦳',
 		direction: ROTATION_UP,
 		person: {
@@ -591,7 +591,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-light-curly-hair-female',
+		name: 'person-medium-light-skin-curly-hair-female',
 		emoji: '👩🏼‍🦱',
 		direction: ROTATION_UP,
 		person: {
@@ -603,7 +603,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-light-bald-hair-female',
+		name: 'person-medium-light-skin-bald-hair-female',
 		emoji: '👩🏼‍🦲',
 		direction: ROTATION_UP,
 		person: {
@@ -615,7 +615,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-light-female',
+		name: 'person-light-skin-female',
 		emoji: '👩🏻',
 		direction: ROTATION_UP,
 		person: {
@@ -626,7 +626,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-light-red-hair-female',
+		name: 'person-light-skin-red-hair-female',
 		emoji: '👩🏻‍🦰',
 		direction: ROTATION_UP,
 		person: {
@@ -638,7 +638,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-light-white-hair-female',
+		name: 'person-light-skin-white-hair-female',
 		emoji: '👩🏻‍🦳',
 		direction: ROTATION_UP,
 		person: {
@@ -650,7 +650,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-light-curly-hair-female',
+		name: 'person-light-skin-curly-hair-female',
 		emoji: '👩🏻‍🦱',
 		direction: ROTATION_UP,
 		person: {
@@ -662,7 +662,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-light-bald-hair-female',
+		name: 'person-light-skin-bald-hair-female',
 		emoji: '👩🏻‍🦲',
 		direction: ROTATION_UP,
 		person: {
@@ -728,7 +728,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-dark-male',
+		name: 'person-dark-skin-male',
 		emoji: '👨🏿',
 		direction: ROTATION_UP,
 		person: {
@@ -739,7 +739,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-dark-red-hair-male',
+		name: 'person-dark-skin-red-hair-male',
 		emoji: '👨🏿‍🦰',
 		direction: ROTATION_UP,
 		person: {
@@ -751,7 +751,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-dark-white-hair-male',
+		name: 'person-dark-skin-white-hair-male',
 		emoji: '👨🏿‍🦳',
 		direction: ROTATION_UP,
 		person: {
@@ -763,7 +763,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-dark-curly-hair-male',
+		name: 'person-dark-skin-curly-hair-male',
 		emoji: '👨🏿‍🦱',
 		direction: ROTATION_UP,
 		person: {
@@ -775,7 +775,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-dark-bald-hair-male',
+		name: 'person-dark-skin-bald-hair-male',
 		emoji: '👨🏿‍🦲',
 		direction: ROTATION_UP,
 		person: {
@@ -787,7 +787,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-dark-male',
+		name: 'person-medium-dark-skin-male',
 		emoji: '👨🏾',
 		direction: ROTATION_UP,
 		person: {
@@ -798,7 +798,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-dark-red-hair-male',
+		name: 'person-medium-dark-skin-red-hair-male',
 		emoji: '👨🏾‍🦰',
 		direction: ROTATION_UP,
 		person: {
@@ -810,7 +810,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-dark-white-hair-male',
+		name: 'person-medium-dark-skin-white-hair-male',
 		emoji: '👨🏾‍🦳',
 		direction: ROTATION_UP,
 		person: {
@@ -822,7 +822,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-dark-curly-hair-male',
+		name: 'person-medium-dark-skin-curly-hair-male',
 		emoji: '👨🏾‍🦱',
 		direction: ROTATION_UP,
 		person: {
@@ -834,7 +834,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-dark-bald-hair-male',
+		name: 'person-medium-dark-skin-bald-hair-male',
 		emoji: '👨🏾‍🦲',
 		direction: ROTATION_UP,
 		person: {
@@ -846,7 +846,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-male',
+		name: 'person-medium-skin-male',
 		emoji: '👨🏽',
 		direction: ROTATION_UP,
 		person: {
@@ -857,7 +857,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-red-hair-male',
+		name: 'person-medium-skin-red-hair-male',
 		emoji: '👨🏽‍🦰',
 		direction: ROTATION_UP,
 		person: {
@@ -869,7 +869,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-white-hair-male',
+		name: 'person-medium-skin-white-hair-male',
 		emoji: '👨🏽‍🦳',
 		direction: ROTATION_UP,
 		person: {
@@ -881,7 +881,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-curly-hair-male',
+		name: 'person-medium-skin-curly-hair-male',
 		emoji: '👨🏽‍🦱',
 		direction: ROTATION_UP,
 		person: {
@@ -893,7 +893,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-bald-hair-male',
+		name: 'person-medium-skin-bald-hair-male',
 		emoji: '👨🏽‍🦲',
 		direction: ROTATION_UP,
 		person: {
@@ -905,7 +905,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-light-male',
+		name: 'person-medium-light-skin-male',
 		emoji: '👨🏼',
 		direction: ROTATION_UP,
 		person: {
@@ -916,7 +916,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-light-red-hair-male',
+		name: 'person-medium-light-skin-red-hair-male',
 		emoji: '👨🏼‍🦰',
 		direction: ROTATION_UP,
 		person: {
@@ -928,7 +928,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-light-white-hair-male',
+		name: 'person-medium-light-skin-white-hair-male',
 		emoji: '👨🏼‍🦳',
 		direction: ROTATION_UP,
 		person: {
@@ -940,7 +940,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-light-curly-hair-male',
+		name: 'person-medium-light-skin-curly-hair-male',
 		emoji: '👨🏼‍🦱',
 		direction: ROTATION_UP,
 		person: {
@@ -952,7 +952,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-medium-light-bald-hair-male',
+		name: 'person-medium-light-skin-bald-hair-male',
 		emoji: '👨🏼‍🦲',
 		direction: ROTATION_UP,
 		person: {
@@ -964,7 +964,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-light-male',
+		name: 'person-light-skin-male',
 		emoji: '👨🏻',
 		direction: ROTATION_UP,
 		person: {
@@ -975,7 +975,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-light-red-hair-male',
+		name: 'person-light-skin-red-hair-male',
 		emoji: '👨🏻‍🦰',
 		direction: ROTATION_UP,
 		person: {
@@ -987,7 +987,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-light-white-hair-male',
+		name: 'person-light-skin-white-hair-male',
 		emoji: '👨🏻‍🦳',
 		direction: ROTATION_UP,
 		person: {
@@ -999,7 +999,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-light-curly-hair-male',
+		name: 'person-light-skin-curly-hair-male',
 		emoji: '👨🏻‍🦱',
 		direction: ROTATION_UP,
 		person: {
@@ -1011,7 +1011,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
-		name: 'person-light-bald-hair-male',
+		name: 'person-light-skin-bald-hair-male',
 		emoji: '👨🏻‍🦲',
 		direction: ROTATION_UP,
 		person: {
@@ -1032,7 +1032,7 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
-		name: 'doctor-dark',
+		name: 'doctor-dark-skin',
 		emoji: '🧑🏿‍⚕️',
 		direction: ROTATION_UP,
 		person: {
@@ -1043,7 +1043,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'doctor'
 	},
 	{
-		name: 'doctor-medium-dark',
+		name: 'doctor-medium-dark-skin',
 		emoji: '🧑🏾‍⚕️',
 		direction: ROTATION_UP,
 		person: {
@@ -1054,7 +1054,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'doctor'
 	},
 	{
-		name: 'doctor-medium',
+		name: 'doctor-medium-skin',
 		emoji: '🧑🏽‍⚕️',
 		direction: ROTATION_UP,
 		person: {
@@ -1065,7 +1065,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'doctor'
 	},
 	{
-		name: 'doctor-medium-light',
+		name: 'doctor-medium-light-skin',
 		emoji: '🧑🏼‍⚕️',
 		direction: ROTATION_UP,
 		person: {
@@ -1076,7 +1076,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'doctor'
 	},
 	{
-		name: 'doctor-light',
+		name: 'doctor-light-skin',
 		emoji: '🧑🏻‍⚕️',
 		direction: ROTATION_UP,
 		person: {
@@ -1098,7 +1098,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'doctor'
 	},
 	{
-		name: 'doctor-dark-female',
+		name: 'doctor-dark-skin-female',
 		emoji: '👩🏿‍⚕️',
 		direction: ROTATION_UP,
 		person: {
@@ -1110,7 +1110,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'doctor'
 	},
 	{
-		name: 'doctor-medium-dark-female',
+		name: 'doctor-medium-dark-skin-female',
 		emoji: '👩🏾‍⚕️',
 		direction: ROTATION_UP,
 		person: {
@@ -1122,7 +1122,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'doctor'
 	},
 	{
-		name: 'doctor-medium-female',
+		name: 'doctor-medium-skin-female',
 		emoji: '👩🏽‍⚕️',
 		direction: ROTATION_UP,
 		person: {
@@ -1134,7 +1134,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'doctor'
 	},
 	{
-		name: 'doctor-medium-light-female',
+		name: 'doctor-medium-light-skin-female',
 		emoji: '👩🏼‍⚕️',
 		direction: ROTATION_UP,
 		person: {
@@ -1146,7 +1146,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'doctor'
 	},
 	{
-		name: 'doctor-light-female',
+		name: 'doctor-light-skin-female',
 		emoji: '👩🏻‍⚕️',
 		direction: ROTATION_UP,
 		person: {
@@ -1169,7 +1169,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'doctor'
 	},
 	{
-		name: 'doctor-dark-male',
+		name: 'doctor-dark-skin-male',
 		emoji: '👨🏿‍⚕️',
 		direction: ROTATION_UP,
 		person: {
@@ -1181,7 +1181,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'doctor'
 	},
 	{
-		name: 'doctor-medium-dark-male',
+		name: 'doctor-medium-dark-skin-male',
 		emoji: '👨🏾‍⚕️',
 		direction: ROTATION_UP,
 		person: {
@@ -1193,7 +1193,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'doctor'
 	},
 	{
-		name: 'doctor-medium-male',
+		name: 'doctor-medium-skin-male',
 		emoji: '👨🏽‍⚕️',
 		direction: ROTATION_UP,
 		person: {
@@ -1205,7 +1205,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'doctor'
 	},
 	{
-		name: 'doctor-medium-light-male',
+		name: 'doctor-medium-light-skin-male',
 		emoji: '👨🏼‍⚕️',
 		direction: ROTATION_UP,
 		person: {
@@ -1217,7 +1217,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'doctor'
 	},
 	{
-		name: 'doctor-light-male',
+		name: 'doctor-light-skin-male',
 		emoji: '👨🏻‍⚕️',
 		direction: ROTATION_UP,
 		person: {
@@ -1238,7 +1238,7 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
-		name: 'graduate-dark',
+		name: 'graduate-dark-skin',
 		emoji: '🧑🏿‍🎓',
 		direction: ROTATION_UP,
 		person: {
@@ -1249,7 +1249,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'graduate'
 	},
 	{
-		name: 'graduate-medium-dark',
+		name: 'graduate-medium-dark-skin',
 		emoji: '🧑🏾‍🎓',
 		direction: ROTATION_UP,
 		person: {
@@ -1260,7 +1260,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'graduate'
 	},
 	{
-		name: 'graduate-medium',
+		name: 'graduate-medium-skin',
 		emoji: '🧑🏽‍🎓',
 		direction: ROTATION_UP,
 		person: {
@@ -1271,7 +1271,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'graduate'
 	},
 	{
-		name: 'graduate-medium-light',
+		name: 'graduate-medium-light-skin',
 		emoji: '🧑🏼‍🎓',
 		direction: ROTATION_UP,
 		person: {
@@ -1282,7 +1282,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'graduate'
 	},
 	{
-		name: 'graduate-light',
+		name: 'graduate-light-skin',
 		emoji: '🧑🏻‍🎓',
 		direction: ROTATION_UP,
 		person: {
@@ -1304,7 +1304,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'graduate'
 	},
 	{
-		name: 'graduate-dark-female',
+		name: 'graduate-dark-skin-female',
 		emoji: '👩🏿‍🎓',
 		direction: ROTATION_UP,
 		person: {
@@ -1316,7 +1316,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'graduate'
 	},
 	{
-		name: 'graduate-medium-dark-female',
+		name: 'graduate-medium-dark-skin-female',
 		emoji: '👩🏾‍🎓',
 		direction: ROTATION_UP,
 		person: {
@@ -1328,7 +1328,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'graduate'
 	},
 	{
-		name: 'graduate-medium-female',
+		name: 'graduate-medium-skin-female',
 		emoji: '👩🏽‍🎓',
 		direction: ROTATION_UP,
 		person: {
@@ -1340,7 +1340,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'graduate'
 	},
 	{
-		name: 'graduate-medium-light-female',
+		name: 'graduate-medium-light-skin-female',
 		emoji: '👩🏼‍🎓',
 		direction: ROTATION_UP,
 		person: {
@@ -1352,7 +1352,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'graduate'
 	},
 	{
-		name: 'graduate-light-female',
+		name: 'graduate-light-skin-female',
 		emoji: '👩🏻‍🎓',
 		direction: ROTATION_UP,
 		person: {
@@ -1375,7 +1375,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'graduate'
 	},
 	{
-		name: 'graduate-dark-male',
+		name: 'graduate-dark-skin-male',
 		emoji: '👨🏿‍🎓',
 		direction: ROTATION_UP,
 		person: {
@@ -1387,7 +1387,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'graduate'
 	},
 	{
-		name: 'graduate-medium-dark-male',
+		name: 'graduate-medium-dark-skin-male',
 		emoji: '👨🏾‍🎓',
 		direction: ROTATION_UP,
 		person: {
@@ -1399,7 +1399,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'graduate'
 	},
 	{
-		name: 'graduate-medium-male',
+		name: 'graduate-medium-skin-male',
 		emoji: '👨🏽‍🎓',
 		direction: ROTATION_UP,
 		person: {
@@ -1411,7 +1411,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'graduate'
 	},
 	{
-		name: 'graduate-medium-light-male',
+		name: 'graduate-medium-light-skin-male',
 		emoji: '👨🏼‍🎓',
 		direction: ROTATION_UP,
 		person: {
@@ -1423,7 +1423,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'graduate'
 	},
 	{
-		name: 'graduate-light-male',
+		name: 'graduate-light-skin-male',
 		emoji: '👨🏻‍🎓',
 		direction: ROTATION_UP,
 		person: {
@@ -1444,7 +1444,7 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
-		name: 'teacher-dark',
+		name: 'teacher-dark-skin',
 		emoji: '🧑🏿‍🏫',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1455,7 +1455,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'teacher'
 	},
 	{
-		name: 'teacher-medium-dark',
+		name: 'teacher-medium-dark-skin',
 		emoji: '🧑🏾‍🏫',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1466,7 +1466,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'teacher'
 	},
 	{
-		name: 'teacher-medium',
+		name: 'teacher-medium-skin',
 		emoji: '🧑🏽‍🏫',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1477,7 +1477,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'teacher'
 	},
 	{
-		name: 'teacher-medium-light',
+		name: 'teacher-medium-light-skin',
 		emoji: '🧑🏼‍🏫',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1488,7 +1488,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'teacher'
 	},
 	{
-		name: 'teacher-light',
+		name: 'teacher-light-skin',
 		emoji: '🧑🏻‍🏫',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1510,7 +1510,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'teacher'
 	},
 	{
-		name: 'teacher-dark-female',
+		name: 'teacher-dark-skin-female',
 		emoji: '👩🏿‍🏫',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1522,7 +1522,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'teacher'
 	},
 	{
-		name: 'teacher-medium-dark-female',
+		name: 'teacher-medium-dark-skin-female',
 		emoji: '👩🏾‍🏫',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1534,7 +1534,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'teacher'
 	},
 	{
-		name: 'teacher-medium-female',
+		name: 'teacher-medium-skin-female',
 		emoji: '👩🏽‍🏫',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1546,7 +1546,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'teacher'
 	},
 	{
-		name: 'teacher-medium-light-female',
+		name: 'teacher-medium-light-skin-female',
 		emoji: '👩🏼‍🏫',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1558,7 +1558,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'teacher'
 	},
 	{
-		name: 'teacher-light-female',
+		name: 'teacher-light-skin-female',
 		emoji: '👩🏻‍🏫',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1581,7 +1581,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'teacher'
 	},
 	{
-		name: 'teacher-dark-male',
+		name: 'teacher-dark-skin-male',
 		emoji: '👨🏿‍🏫',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1593,7 +1593,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'teacher'
 	},
 	{
-		name: 'teacher-medium-dark-male',
+		name: 'teacher-medium-dark-skin-male',
 		emoji: '👨🏾‍🏫',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1605,7 +1605,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'teacher'
 	},
 	{
-		name: 'teacher-medium-male',
+		name: 'teacher-medium-skin-male',
 		emoji: '👨🏽‍🏫',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1617,7 +1617,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'teacher'
 	},
 	{
-		name: 'teacher-medium-light-male',
+		name: 'teacher-medium-light-skin-male',
 		emoji: '👨🏼‍🏫',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1629,7 +1629,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'teacher'
 	},
 	{
-		name: 'teacher-light-male',
+		name: 'teacher-light-skin-male',
 		emoji: '👨🏻‍🏫',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1650,7 +1650,7 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
-		name: 'judge-dark',
+		name: 'judge-dark-skin',
 		emoji: '🧑🏿‍⚖️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1661,7 +1661,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'judge'
 	},
 	{
-		name: 'judge-medium-dark',
+		name: 'judge-medium-dark-skin',
 		emoji: '🧑🏾‍⚖️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1672,7 +1672,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'judge'
 	},
 	{
-		name: 'judge-medium',
+		name: 'judge-medium-skin',
 		emoji: '🧑🏽‍⚖️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1683,7 +1683,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'judge'
 	},
 	{
-		name: 'judge-medium-light',
+		name: 'judge-medium-light-skin',
 		emoji: '🧑🏼‍⚖️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1694,7 +1694,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'judge'
 	},
 	{
-		name: 'judge-light',
+		name: 'judge-light-skin',
 		emoji: '🧑🏻‍⚖️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1716,7 +1716,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'judge'
 	},
 	{
-		name: 'judge-dark-female',
+		name: 'judge-dark-skin-female',
 		emoji: '👩🏿‍⚖️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1728,7 +1728,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'judge'
 	},
 	{
-		name: 'judge-medium-dark-female',
+		name: 'judge-medium-dark-skin-female',
 		emoji: '👩🏾‍⚖️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1740,7 +1740,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'judge'
 	},
 	{
-		name: 'judge-medium-female',
+		name: 'judge-medium-skin-female',
 		emoji: '👩🏽‍⚖️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1752,7 +1752,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'judge'
 	},
 	{
-		name: 'judge-medium-light-female',
+		name: 'judge-medium-light-skin-female',
 		emoji: '👩🏼‍⚖️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1764,7 +1764,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'judge'
 	},
 	{
-		name: 'judge-light-female',
+		name: 'judge-light-skin-female',
 		emoji: '👩🏻‍⚖️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1787,7 +1787,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'judge'
 	},
 	{
-		name: 'judge-dark-male',
+		name: 'judge-dark-skin-male',
 		emoji: '👨🏿‍⚖️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1799,7 +1799,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'judge'
 	},
 	{
-		name: 'judge-medium-dark-male',
+		name: 'judge-medium-dark-skin-male',
 		emoji: '👨🏾‍⚖️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1811,7 +1811,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'judge'
 	},
 	{
-		name: 'judge-medium-male',
+		name: 'judge-medium-skin-male',
 		emoji: '👨🏽‍⚖️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1823,7 +1823,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'judge'
 	},
 	{
-		name: 'judge-medium-light-male',
+		name: 'judge-medium-light-skin-male',
 		emoji: '👨🏼‍⚖️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1835,7 +1835,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'judge'
 	},
 	{
-		name: 'judge-light-male',
+		name: 'judge-light-skin-male',
 		emoji: '👨🏻‍⚖️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1856,7 +1856,7 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
-		name: 'farmer-dark',
+		name: 'farmer-dark-skin',
 		emoji: '🧑🏿‍🌾',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1867,7 +1867,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'farmer'
 	},
 	{
-		name: 'farmer-medium-dark',
+		name: 'farmer-medium-dark-skin',
 		emoji: '🧑🏾‍🌾',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1878,7 +1878,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'farmer'
 	},
 	{
-		name: 'farmer-medium',
+		name: 'farmer-medium-skin',
 		emoji: '🧑🏽‍🌾',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1889,7 +1889,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'farmer'
 	},
 	{
-		name: 'farmer-medium-light',
+		name: 'farmer-medium-light-skin',
 		emoji: '🧑🏼‍🌾',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1900,7 +1900,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'farmer'
 	},
 	{
-		name: 'farmer-light',
+		name: 'farmer-light-skin',
 		emoji: '🧑🏻‍🌾',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1922,7 +1922,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'farmer'
 	},
 	{
-		name: 'farmer-dark-female',
+		name: 'farmer-dark-skin-female',
 		emoji: '👩🏿‍🌾',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1934,7 +1934,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'farmer'
 	},
 	{
-		name: 'farmer-medium-dark-female',
+		name: 'farmer-medium-dark-skin-female',
 		emoji: '👩🏾‍🌾',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1946,7 +1946,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'farmer'
 	},
 	{
-		name: 'farmer-medium-female',
+		name: 'farmer-medium-skin-female',
 		emoji: '👩🏽‍🌾',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1958,7 +1958,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'farmer'
 	},
 	{
-		name: 'farmer-medium-light-female',
+		name: 'farmer-medium-light-skin-female',
 		emoji: '👩🏼‍🌾',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1970,7 +1970,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'farmer'
 	},
 	{
-		name: 'farmer-light-female',
+		name: 'farmer-light-skin-female',
 		emoji: '👩🏻‍🌾',
 		direction: ROTATION_DOWN,
 		person: {
@@ -1993,7 +1993,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'farmer'
 	},
 	{
-		name: 'farmer-dark-male',
+		name: 'farmer-dark-skin-male',
 		emoji: '👨🏿‍🌾',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2005,7 +2005,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'farmer'
 	},
 	{
-		name: 'farmer-medium-dark-male',
+		name: 'farmer-medium-dark-skin-male',
 		emoji: '👨🏾‍🌾',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2017,7 +2017,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'farmer'
 	},
 	{
-		name: 'farmer-medium-male',
+		name: 'farmer-medium-skin-male',
 		emoji: '👨🏽‍🌾',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2029,7 +2029,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'farmer'
 	},
 	{
-		name: 'farmer-medium-light-male',
+		name: 'farmer-medium-light-skin-male',
 		emoji: '👨🏼‍🌾',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2041,7 +2041,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'farmer'
 	},
 	{
-		name: 'farmer-light-male',
+		name: 'farmer-light-skin-male',
 		emoji: '👨🏻‍🌾',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2062,7 +2062,7 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
-		name: 'chef-dark',
+		name: 'chef-dark-skin',
 		emoji: '🧑🏿‍🍳',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2073,7 +2073,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'chef'
 	},
 	{
-		name: 'chef-medium-dark',
+		name: 'chef-medium-dark-skin',
 		emoji: '🧑🏾‍🍳',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2084,7 +2084,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'chef'
 	},
 	{
-		name: 'chef-medium',
+		name: 'chef-medium-skin',
 		emoji: '🧑🏽‍🍳',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2095,7 +2095,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'chef'
 	},
 	{
-		name: 'chef-medium-light',
+		name: 'chef-medium-light-skin',
 		emoji: '🧑🏼‍🍳',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2106,7 +2106,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'chef'
 	},
 	{
-		name: 'chef-light',
+		name: 'chef-light-skin',
 		emoji: '🧑🏻‍🍳',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2128,7 +2128,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'chef'
 	},
 	{
-		name: 'chef-dark-female',
+		name: 'chef-dark-skin-female',
 		emoji: '👩🏿‍🍳',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2140,7 +2140,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'chef'
 	},
 	{
-		name: 'chef-medium-dark-female',
+		name: 'chef-medium-dark-skin-female',
 		emoji: '👩🏾‍🍳',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2152,7 +2152,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'chef'
 	},
 	{
-		name: 'chef-medium-female',
+		name: 'chef-medium-skin-female',
 		emoji: '👩🏽‍🍳',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2164,7 +2164,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'chef'
 	},
 	{
-		name: 'chef-medium-light-female',
+		name: 'chef-medium-light-skin-female',
 		emoji: '👩🏼‍🍳',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2176,7 +2176,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'chef'
 	},
 	{
-		name: 'chef-light-female',
+		name: 'chef-light-skin-female',
 		emoji: '👩🏻‍🍳',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2199,7 +2199,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'chef'
 	},
 	{
-		name: 'chef-dark-male',
+		name: 'chef-dark-skin-male',
 		emoji: '👨🏿‍🍳',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2211,7 +2211,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'chef'
 	},
 	{
-		name: 'chef-medium-dark-male',
+		name: 'chef-medium-dark-skin-male',
 		emoji: '👨🏾‍🍳',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2223,7 +2223,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'chef'
 	},
 	{
-		name: 'chef-medium-male',
+		name: 'chef-medium-skin-male',
 		emoji: '👨🏽‍🍳',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2235,7 +2235,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'chef'
 	},
 	{
-		name: 'chef-medium-light-male',
+		name: 'chef-medium-light-skin-male',
 		emoji: '👨🏼‍🍳',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2247,7 +2247,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'chef'
 	},
 	{
-		name: 'chef-light-male',
+		name: 'chef-light-skin-male',
 		emoji: '👨🏻‍🍳',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2268,7 +2268,7 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
-		name: 'mechanic-dark',
+		name: 'mechanic-dark-skin',
 		emoji: '🧑🏿‍🔧',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2279,7 +2279,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'mechanic'
 	},
 	{
-		name: 'mechanic-medium-dark',
+		name: 'mechanic-medium-dark-skin',
 		emoji: '🧑🏾‍🔧',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2290,7 +2290,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'mechanic'
 	},
 	{
-		name: 'mechanic-medium',
+		name: 'mechanic-medium-skin',
 		emoji: '🧑🏽‍🔧',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2301,7 +2301,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'mechanic'
 	},
 	{
-		name: 'mechanic-medium-light',
+		name: 'mechanic-medium-light-skin',
 		emoji: '🧑🏼‍🔧',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2312,7 +2312,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'mechanic'
 	},
 	{
-		name: 'mechanic-light',
+		name: 'mechanic-light-skin',
 		emoji: '🧑🏻‍🔧',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2334,7 +2334,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'mechanic'
 	},
 	{
-		name: 'mechanic-dark-female',
+		name: 'mechanic-dark-skin-female',
 		emoji: '👩🏿‍🔧',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2346,7 +2346,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'mechanic'
 	},
 	{
-		name: 'mechanic-medium-dark-female',
+		name: 'mechanic-medium-dark-skin-female',
 		emoji: '👩🏾‍🔧',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2358,7 +2358,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'mechanic'
 	},
 	{
-		name: 'mechanic-medium-female',
+		name: 'mechanic-medium-skin-female',
 		emoji: '👩🏽‍🔧',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2370,7 +2370,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'mechanic'
 	},
 	{
-		name: 'mechanic-medium-light-female',
+		name: 'mechanic-medium-light-skin-female',
 		emoji: '👩🏼‍🔧',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2382,7 +2382,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'mechanic'
 	},
 	{
-		name: 'mechanic-light-female',
+		name: 'mechanic-light-skin-female',
 		emoji: '👩🏻‍🔧',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2405,7 +2405,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'mechanic'
 	},
 	{
-		name: 'mechanic-dark-male',
+		name: 'mechanic-dark-skin-male',
 		emoji: '👨🏿‍🔧',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2417,7 +2417,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'mechanic'
 	},
 	{
-		name: 'mechanic-medium-dark-male',
+		name: 'mechanic-medium-dark-skin-male',
 		emoji: '👨🏾‍🔧',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2429,7 +2429,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'mechanic'
 	},
 	{
-		name: 'mechanic-medium-male',
+		name: 'mechanic-medium-skin-male',
 		emoji: '👨🏽‍🔧',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2441,7 +2441,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'mechanic'
 	},
 	{
-		name: 'mechanic-medium-light-male',
+		name: 'mechanic-medium-light-skin-male',
 		emoji: '👨🏼‍🔧',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2453,7 +2453,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'mechanic'
 	},
 	{
-		name: 'mechanic-light-male',
+		name: 'mechanic-light-skin-male',
 		emoji: '👨🏻‍🔧',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2474,7 +2474,7 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
-		name: 'scientist-dark',
+		name: 'scientist-dark-skin',
 		emoji: '🧑🏿‍🔬',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2485,7 +2485,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'scientist'
 	},
 	{
-		name: 'scientist-medium-dark',
+		name: 'scientist-medium-dark-skin',
 		emoji: '🧑🏾‍🔬',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2496,7 +2496,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'scientist'
 	},
 	{
-		name: 'scientist-medium',
+		name: 'scientist-medium-skin',
 		emoji: '🧑🏽‍🔬',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2507,7 +2507,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'scientist'
 	},
 	{
-		name: 'scientist-medium-light',
+		name: 'scientist-medium-light-skin',
 		emoji: '🧑🏼‍🔬',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2518,7 +2518,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'scientist'
 	},
 	{
-		name: 'scientist-light',
+		name: 'scientist-light-skin',
 		emoji: '🧑🏻‍🔬',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2540,7 +2540,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'scientist'
 	},
 	{
-		name: 'scientist-dark-female',
+		name: 'scientist-dark-skin-female',
 		emoji: '👩🏿‍🔬',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2552,7 +2552,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'scientist'
 	},
 	{
-		name: 'scientist-medium-dark-female',
+		name: 'scientist-medium-dark-skin-female',
 		emoji: '👩🏾‍🔬',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2564,7 +2564,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'scientist'
 	},
 	{
-		name: 'scientist-medium-female',
+		name: 'scientist-medium-skin-female',
 		emoji: '👩🏽‍🔬',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2576,7 +2576,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'scientist'
 	},
 	{
-		name: 'scientist-medium-light-female',
+		name: 'scientist-medium-light-skin-female',
 		emoji: '👩🏼‍🔬',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2588,7 +2588,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'scientist'
 	},
 	{
-		name: 'scientist-light-female',
+		name: 'scientist-light-skin-female',
 		emoji: '👩🏻‍🔬',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2611,7 +2611,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'scientist'
 	},
 	{
-		name: 'scientist-dark-male',
+		name: 'scientist-dark-skin-male',
 		emoji: '👨🏿‍🔬',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2623,7 +2623,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'scientist'
 	},
 	{
-		name: 'scientist-medium-dark-male',
+		name: 'scientist-medium-dark-skin-male',
 		emoji: '👨🏾‍🔬',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2635,7 +2635,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'scientist'
 	},
 	{
-		name: 'scientist-medium-male',
+		name: 'scientist-medium-skin-male',
 		emoji: '👨🏽‍🔬',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2647,7 +2647,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'scientist'
 	},
 	{
-		name: 'scientist-medium-light-male',
+		name: 'scientist-medium-light-skin-male',
 		emoji: '👨🏼‍🔬',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2659,7 +2659,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'scientist'
 	},
 	{
-		name: 'scientist-light-male',
+		name: 'scientist-light-skin-male',
 		emoji: '👨🏻‍🔬',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2680,7 +2680,7 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
-		name: 'artist-dark',
+		name: 'artist-dark-skin',
 		emoji: '🧑🏿‍🎨',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2691,7 +2691,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'artist'
 	},
 	{
-		name: 'artist-medium-dark',
+		name: 'artist-medium-dark-skin',
 		emoji: '🧑🏾‍🎨',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2702,7 +2702,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'artist'
 	},
 	{
-		name: 'artist-medium',
+		name: 'artist-medium-skin',
 		emoji: '🧑🏽‍🎨',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2713,7 +2713,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'artist'
 	},
 	{
-		name: 'artist-medium-light',
+		name: 'artist-medium-light-skin',
 		emoji: '🧑🏼‍🎨',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2724,7 +2724,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'artist'
 	},
 	{
-		name: 'artist-light',
+		name: 'artist-light-skin',
 		emoji: '🧑🏻‍🎨',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2746,7 +2746,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'artist'
 	},
 	{
-		name: 'artist-dark-female',
+		name: 'artist-dark-skin-female',
 		emoji: '👩🏿‍🎨',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2758,7 +2758,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'artist'
 	},
 	{
-		name: 'artist-medium-dark-female',
+		name: 'artist-medium-dark-skin-female',
 		emoji: '👩🏾‍🎨',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2770,7 +2770,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'artist'
 	},
 	{
-		name: 'artist-medium-female',
+		name: 'artist-medium-skin-female',
 		emoji: '👩🏽‍🎨',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2782,7 +2782,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'artist'
 	},
 	{
-		name: 'artist-medium-light-female',
+		name: 'artist-medium-light-skin-female',
 		emoji: '👩🏼‍🎨',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2794,7 +2794,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'artist'
 	},
 	{
-		name: 'artist-light-female',
+		name: 'artist-light-skin-female',
 		emoji: '👩🏻‍🎨',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2817,7 +2817,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'artist'
 	},
 	{
-		name: 'artist-dark-male',
+		name: 'artist-dark-skin-male',
 		emoji: '👨🏿‍🎨',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2829,7 +2829,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'artist'
 	},
 	{
-		name: 'artist-medium-dark-male',
+		name: 'artist-medium-dark-skin-male',
 		emoji: '👨🏾‍🎨',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2841,7 +2841,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'artist'
 	},
 	{
-		name: 'artist-medium-male',
+		name: 'artist-medium-skin-male',
 		emoji: '👨🏽‍🎨',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2853,7 +2853,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'artist'
 	},
 	{
-		name: 'artist-medium-light-male',
+		name: 'artist-medium-light-skin-male',
 		emoji: '👨🏼‍🎨',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2865,7 +2865,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'artist'
 	},
 	{
-		name: 'artist-light-male',
+		name: 'artist-light-skin-male',
 		emoji: '👨🏻‍🎨',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2886,7 +2886,7 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
-		name: 'pilot-dark',
+		name: 'pilot-dark-skin',
 		emoji: '🧑🏿‍✈️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2897,7 +2897,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'pilot'
 	},
 	{
-		name: 'pilot-medium-dark',
+		name: 'pilot-medium-dark-skin',
 		emoji: '🧑🏾‍✈️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2908,7 +2908,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'pilot'
 	},
 	{
-		name: 'pilot-medium',
+		name: 'pilot-medium-skin',
 		emoji: '🧑🏽‍✈️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2919,7 +2919,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'pilot'
 	},
 	{
-		name: 'pilot-medium-light',
+		name: 'pilot-medium-light-skin',
 		emoji: '🧑🏼‍✈️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2930,7 +2930,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'pilot'
 	},
 	{
-		name: 'pilot-light',
+		name: 'pilot-light-skin',
 		emoji: '🧑🏻‍✈️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2952,7 +2952,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'pilot'
 	},
 	{
-		name: 'pilot-dark-female',
+		name: 'pilot-dark-skin-female',
 		emoji: '👩🏿‍✈️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2964,7 +2964,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'pilot'
 	},
 	{
-		name: 'pilot-medium-dark-female',
+		name: 'pilot-medium-dark-skin-female',
 		emoji: '👩🏾‍✈️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2976,7 +2976,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'pilot'
 	},
 	{
-		name: 'pilot-medium-female',
+		name: 'pilot-medium-skin-female',
 		emoji: '👩🏽‍✈️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -2988,7 +2988,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'pilot'
 	},
 	{
-		name: 'pilot-medium-light-female',
+		name: 'pilot-medium-light-skin-female',
 		emoji: '👩🏼‍✈️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3000,7 +3000,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'pilot'
 	},
 	{
-		name: 'pilot-light-female',
+		name: 'pilot-light-skin-female',
 		emoji: '👩🏻‍✈️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3023,7 +3023,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'pilot'
 	},
 	{
-		name: 'pilot-dark-male',
+		name: 'pilot-dark-skin-male',
 		emoji: '👨🏿‍✈️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3035,7 +3035,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'pilot'
 	},
 	{
-		name: 'pilot-medium-dark-male',
+		name: 'pilot-medium-dark-skin-male',
 		emoji: '👨🏾‍✈️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3047,7 +3047,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'pilot'
 	},
 	{
-		name: 'pilot-medium-male',
+		name: 'pilot-medium-skin-male',
 		emoji: '👨🏽‍✈️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3059,7 +3059,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'pilot'
 	},
 	{
-		name: 'pilot-medium-light-male',
+		name: 'pilot-medium-light-skin-male',
 		emoji: '👨🏼‍✈️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3071,7 +3071,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'pilot'
 	},
 	{
-		name: 'pilot-light-male',
+		name: 'pilot-light-skin-male',
 		emoji: '👨🏻‍✈️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3092,7 +3092,7 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
-		name: 'firefighter-dark',
+		name: 'firefighter-dark-skin',
 		emoji: '🧑🏿‍🚒',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3103,7 +3103,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'firefighter'
 	},
 	{
-		name: 'firefighter-medium-dark',
+		name: 'firefighter-medium-dark-skin',
 		emoji: '🧑🏾‍🚒',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3114,7 +3114,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'firefighter'
 	},
 	{
-		name: 'firefighter-medium',
+		name: 'firefighter-medium-skin',
 		emoji: '🧑🏽‍🚒',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3125,7 +3125,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'firefighter'
 	},
 	{
-		name: 'firefighter-medium-light',
+		name: 'firefighter-medium-light-skin',
 		emoji: '🧑🏼‍🚒',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3136,7 +3136,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'firefighter'
 	},
 	{
-		name: 'firefighter-light',
+		name: 'firefighter-light-skin',
 		emoji: '🧑🏻‍🚒',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3158,7 +3158,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'firefighter'
 	},
 	{
-		name: 'firefighter-dark-female',
+		name: 'firefighter-dark-skin-female',
 		emoji: '👩🏿‍🚒',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3170,7 +3170,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'firefighter'
 	},
 	{
-		name: 'firefighter-medium-dark-female',
+		name: 'firefighter-medium-dark-skin-female',
 		emoji: '👩🏾‍🚒',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3182,7 +3182,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'firefighter'
 	},
 	{
-		name: 'firefighter-medium-female',
+		name: 'firefighter-medium-skin-female',
 		emoji: '👩🏽‍🚒',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3194,7 +3194,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'firefighter'
 	},
 	{
-		name: 'firefighter-medium-light-female',
+		name: 'firefighter-medium-light-skin-female',
 		emoji: '👩🏼‍🚒',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3206,7 +3206,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'firefighter'
 	},
 	{
-		name: 'firefighter-light-female',
+		name: 'firefighter-light-skin-female',
 		emoji: '👩🏻‍🚒',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3229,7 +3229,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'firefighter'
 	},
 	{
-		name: 'firefighter-dark-male',
+		name: 'firefighter-dark-skin-male',
 		emoji: '👨🏿‍🚒',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3241,7 +3241,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'firefighter'
 	},
 	{
-		name: 'firefighter-medium-dark-male',
+		name: 'firefighter-medium-dark-skin-male',
 		emoji: '👨🏾‍🚒',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3253,7 +3253,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'firefighter'
 	},
 	{
-		name: 'firefighter-medium-male',
+		name: 'firefighter-medium-skin-male',
 		emoji: '👨🏽‍🚒',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3265,7 +3265,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'firefighter'
 	},
 	{
-		name: 'firefighter-medium-light-male',
+		name: 'firefighter-medium-light-skin-male',
 		emoji: '👨🏼‍🚒',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3277,7 +3277,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'firefighter'
 	},
 	{
-		name: 'firefighter-light-male',
+		name: 'firefighter-light-skin-male',
 		emoji: '👨🏻‍🚒',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3298,7 +3298,7 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
-		name: 'police-dark',
+		name: 'police-dark-skin',
 		emoji: '👮🏿‍',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3309,7 +3309,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'police'
 	},
 	{
-		name: 'police-medium-dark',
+		name: 'police-medium-dark-skin',
 		emoji: '👮🏾‍',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3320,7 +3320,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'police'
 	},
 	{
-		name: 'police-medium',
+		name: 'police-medium-skin',
 		emoji: '👮🏽‍',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3331,7 +3331,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'police'
 	},
 	{
-		name: 'police-medium-light',
+		name: 'police-medium-light-skin',
 		emoji: '👮🏼‍',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3342,7 +3342,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'police'
 	},
 	{
-		name: 'police-light',
+		name: 'police-light-skin',
 		emoji: '👮🏻‍',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3364,7 +3364,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'police'
 	},
 	{
-		name: 'police-dark-female',
+		name: 'police-dark-skin-female',
 		emoji: '👮🏿‍♀️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3376,7 +3376,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'police'
 	},
 	{
-		name: 'police-medium-dark-female',
+		name: 'police-medium-dark-skin-female',
 		emoji: '👮🏾‍♀️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3388,7 +3388,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'police'
 	},
 	{
-		name: 'police-medium-female',
+		name: 'police-medium-skin-female',
 		emoji: '👮🏽‍♀️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3400,7 +3400,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'police'
 	},
 	{
-		name: 'police-medium-light-female',
+		name: 'police-medium-light-skin-female',
 		emoji: '👮🏼‍♀️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3412,7 +3412,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'police'
 	},
 	{
-		name: 'police-light-female',
+		name: 'police-light-skin-female',
 		emoji: '👮🏻‍♀️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3435,7 +3435,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'police'
 	},
 	{
-		name: 'police-dark-male',
+		name: 'police-dark-skin-male',
 		emoji: '👮🏿‍♂️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3447,7 +3447,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'police'
 	},
 	{
-		name: 'police-medium-dark-male',
+		name: 'police-medium-dark-skin-male',
 		emoji: '👮🏾‍♂️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3459,7 +3459,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'police'
 	},
 	{
-		name: 'police-medium-male',
+		name: 'police-medium-skin-male',
 		emoji: '👮🏽‍♂️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3471,7 +3471,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'police'
 	},
 	{
-		name: 'police-medium-light-male',
+		name: 'police-medium-light-skin-male',
 		emoji: '👮🏼‍♂️',
 		direction: ROTATION_DOWN,
 		person: {
@@ -3483,7 +3483,7 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'police'
 	},
 	{
-		name: 'police-light-male',
+		name: 'police-light-skin-male',
 		emoji: '👮🏻‍♂️',
 		direction: ROTATION_DOWN,
 		person: {
