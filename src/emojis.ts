@@ -506,7 +506,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		animal: {
 			kind: 'mammal',
 			diet: 'herbivore',
-			habitat: 'farm'
+			habitat: 'forest',
+			grazes: true
 		}
 	},
 	{
