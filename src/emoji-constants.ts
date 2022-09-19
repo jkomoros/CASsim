@@ -7,7 +7,7 @@ import {
 	ROTATION_RIGHT
 } from './constants.js';
 
-export const UNTYPED_RAW_EMOJIS = [
+export const RAW_EMOJIS = [
 	{
 		name: 'doctor',
 		emoji: '🧑‍⚕️',

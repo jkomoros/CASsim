@@ -3,7 +3,7 @@ export * from './types-dynamic.GENERATED.js';
 export * from './types-simulator.GENERATED.js';
 
 import {
-	UNTYPED_RAW_EMOJIS
+	RAW_EMOJIS
 } from './emoji-constants.js';
 
 import { SimulatorType } from './types-dynamic.GENERATED.js';
@@ -37,8 +37,8 @@ export type Color = {
 //in the EMOJIS set). It's useful for type checking of the emojis known by this
 //system.
 //Based on the pattern described in https://steveholgado.com/typescript-types-from-arrays/
-export type KnownEmojiName = typeof UNTYPED_RAW_EMOJIS[number]['name'];
-export type KnownEmoji = typeof UNTYPED_RAW_EMOJIS[number]['emoji'];
+export type KnownEmojiName = typeof RAW_EMOJIS[number]['name'];
+export type KnownEmoji = typeof RAW_EMOJIS[number]['emoji'];
 
 export type EmojiName = KnownEmojiName | string;
 export type Emoji = KnownEmoji | string;

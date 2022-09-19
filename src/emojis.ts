@@ -18,7 +18,7 @@ import {
 } from './constants.js';
 
 import {
-	UNTYPED_RAW_EMOJIS
+	RAW_EMOJIS
 } from './emoji-constants.js';
 
 //case it will be the source of randomness, or a key to select.
@@ -32,8 +32,6 @@ export const pickEmoji = (emojiSet : EmojiSet, keyOrRnd : EmojiName | RandomGene
 	}
 	return emojiSet[key];
 };
-
-const RAW_EMOJIS = UNTYPED_RAW_EMOJIS as KnownEmojiInfos;
 
 export const filteredEmojiSet = (include : (info : KnownEmojiInfo) => boolean, emojis : KnownEmojiInfos = RAW_EMOJIS) : KnownEmojiSet => {
 	return makeEmojiSet(emojis.filter(include));
