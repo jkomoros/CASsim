@@ -2,6 +2,10 @@ export * from './types-dynamic.GENERATED.js';
 
 export * from './types-simulator.GENERATED.js';
 
+import {
+	UNTYPED_RAW_EMOJIS
+} from './emoji-constants.js';
+
 import { SimulatorType } from './types-dynamic.GENERATED.js';
 
 import { RawSimulationConfig } from './types-simulator.GENERATED.js';
@@ -29,15 +33,14 @@ export type Color = {
     rgbaStr : CSSColor;
 }
 
-//TODO: tighten with enumeation
-
 //A Known emoji name is one that is known by this framework to exist (i.e. it's
 //in the EMOJIS set). It's useful for type checking of the emojis known by this
 //system.
-export type KnownEmojiName = string;
+//Based on the pattern described in https://steveholgado.com/typescript-types-from-arrays/
+export type KnownEmojiName = typeof UNTYPED_RAW_EMOJIS[number]['name'];
+export type KnownEmoji = typeof UNTYPED_RAW_EMOJIS[number]['emoji'];
+
 export type EmojiName = KnownEmojiName | string;
-//tODO: tighten with enumeration
-export type KnownEmoji = string;
 export type Emoji = KnownEmoji | string;
 
 type KnownEmojiInfoCore = {
@@ -114,7 +117,7 @@ export type EmojiSet = {
 };
 
 export type KnownEmojiSet = {
-	[name : KnownEmojiName] : KnownEmojiInfo;
+	[name in KnownEmojiName]+?: KnownEmojiInfo;
 };
 
 //TODO: shouldn't this just be OptionValue (minus SimulationConfig?)

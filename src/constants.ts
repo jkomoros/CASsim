@@ -1,7 +1,8 @@
 import {
 	OptionsConfigInput,
 	OptionsConfig,
-	OptionsConfigMap
+	OptionsConfigMap,
+	Angle
 } from './types.js';
 
 //rendevous point with screenshot service.
@@ -26,3 +27,10 @@ export const configIsConfig = (config : OptionsConfigInput) : config is OptionsC
 export const configIsMap = (config : OptionsConfigInput) : config is OptionsConfigMap => {
 	return typeof config == 'object' && !Array.isArray(config) && config[EXAMPLE_PROPERTY_NAME] == undefined;
 };
+
+const FULL_ROTATION =  Math.PI * 2;
+
+export const ROTATION_UP : Angle = FULL_ROTATION / 4;
+export const ROTATION_LEFT : Angle = FULL_ROTATION / 2;
+export const ROTATION_DOWN : Angle = FULL_ROTATION  * 3/4;
+export const ROTATION_RIGHT : Angle = 0;
