@@ -69,10 +69,10 @@ export type EmojiInfo = {
         face? : true,
         //If it's non existent, what is the reason why?
         nonExistent? : 'extinct' | 'fictional';
-        //If the animal lives almost entirely underwater.
-        underwater? : true,
-        //If the animal is known for swimming. Typically coocurs with underwater but not always.
-        swims? : true,
+        //If the animal is noted for being an active swimmer. 'capable' means
+        //they do it, 'underwater' means they lives their life almost entirely
+        //underwater.
+        swims? : 'capable' | 'underwater',
         //An animal that can fly. If it's actively depcted flying then it's 'depicted'
         flies? : 'capable' | 'depicted'
         grazes? : true,

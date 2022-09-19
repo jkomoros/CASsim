@@ -594,7 +594,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'mammal',
 			diet: 'herbivore',
 			habitat: 'savanah',
-			swims: true
+			swims: 'capable'
 		}
 	},
 	{
@@ -645,7 +645,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'mammal',
 			diet: 'herbivore',
 			habitat: 'forest',
-			swims: true
+			swims: 'capable'
 		}
 	},
 	{
@@ -677,7 +677,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'mammal',
 			diet: 'herbivore',
 			habitat: 'forest',
-			swims: true
+			swims: 'capable'
 		}
 	},
 	{
@@ -761,7 +761,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'bird',
 			diet: 'herbivore',
 			habitat: 'farm',
-			swims: true,
+			swims: 'capable',
 			flies: 'capable'
 		}
 	},
@@ -773,7 +773,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'bird',
 			diet: 'herbivore',
 			habitat: 'farm',
-			swims: true,
+			swims: 'capable',
 			flies: 'capable'
 		}
 	},
@@ -870,8 +870,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'mammal',
 			diet: 'herbivore',
 			habitat: 'ocean',
-			swims: true,
-			underwater: true
+			swims: 'underwater'
 		}
 	},
 	{
@@ -883,8 +882,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'mammal',
 			diet: 'herbivore',
 			habitat: 'ocean',
-			swims: true,
-			underwater: true
+			swims: 'underwater'
 		}
 	},
 	{
@@ -895,8 +893,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'mammal',
 			diet: 'omnivore',
 			habitat: 'ocean',
-			swims: true,
-			underwater: true
+			swims: 'underwater'
 		}
 	},
 	{
@@ -907,7 +904,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'mammal',
 			diet: 'carnivore',
 			habitat: 'ocean',
-			swims: true
+			swims: 'capable'
 		}
 	},
 	{
@@ -918,8 +915,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'fish',
 			diet: 'herbivore',
 			habitat: 'ocean',
-			swims: true,
-			underwater: true
+			swims: 'underwater'
 		}
 	},
 	{
@@ -930,8 +926,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'fish',
 			diet: 'herbivore',
 			habitat: 'ocean',
-			swims: true,
-			underwater: true
+			swims: 'underwater'
 		}
 	},
 	{
@@ -942,8 +937,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'fish',
 			diet: 'herbivore',
 			habitat: 'ocean',
-			swims: true,
-			underwater: true
+			swims: 'underwater'
 		}
 	},
 	{
@@ -954,8 +948,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'fish',
 			diet: 'carnivore',
 			habitat: 'ocean',
-			swims: true,
-			underwater: true
+			swims: 'underwater'
 		}
 	},
 	{
@@ -966,8 +959,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'fish',
 			diet: 'carnivore',
 			habitat: 'ocean',
-			swims: true,
-			underwater: true
+			swims: 'underwater'
 		}
 	},
 	{
@@ -1008,7 +1000,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'reptile',
 			diet: 'carnivore',
 			habitat: 'savanah',
-			swims: true
+			swims: 'capable'
 		}
 	},
 	{
@@ -1019,8 +1011,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'fish',
 			diet: 'carnivore',
 			habitat: 'ocean',
-			swims: true,
-			underwater: true
+			swims: 'underwater'
 		}
 	},
 	{
@@ -1041,7 +1032,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'fish',
 			diet: 'carnivore',
 			habitat: 'ocean',
-			underwater: true
+			swims: 'underwater'
 		}
 	},
 	{
@@ -1052,7 +1043,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'fish',
 			diet: 'carnivore',
 			habitat: 'ocean',
-			underwater: true
+			swims: 'underwater'
 		}
 	},
 	{
@@ -1283,7 +1274,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			diet: 'carnivore',
 			habitat: 'tundra',
 			face: true,
-			swims: true
+			swims: 'capable'
 		}
 	},
 	{
@@ -1295,7 +1286,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			diet: 'omnivore',
 			habitat: 'forest',
 			face: true,
-			swims: true
+			swims: 'capable'
 		}
 	},
 	{
