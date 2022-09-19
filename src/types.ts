@@ -52,9 +52,7 @@ export type EmojiInfo = {
         underwater? : true,
         //If the animal is known for swimming. Typically coocurs with underwater but not always.
         swims? : true,
-        //TODO: add dog/cat/ape
         //TODO: add face
-        //TODO: add diet
         grazes? : true,
     }
 };
