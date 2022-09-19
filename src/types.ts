@@ -35,11 +35,15 @@ export type EmojiInfo = {
     direction: Angle,
     person? : {
         professional? : true,
-        //TODO: add gender
+        //TODO: add gender and skintone
     },
+    //TODO: add vehicles and plants
     animal? : {
         kind: 'insect' | 'mammal' | 'bird' | 'reptile' | 'fish',
         extinct? : true,
+        //TODO: add dog/cat/ape
+        //TODO: add face
+        //TODO: add diet
         grazes? : true,
         //TODO: add habitat = 'forest' : 'jungle' | 'savanah' | 'farm' | 'pet' | 'ocean', and when we do, update GRAZING definition to also test for that
     }
