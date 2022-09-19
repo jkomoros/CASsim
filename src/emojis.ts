@@ -1529,6 +1529,16 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			stem: true
 		}
 	},
+	{
+		name: 'mushroom',
+		emoji: '🍄',
+		direction: ROTATION_UP,
+		plant: {
+			habitat: 'forest',
+			kind: 'other',
+			stem: true
+		}
+	},
 
 ];
 
