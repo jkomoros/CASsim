@@ -7,6 +7,194 @@ import {
 
 export const GENERATED_RAW_EMOJIS = [
 	{
+		name: 'person',
+		emoji: '🧑',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face'
+		}
+	},
+	{
+		name: 'person-dark',
+		emoji: '🧑🏿',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'dark'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-dark',
+		emoji: '🧑🏾',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium',
+		emoji: '🧑🏽',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'medium'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-light',
+		emoji: '🧑🏼',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-light',
+		emoji: '🧑🏻',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'light'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-female',
+		emoji: '👩',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-dark-female',
+		emoji: '👩🏿',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-dark-female',
+		emoji: '👩🏾',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-female',
+		emoji: '👩🏽',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-light-female',
+		emoji: '👩🏼',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-light-female',
+		emoji: '👩🏻',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-male',
+		emoji: '👨',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-dark-male',
+		emoji: '👨🏿',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'dark'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-dark-male',
+		emoji: '👨🏾',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-male',
+		emoji: '👨🏽',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-light-male',
+		emoji: '👨🏼',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-light-male',
+		emoji: '👨🏻',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'person'
+	},
+	{
 		name: 'doctor',
 		emoji: '🧑‍⚕️',
 		direction: ROTATION_UP,

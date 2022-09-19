@@ -1,6 +1,14 @@
 {
 	"emojis": [
 		{
+			"name": "person",
+			"emoji": "🧑",
+			"direction": "ROTATION_UP",
+			"person": {
+				"frame": "face"
+			}
+		},
+		{
 			"name": "doctor",
 			"emoji": "🧑‍⚕️",
 			"direction": "ROTATION_UP",
