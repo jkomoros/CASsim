@@ -7,8 +7,13 @@ import {
 	KnownEmojiInfo,
 	KnownEmojiInfos,
 	KnownEmojiSet,
-	RandomGenerator
+	RandomGenerator,
+	KnownEmojiName
 } from './types.js';
+
+import {
+	TypedObject
+} from './typed-object.js';
 
 import {
 	ROTATION_UP,
@@ -35,6 +40,35 @@ export const pickEmoji = (emojiSet : EmojiSet, keyOrRnd : EmojiName | RandomGene
 
 export const filteredEmojiSet = (include : (info : KnownEmojiInfo) => boolean, emojis : KnownEmojiInfos = RAW_EMOJIS) : KnownEmojiSet => {
 	return makeEmojiSet(emojis.filter(include));
+};
+
+/**
+ * Returns a set like set, but only the first instance of any alternate set
+ * included. An alternate set is the set of emojis that have a given name, or
+ * have that name in their alternateOf property. If you want not to have the
+ * *first encountered* of an alternate set, but the base name in the first
+ * place, just filter for !info.alternateOf with filteredEmojiSet.
+ * @param set - The input set to return a subset of
+ * @returns A set like set but with only the first of each alternate set
+ * included
+ */
+export const noAlternatesEmojiSet = (set : KnownEmojiSet) : KnownEmojiSet => {
+	const seenItems : {[name in KnownEmojiName]+?: true} = {};
+	const result : KnownEmojiSet = {};
+	for (const [key, value] of TypedObject.entries(set)) {
+		if (value.alternateOf) {
+			if (seenItems[value.alternateOf]) continue;
+			result[key] = value;
+			seenItems[value.alternateOf] = true;
+		} else {
+			//If we're the main item, it's possible the non-canoical is included
+			//already.
+			if (seenItems[key]) continue;
+			result[key] = value;
+			seenItems[key] = true;
+		}
+	}
+	return result;
 };
 
 const makeEmojiSet = (infos : KnownEmojiInfos) : KnownEmojiSet => Object.fromEntries(infos.map(info => [info.name, info]));
