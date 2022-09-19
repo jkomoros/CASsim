@@ -30,10 +30,14 @@ export type Color = {
 }
 
 export type EmojiInfo = {
+    //Name is the human-readable unique name it's known by in emoji-sets.
     name: string
+    //emoji is the literal emoji itself
     emoji: string,
     direction: Angle,
-    //TODO: ahve an optionate alternateOf
+    //For cases where here is a canonical type and an alt, to make it easy to
+    //filter out alts. The name of the thing it's an alternate of, not the emoji.
+    alternateOf?: string,
     person? : {
         professional? : true,
         //TODO: add gender and skintone

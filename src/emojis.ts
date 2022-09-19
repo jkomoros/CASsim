@@ -363,6 +363,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		name: 'guide-dog',
 		emoji: '🦮',
 		direction: ROTATION_LEFT,
+		alternateOf: 'dog',
 		animal: {
 			kind: 'mammal',
 			diet: 'carnivore',
@@ -373,6 +374,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		name: 'service-dog',
 		emoji: '🐕‍🦺',
 		direction: ROTATION_LEFT,
+		alternateOf: 'dog',
 		animal: {
 			kind: 'mammal',
 			diet: 'carnivore',
@@ -383,6 +385,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		name: 'poodle',
 		emoji: '🐩',
 		direction: ROTATION_LEFT,
+		alternateOf: 'dog',
 		animal: {
 			kind: 'mammal',
 			diet: 'carnivore',
@@ -413,6 +416,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		name: 'black-cat',
 		emoji: '🐈‍⬛',
 		direction: ROTATION_LEFT,
+		alternateOf: 'cat',
 		animal: {
 			kind: 'mammal',
 			diet: 'carnivore',
@@ -493,6 +497,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		name: 'two-hump-camel',
 		emoji: '🐫',
 		direction: ROTATION_LEFT,
+		alternateOf: 'camel',
 		animal: {
 			kind: 'mammal',
 			diet: 'herbivore',
@@ -828,6 +833,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		name: 'spouting-whale',
 		emoji: '🐳',
 		direction: ROTATION_LEFT,
+		alternateOf: 'whale',
 		animal: {
 			kind: 'mammal',
 			diet: 'herbivore',
