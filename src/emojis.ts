@@ -130,6 +130,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		animal: {
 			kind: 'mammal',
 			habitat: 'farm',
+			diet: 'herbivore',
 			grazes: true
 		}
 	},
@@ -140,6 +141,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		animal: {
 			kind: 'mammal',
 			habitat: 'farm',
+			diet: 'herbivore',
 			grazes: true
 		}
 	},
@@ -150,6 +152,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		animal: {
 			kind: 'mammal',
 			habitat: 'farm',
+			diet: 'herbivore',
 			grazes: true
 		}
 	},
@@ -160,6 +163,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		animal: {
 			kind: 'mammal',
 			habitat: 'farm',
+			diet: 'herbivore',
 			grazes: true
 		}
 	},
@@ -170,6 +174,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		animal: {
 			kind: 'mammal',
 			habitat: 'farm',
+			diet: 'herbivore',
 			grazes: true
 		}
 	},
@@ -180,6 +185,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		animal: {
 			kind: 'mammal',
 			habitat: 'farm',
+			diet: 'herbivore',
 			grazes: true
 		}
 	},
@@ -189,6 +195,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		animal: {
 			kind: 'insect',
+			diet: 'omnivore',
 			habitat: 'forest'
 		}
 	},
@@ -198,6 +205,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		animal: {
 			kind: 'insect',
+			diet: 'carnivore',
 			habitat: 'forest'
 		}
 	},
@@ -207,6 +215,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		animal: {
 			kind: 'insect',
+			diet: 'herbivore',
 			habitat: 'forest'
 		}
 	},
@@ -216,6 +225,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		animal: {
 			kind: 'insect',
+			diet: 'herbivore',
 			habitat: 'forest'
 		}
 	},
@@ -225,6 +235,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		animal: {
 			kind: 'insect',
+			diet: 'herbivore',
 			habitat: 'forest'
 		}
 	},
@@ -234,6 +245,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		animal: {
 			kind: 'insect',
+			diet: 'herbivore',
 			habitat: 'forest'
 		}
 	},
@@ -243,6 +255,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		animal: {
 			kind: 'insect',
+			diet: 'herbivore',
 			habitat: 'forest'
 		}
 	},
@@ -252,6 +265,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'insect',
+			diet: 'herbivore',
 			habitat: 'forest'
 		}
 	},
@@ -261,6 +275,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'insect',
+			diet: 'herbivore',
 			habitat: 'forest'
 		}
 	},
@@ -270,6 +285,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'insect',
+			diet: 'herbivore',
 			habitat: 'forest'
 		}
 	},
@@ -279,6 +295,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'insect',
+			diet: 'herbivore',
 			habitat: 'forest'
 		}
 	},
@@ -288,6 +305,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'insect',
+			diet: 'herbivore',
 			habitat: 'forest'
 		}
 	},
@@ -297,6 +315,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_RIGHT,
 		animal: {
 			kind: 'insect',
+			diet: 'herbivore',
 			habitat: 'forest'
 		}
 	},
@@ -306,6 +325,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		animal: {
 			kind: 'insect',
+			diet: 'carnivore',
 			habitat: 'desert'
 		}
 	},
@@ -315,6 +335,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'omnivore',
 			habitat: 'jungle'
 		}
 	},
@@ -324,6 +345,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'omnivore',
 			habitat: 'jungle'
 		}
 	},
@@ -333,6 +355,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'carnivore',
 			habitat: 'house'
 		}
 	},
@@ -342,6 +365,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'carnivore',
 			habitat: 'house'
 		}
 	},
@@ -351,6 +375,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'carnivore',
 			habitat: 'house'
 		}
 	},
@@ -360,6 +385,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'carnivore',
 			habitat: 'house'
 		}
 	},
@@ -369,6 +395,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'omnivore',
 			habitat: 'forest'
 		}
 	},
@@ -378,6 +405,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'carnivore',
 			habitat: 'house'
 		}
 	},
@@ -387,6 +415,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'carnivore',
 			habitat: 'house'
 		}
 	},
@@ -396,6 +425,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'carnivore',
 			habitat: 'jungle'
 		}
 	},
@@ -405,6 +435,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'carnivore',
 			habitat: 'jungle'
 		}
 	},
@@ -414,6 +445,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'farm'
 		}
 	},
@@ -423,6 +455,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'savanah'
 		}
 	},
@@ -432,6 +465,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'forest'
 		}
 	},
@@ -441,6 +475,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'farm'
 		}
 	},
@@ -450,6 +485,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'desert'
 		}
 	},
@@ -459,6 +495,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'desert'
 		}
 	},
@@ -468,6 +505,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'farm'
 		}
 	},
@@ -477,6 +515,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'savanah'
 		}
 	},
@@ -486,6 +525,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'savanah'
 		}
 	},
@@ -495,6 +535,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'tundra',
 			extinct: true
 		}
@@ -505,6 +546,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'savanah'
 		}
 	},
@@ -514,6 +556,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'savanah'
 		}
 	},
@@ -523,6 +566,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'omnivore',
 			habitat: 'house'
 		}
 	},
@@ -532,6 +576,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'omnivore',
 			habitat: 'house'
 		}
 	},
@@ -541,6 +586,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'house'
 		}
 	},
@@ -550,6 +596,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'forest'
 		}
 	},
@@ -559,6 +606,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'forest'
 		}
 	},
@@ -568,6 +616,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'forest'
 		}
 	},
@@ -577,6 +626,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'omnivore',
 			habitat: 'forest'
 		}
 	},
@@ -586,6 +636,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'forest'
 		}
 	},
@@ -595,6 +646,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'forest'
 		}
 	},
@@ -604,6 +656,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'savanah'
 		}
 	},
@@ -613,6 +666,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'omnivore',
 			habitat: 'forest'
 		}
 	},
@@ -622,6 +676,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'bird',
+			diet: 'herbivore',
 			habitat: 'farm'
 		}
 	},
@@ -631,6 +686,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'bird',
+			diet: 'herbivore',
 			habitat: 'farm'
 		}
 	},
@@ -640,6 +696,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'bird',
+			diet: 'herbivore',
 			habitat: 'forest'
 		}
 	},
@@ -649,6 +706,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'bird',
+			diet: 'omnivore',
 			habitat: 'forest'
 		}
 	},
@@ -658,6 +716,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'bird',
+			diet: 'herbivore',
 			habitat: 'farm'
 		}
 	},
@@ -667,6 +726,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'bird',
+			diet: 'herbivore',
 			habitat: 'farm'
 		}
 	},
@@ -676,6 +736,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'bird',
+			diet: 'omnivore',
 			habitat: 'forest'
 		}
 	},
@@ -685,6 +746,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'bird',
+			diet: 'herbivore',
 			habitat: 'forest',
 			extinct: true
 		}
@@ -695,6 +757,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'bird',
+			diet: 'herbivore',
 			habitat: 'savanah'
 		}
 	},
@@ -704,6 +767,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'bird',
+			diet: 'herbivore',
 			habitat: 'jungle'
 		}
 	},
@@ -713,6 +777,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'reptile',
+			diet: 'herbivore',
 			habitat: 'desert'
 		}
 	},
@@ -722,6 +787,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'reptile',
+			diet: 'carnivore',
 			habitat: 'desert'
 		}
 	},
@@ -731,6 +797,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'reptile',
+			diet: 'herbivore',
 			habitat: 'jungle',
 			extinct: true
 		}
@@ -741,6 +808,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'reptile',
+			diet: 'carnivore',
 			habitat: 'jungle',
 			extinct: true
 		}
@@ -751,6 +819,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'ocean'
 		}
 	},
@@ -760,6 +829,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'herbivore',
 			habitat: 'ocean'
 		}
 	},
@@ -769,6 +839,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'omnivore',
 			habitat: 'ocean'
 		}
 	},
@@ -778,6 +849,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			diet: 'carnivore',
 			habitat: 'ocean'
 		}
 	},
@@ -787,6 +859,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'fish',
+			diet: 'herbivore',
 			habitat: 'ocean'
 		}
 	},
@@ -796,6 +869,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'fish',
+			diet: 'herbivore',
 			habitat: 'ocean'
 		}
 	},
@@ -805,6 +879,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'fish',
+			diet: 'herbivore',
 			habitat: 'ocean'
 		}
 	},
@@ -814,6 +889,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'fish',
+			diet: 'carnivore',
 			habitat: 'ocean'
 		}
 	},
@@ -823,6 +899,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'fish',
+			diet: 'carnivore',
 			habitat: 'ocean'
 		}
 	},
@@ -832,6 +909,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		animal: {
 			kind: 'mammal',
+			diet: 'omnivore',
 			habitat: 'jungle'
 		}
 	},
@@ -841,6 +919,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		animal: {
 			kind: 'bird',
+			diet: 'herbivore',
 			habitat: 'farm'
 		}
 	},
@@ -850,6 +929,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		animal: {
 			kind: 'bird',
+			diet: 'herbivore',
 			habitat: 'savanah'
 		}
 	},
@@ -859,6 +939,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		animal: {
 			kind: 'reptile',
+			diet: 'carnivore',
 			habitat: 'savanah'
 		}
 	},
@@ -868,6 +949,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		animal: {
 			kind: 'fish',
+			diet: 'carnivore',
 			habitat: 'ocean'
 		}
 	},
@@ -877,6 +959,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		animal: {
 			kind: 'reptile',
+			diet: 'carnivore',
 			habitat: 'desert'
 		}
 	},
@@ -886,6 +969,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		animal: {
 			kind: 'fish',
+			diet: 'carnivore',
 			habitat: 'ocean'
 		}
 	},
@@ -895,6 +979,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		animal: {
 			kind: 'fish',
+			diet: 'carnivore',
 			habitat: 'ocean'
 		}
 	},

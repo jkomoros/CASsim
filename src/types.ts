@@ -42,6 +42,7 @@ export type EmojiInfo = {
     animal? : {
         kind: 'insect' | 'mammal' | 'bird' | 'reptile' | 'fish',
         habitat: 'forest' | 'jungle' | 'savanah' | 'farm' | 'house' | 'ocean' | 'desert' | 'tundra';
+        diet: 'omnivore' | 'carnivore' | 'herbivore';
         extinct? : true,
         //TODO: add dog/cat/ape
         //TODO: add face
