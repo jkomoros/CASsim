@@ -6,8 +6,7 @@
 			"direction": "ROTATION_UP",
 			"person": {
 				"frame": "torso",
-				"professional": true,
-				"genderSuffix": "⚕️"
+				"professional": true
 			}
 		},
 		{
@@ -16,8 +15,7 @@
 			"direction": "ROTATION_UP",
 			"person": {
 				"frame": "torso",
-				"professional": true,
-				"genderSuffix": "🎓"
+				"professional": true
 			}
 		},
 		{
@@ -26,8 +24,7 @@
 			"direction": "ROTATION_DOWN",
 			"person": {
 				"frame": "torso",
-				"professional": true,
-				"genderSuffix": "🏫"
+				"professional": true
 			}
 		},
 		{
@@ -36,8 +33,7 @@
 			"direction": "ROTATION_DOWN",
 			"person": {
 				"frame": "torso",
-				"professional": true,
-				"genderSuffix": "⚖️"
+				"professional": true
 			}
 		},
 		{
@@ -46,8 +42,7 @@
 			"direction": "ROTATION_DOWN",
 			"person": {
 				"frame": "torso",
-				"professional": true,
-				"genderSuffix": "🌾"
+				"professional": true
 			}
 		},
 		{
@@ -56,8 +51,7 @@
 			"direction": "ROTATION_DOWN",
 			"person": {
 				"frame": "torso",
-				"professional": true,
-				"genderSuffix": "🍳"
+				"professional": true
 			}
 		},
 		{
@@ -66,8 +60,7 @@
 			"direction": "ROTATION_DOWN",
 			"person": {
 				"frame": "torso",
-				"professional": true,
-				"genderSuffix": "🔧"
+				"professional": true
 			}
 		},
 		{
@@ -76,8 +69,7 @@
 			"direction": "ROTATION_DOWN",
 			"person": {
 				"frame": "torso",
-				"professional": true,
-				"genderSuffix": "🔬"
+				"professional": true
 			}
 		},
 		{
@@ -86,8 +78,7 @@
 			"direction": "ROTATION_DOWN",
 			"person": {
 				"frame": "torso",
-				"professional": true,
-				"genderSuffix": "🎨"
+				"professional": true
 			}
 		},
 		{
@@ -96,8 +87,7 @@
 			"direction": "ROTATION_DOWN",
 			"person": {
 				"frame": "torso",
-				"professional": true,
-				"genderSuffix": "✈️"
+				"professional": true
 			}
 		},
 		{
@@ -106,8 +96,7 @@
 			"direction": "ROTATION_DOWN",
 			"person": {
 				"frame": "torso",
-				"professional": true,
-				"genderSuffix": "🚒"
+				"professional": true
 			}
 		},
 		{
