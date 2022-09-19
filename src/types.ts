@@ -58,6 +58,7 @@ export type EmojiInfo = {
         //An animal that can fly. If it's actively depcted flying then it's 'depicted'
         flies? : 'capable' | 'depicted'
         grazes? : true,
+        hanging? : true
     }
 };
 

@@ -1309,6 +1309,17 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			nonExistent: 'fictional',
 			face: true
 		}
+	},
+	{
+		name: 'sloth',
+		emoji: '🦥',
+		direction: ROTATION_LEFT,
+		animal: {
+			kind: 'mammal',
+			diet: 'herbivore',
+			habitat: 'jungle',
+			hanging: true
+		}
 	}
 
 ];
