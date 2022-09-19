@@ -55,6 +55,8 @@ export type KnownEmojiInfo = {
     readonly person? : {
 		//If not provided, the gender is neutral
         readonly gender?: 'male' | 'female',
+        //If not provided, the skinTone is default (yellow)
+        readonly skinTone? : 'light' | 'medium-light' | 'medium' | 'medium-dark' | 'dark';
         //how much of the person is in frame
         readonly frame: 'face' | 'torso' | 'body',
         //Whether the person depicted is representing some defined profession
