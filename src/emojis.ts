@@ -549,7 +549,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'mammal',
 			diet: 'herbivore',
 			habitat: 'tundra',
-			extinct: true
+			nonExistent: 'extinct'
 		}
 	},
 	{
@@ -772,7 +772,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'bird',
 			diet: 'herbivore',
 			habitat: 'forest',
-			extinct: true
+			nonExistent: 'extinct'
 		}
 	},
 	{
@@ -824,7 +824,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'reptile',
 			diet: 'herbivore',
 			habitat: 'jungle',
-			extinct: true
+			nonExistent: 'extinct'
 		}
 	},
 	{
@@ -835,7 +835,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			kind: 'reptile',
 			diet: 'carnivore',
 			habitat: 'jungle',
-			extinct: true
+			nonExistent: 'extinct'
 		}
 	},
 	{

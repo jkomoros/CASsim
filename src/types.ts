@@ -47,7 +47,8 @@ export type EmojiInfo = {
         kind: 'insect' | 'mammal' | 'bird' | 'reptile' | 'fish' | 'amphibian',
         habitat: 'forest' | 'jungle' | 'savanah' | 'farm' | 'house' | 'ocean' | 'desert' | 'tundra';
         diet: 'omnivore' | 'carnivore' | 'herbivore';
-        extinct? : true,
+        //If it's non existent, what is the reason why?
+        nonExistent? : 'extinct',
         //If the animal lives almost entirely underwater.
         underwater? : true,
         //If the animal is known for swimming. Typically coocurs with underwater but not always.
