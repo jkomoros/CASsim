@@ -13,7 +13,6 @@ export const RAW_EMOJIS = [
 		emoji: '🧑‍⚕️',
 		direction: ROTATION_DOWN,
 		person: {
-			gender: 'neutral',
 			frame: 'torso',
 			professional: true
 		}
@@ -23,7 +22,6 @@ export const RAW_EMOJIS = [
 		emoji: '🧑‍🎓',
 		direction: ROTATION_DOWN,
 		person: {
-			gender: 'neutral',
 			frame: 'torso',
 			professional: true
 		}
@@ -33,7 +31,6 @@ export const RAW_EMOJIS = [
 		emoji: '🧑‍🏫',
 		direction: ROTATION_DOWN,
 		person: {
-			gender: 'neutral',
 			frame: 'torso',
 			professional: true
 		}
@@ -43,7 +40,6 @@ export const RAW_EMOJIS = [
 		emoji: '🧑‍⚖️',
 		direction: ROTATION_DOWN,
 		person: {
-			gender: 'neutral',
 			frame: 'torso',
 			professional: true
 		}
@@ -53,7 +49,6 @@ export const RAW_EMOJIS = [
 		emoji: '🧑‍🌾',
 		direction: ROTATION_DOWN,
 		person: {
-			gender: 'neutral',
 			frame: 'torso',
 			professional: true
 		}
@@ -63,7 +58,6 @@ export const RAW_EMOJIS = [
 		emoji: '🧑‍🍳',
 		direction: ROTATION_DOWN,
 		person: {
-			gender: 'neutral',
 			frame: 'torso',
 			professional: true
 		}
@@ -73,7 +67,6 @@ export const RAW_EMOJIS = [
 		emoji: '🧑‍🔧',
 		direction: ROTATION_DOWN,
 		person: {
-			gender: 'neutral',
 			frame: 'torso',
 			professional: true
 		}
@@ -83,7 +76,6 @@ export const RAW_EMOJIS = [
 		emoji: '🧑‍🔬',
 		direction: ROTATION_DOWN,
 		person: {
-			gender: 'neutral',
 			frame: 'torso',
 			professional: true
 		}
@@ -93,7 +85,6 @@ export const RAW_EMOJIS = [
 		emoji: '🧑‍🎨',
 		direction: ROTATION_DOWN,
 		person: {
-			gender: 'neutral',
 			frame: 'torso',
 			professional: true
 		}
@@ -103,7 +94,6 @@ export const RAW_EMOJIS = [
 		emoji: '🧑‍✈️',
 		direction: ROTATION_DOWN,
 		person: {
-			gender: 'neutral',
 			frame: 'torso',
 			professional: true
 		}
@@ -113,7 +103,6 @@ export const RAW_EMOJIS = [
 		emoji: '🧑‍🚒',
 		direction: ROTATION_DOWN,
 		person: {
-			gender: 'neutral',
 			frame: 'torso',
 			professional: true
 		}
@@ -123,7 +112,6 @@ export const RAW_EMOJIS = [
 		emoji: '👮',
 		direction: ROTATION_DOWN,
 		person: {
-			gender: 'neutral',
 			frame: 'torso',
 			professional: true
 		}

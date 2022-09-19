@@ -53,7 +53,8 @@ export type KnownEmojiInfo = {
     readonly alternateOf?: KnownEmojiName,
 	readonly direction: Angle,
     readonly person? : {
-        readonly gender: 'neutral' | 'male' | 'female',
+		//If not provided, the gender is neutral
+        readonly gender?: 'male' | 'female',
         //how much of the person is in frame
         readonly frame: 'face' | 'torso' | 'body',
         //Whether the person depicted is representing some defined profession
