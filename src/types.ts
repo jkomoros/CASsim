@@ -40,12 +40,12 @@ export type EmojiInfo = {
     //TODO: add vehicles and plants
     animal? : {
         kind: 'insect' | 'mammal' | 'bird' | 'reptile' | 'fish',
+        habitat: 'forest' | 'jungle' | 'savanah' | 'farm' | 'house' | 'ocean' | 'desert' | 'tundra';
         extinct? : true,
         //TODO: add dog/cat/ape
         //TODO: add face
         //TODO: add diet
         grazes? : true,
-        //TODO: add habitat = 'forest' : 'jungle' | 'savanah' | 'farm' | 'pet' | 'ocean', and when we do, update GRAZING definition to also test for that
     }
 };
 

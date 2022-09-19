@@ -129,6 +129,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			habitat: 'farm',
 			grazes: true
 		}
 	},
@@ -138,6 +139,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			habitat: 'farm',
 			grazes: true
 		}
 	},
@@ -147,6 +149,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			habitat: 'farm',
 			grazes: true
 		}
 	},
@@ -156,6 +159,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			habitat: 'farm',
 			grazes: true
 		}
 	},
@@ -165,6 +169,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			habitat: 'farm',
 			grazes: true
 		}
 	},
@@ -174,6 +179,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			habitat: 'farm',
 			grazes: true
 		}
 	},
@@ -182,7 +188,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐞',
 		direction: ROTATION_UP,
 		animal: {
-			kind: 'insect'
+			kind: 'insect',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -190,7 +197,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🕷️',
 		direction: ROTATION_UP,
 		animal: {
-			kind: 'insect'
+			kind: 'insect',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -198,7 +206,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦋',
 		direction: ROTATION_UP,
 		animal: {
-			kind: 'insect'
+			kind: 'insect',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -206,7 +215,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🪲',
 		direction: ROTATION_UP,
 		animal: {
-			kind: 'insect'
+			kind: 'insect',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -214,7 +224,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🪳',
 		direction: ROTATION_UP,
 		animal: {
-			kind: 'insect'
+			kind: 'insect',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -222,7 +233,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🪰',
 		direction: ROTATION_UP,
 		animal: {
-			kind: 'insect'
+			kind: 'insect',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -230,7 +242,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🪱',
 		direction: ROTATION_UP,
 		animal: {
-			kind: 'insect'
+			kind: 'insect',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -238,7 +251,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐜',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'insect'
+			kind: 'insect',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -246,7 +260,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐛',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'insect'
+			kind: 'insect',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -254,7 +269,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐝',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'insect'
+			kind: 'insect',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -262,7 +278,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦗',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'insect'
+			kind: 'insect',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -270,7 +287,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦟',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'insect'
+			kind: 'insect',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -278,7 +296,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐌',
 		direction: ROTATION_RIGHT,
 		animal: {
-			kind: 'insect'
+			kind: 'insect',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -286,7 +305,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦂',
 		direction: ROTATION_DOWN,
 		animal: {
-			kind: 'insect'
+			kind: 'insect',
+			habitat: 'desert'
 		}
 	},
 	{
@@ -294,7 +314,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐒',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'jungle'
 		}
 	},
 	{
@@ -302,7 +323,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦍',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'jungle'
 		}
 	},
 	{
@@ -310,7 +332,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐕',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'house'
 		}
 	},
 	{
@@ -318,7 +341,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦮',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'house'
 		}
 	},
 	{
@@ -326,7 +350,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐕‍🦺',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'house'
 		}
 	},
 	{
@@ -334,7 +359,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐩',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'house'
 		}
 	},
 	{
@@ -342,7 +368,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦝',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -350,7 +377,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐈',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'house'
 		}
 	},
 	{
@@ -358,7 +386,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐈‍⬛',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'house'
 		}
 	},
 	{
@@ -366,7 +395,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐅',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'jungle'
 		}
 	},
 	{
@@ -374,7 +404,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐆',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'jungle'
 		}
 	},
 	{
@@ -382,7 +413,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐎',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'farm'
 		}
 	},
 	{
@@ -390,7 +422,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦓',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'savanah'
 		}
 	},
 	{
@@ -398,7 +431,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦌',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -406,7 +440,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐖',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'farm'
 		}
 	},
 	{
@@ -414,7 +449,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐪',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'desert'
 		}
 	},
 	{
@@ -422,7 +458,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐫',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'desert'
 		}
 	},
 	{
@@ -430,7 +467,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦙',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'farm'
 		}
 	},
 	{
@@ -438,7 +476,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦒',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'savanah'
 		}
 	},
 	{
@@ -446,7 +485,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐘',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'savanah'
 		}
 	},
 	{
@@ -455,6 +495,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'mammal',
+			habitat: 'tundra',
 			extinct: true
 		}
 	},
@@ -463,7 +504,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦏',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'savanah'
 		}
 	},
 	{
@@ -471,7 +513,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦛',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'savanah'
 		}
 	},
 	{
@@ -479,7 +522,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐁',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'house'
 		}
 	},
 	{
@@ -487,7 +531,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐀',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'house'
 		}
 	},
 	{
@@ -495,7 +540,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐇',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'house'
 		}
 	},
 	{
@@ -503,7 +549,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐿️',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -511,7 +558,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦫',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -519,7 +567,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦔',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -527,7 +576,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦇',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -535,7 +585,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦦',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -543,7 +594,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦨',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -551,7 +603,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦘',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'savanah'
 		}
 	},
 	{
@@ -559,7 +612,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦡',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -567,7 +621,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦃',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'bird'
+			kind: 'bird',
+			habitat: 'farm'
 		}
 	},
 	{
@@ -575,7 +630,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐓',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'bird'
+			kind: 'bird',
+			habitat: 'farm'
 		}
 	},
 	{
@@ -583,7 +639,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🕊️',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'bird'
+			kind: 'bird',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -591,7 +648,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦅',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'bird'
+			kind: 'bird',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -599,7 +657,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦆',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'bird'
+			kind: 'bird',
+			habitat: 'farm'
 		}
 	},
 	{
@@ -607,7 +666,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦢',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'bird'
+			kind: 'bird',
+			habitat: 'farm'
 		}
 	},
 	{
@@ -615,7 +675,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦉',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'bird'
+			kind: 'bird',
+			habitat: 'forest'
 		}
 	},
 	{
@@ -624,6 +685,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'bird',
+			habitat: 'forest',
 			extinct: true
 		}
 	},
@@ -632,7 +694,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦩',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'bird'
+			kind: 'bird',
+			habitat: 'savanah'
 		}
 	},
 	{
@@ -640,7 +703,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦜',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'bird'
+			kind: 'bird',
+			habitat: 'jungle'
 		}
 	},
 	{
@@ -648,7 +712,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐢',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'reptile'
+			kind: 'reptile',
+			habitat: 'desert'
 		}
 	},
 	{
@@ -656,7 +721,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐍',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'reptile'
+			kind: 'reptile',
+			habitat: 'desert'
 		}
 	},
 	{
@@ -665,6 +731,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'reptile',
+			habitat: 'jungle',
 			extinct: true
 		}
 	},
@@ -674,6 +741,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_LEFT,
 		animal: {
 			kind: 'reptile',
+			habitat: 'jungle',
 			extinct: true
 		}
 	},
@@ -682,7 +750,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐋',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'ocean'
 		}
 	},
 	{
@@ -690,7 +759,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐳',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'ocean'
 		}
 	},
 	{
@@ -698,7 +768,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐬',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'ocean'
 		}
 	},
 	{
@@ -706,7 +777,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦭',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'ocean'
 		}
 	},
 	{
@@ -714,7 +786,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐟',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'fish'
+			kind: 'fish',
+			habitat: 'ocean'
 		}
 	},
 	{
@@ -722,7 +795,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐠',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'fish'
+			kind: 'fish',
+			habitat: 'ocean'
 		}
 	},
 	{
@@ -730,7 +804,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐡',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'fish'
+			kind: 'fish',
+			habitat: 'ocean'
 		}
 	},
 	{
@@ -738,7 +813,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦈',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'fish'
+			kind: 'fish',
+			habitat: 'ocean'
 		}
 	},
 	{
@@ -746,7 +822,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦑',
 		direction: ROTATION_LEFT,
 		animal: {
-			kind: 'fish'
+			kind: 'fish',
+			habitat: 'ocean'
 		}
 	},
 	{
@@ -754,7 +831,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦧',
 		direction: ROTATION_DOWN,
 		animal: {
-			kind: 'mammal'
+			kind: 'mammal',
+			habitat: 'jungle'
 		}
 	},
 	{
@@ -762,7 +840,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐥',
 		direction: ROTATION_DOWN,
 		animal: {
-			kind: 'bird'
+			kind: 'bird',
+			habitat: 'farm'
 		}
 	},
 	{
@@ -770,7 +849,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦚',
 		direction: ROTATION_DOWN,
 		animal: {
-			kind: 'bird'
+			kind: 'bird',
+			habitat: 'savanah'
 		}
 	},
 	{
@@ -778,7 +858,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐊',
 		direction: ROTATION_DOWN,
 		animal: {
-			kind: 'reptile'
+			kind: 'reptile',
+			habitat: 'savanah'
 		}
 	},
 	{
@@ -786,7 +867,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🐙',
 		direction: ROTATION_DOWN,
 		animal: {
-			kind: 'fish'
+			kind: 'fish',
+			habitat: 'ocean'
 		}
 	},
 	{
@@ -794,7 +876,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦎',
 		direction: ROTATION_DOWN,
 		animal: {
-			kind: 'reptile'
+			kind: 'reptile',
+			habitat: 'desert'
 		}
 	},
 	{
@@ -802,7 +885,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦀',
 		direction: ROTATION_DOWN,
 		animal: {
-			kind: 'fish'
+			kind: 'fish',
+			habitat: 'ocean'
 		}
 	},
 	{
@@ -810,7 +894,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🦞',
 		direction: ROTATION_DOWN,
 		animal: {
-			kind: 'fish'
+			kind: 'fish',
+			habitat: 'ocean'
 		}
 	},
 ];
@@ -829,7 +914,7 @@ export const PEOPLE_EMOJI : EmojiSet = {
 	...PROFESSIONAL_PEOPLE_EMOJIS
 };
 
-export const GRAZING_FARM_ANIMALS_EMOJIS = filteredEmojiSet(info => info.animal?.grazes);
+export const GRAZING_FARM_ANIMALS_EMOJIS = filteredEmojiSet(info => info.animal?.grazes && info.animal?.habitat == 'farm');
 
 export const UPWARDS_INSECTS_EMOJIS  = filteredEmojiSet(info => info.animal?.kind == 'insect' && info.direction == ROTATION_UP);
 
