@@ -34,8 +34,18 @@ const JSON_REPLACEMENTS = {
 };
 
 const GENDERS = {
+	'': ['', '🧑'],
 	'male': ['♂️', '👨'],
 	'female': ['♀️', '👩']
+} as const;
+
+const SKIN_TONES = {
+	'': '',
+	'light': '🏻',
+	'medium-light': '🏼',
+	'medium': '🏽',
+	'medium-dark': '🏾',
+	'dark': '🏿'
 } as const;
 
 const ZERO_WIDTH_JOINER = '‍';
@@ -48,25 +58,30 @@ const generateEmojis = () => {
 		const result = [info];
 		if (!info.person) return result;
 		for (const [genderName, genderSymbol] of TypedObject.entries(GENDERS)) {
-			const newInfo = {...info, person: {...info.person}};
-			newInfo.name = info.name + '-' + genderName;
-			newInfo.alternateOf = info.name;
-			/*
-				There are two types of gendered emoji:
-				1) BaseEmoji + ZWJ + {MaleSign, FemaleSign}
-				2) {Person, Man, Woman} + ZWJ + Object
+			for (const [skinToneName, skinToneSymbol] of TypedObject.entries(SKIN_TONES)) {
+				if (!genderName && !skinToneName) continue;
+				const newInfo = {...info, person: {...info.person}};
+				newInfo.name = info.name + (skinToneName ? '-' + skinToneName : '') + (genderName ? '-' + genderName : '');
+				//TODO: should the skin tones for non-neutral gender use the default skin tone of their gender as the base?
+				newInfo.alternateOf = info.name;
+				/*
+					There are two types of gendered emoji:
+					1) BaseEmoji + {SkinTone}? + ZWJ + {MaleSign, FemaleSign}
+					2) {Person, Man, Woman} + {SkinTone}? + (ZWJ + Object)?
 
-				We can do string operations on them, as documented in
-				https://medium.com/@gerinjacob/did-you-know-we-could-do-string-operations-on-emojis-in-javascript-63f2feff966e
-			*/
-			if (info.emoji.includes(PERSON)) {
-				newInfo.emoji = info.emoji.replace(PERSON, genderSymbol[1]);
-			} else {
-				newInfo.emoji = info.emoji + ZERO_WIDTH_JOINER + genderSymbol[0];
+					We can do string operations on them, as documented in
+					https://medium.com/@gerinjacob/did-you-know-we-could-do-string-operations-on-emojis-in-javascript-63f2feff966e
+				*/
+				if (info.emoji.includes(PERSON)) {
+					newInfo.emoji = info.emoji.replace(PERSON, genderSymbol[1] + skinToneSymbol);
+				} else {
+					newInfo.emoji = info.emoji + skinToneSymbol + ZERO_WIDTH_JOINER + genderSymbol[0];
+				}
+				
+				if (genderName) newInfo.person.gender = genderName;
+				if (skinToneName) newInfo.person.skinTone = skinToneName;
+				result.push(newInfo);
 			}
-			
-			newInfo.person.gender = genderName;
-			result.push(newInfo);
 		}
 		return result;
 	}).flat();

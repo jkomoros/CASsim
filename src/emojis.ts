@@ -41,7 +41,7 @@ const makeEmojiSet = (infos : KnownEmojiInfos) : KnownEmojiSet => Object.fromEnt
 
 export const EMOJIS = makeEmojiSet(RAW_EMOJIS);
 
-export const PROFESSIONAL_PEOPLE_EMOJIS = filteredEmojiSet(info => info.person?.professional && !info.person?.gender);
+export const PROFESSIONAL_PEOPLE_EMOJIS = filteredEmojiSet(info => info.person?.professional && !info.person?.gender && !info.person?.skinTone);
 
 export const PEOPLE_EMOJI : EmojiSet = {
 	...PROFESSIONAL_PEOPLE_EMOJIS

@@ -16,6 +16,61 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
+		name: 'doctor-light',
+		emoji: '🧑🏻‍⚕️',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'light'
+		},
+		alternateOf: 'doctor'
+	},
+	{
+		name: 'doctor-medium-light',
+		emoji: '🧑🏼‍⚕️',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'doctor'
+	},
+	{
+		name: 'doctor-medium',
+		emoji: '🧑🏽‍⚕️',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium'
+		},
+		alternateOf: 'doctor'
+	},
+	{
+		name: 'doctor-medium-dark',
+		emoji: '🧑🏾‍⚕️',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'doctor'
+	},
+	{
+		name: 'doctor-dark',
+		emoji: '🧑🏿‍⚕️',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'dark'
+		},
+		alternateOf: 'doctor'
+	},
+	{
 		name: 'doctor-male',
 		emoji: '👨‍⚕️',
 		direction: ROTATION_UP,
@@ -23,6 +78,66 @@ export const GENERATED_RAW_EMOJIS = [
 			frame: 'torso',
 			professional: true,
 			gender: 'male'
+		},
+		alternateOf: 'doctor'
+	},
+	{
+		name: 'doctor-light-male',
+		emoji: '👨🏻‍⚕️',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'doctor'
+	},
+	{
+		name: 'doctor-medium-light-male',
+		emoji: '👨🏼‍⚕️',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'doctor'
+	},
+	{
+		name: 'doctor-medium-male',
+		emoji: '👨🏽‍⚕️',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'doctor'
+	},
+	{
+		name: 'doctor-medium-dark-male',
+		emoji: '👨🏾‍⚕️',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'doctor'
+	},
+	{
+		name: 'doctor-dark-male',
+		emoji: '👨🏿‍⚕️',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'dark'
 		},
 		alternateOf: 'doctor'
 	},
@@ -38,6 +153,66 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'doctor'
 	},
 	{
+		name: 'doctor-light-female',
+		emoji: '👩🏻‍⚕️',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'doctor'
+	},
+	{
+		name: 'doctor-medium-light-female',
+		emoji: '👩🏼‍⚕️',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'doctor'
+	},
+	{
+		name: 'doctor-medium-female',
+		emoji: '👩🏽‍⚕️',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'doctor'
+	},
+	{
+		name: 'doctor-medium-dark-female',
+		emoji: '👩🏾‍⚕️',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'doctor'
+	},
+	{
+		name: 'doctor-dark-female',
+		emoji: '👩🏿‍⚕️',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'doctor'
+	},
+	{
 		name: 'graduate',
 		emoji: '🧑‍🎓',
 		direction: ROTATION_UP,
@@ -47,6 +222,61 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
+		name: 'graduate-light',
+		emoji: '🧑🏻‍🎓',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'light'
+		},
+		alternateOf: 'graduate'
+	},
+	{
+		name: 'graduate-medium-light',
+		emoji: '🧑🏼‍🎓',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'graduate'
+	},
+	{
+		name: 'graduate-medium',
+		emoji: '🧑🏽‍🎓',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium'
+		},
+		alternateOf: 'graduate'
+	},
+	{
+		name: 'graduate-medium-dark',
+		emoji: '🧑🏾‍🎓',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'graduate'
+	},
+	{
+		name: 'graduate-dark',
+		emoji: '🧑🏿‍🎓',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'dark'
+		},
+		alternateOf: 'graduate'
+	},
+	{
 		name: 'graduate-male',
 		emoji: '👨‍🎓',
 		direction: ROTATION_UP,
@@ -54,6 +284,66 @@ export const GENERATED_RAW_EMOJIS = [
 			frame: 'torso',
 			professional: true,
 			gender: 'male'
+		},
+		alternateOf: 'graduate'
+	},
+	{
+		name: 'graduate-light-male',
+		emoji: '👨🏻‍🎓',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'graduate'
+	},
+	{
+		name: 'graduate-medium-light-male',
+		emoji: '👨🏼‍🎓',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'graduate'
+	},
+	{
+		name: 'graduate-medium-male',
+		emoji: '👨🏽‍🎓',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'graduate'
+	},
+	{
+		name: 'graduate-medium-dark-male',
+		emoji: '👨🏾‍🎓',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'graduate'
+	},
+	{
+		name: 'graduate-dark-male',
+		emoji: '👨🏿‍🎓',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'dark'
 		},
 		alternateOf: 'graduate'
 	},
@@ -69,6 +359,66 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'graduate'
 	},
 	{
+		name: 'graduate-light-female',
+		emoji: '👩🏻‍🎓',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'graduate'
+	},
+	{
+		name: 'graduate-medium-light-female',
+		emoji: '👩🏼‍🎓',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'graduate'
+	},
+	{
+		name: 'graduate-medium-female',
+		emoji: '👩🏽‍🎓',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'graduate'
+	},
+	{
+		name: 'graduate-medium-dark-female',
+		emoji: '👩🏾‍🎓',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'graduate'
+	},
+	{
+		name: 'graduate-dark-female',
+		emoji: '👩🏿‍🎓',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'graduate'
+	},
+	{
 		name: 'teacher',
 		emoji: '🧑‍🏫',
 		direction: ROTATION_DOWN,
@@ -78,6 +428,61 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
+		name: 'teacher-light',
+		emoji: '🧑🏻‍🏫',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'light'
+		},
+		alternateOf: 'teacher'
+	},
+	{
+		name: 'teacher-medium-light',
+		emoji: '🧑🏼‍🏫',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'teacher'
+	},
+	{
+		name: 'teacher-medium',
+		emoji: '🧑🏽‍🏫',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium'
+		},
+		alternateOf: 'teacher'
+	},
+	{
+		name: 'teacher-medium-dark',
+		emoji: '🧑🏾‍🏫',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'teacher'
+	},
+	{
+		name: 'teacher-dark',
+		emoji: '🧑🏿‍🏫',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'dark'
+		},
+		alternateOf: 'teacher'
+	},
+	{
 		name: 'teacher-male',
 		emoji: '👨‍🏫',
 		direction: ROTATION_DOWN,
@@ -85,6 +490,66 @@ export const GENERATED_RAW_EMOJIS = [
 			frame: 'torso',
 			professional: true,
 			gender: 'male'
+		},
+		alternateOf: 'teacher'
+	},
+	{
+		name: 'teacher-light-male',
+		emoji: '👨🏻‍🏫',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'teacher'
+	},
+	{
+		name: 'teacher-medium-light-male',
+		emoji: '👨🏼‍🏫',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'teacher'
+	},
+	{
+		name: 'teacher-medium-male',
+		emoji: '👨🏽‍🏫',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'teacher'
+	},
+	{
+		name: 'teacher-medium-dark-male',
+		emoji: '👨🏾‍🏫',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'teacher'
+	},
+	{
+		name: 'teacher-dark-male',
+		emoji: '👨🏿‍🏫',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'dark'
 		},
 		alternateOf: 'teacher'
 	},
@@ -100,6 +565,66 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'teacher'
 	},
 	{
+		name: 'teacher-light-female',
+		emoji: '👩🏻‍🏫',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'teacher'
+	},
+	{
+		name: 'teacher-medium-light-female',
+		emoji: '👩🏼‍🏫',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'teacher'
+	},
+	{
+		name: 'teacher-medium-female',
+		emoji: '👩🏽‍🏫',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'teacher'
+	},
+	{
+		name: 'teacher-medium-dark-female',
+		emoji: '👩🏾‍🏫',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'teacher'
+	},
+	{
+		name: 'teacher-dark-female',
+		emoji: '👩🏿‍🏫',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'teacher'
+	},
+	{
 		name: 'judge',
 		emoji: '🧑‍⚖️',
 		direction: ROTATION_DOWN,
@@ -109,6 +634,61 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
+		name: 'judge-light',
+		emoji: '🧑🏻‍⚖️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'light'
+		},
+		alternateOf: 'judge'
+	},
+	{
+		name: 'judge-medium-light',
+		emoji: '🧑🏼‍⚖️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'judge'
+	},
+	{
+		name: 'judge-medium',
+		emoji: '🧑🏽‍⚖️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium'
+		},
+		alternateOf: 'judge'
+	},
+	{
+		name: 'judge-medium-dark',
+		emoji: '🧑🏾‍⚖️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'judge'
+	},
+	{
+		name: 'judge-dark',
+		emoji: '🧑🏿‍⚖️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'dark'
+		},
+		alternateOf: 'judge'
+	},
+	{
 		name: 'judge-male',
 		emoji: '👨‍⚖️',
 		direction: ROTATION_DOWN,
@@ -116,6 +696,66 @@ export const GENERATED_RAW_EMOJIS = [
 			frame: 'torso',
 			professional: true,
 			gender: 'male'
+		},
+		alternateOf: 'judge'
+	},
+	{
+		name: 'judge-light-male',
+		emoji: '👨🏻‍⚖️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'judge'
+	},
+	{
+		name: 'judge-medium-light-male',
+		emoji: '👨🏼‍⚖️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'judge'
+	},
+	{
+		name: 'judge-medium-male',
+		emoji: '👨🏽‍⚖️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'judge'
+	},
+	{
+		name: 'judge-medium-dark-male',
+		emoji: '👨🏾‍⚖️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'judge'
+	},
+	{
+		name: 'judge-dark-male',
+		emoji: '👨🏿‍⚖️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'dark'
 		},
 		alternateOf: 'judge'
 	},
@@ -131,6 +771,66 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'judge'
 	},
 	{
+		name: 'judge-light-female',
+		emoji: '👩🏻‍⚖️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'judge'
+	},
+	{
+		name: 'judge-medium-light-female',
+		emoji: '👩🏼‍⚖️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'judge'
+	},
+	{
+		name: 'judge-medium-female',
+		emoji: '👩🏽‍⚖️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'judge'
+	},
+	{
+		name: 'judge-medium-dark-female',
+		emoji: '👩🏾‍⚖️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'judge'
+	},
+	{
+		name: 'judge-dark-female',
+		emoji: '👩🏿‍⚖️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'judge'
+	},
+	{
 		name: 'farmer',
 		emoji: '🧑‍🌾',
 		direction: ROTATION_DOWN,
@@ -140,6 +840,61 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
+		name: 'farmer-light',
+		emoji: '🧑🏻‍🌾',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'light'
+		},
+		alternateOf: 'farmer'
+	},
+	{
+		name: 'farmer-medium-light',
+		emoji: '🧑🏼‍🌾',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'farmer'
+	},
+	{
+		name: 'farmer-medium',
+		emoji: '🧑🏽‍🌾',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium'
+		},
+		alternateOf: 'farmer'
+	},
+	{
+		name: 'farmer-medium-dark',
+		emoji: '🧑🏾‍🌾',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'farmer'
+	},
+	{
+		name: 'farmer-dark',
+		emoji: '🧑🏿‍🌾',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'dark'
+		},
+		alternateOf: 'farmer'
+	},
+	{
 		name: 'farmer-male',
 		emoji: '👨‍🌾',
 		direction: ROTATION_DOWN,
@@ -147,6 +902,66 @@ export const GENERATED_RAW_EMOJIS = [
 			frame: 'torso',
 			professional: true,
 			gender: 'male'
+		},
+		alternateOf: 'farmer'
+	},
+	{
+		name: 'farmer-light-male',
+		emoji: '👨🏻‍🌾',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'farmer'
+	},
+	{
+		name: 'farmer-medium-light-male',
+		emoji: '👨🏼‍🌾',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'farmer'
+	},
+	{
+		name: 'farmer-medium-male',
+		emoji: '👨🏽‍🌾',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'farmer'
+	},
+	{
+		name: 'farmer-medium-dark-male',
+		emoji: '👨🏾‍🌾',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'farmer'
+	},
+	{
+		name: 'farmer-dark-male',
+		emoji: '👨🏿‍🌾',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'dark'
 		},
 		alternateOf: 'farmer'
 	},
@@ -162,6 +977,66 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'farmer'
 	},
 	{
+		name: 'farmer-light-female',
+		emoji: '👩🏻‍🌾',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'farmer'
+	},
+	{
+		name: 'farmer-medium-light-female',
+		emoji: '👩🏼‍🌾',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'farmer'
+	},
+	{
+		name: 'farmer-medium-female',
+		emoji: '👩🏽‍🌾',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'farmer'
+	},
+	{
+		name: 'farmer-medium-dark-female',
+		emoji: '👩🏾‍🌾',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'farmer'
+	},
+	{
+		name: 'farmer-dark-female',
+		emoji: '👩🏿‍🌾',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'farmer'
+	},
+	{
 		name: 'chef',
 		emoji: '🧑‍🍳',
 		direction: ROTATION_DOWN,
@@ -171,6 +1046,61 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
+		name: 'chef-light',
+		emoji: '🧑🏻‍🍳',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'light'
+		},
+		alternateOf: 'chef'
+	},
+	{
+		name: 'chef-medium-light',
+		emoji: '🧑🏼‍🍳',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'chef'
+	},
+	{
+		name: 'chef-medium',
+		emoji: '🧑🏽‍🍳',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium'
+		},
+		alternateOf: 'chef'
+	},
+	{
+		name: 'chef-medium-dark',
+		emoji: '🧑🏾‍🍳',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'chef'
+	},
+	{
+		name: 'chef-dark',
+		emoji: '🧑🏿‍🍳',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'dark'
+		},
+		alternateOf: 'chef'
+	},
+	{
 		name: 'chef-male',
 		emoji: '👨‍🍳',
 		direction: ROTATION_DOWN,
@@ -178,6 +1108,66 @@ export const GENERATED_RAW_EMOJIS = [
 			frame: 'torso',
 			professional: true,
 			gender: 'male'
+		},
+		alternateOf: 'chef'
+	},
+	{
+		name: 'chef-light-male',
+		emoji: '👨🏻‍🍳',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'chef'
+	},
+	{
+		name: 'chef-medium-light-male',
+		emoji: '👨🏼‍🍳',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'chef'
+	},
+	{
+		name: 'chef-medium-male',
+		emoji: '👨🏽‍🍳',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'chef'
+	},
+	{
+		name: 'chef-medium-dark-male',
+		emoji: '👨🏾‍🍳',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'chef'
+	},
+	{
+		name: 'chef-dark-male',
+		emoji: '👨🏿‍🍳',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'dark'
 		},
 		alternateOf: 'chef'
 	},
@@ -193,6 +1183,66 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'chef'
 	},
 	{
+		name: 'chef-light-female',
+		emoji: '👩🏻‍🍳',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'chef'
+	},
+	{
+		name: 'chef-medium-light-female',
+		emoji: '👩🏼‍🍳',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'chef'
+	},
+	{
+		name: 'chef-medium-female',
+		emoji: '👩🏽‍🍳',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'chef'
+	},
+	{
+		name: 'chef-medium-dark-female',
+		emoji: '👩🏾‍🍳',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'chef'
+	},
+	{
+		name: 'chef-dark-female',
+		emoji: '👩🏿‍🍳',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'chef'
+	},
+	{
 		name: 'mechanic',
 		emoji: '🧑‍🔧',
 		direction: ROTATION_DOWN,
@@ -202,6 +1252,61 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
+		name: 'mechanic-light',
+		emoji: '🧑🏻‍🔧',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'light'
+		},
+		alternateOf: 'mechanic'
+	},
+	{
+		name: 'mechanic-medium-light',
+		emoji: '🧑🏼‍🔧',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'mechanic'
+	},
+	{
+		name: 'mechanic-medium',
+		emoji: '🧑🏽‍🔧',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium'
+		},
+		alternateOf: 'mechanic'
+	},
+	{
+		name: 'mechanic-medium-dark',
+		emoji: '🧑🏾‍🔧',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'mechanic'
+	},
+	{
+		name: 'mechanic-dark',
+		emoji: '🧑🏿‍🔧',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'dark'
+		},
+		alternateOf: 'mechanic'
+	},
+	{
 		name: 'mechanic-male',
 		emoji: '👨‍🔧',
 		direction: ROTATION_DOWN,
@@ -209,6 +1314,66 @@ export const GENERATED_RAW_EMOJIS = [
 			frame: 'torso',
 			professional: true,
 			gender: 'male'
+		},
+		alternateOf: 'mechanic'
+	},
+	{
+		name: 'mechanic-light-male',
+		emoji: '👨🏻‍🔧',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'mechanic'
+	},
+	{
+		name: 'mechanic-medium-light-male',
+		emoji: '👨🏼‍🔧',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'mechanic'
+	},
+	{
+		name: 'mechanic-medium-male',
+		emoji: '👨🏽‍🔧',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'mechanic'
+	},
+	{
+		name: 'mechanic-medium-dark-male',
+		emoji: '👨🏾‍🔧',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'mechanic'
+	},
+	{
+		name: 'mechanic-dark-male',
+		emoji: '👨🏿‍🔧',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'dark'
 		},
 		alternateOf: 'mechanic'
 	},
@@ -224,6 +1389,66 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'mechanic'
 	},
 	{
+		name: 'mechanic-light-female',
+		emoji: '👩🏻‍🔧',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'mechanic'
+	},
+	{
+		name: 'mechanic-medium-light-female',
+		emoji: '👩🏼‍🔧',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'mechanic'
+	},
+	{
+		name: 'mechanic-medium-female',
+		emoji: '👩🏽‍🔧',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'mechanic'
+	},
+	{
+		name: 'mechanic-medium-dark-female',
+		emoji: '👩🏾‍🔧',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'mechanic'
+	},
+	{
+		name: 'mechanic-dark-female',
+		emoji: '👩🏿‍🔧',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'mechanic'
+	},
+	{
 		name: 'scientist',
 		emoji: '🧑‍🔬',
 		direction: ROTATION_DOWN,
@@ -233,6 +1458,61 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
+		name: 'scientist-light',
+		emoji: '🧑🏻‍🔬',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'light'
+		},
+		alternateOf: 'scientist'
+	},
+	{
+		name: 'scientist-medium-light',
+		emoji: '🧑🏼‍🔬',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'scientist'
+	},
+	{
+		name: 'scientist-medium',
+		emoji: '🧑🏽‍🔬',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium'
+		},
+		alternateOf: 'scientist'
+	},
+	{
+		name: 'scientist-medium-dark',
+		emoji: '🧑🏾‍🔬',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'scientist'
+	},
+	{
+		name: 'scientist-dark',
+		emoji: '🧑🏿‍🔬',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'dark'
+		},
+		alternateOf: 'scientist'
+	},
+	{
 		name: 'scientist-male',
 		emoji: '👨‍🔬',
 		direction: ROTATION_DOWN,
@@ -240,6 +1520,66 @@ export const GENERATED_RAW_EMOJIS = [
 			frame: 'torso',
 			professional: true,
 			gender: 'male'
+		},
+		alternateOf: 'scientist'
+	},
+	{
+		name: 'scientist-light-male',
+		emoji: '👨🏻‍🔬',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'scientist'
+	},
+	{
+		name: 'scientist-medium-light-male',
+		emoji: '👨🏼‍🔬',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'scientist'
+	},
+	{
+		name: 'scientist-medium-male',
+		emoji: '👨🏽‍🔬',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'scientist'
+	},
+	{
+		name: 'scientist-medium-dark-male',
+		emoji: '👨🏾‍🔬',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'scientist'
+	},
+	{
+		name: 'scientist-dark-male',
+		emoji: '👨🏿‍🔬',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'dark'
 		},
 		alternateOf: 'scientist'
 	},
@@ -255,6 +1595,66 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'scientist'
 	},
 	{
+		name: 'scientist-light-female',
+		emoji: '👩🏻‍🔬',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'scientist'
+	},
+	{
+		name: 'scientist-medium-light-female',
+		emoji: '👩🏼‍🔬',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'scientist'
+	},
+	{
+		name: 'scientist-medium-female',
+		emoji: '👩🏽‍🔬',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'scientist'
+	},
+	{
+		name: 'scientist-medium-dark-female',
+		emoji: '👩🏾‍🔬',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'scientist'
+	},
+	{
+		name: 'scientist-dark-female',
+		emoji: '👩🏿‍🔬',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'scientist'
+	},
+	{
 		name: 'artist',
 		emoji: '🧑‍🎨',
 		direction: ROTATION_DOWN,
@@ -264,6 +1664,61 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
+		name: 'artist-light',
+		emoji: '🧑🏻‍🎨',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'light'
+		},
+		alternateOf: 'artist'
+	},
+	{
+		name: 'artist-medium-light',
+		emoji: '🧑🏼‍🎨',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'artist'
+	},
+	{
+		name: 'artist-medium',
+		emoji: '🧑🏽‍🎨',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium'
+		},
+		alternateOf: 'artist'
+	},
+	{
+		name: 'artist-medium-dark',
+		emoji: '🧑🏾‍🎨',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'artist'
+	},
+	{
+		name: 'artist-dark',
+		emoji: '🧑🏿‍🎨',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'dark'
+		},
+		alternateOf: 'artist'
+	},
+	{
 		name: 'artist-male',
 		emoji: '👨‍🎨',
 		direction: ROTATION_DOWN,
@@ -271,6 +1726,66 @@ export const GENERATED_RAW_EMOJIS = [
 			frame: 'torso',
 			professional: true,
 			gender: 'male'
+		},
+		alternateOf: 'artist'
+	},
+	{
+		name: 'artist-light-male',
+		emoji: '👨🏻‍🎨',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'artist'
+	},
+	{
+		name: 'artist-medium-light-male',
+		emoji: '👨🏼‍🎨',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'artist'
+	},
+	{
+		name: 'artist-medium-male',
+		emoji: '👨🏽‍🎨',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'artist'
+	},
+	{
+		name: 'artist-medium-dark-male',
+		emoji: '👨🏾‍🎨',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'artist'
+	},
+	{
+		name: 'artist-dark-male',
+		emoji: '👨🏿‍🎨',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'dark'
 		},
 		alternateOf: 'artist'
 	},
@@ -286,6 +1801,66 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'artist'
 	},
 	{
+		name: 'artist-light-female',
+		emoji: '👩🏻‍🎨',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'artist'
+	},
+	{
+		name: 'artist-medium-light-female',
+		emoji: '👩🏼‍🎨',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'artist'
+	},
+	{
+		name: 'artist-medium-female',
+		emoji: '👩🏽‍🎨',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'artist'
+	},
+	{
+		name: 'artist-medium-dark-female',
+		emoji: '👩🏾‍🎨',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'artist'
+	},
+	{
+		name: 'artist-dark-female',
+		emoji: '👩🏿‍🎨',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'artist'
+	},
+	{
 		name: 'pilot',
 		emoji: '🧑‍✈️',
 		direction: ROTATION_DOWN,
@@ -295,6 +1870,61 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
+		name: 'pilot-light',
+		emoji: '🧑🏻‍✈️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'light'
+		},
+		alternateOf: 'pilot'
+	},
+	{
+		name: 'pilot-medium-light',
+		emoji: '🧑🏼‍✈️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'pilot'
+	},
+	{
+		name: 'pilot-medium',
+		emoji: '🧑🏽‍✈️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium'
+		},
+		alternateOf: 'pilot'
+	},
+	{
+		name: 'pilot-medium-dark',
+		emoji: '🧑🏾‍✈️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'pilot'
+	},
+	{
+		name: 'pilot-dark',
+		emoji: '🧑🏿‍✈️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'dark'
+		},
+		alternateOf: 'pilot'
+	},
+	{
 		name: 'pilot-male',
 		emoji: '👨‍✈️',
 		direction: ROTATION_DOWN,
@@ -302,6 +1932,66 @@ export const GENERATED_RAW_EMOJIS = [
 			frame: 'torso',
 			professional: true,
 			gender: 'male'
+		},
+		alternateOf: 'pilot'
+	},
+	{
+		name: 'pilot-light-male',
+		emoji: '👨🏻‍✈️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'pilot'
+	},
+	{
+		name: 'pilot-medium-light-male',
+		emoji: '👨🏼‍✈️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'pilot'
+	},
+	{
+		name: 'pilot-medium-male',
+		emoji: '👨🏽‍✈️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'pilot'
+	},
+	{
+		name: 'pilot-medium-dark-male',
+		emoji: '👨🏾‍✈️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'pilot'
+	},
+	{
+		name: 'pilot-dark-male',
+		emoji: '👨🏿‍✈️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'dark'
 		},
 		alternateOf: 'pilot'
 	},
@@ -317,6 +2007,66 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'pilot'
 	},
 	{
+		name: 'pilot-light-female',
+		emoji: '👩🏻‍✈️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'pilot'
+	},
+	{
+		name: 'pilot-medium-light-female',
+		emoji: '👩🏼‍✈️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'pilot'
+	},
+	{
+		name: 'pilot-medium-female',
+		emoji: '👩🏽‍✈️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'pilot'
+	},
+	{
+		name: 'pilot-medium-dark-female',
+		emoji: '👩🏾‍✈️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'pilot'
+	},
+	{
+		name: 'pilot-dark-female',
+		emoji: '👩🏿‍✈️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'pilot'
+	},
+	{
 		name: 'firefighter',
 		emoji: '🧑‍🚒',
 		direction: ROTATION_DOWN,
@@ -326,6 +2076,61 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
+		name: 'firefighter-light',
+		emoji: '🧑🏻‍🚒',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'light'
+		},
+		alternateOf: 'firefighter'
+	},
+	{
+		name: 'firefighter-medium-light',
+		emoji: '🧑🏼‍🚒',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'firefighter'
+	},
+	{
+		name: 'firefighter-medium',
+		emoji: '🧑🏽‍🚒',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium'
+		},
+		alternateOf: 'firefighter'
+	},
+	{
+		name: 'firefighter-medium-dark',
+		emoji: '🧑🏾‍🚒',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'firefighter'
+	},
+	{
+		name: 'firefighter-dark',
+		emoji: '🧑🏿‍🚒',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'dark'
+		},
+		alternateOf: 'firefighter'
+	},
+	{
 		name: 'firefighter-male',
 		emoji: '👨‍🚒',
 		direction: ROTATION_DOWN,
@@ -333,6 +2138,66 @@ export const GENERATED_RAW_EMOJIS = [
 			frame: 'torso',
 			professional: true,
 			gender: 'male'
+		},
+		alternateOf: 'firefighter'
+	},
+	{
+		name: 'firefighter-light-male',
+		emoji: '👨🏻‍🚒',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'firefighter'
+	},
+	{
+		name: 'firefighter-medium-light-male',
+		emoji: '👨🏼‍🚒',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'firefighter'
+	},
+	{
+		name: 'firefighter-medium-male',
+		emoji: '👨🏽‍🚒',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'firefighter'
+	},
+	{
+		name: 'firefighter-medium-dark-male',
+		emoji: '👨🏾‍🚒',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'firefighter'
+	},
+	{
+		name: 'firefighter-dark-male',
+		emoji: '👨🏿‍🚒',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'dark'
 		},
 		alternateOf: 'firefighter'
 	},
@@ -348,6 +2213,66 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'firefighter'
 	},
 	{
+		name: 'firefighter-light-female',
+		emoji: '👩🏻‍🚒',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'firefighter'
+	},
+	{
+		name: 'firefighter-medium-light-female',
+		emoji: '👩🏼‍🚒',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'firefighter'
+	},
+	{
+		name: 'firefighter-medium-female',
+		emoji: '👩🏽‍🚒',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'firefighter'
+	},
+	{
+		name: 'firefighter-medium-dark-female',
+		emoji: '👩🏾‍🚒',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'firefighter'
+	},
+	{
+		name: 'firefighter-dark-female',
+		emoji: '👩🏿‍🚒',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'firefighter'
+	},
+	{
 		name: 'police',
 		emoji: '👮',
 		direction: ROTATION_DOWN,
@@ -355,6 +2280,61 @@ export const GENERATED_RAW_EMOJIS = [
 			frame: 'torso',
 			professional: true
 		}
+	},
+	{
+		name: 'police-light',
+		emoji: '👮🏻‍',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'light'
+		},
+		alternateOf: 'police'
+	},
+	{
+		name: 'police-medium-light',
+		emoji: '👮🏼‍',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'police'
+	},
+	{
+		name: 'police-medium',
+		emoji: '👮🏽‍',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium'
+		},
+		alternateOf: 'police'
+	},
+	{
+		name: 'police-medium-dark',
+		emoji: '👮🏾‍',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'police'
+	},
+	{
+		name: 'police-dark',
+		emoji: '👮🏿‍',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'dark'
+		},
+		alternateOf: 'police'
 	},
 	{
 		name: 'police-male',
@@ -368,6 +2348,66 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'police'
 	},
 	{
+		name: 'police-light-male',
+		emoji: '👮🏻‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'police'
+	},
+	{
+		name: 'police-medium-light-male',
+		emoji: '👮🏼‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'police'
+	},
+	{
+		name: 'police-medium-male',
+		emoji: '👮🏽‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'police'
+	},
+	{
+		name: 'police-medium-dark-male',
+		emoji: '👮🏾‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'police'
+	},
+	{
+		name: 'police-dark-male',
+		emoji: '👮🏿‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'dark'
+		},
+		alternateOf: 'police'
+	},
+	{
 		name: 'police-female',
 		emoji: '👮‍♀️',
 		direction: ROTATION_DOWN,
@@ -375,6 +2415,66 @@ export const GENERATED_RAW_EMOJIS = [
 			frame: 'torso',
 			professional: true,
 			gender: 'female'
+		},
+		alternateOf: 'police'
+	},
+	{
+		name: 'police-light-female',
+		emoji: '👮🏻‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'police'
+	},
+	{
+		name: 'police-medium-light-female',
+		emoji: '👮🏼‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'police'
+	},
+	{
+		name: 'police-medium-female',
+		emoji: '👮🏽‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'police'
+	},
+	{
+		name: 'police-medium-dark-female',
+		emoji: '👮🏾‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'police'
+	},
+	{
+		name: 'police-dark-female',
+		emoji: '👮🏿‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'dark'
 		},
 		alternateOf: 'police'
 	}
