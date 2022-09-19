@@ -35,17 +35,17 @@ const JSON_REPLACEMENTS = {
 
 const GENDERS = {
 	'': ['', '🧑'],
-	'male': ['♂️', '👨'],
-	'female': ['♀️', '👩']
+	'female': ['♀️', '👩'],
+	'male': ['♂️', '👨']
 } as const;
 
 const SKIN_TONES = {
 	'': '',
-	'light': '🏻',
-	'medium-light': '🏼',
-	'medium': '🏽',
+	'dark': '🏿',
 	'medium-dark': '🏾',
-	'dark': '🏿'
+	'medium': '🏽',
+	'medium-light': '🏼',
+	'light': '🏻'
 } as const;
 
 const ZERO_WIDTH_JOINER = '‍';
