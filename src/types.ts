@@ -45,13 +45,9 @@ export type EmojiInfo = {
     //TODO: add vehicles
     plant? : {
         habitat: 'forest' | 'grass' | 'house' | 'farm' | 'desert' | 'garden' | 'jungle',
+        kind: 'plant' | 'flower' | 'tree' | 'other';
         //Is the stem depicted, that could be connected to the ground and growing?
         stem? : true,
-        //TODO: combine flower, tree, generic, and mushroom
-        //Is it a flower?
-        flower? : true,
-        //Is it a tree?
-        tree? : true,
         //Whether it's no longer thriving
         dying? : true
     },

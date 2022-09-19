@@ -1327,7 +1327,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		plant: {
 			habitat: 'house',
-			flower: true
+			kind: 'flower'
 		}
 	},
 	{
@@ -1336,7 +1336,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		plant: {
 			habitat: 'garden',
-			flower: true
+			kind: 'flower'
 		}
 	},
 	{
@@ -1346,7 +1346,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		alternateOf: 'blossom',
 		plant: {
 			habitat: 'garden',
-			flower: true
+			kind: 'flower'
 		}
 	},
 	{
@@ -1356,7 +1356,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		alternateOf: 'blossom',
 		plant: {
 			habitat: 'garden',
-			flower: true
+			kind: 'flower'
 		}
 	},
 	{
@@ -1365,7 +1365,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		plant: {
 			habitat: 'forest',
-			flower: true,
+			kind: 'flower',
 			stem: true
 		}
 	},
@@ -1376,7 +1376,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		alternateOf: 'blossom',
 		plant: {
 			habitat: 'garden',
-			flower: true,
+			kind: 'flower',
 		}
 	},
 	{
@@ -1385,7 +1385,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		plant: {
 			habitat: 'garden',
-			flower: true,
+			kind: 'flower',
 			stem: true
 		}
 	},
@@ -1395,7 +1395,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		plant: {
 			habitat: 'garden',
-			flower: true,
+			kind: 'flower',
 			dying: true
 		}
 	},
@@ -1405,7 +1405,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		plant: {
 			habitat: 'jungle',
-			flower: true
+			kind: 'flower'
 		}
 	},
 	{
@@ -1414,7 +1414,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		plant: {
 			habitat: 'farm',
-			flower: true,
+			kind: 'flower',
 			stem: true
 		}
 	},
@@ -1424,7 +1424,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		plant: {
 			habitat: 'farm',
-			flower: true,
+			kind: 'flower',
 			stem: true
 		}
 	},
@@ -1434,6 +1434,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		plant: {
 			habitat: 'farm',
+			kind: 'plant',
 			stem: true
 		}
 	},
@@ -1443,6 +1444,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		plant: {
 			habitat: 'farm',
+			kind: 'plant',
 			stem: true
 		}
 	},
@@ -1452,6 +1454,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		plant: {
 			habitat: 'farm',
+			kind: 'plant',
 			stem: true
 		}
 	},
@@ -1462,6 +1465,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		alternateOf: 'shamrock',
 		plant: {
 			habitat: 'farm',
+			kind: 'plant',
 			stem: true
 		}
 	},
@@ -1471,6 +1475,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		plant: {
 			habitat: 'house',
+			kind: 'plant',
 			stem: true
 		}
 	},
@@ -1480,8 +1485,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		plant: {
 			habitat: 'forest',
+			kind: 'tree',
 			stem: true,
-			tree: true
 		}
 	},
 	{
@@ -1490,8 +1495,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		plant: {
 			habitat: 'forest',
+			kind: 'tree',
 			stem: true,
-			tree: true
 		}
 	},
 	{
@@ -1500,8 +1505,8 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		plant: {
 			habitat: 'desert',
+			kind: 'tree',
 			stem: true,
-			tree: true
 		}
 	},
 	{
@@ -1510,6 +1515,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		plant: {
 			habitat: 'desert',
+			kind: 'other',
 			stem: true
 		}
 	},
@@ -1519,6 +1525,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_UP,
 		plant: {
 			habitat: 'farm',
+			kind: 'plant',
 			stem: true
 		}
 	},
