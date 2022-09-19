@@ -1,15 +1,25 @@
 import * as fs from "fs";
-
-import data from './data/emojis.json' assert { type: "json" };
-
-const OUTPUT_FILE = 'src/constants-emoji.GENERATED.ts';
+import {
+	Angle,
+	EmojiInfo
+} from "../src/types.js";
 
 const ROTATION_TYPES = [
 	'ROTATION_DOWN',
 	'ROTATION_UP',
 	'ROTATIION_LEFT',
 	'ROTATION_RIGHT'
-];
+] as const;
+
+type ManualAngle<Type> = {
+	[Property in keyof Type]: Type[Property] extends Angle ? typeof ROTATION_TYPES : Type[Property]
+};
+
+type InputEmojiInfo = ManualAngle<EmojiInfo>;
+
+import data from './data/emojis.json' assert { type: "json" };
+
+const OUTPUT_FILE = 'src/constants-emoji.GENERATED.ts';
 
 const JSON_REPLACEMENTS = {
 	...Object.fromEntries(ROTATION_TYPES.map(typ => ['"' + typ + '"', typ])),
@@ -19,7 +29,9 @@ const JSON_REPLACEMENTS = {
 };
 
 const generateEmojis = () => {
-	let output = JSON.stringify(data.emojis, null, '\t');
+	const emojis = (data.emojis as unknown) as InputEmojiInfo[];
+
+	let output = JSON.stringify(emojis, null, '\t');
 	
 	for (const [find, replace] of Object.entries(JSON_REPLACEMENTS)) {
 		output = output.split(find).join(replace);
