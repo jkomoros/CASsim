@@ -44,14 +44,16 @@ export type EmojiInfo = {
     },
     //TODO: add vehicles
     plant? : {
-        habitat: 'forest' | 'grass' | 'house' | 'farm' | 'desert',
+        habitat: 'forest' | 'grass' | 'house' | 'farm' | 'desert' | 'garden' | 'jungle',
         //Is the stem depicted, that could be connected to the ground and growing?
         stem? : true,
         //Is it a flower?
         flower? : true,
         //Is it a tree?
-        tree? : true
-    }
+        tree? : true,
+        //Whether it's no longer thriving
+        dying? : true
+    },
     animal? : {
         kind: 'insect' | 'mammal' | 'bird' | 'reptile' | 'fish' | 'amphibian',
         habitat: 'forest' | 'jungle' | 'savanah' | 'farm' | 'house' | 'ocean' | 'desert' | 'tundra';

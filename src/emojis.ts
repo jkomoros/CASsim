@@ -1320,7 +1320,208 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			habitat: 'jungle',
 			hanging: true
 		}
-	}
+	},
+	{
+		name: 'bouqet',
+		emoji: '💐',
+		direction: ROTATION_DOWN,
+		plant: {
+			habitat: 'house',
+			flower: true
+		}
+	},
+	{
+		name: 'blossom',
+		emoji: '🌼',
+		direction: ROTATION_UP,
+		plant: {
+			habitat: 'garden',
+			flower: true
+		}
+	},
+	{
+		name: 'cherry-blossom',
+		emoji: '🌸',
+		direction: ROTATION_UP,
+		alternateOf: 'blossom',
+		plant: {
+			habitat: 'garden',
+			flower: true
+		}
+	},
+	{
+		name: 'white-flower',
+		emoji: '💮',
+		direction: ROTATION_UP,
+		alternateOf: 'blossom',
+		plant: {
+			habitat: 'garden',
+			flower: true
+		}
+	},
+	{
+		name: 'lotus',
+		emoji: '🪷',
+		direction: ROTATION_UP,
+		plant: {
+			habitat: 'forest',
+			flower: true,
+			stem: true
+		}
+	},
+	{
+		name: 'rosette',
+		emoji: '🏵️',
+		direction: ROTATION_UP,
+		alternateOf: 'blossom',
+		plant: {
+			habitat: 'garden',
+			flower: true,
+		}
+	},
+	{
+		name: 'rose',
+		emoji: '🌹',
+		direction: ROTATION_UP,
+		plant: {
+			habitat: 'garden',
+			flower: true,
+			stem: true
+		}
+	},
+	{
+		name: 'wilted-flower',
+		emoji: '🌹',
+		direction: ROTATION_UP,
+		plant: {
+			habitat: 'garden',
+			flower: true,
+			dying: true
+		}
+	},
+	{
+		name: 'hibiscus',
+		emoji: '🌺',
+		direction: ROTATION_UP,
+		plant: {
+			habitat: 'jungle',
+			flower: true
+		}
+	},
+	{
+		name: 'sunflower',
+		emoji: '🌻',
+		direction: ROTATION_UP,
+		plant: {
+			habitat: 'farm',
+			flower: true,
+			stem: true
+		}
+	},
+	{
+		name: 'tulip',
+		emoji: '🌷',
+		direction: ROTATION_UP,
+		plant: {
+			habitat: 'farm',
+			flower: true,
+			stem: true
+		}
+	},
+	{
+		name: 'seedling',
+		emoji: '🌱',
+		direction: ROTATION_UP,
+		plant: {
+			habitat: 'farm',
+			stem: true
+		}
+	},
+	{
+		name: 'herb',
+		emoji: '🌿',
+		direction: ROTATION_UP,
+		plant: {
+			habitat: 'farm',
+			stem: true
+		}
+	},
+	{
+		name: 'shamrock',
+		emoji: '☘️',
+		direction: ROTATION_UP,
+		plant: {
+			habitat: 'farm',
+			stem: true
+		}
+	},
+	{
+		name: 'four-leaf-clover',
+		emoji: '🍀',
+		direction: ROTATION_UP,
+		alternateOf: 'shamrock',
+		plant: {
+			habitat: 'farm',
+			stem: true
+		}
+	},
+	{
+		name: 'potted-plant',
+		emoji: '🪴',
+		direction: ROTATION_UP,
+		plant: {
+			habitat: 'house',
+			stem: true
+		}
+	},
+	{
+		name: 'evergreen-tree',
+		emoji: '🌲',
+		direction: ROTATION_UP,
+		plant: {
+			habitat: 'forest',
+			stem: true,
+			tree: true
+		}
+	},
+	{
+		name: 'deciduous-tree',
+		emoji: '🌳',
+		direction: ROTATION_UP,
+		plant: {
+			habitat: 'forest',
+			stem: true,
+			tree: true
+		}
+	},
+	{
+		name: 'palm-tree',
+		emoji: '🌴',
+		direction: ROTATION_UP,
+		plant: {
+			habitat: 'desert',
+			stem: true,
+			tree: true
+		}
+	},
+	{
+		name: 'cactus',
+		emoji: '🌵',
+		direction: ROTATION_UP,
+		plant: {
+			habitat: 'desert',
+			stem: true
+		}
+	},
+	{
+		name: 'rice',
+		emoji: '🌾',
+		direction: ROTATION_UP,
+		plant: {
+			habitat: 'farm',
+			stem: true
+		}
+	},
 
 ];
 
