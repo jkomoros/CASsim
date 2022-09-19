@@ -47,12 +47,14 @@ export type EmojiInfo = {
         gender: 'neutral' | 'male' | 'female',
         //how much of the person is in frame
         frame: 'face' | 'torso' | 'body',
+        //Whether the person depicted is representing some defined profession
         professional? : true,
         //TODO: add skintone
     },
     //TODO: add vehicles
     plant? : {
         habitat: 'forest' | 'grass' | 'house' | 'farm' | 'desert' | 'garden' | 'jungle',
+        //plant means 'generic green plant'
         kind: 'plant' | 'flower' | 'tree' | 'other';
         //Is the stem depicted, that could be connected to the ground and growing?
         stem? : true,
@@ -63,17 +65,18 @@ export type EmojiInfo = {
         kind: 'insect' | 'mammal' | 'bird' | 'reptile' | 'fish' | 'amphibian',
         habitat: 'forest' | 'jungle' | 'savanah' | 'farm' | 'house' | 'ocean' | 'desert' | 'tundra';
         diet: 'omnivore' | 'carnivore' | 'herbivore';
+        //For emojis who are the face of the animal. Often ROTATION_DOWN, but not always.
+        face? : true,
         //If it's non existent, what is the reason why?
         nonExistent? : 'extinct' | 'fictional';
         //If the animal lives almost entirely underwater.
         underwater? : true,
         //If the animal is known for swimming. Typically coocurs with underwater but not always.
         swims? : true,
-        //For emojis who are the face of the animal. Often ROTATION_DOWN, but not always.
-        face? : true,
         //An animal that can fly. If it's actively depcted flying then it's 'depicted'
         flies? : 'capable' | 'depicted'
         grazes? : true,
+        //Whether the animal is depicted hanging from something. Currently only 'sloth'
         hanging? : true
     }
 };
