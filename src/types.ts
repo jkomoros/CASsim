@@ -2,6 +2,10 @@ export * from './types-dynamic.GENERATED.js';
 
 export * from './types-simulator.GENERATED.js';
 
+import {
+	RAW_EMOJIS
+} from './emoji-constants.js';
+
 import { SimulatorType } from './types-dynamic.GENERATED.js';
 
 import { RawSimulationConfig } from './types-simulator.GENERATED.js';
@@ -29,60 +33,79 @@ export type Color = {
     rgbaStr : CSSColor;
 }
 
-//TODO: tighten with enumeation
-export type EmojiName = string;
-//tODO: tighten with enumeration
-export type Emoji = string;
+//A Known emoji name is one that is known by this framework to exist (i.e. it's
+//in the EMOJIS set). It's useful for type checking of the emojis known by this
+//system.
+//Based on the pattern described in https://steveholgado.com/typescript-types-from-arrays/
+export type KnownEmojiName = typeof RAW_EMOJIS[number]['name'];
+export type KnownEmoji = typeof RAW_EMOJIS[number]['emoji'];
 
-export type EmojiInfo = {
+export type EmojiName = KnownEmojiName | string;
+export type Emoji = KnownEmoji | string;
+
+export type KnownEmojiInfo = {
     //Name is the human-readable unique name it's known by in emoji-sets.
-    name: EmojiName
+    readonly name: KnownEmojiName
     //emoji is the literal emoji itself
-    emoji: Emoji,
-    direction: Angle,
+    readonly emoji: KnownEmoji,
     //For cases where here is a canonical type and an alt, to make it easy to
     //filter out alts. The name of the thing it's an alternate of, not the emoji.
-    alternateOf?: EmojiName,
-    person? : {
-        gender: 'neutral' | 'male' | 'female',
+    readonly alternateOf?: KnownEmojiName,
+	readonly direction: Angle,
+    readonly person? : {
+        readonly gender: 'neutral' | 'male' | 'female',
         //how much of the person is in frame
-        frame: 'face' | 'torso' | 'body',
+        readonly frame: 'face' | 'torso' | 'body',
         //Whether the person depicted is representing some defined profession
-        professional? : true,
+        readonly professional? : true,
         //TODO: add skintone
     },
     //TODO: add vehicles
-    plant? : {
-        habitat: 'forest' | 'grass' | 'house' | 'farm' | 'desert' | 'garden' | 'jungle',
+    readonly plant? : {
+        readonly habitat: 'forest' | 'grass' | 'house' | 'farm' | 'desert' | 'garden' | 'jungle',
         //plant means 'generic green plant'
-        kind: 'plant' | 'flower' | 'tree' | 'other';
+        readonly kind: 'plant' | 'flower' | 'tree' | 'other';
         //Is the stem depicted, that could be connected to the ground and growing?
-        stem? : true,
+        readonly stem? : true,
         //Whether it's no longer thriving
-        dying? : true
+        readonly dying? : true
     },
-    animal? : {
-        kind: 'insect' | 'mammal' | 'bird' | 'reptile' | 'fish' | 'amphibian',
-        habitat: 'forest' | 'jungle' | 'savanah' | 'farm' | 'house' | 'ocean' | 'desert' | 'tundra';
-        diet: 'omnivore' | 'carnivore' | 'herbivore';
+    readonly animal? : {
+        readonly kind: 'insect' | 'mammal' | 'bird' | 'reptile' | 'fish' | 'amphibian',
+        readonly habitat: 'forest' | 'jungle' | 'savanah' | 'farm' | 'house' | 'ocean' | 'desert' | 'tundra';
+        readonly diet: 'omnivore' | 'carnivore' | 'herbivore';
         //For emojis who are the face of the animal. Often ROTATION_DOWN, but not always.
-        face? : true,
+        readonly face? : true,
         //If it's non existent, what is the reason why?
-        nonExistent? : 'extinct' | 'fictional';
+        readonly nonExistent? : 'extinct' | 'fictional';
         //If the animal is noted for being an active swimmer. 'capable' means
         //they do it, 'underwater' means they lives their life almost entirely
         //underwater.
-        swims? : 'capable' | 'underwater',
+        readonly swims? : 'capable' | 'underwater',
         //An animal that can fly. If it's actively depcted flying then it's 'depicted'
-        flies? : 'capable' | 'depicted'
-        grazes? : true,
+        readonly flies? : 'capable' | 'depicted'
+        readonly grazes? : true,
         //Whether the animal is depicted hanging from something. Currently only 'sloth'
-        hanging? : true
+        readonly hanging? : true
     }
 };
 
+type RelaxKnownConstraints<Type> = {
+	[Property in keyof Type]: Type[Property] extends KnownEmojiName ? EmojiName : (Type[Property] extends KnownEmoji ? Emoji : Type[Property])
+};
+
+type UnknownEmojiInfo = RelaxKnownConstraints<KnownEmojiInfo>
+
+export type KnownEmojiInfos = readonly KnownEmojiInfo[];
+
+export type EmojiInfo = KnownEmojiInfo | UnknownEmojiInfo;
+
 export type EmojiSet = {
     [name : EmojiName]: EmojiInfo;
+};
+
+export type KnownEmojiSet = {
+	[name in KnownEmojiName]+?: KnownEmojiInfo;
 };
 
 //TODO: shouldn't this just be OptionValue (minus SimulationConfig?)

@@ -171,7 +171,7 @@ export class PositionedGraphRenderer<A extends Agent, F extends AgentSimulationF
 		return frame.agents;
 	}
 
-	agentEmoji(agent : A) : string {
+	agentEmoji(agent : A) : Emoji {
 		return agent.emoji || '🧑‍⚕️';
 	}
 
