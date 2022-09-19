@@ -5,6 +5,9 @@ import {
 	EmojiInfo,
 	EmojiName,
 	EmojiSet,
+	KnownEmojiInfo,
+	KnownEmojiInfos,
+	KnownEmojiSet,
 	RandomGenerator
 } from './types.js';
 
@@ -1558,11 +1561,11 @@ const RAW_EMOJIS : EmojiInfo[] = [
 
 ];
 
-export const filteredEmojiSet = (include : (info : EmojiInfo) => boolean, emojis : EmojiInfo[] = RAW_EMOJIS) : EmojiSet => {
+export const filteredEmojiSet = (include : (info : KnownEmojiInfo) => boolean, emojis : KnownEmojiInfos = RAW_EMOJIS) : KnownEmojiSet => {
 	return makeEmojiSet(emojis.filter(include));
 };
 
-const makeEmojiSet = (infos : EmojiInfo[]) : EmojiSet => Object.fromEntries(infos.map(info => [info.name, info]));
+const makeEmojiSet = (infos : KnownEmojiInfos) : KnownEmojiSet => Object.fromEntries(infos.map(info => [info.name, info]));
 
 export const EMOJIS = makeEmojiSet(RAW_EMOJIS);
 
