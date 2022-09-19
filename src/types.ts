@@ -33,6 +33,7 @@ export type EmojiInfo = {
     name: string
     emoji: string,
     direction: Angle,
+    //TODO: ahve an optionate alternateOf
     person? : {
         professional? : true,
         //TODO: add gender and skintone
