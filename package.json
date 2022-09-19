@@ -31,6 +31,7 @@
     "generate:types": "npx ts-node-esm tools/types.ts full",
     "generate:schema": "ts-json-schema-generator --type 'PackedRawSimulationConfig' --tsconfig tsconfig.json > data-schema.json",
     "generate:config": "npx ts-node-esm tools/config.ts",
+    "generate:internal:emojis": "npx ts-node-esm tools/emojis.ts",
     "screenshots": "npx ts-node-esm tools/screenshot.ts",
     "screenshots:png": "npx ts-node-esm tools/screenshot.ts png",
     "screenshots:gif": "npx ts-node-esm tools/screenshot.ts gif",
