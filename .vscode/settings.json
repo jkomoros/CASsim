@@ -10,7 +10,7 @@
     "json.schemas": [
         {
             "fileMatch": [
-                "/data/*.json"
+                "./data/*.json"
             ],
             "url": "./data-schema.json"
         }
