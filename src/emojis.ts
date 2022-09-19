@@ -3,14 +3,15 @@
 import {
 	Angle,
 	EmojiInfo,
+	EmojiName,
 	EmojiSet,
 	RandomGenerator
 } from './types.js';
 
 //case it will be the source of randomness, or a key to select.
-export const pickEmoji = (emojiSet : EmojiSet, keyOrRnd : string | RandomGenerator) : EmojiInfo=> {
-	const emojiKeys = Object.keys(emojiSet);
-	let key = '';
+export const pickEmoji = (emojiSet : EmojiSet, keyOrRnd : EmojiName | RandomGenerator) : EmojiInfo=> {
+	const emojiKeys = Object.keys(emojiSet) as EmojiName[];
+	let key : EmojiName = '';
 	if (typeof keyOrRnd == 'function') {
 		key = emojiKeys[Math.floor(emojiKeys.length * keyOrRnd())];
 	} else {
