@@ -39,8 +39,9 @@ export type EmojiInfo = {
     //filter out alts. The name of the thing it's an alternate of, not the emoji.
     alternateOf?: string,
     person? : {
+        gender: 'neutral' | 'male' | 'female',
         professional? : true,
-        //TODO: add gender and skintone
+        //TODO: add skintone
     },
     //TODO: add vehicles
     plant? : {

@@ -32,6 +32,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🧑‍⚕️',
 		direction: ROTATION_DOWN,
 		person: {
+			gender: 'neutral',
 			professional: true
 		}
 	},
@@ -40,6 +41,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🧑‍🎓',
 		direction: ROTATION_DOWN,
 		person: {
+			gender: 'neutral',
 			professional: true
 		}
 	},
@@ -48,6 +50,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🧑‍🏫',
 		direction: ROTATION_DOWN,
 		person: {
+			gender: 'neutral',
 			professional: true
 		}
 	},
@@ -56,6 +59,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🧑‍⚖️',
 		direction: ROTATION_DOWN,
 		person: {
+			gender: 'neutral',
 			professional: true
 		}
 	},
@@ -64,6 +68,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🧑‍🌾',
 		direction: ROTATION_DOWN,
 		person: {
+			gender: 'neutral',
 			professional: true
 		}
 	},
@@ -72,6 +77,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🧑‍🍳',
 		direction: ROTATION_DOWN,
 		person: {
+			gender: 'neutral',
 			professional: true
 		}
 	},
@@ -80,6 +86,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🧑‍🔧',
 		direction: ROTATION_DOWN,
 		person: {
+			gender: 'neutral',
 			professional: true
 		}
 	},
@@ -88,6 +95,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🧑‍🔬',
 		direction: ROTATION_DOWN,
 		person: {
+			gender: 'neutral',
 			professional: true
 		}
 	},
@@ -96,6 +104,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🧑‍🎨',
 		direction: ROTATION_DOWN,
 		person: {
+			gender: 'neutral',
 			professional: true
 		}
 	},
@@ -104,6 +113,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🧑‍✈️',
 		direction: ROTATION_DOWN,
 		person: {
+			gender: 'neutral',
 			professional: true
 		}
 	},
@@ -112,6 +122,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '🧑‍🚒',
 		direction: ROTATION_DOWN,
 		person: {
+			gender: 'neutral',
 			professional: true
 		}
 	},
@@ -120,6 +131,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		emoji: '👮',
 		direction: ROTATION_DOWN,
 		person: {
+			gender: 'neutral',
 			professional: true
 		}
 	},
