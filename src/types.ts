@@ -40,6 +40,8 @@ export type EmojiInfo = {
     alternateOf?: string,
     person? : {
         gender: 'neutral' | 'male' | 'female',
+        //how much of the person is in frame
+        frame: 'face' | 'torso' | 'body',
         professional? : true,
         //TODO: add skintone
     },

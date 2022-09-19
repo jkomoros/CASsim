@@ -33,6 +33,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		person: {
 			gender: 'neutral',
+			frame: 'torso',
 			professional: true
 		}
 	},
@@ -42,6 +43,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		person: {
 			gender: 'neutral',
+			frame: 'torso',
 			professional: true
 		}
 	},
@@ -51,6 +53,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		person: {
 			gender: 'neutral',
+			frame: 'torso',
 			professional: true
 		}
 	},
@@ -60,6 +63,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		person: {
 			gender: 'neutral',
+			frame: 'torso',
 			professional: true
 		}
 	},
@@ -69,6 +73,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		person: {
 			gender: 'neutral',
+			frame: 'torso',
 			professional: true
 		}
 	},
@@ -78,6 +83,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		person: {
 			gender: 'neutral',
+			frame: 'torso',
 			professional: true
 		}
 	},
@@ -87,6 +93,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		person: {
 			gender: 'neutral',
+			frame: 'torso',
 			professional: true
 		}
 	},
@@ -96,6 +103,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		person: {
 			gender: 'neutral',
+			frame: 'torso',
 			professional: true
 		}
 	},
@@ -105,6 +113,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		person: {
 			gender: 'neutral',
+			frame: 'torso',
 			professional: true
 		}
 	},
@@ -114,6 +123,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		person: {
 			gender: 'neutral',
+			frame: 'torso',
 			professional: true
 		}
 	},
@@ -123,6 +133,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		person: {
 			gender: 'neutral',
+			frame: 'torso',
 			professional: true
 		}
 	},
@@ -132,6 +143,7 @@ const RAW_EMOJIS : EmojiInfo[] = [
 		direction: ROTATION_DOWN,
 		person: {
 			gender: 'neutral',
+			frame: 'torso',
 			professional: true
 		}
 	},
