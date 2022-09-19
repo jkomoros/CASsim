@@ -1274,6 +1274,42 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			swims: true
 		}
 	},
+	{
+		name: 'unicorn',
+		emoji: '🦄',
+		direction: ROTATION_LEFT,
+		animal: {
+			kind: 'mammal',
+			diet: 'herbivore',
+			habitat: 'forest',
+			face: true,
+			nonExistent: 'fictional'
+		}
+	},
+	{
+		name: 'dragon',
+		emoji: '🐉',
+		direction: ROTATION_LEFT,
+		animal: {
+			kind: 'reptile',
+			diet: 'carnivore',
+			habitat: 'forest',
+			nonExistent: 'fictional'
+		}
+	},
+	{
+		name: 'dragon-face',
+		emoji: '🐲',
+		direction: ROTATION_DOWN,
+		alternateOf: 'dragon',
+		animal: {
+			kind: 'reptile',
+			diet: 'carnivore',
+			habitat: 'forest',
+			nonExistent: 'fictional',
+			face: true
+		}
+	}
 
 ];
 
