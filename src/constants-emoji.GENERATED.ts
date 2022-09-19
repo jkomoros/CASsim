@@ -12,7 +12,8 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: true,
+			genderSuffix: '⚕️'
 		}
 	},
 	{
@@ -21,7 +22,8 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: true,
+			genderSuffix: '🎓'
 		}
 	},
 	{
@@ -30,7 +32,8 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: true,
+			genderSuffix: '🏫'
 		}
 	},
 	{
@@ -39,7 +42,8 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: true,
+			genderSuffix: '⚖️'
 		}
 	},
 	{
@@ -48,7 +52,8 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: true,
+			genderSuffix: '🌾'
 		}
 	},
 	{
@@ -57,7 +62,8 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: true,
+			genderSuffix: '🍳'
 		}
 	},
 	{
@@ -66,7 +72,8 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: true,
+			genderSuffix: '🔧'
 		}
 	},
 	{
@@ -75,7 +82,8 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: true,
+			genderSuffix: '🔬'
 		}
 	},
 	{
@@ -84,7 +92,8 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: true,
+			genderSuffix: '🎨'
 		}
 	},
 	{
@@ -93,7 +102,8 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: true,
+			genderSuffix: '✈️'
 		}
 	},
 	{
@@ -102,7 +112,8 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: true,
+			genderSuffix: '🚒'
 		}
 	},
 	{

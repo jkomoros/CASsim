@@ -59,6 +59,9 @@ export type KnownEmojiInfo = {
         readonly frame: 'face' | 'torso' | 'body',
         //Whether the person depicted is representing some defined profession
         readonly professional? : true,
+        //Some emoji are {person, man, woman} + ZWJ + object = gendered emoji.
+        //For those types, this is the object.
+        readonly genderSuffix? : string
         //TODO: add skintone
     },
     //TODO: add vehicles
