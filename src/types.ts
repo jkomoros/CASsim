@@ -29,15 +29,20 @@ export type Color = {
     rgbaStr : CSSColor;
 }
 
+//TODO: tighten with enumeation
+export type EmojiName = string;
+//tODO: tighten with enumeration
+export type Emoji = string;
+
 export type EmojiInfo = {
     //Name is the human-readable unique name it's known by in emoji-sets.
-    name: string
+    name: EmojiName
     //emoji is the literal emoji itself
-    emoji: string,
+    emoji: Emoji,
     direction: Angle,
     //For cases where here is a canonical type and an alt, to make it easy to
     //filter out alts. The name of the thing it's an alternate of, not the emoji.
-    alternateOf?: string,
+    alternateOf?: EmojiName,
     person? : {
         gender: 'neutral' | 'male' | 'female',
         //how much of the person is in frame
@@ -74,7 +79,7 @@ export type EmojiInfo = {
 };
 
 export type EmojiSet = {
-    [name : string]: EmojiInfo;
+    [name : EmojiName]: EmojiInfo;
 };
 
 //TODO: shouldn't this just be OptionValue (minus SimulationConfig?)

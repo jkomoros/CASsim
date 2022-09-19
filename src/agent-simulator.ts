@@ -17,6 +17,7 @@ import {
 
 import {
 	Angle,
+	Emoji,
 	GraphData,
 	GraphEdge,
 	GraphExplorationEdgeScorer,
@@ -30,7 +31,7 @@ import {
 export type Agent = {
 	id : string;
 	node? : GraphNodeID;
-	emoji? : string;
+	emoji? : Emoji;
 	type? : string;
 	x? : number;
 	y? : number;

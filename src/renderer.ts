@@ -21,6 +21,7 @@ import {
 import {
 	Angle,
 	CSSColor,
+	Emoji,
 	GraphData,
 	GraphEdge,
 	GraphNodeID,
@@ -183,7 +184,7 @@ export class PositionedGraphRenderer<A extends Agent, F extends AgentSimulationF
 		return 1.0;
 	}
 
-	emojiRotation(emoji : string) : Angle {
+	emojiRotation(emoji : Emoji) : Angle {
 		//Emojis that are flipped are already 
 		if (this.emojiFlipped(emoji)) return ANGLE_MIN;
 		const info = EMOJI_TO_INFO_MAP[emoji];
@@ -196,7 +197,7 @@ export class PositionedGraphRenderer<A extends Agent, F extends AgentSimulationF
 	 * set are facing left, which is the exact backward of our default orientation. 
 	 *
 	 * */
-	emojiFlipped(emoji : string) : boolean {
+	emojiFlipped(emoji : Emoji) : boolean {
 		//Emojis that are turned facing left (the majority of the ones with a direction)
 		//Should be flipped.
 		const info = EMOJI_TO_INFO_MAP[emoji];
@@ -208,7 +209,7 @@ export class PositionedGraphRenderer<A extends Agent, F extends AgentSimulationF
 	 * Whether the emoji is oriented horizontally. If they are, then when
 	 * they're rotated between 90 and 270 degrees they'll be flipped vertically.
 	 */
-	emojiHorizontal(emoji : string) : boolean {
+	emojiHorizontal(emoji : Emoji) : boolean {
 		const info = EMOJI_TO_INFO_MAP[emoji];
 		if (!info) return false;
 		return info.direction == Math.PI || info.direction == 0.0;
