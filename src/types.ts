@@ -43,7 +43,7 @@ export type KnownEmoji = typeof RAW_EMOJIS[number]['emoji'];
 export type EmojiName = KnownEmojiName | string;
 export type Emoji = KnownEmoji | string;
 
-type KnownEmojiInfoCore = {
+export type KnownEmojiInfo = {
     //Name is the human-readable unique name it's known by in emoji-sets.
     readonly name: KnownEmojiName
     //emoji is the literal emoji itself
@@ -51,20 +51,6 @@ type KnownEmojiInfoCore = {
     //For cases where here is a canonical type and an alt, to make it easy to
     //filter out alts. The name of the thing it's an alternate of, not the emoji.
     readonly alternateOf?: KnownEmojiName,
-}
-
-type UnknownEmojiInfoCore = {
-	//Name is the human-readable unique name it's known by in emoji-sets.
-	readonly name: EmojiName
-	//emoji is the literal emoji itself
-	readonly emoji: Emoji,
-	//For cases where here is a canonical type and an alt, to make it easy to
-	//filter out alts. The name of the thing it's an alternate of, not the emoji.
-	readonly alternateOf?: EmojiName,
-}
-
-type EmojiInfoRest = {
-
 	readonly direction: Angle,
     readonly person? : {
         readonly gender: 'neutral' | 'male' | 'female',
@@ -104,9 +90,11 @@ type EmojiInfoRest = {
     }
 };
 
-//TODO: do this with a conditional type mapping?
-export type KnownEmojiInfo = KnownEmojiInfoCore & EmojiInfoRest;
-type UnknownEmojiInfo = UnknownEmojiInfoCore & EmojiInfoRest;
+type RelaxKnownConstraints<Type> = {
+	[Property in keyof Type]: Type[Property] extends KnownEmojiName ? EmojiName : (Type[Property] extends KnownEmoji ? Emoji : Type[Property])
+};
+
+type UnknownEmojiInfo = RelaxKnownConstraints<KnownEmojiInfo>
 
 export type KnownEmojiInfos = readonly KnownEmojiInfo[];
 
