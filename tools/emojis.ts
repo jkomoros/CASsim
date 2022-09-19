@@ -48,6 +48,14 @@ const SKIN_TONES = {
 	'light': '🏻'
 } as const;
 
+const HAIR_TYPES = {
+	'': '',
+	'red': '🦰',
+	'white': '🦳',
+	'curly': '🦱',
+	'bald': '🦲'
+} as const;
+
 const ZERO_WIDTH_JOINER = '‍';
 const PERSON = '🧑';
 
@@ -59,28 +67,32 @@ const generateEmojis = () => {
 		if (!info.person) return result;
 		for (const [genderName, genderSymbol] of TypedObject.entries(GENDERS)) {
 			for (const [skinToneName, skinToneSymbol] of TypedObject.entries(SKIN_TONES)) {
-				if (!genderName && !skinToneName) continue;
-				const newInfo = {...info, person: {...info.person}};
-				newInfo.name = info.name + (skinToneName ? '-' + skinToneName : '') + (genderName ? '-' + genderName : '');
-				//TODO: should the skin tones for non-neutral gender use the default skin tone of their gender as the base?
-				newInfo.alternateOf = info.name;
-				/*
-					There are two types of gendered emoji:
-					1) BaseEmoji + {SkinTone}? + ZWJ + {MaleSign, FemaleSign}
-					2) {Person, Man, Woman} + {SkinTone}? + (ZWJ + Object)?
+				for (const [hairName, hairSymbol] of TypedObject.entries(HAIR_TYPES)) {
+					if (info.person.frame != 'face' && hairName) continue;
+					if (!genderName && !skinToneName && !hairName) continue;
+					const newInfo = {...info, person: {...info.person}};
+					newInfo.name = info.name + (skinToneName ? '-' + skinToneName : '') + (hairName ? '-' + hairName + '-hair' : '') + (genderName ? '-' + genderName : '');
+					//TODO: should the skin tones for non-neutral gender use the default skin tone of their gender as the base?
+					newInfo.alternateOf = info.name;
+					/*
+						There are two types of gendered emoji:
+						1) BaseEmoji + {SkinTone}? + ZWJ + {MaleSign, FemaleSign}
+						2) {Person, Man, Woman} + {SkinTone}? + (ZWJ + Object)?
 
-					We can do string operations on them, as documented in
-					https://medium.com/@gerinjacob/did-you-know-we-could-do-string-operations-on-emojis-in-javascript-63f2feff966e
-				*/
-				if (info.emoji.includes(PERSON)) {
-					newInfo.emoji = info.emoji.replace(PERSON, genderSymbol[1] + skinToneSymbol);
-				} else {
-					newInfo.emoji = info.emoji + skinToneSymbol + ZERO_WIDTH_JOINER + genderSymbol[0];
+						We can do string operations on them, as documented in
+						https://medium.com/@gerinjacob/did-you-know-we-could-do-string-operations-on-emojis-in-javascript-63f2feff966e
+					*/
+					if (info.emoji.includes(PERSON)) {
+						newInfo.emoji = info.emoji.replace(PERSON, genderSymbol[1] + skinToneSymbol + (hairSymbol ? ZERO_WIDTH_JOINER + hairSymbol : ''));
+					} else {
+						newInfo.emoji = info.emoji + skinToneSymbol + ZERO_WIDTH_JOINER + genderSymbol[0];
+					}
+					
+					if (genderName) newInfo.person.gender = genderName;
+					if (skinToneName) newInfo.person.skinTone = skinToneName;
+					if (hairName) newInfo.person.hair = hairName;
+					result.push(newInfo);
 				}
-				
-				if (genderName) newInfo.person.gender = genderName;
-				if (skinToneName) newInfo.person.skinTone = skinToneName;
-				result.push(newInfo);
 			}
 		}
 		return result;

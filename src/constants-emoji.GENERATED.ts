@@ -15,12 +15,96 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
+		name: 'person-red-hair',
+		emoji: '🧑‍🦰',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			hair: 'red'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-white-hair',
+		emoji: '🧑‍🦳',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			hair: 'white'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-curly-hair',
+		emoji: '🧑‍🦱',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			hair: 'curly'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-bald-hair',
+		emoji: '🧑‍🦲',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			hair: 'bald'
+		},
+		alternateOf: 'person'
+	},
+	{
 		name: 'person-dark',
 		emoji: '🧑🏿',
 		direction: ROTATION_UP,
 		person: {
 			frame: 'face',
 			skinTone: 'dark'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-dark-red-hair',
+		emoji: '🧑🏿‍🦰',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'dark',
+			hair: 'red'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-dark-white-hair',
+		emoji: '🧑🏿‍🦳',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'dark',
+			hair: 'white'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-dark-curly-hair',
+		emoji: '🧑🏿‍🦱',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'dark',
+			hair: 'curly'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-dark-bald-hair',
+		emoji: '🧑🏿‍🦲',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'dark',
+			hair: 'bald'
 		},
 		alternateOf: 'person'
 	},
@@ -35,12 +119,100 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
+		name: 'person-medium-dark-red-hair',
+		emoji: '🧑🏾‍🦰',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'medium-dark',
+			hair: 'red'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-dark-white-hair',
+		emoji: '🧑🏾‍🦳',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'medium-dark',
+			hair: 'white'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-dark-curly-hair',
+		emoji: '🧑🏾‍🦱',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'medium-dark',
+			hair: 'curly'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-dark-bald-hair',
+		emoji: '🧑🏾‍🦲',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'medium-dark',
+			hair: 'bald'
+		},
+		alternateOf: 'person'
+	},
+	{
 		name: 'person-medium',
 		emoji: '🧑🏽',
 		direction: ROTATION_UP,
 		person: {
 			frame: 'face',
 			skinTone: 'medium'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-red-hair',
+		emoji: '🧑🏽‍🦰',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'medium',
+			hair: 'red'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-white-hair',
+		emoji: '🧑🏽‍🦳',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'medium',
+			hair: 'white'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-curly-hair',
+		emoji: '🧑🏽‍🦱',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'medium',
+			hair: 'curly'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-bald-hair',
+		emoji: '🧑🏽‍🦲',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'medium',
+			hair: 'bald'
 		},
 		alternateOf: 'person'
 	},
@@ -55,6 +227,50 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
+		name: 'person-medium-light-red-hair',
+		emoji: '🧑🏼‍🦰',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'medium-light',
+			hair: 'red'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-light-white-hair',
+		emoji: '🧑🏼‍🦳',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'medium-light',
+			hair: 'white'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-light-curly-hair',
+		emoji: '🧑🏼‍🦱',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'medium-light',
+			hair: 'curly'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-light-bald-hair',
+		emoji: '🧑🏼‍🦲',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'medium-light',
+			hair: 'bald'
+		},
+		alternateOf: 'person'
+	},
+	{
 		name: 'person-light',
 		emoji: '🧑🏻',
 		direction: ROTATION_UP,
@@ -65,12 +281,100 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
+		name: 'person-light-red-hair',
+		emoji: '🧑🏻‍🦰',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'light',
+			hair: 'red'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-light-white-hair',
+		emoji: '🧑🏻‍🦳',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'light',
+			hair: 'white'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-light-curly-hair',
+		emoji: '🧑🏻‍🦱',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'light',
+			hair: 'curly'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-light-bald-hair',
+		emoji: '🧑🏻‍🦲',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			skinTone: 'light',
+			hair: 'bald'
+		},
+		alternateOf: 'person'
+	},
+	{
 		name: 'person-female',
 		emoji: '👩',
 		direction: ROTATION_UP,
 		person: {
 			frame: 'face',
 			gender: 'female'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-red-hair-female',
+		emoji: '👩‍🦰',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			hair: 'red'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-white-hair-female',
+		emoji: '👩‍🦳',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			hair: 'white'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-curly-hair-female',
+		emoji: '👩‍🦱',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			hair: 'curly'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-bald-hair-female',
+		emoji: '👩‍🦲',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			hair: 'bald'
 		},
 		alternateOf: 'person'
 	},
@@ -86,6 +390,54 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
+		name: 'person-dark-red-hair-female',
+		emoji: '👩🏿‍🦰',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'dark',
+			hair: 'red'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-dark-white-hair-female',
+		emoji: '👩🏿‍🦳',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'dark',
+			hair: 'white'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-dark-curly-hair-female',
+		emoji: '👩🏿‍🦱',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'dark',
+			hair: 'curly'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-dark-bald-hair-female',
+		emoji: '👩🏿‍🦲',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'dark',
+			hair: 'bald'
+		},
+		alternateOf: 'person'
+	},
+	{
 		name: 'person-medium-dark-female',
 		emoji: '👩🏾',
 		direction: ROTATION_UP,
@@ -93,6 +445,54 @@ export const GENERATED_RAW_EMOJIS = [
 			frame: 'face',
 			gender: 'female',
 			skinTone: 'medium-dark'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-dark-red-hair-female',
+		emoji: '👩🏾‍🦰',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'medium-dark',
+			hair: 'red'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-dark-white-hair-female',
+		emoji: '👩🏾‍🦳',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'medium-dark',
+			hair: 'white'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-dark-curly-hair-female',
+		emoji: '👩🏾‍🦱',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'medium-dark',
+			hair: 'curly'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-dark-bald-hair-female',
+		emoji: '👩🏾‍🦲',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'medium-dark',
+			hair: 'bald'
 		},
 		alternateOf: 'person'
 	},
@@ -108,6 +508,54 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
+		name: 'person-medium-red-hair-female',
+		emoji: '👩🏽‍🦰',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'medium',
+			hair: 'red'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-white-hair-female',
+		emoji: '👩🏽‍🦳',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'medium',
+			hair: 'white'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-curly-hair-female',
+		emoji: '👩🏽‍🦱',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'medium',
+			hair: 'curly'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-bald-hair-female',
+		emoji: '👩🏽‍🦲',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'medium',
+			hair: 'bald'
+		},
+		alternateOf: 'person'
+	},
+	{
 		name: 'person-medium-light-female',
 		emoji: '👩🏼',
 		direction: ROTATION_UP,
@@ -115,6 +563,54 @@ export const GENERATED_RAW_EMOJIS = [
 			frame: 'face',
 			gender: 'female',
 			skinTone: 'medium-light'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-light-red-hair-female',
+		emoji: '👩🏼‍🦰',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'medium-light',
+			hair: 'red'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-light-white-hair-female',
+		emoji: '👩🏼‍🦳',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'medium-light',
+			hair: 'white'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-light-curly-hair-female',
+		emoji: '👩🏼‍🦱',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'medium-light',
+			hair: 'curly'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-light-bald-hair-female',
+		emoji: '👩🏼‍🦲',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'medium-light',
+			hair: 'bald'
 		},
 		alternateOf: 'person'
 	},
@@ -130,12 +626,104 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
+		name: 'person-light-red-hair-female',
+		emoji: '👩🏻‍🦰',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'light',
+			hair: 'red'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-light-white-hair-female',
+		emoji: '👩🏻‍🦳',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'light',
+			hair: 'white'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-light-curly-hair-female',
+		emoji: '👩🏻‍🦱',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'light',
+			hair: 'curly'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-light-bald-hair-female',
+		emoji: '👩🏻‍🦲',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'female',
+			skinTone: 'light',
+			hair: 'bald'
+		},
+		alternateOf: 'person'
+	},
+	{
 		name: 'person-male',
 		emoji: '👨',
 		direction: ROTATION_UP,
 		person: {
 			frame: 'face',
 			gender: 'male'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-red-hair-male',
+		emoji: '👨‍🦰',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			hair: 'red'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-white-hair-male',
+		emoji: '👨‍🦳',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			hair: 'white'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-curly-hair-male',
+		emoji: '👨‍🦱',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			hair: 'curly'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-bald-hair-male',
+		emoji: '👨‍🦲',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			hair: 'bald'
 		},
 		alternateOf: 'person'
 	},
@@ -151,6 +739,54 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
+		name: 'person-dark-red-hair-male',
+		emoji: '👨🏿‍🦰',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'dark',
+			hair: 'red'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-dark-white-hair-male',
+		emoji: '👨🏿‍🦳',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'dark',
+			hair: 'white'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-dark-curly-hair-male',
+		emoji: '👨🏿‍🦱',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'dark',
+			hair: 'curly'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-dark-bald-hair-male',
+		emoji: '👨🏿‍🦲',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'dark',
+			hair: 'bald'
+		},
+		alternateOf: 'person'
+	},
+	{
 		name: 'person-medium-dark-male',
 		emoji: '👨🏾',
 		direction: ROTATION_UP,
@@ -158,6 +794,54 @@ export const GENERATED_RAW_EMOJIS = [
 			frame: 'face',
 			gender: 'male',
 			skinTone: 'medium-dark'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-dark-red-hair-male',
+		emoji: '👨🏾‍🦰',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'medium-dark',
+			hair: 'red'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-dark-white-hair-male',
+		emoji: '👨🏾‍🦳',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'medium-dark',
+			hair: 'white'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-dark-curly-hair-male',
+		emoji: '👨🏾‍🦱',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'medium-dark',
+			hair: 'curly'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-dark-bald-hair-male',
+		emoji: '👨🏾‍🦲',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'medium-dark',
+			hair: 'bald'
 		},
 		alternateOf: 'person'
 	},
@@ -173,6 +857,54 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
+		name: 'person-medium-red-hair-male',
+		emoji: '👨🏽‍🦰',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'medium',
+			hair: 'red'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-white-hair-male',
+		emoji: '👨🏽‍🦳',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'medium',
+			hair: 'white'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-curly-hair-male',
+		emoji: '👨🏽‍🦱',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'medium',
+			hair: 'curly'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-bald-hair-male',
+		emoji: '👨🏽‍🦲',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'medium',
+			hair: 'bald'
+		},
+		alternateOf: 'person'
+	},
+	{
 		name: 'person-medium-light-male',
 		emoji: '👨🏼',
 		direction: ROTATION_UP,
@@ -184,6 +916,54 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
+		name: 'person-medium-light-red-hair-male',
+		emoji: '👨🏼‍🦰',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'medium-light',
+			hair: 'red'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-light-white-hair-male',
+		emoji: '👨🏼‍🦳',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'medium-light',
+			hair: 'white'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-light-curly-hair-male',
+		emoji: '👨🏼‍🦱',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'medium-light',
+			hair: 'curly'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-medium-light-bald-hair-male',
+		emoji: '👨🏼‍🦲',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'medium-light',
+			hair: 'bald'
+		},
+		alternateOf: 'person'
+	},
+	{
 		name: 'person-light-male',
 		emoji: '👨🏻',
 		direction: ROTATION_UP,
@@ -191,6 +971,54 @@ export const GENERATED_RAW_EMOJIS = [
 			frame: 'face',
 			gender: 'male',
 			skinTone: 'light'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-light-red-hair-male',
+		emoji: '👨🏻‍🦰',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'light',
+			hair: 'red'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-light-white-hair-male',
+		emoji: '👨🏻‍🦳',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'light',
+			hair: 'white'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-light-curly-hair-male',
+		emoji: '👨🏻‍🦱',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'light',
+			hair: 'curly'
+		},
+		alternateOf: 'person'
+	},
+	{
+		name: 'person-light-bald-hair-male',
+		emoji: '👨🏻‍🦲',
+		direction: ROTATION_UP,
+		person: {
+			frame: 'face',
+			gender: 'male',
+			skinTone: 'light',
+			hair: 'bald'
 		},
 		alternateOf: 'person'
 	},
