@@ -1,6 +1,6 @@
 import * as fs from "fs";
 
-import data from './data/emojis.json' assert { type: "json" }
+import data from './data/emojis.json' assert { type: "json" };
 
 const OUTPUT_FILE = 'src/constants-emoji.GENERATED.ts';
 
@@ -12,7 +12,10 @@ const ROTATION_TYPES = [
 ];
 
 const JSON_REPLACEMENTS = {
-	...Object.fromEntries(ROTATION_TYPES.map(typ => ['"' + typ + '"', typ]))
+	...Object.fromEntries(ROTATION_TYPES.map(typ => ['"' + typ + '"', typ])),
+	'\t"': '\t',
+	'":': ':',
+	'"': '\'',
 };
 
 const generateEmojis = () => {
