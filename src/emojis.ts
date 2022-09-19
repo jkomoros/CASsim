@@ -1017,6 +1017,249 @@ const RAW_EMOJIS : EmojiInfo[] = [
 			underwater: true
 		}
 	},
+	{
+		name: 'monkey-face',
+		emoji: '🐵',
+		direction: ROTATION_DOWN,
+		alternateOf: 'monkey',
+		animal: {
+			kind: 'mammal',
+			diet: 'omnivore',
+			habitat: 'jungle',
+			face: true
+		}
+	},
+	{
+		name: 'dog-face',
+		emoji: '🐶',
+		direction: ROTATION_DOWN,
+		alternateOf: 'dog',
+		animal: {
+			kind: 'mammal',
+			diet: 'carnivore',
+			habitat: 'house',
+			face: true
+		}
+	},
+	{
+		name: 'cat-face',
+		emoji: '🐱',
+		direction: ROTATION_DOWN,
+		alternateOf: 'cat',
+		animal: {
+			kind: 'mammal',
+			diet: 'carnivore',
+			habitat: 'house',
+			face: true
+		}
+	},
+	{
+		name: 'fox',
+		emoji: '🦊',
+		direction: ROTATION_DOWN,
+		animal: {
+			kind: 'mammal',
+			diet: 'omnivore',
+			habitat: 'forest',
+			face: true
+		}
+	},
+	{
+		name: 'lion',
+		emoji: '🦁',
+		direction: ROTATION_DOWN,
+		animal: {
+			kind: 'mammal',
+			diet: 'carnivore',
+			habitat: 'savanah',
+			face: true
+		}
+	},
+	{
+		name: 'tiger-face',
+		emoji: '🐯',
+		direction: ROTATION_DOWN,
+		alternateOf: 'tiger',
+		animal: {
+			kind: 'mammal',
+			diet: 'carnivore',
+			habitat: 'jungle',
+			face: true
+		}
+	},
+	{
+		name: 'horse-face',
+		emoji: '🐴',
+		direction: ROTATION_DOWN,
+		alternateOf: 'horse',
+		animal: {
+			kind: 'mammal',
+			diet: 'herbivore',
+			habitat: 'farm',
+			face: true
+		}
+	},
+	{
+		name: 'cow-face',
+		emoji: '🐮',
+		direction: ROTATION_DOWN,
+		alternateOf: 'cow',
+		animal: {
+			kind: 'mammal',
+			diet: 'herbivore',
+			habitat: 'farm',
+			face: true
+		}
+	},
+	{
+		name: 'pig-face',
+		emoji: '🐷',
+		direction: ROTATION_DOWN,
+		alternateOf: 'pig',
+		animal: {
+			kind: 'mammal',
+			diet: 'herbivore',
+			habitat: 'farm',
+			face: true
+		}
+	},
+	{
+		name: 'boar',
+		emoji: '🐗',
+		direction: ROTATION_LEFT,
+		animal: {
+			kind: 'mammal',
+			diet: 'omnivore',
+			habitat: 'forest',
+			face: true
+		}
+	},
+	{
+		name: 'mouse-face',
+		emoji: '🐭',
+		direction: ROTATION_DOWN,
+		alternateOf: 'mouse',
+		animal: {
+			kind: 'mammal',
+			diet: 'omnivore',
+			habitat: 'house',
+			face: true
+		}
+	},
+	{
+		name: 'hamster',
+		emoji: '🐹',
+		direction: ROTATION_DOWN,
+		animal: {
+			kind: 'mammal',
+			diet: 'omnivore',
+			habitat: 'house',
+			face: true
+		}
+	},
+	{
+		name: 'rabbit-face',
+		emoji: '🐰',
+		direction: ROTATION_DOWN,
+		alternateOf: 'rabbit',
+		animal: {
+			kind: 'mammal',
+			diet: 'herbivore',
+			habitat: 'house',
+			face: true
+		}
+	},
+	{
+		name: 'bear',
+		emoji: '🐻',
+		direction: ROTATION_DOWN,
+		animal: {
+			kind: 'mammal',
+			diet: 'carnivore',
+			habitat: 'forest',
+			face: true
+		}
+	},
+	{
+		name: 'polar-bear',
+		emoji: '🐻‍❄️',
+		direction: ROTATION_DOWN,
+		animal: {
+			kind: 'mammal',
+			diet: 'carnivore',
+			habitat: 'tundra',
+			face: true
+		}
+	},
+	{
+		name: 'koala',
+		emoji: '🐨',
+		direction: ROTATION_DOWN,
+		animal: {
+			kind: 'mammal',
+			diet: 'herbivore',
+			habitat: 'forest',
+			face: true
+		}
+	},
+	{
+		name: 'panda',
+		emoji: '🐼',
+		direction: ROTATION_DOWN,
+		animal: {
+			kind: 'mammal',
+			diet: 'herbivore',
+			habitat: 'forest',
+			face: true
+		}
+	},
+	{
+		name: 'baby-chick-face',
+		emoji: '🐤',
+		direction: ROTATION_DOWN,
+		animal: {
+			kind: 'bird',
+			diet: 'herbivore',
+			habitat: 'farm',
+			face: true
+		}
+	},
+	{
+		name: 'bird-face',
+		emoji: '🐦',
+		direction: ROTATION_DOWN,
+		animal: {
+			kind: 'bird',
+			diet: 'herbivore',
+			habitat: 'forest',
+			face: true
+		}
+	},
+	{
+		name: 'penguin',
+		emoji: '🐧',
+		direction: ROTATION_DOWN,
+		animal: {
+			kind: 'bird',
+			diet: 'carnivore',
+			habitat: 'tundra',
+			face: true,
+			swims: true
+		}
+	},
+	{
+		name: 'frog',
+		emoji: '🐸',
+		direction: ROTATION_DOWN,
+		animal: {
+			kind: 'amphibian',
+			diet: 'omnivore',
+			habitat: 'forest',
+			face: true,
+			swims: true
+		}
+	},
+
 ];
 
 export const filteredEmojiSet = (include : (info : EmojiInfo) => boolean, emojis : EmojiInfo[] = RAW_EMOJIS) : EmojiSet => {

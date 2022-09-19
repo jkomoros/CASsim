@@ -44,7 +44,7 @@ export type EmojiInfo = {
     },
     //TODO: add vehicles and plants
     animal? : {
-        kind: 'insect' | 'mammal' | 'bird' | 'reptile' | 'fish',
+        kind: 'insect' | 'mammal' | 'bird' | 'reptile' | 'fish' | 'amphibian',
         habitat: 'forest' | 'jungle' | 'savanah' | 'farm' | 'house' | 'ocean' | 'desert' | 'tundra';
         diet: 'omnivore' | 'carnivore' | 'herbivore';
         extinct? : true,
@@ -52,7 +52,8 @@ export type EmojiInfo = {
         underwater? : true,
         //If the animal is known for swimming. Typically coocurs with underwater but not always.
         swims? : true,
-        //TODO: add face
+        //For emojis who are the face of the animal. Often ROTATION_DOWN, but not always.
+        face? : true,
         grazes? : true,
     }
 };
