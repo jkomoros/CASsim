@@ -30,19 +30,39 @@ export type Color = {
 }
 
 //TODO: tighten with enumeation
-export type EmojiName = string;
-//tODO: tighten with enumeration
-export type Emoji = string;
 
-export type EmojiInfo = {
+//A Known emoji name is one that is known by this framework to exist (i.e. it's
+//in the EMOJIS set). It's useful for type checking of the emojis known by this
+//system.
+export type KnownEmojiName = string;
+export type EmojiName = KnownEmojiName | string;
+//tODO: tighten with enumeration
+export type KnownEmoji = string;
+export type Emoji = KnownEmoji | string;
+
+type KnownEmojiInfoCore = {
     //Name is the human-readable unique name it's known by in emoji-sets.
-    name: EmojiName
+    name: KnownEmojiName
     //emoji is the literal emoji itself
-    emoji: Emoji,
-    direction: Angle,
+    emoji: KnownEmoji,
     //For cases where here is a canonical type and an alt, to make it easy to
     //filter out alts. The name of the thing it's an alternate of, not the emoji.
-    alternateOf?: EmojiName,
+    alternateOf?: KnownEmojiName,
+}
+
+type UnknownEmojiInfoCore = {
+	//Name is the human-readable unique name it's known by in emoji-sets.
+	name: EmojiName
+	//emoji is the literal emoji itself
+	emoji: Emoji,
+	//For cases where here is a canonical type and an alt, to make it easy to
+	//filter out alts. The name of the thing it's an alternate of, not the emoji.
+	alternateOf?: EmojiName,
+}
+
+type EmojiInfoRest = {
+
+	direction: Angle,
     person? : {
         gender: 'neutral' | 'male' | 'female',
         //how much of the person is in frame
@@ -81,8 +101,18 @@ export type EmojiInfo = {
     }
 };
 
+//TODO: do this with a conditional type mapping?
+type KnownEmojiInfo = KnownEmojiInfoCore & EmojiInfoRest;
+type UnknownEmojiInfo = UnknownEmojiInfoCore & EmojiInfoRest;
+
+export type EmojiInfo = KnownEmojiInfo | UnknownEmojiInfo;
+
 export type EmojiSet = {
     [name : EmojiName]: EmojiInfo;
+};
+
+export type KnownEmojiSet = {
+	[name : KnownEmojiName] : KnownEmojiInfo;
 };
 
 //TODO: shouldn't this just be OptionValue (minus SimulationConfig?)
