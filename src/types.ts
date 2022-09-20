@@ -59,8 +59,9 @@ export type KnownEmojiInfo = {
         readonly skinTone? : 'light' | 'medium-light' | 'medium' | 'medium-dark' | 'dark';
         //A non default hair color is only present on frame:face.
         readonly hair? : 'blond' | 'bald' | 'red' | 'curly' | 'white';
-        //TODO: add baby
-        readonly age? : 'child' | 'old';
+        //Baby is only available in non-gendeered versions. A non-default age is
+        //only present on frame:face.
+        readonly age? : 'baby' | 'child' | 'old';
         //how much of the person is in frame
         readonly frame: 'face' | 'torso' | 'body',
         //Whether the person depicted is representing some defined profession
