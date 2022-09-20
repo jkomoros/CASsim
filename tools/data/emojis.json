@@ -3,7 +3,7 @@
 		{
 			"name": "person",
 			"emoji": "🧑",
-			"direction": "ROTATION_UP",
+			"direction": "ROTATION_DOWN",
 			"person": {
 				"frame": "face"
 			}
@@ -11,7 +11,7 @@
 		{
 			"name": "person-blond-hair",
 			"emoji": "👱",
-			"direction": "ROTATION_UP",
+			"direction": "ROTATION_DOWN",
 			"alternateOf": "person",
 			"person": {
 				"frame": "face",
@@ -21,7 +21,7 @@
 		{
 			"name": "person-old",
 			"emoji": "🧓",
-			"direction": "ROTATION_UP",
+			"direction": "ROTATION_DOWN",
 			"alternateOf": "person",
 			"person": {
 				"frame": "face",
