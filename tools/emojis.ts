@@ -56,6 +56,10 @@ const ALT_BASES : {[base : string] : {male : string, female : string}} = {
 	'person-child': {
 		male: '👦',
 		female: '👧',
+	},
+	'person-baby': {
+		male: '',
+		female: ''
 	}
 };
 
@@ -117,6 +121,8 @@ const generateEmojis = () => {
 						if (genderName) {
 							newInfo.emoji = genderName == 'male' ? ALT_BASES[info.name].male : ALT_BASES[info.name].female;
 						}
+						//Some options, like 'persion-baby' only have non-gendered versions.
+						if (!newInfo.emoji) continue;
 						newInfo.emoji += skinToneSymbol;
 					} else {
 						//Type 1

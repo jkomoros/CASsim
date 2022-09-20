@@ -1644,6 +1644,71 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
+		name: 'person-baby',
+		emoji: '👶',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person',
+		person: {
+			frame: 'face',
+			age: 'baby'
+		}
+	},
+	{
+		name: 'person-baby-dark-skin',
+		emoji: '👶🏿',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-baby',
+		person: {
+			frame: 'face',
+			age: 'baby',
+			skinTone: 'dark'
+		}
+	},
+	{
+		name: 'person-baby-medium-dark-skin',
+		emoji: '👶🏾',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-baby',
+		person: {
+			frame: 'face',
+			age: 'baby',
+			skinTone: 'medium-dark'
+		}
+	},
+	{
+		name: 'person-baby-medium-skin',
+		emoji: '👶🏽',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-baby',
+		person: {
+			frame: 'face',
+			age: 'baby',
+			skinTone: 'medium'
+		}
+	},
+	{
+		name: 'person-baby-medium-light-skin',
+		emoji: '👶🏼',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-baby',
+		person: {
+			frame: 'face',
+			age: 'baby',
+			skinTone: 'medium-light'
+		}
+	},
+	{
+		name: 'person-baby-light-skin',
+		emoji: '👶🏻',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-baby',
+		person: {
+			frame: 'face',
+			age: 'baby',
+			skinTone: 'light'
+		}
+	},
+	{
 		name: 'doctor',
 		emoji: '🧑‍⚕️',
 		direction: ROTATION_UP,
