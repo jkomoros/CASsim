@@ -227,6 +227,15 @@
 				"frame": "torso",
 				"professional": "blue-collar"
 			}
+		},
+		{
+			"name": "ninja",
+			"emoji": "🥷",
+			"direction": "ROTATION_DOWN",
+			"person": {
+				"frame": "torso",
+				"professional": "ninja"
+			}
 		}
 	]
 }

@@ -5630,5 +5630,69 @@ export const GENERATED_RAW_EMOJIS = [
 			skinTone: 'light'
 		},
 		alternateOf: 'construction-worker'
+	},
+	{
+		name: 'ninja',
+		emoji: '🥷',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'ninja'
+		}
+	},
+	{
+		name: 'ninja-dark-skin',
+		emoji: '🥷🏿',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'ninja',
+			skinTone: 'dark'
+		},
+		alternateOf: 'ninja'
+	},
+	{
+		name: 'ninja-medium-dark-skin',
+		emoji: '🥷🏾',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'ninja',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'ninja'
+	},
+	{
+		name: 'ninja-medium-skin',
+		emoji: '🥷🏽',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'ninja',
+			skinTone: 'medium'
+		},
+		alternateOf: 'ninja'
+	},
+	{
+		name: 'ninja-medium-light-skin',
+		emoji: '🥷🏼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'ninja',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'ninja'
+	},
+	{
+		name: 'ninja-light-skin',
+		emoji: '🥷🏻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'ninja',
+			skinTone: 'light'
+		},
+		alternateOf: 'ninja'
 	}
 ] as const;

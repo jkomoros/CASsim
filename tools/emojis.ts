@@ -36,7 +36,8 @@ const JSON_REPLACEMENTS = {
 //These are ones that are a person but don't actually have alternates.
 const SKIP_ALTERNATES : {[name : string] : 'all' | 'skin' | 'gender'} = {
 	//https://blog.emojipedia.org/diverse-spy-proposal/
-	'detective': 'all'
+	'detective': 'all',
+	'ninja': 'gender'
 };
 
 const GENDERS = {
