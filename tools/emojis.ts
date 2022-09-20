@@ -52,6 +52,10 @@ const ALT_BASES : {[base : string] : {male : string, female : string}} = {
 	'person-old': {
 		male: '👴',
 		female: '👵',
+	},
+	'person-child': {
+		male: '👦',
+		female: '👧',
 	}
 };
 

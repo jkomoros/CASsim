@@ -29,6 +29,16 @@
 			}
 		},
 		{
+			"name": "person-child",
+			"emoji": "🧒",
+			"direction": "ROTATION_DOWN",
+			"alternateOf": "person",
+			"person": {
+				"frame": "face",
+				"age": "child"
+			}
+		},
+		{
 			"name": "doctor",
 			"emoji": "🧑‍⚕️",
 			"direction": "ROTATION_UP",

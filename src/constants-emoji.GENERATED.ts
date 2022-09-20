@@ -1437,6 +1437,213 @@ export const GENERATED_RAW_EMOJIS = [
 		}
 	},
 	{
+		name: 'person-child',
+		emoji: '🧒',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person',
+		person: {
+			frame: 'face',
+			age: 'child'
+		}
+	},
+	{
+		name: 'person-child-dark-skin',
+		emoji: '🧒🏿',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-child',
+		person: {
+			frame: 'face',
+			age: 'child',
+			skinTone: 'dark'
+		}
+	},
+	{
+		name: 'person-child-medium-dark-skin',
+		emoji: '🧒🏾',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-child',
+		person: {
+			frame: 'face',
+			age: 'child',
+			skinTone: 'medium-dark'
+		}
+	},
+	{
+		name: 'person-child-medium-skin',
+		emoji: '🧒🏽',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-child',
+		person: {
+			frame: 'face',
+			age: 'child',
+			skinTone: 'medium'
+		}
+	},
+	{
+		name: 'person-child-medium-light-skin',
+		emoji: '🧒🏼',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-child',
+		person: {
+			frame: 'face',
+			age: 'child',
+			skinTone: 'medium-light'
+		}
+	},
+	{
+		name: 'person-child-light-skin',
+		emoji: '🧒🏻',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-child',
+		person: {
+			frame: 'face',
+			age: 'child',
+			skinTone: 'light'
+		}
+	},
+	{
+		name: 'person-child-female',
+		emoji: '👧',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-child',
+		person: {
+			frame: 'face',
+			age: 'child',
+			gender: 'female'
+		}
+	},
+	{
+		name: 'person-child-dark-skin-female',
+		emoji: '👧🏿',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-child',
+		person: {
+			frame: 'face',
+			age: 'child',
+			gender: 'female',
+			skinTone: 'dark'
+		}
+	},
+	{
+		name: 'person-child-medium-dark-skin-female',
+		emoji: '👧🏾',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-child',
+		person: {
+			frame: 'face',
+			age: 'child',
+			gender: 'female',
+			skinTone: 'medium-dark'
+		}
+	},
+	{
+		name: 'person-child-medium-skin-female',
+		emoji: '👧🏽',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-child',
+		person: {
+			frame: 'face',
+			age: 'child',
+			gender: 'female',
+			skinTone: 'medium'
+		}
+	},
+	{
+		name: 'person-child-medium-light-skin-female',
+		emoji: '👧🏼',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-child',
+		person: {
+			frame: 'face',
+			age: 'child',
+			gender: 'female',
+			skinTone: 'medium-light'
+		}
+	},
+	{
+		name: 'person-child-light-skin-female',
+		emoji: '👧🏻',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-child',
+		person: {
+			frame: 'face',
+			age: 'child',
+			gender: 'female',
+			skinTone: 'light'
+		}
+	},
+	{
+		name: 'person-child-male',
+		emoji: '👦',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-child',
+		person: {
+			frame: 'face',
+			age: 'child',
+			gender: 'male'
+		}
+	},
+	{
+		name: 'person-child-dark-skin-male',
+		emoji: '👦🏿',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-child',
+		person: {
+			frame: 'face',
+			age: 'child',
+			gender: 'male',
+			skinTone: 'dark'
+		}
+	},
+	{
+		name: 'person-child-medium-dark-skin-male',
+		emoji: '👦🏾',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-child',
+		person: {
+			frame: 'face',
+			age: 'child',
+			gender: 'male',
+			skinTone: 'medium-dark'
+		}
+	},
+	{
+		name: 'person-child-medium-skin-male',
+		emoji: '👦🏽',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-child',
+		person: {
+			frame: 'face',
+			age: 'child',
+			gender: 'male',
+			skinTone: 'medium'
+		}
+	},
+	{
+		name: 'person-child-medium-light-skin-male',
+		emoji: '👦🏼',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-child',
+		person: {
+			frame: 'face',
+			age: 'child',
+			gender: 'male',
+			skinTone: 'medium-light'
+		}
+	},
+	{
+		name: 'person-child-light-skin-male',
+		emoji: '👦🏻',
+		direction: ROTATION_DOWN,
+		alternateOf: 'person-child',
+		person: {
+			frame: 'face',
+			age: 'child',
+			gender: 'male',
+			skinTone: 'light'
+		}
+	},
+	{
 		name: 'doctor',
 		emoji: '🧑‍⚕️',
 		direction: ROTATION_UP,
