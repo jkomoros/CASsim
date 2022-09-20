@@ -65,7 +65,7 @@ export type KnownEmojiInfo = {
         //only present on frame:face.
         readonly age? : 'baby' | 'child' | 'old';
         //Whether the person depicted is representing some defined profession
-        readonly professional? : 'blue-collar' | 'white-collar' | 'education' | 'justice' | 'creative' | 'flying' | 'ninja',
+        readonly professional? : 'blue-collar' | 'white-collar' | 'education' | 'justice' | 'creative' | 'flying' | 'ninja' | 'comics',
     },
     //TODO: add vehicles
     readonly plant? : {
