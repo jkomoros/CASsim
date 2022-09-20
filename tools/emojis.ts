@@ -77,7 +77,7 @@ const generateEmojis = () => {
 		for (const [genderName, genderSymbol] of TypedObject.entries(GENDERS)) {
 			for (const [skinToneName, skinToneSymbol] of TypedObject.entries(SKIN_TONES)) {
 				for (const [hairName, hairSymbol] of TypedObject.entries(HAIR_TYPES)) {
-					if (info.person.frame != 'face' && hairName) continue;
+					if (info.emoji != PERSON && hairName) continue;
 					if (!genderName && !skinToneName && !hairName) continue;
 					const newInfo = {...info, person: {...info.person}};
 					newInfo.name = info.name + (skinToneName ? '-' + skinToneName + '-skin' : '') + (hairName ? '-' + hairName + '-hair' : '') + (genderName ? '-' + genderName : '');
