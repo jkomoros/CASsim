@@ -57,9 +57,8 @@ export type KnownEmojiInfo = {
         readonly gender?: 'male' | 'female',
         //If not provided, the skinTone is default (yellow)
         readonly skinTone? : 'light' | 'medium-light' | 'medium' | 'medium-dark' | 'dark';
-        //TODO: also add blonde, which is a special case one
         //A non default hair color is only present on frame:face.
-        readonly hair? : 'bald' | 'red' | 'curly' | 'white';
+        readonly hair? : 'blond' | 'bald' | 'red' | 'curly' | 'white';
         //TODO: also add age
         //how much of the person is in frame
         readonly frame: 'face' | 'torso' | 'body',
