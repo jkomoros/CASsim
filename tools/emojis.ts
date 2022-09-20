@@ -59,6 +59,9 @@ const SKIN_TONES = {
 
 const HAIR_TYPES = {
 	'': '',
+	//NOTE: blond is NOT handled here, but rather enumerated in
+	//tools/data/emoji.json. It's a special base type not based on PERSON,
+	//similar to police officer.
 	'red': '🦰',
 	'white': '🦳',
 	'curly': '🦱',
@@ -87,6 +90,8 @@ const generateEmojis = () => {
 						There are two types of gendered emoji:
 						1) BaseEmoji + {SkinTone}? + ZWJ + {MaleSign, FemaleSign}
 						2) {Person, Man, Woman} + {SkinTone}? + (ZWJ + Object)?
+
+						Confusingly, the first type's baseEmoji can be for example police officer or blond person (!)
 
 						We can do string operations on them, as documented in
 						https://medium.com/@gerinjacob/did-you-know-we-could-do-string-operations-on-emojis-in-javascript-63f2feff966e

@@ -1023,6 +1023,213 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'person'
 	},
 	{
+		name: 'person-blond-hair',
+		emoji: '👱',
+		direction: ROTATION_UP,
+		alternateOf: 'person',
+		person: {
+			frame: 'face',
+			hair: 'blond'
+		}
+	},
+	{
+		name: 'person-blond-hair-dark-skin',
+		emoji: '👱🏿‍',
+		direction: ROTATION_UP,
+		alternateOf: 'person-blond-hair',
+		person: {
+			frame: 'face',
+			hair: 'blond',
+			skinTone: 'dark'
+		}
+	},
+	{
+		name: 'person-blond-hair-medium-dark-skin',
+		emoji: '👱🏾‍',
+		direction: ROTATION_UP,
+		alternateOf: 'person-blond-hair',
+		person: {
+			frame: 'face',
+			hair: 'blond',
+			skinTone: 'medium-dark'
+		}
+	},
+	{
+		name: 'person-blond-hair-medium-skin',
+		emoji: '👱🏽‍',
+		direction: ROTATION_UP,
+		alternateOf: 'person-blond-hair',
+		person: {
+			frame: 'face',
+			hair: 'blond',
+			skinTone: 'medium'
+		}
+	},
+	{
+		name: 'person-blond-hair-medium-light-skin',
+		emoji: '👱🏼‍',
+		direction: ROTATION_UP,
+		alternateOf: 'person-blond-hair',
+		person: {
+			frame: 'face',
+			hair: 'blond',
+			skinTone: 'medium-light'
+		}
+	},
+	{
+		name: 'person-blond-hair-light-skin',
+		emoji: '👱🏻‍',
+		direction: ROTATION_UP,
+		alternateOf: 'person-blond-hair',
+		person: {
+			frame: 'face',
+			hair: 'blond',
+			skinTone: 'light'
+		}
+	},
+	{
+		name: 'person-blond-hair-female',
+		emoji: '👱‍♀️',
+		direction: ROTATION_UP,
+		alternateOf: 'person-blond-hair',
+		person: {
+			frame: 'face',
+			hair: 'blond',
+			gender: 'female'
+		}
+	},
+	{
+		name: 'person-blond-hair-dark-skin-female',
+		emoji: '👱🏿‍♀️',
+		direction: ROTATION_UP,
+		alternateOf: 'person-blond-hair',
+		person: {
+			frame: 'face',
+			hair: 'blond',
+			gender: 'female',
+			skinTone: 'dark'
+		}
+	},
+	{
+		name: 'person-blond-hair-medium-dark-skin-female',
+		emoji: '👱🏾‍♀️',
+		direction: ROTATION_UP,
+		alternateOf: 'person-blond-hair',
+		person: {
+			frame: 'face',
+			hair: 'blond',
+			gender: 'female',
+			skinTone: 'medium-dark'
+		}
+	},
+	{
+		name: 'person-blond-hair-medium-skin-female',
+		emoji: '👱🏽‍♀️',
+		direction: ROTATION_UP,
+		alternateOf: 'person-blond-hair',
+		person: {
+			frame: 'face',
+			hair: 'blond',
+			gender: 'female',
+			skinTone: 'medium'
+		}
+	},
+	{
+		name: 'person-blond-hair-medium-light-skin-female',
+		emoji: '👱🏼‍♀️',
+		direction: ROTATION_UP,
+		alternateOf: 'person-blond-hair',
+		person: {
+			frame: 'face',
+			hair: 'blond',
+			gender: 'female',
+			skinTone: 'medium-light'
+		}
+	},
+	{
+		name: 'person-blond-hair-light-skin-female',
+		emoji: '👱🏻‍♀️',
+		direction: ROTATION_UP,
+		alternateOf: 'person-blond-hair',
+		person: {
+			frame: 'face',
+			hair: 'blond',
+			gender: 'female',
+			skinTone: 'light'
+		}
+	},
+	{
+		name: 'person-blond-hair-male',
+		emoji: '👱‍♂️',
+		direction: ROTATION_UP,
+		alternateOf: 'person-blond-hair',
+		person: {
+			frame: 'face',
+			hair: 'blond',
+			gender: 'male'
+		}
+	},
+	{
+		name: 'person-blond-hair-dark-skin-male',
+		emoji: '👱🏿‍♂️',
+		direction: ROTATION_UP,
+		alternateOf: 'person-blond-hair',
+		person: {
+			frame: 'face',
+			hair: 'blond',
+			gender: 'male',
+			skinTone: 'dark'
+		}
+	},
+	{
+		name: 'person-blond-hair-medium-dark-skin-male',
+		emoji: '👱🏾‍♂️',
+		direction: ROTATION_UP,
+		alternateOf: 'person-blond-hair',
+		person: {
+			frame: 'face',
+			hair: 'blond',
+			gender: 'male',
+			skinTone: 'medium-dark'
+		}
+	},
+	{
+		name: 'person-blond-hair-medium-skin-male',
+		emoji: '👱🏽‍♂️',
+		direction: ROTATION_UP,
+		alternateOf: 'person-blond-hair',
+		person: {
+			frame: 'face',
+			hair: 'blond',
+			gender: 'male',
+			skinTone: 'medium'
+		}
+	},
+	{
+		name: 'person-blond-hair-medium-light-skin-male',
+		emoji: '👱🏼‍♂️',
+		direction: ROTATION_UP,
+		alternateOf: 'person-blond-hair',
+		person: {
+			frame: 'face',
+			hair: 'blond',
+			gender: 'male',
+			skinTone: 'medium-light'
+		}
+	},
+	{
+		name: 'person-blond-hair-light-skin-male',
+		emoji: '👱🏻‍♂️',
+		direction: ROTATION_UP,
+		alternateOf: 'person-blond-hair',
+		person: {
+			frame: 'face',
+			hair: 'blond',
+			gender: 'male',
+			skinTone: 'light'
+		}
+	},
+	{
 		name: 'doctor',
 		emoji: '🧑‍⚕️',
 		direction: ROTATION_UP,

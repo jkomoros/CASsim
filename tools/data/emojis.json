@@ -9,6 +9,16 @@
 			}
 		},
 		{
+			"name": "person-blond-hair",
+			"emoji": "👱",
+			"direction": "ROTATION_UP",
+			"alternateOf": "person",
+			"person": {
+				"frame": "face",
+				"hair": "blond"
+			}
+		},
+		{
 			"name": "doctor",
 			"emoji": "🧑‍⚕️",
 			"direction": "ROTATION_UP",
