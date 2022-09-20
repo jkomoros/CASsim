@@ -33,6 +33,12 @@ const JSON_REPLACEMENTS = {
 	'"': '\'',
 };
 
+//These are ones that are a person but don't actually have alternates.
+const SKIP_ALTERNATES : {[name : string] : true} = {
+	//https://blog.emojipedia.org/diverse-spy-proposal/
+	'detective': true
+};
+
 const GENDERS = {
 	'': {
 		sign: '', 
@@ -92,6 +98,7 @@ const generateEmojis = () => {
 	const expandedEmojis = emojis.map(info => {
 		const result = [info];
 		if (!info.person) return result;
+		if (SKIP_ALTERNATES[info.name]) return result;
 		for (const [genderName, genderSymbol] of TypedObject.entries(GENDERS)) {
 			for (const [skinToneName, skinToneSymbol] of TypedObject.entries(SKIN_TONES)) {
 				for (const [hairName, hairSymbol] of TypedObject.entries(HAIR_TYPES)) {

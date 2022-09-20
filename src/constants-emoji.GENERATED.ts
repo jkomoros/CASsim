@@ -5211,6 +5211,15 @@ export const GENERATED_RAW_EMOJIS = [
 		alternateOf: 'astronaut'
 	},
 	{
+		name: 'detective',
+		emoji: '🕵️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true
+		}
+	},
+	{
 		name: 'guard',
 		emoji: '💂',
 		direction: ROTATION_DOWN,
