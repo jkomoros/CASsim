@@ -34,7 +34,7 @@ const JSON_REPLACEMENTS = {
 };
 
 //These are ones that are a person but don't actually have alternates.
-const SKIP_ALTERNATES : {[name : string] : 'all' | 'skin'} = {
+const SKIP_ALTERNATES : {[name : string] : 'all' | 'skin' | 'gender'} = {
 	//https://blog.emojipedia.org/diverse-spy-proposal/
 	'detective': 'all'
 };
@@ -104,6 +104,7 @@ const generateEmojis = () => {
 				for (const [hairName, hairSymbol] of TypedObject.entries(HAIR_TYPES)) {
 					if (info.emoji != PERSON && hairName) continue;
 					if (SKIP_ALTERNATES[info.name] == 'skin' && skinToneName) continue;
+					if (SKIP_ALTERNATES[info.name] == 'gender' && genderName) continue;
 					if (!genderName && !skinToneName && !hairName) continue;
 					const newInfo = {...info, person: {...info.person}};
 					newInfo.name = info.name + (hairName ? '-' + hairName + '-hair' : '') + (skinToneName ? '-' + skinToneName + '-skin' : '') + (genderName ? '-' + genderName : '');
