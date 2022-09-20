@@ -4179,5 +4179,1447 @@ export const GENERATED_RAW_EMOJIS = [
 			skinTone: 'light'
 		},
 		alternateOf: 'police'
+	},
+	{
+		name: 'factory-worker',
+		emoji: '🧑‍🏭',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true
+		}
+	},
+	{
+		name: 'factory-worker-dark-skin',
+		emoji: '🧑🏿‍🏭',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'dark'
+		},
+		alternateOf: 'factory-worker'
+	},
+	{
+		name: 'factory-worker-medium-dark-skin',
+		emoji: '🧑🏾‍🏭',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'factory-worker'
+	},
+	{
+		name: 'factory-worker-medium-skin',
+		emoji: '🧑🏽‍🏭',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium'
+		},
+		alternateOf: 'factory-worker'
+	},
+	{
+		name: 'factory-worker-medium-light-skin',
+		emoji: '🧑🏼‍🏭',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'factory-worker'
+	},
+	{
+		name: 'factory-worker-light-skin',
+		emoji: '🧑🏻‍🏭',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'light'
+		},
+		alternateOf: 'factory-worker'
+	},
+	{
+		name: 'factory-worker-female',
+		emoji: '👩‍🏭',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female'
+		},
+		alternateOf: 'factory-worker'
+	},
+	{
+		name: 'factory-worker-dark-skin-female',
+		emoji: '👩🏿‍🏭',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'factory-worker'
+	},
+	{
+		name: 'factory-worker-medium-dark-skin-female',
+		emoji: '👩🏾‍🏭',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'factory-worker'
+	},
+	{
+		name: 'factory-worker-medium-skin-female',
+		emoji: '👩🏽‍🏭',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'factory-worker'
+	},
+	{
+		name: 'factory-worker-medium-light-skin-female',
+		emoji: '👩🏼‍🏭',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'factory-worker'
+	},
+	{
+		name: 'factory-worker-light-skin-female',
+		emoji: '👩🏻‍🏭',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'factory-worker'
+	},
+	{
+		name: 'factory-worker-male',
+		emoji: '👨‍🏭',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male'
+		},
+		alternateOf: 'factory-worker'
+	},
+	{
+		name: 'factory-worker-dark-skin-male',
+		emoji: '👨🏿‍🏭',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'dark'
+		},
+		alternateOf: 'factory-worker'
+	},
+	{
+		name: 'factory-worker-medium-dark-skin-male',
+		emoji: '👨🏾‍🏭',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'factory-worker'
+	},
+	{
+		name: 'factory-worker-medium-skin-male',
+		emoji: '👨🏽‍🏭',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'factory-worker'
+	},
+	{
+		name: 'factory-worker-medium-light-skin-male',
+		emoji: '👨🏼‍🏭',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'factory-worker'
+	},
+	{
+		name: 'factory-worker-light-skin-male',
+		emoji: '👨🏻‍🏭',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'factory-worker'
+	},
+	{
+		name: 'office-worker',
+		emoji: '🧑‍💼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true
+		}
+	},
+	{
+		name: 'office-worker-dark-skin',
+		emoji: '🧑🏿‍💼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'dark'
+		},
+		alternateOf: 'office-worker'
+	},
+	{
+		name: 'office-worker-medium-dark-skin',
+		emoji: '🧑🏾‍💼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'office-worker'
+	},
+	{
+		name: 'office-worker-medium-skin',
+		emoji: '🧑🏽‍💼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium'
+		},
+		alternateOf: 'office-worker'
+	},
+	{
+		name: 'office-worker-medium-light-skin',
+		emoji: '🧑🏼‍💼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'office-worker'
+	},
+	{
+		name: 'office-worker-light-skin',
+		emoji: '🧑🏻‍💼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'light'
+		},
+		alternateOf: 'office-worker'
+	},
+	{
+		name: 'office-worker-female',
+		emoji: '👩‍💼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female'
+		},
+		alternateOf: 'office-worker'
+	},
+	{
+		name: 'office-worker-dark-skin-female',
+		emoji: '👩🏿‍💼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'office-worker'
+	},
+	{
+		name: 'office-worker-medium-dark-skin-female',
+		emoji: '👩🏾‍💼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'office-worker'
+	},
+	{
+		name: 'office-worker-medium-skin-female',
+		emoji: '👩🏽‍💼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'office-worker'
+	},
+	{
+		name: 'office-worker-medium-light-skin-female',
+		emoji: '👩🏼‍💼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'office-worker'
+	},
+	{
+		name: 'office-worker-light-skin-female',
+		emoji: '👩🏻‍💼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'office-worker'
+	},
+	{
+		name: 'office-worker-male',
+		emoji: '👨‍💼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male'
+		},
+		alternateOf: 'office-worker'
+	},
+	{
+		name: 'office-worker-dark-skin-male',
+		emoji: '👨🏿‍💼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'dark'
+		},
+		alternateOf: 'office-worker'
+	},
+	{
+		name: 'office-worker-medium-dark-skin-male',
+		emoji: '👨🏾‍💼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'office-worker'
+	},
+	{
+		name: 'office-worker-medium-skin-male',
+		emoji: '👨🏽‍💼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'office-worker'
+	},
+	{
+		name: 'office-worker-medium-light-skin-male',
+		emoji: '👨🏼‍💼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'office-worker'
+	},
+	{
+		name: 'office-worker-light-skin-male',
+		emoji: '👨🏻‍💼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'office-worker'
+	},
+	{
+		name: 'technologist',
+		emoji: '🧑‍💻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true
+		}
+	},
+	{
+		name: 'technologist-dark-skin',
+		emoji: '🧑🏿‍💻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'dark'
+		},
+		alternateOf: 'technologist'
+	},
+	{
+		name: 'technologist-medium-dark-skin',
+		emoji: '🧑🏾‍💻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'technologist'
+	},
+	{
+		name: 'technologist-medium-skin',
+		emoji: '🧑🏽‍💻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium'
+		},
+		alternateOf: 'technologist'
+	},
+	{
+		name: 'technologist-medium-light-skin',
+		emoji: '🧑🏼‍💻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'technologist'
+	},
+	{
+		name: 'technologist-light-skin',
+		emoji: '🧑🏻‍💻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'light'
+		},
+		alternateOf: 'technologist'
+	},
+	{
+		name: 'technologist-female',
+		emoji: '👩‍💻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female'
+		},
+		alternateOf: 'technologist'
+	},
+	{
+		name: 'technologist-dark-skin-female',
+		emoji: '👩🏿‍💻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'technologist'
+	},
+	{
+		name: 'technologist-medium-dark-skin-female',
+		emoji: '👩🏾‍💻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'technologist'
+	},
+	{
+		name: 'technologist-medium-skin-female',
+		emoji: '👩🏽‍💻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'technologist'
+	},
+	{
+		name: 'technologist-medium-light-skin-female',
+		emoji: '👩🏼‍💻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'technologist'
+	},
+	{
+		name: 'technologist-light-skin-female',
+		emoji: '👩🏻‍💻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'technologist'
+	},
+	{
+		name: 'technologist-male',
+		emoji: '👨‍💻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male'
+		},
+		alternateOf: 'technologist'
+	},
+	{
+		name: 'technologist-dark-skin-male',
+		emoji: '👨🏿‍💻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'dark'
+		},
+		alternateOf: 'technologist'
+	},
+	{
+		name: 'technologist-medium-dark-skin-male',
+		emoji: '👨🏾‍💻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'technologist'
+	},
+	{
+		name: 'technologist-medium-skin-male',
+		emoji: '👨🏽‍💻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'technologist'
+	},
+	{
+		name: 'technologist-medium-light-skin-male',
+		emoji: '👨🏼‍💻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'technologist'
+	},
+	{
+		name: 'technologist-light-skin-male',
+		emoji: '👨🏻‍💻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'technologist'
+	},
+	{
+		name: 'singer',
+		emoji: '🧑‍🎤',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true
+		}
+	},
+	{
+		name: 'singer-dark-skin',
+		emoji: '🧑🏿‍🎤',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'dark'
+		},
+		alternateOf: 'singer'
+	},
+	{
+		name: 'singer-medium-dark-skin',
+		emoji: '🧑🏾‍🎤',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'singer'
+	},
+	{
+		name: 'singer-medium-skin',
+		emoji: '🧑🏽‍🎤',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium'
+		},
+		alternateOf: 'singer'
+	},
+	{
+		name: 'singer-medium-light-skin',
+		emoji: '🧑🏼‍🎤',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'singer'
+	},
+	{
+		name: 'singer-light-skin',
+		emoji: '🧑🏻‍🎤',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'light'
+		},
+		alternateOf: 'singer'
+	},
+	{
+		name: 'singer-female',
+		emoji: '👩‍🎤',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female'
+		},
+		alternateOf: 'singer'
+	},
+	{
+		name: 'singer-dark-skin-female',
+		emoji: '👩🏿‍🎤',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'singer'
+	},
+	{
+		name: 'singer-medium-dark-skin-female',
+		emoji: '👩🏾‍🎤',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'singer'
+	},
+	{
+		name: 'singer-medium-skin-female',
+		emoji: '👩🏽‍🎤',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'singer'
+	},
+	{
+		name: 'singer-medium-light-skin-female',
+		emoji: '👩🏼‍🎤',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'singer'
+	},
+	{
+		name: 'singer-light-skin-female',
+		emoji: '👩🏻‍🎤',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'singer'
+	},
+	{
+		name: 'singer-male',
+		emoji: '👨‍🎤',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male'
+		},
+		alternateOf: 'singer'
+	},
+	{
+		name: 'singer-dark-skin-male',
+		emoji: '👨🏿‍🎤',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'dark'
+		},
+		alternateOf: 'singer'
+	},
+	{
+		name: 'singer-medium-dark-skin-male',
+		emoji: '👨🏾‍🎤',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'singer'
+	},
+	{
+		name: 'singer-medium-skin-male',
+		emoji: '👨🏽‍🎤',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'singer'
+	},
+	{
+		name: 'singer-medium-light-skin-male',
+		emoji: '👨🏼‍🎤',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'singer'
+	},
+	{
+		name: 'singer-light-skin-male',
+		emoji: '👨🏻‍🎤',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'singer'
+	},
+	{
+		name: 'astronaut',
+		emoji: '🧑‍🚀',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true
+		}
+	},
+	{
+		name: 'astronaut-dark-skin',
+		emoji: '🧑🏿‍🚀',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'dark'
+		},
+		alternateOf: 'astronaut'
+	},
+	{
+		name: 'astronaut-medium-dark-skin',
+		emoji: '🧑🏾‍🚀',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'astronaut'
+	},
+	{
+		name: 'astronaut-medium-skin',
+		emoji: '🧑🏽‍🚀',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium'
+		},
+		alternateOf: 'astronaut'
+	},
+	{
+		name: 'astronaut-medium-light-skin',
+		emoji: '🧑🏼‍🚀',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'astronaut'
+	},
+	{
+		name: 'astronaut-light-skin',
+		emoji: '🧑🏻‍🚀',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'light'
+		},
+		alternateOf: 'astronaut'
+	},
+	{
+		name: 'astronaut-female',
+		emoji: '👩‍🚀',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female'
+		},
+		alternateOf: 'astronaut'
+	},
+	{
+		name: 'astronaut-dark-skin-female',
+		emoji: '👩🏿‍🚀',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'astronaut'
+	},
+	{
+		name: 'astronaut-medium-dark-skin-female',
+		emoji: '👩🏾‍🚀',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'astronaut'
+	},
+	{
+		name: 'astronaut-medium-skin-female',
+		emoji: '👩🏽‍🚀',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'astronaut'
+	},
+	{
+		name: 'astronaut-medium-light-skin-female',
+		emoji: '👩🏼‍🚀',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'astronaut'
+	},
+	{
+		name: 'astronaut-light-skin-female',
+		emoji: '👩🏻‍🚀',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'astronaut'
+	},
+	{
+		name: 'astronaut-male',
+		emoji: '👨‍🚀',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male'
+		},
+		alternateOf: 'astronaut'
+	},
+	{
+		name: 'astronaut-dark-skin-male',
+		emoji: '👨🏿‍🚀',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'dark'
+		},
+		alternateOf: 'astronaut'
+	},
+	{
+		name: 'astronaut-medium-dark-skin-male',
+		emoji: '👨🏾‍🚀',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'astronaut'
+	},
+	{
+		name: 'astronaut-medium-skin-male',
+		emoji: '👨🏽‍🚀',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'astronaut'
+	},
+	{
+		name: 'astronaut-medium-light-skin-male',
+		emoji: '👨🏼‍🚀',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'astronaut'
+	},
+	{
+		name: 'astronaut-light-skin-male',
+		emoji: '👨🏻‍🚀',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'astronaut'
+	},
+	{
+		name: 'guard',
+		emoji: '💂',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true
+		}
+	},
+	{
+		name: 'guard-dark-skin',
+		emoji: '💂🏿‍',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'dark'
+		},
+		alternateOf: 'guard'
+	},
+	{
+		name: 'guard-medium-dark-skin',
+		emoji: '💂🏾‍',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'guard'
+	},
+	{
+		name: 'guard-medium-skin',
+		emoji: '💂🏽‍',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium'
+		},
+		alternateOf: 'guard'
+	},
+	{
+		name: 'guard-medium-light-skin',
+		emoji: '💂🏼‍',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'guard'
+	},
+	{
+		name: 'guard-light-skin',
+		emoji: '💂🏻‍',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'light'
+		},
+		alternateOf: 'guard'
+	},
+	{
+		name: 'guard-female',
+		emoji: '💂‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female'
+		},
+		alternateOf: 'guard'
+	},
+	{
+		name: 'guard-dark-skin-female',
+		emoji: '💂🏿‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'guard'
+	},
+	{
+		name: 'guard-medium-dark-skin-female',
+		emoji: '💂🏾‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'guard'
+	},
+	{
+		name: 'guard-medium-skin-female',
+		emoji: '💂🏽‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'guard'
+	},
+	{
+		name: 'guard-medium-light-skin-female',
+		emoji: '💂🏼‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'guard'
+	},
+	{
+		name: 'guard-light-skin-female',
+		emoji: '💂🏻‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'guard'
+	},
+	{
+		name: 'guard-male',
+		emoji: '💂‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male'
+		},
+		alternateOf: 'guard'
+	},
+	{
+		name: 'guard-dark-skin-male',
+		emoji: '💂🏿‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'dark'
+		},
+		alternateOf: 'guard'
+	},
+	{
+		name: 'guard-medium-dark-skin-male',
+		emoji: '💂🏾‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'guard'
+	},
+	{
+		name: 'guard-medium-skin-male',
+		emoji: '💂🏽‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'guard'
+	},
+	{
+		name: 'guard-medium-light-skin-male',
+		emoji: '💂🏼‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'guard'
+	},
+	{
+		name: 'guard-light-skin-male',
+		emoji: '💂🏻‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'guard'
+	},
+	{
+		name: 'construction-worker',
+		emoji: '👷',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true
+		}
+	},
+	{
+		name: 'construction-worker-dark-skin',
+		emoji: '👷🏿‍',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'dark'
+		},
+		alternateOf: 'construction-worker'
+	},
+	{
+		name: 'construction-worker-medium-dark-skin',
+		emoji: '👷🏾‍',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'construction-worker'
+	},
+	{
+		name: 'construction-worker-medium-skin',
+		emoji: '👷🏽‍',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium'
+		},
+		alternateOf: 'construction-worker'
+	},
+	{
+		name: 'construction-worker-medium-light-skin',
+		emoji: '👷🏼‍',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'construction-worker'
+	},
+	{
+		name: 'construction-worker-light-skin',
+		emoji: '👷🏻‍',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			skinTone: 'light'
+		},
+		alternateOf: 'construction-worker'
+	},
+	{
+		name: 'construction-worker-female',
+		emoji: '👷‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female'
+		},
+		alternateOf: 'construction-worker'
+	},
+	{
+		name: 'construction-worker-dark-skin-female',
+		emoji: '👷🏿‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'construction-worker'
+	},
+	{
+		name: 'construction-worker-medium-dark-skin-female',
+		emoji: '👷🏾‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'construction-worker'
+	},
+	{
+		name: 'construction-worker-medium-skin-female',
+		emoji: '👷🏽‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'construction-worker'
+	},
+	{
+		name: 'construction-worker-medium-light-skin-female',
+		emoji: '👷🏼‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'construction-worker'
+	},
+	{
+		name: 'construction-worker-light-skin-female',
+		emoji: '👷🏻‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'construction-worker'
+	},
+	{
+		name: 'construction-worker-male',
+		emoji: '👷‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male'
+		},
+		alternateOf: 'construction-worker'
+	},
+	{
+		name: 'construction-worker-dark-skin-male',
+		emoji: '👷🏿‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'dark'
+		},
+		alternateOf: 'construction-worker'
+	},
+	{
+		name: 'construction-worker-medium-dark-skin-male',
+		emoji: '👷🏾‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'construction-worker'
+	},
+	{
+		name: 'construction-worker-medium-skin-male',
+		emoji: '👷🏽‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'construction-worker'
+	},
+	{
+		name: 'construction-worker-medium-light-skin-male',
+		emoji: '👷🏼‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'construction-worker'
+	},
+	{
+		name: 'construction-worker-light-skin-male',
+		emoji: '👷🏻‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: true,
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'construction-worker'
 	}
 ] as const;

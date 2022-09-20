@@ -155,6 +155,69 @@
 				"frame": "torso",
 				"professional": true
 			}
+		},
+		{
+			"name": "factory-worker",
+			"emoji": "🧑‍🏭",
+			"direction": "ROTATION_DOWN",
+			"person": {
+				"frame": "torso",
+				"professional": true
+			}
+		},
+		{
+			"name": "office-worker",
+			"emoji": "🧑‍💼",
+			"direction": "ROTATION_DOWN",
+			"person": {
+				"frame": "torso",
+				"professional": true
+			}
+		},
+		{
+			"name": "technologist",
+			"emoji": "🧑‍💻",
+			"direction": "ROTATION_DOWN",
+			"person": {
+				"frame": "torso",
+				"professional": true
+			}
+		},
+		{
+			"name": "singer",
+			"emoji": "🧑‍🎤",
+			"direction": "ROTATION_DOWN",
+			"person": {
+				"frame": "torso",
+				"professional": true
+			}
+		},
+		{
+			"name": "astronaut",
+			"emoji": "🧑‍🚀",
+			"direction": "ROTATION_DOWN",
+			"person": {
+				"frame": "torso",
+				"professional": true
+			}
+		},
+		{
+			"name": "guard",
+			"emoji": "💂",
+			"direction": "ROTATION_DOWN",
+			"person": {
+				"frame": "torso",
+				"professional": true
+			}
+		},
+		{
+			"name": "construction-worker",
+			"emoji": "👷",
+			"direction": "ROTATION_DOWN",
+			"person": {
+				"frame": "torso",
+				"professional": true
+			}
 		}
 	]
 }
