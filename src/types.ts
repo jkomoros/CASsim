@@ -53,6 +53,8 @@ export type KnownEmojiInfo = {
     readonly alternateOf?: KnownEmojiName,
 	readonly direction: Angle,
     readonly person? : {
+        //how much of the person is in frame
+        readonly frame: 'face' | 'torso' | 'body',
 		//If not provided, the gender is neutral
         readonly gender?: 'male' | 'female',
         //If not provided, the skinTone is default (yellow)
@@ -62,11 +64,8 @@ export type KnownEmojiInfo = {
         //Baby is only available in non-gendeered versions. A non-default age is
         //only present on frame:face.
         readonly age? : 'baby' | 'child' | 'old';
-        //how much of the person is in frame
-        readonly frame: 'face' | 'torso' | 'body',
         //Whether the person depicted is representing some defined profession
         readonly professional? : true,
-        //TODO: add skintone
     },
     //TODO: add vehicles
     readonly plant? : {
