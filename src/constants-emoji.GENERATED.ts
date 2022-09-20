@@ -5694,5 +5694,417 @@ export const GENERATED_RAW_EMOJIS = [
 			skinTone: 'light'
 		},
 		alternateOf: 'ninja'
+	},
+	{
+		name: 'superhero',
+		emoji: '🦸',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics'
+		}
+	},
+	{
+		name: 'superhero-dark-skin',
+		emoji: '🦸🏿',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			skinTone: 'dark'
+		},
+		alternateOf: 'superhero'
+	},
+	{
+		name: 'superhero-medium-dark-skin',
+		emoji: '🦸🏾',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'superhero'
+	},
+	{
+		name: 'superhero-medium-skin',
+		emoji: '🦸🏽',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			skinTone: 'medium'
+		},
+		alternateOf: 'superhero'
+	},
+	{
+		name: 'superhero-medium-light-skin',
+		emoji: '🦸🏼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'superhero'
+	},
+	{
+		name: 'superhero-light-skin',
+		emoji: '🦸🏻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			skinTone: 'light'
+		},
+		alternateOf: 'superhero'
+	},
+	{
+		name: 'superhero-female',
+		emoji: '🦸‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'female'
+		},
+		alternateOf: 'superhero'
+	},
+	{
+		name: 'superhero-dark-skin-female',
+		emoji: '🦸🏿‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'superhero'
+	},
+	{
+		name: 'superhero-medium-dark-skin-female',
+		emoji: '🦸🏾‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'superhero'
+	},
+	{
+		name: 'superhero-medium-skin-female',
+		emoji: '🦸🏽‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'superhero'
+	},
+	{
+		name: 'superhero-medium-light-skin-female',
+		emoji: '🦸🏼‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'superhero'
+	},
+	{
+		name: 'superhero-light-skin-female',
+		emoji: '🦸🏻‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'superhero'
+	},
+	{
+		name: 'superhero-male',
+		emoji: '🦸‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'male'
+		},
+		alternateOf: 'superhero'
+	},
+	{
+		name: 'superhero-dark-skin-male',
+		emoji: '🦸🏿‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'male',
+			skinTone: 'dark'
+		},
+		alternateOf: 'superhero'
+	},
+	{
+		name: 'superhero-medium-dark-skin-male',
+		emoji: '🦸🏾‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'superhero'
+	},
+	{
+		name: 'superhero-medium-skin-male',
+		emoji: '🦸🏽‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'superhero'
+	},
+	{
+		name: 'superhero-medium-light-skin-male',
+		emoji: '🦸🏼‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'superhero'
+	},
+	{
+		name: 'superhero-light-skin-male',
+		emoji: '🦸🏻‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'superhero'
+	},
+	{
+		name: 'supervillain',
+		emoji: '🦹',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics'
+		}
+	},
+	{
+		name: 'supervillain-dark-skin',
+		emoji: '🦹🏿',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			skinTone: 'dark'
+		},
+		alternateOf: 'supervillain'
+	},
+	{
+		name: 'supervillain-medium-dark-skin',
+		emoji: '🦹🏾',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'supervillain'
+	},
+	{
+		name: 'supervillain-medium-skin',
+		emoji: '🦹🏽',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			skinTone: 'medium'
+		},
+		alternateOf: 'supervillain'
+	},
+	{
+		name: 'supervillain-medium-light-skin',
+		emoji: '🦹🏼',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'supervillain'
+	},
+	{
+		name: 'supervillain-light-skin',
+		emoji: '🦹🏻',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			skinTone: 'light'
+		},
+		alternateOf: 'supervillain'
+	},
+	{
+		name: 'supervillain-female',
+		emoji: '🦹‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'female'
+		},
+		alternateOf: 'supervillain'
+	},
+	{
+		name: 'supervillain-dark-skin-female',
+		emoji: '🦹🏿‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'female',
+			skinTone: 'dark'
+		},
+		alternateOf: 'supervillain'
+	},
+	{
+		name: 'supervillain-medium-dark-skin-female',
+		emoji: '🦹🏾‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'female',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'supervillain'
+	},
+	{
+		name: 'supervillain-medium-skin-female',
+		emoji: '🦹🏽‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'female',
+			skinTone: 'medium'
+		},
+		alternateOf: 'supervillain'
+	},
+	{
+		name: 'supervillain-medium-light-skin-female',
+		emoji: '🦹🏼‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'female',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'supervillain'
+	},
+	{
+		name: 'supervillain-light-skin-female',
+		emoji: '🦹🏻‍♀️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'female',
+			skinTone: 'light'
+		},
+		alternateOf: 'supervillain'
+	},
+	{
+		name: 'supervillain-male',
+		emoji: '🦹‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'male'
+		},
+		alternateOf: 'supervillain'
+	},
+	{
+		name: 'supervillain-dark-skin-male',
+		emoji: '🦹🏿‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'male',
+			skinTone: 'dark'
+		},
+		alternateOf: 'supervillain'
+	},
+	{
+		name: 'supervillain-medium-dark-skin-male',
+		emoji: '🦹🏾‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'male',
+			skinTone: 'medium-dark'
+		},
+		alternateOf: 'supervillain'
+	},
+	{
+		name: 'supervillain-medium-skin-male',
+		emoji: '🦹🏽‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'male',
+			skinTone: 'medium'
+		},
+		alternateOf: 'supervillain'
+	},
+	{
+		name: 'supervillain-medium-light-skin-male',
+		emoji: '🦹🏼‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'male',
+			skinTone: 'medium-light'
+		},
+		alternateOf: 'supervillain'
+	},
+	{
+		name: 'supervillain-light-skin-male',
+		emoji: '🦹🏻‍♂️',
+		direction: ROTATION_DOWN,
+		person: {
+			frame: 'torso',
+			professional: 'comics',
+			gender: 'male',
+			skinTone: 'light'
+		},
+		alternateOf: 'supervillain'
 	}
 ] as const;

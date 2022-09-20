@@ -236,6 +236,24 @@
 				"frame": "torso",
 				"professional": "ninja"
 			}
+		},
+		{
+			"name": "superhero",
+			"emoji": "🦸",
+			"direction": "ROTATION_DOWN",
+			"person": {
+				"frame": "torso",
+				"professional": "comics"
+			}
+		},
+		{
+			"name": "supervillain",
+			"emoji": "🦹",
+			"direction": "ROTATION_DOWN",
+			"person": {
+				"frame": "torso",
+				"professional": "comics"
+			}
 		}
 	]
 }
