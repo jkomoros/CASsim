@@ -49,7 +49,7 @@ const GENDERS = {
 } as const;
 
 const ALT_BASES : {[base : string] : {male : string, female : string}} = {
-	'🧓': {
+	'person-old': {
 		male: '👴',
 		female: '👵',
 	}
@@ -108,10 +108,10 @@ const generateEmojis = () => {
 					if (info.emoji.includes(PERSON)) {
 						//Type 2
 						newInfo.emoji = info.emoji.replace(PERSON, genderSymbol.default + skinToneSymbol + (hairSymbol ? ZERO_WIDTH_JOINER + hairSymbol : ''));
-					} else if(ALT_BASES[info.emoji]) {
+					} else if(ALT_BASES[info.name]) {
 						//Type 2a
 						if (genderName) {
-							newInfo.emoji = genderName == 'male' ? ALT_BASES[info.emoji].male : ALT_BASES[info.emoji].female;
+							newInfo.emoji = genderName == 'male' ? ALT_BASES[info.name].male : ALT_BASES[info.name].female;
 						}
 						newInfo.emoji += skinToneSymbol;
 					} else {
