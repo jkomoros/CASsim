@@ -48,6 +48,13 @@ const GENDERS = {
 	}
 } as const;
 
+const ALT_BASES : {[base : string] : {male : string, female : string}} = {
+	'🧓': {
+		male: '👴',
+		female: '👵',
+	}
+};
+
 const SKIN_TONES = {
 	'': '',
 	'dark': '🏿',
@@ -90,15 +97,25 @@ const generateEmojis = () => {
 						There are two types of gendered emoji:
 						1) BaseEmoji + {SkinTone}? + ZWJ + {MaleSign, FemaleSign}
 						2) {Person, Man, Woman} + {SkinTone}? + (ZWJ + Object)?
+						2a) {AltPerson, AltMan, AltWoman} + {SkinTone}?
 
-						Confusingly, the first type's baseEmoji can be for example police officer or blond person (!)
+						Confusingly, the first type's baseEmoji can be for example police officer or blond person (!).
+						The third type is mainly used for person-old and sub-types.
 
 						We can do string operations on them, as documented in
 						https://medium.com/@gerinjacob/did-you-know-we-could-do-string-operations-on-emojis-in-javascript-63f2feff966e
 					*/
 					if (info.emoji.includes(PERSON)) {
+						//Type 2
 						newInfo.emoji = info.emoji.replace(PERSON, genderSymbol.default + skinToneSymbol + (hairSymbol ? ZERO_WIDTH_JOINER + hairSymbol : ''));
+					} else if(ALT_BASES[info.emoji]) {
+						//Type 2a
+						if (genderName) {
+							newInfo.emoji = genderName == 'male' ? ALT_BASES[info.emoji].male : ALT_BASES[info.emoji].female;
+						}
+						newInfo.emoji += skinToneSymbol;
 					} else {
+						//Type 1
 						newInfo.emoji = info.emoji + skinToneSymbol + ZERO_WIDTH_JOINER + genderSymbol.sign;
 					}
 					

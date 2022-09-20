@@ -19,6 +19,16 @@
 			}
 		},
 		{
+			"name": "person-old",
+			"emoji": "🧓",
+			"direction": "ROTATION_UP",
+			"alternateOf": "person",
+			"person": {
+				"frame": "face",
+				"age": "old"
+			}
+		},
+		{
 			"name": "doctor",
 			"emoji": "🧑‍⚕️",
 			"direction": "ROTATION_UP",
