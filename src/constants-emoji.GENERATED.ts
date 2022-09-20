@@ -1034,7 +1034,7 @@ export const GENERATED_RAW_EMOJIS = [
 	},
 	{
 		name: 'person-blond-hair-dark-skin',
-		emoji: '👱🏿‍',
+		emoji: '👱🏿',
 		direction: ROTATION_DOWN,
 		alternateOf: 'person-blond-hair',
 		person: {
@@ -1045,7 +1045,7 @@ export const GENERATED_RAW_EMOJIS = [
 	},
 	{
 		name: 'person-blond-hair-medium-dark-skin',
-		emoji: '👱🏾‍',
+		emoji: '👱🏾',
 		direction: ROTATION_DOWN,
 		alternateOf: 'person-blond-hair',
 		person: {
@@ -1056,7 +1056,7 @@ export const GENERATED_RAW_EMOJIS = [
 	},
 	{
 		name: 'person-blond-hair-medium-skin',
-		emoji: '👱🏽‍',
+		emoji: '👱🏽',
 		direction: ROTATION_DOWN,
 		alternateOf: 'person-blond-hair',
 		person: {
@@ -1067,7 +1067,7 @@ export const GENERATED_RAW_EMOJIS = [
 	},
 	{
 		name: 'person-blond-hair-medium-light-skin',
-		emoji: '👱🏼‍',
+		emoji: '👱🏼',
 		direction: ROTATION_DOWN,
 		alternateOf: 'person-blond-hair',
 		person: {
@@ -1078,7 +1078,7 @@ export const GENERATED_RAW_EMOJIS = [
 	},
 	{
 		name: 'person-blond-hair-light-skin',
-		emoji: '👱🏻‍',
+		emoji: '👱🏻',
 		direction: ROTATION_DOWN,
 		alternateOf: 'person-blond-hair',
 		person: {
@@ -3985,7 +3985,7 @@ export const GENERATED_RAW_EMOJIS = [
 	},
 	{
 		name: 'police-dark-skin',
-		emoji: '👮🏿‍',
+		emoji: '👮🏿',
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
@@ -3996,7 +3996,7 @@ export const GENERATED_RAW_EMOJIS = [
 	},
 	{
 		name: 'police-medium-dark-skin',
-		emoji: '👮🏾‍',
+		emoji: '👮🏾',
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
@@ -4007,7 +4007,7 @@ export const GENERATED_RAW_EMOJIS = [
 	},
 	{
 		name: 'police-medium-skin',
-		emoji: '👮🏽‍',
+		emoji: '👮🏽',
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
@@ -4018,7 +4018,7 @@ export const GENERATED_RAW_EMOJIS = [
 	},
 	{
 		name: 'police-medium-light-skin',
-		emoji: '👮🏼‍',
+		emoji: '👮🏼',
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
@@ -4029,7 +4029,7 @@ export const GENERATED_RAW_EMOJIS = [
 	},
 	{
 		name: 'police-light-skin',
-		emoji: '👮🏻‍',
+		emoji: '👮🏻',
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
@@ -5221,7 +5221,7 @@ export const GENERATED_RAW_EMOJIS = [
 	},
 	{
 		name: 'guard-dark-skin',
-		emoji: '💂🏿‍',
+		emoji: '💂🏿',
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
@@ -5232,7 +5232,7 @@ export const GENERATED_RAW_EMOJIS = [
 	},
 	{
 		name: 'guard-medium-dark-skin',
-		emoji: '💂🏾‍',
+		emoji: '💂🏾',
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
@@ -5243,7 +5243,7 @@ export const GENERATED_RAW_EMOJIS = [
 	},
 	{
 		name: 'guard-medium-skin',
-		emoji: '💂🏽‍',
+		emoji: '💂🏽',
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
@@ -5254,7 +5254,7 @@ export const GENERATED_RAW_EMOJIS = [
 	},
 	{
 		name: 'guard-medium-light-skin',
-		emoji: '💂🏼‍',
+		emoji: '💂🏼',
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
@@ -5265,7 +5265,7 @@ export const GENERATED_RAW_EMOJIS = [
 	},
 	{
 		name: 'guard-light-skin',
-		emoji: '💂🏻‍',
+		emoji: '💂🏻',
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
@@ -5427,7 +5427,7 @@ export const GENERATED_RAW_EMOJIS = [
 	},
 	{
 		name: 'construction-worker-dark-skin',
-		emoji: '👷🏿‍',
+		emoji: '👷🏿',
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
@@ -5438,7 +5438,7 @@ export const GENERATED_RAW_EMOJIS = [
 	},
 	{
 		name: 'construction-worker-medium-dark-skin',
-		emoji: '👷🏾‍',
+		emoji: '👷🏾',
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
@@ -5449,7 +5449,7 @@ export const GENERATED_RAW_EMOJIS = [
 	},
 	{
 		name: 'construction-worker-medium-skin',
-		emoji: '👷🏽‍',
+		emoji: '👷🏽',
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
@@ -5460,7 +5460,7 @@ export const GENERATED_RAW_EMOJIS = [
 	},
 	{
 		name: 'construction-worker-medium-light-skin',
-		emoji: '👷🏼‍',
+		emoji: '👷🏼',
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
@@ -5471,7 +5471,7 @@ export const GENERATED_RAW_EMOJIS = [
 	},
 	{
 		name: 'construction-worker-light-skin',
-		emoji: '👷🏻‍',
+		emoji: '👷🏻',
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',

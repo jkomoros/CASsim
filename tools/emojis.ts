@@ -126,7 +126,7 @@ const generateEmojis = () => {
 						newInfo.emoji += skinToneSymbol;
 					} else {
 						//Type 1
-						newInfo.emoji = info.emoji + skinToneSymbol + ZERO_WIDTH_JOINER + genderSymbol.sign;
+						newInfo.emoji = info.emoji + skinToneSymbol + (genderSymbol.sign ? ZERO_WIDTH_JOINER + genderSymbol.sign : '');
 					}
 					
 					if (genderName) newInfo.person.gender = genderName;
