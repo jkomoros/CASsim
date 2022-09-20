@@ -34,9 +34,18 @@ const JSON_REPLACEMENTS = {
 };
 
 const GENDERS = {
-	'': ['', '🧑'],
-	'female': ['♀️', '👩'],
-	'male': ['♂️', '👨']
+	'': {
+		sign: '', 
+		default: '🧑'
+	},
+	'female': {
+		sign: '♀️', 
+		default: '👩'
+	},
+	'male': {
+		sign: '♂️', 
+		default: '👨'
+	}
 } as const;
 
 const SKIN_TONES = {
@@ -83,9 +92,9 @@ const generateEmojis = () => {
 						https://medium.com/@gerinjacob/did-you-know-we-could-do-string-operations-on-emojis-in-javascript-63f2feff966e
 					*/
 					if (info.emoji.includes(PERSON)) {
-						newInfo.emoji = info.emoji.replace(PERSON, genderSymbol[1] + skinToneSymbol + (hairSymbol ? ZERO_WIDTH_JOINER + hairSymbol : ''));
+						newInfo.emoji = info.emoji.replace(PERSON, genderSymbol.default + skinToneSymbol + (hairSymbol ? ZERO_WIDTH_JOINER + hairSymbol : ''));
 					} else {
-						newInfo.emoji = info.emoji + skinToneSymbol + ZERO_WIDTH_JOINER + genderSymbol[0];
+						newInfo.emoji = info.emoji + skinToneSymbol + ZERO_WIDTH_JOINER + genderSymbol.sign;
 					}
 					
 					if (genderName) newInfo.person.gender = genderName;
