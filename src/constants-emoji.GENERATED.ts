@@ -1714,7 +1714,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: 'white-collar'
 		}
 	},
 	{
@@ -1723,7 +1723,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			skinTone: 'dark'
 		},
 		alternateOf: 'doctor'
@@ -1734,7 +1734,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			skinTone: 'medium-dark'
 		},
 		alternateOf: 'doctor'
@@ -1745,7 +1745,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			skinTone: 'medium'
 		},
 		alternateOf: 'doctor'
@@ -1756,7 +1756,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			skinTone: 'medium-light'
 		},
 		alternateOf: 'doctor'
@@ -1767,7 +1767,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			skinTone: 'light'
 		},
 		alternateOf: 'doctor'
@@ -1778,7 +1778,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female'
 		},
 		alternateOf: 'doctor'
@@ -1789,7 +1789,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female',
 			skinTone: 'dark'
 		},
@@ -1801,7 +1801,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female',
 			skinTone: 'medium-dark'
 		},
@@ -1813,7 +1813,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female',
 			skinTone: 'medium'
 		},
@@ -1825,7 +1825,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female',
 			skinTone: 'medium-light'
 		},
@@ -1837,7 +1837,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female',
 			skinTone: 'light'
 		},
@@ -1849,7 +1849,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male'
 		},
 		alternateOf: 'doctor'
@@ -1860,7 +1860,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male',
 			skinTone: 'dark'
 		},
@@ -1872,7 +1872,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male',
 			skinTone: 'medium-dark'
 		},
@@ -1884,7 +1884,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male',
 			skinTone: 'medium'
 		},
@@ -1896,7 +1896,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male',
 			skinTone: 'medium-light'
 		},
@@ -1908,7 +1908,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male',
 			skinTone: 'light'
 		},
@@ -1920,7 +1920,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: 'education'
 		}
 	},
 	{
@@ -1929,7 +1929,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			skinTone: 'dark'
 		},
 		alternateOf: 'graduate'
@@ -1940,7 +1940,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			skinTone: 'medium-dark'
 		},
 		alternateOf: 'graduate'
@@ -1951,7 +1951,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			skinTone: 'medium'
 		},
 		alternateOf: 'graduate'
@@ -1962,7 +1962,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			skinTone: 'medium-light'
 		},
 		alternateOf: 'graduate'
@@ -1973,7 +1973,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			skinTone: 'light'
 		},
 		alternateOf: 'graduate'
@@ -1984,7 +1984,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'female'
 		},
 		alternateOf: 'graduate'
@@ -1995,7 +1995,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'female',
 			skinTone: 'dark'
 		},
@@ -2007,7 +2007,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'female',
 			skinTone: 'medium-dark'
 		},
@@ -2019,7 +2019,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'female',
 			skinTone: 'medium'
 		},
@@ -2031,7 +2031,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'female',
 			skinTone: 'medium-light'
 		},
@@ -2043,7 +2043,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'female',
 			skinTone: 'light'
 		},
@@ -2055,7 +2055,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'male'
 		},
 		alternateOf: 'graduate'
@@ -2066,7 +2066,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'male',
 			skinTone: 'dark'
 		},
@@ -2078,7 +2078,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'male',
 			skinTone: 'medium-dark'
 		},
@@ -2090,7 +2090,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'male',
 			skinTone: 'medium'
 		},
@@ -2102,7 +2102,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'male',
 			skinTone: 'medium-light'
 		},
@@ -2114,7 +2114,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_UP,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'male',
 			skinTone: 'light'
 		},
@@ -2126,7 +2126,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: 'education'
 		}
 	},
 	{
@@ -2135,7 +2135,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			skinTone: 'dark'
 		},
 		alternateOf: 'teacher'
@@ -2146,7 +2146,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			skinTone: 'medium-dark'
 		},
 		alternateOf: 'teacher'
@@ -2157,7 +2157,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			skinTone: 'medium'
 		},
 		alternateOf: 'teacher'
@@ -2168,7 +2168,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			skinTone: 'medium-light'
 		},
 		alternateOf: 'teacher'
@@ -2179,7 +2179,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			skinTone: 'light'
 		},
 		alternateOf: 'teacher'
@@ -2190,7 +2190,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'female'
 		},
 		alternateOf: 'teacher'
@@ -2201,7 +2201,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'female',
 			skinTone: 'dark'
 		},
@@ -2213,7 +2213,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'female',
 			skinTone: 'medium-dark'
 		},
@@ -2225,7 +2225,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'female',
 			skinTone: 'medium'
 		},
@@ -2237,7 +2237,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'female',
 			skinTone: 'medium-light'
 		},
@@ -2249,7 +2249,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'female',
 			skinTone: 'light'
 		},
@@ -2261,7 +2261,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'male'
 		},
 		alternateOf: 'teacher'
@@ -2272,7 +2272,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'male',
 			skinTone: 'dark'
 		},
@@ -2284,7 +2284,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'male',
 			skinTone: 'medium-dark'
 		},
@@ -2296,7 +2296,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'male',
 			skinTone: 'medium'
 		},
@@ -2308,7 +2308,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'male',
 			skinTone: 'medium-light'
 		},
@@ -2320,7 +2320,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'education',
 			gender: 'male',
 			skinTone: 'light'
 		},
@@ -2332,7 +2332,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: 'justice'
 		}
 	},
 	{
@@ -2341,7 +2341,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			skinTone: 'dark'
 		},
 		alternateOf: 'judge'
@@ -2352,7 +2352,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			skinTone: 'medium-dark'
 		},
 		alternateOf: 'judge'
@@ -2363,7 +2363,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			skinTone: 'medium'
 		},
 		alternateOf: 'judge'
@@ -2374,7 +2374,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			skinTone: 'medium-light'
 		},
 		alternateOf: 'judge'
@@ -2385,7 +2385,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			skinTone: 'light'
 		},
 		alternateOf: 'judge'
@@ -2396,7 +2396,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'female'
 		},
 		alternateOf: 'judge'
@@ -2407,7 +2407,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'female',
 			skinTone: 'dark'
 		},
@@ -2419,7 +2419,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'female',
 			skinTone: 'medium-dark'
 		},
@@ -2431,7 +2431,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'female',
 			skinTone: 'medium'
 		},
@@ -2443,7 +2443,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'female',
 			skinTone: 'medium-light'
 		},
@@ -2455,7 +2455,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'female',
 			skinTone: 'light'
 		},
@@ -2467,7 +2467,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'male'
 		},
 		alternateOf: 'judge'
@@ -2478,7 +2478,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'male',
 			skinTone: 'dark'
 		},
@@ -2490,7 +2490,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'male',
 			skinTone: 'medium-dark'
 		},
@@ -2502,7 +2502,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'male',
 			skinTone: 'medium'
 		},
@@ -2514,7 +2514,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'male',
 			skinTone: 'medium-light'
 		},
@@ -2526,7 +2526,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'male',
 			skinTone: 'light'
 		},
@@ -2538,7 +2538,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: 'blue-collar'
 		}
 	},
 	{
@@ -2547,7 +2547,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'dark'
 		},
 		alternateOf: 'farmer'
@@ -2558,7 +2558,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'medium-dark'
 		},
 		alternateOf: 'farmer'
@@ -2569,7 +2569,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'medium'
 		},
 		alternateOf: 'farmer'
@@ -2580,7 +2580,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'medium-light'
 		},
 		alternateOf: 'farmer'
@@ -2591,7 +2591,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'light'
 		},
 		alternateOf: 'farmer'
@@ -2602,7 +2602,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female'
 		},
 		alternateOf: 'farmer'
@@ -2613,7 +2613,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'dark'
 		},
@@ -2625,7 +2625,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'medium-dark'
 		},
@@ -2637,7 +2637,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'medium'
 		},
@@ -2649,7 +2649,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'medium-light'
 		},
@@ -2661,7 +2661,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'light'
 		},
@@ -2673,7 +2673,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male'
 		},
 		alternateOf: 'farmer'
@@ -2684,7 +2684,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'dark'
 		},
@@ -2696,7 +2696,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'medium-dark'
 		},
@@ -2708,7 +2708,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'medium'
 		},
@@ -2720,7 +2720,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'medium-light'
 		},
@@ -2732,7 +2732,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'light'
 		},
@@ -2744,7 +2744,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: 'blue-collar'
 		}
 	},
 	{
@@ -2753,7 +2753,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'dark'
 		},
 		alternateOf: 'chef'
@@ -2764,7 +2764,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'medium-dark'
 		},
 		alternateOf: 'chef'
@@ -2775,7 +2775,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'medium'
 		},
 		alternateOf: 'chef'
@@ -2786,7 +2786,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'medium-light'
 		},
 		alternateOf: 'chef'
@@ -2797,7 +2797,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'light'
 		},
 		alternateOf: 'chef'
@@ -2808,7 +2808,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female'
 		},
 		alternateOf: 'chef'
@@ -2819,7 +2819,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'dark'
 		},
@@ -2831,7 +2831,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'medium-dark'
 		},
@@ -2843,7 +2843,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'medium'
 		},
@@ -2855,7 +2855,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'medium-light'
 		},
@@ -2867,7 +2867,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'light'
 		},
@@ -2879,7 +2879,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male'
 		},
 		alternateOf: 'chef'
@@ -2890,7 +2890,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'dark'
 		},
@@ -2902,7 +2902,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'medium-dark'
 		},
@@ -2914,7 +2914,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'medium'
 		},
@@ -2926,7 +2926,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'medium-light'
 		},
@@ -2938,7 +2938,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'light'
 		},
@@ -2950,7 +2950,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: 'blue-collar'
 		}
 	},
 	{
@@ -2959,7 +2959,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'dark'
 		},
 		alternateOf: 'mechanic'
@@ -2970,7 +2970,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'medium-dark'
 		},
 		alternateOf: 'mechanic'
@@ -2981,7 +2981,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'medium'
 		},
 		alternateOf: 'mechanic'
@@ -2992,7 +2992,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'medium-light'
 		},
 		alternateOf: 'mechanic'
@@ -3003,7 +3003,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'light'
 		},
 		alternateOf: 'mechanic'
@@ -3014,7 +3014,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female'
 		},
 		alternateOf: 'mechanic'
@@ -3025,7 +3025,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'dark'
 		},
@@ -3037,7 +3037,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'medium-dark'
 		},
@@ -3049,7 +3049,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'medium'
 		},
@@ -3061,7 +3061,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'medium-light'
 		},
@@ -3073,7 +3073,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'light'
 		},
@@ -3085,7 +3085,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male'
 		},
 		alternateOf: 'mechanic'
@@ -3096,7 +3096,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'dark'
 		},
@@ -3108,7 +3108,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'medium-dark'
 		},
@@ -3120,7 +3120,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'medium'
 		},
@@ -3132,7 +3132,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'medium-light'
 		},
@@ -3144,7 +3144,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'light'
 		},
@@ -3156,7 +3156,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: 'white-collar'
 		}
 	},
 	{
@@ -3165,7 +3165,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			skinTone: 'dark'
 		},
 		alternateOf: 'scientist'
@@ -3176,7 +3176,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			skinTone: 'medium-dark'
 		},
 		alternateOf: 'scientist'
@@ -3187,7 +3187,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			skinTone: 'medium'
 		},
 		alternateOf: 'scientist'
@@ -3198,7 +3198,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			skinTone: 'medium-light'
 		},
 		alternateOf: 'scientist'
@@ -3209,7 +3209,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			skinTone: 'light'
 		},
 		alternateOf: 'scientist'
@@ -3220,7 +3220,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female'
 		},
 		alternateOf: 'scientist'
@@ -3231,7 +3231,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female',
 			skinTone: 'dark'
 		},
@@ -3243,7 +3243,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female',
 			skinTone: 'medium-dark'
 		},
@@ -3255,7 +3255,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female',
 			skinTone: 'medium'
 		},
@@ -3267,7 +3267,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female',
 			skinTone: 'medium-light'
 		},
@@ -3279,7 +3279,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female',
 			skinTone: 'light'
 		},
@@ -3291,7 +3291,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male'
 		},
 		alternateOf: 'scientist'
@@ -3302,7 +3302,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male',
 			skinTone: 'dark'
 		},
@@ -3314,7 +3314,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male',
 			skinTone: 'medium-dark'
 		},
@@ -3326,7 +3326,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male',
 			skinTone: 'medium'
 		},
@@ -3338,7 +3338,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male',
 			skinTone: 'medium-light'
 		},
@@ -3350,7 +3350,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male',
 			skinTone: 'light'
 		},
@@ -3362,7 +3362,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: 'creative'
 		}
 	},
 	{
@@ -3371,7 +3371,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			skinTone: 'dark'
 		},
 		alternateOf: 'artist'
@@ -3382,7 +3382,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			skinTone: 'medium-dark'
 		},
 		alternateOf: 'artist'
@@ -3393,7 +3393,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			skinTone: 'medium'
 		},
 		alternateOf: 'artist'
@@ -3404,7 +3404,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			skinTone: 'medium-light'
 		},
 		alternateOf: 'artist'
@@ -3415,7 +3415,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			skinTone: 'light'
 		},
 		alternateOf: 'artist'
@@ -3426,7 +3426,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'female'
 		},
 		alternateOf: 'artist'
@@ -3437,7 +3437,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'female',
 			skinTone: 'dark'
 		},
@@ -3449,7 +3449,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'female',
 			skinTone: 'medium-dark'
 		},
@@ -3461,7 +3461,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'female',
 			skinTone: 'medium'
 		},
@@ -3473,7 +3473,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'female',
 			skinTone: 'medium-light'
 		},
@@ -3485,7 +3485,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'female',
 			skinTone: 'light'
 		},
@@ -3497,7 +3497,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'male'
 		},
 		alternateOf: 'artist'
@@ -3508,7 +3508,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'male',
 			skinTone: 'dark'
 		},
@@ -3520,7 +3520,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'male',
 			skinTone: 'medium-dark'
 		},
@@ -3532,7 +3532,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'male',
 			skinTone: 'medium'
 		},
@@ -3544,7 +3544,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'male',
 			skinTone: 'medium-light'
 		},
@@ -3556,7 +3556,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'male',
 			skinTone: 'light'
 		},
@@ -3568,7 +3568,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: 'flying'
 		}
 	},
 	{
@@ -3577,7 +3577,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			skinTone: 'dark'
 		},
 		alternateOf: 'pilot'
@@ -3588,7 +3588,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			skinTone: 'medium-dark'
 		},
 		alternateOf: 'pilot'
@@ -3599,7 +3599,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			skinTone: 'medium'
 		},
 		alternateOf: 'pilot'
@@ -3610,7 +3610,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			skinTone: 'medium-light'
 		},
 		alternateOf: 'pilot'
@@ -3621,7 +3621,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			skinTone: 'light'
 		},
 		alternateOf: 'pilot'
@@ -3632,7 +3632,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'female'
 		},
 		alternateOf: 'pilot'
@@ -3643,7 +3643,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'female',
 			skinTone: 'dark'
 		},
@@ -3655,7 +3655,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'female',
 			skinTone: 'medium-dark'
 		},
@@ -3667,7 +3667,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'female',
 			skinTone: 'medium'
 		},
@@ -3679,7 +3679,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'female',
 			skinTone: 'medium-light'
 		},
@@ -3691,7 +3691,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'female',
 			skinTone: 'light'
 		},
@@ -3703,7 +3703,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'male'
 		},
 		alternateOf: 'pilot'
@@ -3714,7 +3714,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'male',
 			skinTone: 'dark'
 		},
@@ -3726,7 +3726,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'male',
 			skinTone: 'medium-dark'
 		},
@@ -3738,7 +3738,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'male',
 			skinTone: 'medium'
 		},
@@ -3750,7 +3750,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'male',
 			skinTone: 'medium-light'
 		},
@@ -3762,7 +3762,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'male',
 			skinTone: 'light'
 		},
@@ -3774,7 +3774,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: 'blue-collar'
 		}
 	},
 	{
@@ -3783,7 +3783,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'dark'
 		},
 		alternateOf: 'firefighter'
@@ -3794,7 +3794,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'medium-dark'
 		},
 		alternateOf: 'firefighter'
@@ -3805,7 +3805,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'medium'
 		},
 		alternateOf: 'firefighter'
@@ -3816,7 +3816,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'medium-light'
 		},
 		alternateOf: 'firefighter'
@@ -3827,7 +3827,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'light'
 		},
 		alternateOf: 'firefighter'
@@ -3838,7 +3838,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female'
 		},
 		alternateOf: 'firefighter'
@@ -3849,7 +3849,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'dark'
 		},
@@ -3861,7 +3861,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'medium-dark'
 		},
@@ -3873,7 +3873,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'medium'
 		},
@@ -3885,7 +3885,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'medium-light'
 		},
@@ -3897,7 +3897,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'light'
 		},
@@ -3909,7 +3909,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male'
 		},
 		alternateOf: 'firefighter'
@@ -3920,7 +3920,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'dark'
 		},
@@ -3932,7 +3932,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'medium-dark'
 		},
@@ -3944,7 +3944,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'medium'
 		},
@@ -3956,7 +3956,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'medium-light'
 		},
@@ -3968,7 +3968,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'light'
 		},
@@ -3980,7 +3980,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: 'justice'
 		}
 	},
 	{
@@ -3989,7 +3989,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			skinTone: 'dark'
 		},
 		alternateOf: 'police'
@@ -4000,7 +4000,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			skinTone: 'medium-dark'
 		},
 		alternateOf: 'police'
@@ -4011,7 +4011,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			skinTone: 'medium'
 		},
 		alternateOf: 'police'
@@ -4022,7 +4022,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			skinTone: 'medium-light'
 		},
 		alternateOf: 'police'
@@ -4033,7 +4033,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			skinTone: 'light'
 		},
 		alternateOf: 'police'
@@ -4044,7 +4044,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'female'
 		},
 		alternateOf: 'police'
@@ -4055,7 +4055,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'female',
 			skinTone: 'dark'
 		},
@@ -4067,7 +4067,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'female',
 			skinTone: 'medium-dark'
 		},
@@ -4079,7 +4079,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'female',
 			skinTone: 'medium'
 		},
@@ -4091,7 +4091,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'female',
 			skinTone: 'medium-light'
 		},
@@ -4103,7 +4103,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'female',
 			skinTone: 'light'
 		},
@@ -4115,7 +4115,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'male'
 		},
 		alternateOf: 'police'
@@ -4126,7 +4126,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'male',
 			skinTone: 'dark'
 		},
@@ -4138,7 +4138,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'male',
 			skinTone: 'medium-dark'
 		},
@@ -4150,7 +4150,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'male',
 			skinTone: 'medium'
 		},
@@ -4162,7 +4162,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'male',
 			skinTone: 'medium-light'
 		},
@@ -4174,7 +4174,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'male',
 			skinTone: 'light'
 		},
@@ -4186,7 +4186,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: 'blue-collar'
 		}
 	},
 	{
@@ -4195,7 +4195,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'dark'
 		},
 		alternateOf: 'factory-worker'
@@ -4206,7 +4206,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'medium-dark'
 		},
 		alternateOf: 'factory-worker'
@@ -4217,7 +4217,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'medium'
 		},
 		alternateOf: 'factory-worker'
@@ -4228,7 +4228,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'medium-light'
 		},
 		alternateOf: 'factory-worker'
@@ -4239,7 +4239,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'light'
 		},
 		alternateOf: 'factory-worker'
@@ -4250,7 +4250,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female'
 		},
 		alternateOf: 'factory-worker'
@@ -4261,7 +4261,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'dark'
 		},
@@ -4273,7 +4273,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'medium-dark'
 		},
@@ -4285,7 +4285,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'medium'
 		},
@@ -4297,7 +4297,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'medium-light'
 		},
@@ -4309,7 +4309,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'light'
 		},
@@ -4321,7 +4321,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male'
 		},
 		alternateOf: 'factory-worker'
@@ -4332,7 +4332,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'dark'
 		},
@@ -4344,7 +4344,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'medium-dark'
 		},
@@ -4356,7 +4356,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'medium'
 		},
@@ -4368,7 +4368,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'medium-light'
 		},
@@ -4380,7 +4380,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'light'
 		},
@@ -4392,7 +4392,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: 'white-collar'
 		}
 	},
 	{
@@ -4401,7 +4401,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			skinTone: 'dark'
 		},
 		alternateOf: 'office-worker'
@@ -4412,7 +4412,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			skinTone: 'medium-dark'
 		},
 		alternateOf: 'office-worker'
@@ -4423,7 +4423,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			skinTone: 'medium'
 		},
 		alternateOf: 'office-worker'
@@ -4434,7 +4434,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			skinTone: 'medium-light'
 		},
 		alternateOf: 'office-worker'
@@ -4445,7 +4445,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			skinTone: 'light'
 		},
 		alternateOf: 'office-worker'
@@ -4456,7 +4456,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female'
 		},
 		alternateOf: 'office-worker'
@@ -4467,7 +4467,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female',
 			skinTone: 'dark'
 		},
@@ -4479,7 +4479,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female',
 			skinTone: 'medium-dark'
 		},
@@ -4491,7 +4491,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female',
 			skinTone: 'medium'
 		},
@@ -4503,7 +4503,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female',
 			skinTone: 'medium-light'
 		},
@@ -4515,7 +4515,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female',
 			skinTone: 'light'
 		},
@@ -4527,7 +4527,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male'
 		},
 		alternateOf: 'office-worker'
@@ -4538,7 +4538,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male',
 			skinTone: 'dark'
 		},
@@ -4550,7 +4550,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male',
 			skinTone: 'medium-dark'
 		},
@@ -4562,7 +4562,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male',
 			skinTone: 'medium'
 		},
@@ -4574,7 +4574,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male',
 			skinTone: 'medium-light'
 		},
@@ -4586,7 +4586,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male',
 			skinTone: 'light'
 		},
@@ -4598,7 +4598,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: 'white-collar'
 		}
 	},
 	{
@@ -4607,7 +4607,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			skinTone: 'dark'
 		},
 		alternateOf: 'technologist'
@@ -4618,7 +4618,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			skinTone: 'medium-dark'
 		},
 		alternateOf: 'technologist'
@@ -4629,7 +4629,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			skinTone: 'medium'
 		},
 		alternateOf: 'technologist'
@@ -4640,7 +4640,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			skinTone: 'medium-light'
 		},
 		alternateOf: 'technologist'
@@ -4651,7 +4651,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			skinTone: 'light'
 		},
 		alternateOf: 'technologist'
@@ -4662,7 +4662,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female'
 		},
 		alternateOf: 'technologist'
@@ -4673,7 +4673,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female',
 			skinTone: 'dark'
 		},
@@ -4685,7 +4685,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female',
 			skinTone: 'medium-dark'
 		},
@@ -4697,7 +4697,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female',
 			skinTone: 'medium'
 		},
@@ -4709,7 +4709,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female',
 			skinTone: 'medium-light'
 		},
@@ -4721,7 +4721,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'female',
 			skinTone: 'light'
 		},
@@ -4733,7 +4733,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male'
 		},
 		alternateOf: 'technologist'
@@ -4744,7 +4744,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male',
 			skinTone: 'dark'
 		},
@@ -4756,7 +4756,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male',
 			skinTone: 'medium-dark'
 		},
@@ -4768,7 +4768,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male',
 			skinTone: 'medium'
 		},
@@ -4780,7 +4780,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male',
 			skinTone: 'medium-light'
 		},
@@ -4792,7 +4792,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'white-collar',
 			gender: 'male',
 			skinTone: 'light'
 		},
@@ -4804,7 +4804,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: 'creative'
 		}
 	},
 	{
@@ -4813,7 +4813,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			skinTone: 'dark'
 		},
 		alternateOf: 'singer'
@@ -4824,7 +4824,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			skinTone: 'medium-dark'
 		},
 		alternateOf: 'singer'
@@ -4835,7 +4835,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			skinTone: 'medium'
 		},
 		alternateOf: 'singer'
@@ -4846,7 +4846,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			skinTone: 'medium-light'
 		},
 		alternateOf: 'singer'
@@ -4857,7 +4857,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			skinTone: 'light'
 		},
 		alternateOf: 'singer'
@@ -4868,7 +4868,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'female'
 		},
 		alternateOf: 'singer'
@@ -4879,7 +4879,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'female',
 			skinTone: 'dark'
 		},
@@ -4891,7 +4891,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'female',
 			skinTone: 'medium-dark'
 		},
@@ -4903,7 +4903,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'female',
 			skinTone: 'medium'
 		},
@@ -4915,7 +4915,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'female',
 			skinTone: 'medium-light'
 		},
@@ -4927,7 +4927,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'female',
 			skinTone: 'light'
 		},
@@ -4939,7 +4939,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'male'
 		},
 		alternateOf: 'singer'
@@ -4950,7 +4950,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'male',
 			skinTone: 'dark'
 		},
@@ -4962,7 +4962,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'male',
 			skinTone: 'medium-dark'
 		},
@@ -4974,7 +4974,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'male',
 			skinTone: 'medium'
 		},
@@ -4986,7 +4986,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'male',
 			skinTone: 'medium-light'
 		},
@@ -4998,7 +4998,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'creative',
 			gender: 'male',
 			skinTone: 'light'
 		},
@@ -5010,7 +5010,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: 'flying'
 		}
 	},
 	{
@@ -5019,7 +5019,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			skinTone: 'dark'
 		},
 		alternateOf: 'astronaut'
@@ -5030,7 +5030,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			skinTone: 'medium-dark'
 		},
 		alternateOf: 'astronaut'
@@ -5041,7 +5041,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			skinTone: 'medium'
 		},
 		alternateOf: 'astronaut'
@@ -5052,7 +5052,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			skinTone: 'medium-light'
 		},
 		alternateOf: 'astronaut'
@@ -5063,7 +5063,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			skinTone: 'light'
 		},
 		alternateOf: 'astronaut'
@@ -5074,7 +5074,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'female'
 		},
 		alternateOf: 'astronaut'
@@ -5085,7 +5085,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'female',
 			skinTone: 'dark'
 		},
@@ -5097,7 +5097,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'female',
 			skinTone: 'medium-dark'
 		},
@@ -5109,7 +5109,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'female',
 			skinTone: 'medium'
 		},
@@ -5121,7 +5121,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'female',
 			skinTone: 'medium-light'
 		},
@@ -5133,7 +5133,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'female',
 			skinTone: 'light'
 		},
@@ -5145,7 +5145,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'male'
 		},
 		alternateOf: 'astronaut'
@@ -5156,7 +5156,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'male',
 			skinTone: 'dark'
 		},
@@ -5168,7 +5168,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'male',
 			skinTone: 'medium-dark'
 		},
@@ -5180,7 +5180,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'male',
 			skinTone: 'medium'
 		},
@@ -5192,7 +5192,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'male',
 			skinTone: 'medium-light'
 		},
@@ -5204,7 +5204,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'flying',
 			gender: 'male',
 			skinTone: 'light'
 		},
@@ -5216,7 +5216,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: 'justice'
 		}
 	},
 	{
@@ -5225,7 +5225,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: 'justice'
 		}
 	},
 	{
@@ -5234,7 +5234,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			skinTone: 'dark'
 		},
 		alternateOf: 'guard'
@@ -5245,7 +5245,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			skinTone: 'medium-dark'
 		},
 		alternateOf: 'guard'
@@ -5256,7 +5256,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			skinTone: 'medium'
 		},
 		alternateOf: 'guard'
@@ -5267,7 +5267,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			skinTone: 'medium-light'
 		},
 		alternateOf: 'guard'
@@ -5278,7 +5278,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			skinTone: 'light'
 		},
 		alternateOf: 'guard'
@@ -5289,7 +5289,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'female'
 		},
 		alternateOf: 'guard'
@@ -5300,7 +5300,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'female',
 			skinTone: 'dark'
 		},
@@ -5312,7 +5312,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'female',
 			skinTone: 'medium-dark'
 		},
@@ -5324,7 +5324,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'female',
 			skinTone: 'medium'
 		},
@@ -5336,7 +5336,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'female',
 			skinTone: 'medium-light'
 		},
@@ -5348,7 +5348,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'female',
 			skinTone: 'light'
 		},
@@ -5360,7 +5360,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'male'
 		},
 		alternateOf: 'guard'
@@ -5371,7 +5371,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'male',
 			skinTone: 'dark'
 		},
@@ -5383,7 +5383,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'male',
 			skinTone: 'medium-dark'
 		},
@@ -5395,7 +5395,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'male',
 			skinTone: 'medium'
 		},
@@ -5407,7 +5407,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'male',
 			skinTone: 'medium-light'
 		},
@@ -5419,7 +5419,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'justice',
 			gender: 'male',
 			skinTone: 'light'
 		},
@@ -5431,7 +5431,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true
+			professional: 'blue-collar'
 		}
 	},
 	{
@@ -5440,7 +5440,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'dark'
 		},
 		alternateOf: 'construction-worker'
@@ -5451,7 +5451,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'medium-dark'
 		},
 		alternateOf: 'construction-worker'
@@ -5462,7 +5462,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'medium'
 		},
 		alternateOf: 'construction-worker'
@@ -5473,7 +5473,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'medium-light'
 		},
 		alternateOf: 'construction-worker'
@@ -5484,7 +5484,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			skinTone: 'light'
 		},
 		alternateOf: 'construction-worker'
@@ -5495,7 +5495,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female'
 		},
 		alternateOf: 'construction-worker'
@@ -5506,7 +5506,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'dark'
 		},
@@ -5518,7 +5518,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'medium-dark'
 		},
@@ -5530,7 +5530,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'medium'
 		},
@@ -5542,7 +5542,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'medium-light'
 		},
@@ -5554,7 +5554,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'female',
 			skinTone: 'light'
 		},
@@ -5566,7 +5566,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male'
 		},
 		alternateOf: 'construction-worker'
@@ -5577,7 +5577,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'dark'
 		},
@@ -5589,7 +5589,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'medium-dark'
 		},
@@ -5601,7 +5601,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'medium'
 		},
@@ -5613,7 +5613,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'medium-light'
 		},
@@ -5625,7 +5625,7 @@ export const GENERATED_RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		person: {
 			frame: 'torso',
-			professional: true,
+			professional: 'blue-collar',
 			gender: 'male',
 			skinTone: 'light'
 		},
