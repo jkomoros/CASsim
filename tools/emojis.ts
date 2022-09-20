@@ -80,7 +80,7 @@ const generateEmojis = () => {
 					if (info.emoji != PERSON && hairName) continue;
 					if (!genderName && !skinToneName && !hairName) continue;
 					const newInfo = {...info, person: {...info.person}};
-					newInfo.name = info.name + (skinToneName ? '-' + skinToneName + '-skin' : '') + (hairName ? '-' + hairName + '-hair' : '') + (genderName ? '-' + genderName : '');
+					newInfo.name = info.name + (hairName ? '-' + hairName + '-hair' : '') + (skinToneName ? '-' + skinToneName + '-skin' : '') + (genderName ? '-' + genderName : '');
 					//TODO: should the skin tones for non-neutral gender use the default skin tone of their gender as the base?
 					newInfo.alternateOf = info.name;
 					/*
