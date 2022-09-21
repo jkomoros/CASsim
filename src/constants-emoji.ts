@@ -4,7 +4,8 @@ import {
 	ROTATION_UP,
 	ROTATION_DOWN,
 	ROTATION_LEFT,
-	ROTATION_RIGHT
+	ROTATION_RIGHT,
+	ROTATION_UP_RIGHT
 } from './constants.js';
 
 import {
@@ -1948,4 +1949,28 @@ export const RAW_EMOJIS = [
 			clipped: true
 		}
 	},
+	{
+		name: 'airplane',
+		emoji: '✈️',
+		direction: ROTATION_UP_RIGHT,
+		vehicle: {
+			surface: 'air'
+		}
+	},
+	{
+		name: 'helicopter',
+		emoji: '🚁',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'air'
+		}
+	},
+	{
+		name: 'rocket',
+		emoji: '🚀',
+		direction: ROTATION_UP_RIGHT,
+		vehicle: {
+			surface: 'space'
+		}
+	}
 ] as const;
