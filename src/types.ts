@@ -95,6 +95,16 @@ export type KnownEmojiInfo = {
         //Whether the animal is depicted hanging from something. Currently only 'sloth'
         readonly hanging? : true
     },
+    readonly vehicle? : {
+        //What type of surface area it drives on
+        readonly surface : 'street' | 'tracks' | 'air' | 'space' | 'water',
+        readonly trainKind? : 'locomotive' | 'tram' | 'train-car',
+        readonly carKind? : 'car' | 'racing-car' | 'truck'| 'bus' | 'emergency',
+        readonly bikeKind? : 'cycle' | 'scooter',
+        readonly bikeSelfPowered? : true,
+        //If the vehicle is partially clipped in the frame
+        readonly clipped? : boolean,
+    },
     readonly building? : 'dwelling' | 'special-dwelling' | 'business' | 'religion' | 'special' | 'landmark'
 };
 
