@@ -34,3 +34,4 @@ export const ROTATION_UP : Angle = FULL_ROTATION / 4;
 export const ROTATION_LEFT : Angle = FULL_ROTATION / 2;
 export const ROTATION_DOWN : Angle = FULL_ROTATION  * 3/4;
 export const ROTATION_RIGHT : Angle = 0;
+export const ROTATION_UP_RIGHT : Angle = FULL_ROTATION / 8;

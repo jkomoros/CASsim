@@ -13,7 +13,8 @@ const ROTATION_TYPES = [
 	'ROTATION_DOWN',
 	'ROTATION_UP',
 	'ROTATIION_LEFT',
-	'ROTATION_RIGHT'
+	'ROTATION_RIGHT',
+	'ROTATION_UP_RIGHT'
 ] as const;
 
 type ManualAngle<Type> = {
