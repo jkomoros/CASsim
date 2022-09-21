@@ -1420,5 +1420,173 @@ export const RAW_EMOJIS = [
 			stem: true
 		}
 	},
+	{
+		name: 'house',
+		emoji: '🏠',
+		direction: ROTATION_DOWN,
+		building: 'dwelling'
+	},
+	{
+		name: 'house-abandoned',
+		emoji: '🏚️',
+		alternateOf: 'house',
+		direction: ROTATION_DOWN,
+		building: 'dwelling'
+	},
+	{
+		name: 'house-with-garden',
+		emoji: '🏡',
+		alternateOf: 'house',
+		direction: ROTATION_DOWN,
+		building: 'dwelling'
+	},
+	{
+		name: 'office-building',
+		emoji: '🏢',
+		direction: ROTATION_DOWN,
+		building: 'business'
+	},
+	{
+		name: 'post-office',
+		emoji: '🏤',
+		direction: ROTATION_DOWN,
+		building: 'business'
+	},
+	{
+		name: 'post-office-japanese',
+		emoji: '🏣',
+		alternateOf: 'post-office',
+		direction: ROTATION_DOWN,
+		building: 'business'
+	},
+	{
+		name: 'hospital',
+		emoji: '🏥',
+		direction: ROTATION_DOWN,
+		building: 'business'
+	},
+	{
+		name: 'bank',
+		emoji: '🏦',
+		direction: ROTATION_DOWN,
+		building: 'business'
+	},
+	{
+		name: 'hotel',
+		emoji: '🏨',
+		direction: ROTATION_DOWN,
+		building: 'business'
+	},
+	{
+		name: 'hotel-love',
+		emoji: '🏩',
+		alternateOf: 'hotel',
+		direction: ROTATION_DOWN,
+		building: 'business'
+	},
+	{
+		name: 'convenience-store',
+		emoji: '🏪',
+		direction: ROTATION_DOWN,
+		building: 'business'
+	},
+	{
+		name: 'school',
+		emoji: '🏫',
+		direction: ROTATION_DOWN,
+		building: 'business'
+	},
+	{
+		name: 'department-store',
+		emoji: '🏬',
+		direction: ROTATION_DOWN,
+		building: 'business'
+	},
+	{
+		name: 'factory',
+		emoji: '🏭',
+		direction: ROTATION_DOWN,
+		building: 'business'
+	},
+	{
+		name: 'castle',
+		emoji: '🏰',
+		direction: ROTATION_DOWN,
+		building: 'special'
+	},
+	{
+		name: 'castle-japanese',
+		emoji: '🏯',
+		alternateOf: 'castle',
+		direction: ROTATION_DOWN,
+		building: 'special'
+	},
+	{
+		name: 'church',
+		emoji: '⛪',
+		direction: ROTATION_DOWN,
+		building: 'religion'
+	},
+	{
+		name: 'wedding',
+		emoji: '💒',
+		alternateOf: 'church',
+		direction: ROTATION_DOWN,
+		building: 'religion'
+	},
+	{
+		name: 'mosque',
+		emoji: '🕌',
+		direction: ROTATION_DOWN,
+		building: 'religion'
+	},
+	{
+		name: 'hindu-temple',
+		emoji: '🛕',
+		direction: ROTATION_DOWN,
+		building: 'religion'
+	},
+	{
+		name: 'synagogue',
+		emoji: '🕍',
+		direction: ROTATION_DOWN,
+		building: 'religion'
+	},
+	{
+		name: 'tent',
+		emoji: '⛺',
+		direction: ROTATION_DOWN,
+		building: 'special-dwelling'
+	},
+	{
+		name: 'hut',
+		emoji: '🛖',
+		direction: ROTATION_DOWN,
+		building: 'special-dwelling'
+	},
+	{
+		name: 'classical-building',
+		emoji: '🏛️',
+		direction: ROTATION_DOWN,
+		building: 'special'
+	},
+	{
+		name: 'stadium',
+		emoji: '🏟️',
+		direction: ROTATION_DOWN,
+		building: 'special'
+	},
+	{
+		name: 'tokyo-tower',
+		emoji: '🗼',
+		direction: ROTATION_DOWN,
+		building: 'landmark'
+	},
+	{
+		name: 'statue-of-liberty',
+		emoji: '🗽',
+		direction: ROTATION_DOWN,
+		building: 'landmark'
+	},
 
 ] as const;
