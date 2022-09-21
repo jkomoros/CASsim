@@ -1896,4 +1896,56 @@ export const RAW_EMOJIS = [
 			selfPowered: true
 		}
 	},
+	{
+		name: 'sailboat',
+		emoji: '⛵',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'water',
+			selfPowered: true
+		}
+	},
+	{
+		name: 'speedboat',
+		emoji: '🚤',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'water'
+		}
+	},
+	{
+		name: 'motor-boat',
+		emoji: '🛥️',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'water'
+		}
+	},
+	{
+		name: 'passenger-ship',
+		emoji: '🛳️',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'water',
+			clipped: true
+		}
+	},
+	{
+		name: 'ferry',
+		emoji: '⛴️',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'water',
+			clipped: true
+		}
+	},
+	{
+		name: 'ship',
+		emoji: '🚢',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'water',
+			clipped: true
+		}
+	},
 ] as const;
