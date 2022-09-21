@@ -1883,7 +1883,7 @@ export const RAW_EMOJIS = [
 		vehicle: {
 			surface: 'street',
 			bikeKind: 'cycle',
-			bikeSelfPowered: true
+			selfPowered: true
 		}
 	},
 	{
@@ -1893,7 +1893,7 @@ export const RAW_EMOJIS = [
 		vehicle: {
 			surface: 'street',
 			bikeKind: 'scooter',
-			bikeSelfPowered: true
+			selfPowered: true
 		}
 	},
 ] as const;

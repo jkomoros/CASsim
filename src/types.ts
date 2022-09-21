@@ -101,7 +101,7 @@ export type KnownEmojiInfo = {
         readonly trainKind? : 'locomotive' | 'tram' | 'train-car',
         readonly autoKind? : 'car' | 'racing-car' | 'truck'| 'bus' | 'emergency' | 'taxi' | 'tractor',
         readonly bikeKind? : 'cycle' | 'scooter',
-        readonly bikeSelfPowered? : true,
+        readonly selfPowered? : true,
         //If the vehicle is partially clipped in the frame
         readonly clipped? : boolean,
     },
