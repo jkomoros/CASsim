@@ -94,7 +94,8 @@ export type KnownEmojiInfo = {
         readonly grazes? : true,
         //Whether the animal is depicted hanging from something. Currently only 'sloth'
         readonly hanging? : true
-    }
+    },
+    readonly building? : 'dwelling' | 'special-dwelling' | 'business' | 'religion' | 'special' | 'landmark'
 };
 
 type RelaxKnownConstraints<Type> = {
