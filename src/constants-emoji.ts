@@ -1588,5 +1588,98 @@ export const RAW_EMOJIS = [
 		direction: ROTATION_DOWN,
 		building: 'landmark'
 	},
-
+	{
+		name: 'locomotive',
+		emoji: '🚂',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'tracks',
+			trainKind: 'locomotive'
+		}
+	},
+	{
+		name: 'high-speed-train',
+		emoji: '🚄',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'tracks',
+			trainKind: 'locomotive',
+			clipped: true
+		}
+	},
+	{
+		name: 'bullet-train',
+		emoji: '🚅',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'tracks',
+			trainKind: 'locomotive',
+			clipped: true
+		}
+	},
+	{
+		name: 'light-rail',
+		emoji: '🚈',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'tracks',
+			trainKind: 'locomotive',
+			clipped: true
+		}
+	},
+	{
+		name: 'monorail',
+		emoji: '🚝',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'tracks',
+			trainKind: 'locomotive',
+			clipped: true
+		}
+	},
+	{
+		name: 'train',
+		emoji: '🚆',
+		direction: ROTATION_DOWN,
+		vehicle: {
+			surface: 'tracks',
+			trainKind: 'locomotive'
+		}
+	},
+	{
+		name: 'metro',
+		emoji: '🚇',
+		direction: ROTATION_DOWN,
+		vehicle: {
+			surface: 'tracks',
+			trainKind: 'locomotive'
+		}
+	},
+	{
+		name: 'tram',
+		emoji: '🚊',
+		direction: ROTATION_DOWN,
+		vehicle: {
+			surface: 'tracks',
+			trainKind: 'locomotive'
+		}
+	},
+	{
+		name: 'railway-car',
+		emoji: '🚃',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'tracks',
+			trainKind: 'train-car'
+		}
+	},
+	{
+		name: 'tram-car',
+		emoji: '🚋',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'tracks',
+			trainKind: 'train-car'
+		}
+	}
 ] as const;
