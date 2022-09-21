@@ -1681,5 +1681,219 @@ export const RAW_EMOJIS = [
 			surface: 'tracks',
 			trainKind: 'train-car'
 		}
-	}
+	},
+	{
+		name: 'bus',
+		emoji: '🚌',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'street',
+			autoKind: 'bus'
+		}
+	},
+	{
+		name: 'bus-oncoming',
+		emoji: '🚍',
+		direction: ROTATION_DOWN,
+		alternateOf: 'bus',
+		vehicle: {
+			surface: 'street',
+			autoKind: 'bus'
+		}
+	},
+	{
+		name: 'trolley-bus',
+		emoji: '🚎',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'street',
+			autoKind: 'bus'
+		}
+	},
+	{
+		name: 'mini-bus',
+		emoji: '🚐',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'street',
+			autoKind: 'bus'
+		}
+	},
+	{
+		name: 'ambulance',
+		emoji: '🚑',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'street',
+			autoKind: 'emergency'
+		}
+	},
+	{
+		name: 'fire-engine',
+		emoji: '🚒',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'street',
+			autoKind: 'emergency'
+		}
+	},
+	{
+		name: 'police-car',
+		emoji: '🚓',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'street',
+			autoKind: 'emergency'
+		}
+	},
+	{
+		name: 'police-car-oncoming',
+		emoji: '🚔',
+		direction: ROTATION_DOWN,
+		alternateOf: 'police-car',
+		vehicle: {
+			surface: 'street',
+			autoKind: 'emergency'
+		}
+	},
+	{
+		name: 'taxi',
+		emoji: '🚕',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'street',
+			autoKind: 'taxi'
+		}
+	},
+	{
+		name: 'taxi-oncoming',
+		emoji: '🚖',
+		direction: ROTATION_DOWN,
+		alternateOf: 'taxi',
+		vehicle: {
+			surface: 'street',
+			autoKind: 'taxi'
+		}
+	},
+	{
+		name: 'automobile',
+		emoji: '🚗',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'street',
+			autoKind: 'car'
+		}
+	},
+	{
+		name: 'automobile-oncoming',
+		emoji: '🚘',
+		direction: ROTATION_DOWN,
+		alternateOf: 'automobile',
+		vehicle: {
+			surface: 'street',
+			autoKind: 'car'
+		}
+	},
+	{
+		name: 'sport-utility-vehicle',
+		emoji: '🚙',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'street',
+			autoKind: 'car'
+		}
+	},
+	{
+		name: 'pickup-truck',
+		emoji: '🛻',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'street',
+			autoKind: 'car'
+		}
+	},
+	{
+		name: 'delivery-truck',
+		emoji: '🚚',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'street',
+			autoKind: 'car'
+		}
+	},
+	{
+		name: 'articulated-lorry',
+		emoji: '🚛',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'street',
+			autoKind: 'car'
+		}
+	},
+	{
+		name: 'tractor',
+		emoji: '🚜',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'street',
+			autoKind: 'tractor'
+		}
+	},
+	{
+		name: 'racing-car',
+		emoji: '🏎️',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'street',
+			autoKind: 'racing-car'
+		}
+	},
+	{
+		name: 'motorcyle',
+		emoji: '🏍️',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'street',
+			bikeKind: 'cycle'
+		}
+	},
+	{
+		name: 'motor-scooter',
+		emoji: '🛵',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'street',
+			bikeKind: 'scooter'
+		}
+	},
+	{
+		name: 'auto-rickshaw',
+		emoji: '🛺',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'street',
+			autoKind: 'taxi',
+			bikeKind: 'scooter'
+		}
+	},
+	{
+		name: 'bicycle',
+		emoji: '🚲',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'street',
+			bikeKind: 'cycle',
+			bikeSelfPowered: true
+		}
+	},
+	{
+		name: 'kick-scooter',
+		emoji: '🛴',
+		direction: ROTATION_LEFT,
+		vehicle: {
+			surface: 'street',
+			bikeKind: 'scooter',
+			bikeSelfPowered: true
+		}
+	},
 ] as const;
