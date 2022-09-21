@@ -37,7 +37,9 @@ const JSON_REPLACEMENTS = {
 const SKIP_ALTERNATES : {[name : string] : 'all' | 'skin' | 'gender'} = {
 	//https://blog.emojipedia.org/diverse-spy-proposal/
 	'detective': 'all',
-	'ninja': 'gender'
+	'ninja': 'gender',
+	'genie': 'skin',
+	'zombie': 'skin'
 };
 
 const GENDERS = {

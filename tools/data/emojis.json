@@ -254,6 +254,70 @@
 				"frame": "torso",
 				"professional": "comics"
 			}
+		},
+		{
+			"name": "mage",
+			"emoji": "🧙",
+			"direction": "ROTATION_DOWN",
+			"person": {
+				"frame": "torso",
+				"professional": "supernatural"
+			}
+		},
+		{
+			"name": "fairy",
+			"emoji": "🧚",
+			"direction": "ROTATION_DOWN",
+			"person": {
+				"frame": "body",
+				"professional": "supernatural"
+			}
+		},
+		{
+			"name": "vampire",
+			"emoji": "🧛",
+			"direction": "ROTATION_DOWN",
+			"person": {
+				"frame": "torso",
+				"professional": "supernatural"
+			}
+		},
+		{
+			"name": "merperson",
+			"emoji": "🧜",
+			"direction": "ROTATION_DOWN",
+			"person": {
+				"frame": "body",
+				"professional": "supernatural"
+			}
+		},
+		{
+			"name": "elf",
+			"emoji": "🧝",
+			"direction": "ROTATION_DOWN",
+			"person": {
+				"frame": "torso",
+				"professional": "supernatural"
+			}
+		},
+		{
+			"name": "genie",
+			"emoji": "🧞",
+			"direction": "ROTATION_DOWN",
+			"person": {
+				"frame": "body",
+				"professional": "supernatural"
+			}
+		},
+		{
+			"name": "zombie",
+			"emoji": "🧟",
+			"direction": "ROTATION_DOWN",
+			"person": {
+				"frame": "torso",
+				"professional": "supernatural"
+			}
 		}
+
 	]
 }
