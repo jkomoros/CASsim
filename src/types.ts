@@ -67,7 +67,6 @@ export type KnownEmojiInfo = {
         //Whether the person depicted is representing some defined profession
         readonly professional? : 'blue-collar' | 'white-collar' | 'education' | 'justice' | 'creative' | 'flying' | 'ninja' | 'comics' | 'supernatural',
     },
-    //TODO: add vehicles
     readonly plant? : {
         readonly habitat: 'forest' | 'grass' | 'house' | 'farm' | 'desert' | 'garden' | 'jungle',
         //plant means 'generic green plant'
