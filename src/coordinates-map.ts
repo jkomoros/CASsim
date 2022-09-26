@@ -56,7 +56,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	}
 
 	//Suitable to be stored in a property of a frame
-	toFrameData() : CoordinatesMapFrameData {
+	get frameData() : CoordinatesMapFrameData {
 		return {
 			format: 'flat',
 			items:{...this._itemsMap}
