@@ -57,11 +57,17 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 
 	//Suitable to be stored in a property of a frame
 	toFrameData() : CoordinatesMapFrameData {
-		this._changesMade = false;
 		return {
 			format: 'flat',
 			items:{...this._itemsMap}
 		};
+	}
+
+	/**
+	 * Called after you have saved the item
+	 */
+	saved() : void {
+		this._changesMade = false;
 	}
 
 	/**
