@@ -54,12 +54,12 @@ export type RowColOptionalSimOptions = SimOptions & {
 	cols? : number;
 }
 
-type AnyNodeTicker<A extends Agent, F extends AgentSimulationFrame<A>, G extends Graph> = {
-	[name : string] : (node : GraphNodeValues, graph : G, frame : F, rnd : RandomGenerator) => GraphNodeValues;
+type AnyNodeTicker<A extends Agent, F extends AgentSimulationFrame<A>, P extends Graph> = {
+	[name : string] : (node : GraphNodeValues, positions : P, frame : F, rnd : RandomGenerator) => GraphNodeValues;
 }
 
-type AnyAgentTicker<A extends Agent, F extends AgentSimulationFrame<A>, G extends Graph> = {
-	[name : string] : (agent : A, agents : A[], graph : G, frame : F, rnd : RandomGenerator) => A | A[];
+type AnyAgentTicker<A extends Agent, F extends AgentSimulationFrame<A>, P extends Graph> = {
+	[name : string] : (agent : A, agents : A[], positions : P, frame : F, rnd : RandomGenerator) => A | A[];
 }
 
 export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A>, P extends Graph> extends BaseSimulator {
