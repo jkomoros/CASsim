@@ -28,7 +28,7 @@ type StubAgent = Agent & {
 	emoji : string;
 };
 
-interface StubSimulationFrame extends AgentSimulationFrame<StubAgent> {
+interface StubSimulationFrame extends AgentSimulationFrame<StubAgent, Graph> {
 	agents : StubAgent[];
 	simOptions : StubSimOptions;
 }

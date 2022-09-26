@@ -60,7 +60,7 @@ type FreeMovingAgentsAgent = Agent & {
 	speed : number;
 };
 
-interface FreeMovingAgentsSimulationFrame extends AgentSimulationFrame<FreeMovingAgentsAgent> {
+interface FreeMovingAgentsSimulationFrame extends AgentSimulationFrame<FreeMovingAgentsAgent, Graph> {
 	agents : FreeMovingAgentsAgent[];
 	simOptions : FreeMovingAgentsSimOptions;
 }

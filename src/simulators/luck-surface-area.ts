@@ -79,7 +79,7 @@ type LuckSurfaceAreaAgent = Agent & {
 	cost : number;
 };
 
-interface LuckSurfaceAreaSimulationFrame extends AgentSimulationFrame<LuckSurfaceAreaAgent> {
+interface LuckSurfaceAreaSimulationFrame extends AgentSimulationFrame<LuckSurfaceAreaAgent, PositionedGraph> {
 	agents : LuckSurfaceAreaAgent[];
 	simOptions : LuckSurfaceAreaSimOptions;
 }

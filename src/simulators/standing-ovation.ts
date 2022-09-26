@@ -53,7 +53,7 @@ type StandingOvationSimulationFrameExtra = {
 	changesMade: boolean;
 }
 
-interface StandingOvationSimulationFrame extends AgentSimulationFrame<StandingOvationAgent>,  StandingOvationSimulationFrameExtra {
+interface StandingOvationSimulationFrame extends AgentSimulationFrame<StandingOvationAgent, RectangleGraph>,  StandingOvationSimulationFrameExtra {
 	simOptions: StandingOvationSimOptions,
 	agents : StandingOvationAgent[]
 }

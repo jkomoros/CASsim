@@ -1,6 +1,7 @@
 import { BaseSimulator } from "./simulator.js";
 
 import { 
+	dataIsGraph,
 	Graph,
 	inflateGraph,
 }from './graph/graph.js';
@@ -10,6 +11,10 @@ import {
 } from './graph/rectangle.js';
 
 import {
+	CoordinatesMap
+} from './coordinates-map.js';
+
+import {
 	shuffleInPlace,
 	randomString,
 	Urn
@@ -17,6 +22,7 @@ import {
 
 import {
 	Angle,
+	CoordinatesMapFrameData,
 	Emoji,
 	GraphData,
 	GraphEdge,
@@ -40,12 +46,12 @@ export type Agent = {
 	angle? : Angle;
 };
 
-type AgentSimulationFrameExtra<A extends Agent> = {
+type AgentSimulationFrameExtra<A extends Agent, P extends (CoordinatesMap<A> | Graph)> = {
 	agents : A[],
-	positions: GraphData,
+	positions: P extends Graph ? GraphData : CoordinatesMapFrameData,
 }
 
-export type AgentSimulationFrame<A extends Agent> = SimulationFrame & AgentSimulationFrameExtra<A>;
+export type AgentSimulationFrame<A extends Agent, P extends (CoordinatesMap<A> | Graph)> = SimulationFrame & AgentSimulationFrameExtra<A, P>;
 
 export type NodeScorer = (neighbor : GraphNodeValues, length : number, path : GraphEdge[]) => number;
 
@@ -54,15 +60,15 @@ export type RowColOptionalSimOptions = SimOptions & {
 	cols? : number;
 }
 
-type AnyNodeTicker<A extends Agent, F extends AgentSimulationFrame<A>, P extends Graph> = {
+type AnyNodeTicker<A extends Agent, F extends AgentSimulationFrame<A, P>, P extends (CoordinatesMap<A> | Graph)> = {
 	[name : string] : (node : GraphNodeValues, positions : P, frame : F, rnd : RandomGenerator) => GraphNodeValues;
 }
 
-type AnyAgentTicker<A extends Agent, F extends AgentSimulationFrame<A>, P extends Graph> = {
+type AnyAgentTicker<A extends Agent, F extends AgentSimulationFrame<A, P>, P extends (CoordinatesMap<A> | Graph)> = {
 	[name : string] : (agent : A, agents : A[], positions : P, frame : F, rnd : RandomGenerator) => A | A[];
 }
 
-export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A>, P extends Graph> extends BaseSimulator {
+export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P>, P extends (CoordinatesMap<A> | Graph)> extends BaseSimulator {
 
 	/*
 		An override point for your generateFirstFrame. You should return the
@@ -163,7 +169,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A>, 
 	generateAgents(positions : P, baseFrame : SimulationFrame, rnd : RandomGenerator) : A[] {
 		const agents = [];
 		const skipPlacingAgents = this.skipPlacingAgents(positions, baseFrame, rnd);
-		const baseAvailableNodes = skipPlacingAgents ? {} : {...positions.nodes()};
+		const baseAvailableNodes = skipPlacingAgents || !(positions instanceof Graph) ? {} : {...positions.nodes()};
 		const agentCount = this.numStarterAgents(positions, baseFrame, rnd);
 		for (let i = 0; i < agentCount; i++) {
 			const agent = this.generateAgent(null, agents, positions, baseFrame, rnd);
@@ -266,6 +272,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A>, 
 	//be undefined. All candidates will be put in an urn with their floats as
 	//their probability of being picked.
 	selectNodeToMoveTo(agent : A, agents : A[], positions : P, frame : F, rnd : RandomGenerator, ply = 1, nodeScorer : NodeScorer = () => 1.0, edgeScorer? : GraphExplorationEdgeScorer) : GraphNodeValues {
+		if (!(positions instanceof Graph)) return null;
 		const neighborsMap = positions.neighbors(agent.node, ply);
 		//Agents might have nulls for agents who have already died this tick.
 		const agentsByNode = Object.fromEntries(agents.filter(agent => agent).map(agent => [agent.node, agent]));
@@ -334,7 +341,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A>, 
 		Ticks all agents, and all nodes.
 	*/
 	override generateFrame(frame : F, rnd : RandomGenerator) : void {
-		const positions = (frame.positions ? inflateGraph(frame.positions) : null) as P;
+		const positions = frame.positions ? (dataIsGraph(frame.positions) ? inflateGraph(frame.positions) as P : CoordinatesMap.fromFrameData(frame.positions, frame.agents) as P): null;
 		const newAgents = [...frame.agents];
 		const agentIterationOrder = [...frame.agents.keys()];
 		this.framePreTick(positions, frame, rnd);
@@ -356,7 +363,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A>, 
 		//Filter out agents who died this tick (returned null)
 		const filteredNewAgents = newAgents.filter(agent => agent);
 		frame.agents = [...filteredNewAgents, ...this.spawnAgents(filteredNewAgents, positions, frame, rnd).filter(agent => agent)];
-		if (positions) {
+		if (positions && positions instanceof Graph) {
 			for (const [id, node] of Object.entries(positions.nodes())) {
 				const newNode = this.nodeTick(node, positions, frame, rnd);
 				//If we set the node to the same values as it was, then the graph
@@ -366,7 +373,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A>, 
 		}
 		this.framePostTick(positions, frame, rnd);
 		if (positions && positions.changesMade) {
-			frame.positions = positions.frameData;
+			frame.positions = positions.frameData as (P extends Graph ? GraphData : CoordinatesMapFrameData);
 			positions.saved();
 		}
 	}

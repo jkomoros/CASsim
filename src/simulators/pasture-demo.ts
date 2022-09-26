@@ -42,7 +42,7 @@ type PastureDemoAgent = Agent & {
 	node: GraphNodeID;
 };
 
-interface PastureDemoSimulationFrame extends AgentSimulationFrame<PastureDemoAgent> {
+interface PastureDemoSimulationFrame extends AgentSimulationFrame<PastureDemoAgent, RectangleGraph> {
 	agents : PastureDemoAgent[];
 	simOptions: PastureDemoSimOptions;
 }

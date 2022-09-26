@@ -130,7 +130,7 @@ interface SchellingOrgSimulationFramePartial {
 	northStar: NorthStarOptions;
 }
 
-interface SchellingOrgSimulationFrame extends AgentSimulationFrame<Agent>, SchellingOrgSimulationFramePartial {}
+interface SchellingOrgSimulationFrame extends AgentSimulationFrame<Agent, Graph>, SchellingOrgSimulationFramePartial {}
 
 
 //bias is where in the range of min to max the value will be. 0.5 will be
@@ -1225,6 +1225,7 @@ export default SchellingOrgSimulator;
 import { html, css, svg} from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { BaseRenderer } from '../renderer.js';
+import { Graph } from '../graph/graph.js';
 
 const COLLABORATOR_CIRCLE_FACTOR = 7;
 
