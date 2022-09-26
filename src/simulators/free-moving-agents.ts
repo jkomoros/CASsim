@@ -74,7 +74,7 @@ class FreeMovingAgentsSimulator extends AgentSimulator<FreeMovingAgentsAgent, Fr
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	override generateGraph() : Graph {
+	override generatePositions() : Graph {
 		return null;
 	}
 

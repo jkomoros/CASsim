@@ -72,7 +72,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A>, 
 		baseFrame will have only SimulationFrame properties, no extras.
 	*/
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	generateGraph(baseFrame : SimulationFrame, _rnd : RandomGenerator) : G {
+	generatePositions(baseFrame : SimulationFrame, _rnd : RandomGenerator) : G {
 		const simOptions = baseFrame.simOptions as RowColOptionalSimOptions;
 		const graph = RectangleGraph.make(simOptions.rows || 5, simOptions.cols || 5, baseFrame.width, baseFrame.height);
 		//Returning as never allows us to keep the desired type signature, and
@@ -196,7 +196,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A>, 
 	*/
 	override generateFirstFrame(baseFrame : SimulationFrame, rnd : RandomGenerator) : F {
 		//The default generator will expand this with index and simOptions.
-		const graph = this.generateGraph(baseFrame, rnd);
+		const graph = this.generatePositions(baseFrame, rnd);
 		const agents = this.generateAgents(graph, baseFrame, rnd);
 		const result = {
 			...baseFrame,

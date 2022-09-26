@@ -75,7 +75,7 @@ class PastureDemoSimulator extends AgentSimulator<PastureDemoAgent, PastureDemoS
 		};
 	}
 
-	override generateGraph(baseFrame : SimulationFrame) : RectangleGraph {
+	override generatePositions(baseFrame : SimulationFrame) : RectangleGraph {
 		const simOptions = baseFrame.simOptions as PastureDemoSimOptions;
 		const starterValues : PastureDemoGraphNodeValues =  {id: '', value:0.0, growthRate: simOptions.growthRate, emoji:'🌿'};
 		return RectangleGraph.make(simOptions.rows, simOptions.cols, baseFrame.width, baseFrame.height, {starterValues, nodeMargin: 0.1, diagonal:true});

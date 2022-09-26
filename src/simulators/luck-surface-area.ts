@@ -99,7 +99,7 @@ class LuckSurfaceAreaSimulator extends AgentSimulator<LuckSurfaceAreaAgent, Luck
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	override generateGraph(baseFrame : SimulationFrame, rnd : RandomGenerator) : PositionedGraph {
+	override generatePositions(baseFrame : SimulationFrame, rnd : RandomGenerator) : PositionedGraph {
 		const simOptions = baseFrame.simOptions as LuckSurfaceAreaSimOptions;
 		const oS = simOptions.opportunities.structure;
 		const oV = simOptions.opportunities.value;

@@ -80,7 +80,7 @@ class StandingOvationSimulator extends AgentSimulator<StandingOvationAgent,Stand
 		};
 	}
 
-	override generateGraph(baseFrame : SimulationFrame) : RectangleGraph {
+	override generatePositions(baseFrame : SimulationFrame) : RectangleGraph {
 		const simOptions = baseFrame.simOptions as StandingOvationSimOptions;
 		//Stage is to the left 
 		return RectangleGraph.make(simOptions.rows, simOptions.cols, baseFrame.width, baseFrame.height, {diagonalUp: true, noHorizontal: true, noDown: true});
