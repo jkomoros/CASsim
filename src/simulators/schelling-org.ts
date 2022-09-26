@@ -366,7 +366,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 			width: simWidth,
 			height: simHeight,
 			agents: [],
-			graph: null,
+			positions: null,
 			display: displayValue,
 			lastCommunicatedProject: -1,
 			northStar: northStarValue,

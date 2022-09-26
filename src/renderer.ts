@@ -156,7 +156,7 @@ export class PositionedGraphRenderer<A extends Agent, F extends AgentSimulationF
 	
 	//This is an override point for your renderer to tell the renderer where the positioned graph data is
 	graphData(frame : F) : GraphData {
-		return frame.graph;
+		return frame.positions;
 	}
 
 	_graph() : G {

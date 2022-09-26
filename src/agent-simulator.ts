@@ -42,7 +42,7 @@ export type Agent = {
 
 type AgentSimulationFrameExtra<A extends Agent> = {
 	agents : A[],
-	graph: GraphData,
+	positions: GraphData,
 }
 
 export type AgentSimulationFrame<A extends Agent> = SimulationFrame & AgentSimulationFrameExtra<A>;
@@ -202,7 +202,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A>, 
 			...baseFrame,
 			...(this.generateFirstFrameExtra(baseFrame.simOptions, rnd, baseFrame.width, baseFrame.height) || {}),
 			agents,
-			graph: graph ? graph.frameData : null
+			positions: graph ? graph.frameData : null
 		};
 		return result as F;
 	}
@@ -334,7 +334,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A>, 
 		Ticks all agents, and all nodes.
 	*/
 	override generateFrame(frame : F, rnd : RandomGenerator) : void {
-		const graph = (frame.graph ? inflateGraph(frame.graph) : null) as G;
+		const graph = (frame.positions ? inflateGraph(frame.positions) : null) as G;
 		const newAgents = [...frame.agents];
 		const agentIterationOrder = [...frame.agents.keys()];
 		this.framePreTick(graph, frame, rnd);
@@ -366,7 +366,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A>, 
 		}
 		this.framePostTick(graph, frame, rnd);
 		if (graph && graph.changesMade) {
-			frame.graph = graph.frameData;
+			frame.positions = graph.frameData;
 			graph.saved();
 		}
 	}

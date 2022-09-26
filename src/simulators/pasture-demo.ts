@@ -112,7 +112,7 @@ class PastureDemoSimulator extends AgentSimulator<PastureDemoAgent, PastureDemoS
 
 	override frameScorer(frame : PastureDemoSimulationFrame) : [number, number, number] {
 		const finalScore = this.simulationComplete(frame) ? 1.0 : -1;
-		const graph = new RectangleGraph(frame.graph);
+		const graph = new RectangleGraph(frame.positions);
 		return [finalScore, Object.keys(frame.agents).length, Object.values(graph.nodes()).map((values : PastureDemoGraphNodeValues) => values.value).reduce((prev, next) => prev + next, 0)];
 	}
 
