@@ -129,4 +129,21 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	getAllObjects() : T[] {
 		return Object.values(this._fullItemsMap);
 	}
+
+	/**
+	 * updateAllObjects goes through and calls updateObject on each object in
+	 * allObjects, and removes any items currently in the map that are not also
+	 * in allObjects.
+	 * @param allObjects the set of all objects to update
+	 */
+	updateAllObjects(allObjects : T[]) : void {
+		const unseenItemsMap = {...this._fullItemsMap};
+		for (const obj of allObjects) {
+			delete unseenItemsMap[obj.id];
+			this.updateObject(obj);
+		}
+		for (const deletedItem of Object.values(unseenItemsMap)) {
+			this.removeObject(deletedItem);
+		}
+	}
 }
