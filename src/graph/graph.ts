@@ -27,6 +27,11 @@ import {
 import {
 	shuffleInPlace
 } from '../util.js';
+
+export const dataIsGraph = (input : object): input is GraphData => {
+	return 'graphType' in input && 'properties' in input && 'nodes' in input;
+};
+
 /*
 
 Graph is a graph with nodes and edges, and values for each node/edge.
