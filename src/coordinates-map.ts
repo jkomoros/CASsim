@@ -28,8 +28,8 @@ const distance = (one : Coordinates, two : Coordinates) : number => {
 const coordinatesMapItemRecord = (input : CoordinatesMapItem) : Required<CoordinatesMapItem> => {
 	return {
 		id: input.id,
-		x: input.x,
-		y: input.y,
+		x: input.x || 0,
+		y: input.y || 0,
 		radius: input.radius || 0
 	};
 };

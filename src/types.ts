@@ -440,7 +440,7 @@ export type DistributionOptions = {
     name? : string;
 }
 
-export type CoordinatesMapItem = Coordinates & {
+export type CoordinatesMapItem = Partial<Coordinates> & {
 	/**
 	 *  A CoordinatesMapItem is conidered equivalent to another (about the same
 	 *  underlying thing) if their IDs match. Typically this is something like
