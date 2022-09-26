@@ -363,12 +363,16 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 		//Filter out agents who died this tick (returned null)
 		const filteredNewAgents = newAgents.filter(agent => agent);
 		frame.agents = [...filteredNewAgents, ...this.spawnAgents(filteredNewAgents, positions, frame, rnd).filter(agent => agent)];
-		if (positions && positions instanceof Graph) {
-			for (const [id, node] of Object.entries(positions.nodes())) {
-				const newNode = this.nodeTick(node, positions, frame, rnd);
-				//If we set the node to the same values as it was, then the graph
-				//will detect no changes were made.
-				positions.setNode(id, newNode);
+		if (positions) {
+			if (positions instanceof Graph) {
+				for (const [id, node] of Object.entries(positions.nodes())) {
+					const newNode = this.nodeTick(node, positions, frame, rnd);
+					//If we set the node to the same values as it was, then the graph
+					//will detect no changes were made.
+					positions.setNode(id, newNode);
+				}
+			} else if (positions instanceof CoordinatesMap) {
+				positions.updateAllObjects(frame.agents);
 			}
 		}
 		this.framePostTick(positions, frame, rnd);
