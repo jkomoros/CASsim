@@ -141,7 +141,7 @@ export class Graph {
 		return this._data.nodes[id];
 	}
 
-	get data() : GraphData {
+	get frameData() : GraphData {
 		return this._data;
 	}
 

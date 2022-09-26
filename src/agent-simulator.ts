@@ -202,7 +202,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A>, 
 			...baseFrame,
 			...(this.generateFirstFrameExtra(baseFrame.simOptions, rnd, baseFrame.width, baseFrame.height) || {}),
 			agents,
-			graph: graph ? graph.data : null
+			graph: graph ? graph.frameData : null
 		};
 		return result as F;
 	}
@@ -366,7 +366,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A>, 
 		}
 		this.framePostTick(graph, frame, rnd);
 		if (graph && graph.changesMade) {
-			frame.graph = graph.data;
+			frame.graph = graph.frameData;
 			graph.saved();
 		}
 	}
