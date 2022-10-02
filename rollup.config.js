@@ -17,7 +17,6 @@ export default {
 		dynamicImportVars(),
 		copy({
 			targets: [
-				{ src: 'src/listings.json', dest: 'build/src' },
 				{ src: 'data', dest: 'build' },
 				{ src: 'images', dest: 'build' },
 				{ src: 'fonts', dest: 'build' },
