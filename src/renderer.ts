@@ -390,11 +390,11 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		};
 		return html`
 			<div class='nodes' style=${styleMap(styles)}>
-				${Object.values((graph ? graph.nodes() : {})).map(node => this.renderNode(node, positions))}
+				${Object.values((graph ? graph.nodes() : {})).map(node => this.renderNode(node, graph))}
 				${repeat(Object.values(this.agentData(this.frame)), agent => agent.id, agent => this.renderAgent(agent, positions))}
 				${graph && this.renderEdges(this.frame) ?
 		html`<svg viewBox='0 0 ${width} ${height}'>
-					${repeat(Object.values(graph.allEdges()), edge => edge.id, edge => this.renderEdge(edge, positions))}
+					${repeat(Object.values(graph.allEdges()), edge => edge.id, edge => this.renderEdge(edge, graph))}
 				</svg>` : ''}
 			</div>
 			`;
