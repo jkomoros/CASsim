@@ -379,7 +379,8 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 
 	override innerRender() : TemplateResult {
 		const positions = this._positions();
-		const nodeRoundness = positions ? positions.nodeRoundness : 0.0;
+		const graph = positions instanceof PositionedGraph ? positions : null;
+		const nodeRoundness = graph ? graph.nodeRoundness : 0.0;
 		const height = this.frame.height;
 		const width = this.frame.width;
 		const styles = {
@@ -389,11 +390,11 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		};
 		return html`
 			<div class='nodes' style=${styleMap(styles)}>
-				${Object.values((positions ? positions.nodes() : {})).map(node => this.renderNode(node, positions))}
+				${Object.values((graph ? graph.nodes() : {})).map(node => this.renderNode(node, positions))}
 				${repeat(Object.values(this.agentData(this.frame)), agent => agent.id, agent => this.renderAgent(agent, positions))}
-				${positions && this.renderEdges(this.frame) ?
+				${graph && this.renderEdges(this.frame) ?
 		html`<svg viewBox='0 0 ${width} ${height}'>
-					${repeat(Object.values(positions.allEdges()), edge => edge.id, edge => this.renderEdge(edge, positions))}
+					${repeat(Object.values(graph.allEdges()), edge => edge.id, edge => this.renderEdge(edge, positions))}
 				</svg>` : ''}
 			</div>
 			`;
