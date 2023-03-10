@@ -7,7 +7,9 @@ import { repeat } from 'lit/directives/repeat.js';
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 
 import {
-	inflateGraph,
+	dataIsGraph,
+	Graph,
+	inflateGraph
 } from './graph/graph.js';
 
 import {
@@ -20,6 +22,7 @@ import {
 
 import {
 	Angle,
+	CoordinatesMapFrameData,
 	CSSColor,
 	Emoji,
 	GraphData,
@@ -38,6 +41,10 @@ import {
 import {
 	PositionedGraph
 } from './graph/positioned.js';
+
+import {
+	CoordinatesMap
+} from './coordinates-map.js';
 
 import {
 	ANGLE_MIN,
@@ -107,7 +114,7 @@ export class BaseRenderer extends LitElement {
 }
 
 @customElement('positioned-agents-renderer')
-export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulationFrame<A, P>, P extends PositionedGraph> extends BaseRenderer {
+export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulationFrame<A, P>, P extends (PositionedGraph | CoordinatesMap<A>)> extends BaseRenderer {
 	
 	@property({ type : Object })
 	override frame : F;
@@ -155,15 +162,12 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 	}
 	
 	//This is an override point for your renderer to tell the renderer where the positioned graph data is
-	positionsData(frame : F) : GraphData {
+	positionsData(frame : F) : P extends Graph ? GraphData : CoordinatesMapFrameData {
 		return frame.positions;
 	}
 
 	_positions() : P {
-		const data = this.positionsData(this.frame);
-		if (!data) return null;
-		//Techncially it might be a positioned graph
-		return inflateGraph(data) as P;
+		return this.frame.positions ? (dataIsGraph(this.frame.positions) ? inflateGraph(this.frame.positions) as P : CoordinatesMap.fromFrameData(this.frame.positions, this.frame.agents) as P): null;
 	}
 
 	//This is an override point for your renderer, to tell the renderer where the information on each agent is.
@@ -268,6 +272,9 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 				width: this.agentWidth(agent),
 				height: this.agentHeight(agent),
 			};
+		}
+		if (positions instanceof CoordinatesMap) {
+			return positions.getPosition(agent);
 		}
 		const nodeID = this.agentNodeID(agent);
 		return positions.nodePosition(nodeID);
