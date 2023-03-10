@@ -274,32 +274,32 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	nodeAdditionalStyles(_node : GraphNodeValues, _positions : P) : StyleInfo {
+	nodeAdditionalStyles(_node : GraphNodeValues, _graph : PositionedGraph) : StyleInfo {
 		return {};
 	}
 
-	renderNode(node : GraphNodeValues, positions : P) : TemplateResult {
-		let styles = this._positionStylesForNode(node, positions);
-		styles = {...styles, ['background-color']: this.nodeColor(node, positions)};
-		styles = {...styles, ...this.nodeAdditionalStyles(node, positions)};
+	renderNode(node : GraphNodeValues, graph : PositionedGraph) : TemplateResult {
+		let styles = this._positionStylesForNode(node, graph);
+		styles = {...styles, ['background-color']: this.nodeColor(node, graph)};
+		styles = {...styles, ...this.nodeAdditionalStyles(node, graph)};
 		const spanStyles = {
-			'opacity': String(this.nodeTextOpacity(node, positions))
+			'opacity': String(this.nodeTextOpacity(node, graph))
 		};
-		return html`<div class='node ${node.type ? node.type : ''}' style=${styleMap(styles)}><span style='${styleMap(spanStyles)}'>${this.nodeText(node,positions)}</span></div>`;
+		return html`<div class='node ${node.type ? node.type : ''}' style=${styleMap(styles)}><span style='${styleMap(spanStyles)}'>${this.nodeText(node,graph)}</span></div>`;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	nodeText(node : GraphNodeValues, _positions : P) : string {
+	nodeText(node : GraphNodeValues, _graph : PositionedGraph) : string {
 		return node['emoji'] as string || '';
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	nodeTextOpacity(_node : GraphNodeValues, _positions : P) : number {
+	nodeTextOpacity(_node : GraphNodeValues, _graph : PositionedGraph) : number {
 		return 1.0;
 	}
  
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	nodeColorGradientPercentage(node : GraphNodeValues, _positions : P) : number {
+	nodeColorGradientPercentage(node : GraphNodeValues, _graph : PositionedGraph) : number {
 		return node['value'] as number || 0;
 	}
 
@@ -308,11 +308,11 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		return false;
 	}
 
-	nodeColor(node : GraphNodeValues, positions : P) : CSSColor {
+	nodeColor(node : GraphNodeValues, graph : PositionedGraph) : CSSColor {
 		const style = getComputedStyle(this);
 		const primaryColor = style.getPropertyValue('--primary-color');
 		const secondaryColor = style.getPropertyValue('--secondary-color');
-		const color =  gradient(primaryColor, secondaryColor, this.nodeColorGradientPercentage(node, positions));
+		const color =  gradient(primaryColor, secondaryColor, this.nodeColorGradientPercentage(node, graph));
 		return color;
 	}
 
@@ -333,32 +333,32 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	edgeColor(_edge : GraphEdge, _positions : P) : CSSColor {
+	edgeColor(_edge : GraphEdge, _graph : PositionedGraph) : CSSColor {
 		return 'var(--secondary-color)';
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	edgeWidth(_edge : GraphEdge, _positions : P) : string {
+	edgeWidth(_edge : GraphEdge, _graph : PositionedGraph) : string {
 		return '1';
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	edgeOpacity(_edge : GraphEdge, _positions : P ) : string {
+	edgeOpacity(_edge : GraphEdge, _graph : PositionedGraph ) : string {
 		return '1.0';
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	edgeDasharray(_edge : GraphEdge, _positions : P) : string {
+	edgeDasharray(_edge : GraphEdge, _graph : PositionedGraph) : string {
 		//Note: you might not be able to see the dasharray if edges overlap.
 		return '';
 	}
 
 	//must return svg. Note coordinates are viewBoxed so don't need any scaling.
-	renderEdge(edge : GraphEdge, positions : P) : SVGTemplateResult {
-		if (!positions) return svg``;
-		const fromNodePosition = positions.nodePosition(edge.from);
-		const toNodePosition = positions.nodePosition(edge.to);
-		return svg`<path id=${edge.id} class='edge' d='M ${fromNodePosition.x}, ${fromNodePosition.y} L ${toNodePosition.x}, ${toNodePosition.y}' stroke='${this.edgeColor(edge, positions)}' stroke-width='${this.edgeWidth(edge, positions)}' stroke-opacity='${this.edgeOpacity(edge, positions)}' stroke-dasharray='${this.edgeDasharray(edge, positions)}'></path>`;
+	renderEdge(edge : GraphEdge, graph : PositionedGraph) : SVGTemplateResult {
+		if (!graph) return svg``;
+		const fromNodePosition = graph.nodePosition(edge.from);
+		const toNodePosition = graph.nodePosition(edge.to);
+		return svg`<path id=${edge.id} class='edge' d='M ${fromNodePosition.x}, ${fromNodePosition.y} L ${toNodePosition.x}, ${toNodePosition.y}' stroke='${this.edgeColor(edge, graph)}' stroke-width='${this.edgeWidth(edge, graph)}' stroke-opacity='${this.edgeOpacity(edge, graph)}' stroke-dasharray='${this.edgeDasharray(edge, graph)}'></path>`;
 	}
 
 	//position should be an opbject with x,y,width,height;
@@ -373,8 +373,8 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		};
 	}
 
-	_positionStylesForNode(node : GraphNodeValues, positions : P) : StyleInfo {
-		return this._positionStyles(positions ? positions.nodePosition(node) : {x: 0, y: 0, width: 10, height: 10});
+	_positionStylesForNode(node : GraphNodeValues, graph : PositionedGraph) : StyleInfo {
+		return this._positionStyles(graph ? graph.nodePosition(node) : {x: 0, y: 0, width: 10, height: 10});
 	}
 
 	override innerRender() : TemplateResult {
