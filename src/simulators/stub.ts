@@ -76,8 +76,8 @@ export default StubSimulator;
 *  `export default ...` line that is immediately above this comment     *
 ************************************************************************/
 
-import { PositionedGraphRenderer } from '../renderer.js';
+import { PositionedAgentsRenderer } from '../renderer.js';
 
-class StubRenderer extends PositionedGraphRenderer<StubAgent, StubSimulationFrame, PositionedGraph> {}
+class StubRenderer extends PositionedAgentsRenderer<StubAgent, StubSimulationFrame, PositionedGraph> {}
 
 window.customElements.define(SIMULATOR_NAME + "-renderer", StubRenderer);

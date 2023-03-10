@@ -296,9 +296,9 @@ export default LuckSurfaceAreaSimulator;
 *  `export default ...` line that is immediately above this comment     *
 ************************************************************************/
 
-import { PositionedGraphRenderer } from '../renderer.js';
+import { PositionedAgentsRenderer } from '../renderer.js';
 
-class LuckSurfaceAreaRenderer extends PositionedGraphRenderer<LuckSurfaceAreaAgent, LuckSurfaceAreaSimulationFrame, PositionedGraph> {
+class LuckSurfaceAreaRenderer extends PositionedAgentsRenderer<LuckSurfaceAreaAgent, LuckSurfaceAreaSimulationFrame, PositionedGraph> {
 
 	override renderEdges() : boolean {
 		return true;

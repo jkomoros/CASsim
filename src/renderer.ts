@@ -106,8 +106,8 @@ export class BaseRenderer extends LitElement {
 
 }
 
-@customElement('positioned-graph-renderer')
-export class PositionedGraphRenderer<A extends Agent, F extends AgentSimulationFrame<A, P>, P extends PositionedGraph> extends BaseRenderer {
+@customElement('positioned-agents-renderer')
+export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulationFrame<A, P>, P extends PositionedGraph> extends BaseRenderer {
 	
 	@property({ type : Object })
 	override frame : F;
@@ -403,6 +403,6 @@ export class PositionedGraphRenderer<A extends Agent, F extends AgentSimulationF
 declare global {
 	interface HTMLElementTagNameMap {
 		'base-renderer': BaseRenderer;
-		'positioned-graph-renderer': PositionedGraphRenderer<Agent, AgentSimulationFrame<Agent,PositionedGraph>, PositionedGraph>;
+		'positioned-agents-renderer': PositionedAgentsRenderer<Agent, AgentSimulationFrame<Agent,PositionedGraph>, PositionedGraph>;
 	}
 }

@@ -162,9 +162,9 @@ export default FreeMovingAgentsSimulator;
 *  `export default ...` line that is immediately above this comment     *
 ************************************************************************/
 
-import { PositionedGraphRenderer } from '../renderer.js';
+import { PositionedAgentsRenderer } from '../renderer.js';
 
-class FreeMovingAgentsRenderer extends PositionedGraphRenderer<FreeMovingAgentsAgent, FreeMovingAgentsSimulationFrame, PositionedGraph> {
+class FreeMovingAgentsRenderer extends PositionedAgentsRenderer<FreeMovingAgentsAgent, FreeMovingAgentsSimulationFrame, PositionedGraph> {
 
 	override agentDefaultMaxNodeSize() : number {
 		return 50;

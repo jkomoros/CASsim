@@ -204,11 +204,11 @@ export default StandingOvationSimulator;
 *  `export default ...` line that is immediately above this comment     *
 ************************************************************************/
 
-import { PositionedGraphRenderer } from '../renderer.js';
+import { PositionedAgentsRenderer } from '../renderer.js';
 import { StyleInfo } from 'lit/directives/style-map.js';
 import { PositionedGraph } from '../graph/positioned.js';
 
-class StandingOvationRenderer extends PositionedGraphRenderer<StandingOvationAgent, StandingOvationSimulationFrame, RectangleGraph> {
+class StandingOvationRenderer extends PositionedAgentsRenderer<StandingOvationAgent, StandingOvationSimulationFrame, RectangleGraph> {
 
 	override agentEmoji(agent : StandingOvationAgent) : string {
 		return agent.standing ? '👏' : '😐';

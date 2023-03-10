@@ -207,14 +207,14 @@ export default PastureDemoSimulator;
 *  `export default ...` line that is immediately above this comment     *
 ************************************************************************/
 
-import { PositionedGraphRenderer } from '../renderer.js';
+import { PositionedAgentsRenderer } from '../renderer.js';
 
 import { css } from 'lit';
 
-class PastureDemoRenderer extends PositionedGraphRenderer<PastureDemoAgent, PastureDemoSimulationFrame, RectangleGraph> {
+class PastureDemoRenderer extends PositionedAgentsRenderer<PastureDemoAgent, PastureDemoSimulationFrame, RectangleGraph> {
 	static override get styles() {
 		return [
-			...PositionedGraphRenderer.styles,
+			...PositionedAgentsRenderer.styles,
 			css`
 				/* because our agents have a .type, that className is rendered out so we can style them */
 				.agent.cow {
