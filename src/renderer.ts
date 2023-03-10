@@ -155,12 +155,12 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 	}
 	
 	//This is an override point for your renderer to tell the renderer where the positioned graph data is
-	graphData(frame : F) : GraphData {
+	positionsData(frame : F) : GraphData {
 		return frame.positions;
 	}
 
-	_graph() : P {
-		const data = this.graphData(this.frame);
+	_positions() : P {
+		const data = this.positionsData(this.frame);
 		if (!data) return null;
 		//Techncially it might be a positioned graph
 		return inflateGraph(data) as P;
@@ -378,8 +378,8 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 	}
 
 	override innerRender() : TemplateResult {
-		const graph = this._graph();
-		const nodeRoundness = graph ? graph.nodeRoundness : 0.0;
+		const positions = this._positions();
+		const nodeRoundness = positions ? positions.nodeRoundness : 0.0;
 		const height = this.frame.height;
 		const width = this.frame.width;
 		const styles = {
@@ -389,11 +389,11 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		};
 		return html`
 			<div class='nodes' style=${styleMap(styles)}>
-				${Object.values((graph ? graph.nodes() : {})).map(node => this.renderNode(node, graph))}
-				${repeat(Object.values(this.agentData(this.frame)), agent => agent.id, agent => this.renderAgent(agent, graph))}
-				${graph && this.renderEdges(this.frame) ?
-		html`<svg viewBox='0 0 ${graph.width} ${graph.height}'>
-					${repeat(Object.values(graph.allEdges()), edge => edge.id, edge => this.renderEdge(edge, graph))}
+				${Object.values((positions ? positions.nodes() : {})).map(node => this.renderNode(node, positions))}
+				${repeat(Object.values(this.agentData(this.frame)), agent => agent.id, agent => this.renderAgent(agent, positions))}
+				${positions && this.renderEdges(this.frame) ?
+		html`<svg viewBox='0 0 ${width} ${height}'>
+					${repeat(Object.values(positions.allEdges()), edge => edge.id, edge => this.renderEdge(edge, positions))}
 				</svg>` : ''}
 			</div>
 			`;
