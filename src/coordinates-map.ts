@@ -1,7 +1,8 @@
 import {
 	Coordinates,
 	CoordinatesMapItem,
-	CoordinatesMapFrameData
+	CoordinatesMapFrameData,
+	Position
 } from './types.js';
 
 const coordinatesMapItemEquivalent = (one: CoordinatesMapItem, two: CoordinatesMapItem) : boolean => {
@@ -76,6 +77,21 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	 */
 	get changesMade() : boolean {
 		return this._changesMade;
+	}
+
+	/**
+	 * Returns the position for the node with the given ID
+	 */
+	nodePosition(nodeID : string): Position {
+		const node = this._fullItemsMap[nodeID];
+		if (!node) return null;
+		const radius = node.radius || 0;
+		return {
+			x: node.x || 0,
+			y: node.y || 0,
+			width: radius * 2,
+			height: radius * 2
+		};
 	}
   
 	/**
