@@ -18,12 +18,8 @@ import {
 } from '../util.js';
 
 import {
-	Graph
-} from '../graph/graph.js';
-
-import {
-	PositionedGraph
-} from '../graph/positioned.js';
+	CoordinatesMap
+} from '../coordinates-map.js';
 
 import {
 	DistributionConfig,
@@ -40,6 +36,8 @@ import {
 
 //Remember that the name must be the same as the filename of this file
 const SIMULATOR_NAME = 'free-moving-agents';
+
+type FreeMovingAgentsCoordinatesMap = CoordinatesMap<FreeMovingAgentsAgent>;
 
 const agentSpeed = new DistributionConfig({
 	average: 3.0,
@@ -60,12 +58,12 @@ type FreeMovingAgentsAgent = Agent & {
 	speed : number;
 };
 
-interface FreeMovingAgentsSimulationFrame extends AgentSimulationFrame<FreeMovingAgentsAgent, Graph> {
+interface FreeMovingAgentsSimulationFrame extends AgentSimulationFrame<FreeMovingAgentsAgent, FreeMovingAgentsCoordinatesMap> {
 	agents : FreeMovingAgentsAgent[];
 	simOptions : FreeMovingAgentsSimOptions;
 }
 
-class FreeMovingAgentsSimulator extends AgentSimulator<FreeMovingAgentsAgent, FreeMovingAgentsSimulationFrame, Graph> {
+class FreeMovingAgentsSimulator extends AgentSimulator<FreeMovingAgentsAgent, FreeMovingAgentsSimulationFrame, FreeMovingAgentsCoordinatesMap> {
 
 	override get name() : SimulatorType {
 		return SIMULATOR_NAME;
@@ -74,7 +72,7 @@ class FreeMovingAgentsSimulator extends AgentSimulator<FreeMovingAgentsAgent, Fr
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	override generatePositions() : Graph {
+	override generatePositions() : FreeMovingAgentsCoordinatesMap {
 		return null;
 	}
 
@@ -82,12 +80,12 @@ class FreeMovingAgentsSimulator extends AgentSimulator<FreeMovingAgentsAgent, Fr
 		return frame.index >= frame.simOptions.rounds;
 	}
 
-	override numStarterAgents(_graph : Graph, baseFrame : SimulationFrame) : number {
+	override numStarterAgents(_graph : FreeMovingAgentsCoordinatesMap, baseFrame : SimulationFrame) : number {
 		const simOptions = baseFrame.simOptions as FreeMovingAgentsSimOptions;
 		return simOptions.agents.count;
 	}
 
-	override generateAgent(_parentAgent : FreeMovingAgentsAgent, _otherAgents : FreeMovingAgentsAgent[], _graph : Graph, baseFrame : SimulationFrame, rnd : RandomGenerator) : FreeMovingAgentsAgent {
+	override generateAgent(_parentAgent : FreeMovingAgentsAgent, _otherAgents : FreeMovingAgentsAgent[], _graph : FreeMovingAgentsCoordinatesMap, baseFrame : SimulationFrame, rnd : RandomGenerator) : FreeMovingAgentsAgent {
 		const simOptions = baseFrame.simOptions as FreeMovingAgentsSimOptions;
 		return {
 			...this.baseAgent(rnd),
@@ -99,7 +97,7 @@ class FreeMovingAgentsSimulator extends AgentSimulator<FreeMovingAgentsAgent, Fr
 		};
 	}
 
-	override defaultAgentTick(agent: FreeMovingAgentsAgent, _agents : FreeMovingAgentsAgent[], _graph : Graph, frame : FreeMovingAgentsSimulationFrame): FreeMovingAgentsAgent | FreeMovingAgentsAgent[] {
+	override defaultAgentTick(agent: FreeMovingAgentsAgent, _agents : FreeMovingAgentsAgent[], _graph : FreeMovingAgentsCoordinatesMap, frame : FreeMovingAgentsSimulationFrame): FreeMovingAgentsAgent | FreeMovingAgentsAgent[] {
 		//frame contains width, height, so we can pass it to express the
 		//allowable bounds, which will be reflected when they exceed them.
 		const [x, y, angle] = newPosition(agent, frame);
@@ -164,7 +162,7 @@ export default FreeMovingAgentsSimulator;
 
 import { PositionedAgentsRenderer } from '../renderer.js';
 
-class FreeMovingAgentsRenderer extends PositionedAgentsRenderer<FreeMovingAgentsAgent, FreeMovingAgentsSimulationFrame, PositionedGraph> {
+class FreeMovingAgentsRenderer extends PositionedAgentsRenderer<FreeMovingAgentsAgent, FreeMovingAgentsSimulationFrame, FreeMovingAgentsCoordinatesMap> {
 
 	override agentDefaultMaxNodeSize() : number {
 		return 50;
