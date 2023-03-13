@@ -55,4 +55,22 @@ describe('CoordinatesMap', () => {
 		const result = map.bounds;
 		assert.deepStrictEqual(result, {...defaultSize, x: 0, y:0});
 	});
+
+	it('Basic getObjects with large radius', async () => {
+		const defaultItems = makeDefaultItems();
+		const defaultSize = makeDefaultSize();
+		const map = new CoordinatesMap(defaultItems, defaultSize);
+		const result = map.getObjects(100, 100, 300);
+		const simplifiedResult = Object.fromEntries([...result.entries()].map(entry => [entry[0].id, entry[1]]));
+		const golden = {
+			'0': 0,
+			'1': 70.71067811865476,
+			'2': 111.80339887498948
+		};
+		assert.deepStrictEqual(simplifiedResult, golden);
+	});
+
+	//TODO: test smaller searchRadius
+	//TODO: test exclude
+	//TODO: test that an item with a radius that would have been outside the size but is within with radius is returned.
 });
