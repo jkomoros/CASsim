@@ -153,5 +153,22 @@ describe('CoordinatesMap', () => {
 		assert.throws(fn);
 	});
 
-	//TODO: verify that items right at the edge of bounds don't work (unless included in)
+	it('Basic frame data boot with item on right edge', async () => {
+		const defaultItems = makeDefaultItems();
+		defaultItems[0].x = 200;
+		const fn = () => {
+			new CoordinatesMap(defaultItems, makeDefaultSize());
+		};
+		assert.doesNotThrow(fn);
+	});
+
+	it('Basic frame data boot with item on bottom edge', async () => {
+		const defaultItems = makeDefaultItems();
+		defaultItems[0].y = 250;
+		const fn = () => {
+			new CoordinatesMap(defaultItems, makeDefaultSize());
+		};
+		assert.doesNotThrow(fn);
+	});
+
 });

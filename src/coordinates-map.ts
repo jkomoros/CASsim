@@ -26,8 +26,15 @@ const distance = (one : Coordinates, two : Coordinates) : number => {
 const itemWithinBounds = (item : CoordinatesMapItem, bounds : CoordinatesMapBounds) : boolean => {
 	if (item.x < bounds.x) return false;
 	if (item.y < bounds.y) return false;
-	if (item.x >= bounds.x + bounds.width) return false;
-	if (item.y >= bounds.y + bounds.height) return false;
+
+	const rightX = bounds.x + bounds.width;
+	if (item.x > rightX) return false;
+	if (!bounds.includeRight && item.x == rightX) return false;
+
+	const bottomY = bounds.y + bounds.height;
+	if (item.y > bottomY) return false;
+	if (!bounds.includeBottom && item.y == bottomY) return false;
+
 	return true;
 };
 
