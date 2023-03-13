@@ -3,7 +3,8 @@ import {
 	CoordinatesMapItem,
 	Position,
 	CoordinatesMapDataLeaf,
-	Size
+	Size,
+	CoordinatesMapID
 } from './types.js';
 
 const coordinatesMapItemExactlyEquivalent = (one : CoordinatesMapItem, two : CoordinatesMapItem) : boolean => {
@@ -73,7 +74,7 @@ class CoordinatesMapDataController {
 		return true;
 	}
 
-	getObjects(x : number, y : number, searchRadius: number, exclude? : string[]) : Map<string, number> {
+	getObjects(x : number, y : number, searchRadius: number, exclude? : CoordinatesMapID[]) : Map<CoordinatesMapID, number> {
 		const coord = {
 			x,
 			y

@@ -440,13 +440,15 @@ export type DistributionOptions = {
     name? : string;
 }
 
+export type CoordinatesMapID = string;
+
 export type CoordinatesMapItem = Partial<Coordinates> & {
 	/**
 	 *  A CoordinatesMapItem is conidered equivalent to another (about the same
 	 *  underlying thing) if their IDs match. Typically this is something like
 	 *  Agent.id
 	 */
-	id : string;
+	id : CoordinatesMapID;
 	/**
 	 * radius (0 if not provided) is how 'wide' this item is. It is treated as
 	 * taking up that much space in the map, so if any part of its area touches
@@ -457,7 +459,7 @@ export type CoordinatesMapItem = Partial<Coordinates> & {
 
 export type CoordinatesMapDataLeaf = {
     bounds: Position;
-	items : {[id : string]: Required<CoordinatesMapItem>};
+	items : {[id : CoordinatesMapID]: Required<CoordinatesMapItem>};
 };
 
 //TODO: tighten;
