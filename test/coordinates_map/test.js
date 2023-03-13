@@ -144,6 +144,14 @@ describe('CoordinatesMap', () => {
 		assert.throws(fn);
 	});
 
-	//TODO: verify that booting with an item outside of bounds doesn't work
+	it('Basic frame data boot with out of bounds item', async () => {
+		const defaultItems = makeDefaultItems();
+		defaultItems[0].x = -50;
+		const fn = () => {
+			new CoordinatesMap(defaultItems, makeDefaultSize());
+		};
+		assert.throws(fn);
+	});
+
 	//TODO: verify that items right at the edge of bounds don't work (unless included in)
 });
