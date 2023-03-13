@@ -137,6 +137,10 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		return this._changesMade;
 	}
 
+	get bounds() : Position {
+		return this._controller.bounds;
+	}
+
 	/**
 	 * Returns the position affiliated with this object in the map or null
 	 */

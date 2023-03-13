@@ -39,4 +39,11 @@ describe('CoordinatesMap', () => {
 		const result = map.getAllObjects();
 		assert.deepStrictEqual(result, defaultItems);
 	});
+
+	it('Basic bounds', async () => {
+		const defaultItems = makeDefaultItems();
+		const map = new CoordinatesMap(defaultItems, {width: 200, height: 200});
+		const result = map.bounds;
+		assert.deepStrictEqual(result, {x: 0, y:0, width: 200, height: 200});
+	});
 });
