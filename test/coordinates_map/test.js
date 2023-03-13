@@ -35,7 +35,7 @@ const makeDefaultItems = () => {
 describe('CoordinatesMap', () => {
 	it('Basic all options', async () => {
 		const defaultItems = makeDefaultItems();
-		const map = new CoordinatesMap(defaultItems, {x: 0, y: 0, width: 200, height: 200});
+		const map = new CoordinatesMap(defaultItems, {width: 200, height: 200});
 		const result = map.getAllObjects();
 		assert.deepStrictEqual(result, defaultItems);
 	});

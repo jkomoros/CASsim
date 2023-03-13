@@ -2,7 +2,8 @@ import {
 	Coordinates,
 	CoordinatesMapItem,
 	Position,
-	CoordinatesMapDataLeaf
+	CoordinatesMapDataLeaf,
+	Size
 } from './types.js';
 
 const coordinatesMapItemExactlyEquivalent = (one : CoordinatesMapItem, two : CoordinatesMapItem) : boolean => {
@@ -96,10 +97,10 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	_fullItemsMap : {[id : string] : T};
 	_changesMade : boolean;
 
-	constructor(items : T[], bounds: Position, data? : CoordinatesMapDataLeaf, ) {
+	constructor(items : T[], bounds: Size, data? : CoordinatesMapDataLeaf, ) {
 		if (!data) {
 			data = {
-				bounds,
+				bounds: {...bounds, x : 0, y : 0},
 				items: Object.fromEntries(items.map(item => [item.id, coordinatesMapItemRecord(item)]))
 			};
 		}
