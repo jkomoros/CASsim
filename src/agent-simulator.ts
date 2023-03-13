@@ -22,7 +22,7 @@ import {
 
 import {
 	Angle,
-	CoordinatesMapFrameData,
+	CoordinatesMapDataLeaf,
 	Emoji,
 	GraphData,
 	GraphEdge,
@@ -48,7 +48,7 @@ export type Agent = {
 
 type AgentSimulationFrameExtra<A extends Agent, P extends (CoordinatesMap<A> | Graph)> = {
 	agents : A[],
-	positions: P extends Graph ? GraphData : CoordinatesMapFrameData,
+	positions: P extends Graph ? GraphData : CoordinatesMapDataLeaf,
 }
 
 export type AgentSimulationFrame<A extends Agent, P extends (CoordinatesMap<A> | Graph)> = SimulationFrame & AgentSimulationFrameExtra<A, P>;
@@ -377,7 +377,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 		}
 		this.framePostTick(positions, frame, rnd);
 		if (positions && positions.changesMade) {
-			frame.positions = positions.frameData as (P extends Graph ? GraphData : CoordinatesMapFrameData);
+			frame.positions = positions.frameData as (P extends Graph ? GraphData : CoordinatesMapDataLeaf);
 			positions.saved();
 		}
 	}

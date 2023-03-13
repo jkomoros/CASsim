@@ -22,7 +22,7 @@ import {
 
 import {
 	Angle,
-	CoordinatesMapFrameData,
+	CoordinatesMapDataLeaf,
 	CSSColor,
 	Emoji,
 	GraphData,
@@ -162,7 +162,7 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 	}
 	
 	//This is an override point for your renderer to tell the renderer where the positioned graph data is
-	positionsData(frame : F) : P extends Graph ? GraphData : CoordinatesMapFrameData {
+	positionsData(frame : F) : P extends Graph ? GraphData : CoordinatesMapDataLeaf {
 		return frame.positions;
 	}
 

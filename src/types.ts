@@ -455,7 +455,7 @@ export type CoordinatesMapItem = Partial<Coordinates> & {
 	radius? : number;
 };
 
-export type CoordinatesMapFrameData = {
+export type CoordinatesMapDataLeaf = {
 	format: 'flat';
     bounds: Position;
 	items : {[id : string]: Required<CoordinatesMapItem>};

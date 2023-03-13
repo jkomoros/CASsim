@@ -1,15 +1,9 @@
 import {
 	Coordinates,
 	CoordinatesMapItem,
-	CoordinatesMapFrameData,
-	Position
+	Position,
+	CoordinatesMapDataLeaf
 } from './types.js';
-
-const coordinatesMapItemEquivalent = (one: CoordinatesMapItem, two: CoordinatesMapItem) : boolean => {
-	if (one == two) return true;
-	if (!one || !two) return false;
-	return one.id == two.id;
-};
 
 const coordinatesMapItemExactlyEquivalent = (one : CoordinatesMapItem, two : CoordinatesMapItem) : boolean => {
 	if (one == two) return true;
@@ -35,36 +29,90 @@ const coordinatesMapItemRecord = (input : CoordinatesMapItem) : Required<Coordin
 	};
 };
 
+class CoordinatesMapDataController {
+
+	_data : CoordinatesMapDataLeaf;
+
+	constructor (data : CoordinatesMapDataLeaf) {
+		this._data = data;
+	}
+
+	get bounds() : Position {
+		return this._data.bounds;
+	}
+
+	get frameData() : CoordinatesMapDataLeaf {
+		return this._data;
+	}
+
+	getPosition(obj : CoordinatesMapItem) : Position {
+		if (!obj) return null;
+		const mapObj = this._data.items[obj.id];
+		if (!obj) return null;
+		return {
+			x: mapObj.x,
+			y: mapObj.y,
+			width: mapObj.radius * 2,
+			height: mapObj.radius * 2
+		};
+	}
+
+	updateObject(obj: CoordinatesMapItem) : boolean {
+		const existingItem = this._data.items[obj.id];
+		if (existingItem) {
+			if (coordinatesMapItemExactlyEquivalent(existingItem, obj)) return false;
+		}
+		this._data.items[obj.id] = coordinatesMapItemRecord(obj);
+		return true;
+	}
+
+	removeObject(obj : CoordinatesMapItem) : boolean {
+		if (!this._data.items[obj.id]) return false;
+		delete this._data.items[obj.id];
+		return true;
+	}
+
+	getObjects(x : number, y : number, searchRadius: number, exclude? : string[]) : Map<string, number> {
+		const coord = {
+			x,
+			y
+		};
+		if (!exclude) exclude = [];
+		const result = new Map<string, number>();
+		for (const item of Object.values(this._data.items)) {
+			const dist = distance(coord, item);
+			const radius = item.radius || 0.0;
+			if (dist > (searchRadius - radius)) continue;
+			if (exclude.some(excludeItem => excludeItem == item.id)) continue;
+			result.set(item.id, dist);
+		}
+		return result;
+	}
+}
+
 export class CoordinatesMap<T extends CoordinatesMapItem>{
 
-	_bounds : Position;
-	_itemsMap : {[id : string] : Required<CoordinatesMapItem>};
+	_controller : CoordinatesMapDataController;
 	_fullItemsMap : {[id : string] : T};
 	_changesMade : boolean;
 
-	constructor(bounds : Position, items : T[]) {
-		this._bounds = bounds;
-		this._itemsMap = Object.fromEntries(items.map(item => [item.id, coordinatesMapItemRecord(item)]));
+	constructor(data : CoordinatesMapDataLeaf, items : T[]) {
+		this._controller = new CoordinatesMapDataController(data);
 		this._fullItemsMap = Object.fromEntries(items.map(item => [item.id, item]));
 	}
 
 	//How to load up a PositionMap based on frameData. Should be memoized with a weakmap of FrameData.
 	//fullItems may include items that were never in map, as long as it's a superset.
-	static fromFrameData<F extends CoordinatesMapItem>(frameData : CoordinatesMapFrameData, fullItems : F[]) : CoordinatesMap<F> {
+	static fromFrameData<F extends CoordinatesMapItem>(frameData : CoordinatesMapDataLeaf, fullItems : F[]) : CoordinatesMap<F> {
 		//TODO: memoize based on a weak map
-		if (frameData.format != 'flat') throw new Error('Unsupported FrameData format: ' + frameData.format);
 		const itemsMap = Object.fromEntries(fullItems.map(item => [item.id, item]));
 		const expandedItems : F[] = Object.keys(frameData.items).map(id => itemsMap[id]);
-		return new CoordinatesMap<F>(frameData.bounds, expandedItems);
+		return new CoordinatesMap<F>(frameData, expandedItems);
 	}
 
 	//Suitable to be stored in a property of a frame
-	get frameData() : CoordinatesMapFrameData {
-		return {
-			format: 'flat',
-			bounds: this._bounds,
-			items:{...this._itemsMap}
-		};
+	get frameData() : CoordinatesMapDataLeaf {
+		return this._controller.frameData;
 	}
 
 	/**
@@ -86,15 +134,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	 * Returns the position affiliated with this object in the map or null
 	 */
 	getPosition(obj : T) : Position {
-		if (!obj) return null;
-		const mapObj = this._itemsMap[obj.id];
-		if (!obj) return null;
-		return {
-			x: mapObj.x,
-			y: mapObj.y,
-			width: mapObj.radius * 2,
-			height: mapObj.radius * 2
-		};
+		return this._controller.getPosition(obj);
 	}
   
 	/**
@@ -103,18 +143,13 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	 * @param obj The object to add to the set.
 	 */
 	updateObject(obj: T) {
-		const existingItem = this._itemsMap[obj.id];
-		if (existingItem) {
-			if (coordinatesMapItemExactlyEquivalent(existingItem, obj)) return;
-		}
+		if (!this._controller.updateObject(obj)) return;
 		this._fullItemsMap[obj.id] = obj;
-		this._itemsMap[obj.id] = coordinatesMapItemRecord(obj);
 		this._changesMade = true;
 	}
 
 	removeObject(obj : T) {
-		if (!this._itemsMap[obj.id] && !this._fullItemsMap[obj.id]) return;
-		delete this._itemsMap[obj.id];
+		if (!this._controller.removeObject(obj)) return;
 		delete this._fullItemsMap[obj.id];
 		this._changesMade = true;
 	}
@@ -129,20 +164,9 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		}
 		const x = xOrObj;
 		const y = yOrSearchRadius;
-		const coord = {
-			x,
-			y
-		};
 		if (!exclude) exclude = [];
-		const result = new Map<T, number>();
-		for (const item of Object.values(this._itemsMap)) {
-			const dist = distance(coord, item);
-			const radius = item.radius || 0.0;
-			if (dist > (searchRadius - radius)) continue;
-			if (exclude.some(excludeItem => coordinatesMapItemEquivalent(excludeItem, item))) continue;
-			result.set(this._fullItemsMap[item.id], dist);
-		}
-		return result;
+		const idMap = this._controller.getObjects(x, y, searchRadius, exclude.map(item => item.id));
+		return Object.fromEntries(Object.entries(idMap).map(entry => [this._fullItemsMap[entry[0]], entry[1]]));
 	}
 
 	getAllObjects() : T[] {
