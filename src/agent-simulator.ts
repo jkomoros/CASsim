@@ -341,7 +341,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 		Ticks all agents, and all nodes.
 	*/
 	override generateFrame(frame : F, rnd : RandomGenerator) : void {
-		const positions = frame.positions ? (dataIsGraph(frame.positions) ? inflateGraph(frame.positions) as P : CoordinatesMap.fromFrameData(frame.positions, frame.agents) as P): null;
+		const positions = frame.positions ? (dataIsGraph(frame.positions) ? inflateGraph(frame.positions) as P : CoordinatesMap.fromFrameData(frame.positions, frame, frame.agents) as P): null;
 		const newAgents = [...frame.agents];
 		const agentIterationOrder = [...frame.agents.keys()];
 		this.framePreTick(positions, frame, rnd);

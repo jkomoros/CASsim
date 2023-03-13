@@ -42,13 +42,15 @@ const coordinatesMapItemRecord = (input : CoordinatesMapItem) : Required<Coordin
 class CoordinatesMapDataController {
 
 	_data : CoordinatesMapDataLeaf;
+	_bounds : Position;
 
-	constructor (data : CoordinatesMapDataLeaf) {
+	constructor (data : CoordinatesMapDataLeaf, bounds : Position) {
 		this._data = data;
+		this._bounds = bounds;
 	}
 
 	get bounds() : Position {
-		return this._data.bounds;
+		return this._bounds;
 	}
 
 	get frameData() : CoordinatesMapDataLeaf {
@@ -105,35 +107,41 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 
 	_controller : CoordinatesMapDataController;
 	_fullItemsMap : {[id : string] : T};
+	_bounds : Position;
 	_changesMade : boolean;
 
-	constructor(items : T[], bounds: Size, data? : CoordinatesMapDataLeaf, ) {
+	constructor(items : T[], size: Size, data? : CoordinatesMapDataLeaf, ) {
 		if (!data) {
 			data = {
-				bounds: {...bounds, x : 0, y : 0},
 				items: Object.fromEntries(items.map(item => [item.id, coordinatesMapItemRecord(item)]))
 			};
 		}
+		this._bounds = {
+			width: size.width,
+			height: size.height,
+			x: 0,
+			y: 0
+		};
 		const fullItemsMap = Object.fromEntries(items.map(item => [item.id, item]));
 		if (Object.keys(data.items).length != Object.keys(items).length) throw new Error('Items did not have same number of items as data passed in');
 		for (const item of Object.values(data.items)) {
-			if (!itemWithinBounds(item, data.bounds)) throw new Error('Item not within bounds');
+			if (!itemWithinBounds(item, this.bounds)) throw new Error('Item not within bounds');
 			const fullItem = fullItemsMap[item.id];
 			if (fullItem.x !== item.x) throw new Error('Saved item differed in x');
 			if (fullItem.y !== item.y) throw new Error('Saved item differed in y');
 			if (fullItem.radius !== undefined && fullItem.radius !== item.radius) throw new Error('Saved item differed in radius');
 		}
-		this._controller = new CoordinatesMapDataController(data);
+		this._controller = new CoordinatesMapDataController(data, this.bounds);
 		this._fullItemsMap = fullItemsMap;
 	}
 
 	//How to load up a PositionMap based on frameData. Should be memoized with a weakmap of FrameData.
 	//fullItems may include items that were never in map, as long as it's a superset.
-	static fromFrameData<F extends CoordinatesMapItem>(frameData : CoordinatesMapDataLeaf, fullItems : F[]) : CoordinatesMap<F> {
+	static fromFrameData<F extends CoordinatesMapItem>(frameData : CoordinatesMapDataLeaf, size : Size, fullItems : F[]) : CoordinatesMap<F> {
 		//TODO: memoize based on a weak map
 		const itemsMap = Object.fromEntries(fullItems.map(item => [item.id, item]));
 		const expandedItems : F[] = Object.keys(frameData.items).map(id => itemsMap[id]);
-		return new CoordinatesMap<F>(expandedItems, frameData.bounds, frameData);
+		return new CoordinatesMap<F>(expandedItems, size, frameData);
 	}
 
 	//Suitable to be stored in a property of a frame
@@ -157,7 +165,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	}
 
 	get bounds() : Position {
-		return this._controller.bounds;
+		return this._bounds;
 	}
 
 	/**

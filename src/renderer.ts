@@ -167,7 +167,7 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 	}
 
 	_positions() : P {
-		return this.frame.positions ? (dataIsGraph(this.frame.positions) ? inflateGraph(this.frame.positions) as P : CoordinatesMap.fromFrameData(this.frame.positions, this.frame.agents) as P): null;
+		return this.frame.positions ? (dataIsGraph(this.frame.positions) ? inflateGraph(this.frame.positions) as P : CoordinatesMap.fromFrameData(this.frame.positions, this.frame, this.frame.agents) as P): null;
 	}
 
 	//This is an override point for your renderer, to tell the renderer where the information on each agent is.

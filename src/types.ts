@@ -458,7 +458,6 @@ export type CoordinatesMapItem = Partial<Coordinates> & {
 };
 
 export type CoordinatesMapDataLeaf = {
-    bounds: Position;
 	items : {[id : CoordinatesMapID]: Required<CoordinatesMapItem>};
 };
 
