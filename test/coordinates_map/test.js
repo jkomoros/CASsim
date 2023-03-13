@@ -83,6 +83,18 @@ describe('CoordinatesMap', () => {
 		assert.deepStrictEqual(simplifiedResult, golden);
 	});
 
+	it('Basic getObjects with an item that shouldnt work if it didnt have a radius', async () => {
+		const defaultItems = makeDefaultItems();
+		const defaultSize = makeDefaultSize();
+		const map = new CoordinatesMap(defaultItems, defaultSize);
+		const result = map.getObjects(50, 150, 26);
+		const simplifiedResult = Object.fromEntries([...result.entries()].map(entry => [entry[0].id, entry[1]]));
+		const golden = {
+			'2': 50,
+		};
+		assert.deepStrictEqual(simplifiedResult, golden);
+	});
+
 	it('Basic getObjects with large radius and an exclude', async () => {
 		const defaultItems = makeDefaultItems();
 		const defaultSize = makeDefaultSize();
@@ -95,6 +107,4 @@ describe('CoordinatesMap', () => {
 		};
 		assert.deepStrictEqual(simplifiedResult, golden);
 	});
-
-	//TODO: test that an item with a radius that would have been outside the size but is within with radius is returned.
 });
