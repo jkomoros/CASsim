@@ -177,7 +177,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		const y = yOrSearchRadius;
 		if (!exclude) exclude = [];
 		const idMap = this._controller.getObjects(x, y, searchRadius, exclude.map(item => item.id));
-		return Object.fromEntries(Object.entries(idMap).map(entry => [this._fullItemsMap[entry[0]], entry[1]]));
+		return new Map([...idMap.entries()].map(entry => [this._fullItemsMap[entry[0]], entry[1]]));
 	}
 
 	getAllObjects() : T[] {
