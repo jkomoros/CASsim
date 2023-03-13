@@ -114,8 +114,17 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 				items: Object.fromEntries(items.map(item => [item.id, coordinatesMapItemRecord(item)]))
 			};
 		}
+		const fullItemsMap = Object.fromEntries(items.map(item => [item.id, item]));
+		if (Object.keys(data.items).length != Object.keys(items).length) throw new Error('Items did not have same number of items as data passed in');
+		for (const item of Object.values(data.items)) {
+			if (!itemWithinBounds(item, data.bounds)) throw new Error('Item not within bounds');
+			const fullItem = fullItemsMap[item.id];
+			if (fullItem.x !== item.x) throw new Error('Saved item differed in x');
+			if (fullItem.y !== item.y) throw new Error('Saved item differed in y');
+			if (fullItem.radius !== undefined && fullItem.radius !== item.radius) throw new Error('Saved item differed in radius');
+		}
 		this._controller = new CoordinatesMapDataController(data);
-		this._fullItemsMap = Object.fromEntries(items.map(item => [item.id, item]));
+		this._fullItemsMap = fullItemsMap;
 	}
 
 	//How to load up a PositionMap based on frameData. Should be memoized with a weakmap of FrameData.
