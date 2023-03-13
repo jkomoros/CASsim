@@ -4,7 +4,8 @@ import {
 	Position,
 	CoordinatesMapDataLeaf,
 	Size,
-	CoordinatesMapID
+	CoordinatesMapID,
+	CoordinatesMapBounds
 } from './types.js';
 
 const coordinatesMapItemExactlyEquivalent = (one : CoordinatesMapItem, two : CoordinatesMapItem) : boolean => {
@@ -22,7 +23,7 @@ const distance = (one : Coordinates, two : Coordinates) : number => {
 	return Math.sqrt(Math.pow(two.x - one.x, 2) + Math.pow(two.y - one.y, 2));
 };
 
-const itemWithinBounds = (item : CoordinatesMapItem, bounds : Position) : boolean => {
+const itemWithinBounds = (item : CoordinatesMapItem, bounds : CoordinatesMapBounds) : boolean => {
 	if (item.x < bounds.x) return false;
 	if (item.y < bounds.y) return false;
 	if (item.x >= bounds.x + bounds.width) return false;
@@ -42,14 +43,14 @@ const coordinatesMapItemRecord = (input : CoordinatesMapItem) : Required<Coordin
 class CoordinatesMapDataController {
 
 	_data : CoordinatesMapDataLeaf;
-	_bounds : Position;
+	_bounds : CoordinatesMapBounds;
 
-	constructor (data : CoordinatesMapDataLeaf, bounds : Position) {
+	constructor (data : CoordinatesMapDataLeaf, bounds : CoordinatesMapBounds) {
 		this._data = data;
 		this._bounds = bounds;
 	}
 
-	get bounds() : Position {
+	get bounds() : CoordinatesMapBounds {
 		return this._bounds;
 	}
 
@@ -107,7 +108,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 
 	_controller : CoordinatesMapDataController;
 	_fullItemsMap : {[id : string] : T};
-	_bounds : Position;
+	_bounds : CoordinatesMapBounds;
 	_changesMade : boolean;
 
 	constructor(items : T[], size: Size, data? : CoordinatesMapDataLeaf, ) {
@@ -120,7 +121,9 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 			width: size.width,
 			height: size.height,
 			x: 0,
-			y: 0
+			y: 0,
+			includeRight: true,
+			includeBottom: true
 		};
 		const fullItemsMap = Object.fromEntries(items.map(item => [item.id, item]));
 		if (Object.keys(data.items).length != Object.keys(items).length) throw new Error('Items did not have same number of items as data passed in');
@@ -164,7 +167,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		return this._changesMade;
 	}
 
-	get bounds() : Position {
+	get bounds() : CoordinatesMapBounds {
 		return this._bounds;
 	}
 

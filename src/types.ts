@@ -461,6 +461,11 @@ export type CoordinatesMapDataLeaf = {
 	items : {[id : CoordinatesMapID]: Required<CoordinatesMapItem>};
 };
 
+export type CoordinatesMapBounds = Position & {
+    includeRight : boolean;
+    includeBottom : boolean;
+}
+
 //TODO: tighten;
 export type GraphType = string;
 

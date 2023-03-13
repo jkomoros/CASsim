@@ -58,7 +58,7 @@ describe('CoordinatesMap', () => {
 		const defaultSize = makeDefaultSize();
 		const map = new CoordinatesMap(defaultItems, defaultSize);
 		const result = map.bounds;
-		assert.deepStrictEqual(result, {...defaultSize, x: 0, y:0});
+		assert.deepStrictEqual(result, {...defaultSize, x: 0, y:0, includeRight: true, includeBottom: true});
 	});
 
 	it('Basic getObjects with large radius', async () => {
