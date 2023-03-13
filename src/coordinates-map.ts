@@ -5,7 +5,8 @@ import {
 	CoordinatesMapDataLeaf,
 	Size,
 	CoordinatesMapID,
-	CoordinatesMapBounds
+	CoordinatesMapBounds,
+	CoordinatesMapData
 } from './types.js';
 
 const coordinatesMapItemExactlyEquivalent = (one : CoordinatesMapItem, two : CoordinatesMapItem) : boolean => {
@@ -47,6 +48,10 @@ const coordinatesMapItemRecord = (input : CoordinatesMapItem) : Required<Coordin
 	};
 };
 
+const dataIsLeaf = (data : CoordinatesMapData) : data is CoordinatesMapDataLeaf => {
+	return 'items' in data;
+};
+
 class CoordinatesMapBucket {
 
 	_data : CoordinatesMapDataLeaf;
@@ -63,6 +68,10 @@ class CoordinatesMapBucket {
 
 	get frameData() : CoordinatesMapDataLeaf {
 		return this._data;
+	}
+
+	get isLeaf() : boolean {
+		return dataIsLeaf(this._data);
 	}
 
 	getPosition(obj : CoordinatesMapItem) : Position {

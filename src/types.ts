@@ -457,8 +457,17 @@ export type CoordinatesMapItem = Partial<Coordinates> & {
 	radius? : number;
 };
 
+export type CoordinatesMapData = CoordinatesMapDataLeaf | CoordinatesMapDataMeta;
+
 export type CoordinatesMapDataLeaf = {
 	items : {[id : CoordinatesMapID]: Required<CoordinatesMapItem>};
+};
+
+export type CoordinatesMapDataMeta = {
+    upperLeft: CoordinatesMapData,
+    upperRight: CoordinatesMapData,
+    lowerLeft: CoordinatesMapData,
+    lowerRight: CoordinatesMapData
 };
 
 export type CoordinatesMapBounds = Position & {
