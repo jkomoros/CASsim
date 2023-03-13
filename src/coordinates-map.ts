@@ -47,7 +47,7 @@ const coordinatesMapItemRecord = (input : CoordinatesMapItem) : Required<Coordin
 	};
 };
 
-class CoordinatesMapDataController {
+class CoordinatesMapBucket {
 
 	_data : CoordinatesMapDataLeaf;
 	_bounds : CoordinatesMapBounds;
@@ -113,7 +113,7 @@ class CoordinatesMapDataController {
 
 export class CoordinatesMap<T extends CoordinatesMapItem>{
 
-	_controller : CoordinatesMapDataController;
+	_rootBucket : CoordinatesMapBucket;
 	_fullItemsMap : {[id : string] : T};
 	_bounds : CoordinatesMapBounds;
 	_changesMade : boolean;
@@ -141,7 +141,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 			if (fullItem.y !== item.y) throw new Error('Saved item differed in y');
 			if (fullItem.radius !== undefined && fullItem.radius !== item.radius) throw new Error('Saved item differed in radius');
 		}
-		this._controller = new CoordinatesMapDataController(data, this.bounds);
+		this._rootBucket = new CoordinatesMapBucket(data, this.bounds);
 		this._fullItemsMap = fullItemsMap;
 	}
 
@@ -156,7 +156,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 
 	//Suitable to be stored in a property of a frame
 	get frameData() : CoordinatesMapDataLeaf {
-		return this._controller.frameData;
+		return this._rootBucket.frameData;
 	}
 
 	/**
@@ -182,7 +182,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	 * Returns the position affiliated with this object in the map or null
 	 */
 	getPosition(obj : T) : Position {
-		return this._controller.getPosition(obj);
+		return this._rootBucket.getPosition(obj);
 	}
   
 	/**
@@ -192,13 +192,13 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	 */
 	updateObject(obj: T) {
 		if (!itemWithinBounds(obj, this.bounds)) throw new Error('Obj is outside of bounds');
-		if (!this._controller.updateObject(obj)) return;
+		if (!this._rootBucket.updateObject(obj)) return;
 		this._fullItemsMap[obj.id] = obj;
 		this._changesMade = true;
 	}
 
 	removeObject(obj : T) {
-		if (!this._controller.removeObject(obj)) return;
+		if (!this._rootBucket.removeObject(obj)) return;
 		delete this._fullItemsMap[obj.id];
 		this._changesMade = true;
 	}
@@ -214,7 +214,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		const x = xOrObj;
 		const y = yOrSearchRadius;
 		if (!exclude) exclude = [];
-		const idMap = this._controller.getObjects(x, y, searchRadius, exclude.map(item => item.id));
+		const idMap = this._rootBucket.getObjects(x, y, searchRadius, exclude.map(item => item.id));
 		return new Map([...idMap.entries()].map(entry => [this._fullItemsMap[entry[0]], entry[1]]));
 	}
 
