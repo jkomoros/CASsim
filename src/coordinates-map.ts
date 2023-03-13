@@ -60,6 +60,7 @@ class CoordinatesMapBucket {
 	constructor (data : CoordinatesMapData, bounds : CoordinatesMapBounds) {
 		this._data = data;
 		this._bounds = bounds;
+		//TODO: make sub-buckets if a meta bucket according to data.
 	}
 
 	get bounds() : CoordinatesMapBounds {
