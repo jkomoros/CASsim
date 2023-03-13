@@ -33,7 +33,7 @@ const makeDefaultItems = () => {
 };
 
 describe('CoordinatesMap', () => {
-	it('Basic all options', async () => {
+	it('Basic getAllObjects', async () => {
 		const defaultItems = makeDefaultItems();
 		const map = new CoordinatesMap(defaultItems, {width: 200, height: 200});
 		const result = map.getAllObjects();
