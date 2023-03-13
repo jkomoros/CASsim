@@ -54,10 +54,10 @@ const dataIsLeaf = (data : CoordinatesMapData) : data is CoordinatesMapDataLeaf 
 
 class CoordinatesMapBucket {
 
-	_data : CoordinatesMapDataLeaf;
+	_data : CoordinatesMapData;
 	_bounds : CoordinatesMapBounds;
 
-	constructor (data : CoordinatesMapDataLeaf, bounds : CoordinatesMapBounds) {
+	constructor (data : CoordinatesMapData, bounds : CoordinatesMapBounds) {
 		this._data = data;
 		this._bounds = bounds;
 	}
@@ -66,7 +66,7 @@ class CoordinatesMapBucket {
 		return this._bounds;
 	}
 
-	get frameData() : CoordinatesMapDataLeaf {
+	get frameData() : CoordinatesMapData {
 		return this._data;
 	}
 
@@ -76,6 +76,7 @@ class CoordinatesMapBucket {
 
 	getPosition(obj : CoordinatesMapItem) : Position {
 		if (!obj) return null;
+		if (!dataIsLeaf(this._data)) throw new Error('Meta bucket support not yet implemented');
 		const mapObj = this._data.items[obj.id];
 		if (!obj) return null;
 		return {
@@ -87,6 +88,7 @@ class CoordinatesMapBucket {
 	}
 
 	updateObject(obj: CoordinatesMapItem) : boolean {
+		if (!dataIsLeaf(this._data)) throw new Error('Meta bucket support not yet implemented');
 		const existingItem = this._data.items[obj.id];
 		if (existingItem) {
 			if (coordinatesMapItemExactlyEquivalent(existingItem, obj)) return false;
@@ -97,6 +99,7 @@ class CoordinatesMapBucket {
 	}
 
 	removeObject(obj : CoordinatesMapItem) : boolean {
+		if (!dataIsLeaf(this._data)) throw new Error('Meta bucket support not yet implemented');
 		if (!this._data.items[obj.id]) return false;
 		delete this._data.items[obj.id];
 		return true;
@@ -109,6 +112,7 @@ class CoordinatesMapBucket {
 		};
 		if (!exclude) exclude = [];
 		const result = new Map<string, number>();
+		if (!dataIsLeaf(this._data)) throw new Error('Meta bucket support not yet implemented');
 		for (const item of Object.values(this._data.items)) {
 			const dist = distance(coord, item);
 			const radius = item.radius || 0.0;
@@ -164,7 +168,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	}
 
 	//Suitable to be stored in a property of a frame
-	get frameData() : CoordinatesMapDataLeaf {
+	get frameData() : CoordinatesMapData {
 		return this._rootBucket.frameData;
 	}
 
