@@ -119,4 +119,18 @@ describe('CoordinatesMap', () => {
 		};
 		assert.throws(fn);
 	});
+
+	it('Basic frame data round trip', async () => {
+		const defaultItems = makeDefaultItems();
+		const defaultSize = makeDefaultSize();
+		const map = new CoordinatesMap(defaultItems, defaultSize);
+		const data = map.frameData;
+		const newMap = new CoordinatesMap(defaultItems, data);
+		const result = newMap.getAllObjects();
+		assert.deepStrictEqual(result, defaultItems);
+	});
+
+	//TODO: verify that booting with an items and data that is out of sync doesn't work
+	//TODO: verify that booting with an item outside of bounds doesn't work
+	//TODO: verify that items right at the edge of bounds don't work (unless included in)
 });
