@@ -37,11 +37,13 @@ const coordinatesMapItemRecord = (input : CoordinatesMapItem) : Required<Coordin
 
 export class CoordinatesMap<T extends CoordinatesMapItem>{
 
+	_bounds : Position;
 	_itemsMap : {[id : string] : Required<CoordinatesMapItem>};
 	_fullItemsMap : {[id : string] : T};
 	_changesMade : boolean;
 
-	constructor(items : T[]) {
+	constructor(bounds : Position, items : T[]) {
+		this._bounds = bounds;
 		this._itemsMap = Object.fromEntries(items.map(item => [item.id, coordinatesMapItemRecord(item)]));
 		this._fullItemsMap = Object.fromEntries(items.map(item => [item.id, item]));
 	}
@@ -53,13 +55,14 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		if (frameData.format != 'flat') throw new Error('Unsupported FrameData format: ' + frameData.format);
 		const itemsMap = Object.fromEntries(fullItems.map(item => [item.id, item]));
 		const expandedItems : F[] = Object.keys(frameData.items).map(id => itemsMap[id]);
-		return new CoordinatesMap<F>(expandedItems);
+		return new CoordinatesMap<F>(frameData.bounds, expandedItems);
 	}
 
 	//Suitable to be stored in a property of a frame
 	get frameData() : CoordinatesMapFrameData {
 		return {
 			format: 'flat',
+			bounds: this._bounds,
 			items:{...this._itemsMap}
 		};
 	}
