@@ -125,7 +125,7 @@ describe('CoordinatesMap', () => {
 		const defaultSize = makeDefaultSize();
 		const map = new CoordinatesMap(defaultItems, defaultSize);
 		const data = map.frameData;
-		const newMap = new CoordinatesMap(defaultItems, data);
+		const newMap = new CoordinatesMap(defaultItems, defaultSize, data);
 		const result = newMap.getAllObjects();
 		assert.deepStrictEqual(result, defaultItems);
 	});
