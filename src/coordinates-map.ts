@@ -96,7 +96,13 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	_fullItemsMap : {[id : string] : T};
 	_changesMade : boolean;
 
-	constructor(data : CoordinatesMapDataLeaf, items : T[]) {
+	constructor(items : T[], bounds: Position, data? : CoordinatesMapDataLeaf, ) {
+		if (!data) {
+			data = {
+				bounds,
+				items: Object.fromEntries(items.map(item => [item.id, coordinatesMapItemRecord(item)]))
+			};
+		}
 		this._controller = new CoordinatesMapDataController(data);
 		this._fullItemsMap = Object.fromEntries(items.map(item => [item.id, item]));
 	}
@@ -107,7 +113,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		//TODO: memoize based on a weak map
 		const itemsMap = Object.fromEntries(fullItems.map(item => [item.id, item]));
 		const expandedItems : F[] = Object.keys(frameData.items).map(id => itemsMap[id]);
-		return new CoordinatesMap<F>(frameData, expandedItems);
+		return new CoordinatesMap<F>(expandedItems, frameData.bounds, frameData);
 	}
 
 	//Suitable to be stored in a property of a frame
