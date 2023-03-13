@@ -32,6 +32,11 @@ const makeDefaultItems = () => {
 	];
 };
 
+const makeDefaultFrameData = () => {
+	const map = new CoordinatesMap(makeDefaultItems(), makeDefaultSize());
+	return map.frameData;
+};
+
 const makeDefaultSize = () => {
 	return {
 		width: 200,
@@ -130,7 +135,15 @@ describe('CoordinatesMap', () => {
 		assert.deepStrictEqual(result, defaultItems);
 	});
 
-	//TODO: verify that booting with an items and data that is out of sync doesn't work
+	it('Basic frame data boot with invalid items that dont match what was saved', async () => {
+		const defaultItems = makeDefaultItems();
+		defaultItems[0].x = 50;
+		const fn = () => {
+			new CoordinatesMap(defaultItems, makeDefaultSize(), makeDefaultFrameData());
+		};
+		assert.throws(fn);
+	});
+
 	//TODO: verify that booting with an item outside of bounds doesn't work
 	//TODO: verify that items right at the edge of bounds don't work (unless included in)
 });
