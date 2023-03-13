@@ -32,18 +32,27 @@ const makeDefaultItems = () => {
 	];
 };
 
+const makeDefaultSize = () => {
+	return {
+		width: 200,
+		height: 250
+	};
+};
+
 describe('CoordinatesMap', () => {
 	it('Basic getAllObjects', async () => {
 		const defaultItems = makeDefaultItems();
-		const map = new CoordinatesMap(defaultItems, {width: 200, height: 200});
+		const defaultSize = makeDefaultSize();
+		const map = new CoordinatesMap(defaultItems, defaultSize);
 		const result = map.getAllObjects();
 		assert.deepStrictEqual(result, defaultItems);
 	});
 
 	it('Basic bounds', async () => {
 		const defaultItems = makeDefaultItems();
-		const map = new CoordinatesMap(defaultItems, {width: 200, height: 200});
+		const defaultSize = makeDefaultSize();
+		const map = new CoordinatesMap(defaultItems, defaultSize);
 		const result = map.bounds;
-		assert.deepStrictEqual(result, {x: 0, y:0, width: 200, height: 200});
+		assert.deepStrictEqual(result, {...defaultSize, x: 0, y:0});
 	});
 });
