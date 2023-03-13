@@ -84,7 +84,7 @@ class CoordinatesMapDataController {
 		for (const item of Object.values(this._data.items)) {
 			const dist = distance(coord, item);
 			const radius = item.radius || 0.0;
-			if (dist > (searchRadius - radius)) continue;
+			if (dist > (searchRadius + radius)) continue;
 			if (exclude.some(excludeItem => excludeItem == item.id)) continue;
 			result.set(item.id, dist);
 		}

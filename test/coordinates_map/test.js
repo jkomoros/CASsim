@@ -74,7 +74,7 @@ describe('CoordinatesMap', () => {
 		const defaultItems = makeDefaultItems();
 		const defaultSize = makeDefaultSize();
 		const map = new CoordinatesMap(defaultItems, defaultSize);
-		const result = map.getObjects(100, 100, 100);
+		const result = map.getObjects(100, 100, 75);
 		const simplifiedResult = Object.fromEntries([...result.entries()].map(entry => [entry[0].id, entry[1]]));
 		const golden = {
 			'0': 0,
