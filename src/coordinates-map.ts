@@ -22,6 +22,14 @@ const distance = (one : Coordinates, two : Coordinates) : number => {
 	return Math.sqrt(Math.pow(two.x - one.x, 2) + Math.pow(two.y - one.y, 2));
 };
 
+const itemWithinBounds = (item : CoordinatesMapItem, bounds : Position) : boolean => {
+	if (item.x < bounds.x) return false;
+	if (item.y < bounds.y) return false;
+	if (item.x > bounds.x + bounds.width) return false;
+	if (item.y > bounds.y + bounds.height) return false;
+	return true;
+};
+
 const coordinatesMapItemRecord = (input : CoordinatesMapItem) : Required<CoordinatesMapItem> => {
 	return {
 		id: input.id,
@@ -64,6 +72,7 @@ class CoordinatesMapDataController {
 		if (existingItem) {
 			if (coordinatesMapItemExactlyEquivalent(existingItem, obj)) return false;
 		}
+		if (!itemWithinBounds(obj, this.bounds)) throw new Error('Item outside of bucket bounds');
 		this._data.items[obj.id] = coordinatesMapItemRecord(obj);
 		return true;
 	}
@@ -155,6 +164,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	 * @param obj The object to add to the set.
 	 */
 	updateObject(obj: T) {
+		if (!itemWithinBounds(obj, this.bounds)) throw new Error('Obj is outside of bounds');
 		if (!this._controller.updateObject(obj)) return;
 		this._fullItemsMap[obj.id] = obj;
 		this._changesMade = true;

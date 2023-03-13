@@ -107,4 +107,16 @@ describe('CoordinatesMap', () => {
 		};
 		assert.deepStrictEqual(simplifiedResult, golden);
 	});
+
+	it('Basic set an object and try to remove it from the bounds', async () => {
+		const defaultItems = makeDefaultItems();
+		const defaultSize = makeDefaultSize();
+		const map = new CoordinatesMap(defaultItems, defaultSize);
+		const fn = () => {
+			const obj = {...defaultItems[0]};
+			obj.x = -25;
+			map.updateObject(obj);
+		};
+		assert.throws(fn);
+	});
 });
