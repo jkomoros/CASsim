@@ -299,6 +299,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 			y : obj.y || 0
 		};
 		const bucket = this._rootBucket.getLeafBucket(coords);
+		//TODO: check for the condition in which it moves buckets.
 		if (!bucket.updateObject(obj)) return;
 		this._fullItemsMap[obj.id] = {...obj};
 		this._changesMade = true;
