@@ -220,12 +220,12 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	_changesMade : boolean;
 
 	constructor(items : T[], size: Size, data? : CoordinatesMapDataLeaf, ) {
+		let insertItems = false;
 		if (!data) {
-			//TODO: insert these one at a time because if the amount is large,
-			//then we might need to rebalance.
 			data = {
-				items: Object.fromEntries(items.map(item => [item.id, true]))
+				items: {}
 			};
+			insertItems = true;
 		}
 		this._bounds = {
 			width: size.width,
@@ -236,12 +236,16 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 			includeBottom: true
 		};
 		const fullItemsMap = Object.fromEntries(items.map(item => [item.id, {...item}]));
-		if (Object.keys(data.items).length != Object.keys(items).length) throw new Error('Items did not have same number of items as data passed in');
-		for (const item of Object.values(fullItemsMap)) {
-			if (!pointWithinBounds(item, this.bounds)) throw new Error('Item not within bounds');
-		}
-		this._rootBucket = new CoordinatesMapBucket(this, data, this.bounds);
 		this._fullItemsMap = fullItemsMap;
+		this._rootBucket = new CoordinatesMapBucket(this, data, this.bounds);
+		if (!insertItems && Object.keys(data.items).length != Object.keys(items).length) throw new Error('Items did not have same number of items as data passed in');
+		for (const item of items) {
+			if (!pointWithinBounds(item, this.bounds)) throw new Error('Item not within bounds');
+			if (insertItems) {
+				this.insertObject(item);
+			}
+		}
+		
 	}
 
 	//How to load up a PositionMap based on frameData. Should be memoized with a weakmap of FrameData.
