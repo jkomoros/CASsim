@@ -231,8 +231,17 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 	}
 
 	combineIfNecessary() {
-		//TODO: implement this
-		//TODO: this is wrong; it's currently only called on leaf buckets but really should be called on parent buckets.
+		if (dataIsLeaf(this._data)) throw new Error('combineIfNecessary called on a leaf');
+		if (this.count >= this._map._minBucketSize) return;
+		this._data = {
+			items: {
+				...this._subBuckets.upperLeft.items,
+				...this._subBuckets.upperRight.items,
+				...this._subBuckets.lowerLeft.items,
+				...this._subBuckets.lowerRight.items
+			}
+		};
+		this._subBuckets = null;
 	}
 
 	insertObject(obj : CoordinatesMapItem) {
@@ -261,7 +270,7 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 		if (!dataIsLeaf(this._data)) throw new Error('removeObject is not supported on non-leaf');
 		if (!this._data.items[obj.id]) return false;
 		delete this._data.items[obj.id];
-		this.combineIfNecessary();
+		if (this._parentBucket) this._parentBucket.combineIfNecessary();
 		return true;
 	}
 
