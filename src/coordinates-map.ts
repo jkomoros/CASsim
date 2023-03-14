@@ -130,6 +130,28 @@ class CoordinatesMapBucket {
 		return dataIsLeaf(this._data);
 	}
 
+	getLeafBucket(point : Coordinates) : CoordinatesMapBucket {
+		if (!pointWithinBounds(point, this.bounds)) throw new Error('Point is not within bounds');
+		if (dataIsLeaf(this._data)) {
+			return this;
+		}
+		const midPointX = this._subBuckets.lowerRight.bounds.x;
+		const midPointY = this._subBuckets.lowerRight.bounds.y;
+		if (point.x < midPointX) {
+			if (point.y < midPointY) {
+				return this._subBuckets.upperLeft.getLeafBucket(point);
+			} else {
+				return this._subBuckets.lowerLeft.getLeafBucket(point);
+			}
+		} else {
+			if (point.y < midPointY) {
+				return this._subBuckets.upperRight.getLeafBucket(point);
+			} else {
+				return this._subBuckets.lowerRight.getLeafBucket(point);
+			}
+		}
+	}
+
 	getPosition(obj : CoordinatesMapItem) : Position {
 		if (!obj) return null;
 		if (!dataIsLeaf(this._data)) throw new Error('Meta bucket support not yet implemented');
@@ -254,6 +276,10 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		return this._rootBucket.getPosition(obj);
 	}
   
+	getLeafBucket(point : Coordinates) : CoordinatesMapBucket {
+		return this._rootBucket.getLeafBucket(point);
+	}
+
 	/**
 	 * updateObject should be called to add items not yet in the map, or when
 	 * any of their relevant properties (e.g. x,y, radius) might have changed.

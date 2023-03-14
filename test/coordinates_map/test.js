@@ -171,4 +171,12 @@ describe('CoordinatesMap', () => {
 		assert.doesNotThrow(fn);
 	});
 
+	it('Basic frame data getLeafBucket', async () => {
+		const map = new CoordinatesMap(makeDefaultItems(), makeDefaultSize());
+		const bucket = map.getLeafBucket({x: 25, y: 25});
+		assert.deepStrictEqual(bucket, map._rootBucket);
+	});
+
+	//TODO: test that getLeafBucket works within nested buckets
+
 });
