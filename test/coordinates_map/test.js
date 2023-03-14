@@ -1,8 +1,11 @@
 /*eslint-env node*/
 
 import {
-	CoordinatesMap
+	CoordinatesMap,
+	_TESTING
 } from '../../src/coordinates-map.js';
+
+const circleIntersectsBounds = _TESTING.circleIntersectsBounds;
 
 import assert from 'assert';
 
@@ -178,5 +181,141 @@ describe('CoordinatesMap', () => {
 	});
 
 	//TODO: test that getLeafBucket works within nested buckets
+
+});
+
+describe('circleIntersectsBounds', () => {
+	it('Circle within bounds', async () => {
+		const center = {
+			x: 50,
+			y: 50
+		};
+		const radius = 25;
+		const bounds = {
+			x: 0,
+			y: 0,
+			width: 100,
+			height: 100,
+			includeBottom: false,
+			includeRight: false
+		};
+		const result = circleIntersectsBounds(center, radius, bounds);
+		const golden = true;
+		assert.deepStrictEqual(result, golden);
+	});
+
+	it('Circle outside of bounds', async () => {
+		const center = {
+			x: -50,
+			y: 50
+		};
+		const radius = 25;
+		const bounds = {
+			x: 0,
+			y: 0,
+			width: 100,
+			height: 100,
+			includeBottom: false,
+			includeRight: false
+		};
+		const result = circleIntersectsBounds(center, radius, bounds);
+		const golden = false;
+		assert.deepStrictEqual(result, golden);
+	});
+
+	it('Circle outside of rect above but within radius', async () => {
+		const center = {
+			x: 50,
+			y: -10
+		};
+		const radius = 25;
+		const bounds = {
+			x: 0,
+			y: 0,
+			width: 100,
+			height: 100,
+			includeBottom: false,
+			includeRight: false
+		};
+		const result = circleIntersectsBounds(center, radius, bounds);
+		const golden = true;
+		assert.deepStrictEqual(result, golden);
+	});
+
+	it('Circle outside of rect left but within radius', async () => {
+		const center = {
+			x: -10,
+			y: 50
+		};
+		const radius = 25;
+		const bounds = {
+			x: 0,
+			y: 0,
+			width: 100,
+			height: 100,
+			includeBottom: false,
+			includeRight: false
+		};
+		const result = circleIntersectsBounds(center, radius, bounds);
+		const golden = true;
+		assert.deepStrictEqual(result, golden);
+	});
+
+	it('Circle outside of rect bottom but within radius', async () => {
+		const center = {
+			x: 50,
+			y: 110
+		};
+		const radius = 25;
+		const bounds = {
+			x: 0,
+			y: 0,
+			width: 100,
+			height: 100,
+			includeBottom: false,
+			includeRight: false
+		};
+		const result = circleIntersectsBounds(center, radius, bounds);
+		const golden = true;
+		assert.deepStrictEqual(result, golden);
+	});
+
+	it('Circle outside of rect right but within radius', async () => {
+		const center = {
+			x: 110,
+			y: 50
+		};
+		const radius = 25;
+		const bounds = {
+			x: 0,
+			y: 0,
+			width: 100,
+			height: 100,
+			includeBottom: false,
+			includeRight: false
+		};
+		const result = circleIntersectsBounds(center, radius, bounds);
+		const golden = true;
+		assert.deepStrictEqual(result, golden);
+	});
+
+	it('Circle outside of rect diagonal left up but within radius', async () => {
+		const center = {
+			x: -10,
+			y: -10
+		};
+		const radius = 25;
+		const bounds = {
+			x: 0,
+			y: 0,
+			width: 100,
+			height: 100,
+			includeBottom: false,
+			includeRight: false
+		};
+		const result = circleIntersectsBounds(center, radius, bounds);
+		const golden = true;
+		assert.deepStrictEqual(result, golden);
+	});
 
 });

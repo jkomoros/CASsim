@@ -44,6 +44,13 @@ const pointWithinBounds = (pointOrItem : Coordinates | CoordinatesMapItem, bound
 	return true;
 };
 
+const circleIntersectsBounds = (center : Coordinates, radius : number, bounds : CoordinatesMapBounds) : boolean => {
+	//From https://yal.cc/rectangle-circle-intersection-test/
+	const deltaX = center.x - Math.max(bounds.x, Math.min(center.x, bounds.x + bounds.width));
+	const deltaY = center.y - Math.max(bounds.y, Math.min(center.y, bounds.y + bounds.height));
+	return (deltaX * deltaX + deltaY + deltaY) < (radius * radius);
+};
+
 const coordinatesMapItemRecord = (input : CoordinatesMapItem) : Required<CoordinatesMapItem> => {
 	return {
 		id: input.id,
@@ -334,3 +341,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		}
 	}
 }
+
+export const _TESTING = {
+	circleIntersectsBounds
+} as const;
