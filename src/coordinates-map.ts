@@ -288,14 +288,6 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		};
 	}
   
-	getLeafBucket(point : Coordinates) : CoordinatesMapBucket<T> {
-		return this._rootBucket.getLeafBucket(point);
-	}
-
-	getLeafBuckets(point : Coordinates, radius : number): CoordinatesMapBucket<T>[] {
-		return this._rootBucket.getLeafBuckets(point, radius);
-	}
-
 	/**
 	 * updateObject should be called to add items not yet in the map, or when
 	 * any of their relevant properties (e.g. x,y, radius) might have changed.

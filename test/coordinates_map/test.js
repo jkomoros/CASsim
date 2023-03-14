@@ -176,13 +176,13 @@ describe('CoordinatesMap', () => {
 
 	it('Basic frame data getLeafBucket', async () => {
 		const map = new CoordinatesMap(makeDefaultItems(), makeDefaultSize());
-		const bucket = map.getLeafBucket({x: 25, y: 25});
+		const bucket = map._rootBucket.getLeafBucket({x: 25, y: 25});
 		assert.deepStrictEqual(bucket, map._rootBucket);
 	});
 
 	it('Basic frame data getLeafBuckets', async () => {
 		const map = new CoordinatesMap(makeDefaultItems(), makeDefaultSize());
-		const buckets = map.getLeafBuckets({x: 25, y: 25}, 25);
+		const buckets = map._rootBucket.getLeafBuckets({x: 25, y: 25}, 25);
 		assert.deepStrictEqual(buckets, [map._rootBucket]);
 	});
 
