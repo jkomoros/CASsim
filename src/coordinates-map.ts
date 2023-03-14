@@ -60,6 +60,7 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 	_map : CoordinatesMap<T>;
 	_data : CoordinatesMapData;
 	_bounds : CoordinatesMapBounds;
+	_parentBucket : CoordinatesMapBucket<T> | null;
 	_subBuckets : {
 		upperLeft: CoordinatesMapBucket<T>,
 		upperRight: CoordinatesMapBucket<T>,
@@ -70,10 +71,11 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 	/**
 	 * Note that data is owned and shuld be modified in place 
 	 */
-	constructor (map : CoordinatesMap<T>, data : CoordinatesMapData, bounds : CoordinatesMapBounds) {
+	constructor (map : CoordinatesMap<T>, parent: CoordinatesMapBucket<T> | null, data : CoordinatesMapData, bounds : CoordinatesMapBounds) {
 		this._map = map;
 		this._data = data;
 		this._bounds = bounds;
+		this._parentBucket = parent;
 		if (!dataIsLeaf(this._data)) {
 			this._createSubBuckets();
 		}
@@ -117,10 +119,10 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 			includeRight: bounds.includeRight
 		};
 		this._subBuckets = {
-			upperLeft: new CoordinatesMapBucket(this._map, this._data.upperLeft, upperLeftBounds),
-			upperRight: new CoordinatesMapBucket(this._map, this._data.upperRight, upperRightBounds),
-			lowerLeft: new CoordinatesMapBucket(this._map, this._data.lowerLeft, lowerLeftBounds),
-			lowerRight: new CoordinatesMapBucket(this._map, this._data.lowerRight, lowerRightBounds)
+			upperLeft: new CoordinatesMapBucket(this._map, this, this._data.upperLeft, upperLeftBounds),
+			upperRight: new CoordinatesMapBucket(this._map, this, this._data.upperRight, upperRightBounds),
+			lowerLeft: new CoordinatesMapBucket(this._map, this, this._data.lowerLeft, lowerLeftBounds),
+			lowerRight: new CoordinatesMapBucket(this._map, this, this._data.lowerRight, lowerRightBounds)
 		};
 	}
 
@@ -294,7 +296,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		};
 		const fullItemsMap = Object.fromEntries(items.map(item => [item.id, {...item}]));
 		this._fullItemsMap = fullItemsMap;
-		this._rootBucket = new CoordinatesMapBucket(this, data, this.bounds);
+		this._rootBucket = new CoordinatesMapBucket(this, null, data, this.bounds);
 		if (!insertItems && Object.keys(data.items).length != Object.keys(items).length) throw new Error('Items did not have same number of items as data passed in');
 		for (const item of items) {
 			if (!pointWithinBounds(item, this.bounds)) throw new Error('Item not within bounds');
