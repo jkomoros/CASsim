@@ -187,10 +187,19 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 		];
 	}
 
+	splitIfNecessary() {
+		//TODO: implement this
+	}
+
+	combineIfNecessary() {
+		//TODO: implement this
+	}
+
 	insertObject(obj : CoordinatesMapItem) {
 		if (!dataIsLeaf(this._data)) throw new Error('insertObject is not supported on non-leaf');
 		if (this._data.items[obj.id]) throw new Error('Object already existed in bucket');
 		this._data.items[obj.id] = true;
+		this.splitIfNecessary();
 	}
 
 	updateObject(obj: CoordinatesMapItem) : boolean {
@@ -201,6 +210,10 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 		}
 		if (!pointWithinBounds(obj, this.bounds)) throw new Error('Item outside of bucket bounds');
 		this._data.items[obj.id] = true;
+		if (!existingItem) {
+			//This is effectively an insert
+			this.splitIfNecessary();
+		}
 		return true;
 	}
 
@@ -208,9 +221,18 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 		if (!dataIsLeaf(this._data)) throw new Error('removeObject is not supported on non-leaf');
 		if (!this._data.items[obj.id]) return false;
 		delete this._data.items[obj.id];
+		this.combineIfNecessary();
 		return true;
 	}
 }
+
+//The defulat size at which buckets go from a meta to a leaf, and vice versa.
+//Note that these should typically be at least 1 different so that we minimize
+//the chance of a update that is a remove/insert object thrashing (combining a
+//bucket and then immediately splitting it)
+//TODO: tune these based on real-world performance tests.
+const DEFAULT_MIN_BUCKET_SIZE = 10;
+const DEFAULT_MAX_BUCKET_SIZE = 16;
 
 export class CoordinatesMap<T extends CoordinatesMapItem>{
 
@@ -218,8 +240,13 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	_fullItemsMap : {[id : CoordinatesMapID] : T};
 	_bounds : CoordinatesMapBounds;
 	_changesMade : boolean;
+	_minBucketSize : number;
+	_maxBucketSize : number;
 
 	constructor(items : T[], size: Size, data? : CoordinatesMapDataLeaf, ) {
+		//TODO: allow setting these, which might require a resize.
+		this._minBucketSize = DEFAULT_MIN_BUCKET_SIZE;
+		this._maxBucketSize = DEFAULT_MAX_BUCKET_SIZE;
 		let insertItems = false;
 		if (!data) {
 			data = {
