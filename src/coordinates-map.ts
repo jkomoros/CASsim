@@ -63,6 +63,9 @@ class CoordinatesMapBucket {
 		lowerRight: CoordinatesMapBucket
 	} | undefined;
 
+	/**
+	 * Note that data is owned and shuld be modified in place 
+	 */
 	constructor (data : CoordinatesMapData, bounds : CoordinatesMapBounds) {
 		this._data = data;
 		this._bounds = bounds;
