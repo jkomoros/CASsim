@@ -229,7 +229,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 			includeRight: true,
 			includeBottom: true
 		};
-		const fullItemsMap = Object.fromEntries(items.map(item => [item.id, item]));
+		const fullItemsMap = Object.fromEntries(items.map(item => [item.id, {...item}]));
 		if (Object.keys(data.items).length != Object.keys(items).length) throw new Error('Items did not have same number of items as data passed in');
 		for (const item of Object.values(fullItemsMap)) {
 			if (!pointWithinBounds(item, this.bounds)) throw new Error('Item not within bounds');
@@ -300,7 +300,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		};
 		const bucket = this._rootBucket.getLeafBucket(coords);
 		if (!bucket.updateObject(obj)) return;
-		this._fullItemsMap[obj.id] = obj;
+		this._fullItemsMap[obj.id] = {...obj};
 		this._changesMade = true;
 	}
 
