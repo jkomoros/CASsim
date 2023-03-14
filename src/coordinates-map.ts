@@ -129,6 +129,7 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 	}
 
 	get frameData() : CoordinatesMapData {
+		//TODO this is wrong, because this sub items change the identity of their data and have sub-data.
 		return this._data;
 	}
 
