@@ -131,8 +131,20 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 	}
 
 	get frameData() : CoordinatesMapData {
-		//TODO this is wrong, because this sub items change the identity of their data and have sub-data.
-		return this._data;
+		//TODO: ideally we'd keep object identity of the direct objects so we
+		//wouldn't need to recreate them every time like this; this will lead to
+		//lots of new objects being created in the actual frame for example
+		if (dataIsLeaf(this._data)) {
+			return {
+				items: this.items
+			};
+		}
+		return {
+			upperLeft: this._subBuckets.upperLeft.frameData,
+			upperRight: this._subBuckets.upperRight.frameData,
+			lowerLeft: this._subBuckets.lowerLeft.frameData,
+			lowerRight: this._subBuckets.lowerRight.frameData
+		};
 	}
 
 	get isLeaf() : boolean {
