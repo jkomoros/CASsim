@@ -194,7 +194,27 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 	}
 
 	splitIfNecessary() {
-		//TODO: implement this
+		if (!dataIsLeaf(this._data)) throw new Error('splitIfNecessary may only be called on leaf');
+		const itemCount = Object.keys(this._data.items).length;
+		if (itemCount <= this._map._maxBucketSize) return;
+		const items = this._data.items;
+		this._data = {
+			upperLeft: {items: {}},
+			upperRight: {items: {}},
+			lowerLeft: {items: {}},
+			lowerRight: {items: {}}
+		};
+		this._createSubBuckets();
+		for (const id of Object.keys(items)) {
+			const item = this._map._fullItemsMap[id];
+			const coords = {
+				x: item.x || 0,
+				y: item.y || 0
+			};
+			const bucket = this.getLeafBucket(coords);
+			bucket.insertObject(item);
+		}
+
 	}
 
 	combineIfNecessary() {
