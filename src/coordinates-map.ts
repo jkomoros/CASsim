@@ -218,6 +218,8 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 		];
 	}
 
+	//TODO: do comprehensive tests for multi-layered objects.
+
 	splitIfNecessary() {
 		if (!dataIsLeaf(this._data)) throw new Error('splitIfNecessary may only be called on leaf');
 		const itemCount = Object.keys(this._data.items).length;
