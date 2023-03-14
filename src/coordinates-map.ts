@@ -149,6 +149,16 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 		};
 	}
 
+	get count() : number {
+		if (dataIsLeaf(this._data)) return Object.keys(this._data.items).length;
+		let result = 0;
+		result += this._subBuckets.upperLeft.count;
+		result += this._subBuckets.upperRight.count;
+		result += this._subBuckets.lowerLeft.count;
+		result += this._subBuckets.lowerRight.count;
+		return result;
+	}
+
 	getLeafBucket(point : Coordinates) : CoordinatesMapBucket<T> {
 		if (!pointWithinBounds(point, this.bounds)) throw new Error('Point is not within bounds');
 		if (dataIsLeaf(this._data)) {
