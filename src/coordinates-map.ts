@@ -188,7 +188,7 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 	}
 
 	updateObject(obj: CoordinatesMapItem) : boolean {
-		if (!dataIsLeaf(this._data)) throw new Error('Meta bucket support not yet implemented');
+		if (!dataIsLeaf(this._data)) throw new Error('updateObject is not supported on non-leaf');
 		const existingItem = this._map.items[obj.id];
 		if (existingItem) {
 			if (coordinatesMapItemExactlyEquivalent(existingItem, obj)) return false;
@@ -199,7 +199,7 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 	}
 
 	removeObject(obj : CoordinatesMapItem) : boolean {
-		if (!dataIsLeaf(this._data)) throw new Error('Meta bucket support not yet implemented');
+		if (!dataIsLeaf(this._data)) throw new Error('removeObject is not supported on non-leaf');
 		if (!this._data.items[obj.id]) return false;
 		delete this._data.items[obj.id];
 		return true;
@@ -294,14 +294,27 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	 * @param obj The object to add to the set.
 	 */
 	updateObject(obj: T) {
-		if (!pointWithinBounds(obj, this.bounds)) throw new Error('Obj is outside of bounds');
-		if (!this._rootBucket.updateObject(obj)) return;
+		const coords = {
+			x: obj.x || 0,
+			y : obj.y || 0
+		};
+		const bucket = this._rootBucket.getLeafBucket(coords);
+		if (!bucket.updateObject(obj)) return;
 		this._fullItemsMap[obj.id] = obj;
 		this._changesMade = true;
 	}
 
 	removeObject(obj : T) {
-		if (!this._rootBucket.removeObject(obj)) return;
+		const coords = {
+			x: obj.x || 0,
+			y : obj.y || 0
+		};
+		const bucket = this._rootBucket.getLeafBucket(coords);
+		if (!bucket.removeObject(obj)) {
+			const id = obj.id;
+			if (this._fullItemsMap[obj.id]) throw new Error(`Object ${id} was not in the expected bucket but did exist`);
+			return;
+		}
 		delete this._fullItemsMap[obj.id];
 		this._changesMade = true;
 	}
