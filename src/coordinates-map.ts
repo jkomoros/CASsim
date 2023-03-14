@@ -159,6 +159,31 @@ class CoordinatesMapBucket {
 		}
 	}
 
+	/**
+	 * Gets all leaf buckets rooted through this bucket that intersction with
+	 * the given circle at all. Returns an empty list if the point and radius
+	 * don't intersect this bucket or sub-buckets.
+	 *
+	 * TODO: fix the bug where items in the map who have their own radius do not
+	 * get returned here unless their centers are inside the circle. This will
+	 * require potentially storing items in multiple buckets.
+	 *
+	 * @param point The center of the point
+	 * @param radius The radius of the circle
+	 */
+	getLeafBuckets(point : Coordinates, radius : number): CoordinatesMapBucket[] {
+		if (!circleIntersectsBounds(point, radius, this.bounds)) return [];
+		if (dataIsLeaf(this._data)) {
+			return [this];
+		}
+		return [
+			...this._subBuckets.upperLeft.getLeafBuckets(point, radius),
+			...this._subBuckets.upperRight.getLeafBuckets(point, radius),
+			...this._subBuckets.lowerLeft.getLeafBuckets(point, radius),
+			...this._subBuckets.lowerRight.getLeafBuckets(point, radius)
+		];
+	}
+
 	getPosition(obj : CoordinatesMapItem) : Position {
 		if (!obj) return null;
 		if (!dataIsLeaf(this._data)) throw new Error('Meta bucket support not yet implemented');
@@ -285,6 +310,10 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
   
 	getLeafBucket(point : Coordinates) : CoordinatesMapBucket {
 		return this._rootBucket.getLeafBucket(point);
+	}
+
+	getLeafBuckets(point : Coordinates, radius : number): CoordinatesMapBucket[] {
+		return this._rootBucket.getLeafBuckets(point, radius);
 	}
 
 	/**

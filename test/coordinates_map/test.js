@@ -180,7 +180,14 @@ describe('CoordinatesMap', () => {
 		assert.deepStrictEqual(bucket, map._rootBucket);
 	});
 
+	it('Basic frame data getLeafBuckets', async () => {
+		const map = new CoordinatesMap(makeDefaultItems(), makeDefaultSize());
+		const buckets = map.getLeafBuckets({x: 25, y: 25}, 25);
+		assert.deepStrictEqual(buckets, [map._rootBucket]);
+	});
+
 	//TODO: test that getLeafBucket works within nested buckets
+	//TODO: test that getLeafBuckets works within nested buckets
 
 });
 
