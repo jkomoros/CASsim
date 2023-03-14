@@ -184,19 +184,6 @@ class CoordinatesMapBucket {
 		];
 	}
 
-	getPosition(obj : CoordinatesMapItem) : Position {
-		if (!obj) return null;
-		if (!dataIsLeaf(this._data)) throw new Error('Meta bucket support not yet implemented');
-		const mapObj = this._data.items[obj.id];
-		if (!obj) return null;
-		return {
-			x: mapObj.x,
-			y: mapObj.y,
-			width: mapObj.radius * 2,
-			height: mapObj.radius * 2
-		};
-	}
-
 	updateObject(obj: CoordinatesMapItem) : boolean {
 		if (!dataIsLeaf(this._data)) throw new Error('Meta bucket support not yet implemented');
 		const existingItem = this._data.items[obj.id];
@@ -305,7 +292,13 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	 * Returns the position affiliated with this object in the map or null
 	 */
 	getPosition(obj : T) : Position {
-		return this._rootBucket.getPosition(obj);
+		const radius = obj.radius || 0;
+		return {
+			x: obj.x || 0,
+			y: obj.y || 0,
+			width: radius * 2,
+			height: radius * 2
+		};
 	}
   
 	getLeafBucket(point : Coordinates) : CoordinatesMapBucket {
