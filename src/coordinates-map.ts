@@ -220,6 +220,7 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 
 	combineIfNecessary() {
 		//TODO: implement this
+		//TODO: this is wrong; it's currently only called on leaf buckets but really should be called on parent buckets.
 	}
 
 	insertObject(obj : CoordinatesMapItem) {
