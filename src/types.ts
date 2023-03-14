@@ -460,7 +460,7 @@ export type CoordinatesMapItem = Partial<Coordinates> & {
 export type CoordinatesMapData = CoordinatesMapDataLeaf | CoordinatesMapDataMeta;
 
 export type CoordinatesMapDataLeaf = {
-	items : {[id : CoordinatesMapID]: Required<CoordinatesMapItem>};
+	items : {[id : CoordinatesMapID]: true}
 };
 
 export type CoordinatesMapDataMeta = {

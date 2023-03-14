@@ -51,34 +51,27 @@ const circleIntersectsBounds = (center : Coordinates, radius : number, bounds : 
 	return (deltaX * deltaX + deltaY + deltaY) < (radius * radius);
 };
 
-const coordinatesMapItemRecord = (input : CoordinatesMapItem) : Required<CoordinatesMapItem> => {
-	return {
-		id: input.id,
-		x: input.x || 0,
-		y: input.y || 0,
-		radius: input.radius || 0
-	};
-};
-
 const dataIsLeaf = (data : CoordinatesMapData) : data is CoordinatesMapDataLeaf => {
 	return 'items' in data;
 };
 
-class CoordinatesMapBucket {
+class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 
+	_map : CoordinatesMap<T>;
 	_data : CoordinatesMapData;
 	_bounds : CoordinatesMapBounds;
 	_subBuckets : {
-		upperLeft: CoordinatesMapBucket,
-		upperRight: CoordinatesMapBucket,
-		lowerLeft: CoordinatesMapBucket,
-		lowerRight: CoordinatesMapBucket
+		upperLeft: CoordinatesMapBucket<T>,
+		upperRight: CoordinatesMapBucket<T>,
+		lowerLeft: CoordinatesMapBucket<T>,
+		lowerRight: CoordinatesMapBucket<T>
 	} | undefined;
 
 	/**
 	 * Note that data is owned and shuld be modified in place 
 	 */
-	constructor (data : CoordinatesMapData, bounds : CoordinatesMapBounds) {
+	constructor (map : CoordinatesMap<T>, data : CoordinatesMapData, bounds : CoordinatesMapBounds) {
+		this._map = map;
 		this._data = data;
 		this._bounds = bounds;
 		if (!dataIsLeaf(this._data)) {
@@ -117,10 +110,10 @@ class CoordinatesMapBucket {
 				includeRight: bounds.includeRight
 			};
 			this._subBuckets = {
-				upperLeft: new CoordinatesMapBucket(this._data.upperLeft, upperLeftBounds),
-				upperRight: new CoordinatesMapBucket(this._data.upperRight, upperRightBounds),
-				lowerLeft: new CoordinatesMapBucket(this._data.lowerLeft, lowerLeftBounds),
-				lowerRight: new CoordinatesMapBucket(this._data.lowerRight, lowerRightBounds)
+				upperLeft: new CoordinatesMapBucket(this._map, this._data.upperLeft, upperLeftBounds),
+				upperRight: new CoordinatesMapBucket(this._map, this._data.upperRight, upperRightBounds),
+				lowerLeft: new CoordinatesMapBucket(this._map, this._data.lowerLeft, lowerLeftBounds),
+				lowerRight: new CoordinatesMapBucket(this._map, this._data.lowerRight, lowerRightBounds)
 			};
 		}
 	}
@@ -137,7 +130,7 @@ class CoordinatesMapBucket {
 		return dataIsLeaf(this._data);
 	}
 
-	getLeafBucket(point : Coordinates) : CoordinatesMapBucket {
+	getLeafBucket(point : Coordinates) : CoordinatesMapBucket<T> {
 		if (!pointWithinBounds(point, this.bounds)) throw new Error('Point is not within bounds');
 		if (dataIsLeaf(this._data)) {
 			return this;
@@ -171,7 +164,7 @@ class CoordinatesMapBucket {
 	 * @param point The center of the point
 	 * @param radius The radius of the circle
 	 */
-	getLeafBuckets(point : Coordinates, radius : number): CoordinatesMapBucket[] {
+	getLeafBuckets(point : Coordinates, radius : number): CoordinatesMapBucket<T>[] {
 		if (!circleIntersectsBounds(point, radius, this.bounds)) return [];
 		if (dataIsLeaf(this._data)) {
 			return [this];
@@ -186,12 +179,12 @@ class CoordinatesMapBucket {
 
 	updateObject(obj: CoordinatesMapItem) : boolean {
 		if (!dataIsLeaf(this._data)) throw new Error('Meta bucket support not yet implemented');
-		const existingItem = this._data.items[obj.id];
+		const existingItem = this._map.items[obj.id];
 		if (existingItem) {
 			if (coordinatesMapItemExactlyEquivalent(existingItem, obj)) return false;
 		}
 		if (!pointWithinBounds(obj, this.bounds)) throw new Error('Item outside of bucket bounds');
-		this._data.items[obj.id] = coordinatesMapItemRecord(obj);
+		this._data.items[obj.id] = true;
 		return true;
 	}
 
@@ -210,8 +203,13 @@ class CoordinatesMapBucket {
 		if (!exclude) exclude = [];
 		const result = new Map<string, number>();
 		if (!dataIsLeaf(this._data)) throw new Error('Meta bucket support not yet implemented');
-		for (const item of Object.values(this._data.items)) {
-			const dist = distance(coord, item);
+		for (const id of Object.keys(this._data.items)) {
+			const item = this._map.items[id];
+			const itemCoords = {
+				x: item.x || 0,
+				y : item.y || 0
+			};
+			const dist = distance(coord, itemCoords);
 			const radius = item.radius || 0.0;
 			if (dist > (searchRadius + radius)) continue;
 			if (exclude.some(excludeItem => excludeItem == item.id)) continue;
@@ -223,15 +221,17 @@ class CoordinatesMapBucket {
 
 export class CoordinatesMap<T extends CoordinatesMapItem>{
 
-	_rootBucket : CoordinatesMapBucket;
+	_rootBucket : CoordinatesMapBucket<T>;
 	_fullItemsMap : {[id : CoordinatesMapID] : T};
 	_bounds : CoordinatesMapBounds;
 	_changesMade : boolean;
 
 	constructor(items : T[], size: Size, data? : CoordinatesMapDataLeaf, ) {
 		if (!data) {
+			//TODO: insert these one at a time because if the amount is large,
+			//then we might need to rebalance.
 			data = {
-				items: Object.fromEntries(items.map(item => [item.id, coordinatesMapItemRecord(item)]))
+				items: Object.fromEntries(items.map(item => [item.id, true]))
 			};
 		}
 		this._bounds = {
@@ -244,14 +244,10 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		};
 		const fullItemsMap = Object.fromEntries(items.map(item => [item.id, item]));
 		if (Object.keys(data.items).length != Object.keys(items).length) throw new Error('Items did not have same number of items as data passed in');
-		for (const item of Object.values(data.items)) {
+		for (const item of Object.values(fullItemsMap)) {
 			if (!pointWithinBounds(item, this.bounds)) throw new Error('Item not within bounds');
-			const fullItem = fullItemsMap[item.id];
-			if (fullItem.x !== item.x) throw new Error('Saved item differed in x');
-			if (fullItem.y !== item.y) throw new Error('Saved item differed in y');
-			if (fullItem.radius !== undefined && fullItem.radius !== item.radius) throw new Error('Saved item differed in radius');
 		}
-		this._rootBucket = new CoordinatesMapBucket(data, this.bounds);
+		this._rootBucket = new CoordinatesMapBucket(this, data, this.bounds);
 		this._fullItemsMap = fullItemsMap;
 	}
 
@@ -288,6 +284,10 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		return this._bounds;
 	}
 
+	get items() : {[id : CoordinatesMapID] : T} {
+		return this._fullItemsMap;
+	}
+
 	/**
 	 * Returns the position affiliated with this object in the map or null
 	 */
@@ -301,11 +301,11 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		};
 	}
   
-	getLeafBucket(point : Coordinates) : CoordinatesMapBucket {
+	getLeafBucket(point : Coordinates) : CoordinatesMapBucket<T> {
 		return this._rootBucket.getLeafBucket(point);
 	}
 
-	getLeafBuckets(point : Coordinates, radius : number): CoordinatesMapBucket[] {
+	getLeafBuckets(point : Coordinates, radius : number): CoordinatesMapBucket<T>[] {
 		return this._rootBucket.getLeafBuckets(point, radius);
 	}
 

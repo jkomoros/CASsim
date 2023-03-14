@@ -140,7 +140,7 @@ describe('CoordinatesMap', () => {
 
 	it('Basic frame data boot with invalid items that dont match what was saved', async () => {
 		const defaultItems = makeDefaultItems();
-		defaultItems[0].x = 50;
+		defaultItems.pop();
 		const fn = () => {
 			new CoordinatesMap(defaultItems, makeDefaultSize(), makeDefaultFrameData());
 		};
