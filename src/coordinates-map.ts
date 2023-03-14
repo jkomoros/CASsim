@@ -294,13 +294,26 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	 * @param obj The object to add to the set.
 	 */
 	updateObject(obj: T) {
-		const coords = {
-			x: obj.x || 0,
+		//We use the fullItem to check which bucket it WAS in when we last saw it.
+		const oldItem = this._fullItemsMap[obj.id];
+		const oldCoords = {
+			x: oldItem.x || 0,
+			y : oldItem.y || 0
+		};
+		const newCoords = {
+			x : obj.x || 0,
 			y : obj.y || 0
 		};
-		const bucket = this._rootBucket.getLeafBucket(coords);
-		//TODO: check for the condition in which it moves buckets.
-		if (!bucket.updateObject(obj)) return;
+		const oldBucket = this._rootBucket.getLeafBucket(oldCoords);
+		const newBucket = this._rootBucket.getLeafBucket(newCoords);
+		if (oldBucket == newBucket) {
+			// no change
+			if (!newBucket.updateObject(obj)) return;
+		} else {
+			oldBucket.removeObject(obj);
+			newBucket.updateObject(obj);
+		}
+
 		this._fullItemsMap[obj.id] = {...obj};
 		this._changesMade = true;
 	}
