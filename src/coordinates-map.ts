@@ -24,17 +24,22 @@ const distance = (one : Coordinates, two : Coordinates) : number => {
 	return Math.sqrt(Math.pow(two.x - one.x, 2) + Math.pow(two.y - one.y, 2));
 };
 
-const itemWithinBounds = (item : CoordinatesMapItem, bounds : CoordinatesMapBounds) : boolean => {
-	if (item.x < bounds.x) return false;
-	if (item.y < bounds.y) return false;
+const pointWithinBounds = (pointOrItem : Coordinates | CoordinatesMapItem, bounds : CoordinatesMapBounds) : boolean => {
+	const point = {
+		x : pointOrItem.x || 0,
+		y : pointOrItem.y || 0
+	};
+
+	if (point.x < bounds.x) return false;
+	if (point.y < bounds.y) return false;
 
 	const rightX = bounds.x + bounds.width;
-	if (item.x > rightX) return false;
-	if (!bounds.includeRight && item.x == rightX) return false;
+	if (point.x > rightX) return false;
+	if (!bounds.includeRight && point.x == rightX) return false;
 
 	const bottomY = bounds.y + bounds.height;
-	if (item.y > bottomY) return false;
-	if (!bounds.includeBottom && item.y == bottomY) return false;
+	if (point.y > bottomY) return false;
+	if (!bounds.includeBottom && point.y == bottomY) return false;
 
 	return true;
 };
@@ -144,7 +149,7 @@ class CoordinatesMapBucket {
 		if (existingItem) {
 			if (coordinatesMapItemExactlyEquivalent(existingItem, obj)) return false;
 		}
-		if (!itemWithinBounds(obj, this.bounds)) throw new Error('Item outside of bucket bounds');
+		if (!pointWithinBounds(obj, this.bounds)) throw new Error('Item outside of bucket bounds');
 		this._data.items[obj.id] = coordinatesMapItemRecord(obj);
 		return true;
 	}
@@ -199,7 +204,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		const fullItemsMap = Object.fromEntries(items.map(item => [item.id, item]));
 		if (Object.keys(data.items).length != Object.keys(items).length) throw new Error('Items did not have same number of items as data passed in');
 		for (const item of Object.values(data.items)) {
-			if (!itemWithinBounds(item, this.bounds)) throw new Error('Item not within bounds');
+			if (!pointWithinBounds(item, this.bounds)) throw new Error('Item not within bounds');
 			const fullItem = fullItemsMap[item.id];
 			if (fullItem.x !== item.x) throw new Error('Saved item differed in x');
 			if (fullItem.y !== item.y) throw new Error('Saved item differed in y');
@@ -255,7 +260,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	 * @param obj The object to add to the set.
 	 */
 	updateObject(obj: T) {
-		if (!itemWithinBounds(obj, this.bounds)) throw new Error('Obj is outside of bounds');
+		if (!pointWithinBounds(obj, this.bounds)) throw new Error('Obj is outside of bounds');
 		if (!this._rootBucket.updateObject(obj)) return;
 		this._fullItemsMap[obj.id] = obj;
 		this._changesMade = true;
