@@ -187,6 +187,12 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 		];
 	}
 
+	insertObject(obj : CoordinatesMapItem) {
+		if (!dataIsLeaf(this._data)) throw new Error('insertObject is not supported on non-leaf');
+		if (this._data.items[obj.id]) throw new Error('Object already existed in bucket');
+		this._data.items[obj.id] = true;
+	}
+
 	updateObject(obj: CoordinatesMapItem) : boolean {
 		if (!dataIsLeaf(this._data)) throw new Error('updateObject is not supported on non-leaf');
 		const existingItem = this._map.items[obj.id];
@@ -287,6 +293,21 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 			height: radius * 2
 		};
 	}
+
+	/**
+	 * Inserts the given object into the map. Throws an error if it already exists.
+	 * @param obj The object to insert
+	 */
+	insertObject(obj: T) {
+		const coords = {
+			x: obj.x || 0,
+			y: obj.y || 0
+		};
+		const bucket = this._rootBucket.getLeafBucket(coords);
+		bucket.insertObject(obj);
+		this._fullItemsMap[obj.id] = obj;
+		this._changesMade = true;
+	}
   
 	/**
 	 * updateObject should be called to add items not yet in the map, or when
@@ -311,7 +332,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 			if (!newBucket.updateObject(obj)) return;
 		} else {
 			oldBucket.removeObject(obj);
-			newBucket.updateObject(obj);
+			newBucket.insertObject(obj);
 		}
 
 		this._fullItemsMap[obj.id] = {...obj};
