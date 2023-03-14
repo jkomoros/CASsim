@@ -224,6 +224,8 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 		this.combineIfNecessary();
 		return true;
 	}
+
+	//TODO: allow a debug rendering of leaf boundaries
 }
 
 //The defulat size at which buckets go from a meta to a leaf, and vice versa.
