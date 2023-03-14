@@ -75,47 +75,53 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 		this._data = data;
 		this._bounds = bounds;
 		if (!dataIsLeaf(this._data)) {
-			const halfWidth = bounds.width / 2;
-			const halfHeight = bounds.height / 2;
-			const upperLeftBounds : CoordinatesMapBounds = {
-				x : bounds.x,
-				y : bounds.y,
-				width : halfWidth,
-				height: halfHeight,
-				includeBottom: false,
-				includeRight: false
-			};
-			const upperRightBounds : CoordinatesMapBounds = {
-				x : bounds.x + halfWidth,
-				y : bounds.y,
-				width : halfWidth,
-				height: halfHeight,
-				includeBottom: false,
-				includeRight: bounds.includeRight
-			};
-			const lowerLeftBounds : CoordinatesMapBounds = {
-				x: bounds.x,
-				y: bounds.y + halfHeight,
-				width: halfWidth,
-				height: halfHeight,
-				includeBottom: bounds.includeBottom,
-				includeRight: false
-			};
-			const lowerRightBounds : CoordinatesMapBounds = {
-				x: bounds.x + halfWidth,
-				y: bounds.y + halfHeight,
-				width: halfWidth,
-				height: halfHeight,
-				includeBottom: bounds.includeBottom,
-				includeRight: bounds.includeRight
-			};
-			this._subBuckets = {
-				upperLeft: new CoordinatesMapBucket(this._map, this._data.upperLeft, upperLeftBounds),
-				upperRight: new CoordinatesMapBucket(this._map, this._data.upperRight, upperRightBounds),
-				lowerLeft: new CoordinatesMapBucket(this._map, this._data.lowerLeft, lowerLeftBounds),
-				lowerRight: new CoordinatesMapBucket(this._map, this._data.lowerRight, lowerRightBounds)
-			};
+			this._createSubBuckets();
 		}
+	}
+
+	_createSubBuckets() {
+		if (dataIsLeaf(this._data)) throw new Error('_createSubBucket called on leaf');
+		const bounds = this._bounds;
+		const halfWidth = bounds.width / 2;
+		const halfHeight = bounds.height / 2;
+		const upperLeftBounds : CoordinatesMapBounds = {
+			x : bounds.x,
+			y : bounds.y,
+			width : halfWidth,
+			height: halfHeight,
+			includeBottom: false,
+			includeRight: false
+		};
+		const upperRightBounds : CoordinatesMapBounds = {
+			x : bounds.x + halfWidth,
+			y : bounds.y,
+			width : halfWidth,
+			height: halfHeight,
+			includeBottom: false,
+			includeRight: bounds.includeRight
+		};
+		const lowerLeftBounds : CoordinatesMapBounds = {
+			x: bounds.x,
+			y: bounds.y + halfHeight,
+			width: halfWidth,
+			height: halfHeight,
+			includeBottom: bounds.includeBottom,
+			includeRight: false
+		};
+		const lowerRightBounds : CoordinatesMapBounds = {
+			x: bounds.x + halfWidth,
+			y: bounds.y + halfHeight,
+			width: halfWidth,
+			height: halfHeight,
+			includeBottom: bounds.includeBottom,
+			includeRight: bounds.includeRight
+		};
+		this._subBuckets = {
+			upperLeft: new CoordinatesMapBucket(this._map, this._data.upperLeft, upperLeftBounds),
+			upperRight: new CoordinatesMapBucket(this._map, this._data.upperRight, upperRightBounds),
+			lowerLeft: new CoordinatesMapBucket(this._map, this._data.lowerLeft, lowerLeftBounds),
+			lowerRight: new CoordinatesMapBucket(this._map, this._data.lowerRight, lowerRightBounds)
+		};
 	}
 
 	get bounds() : CoordinatesMapBounds {
