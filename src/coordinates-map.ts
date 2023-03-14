@@ -213,7 +213,7 @@ class CoordinatesMapBucketMeta<T extends CoordinatesMapItem> {
 
 	combineIfNecessary() {
 		if (this.count >= this._map._minBucketSize) return;
-		const data : CoordinatesMapDataLeaf = {
+		const data = {
 			items: {
 				...this._subBuckets.upperLeft.items,
 				...this._subBuckets.upperRight.items,
@@ -221,7 +221,7 @@ class CoordinatesMapBucketMeta<T extends CoordinatesMapItem> {
 				...this._subBuckets.lowerRight.items
 			}
 		};
-		const newBucket = makeCoordinatesMapBucket(this._map, this._parentBucket, data, this._bounds);
+		const newBucket = new CoordinatesMapBucketLeaf(this._map, this._parentBucket, data, this._bounds);
 		if (this._parentBucket) {
 			this._parentBucket.replaceSubBucket(this, newBucket);
 		} else {
@@ -328,7 +328,7 @@ class CoordinatesMapBucketLeaf<T extends CoordinatesMapItem> {
 			lowerLeft: {items: {}},
 			lowerRight: {items: {}}
 		};
-		const newBucket = makeCoordinatesMapBucket(this._map, this._parentBucket, data, this._bounds);
+		const newBucket = new CoordinatesMapBucketMeta(this._map, this._parentBucket, data, this._bounds);
 		for (const id of Object.keys(items)) {
 			const item = this._map._fullItemsMap[id];
 			const coords = {
