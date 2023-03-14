@@ -328,6 +328,9 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		if (!exclude) exclude = [];
 		const excludeIDs = exclude.map(item => item.id);
 		const result : Map<T, number> = new Map();
+		//TODO: there is a serious bug with this; if there is an item just
+		//beyond the searchRadius so in another physical bucket, it won't be
+		//selected even if its own raidus might intersect with the search radius.
 		for (const bucket of this._rootBucket.getLeafBuckets(coord, searchRadius)) {
 			for (const id of Object.keys(bucket.items)) {
 				const item = this._fullItemsMap[id];
