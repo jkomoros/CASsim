@@ -224,7 +224,7 @@ class CoordinatesMapBucket {
 export class CoordinatesMap<T extends CoordinatesMapItem>{
 
 	_rootBucket : CoordinatesMapBucket;
-	_fullItemsMap : {[id : string] : T};
+	_fullItemsMap : {[id : CoordinatesMapID] : T};
 	_bounds : CoordinatesMapBounds;
 	_changesMade : boolean;
 
