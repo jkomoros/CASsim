@@ -204,29 +204,6 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 		delete this._data.items[obj.id];
 		return true;
 	}
-
-	getObjects(x : number, y : number, searchRadius: number, exclude? : CoordinatesMapID[]) : Map<CoordinatesMapID, number> {
-		const coord = {
-			x,
-			y
-		};
-		if (!exclude) exclude = [];
-		const result = new Map<string, number>();
-		if (!dataIsLeaf(this._data)) throw new Error('Meta bucket support not yet implemented');
-		for (const id of Object.keys(this._data.items)) {
-			const item = this._map.items[id];
-			const itemCoords = {
-				x: item.x || 0,
-				y : item.y || 0
-			};
-			const dist = distance(coord, itemCoords);
-			const radius = item.radius || 0.0;
-			if (dist > (searchRadius + radius)) continue;
-			if (exclude.some(excludeItem => excludeItem == item.id)) continue;
-			result.set(item.id, dist);
-		}
-		return result;
-	}
 }
 
 export class CoordinatesMap<T extends CoordinatesMapItem>{
@@ -347,9 +324,25 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		}
 		const x = xOrObj;
 		const y = yOrSearchRadius;
+		const coord = {x, y};
 		if (!exclude) exclude = [];
-		const idMap = this._rootBucket.getObjects(x, y, searchRadius, exclude.map(item => item.id));
-		return new Map([...idMap.entries()].map(entry => [this._fullItemsMap[entry[0]], entry[1]]));
+		const excludeIDs = exclude.map(item => item.id);
+		const result : Map<T, number> = new Map();
+		for (const bucket of this._rootBucket.getLeafBuckets(coord, searchRadius)) {
+			for (const id of Object.keys(bucket.items)) {
+				const item = this._fullItemsMap[id];
+				const itemCoords = {
+					x: item.x || 0,
+					y : item.y || 0
+				};
+				const dist = distance(coord, itemCoords);
+				const radius = item.radius || 0.0;
+				if (dist > (searchRadius + radius)) continue;
+				if (excludeIDs.some(excludeItem => excludeItem == id)) continue;
+				result.set(item, dist);
+			}
+		}
+		return result;
 	}
 
 	getAllObjects() : T[] {
