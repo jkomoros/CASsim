@@ -130,6 +130,16 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 		return dataIsLeaf(this._data);
 	}
 
+	get items() : {[id : CoordinatesMapID] : true} {
+		if (dataIsLeaf(this._data)) return this._data.items;
+		return {
+			...this._subBuckets.upperLeft.items,
+			...this._subBuckets.upperRight.items,
+			...this._subBuckets.lowerLeft.items,
+			...this._subBuckets.lowerRight.items
+		};
+	}
+
 	getLeafBucket(point : Coordinates) : CoordinatesMapBucket<T> {
 		if (!pointWithinBounds(point, this.bounds)) throw new Error('Point is not within bounds');
 		if (dataIsLeaf(this._data)) {
