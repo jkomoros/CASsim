@@ -336,6 +336,9 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 			if (!newBucket.updateObject(obj)) return;
 		} else {
 			oldBucket.removeObject(obj);
+			//Note: since oldBucket was a LeafBucket already, removeItem could
+			//not have possibly made newBucket no longer valid. And in any case
+			//newBucket could not have been contained in oldBucket.
 			newBucket.insertObject(obj);
 		}
 
