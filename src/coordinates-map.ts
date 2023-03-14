@@ -6,7 +6,8 @@ import {
 	Size,
 	CoordinatesMapID,
 	CoordinatesMapBounds,
-	CoordinatesMapData
+	CoordinatesMapData,
+	CoordinatesMapDataMeta
 } from './types.js';
 
 const coordinatesMapItemExactlyEquivalent = (one : CoordinatesMapItem, two : CoordinatesMapItem) : boolean => {
@@ -55,12 +56,18 @@ const dataIsLeaf = (data : CoordinatesMapData) : data is CoordinatesMapDataLeaf 
 	return 'items' in data;
 };
 
-class CoordinatesMapBucket<T extends CoordinatesMapItem> {
+type CoordinatesMapBucket<T extends CoordinatesMapItem> = CoordinatesMapBucketLeaf<T> | CoordinatesMapBucketMeta<T>;
+
+function makeCoordinatesMapBucket<T extends CoordinatesMapItem>(map : CoordinatesMap<T>, parent: CoordinatesMapBucketMeta<T> | null, data : CoordinatesMapData, bounds : CoordinatesMapBounds) : CoordinatesMapBucket<T> {
+	return dataIsLeaf(data) ? new CoordinatesMapBucketLeaf(map, parent, data, bounds) : new CoordinatesMapBucketMeta(map, parent, data, bounds);
+}
+
+class CoordinatesMapBucketMeta<T extends CoordinatesMapItem> {
 
 	_map : CoordinatesMap<T>;
-	_data : CoordinatesMapData;
+	_data : CoordinatesMapDataMeta;
 	_bounds : CoordinatesMapBounds;
-	_parentBucket : CoordinatesMapBucket<T> | null;
+	_parentBucket : CoordinatesMapBucketMeta<T> | null;
 	_subBuckets : {
 		upperLeft: CoordinatesMapBucket<T>,
 		upperRight: CoordinatesMapBucket<T>,
@@ -71,18 +78,15 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 	/**
 	 * Note that data is owned and shuld be modified in place 
 	 */
-	constructor (map : CoordinatesMap<T>, parent: CoordinatesMapBucket<T> | null, data : CoordinatesMapData, bounds : CoordinatesMapBounds) {
+	constructor (map : CoordinatesMap<T>, parent: CoordinatesMapBucketMeta<T> | null, data : CoordinatesMapDataMeta, bounds : CoordinatesMapBounds) {
 		this._map = map;
 		this._data = data;
 		this._bounds = bounds;
 		this._parentBucket = parent;
-		if (!dataIsLeaf(this._data)) {
-			this._createSubBuckets();
-		}
+		this._createSubBuckets();
 	}
 
 	_createSubBuckets() {
-		if (dataIsLeaf(this._data)) throw new Error('_createSubBucket called on leaf');
 		const bounds = this._bounds;
 		const halfWidth = bounds.width / 2;
 		const halfHeight = bounds.height / 2;
@@ -119,10 +123,10 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 			includeRight: bounds.includeRight
 		};
 		this._subBuckets = {
-			upperLeft: new CoordinatesMapBucket(this._map, this, this._data.upperLeft, upperLeftBounds),
-			upperRight: new CoordinatesMapBucket(this._map, this, this._data.upperRight, upperRightBounds),
-			lowerLeft: new CoordinatesMapBucket(this._map, this, this._data.lowerLeft, lowerLeftBounds),
-			lowerRight: new CoordinatesMapBucket(this._map, this, this._data.lowerRight, lowerRightBounds)
+			upperLeft: makeCoordinatesMapBucket(this._map, this, this._data.upperLeft, upperLeftBounds),
+			upperRight: makeCoordinatesMapBucket(this._map, this, this._data.upperRight, upperRightBounds),
+			lowerLeft: makeCoordinatesMapBucket(this._map, this, this._data.lowerLeft, lowerLeftBounds),
+			lowerRight: makeCoordinatesMapBucket(this._map, this, this._data.lowerRight, lowerRightBounds)
 		};
 	}
 
@@ -130,15 +134,10 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 		return this._bounds;
 	}
 
-	get frameData() : CoordinatesMapData {
+	get frameData() : CoordinatesMapDataMeta {
 		//TODO: ideally we'd keep object identity of the direct objects so we
 		//wouldn't need to recreate them every time like this; this will lead to
 		//lots of new objects being created in the actual frame for example
-		if (dataIsLeaf(this._data)) {
-			return {
-				items: this.items
-			};
-		}
 		return {
 			upperLeft: this._subBuckets.upperLeft.frameData,
 			upperRight: this._subBuckets.upperRight.frameData,
@@ -148,11 +147,10 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 	}
 
 	get isLeaf() : boolean {
-		return dataIsLeaf(this._data);
+		return false;
 	}
 
 	get items() : {[id : CoordinatesMapID] : true} {
-		if (dataIsLeaf(this._data)) return this._data.items;
 		return {
 			...this._subBuckets.upperLeft.items,
 			...this._subBuckets.upperRight.items,
@@ -162,7 +160,6 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 	}
 
 	get count() : number {
-		if (dataIsLeaf(this._data)) return Object.keys(this._data.items).length;
 		let result = 0;
 		result += this._subBuckets.upperLeft.count;
 		result += this._subBuckets.upperRight.count;
@@ -171,11 +168,8 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 		return result;
 	}
 
-	getLeafBucket(point : Coordinates) : CoordinatesMapBucket<T> {
+	getLeafBucket(point : Coordinates) : CoordinatesMapBucketLeaf<T> {
 		if (!pointWithinBounds(point, this.bounds)) throw new Error('Point is not within bounds');
-		if (dataIsLeaf(this._data)) {
-			return this;
-		}
 		const midPointX = this._subBuckets.lowerRight.bounds.x;
 		const midPointY = this._subBuckets.lowerRight.bounds.y;
 		if (point.x < midPointX) {
@@ -205,11 +199,8 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 	 * @param point The center of the point
 	 * @param radius The radius of the circle
 	 */
-	getLeafBuckets(point : Coordinates, radius : number): CoordinatesMapBucket<T>[] {
+	getLeafBuckets(point : Coordinates, radius : number): CoordinatesMapBucketLeaf<T>[] {
 		if (!circleIntersectsBounds(point, radius, this.bounds)) return [];
-		if (dataIsLeaf(this._data)) {
-			return [this];
-		}
 		return [
 			...this._subBuckets.upperLeft.getLeafBuckets(point, radius),
 			...this._subBuckets.upperRight.getLeafBuckets(point, radius),
@@ -220,34 +211,9 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 
 	//TODO: do comprehensive tests for multi-layered objects.
 
-	splitIfNecessary() {
-		if (!dataIsLeaf(this._data)) throw new Error('splitIfNecessary may only be called on leaf');
-		const itemCount = Object.keys(this._data.items).length;
-		if (itemCount <= this._map._maxBucketSize) return;
-		const items = this._data.items;
-		this._data = {
-			upperLeft: {items: {}},
-			upperRight: {items: {}},
-			lowerLeft: {items: {}},
-			lowerRight: {items: {}}
-		};
-		this._createSubBuckets();
-		for (const id of Object.keys(items)) {
-			const item = this._map._fullItemsMap[id];
-			const coords = {
-				x: item.x || 0,
-				y: item.y || 0
-			};
-			const bucket = this.getLeafBucket(coords);
-			bucket.insertObject(item);
-		}
-
-	}
-
 	combineIfNecessary() {
-		if (dataIsLeaf(this._data)) throw new Error('combineIfNecessary called on a leaf');
 		if (this.count >= this._map._minBucketSize) return;
-		this._data = {
+		const data : CoordinatesMapDataLeaf = {
 			items: {
 				...this._subBuckets.upperLeft.items,
 				...this._subBuckets.upperRight.items,
@@ -255,18 +221,138 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 				...this._subBuckets.lowerRight.items
 			}
 		};
-		this._subBuckets = null;
+		const newBucket = makeCoordinatesMapBucket(this._map, this._parentBucket, data, this._bounds);
+		if (this._parentBucket) {
+			this._parentBucket.replaceSubBucket(this, newBucket);
+		} else {
+			this._map._rootBucket = newBucket;
+		}
+	}
+
+	replaceSubBucket(previousBucket : CoordinatesMapBucket<T>, newBucket : CoordinatesMapBucket<T>) {
+		if (this._subBuckets.upperLeft == previousBucket) {
+			this._subBuckets.upperLeft = newBucket;
+			return;
+		}
+		if (this._subBuckets.upperRight == previousBucket) {
+			this._subBuckets.upperRight = newBucket;
+			return;
+		}
+		if (this._subBuckets.lowerLeft == previousBucket) {
+			this._subBuckets.lowerLeft = newBucket;
+			return;
+		}
+		if (this._subBuckets.lowerRight == previousBucket) {
+			this._subBuckets.lowerRight = newBucket;
+			return;
+		}
+		throw new Error('replaceSubBucket called with an invalid previous');
+	}
+
+}
+
+class CoordinatesMapBucketLeaf<T extends CoordinatesMapItem> {
+
+	_map : CoordinatesMap<T>;
+	_data : CoordinatesMapDataLeaf;
+	_bounds : CoordinatesMapBounds;
+	_parentBucket : CoordinatesMapBucketMeta<T> | null;
+
+	/**
+	 * Note that data is owned and shuld be modified in place 
+	 */
+	constructor (map : CoordinatesMap<T>, parent: CoordinatesMapBucketMeta<T> | null, data : CoordinatesMapDataLeaf, bounds : CoordinatesMapBounds) {
+		this._map = map;
+		this._data = data;
+		this._bounds = bounds;
+		this._parentBucket = parent;
+	}
+
+	get bounds() : CoordinatesMapBounds {
+		return this._bounds;
+	}
+
+	get frameData() : CoordinatesMapData {
+		//TODO: ideally we'd keep object identity of the direct objects so we
+		//wouldn't need to recreate them every time like this; this will lead to
+		//lots of new objects being created in the actual frame for example
+		return {
+			items: this.items
+		};
+	}
+
+	get isLeaf() : boolean {
+		return true;
+	}
+
+	get items() : {[id : CoordinatesMapID] : true} {
+		return this._data.items;
+	}
+
+	get count() : number {
+		return Object.keys(this._data.items).length;
+	}
+
+	getLeafBucket(point : Coordinates) : CoordinatesMapBucketLeaf<T> {
+		if (!pointWithinBounds(point, this.bounds)) throw new Error('Point is not within bounds');
+		return this;
+	}
+
+	/**
+	 * Gets all leaf buckets rooted through this bucket that intersction with
+	 * the given circle at all. Returns an empty list if the point and radius
+	 * don't intersect this bucket or sub-buckets.
+	 *
+	 * TODO: fix the bug where items in the map who have their own radius do not
+	 * get returned here unless their centers are inside the circle. This will
+	 * require potentially storing items in multiple buckets.
+	 *
+	 * @param point The center of the point
+	 * @param radius The radius of the circle
+	 */
+	getLeafBuckets(point : Coordinates, radius : number): CoordinatesMapBucketLeaf<T>[] {
+		if (!circleIntersectsBounds(point, radius, this.bounds)) return [];
+		return [this];
+	}
+
+	//TODO: do comprehensive tests for multi-layered objects.
+
+	splitIfNecessary() {
+		if (!dataIsLeaf(this._data)) throw new Error('splitIfNecessary may only be called on leaf');
+		const itemCount = Object.keys(this._data.items).length;
+		if (itemCount <= this._map._maxBucketSize) return;
+		const items = this._data.items;
+		const data = {
+			upperLeft: {items: {}},
+			upperRight: {items: {}},
+			lowerLeft: {items: {}},
+			lowerRight: {items: {}}
+		};
+		const newBucket = makeCoordinatesMapBucket(this._map, this._parentBucket, data, this._bounds);
+		for (const id of Object.keys(items)) {
+			const item = this._map._fullItemsMap[id];
+			const coords = {
+				x: item.x || 0,
+				y: item.y || 0
+			};
+			const bucket = newBucket.getLeafBucket(coords);
+			bucket.insertObject(item);
+		}
+		if (this._parentBucket) {
+			this._parentBucket.replaceSubBucket(this, newBucket);
+		} else {
+			this._map._rootBucket = newBucket;
+		}
+
 	}
 
 	insertObject(obj : CoordinatesMapItem) {
-		if (!dataIsLeaf(this._data)) throw new Error('insertObject is not supported on non-leaf');
 		if (this._data.items[obj.id]) throw new Error('Object already existed in bucket');
 		this._data.items[obj.id] = true;
 		this.splitIfNecessary();
 	}
 
 	updateObject(obj: CoordinatesMapItem) : boolean {
-		if (!dataIsLeaf(this._data)) throw new Error('updateObject is not supported on non-leaf');
 		const existingItem = this._map.items[obj.id];
 		if (existingItem) {
 			if (coordinatesMapItemExactlyEquivalent(existingItem, obj)) return false;
@@ -281,7 +367,6 @@ class CoordinatesMapBucket<T extends CoordinatesMapItem> {
 	}
 
 	removeObject(obj : CoordinatesMapItem) : boolean {
-		if (!dataIsLeaf(this._data)) throw new Error('removeObject is not supported on non-leaf');
 		if (!this._data.items[obj.id]) return false;
 		delete this._data.items[obj.id];
 		if (this._parentBucket) this._parentBucket.combineIfNecessary();
@@ -329,7 +414,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		};
 		const fullItemsMap = Object.fromEntries(items.map(item => [item.id, {...item}]));
 		this._fullItemsMap = fullItemsMap;
-		this._rootBucket = new CoordinatesMapBucket(this, null, data, this.bounds);
+		this._rootBucket = makeCoordinatesMapBucket(this, null, data, this.bounds);
 		if (!insertItems && Object.keys(data.items).length != Object.keys(items).length) throw new Error('Items did not have same number of items as data passed in');
 		for (const item of items) {
 			if (!pointWithinBounds(item, this.bounds)) throw new Error('Item not within bounds');
