@@ -31,6 +31,34 @@ const makeDefaultItems = () => {
 			y: 200,
 			radius: 25,
 			otherProperty: '2',
+		},
+		{
+			id: '3',
+			x: 25,
+			y: 25,
+			radius: 0,
+			otherProperty: '3'
+		},
+		{
+			id: '4',
+			x: 125,
+			y: 150,
+			radius: 0,
+			otherProperty: '4'
+		},
+		{
+			id: '5',
+			x: 5,
+			y: 200,
+			radius: 0,
+			otherProperty: '5'
+		},
+		{
+			id: '6',
+			x: 100,
+			y: 150,
+			radius: 0,
+			otherProperty: '6'
 		}
 	];
 };
@@ -73,7 +101,11 @@ describe('CoordinatesMap', () => {
 		const golden = {
 			'0': 0,
 			'1': 70.71067811865476,
-			'2': 111.80339887498948
+			'2': 111.80339887498948,
+			'3': 106.06601717798213,
+			'4': 55.90169943749474,
+			'5': 137.93114224133723,
+			'6': 50
 		};
 		assert.deepStrictEqual(simplifiedResult, golden);
 	});
@@ -87,6 +119,8 @@ describe('CoordinatesMap', () => {
 		const golden = {
 			'0': 0,
 			'1': 70.71067811865476,
+			'4': 55.90169943749474,
+			'6': 50
 		};
 		assert.deepStrictEqual(simplifiedResult, golden);
 	});
@@ -111,7 +145,11 @@ describe('CoordinatesMap', () => {
 		const simplifiedResult = Object.fromEntries([...result.entries()].map(entry => [entry[0].id, entry[1]]));
 		const golden = {
 			'0': 0,
-			'1': 70.71067811865476
+			'1': 70.71067811865476,
+			'3': 106.06601717798213,
+			'4': 55.90169943749474,
+			'5': 137.93114224133723,
+			'6': 50
 		};
 		assert.deepStrictEqual(simplifiedResult, golden);
 	});
