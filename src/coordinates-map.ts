@@ -653,7 +653,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 			//TODO: reason about this and verify it won't try to
 			//combineIfNecessary on a bucket that was already reparented.
 			item.combineIfNecessary();
-			itemsToProcess.push(item._parentBucket);
+			if (item._parentBucket) itemsToProcess.push(item._parentBucket);
 		}
 	}
 }
