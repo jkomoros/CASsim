@@ -410,6 +410,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		this._minBucketSize = DEFAULT_MIN_BUCKET_SIZE;
 		this._maxBucketSize = DEFAULT_MAX_BUCKET_SIZE;
 		let insertItems = false;
+		if (!items) items = [];
 		if (!data) {
 			data = {
 				items: {}
