@@ -654,6 +654,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		while (itemsToProcess.length) {
 			const item = itemsToProcess.shift();
 			if (seenItems.has(item)) continue;
+			seenItems.set(item, true);
 			//TODO: reason about this and verify it won't try to
 			//combineIfNecessary on a bucket that was already reparented.
 			item.combineIfNecessary();
