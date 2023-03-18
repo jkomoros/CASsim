@@ -162,6 +162,7 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 				.debug-bounds {
 					position: absolute;
 					border: 1px solid red;
+					box-sizing: border-box;
 				}
 			`
 		];
@@ -405,12 +406,12 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		return this._positionStyles(graph ? graph.nodePosition(node) : {x: 0, y: 0, width: 10, height: 10});
 	}
 
-	_stylesForBounds(bounds : CoordinatesMapBounds) : StyleInfo {
+	_stylesForBounds(bounds : CoordinatesMapBounds, scale : number) : StyleInfo {
 		return {
-			left: '' + bounds.x + 'px',
-			top: '' + bounds.y + 'px',
-			width: '' + bounds.width + 'px',
-			height: '' + bounds.height + 'px'
+			left: '' + bounds.x * scale + 'px',
+			top: '' + bounds.y * scale + 'px',
+			width: '' + bounds.width * scale + 'px',
+			height: '' + bounds.height * scale + 'px'
 		};
 	}
 
@@ -430,7 +431,7 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 			<div class='nodes' style=${styleMap(styles)}>
 				${Object.values((graph ? graph.nodes() : {})).map(node => this.renderNode(node, graph))}
 				${repeat(Object.values(this.agentData(this.frame)), agent => agent.id, agent => this.renderAgent(agent, positions))}
-				${coordinatesMap && this.renderBounds(this.frame) ? coordinatesMap.leafBounds.map(bounds => svg`<div class='debug-bounds' style=${styleMap(this._stylesForBounds(bounds))}></div>`): ``}
+				${coordinatesMap && this.renderBounds(this.frame) ? coordinatesMap.leafBounds.map(bounds => svg`<div class='debug-bounds' style=${styleMap(this._stylesForBounds(bounds, this.scale))}></div>`): ``}
 				${graph && this.renderEdges(this.frame) ?
 		html`<svg viewBox='0 0 ${width} ${height}'>
 					${repeat(Object.values(graph.allEdges()), edge => edge.id, edge => this.renderEdge(edge, graph))}
