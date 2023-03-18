@@ -232,8 +232,8 @@ class CoordinatesMapBucketMeta<T extends CoordinatesMapItem> {
 
 	//TODO: do comprehensive tests for multi-layered objects.
 
-	combineIfNecessary() {
-		if (this.count >= this._map._minBucketSize) return;
+	combineIfNecessary() : CoordinatesMapBucketLeaf<T> | null {
+		if (this.count >= this._map._minBucketSize) return null;
 		const data = {
 			items: {
 				...this._subBuckets.upperLeft.items,
@@ -248,6 +248,7 @@ class CoordinatesMapBucketMeta<T extends CoordinatesMapItem> {
 		} else {
 			this._map._rootBucket = newBucket;
 		}
+		return newBucket;
 	}
 
 	replaceSubBucket(previousBucket : CoordinatesMapBucket<T>, newBucket : CoordinatesMapBucket<T>) {
@@ -342,9 +343,9 @@ class CoordinatesMapBucketLeaf<T extends CoordinatesMapItem> {
 
 	//TODO: do comprehensive tests for multi-layered objects.
 
-	splitIfNecessary(lastInsertedObject : CoordinatesMapItem) {
+	splitIfNecessary(lastInsertedObject : CoordinatesMapItem) : CoordinatesMapBucketMeta<T> | null {
 		const itemCount = Object.keys(this._data.items).length;
-		if (itemCount <= this._map._maxBucketSize) return;
+		if (itemCount <= this._map._maxBucketSize) return null;
 		const items = this._data.items;
 		const data = {
 			upperLeft: {items: {}},
@@ -370,6 +371,7 @@ class CoordinatesMapBucketLeaf<T extends CoordinatesMapItem> {
 		} else {
 			this._map._rootBucket = newBucket;
 		}
+		return newBucket;
 
 	}
 
