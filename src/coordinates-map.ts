@@ -640,6 +640,22 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 			this.removeObject(deletedItem);
 		}
 	}
+
+	_rebalance() {
+		for (const leafBucket of this._rootBucket.getAllLeafBuckets()) {
+			leafBucket.splitIfNecessary(null);
+		}
+		const seenItems : Map<CoordinatesMapBucketMeta<T>, true> = new Map();
+		const itemsToProcess = this._rootBucket.getAllLeafBuckets().map(bucket => bucket._parentBucket);
+		while (itemsToProcess.length) {
+			const item = itemsToProcess.shift();
+			if (seenItems.has(item)) continue;
+			//TODO: reason about this and verify it won't try to
+			//combineIfNecessary on a bucket that was already reparented.
+			item.combineIfNecessary();
+			itemsToProcess.push(item._parentBucket);
+		}
+	}
 }
 
 export const _TESTING = {
