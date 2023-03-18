@@ -509,7 +509,11 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	 * Inserts the given object into the map. Throws an error if it already exists.
 	 * @param obj The object to insert
 	 */
-	insertObject(obj: T, skipResizing = false) {
+	insertObject(obj : T) {
+		this._insertObjectImpl(obj, false);
+	}
+
+	_insertObjectImpl(obj: T, skipResizing = false) {
 		const coords = {
 			x: obj.x || 0,
 			y: obj.y || 0
@@ -525,11 +529,15 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	 * any of their relevant properties (e.g. x,y, radius) might have changed.
 	 * @param obj The object to add to the set.
 	 */
-	updateObject(obj: T, skipResizing = false) {
+	updateObject(obj : T) {
+		this._updateObjectImpl(obj, false);
+	}
+
+	_updateObjectImpl(obj: T, skipResizing = false) {
 		//We use the fullItem to check which bucket it WAS in when we last saw it.
 		const oldItem = this._fullItemsMap[obj.id];
 		if (!oldItem) {
-			this.insertObject(obj, skipResizing);
+			this._insertObjectImpl(obj, skipResizing);
 			return;
 		}
 		const oldCoords = {
@@ -557,7 +565,11 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		this._changesMade = true;
 	}
 
-	removeObject(obj : T, skipResizing = false) {
+	removeObject(obj : T) {
+		this._removeObjectImpl(obj, false);
+	}
+
+	_removeObjectImpl(obj : T, skipResizing = false) {
 		const coords = {
 			x: obj.x || 0,
 			y : obj.y || 0
