@@ -443,9 +443,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	//fullItems may include items that were never in map, as long as it's a superset.
 	static fromFrameData<F extends CoordinatesMapItem>(frameData : CoordinatesMapDataLeaf, size : Size, fullItems : F[]) : CoordinatesMap<F> {
 		//TODO: memoize based on a weak map
-		const itemsMap = Object.fromEntries(fullItems.map(item => [item.id, item]));
-		const expandedItems : F[] = Object.keys(frameData.items).map(id => itemsMap[id]);
-		return new CoordinatesMap<F>(expandedItems, size, frameData);
+		return new CoordinatesMap<F>(fullItems, size, frameData);
 	}
 
 	//Suitable to be stored in a property of a frame
