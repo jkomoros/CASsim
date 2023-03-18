@@ -383,7 +383,8 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 	 * for debug purposes.
 	 * @returns true if the bounds of the positions shoudl be rendered
 	 */
-	renderBounds() : boolean {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	renderBounds(_ : F) : boolean {
 		return false;
 	}
 
@@ -428,7 +429,7 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 			<div class='nodes' style=${styleMap(styles)}>
 				${Object.values((graph ? graph.nodes() : {})).map(node => this.renderNode(node, graph))}
 				${repeat(Object.values(this.agentData(this.frame)), agent => agent.id, agent => this.renderAgent(agent, positions))}
-				${coordinatesMap && this.renderBounds() ? coordinatesMap.leafBounds.map(bounds => svg`<div class='debug-bounds' style=${styleMap(this._stylesForBounds(bounds))}></div>`): ``}
+				${coordinatesMap && this.renderBounds(this.frame) ? coordinatesMap.leafBounds.map(bounds => svg`<div class='debug-bounds' style=${styleMap(this._stylesForBounds(bounds))}></div>`): ``}
 				${graph && this.renderEdges(this.frame) ?
 		html`<svg viewBox='0 0 ${width} ${height}'>
 					${repeat(Object.values(graph.allEdges()), edge => edge.id, edge => this.renderEdge(edge, graph))}
