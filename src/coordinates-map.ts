@@ -373,13 +373,13 @@ class CoordinatesMapBucketLeaf<T extends CoordinatesMapItem> {
 
 	}
 
-	insertObject(obj : CoordinatesMapItem) {
+	insertObject(obj : CoordinatesMapItem, skipResizing = false) {
 		if (this._data.items[obj.id]) throw new Error('Object already existed in bucket');
 		this._data.items[obj.id] = true;
-		this.splitIfNecessary(obj);
+		if (!skipResizing) this.splitIfNecessary(obj);
 	}
 
-	updateObject(obj: CoordinatesMapItem) : boolean {
+	updateObject(obj: CoordinatesMapItem, skipResizing = false) : boolean {
 		const existingItem = this._map.items[obj.id];
 		if (existingItem) {
 			if (coordinatesMapItemExactlyEquivalent(existingItem, obj)) return false;
@@ -388,15 +388,15 @@ class CoordinatesMapBucketLeaf<T extends CoordinatesMapItem> {
 		this._data.items[obj.id] = true;
 		if (!existingItem) {
 			//This is effectively an insert
-			this.splitIfNecessary(obj);
+			if (!skipResizing) this.splitIfNecessary(obj);
 		}
 		return true;
 	}
 
-	removeObject(obj : CoordinatesMapItem) : boolean {
+	removeObject(obj : CoordinatesMapItem, skipResizing = false) : boolean {
 		if (!this._data.items[obj.id]) return false;
 		delete this._data.items[obj.id];
-		if (this._parentBucket) this._parentBucket.combineIfNecessary();
+		if (this._parentBucket && !skipResizing) this._parentBucket.combineIfNecessary();
 		return true;
 	}
 
