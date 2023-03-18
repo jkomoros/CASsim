@@ -274,7 +274,12 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 			};
 		}
 		if (positions instanceof CoordinatesMap) {
-			return positions.getPosition(agent);
+			const result = positions.getPosition(agent);
+			return {
+				...result,
+				width: result.width === 0 ? this.agentWidth(agent) : result.width,
+				height: result.height === 0 ? this.agentHeight(agent) : result.height
+			};
 		}
 		const nodeID = this.agentNodeID(agent);
 		return positions.nodePosition(nodeID);
