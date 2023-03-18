@@ -168,8 +168,8 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	generateAgents(positions : P, baseFrame : SimulationFrame, rnd : RandomGenerator) : A[] {
 		const agents = [];
-		const skipPlacingAgents = this.skipPlacingAgents(positions, baseFrame, rnd);
-		const baseAvailableNodes = skipPlacingAgents || !(positions instanceof Graph) ? {} : {...positions.nodes()};
+		const skipPlacingAgents = this.skipPlacingAgents(positions, baseFrame, rnd) || !(positions instanceof Graph);
+		const baseAvailableNodes = skipPlacingAgents ? {} : {...positions.nodes()};
 		const agentCount = this.numStarterAgents(positions, baseFrame, rnd);
 		for (let i = 0; i < agentCount; i++) {
 			const agent = this.generateAgent(null, agents, positions, baseFrame, rnd);
