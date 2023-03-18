@@ -317,8 +317,7 @@ class CoordinatesMapBucketLeaf<T extends CoordinatesMapItem> {
 
 	//TODO: do comprehensive tests for multi-layered objects.
 
-	splitIfNecessary() {
-		if (!dataIsLeaf(this._data)) throw new Error('splitIfNecessary may only be called on leaf');
+	splitIfNecessary(lastInsertedObject : CoordinatesMapItem) {
 		const itemCount = Object.keys(this._data.items).length;
 		if (itemCount <= this._map._maxBucketSize) return;
 		const items = this._data.items;
@@ -330,7 +329,10 @@ class CoordinatesMapBucketLeaf<T extends CoordinatesMapItem> {
 		};
 		const newBucket = new CoordinatesMapBucketMeta(this._map, this._parentBucket, data, this._bounds);
 		for (const id of Object.keys(items)) {
-			const item = this._map._fullItemsMap[id];
+			let item : CoordinatesMapItem= this._map._fullItemsMap[id];
+			//In the case where an item was just inserted and not yet in full
+			//items map, item might be empty.
+			if (!item && lastInsertedObject.id == id) item = lastInsertedObject;
 			const coords = {
 				x: item.x || 0,
 				y: item.y || 0
@@ -349,7 +351,7 @@ class CoordinatesMapBucketLeaf<T extends CoordinatesMapItem> {
 	insertObject(obj : CoordinatesMapItem) {
 		if (this._data.items[obj.id]) throw new Error('Object already existed in bucket');
 		this._data.items[obj.id] = true;
-		this.splitIfNecessary();
+		this.splitIfNecessary(obj);
 	}
 
 	updateObject(obj: CoordinatesMapItem) : boolean {
@@ -361,7 +363,7 @@ class CoordinatesMapBucketLeaf<T extends CoordinatesMapItem> {
 		this._data.items[obj.id] = true;
 		if (!existingItem) {
 			//This is effectively an insert
-			this.splitIfNecessary();
+			this.splitIfNecessary(obj);
 		}
 		return true;
 	}
