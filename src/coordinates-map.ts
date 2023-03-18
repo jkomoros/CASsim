@@ -631,14 +631,18 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	 * @param allObjects the set of all objects to update
 	 */
 	updateAllObjects(allObjects : T[]) : void {
+		//We turn off rebalancing temporarily because it's poossible multple
+		//objects are no longer in their proper buckets, which would break
+		//incremental rebalancing.
 		const unseenItemsMap = {...this._fullItemsMap};
 		for (const obj of allObjects) {
 			delete unseenItemsMap[obj.id];
-			this.updateObject(obj);
+			this._updateObjectImpl(obj, true);
 		}
 		for (const deletedItem of Object.values(unseenItemsMap)) {
-			this.removeObject(deletedItem);
+			this._removeObjectImpl(deletedItem, true);
 		}
+		this._rebalance();
 	}
 
 	_rebalance() {

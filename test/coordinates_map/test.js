@@ -350,6 +350,18 @@ describe('CoordinatesMap', () => {
 		assert.deepStrictEqual(bounds, golden);
 	});
 
+	it('Basic updateAllObjects works for bucketed with multiple changes since update', async () => {
+		const map = makeBucketedMap();
+		const defaultItems = makeDefaultItems();
+		//Move two items out of their buckets.
+		defaultItems[0].y = 150;
+		defaultItems[1].x = 150;
+		const fn = () => {
+			map.updateAllObjects(defaultItems);
+		};
+		assert.doesNotThrow(fn);
+	});
+
 	//TODO: test that getLeafBucket works within nested buckets
 	//TODO: test that getLeafBuckets works within nested buckets
 
