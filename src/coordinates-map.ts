@@ -180,7 +180,7 @@ class CoordinatesMapBucketMeta<T extends CoordinatesMapItem> {
 	}
 
 	getLeafBucket(point : Coordinates) : CoordinatesMapBucketLeaf<T> {
-		if (!pointWithinBounds(point, this.bounds)) throw new Error('Point is not within bounds');
+		if (!pointWithinBounds(point, this.bounds)) throw new Error('Point is not within bounds x: ' + point.x + ' y: ' + point.y + JSON.stringify(this.bounds));
 		const midPointX = this._subBuckets.lowerRight.bounds.x;
 		const midPointY = this._subBuckets.lowerRight.bounds.y;
 		if (point.x < midPointX) {
