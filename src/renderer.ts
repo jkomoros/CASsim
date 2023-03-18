@@ -22,6 +22,7 @@ import {
 
 import {
 	Angle,
+	CoordinatesMapBounds,
 	CoordinatesMapDataLeaf,
 	CSSColor,
 	Emoji,
@@ -156,6 +157,10 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 				svg {
 					width: 100%;
 					height: 100%;
+				}
+
+				.debug-bounds {
+					border: 1px solid red;
 				}
 			`
 		];
@@ -373,6 +378,15 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		return svg`<path id=${edge.id} class='edge' d='M ${fromNodePosition.x}, ${fromNodePosition.y} L ${toNodePosition.x}, ${toNodePosition.y}' stroke='${this.edgeColor(edge, graph)}' stroke-width='${this.edgeWidth(edge, graph)}' stroke-opacity='${this.edgeOpacity(edge, graph)}' stroke-dasharray='${this.edgeDasharray(edge, graph)}'></path>`;
 	}
 
+	/**
+	 * An override point for whether to render the bounds of a CoordinatesMap
+	 * for debug purposes.
+	 * @returns true if the bounds of the positions shoudl be rendered
+	 */
+	renderBounds() : boolean {
+		return false;
+	}
+
 	//position should be an opbject with x,y,width,height;
 	_positionStyles(position : Position) : StyleInfo {
 		const size = Math.min(position.width, position.height);
@@ -389,9 +403,19 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		return this._positionStyles(graph ? graph.nodePosition(node) : {x: 0, y: 0, width: 10, height: 10});
 	}
 
+	_stylesForBounds(bounds : CoordinatesMapBounds) : StyleInfo {
+		return {
+			left: '' + bounds.x + 'px',
+			top: '' + bounds.y + 'px',
+			width: '' + bounds.width + 'px',
+			height: '' + bounds.height + 'px'
+		};
+	}
+
 	override innerRender() : TemplateResult {
 		const positions = this._positions();
 		const graph = positions instanceof PositionedGraph ? positions : null;
+		const coordinatesMap = positions instanceof CoordinatesMap ? positions : null;
 		const nodeRoundness = graph ? graph.nodeRoundness : 0.0;
 		const height = this.frame.height;
 		const width = this.frame.width;
@@ -404,6 +428,7 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 			<div class='nodes' style=${styleMap(styles)}>
 				${Object.values((graph ? graph.nodes() : {})).map(node => this.renderNode(node, graph))}
 				${repeat(Object.values(this.agentData(this.frame)), agent => agent.id, agent => this.renderAgent(agent, positions))}
+				${coordinatesMap && this.renderBounds() ? coordinatesMap.leafBounds.map(bounds => svg`<div class='debug-bounds' style=${styleMap(this._stylesForBounds(bounds))}></div>`): ``}
 				${graph && this.renderEdges(this.frame) ?
 		html`<svg viewBox='0 0 ${width} ${height}'>
 					${repeat(Object.values(graph.allEdges()), edge => edge.id, edge => this.renderEdge(edge, graph))}
