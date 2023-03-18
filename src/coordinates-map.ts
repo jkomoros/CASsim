@@ -62,6 +62,16 @@ function makeCoordinatesMapBucket<T extends CoordinatesMapItem>(map : Coordinate
 	return dataIsLeaf(data) ? new CoordinatesMapBucketLeaf(map, parent, data, bounds) : new CoordinatesMapBucketMeta(map, parent, data, bounds);
 }
 
+const numLeafItems = (data : CoordinatesMapData) : number => {
+	if (dataIsLeaf(data)) return Object.keys(data.items).length;
+	let result = 0;
+	result += numLeafItems(data.upperLeft);
+	result += numLeafItems(data.upperRight);
+	result += numLeafItems(data.lowerLeft);
+	result += numLeafItems(data.lowerRight);
+	return result;
+};
+
 class CoordinatesMapBucketMeta<T extends CoordinatesMapItem> {
 
 	_map : CoordinatesMap<T>;
@@ -417,7 +427,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		const fullItemsMap = Object.fromEntries(items.map(item => [item.id, {...item}]));
 		this._fullItemsMap = fullItemsMap;
 		this._rootBucket = makeCoordinatesMapBucket(this, null, data, this.bounds);
-		if (!insertItems && Object.keys(data.items).length != Object.keys(items).length) throw new Error('Items did not have same number of items as data passed in');
+		if (!insertItems && numLeafItems(data) != Object.keys(items).length) throw new Error('Items did not have same number of items as data passed in');
 		for (const item of items) {
 			if (!pointWithinBounds(item, this.bounds)) throw new Error('Item not within bounds');
 			if (insertItems) {
