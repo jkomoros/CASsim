@@ -338,6 +338,18 @@ describe('CoordinatesMap', () => {
 		assert.deepStrictEqual(buckets, [map._rootBucket._subBuckets.upperLeft, map._rootBucket._subBuckets.lowerLeft]);
 	});
 
+	it('Basic frame data get leafBounds bucketed', async () => {
+		const map = makeBucketedMap();
+		const bounds = map.leafBounds;
+		const golden = [
+			map._rootBucket._subBuckets.upperLeft.bounds,
+			map._rootBucket._subBuckets.upperRight.bounds,
+			map._rootBucket._subBuckets.lowerLeft.bounds,
+			map._rootBucket._subBuckets.lowerRight.bounds
+		];
+		assert.deepStrictEqual(bounds, golden);
+	});
+
 	//TODO: test that getLeafBucket works within nested buckets
 	//TODO: test that getLeafBuckets works within nested buckets
 

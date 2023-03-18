@@ -488,6 +488,10 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		return this._fullItemsMap;
 	}
 
+	get leafBounds() : CoordinatesMapBounds[] {
+		return this._rootBucket.getAllLeafBuckets().map(bucket => bucket.bounds);
+	}
+
 	/**
 	 * Returns the position affiliated with this object in the map or null
 	 */
