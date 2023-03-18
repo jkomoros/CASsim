@@ -9,6 +9,7 @@ import {
 	CoordinatesMapData,
 	CoordinatesMapDataMeta
 } from './types.js';
+import { deepCopy } from './util.js';
 
 const coordinatesMapItemExactlyEquivalent = (one : CoordinatesMapItem, two : CoordinatesMapItem) : boolean => {
 	if (one == two) return true;
@@ -90,7 +91,7 @@ class CoordinatesMapBucketMeta<T extends CoordinatesMapItem> {
 	 */
 	constructor (map : CoordinatesMap<T>, parent: CoordinatesMapBucketMeta<T> | null, data : CoordinatesMapDataMeta, bounds : CoordinatesMapBounds) {
 		this._map = map;
-		this._data = data;
+		this._data = deepCopy(data);
 		this._bounds = bounds;
 		this._parentBucket = parent;
 		this._createSubBuckets();
@@ -273,7 +274,7 @@ class CoordinatesMapBucketLeaf<T extends CoordinatesMapItem> {
 	 */
 	constructor (map : CoordinatesMap<T>, parent: CoordinatesMapBucketMeta<T> | null, data : CoordinatesMapDataLeaf, bounds : CoordinatesMapBounds) {
 		this._map = map;
-		this._data = data;
+		this._data = deepCopy(data);
 		this._bounds = bounds;
 		this._parentBucket = parent;
 	}
@@ -511,6 +512,10 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	updateObject(obj: T) {
 		//We use the fullItem to check which bucket it WAS in when we last saw it.
 		const oldItem = this._fullItemsMap[obj.id];
+		if (!oldItem) {
+			this.insertObject(obj);
+			return;
+		}
 		const oldCoords = {
 			x: oldItem.x || 0,
 			y : oldItem.y || 0
