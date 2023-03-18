@@ -509,13 +509,13 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	 * Inserts the given object into the map. Throws an error if it already exists.
 	 * @param obj The object to insert
 	 */
-	insertObject(obj: T) {
+	insertObject(obj: T, skipResizing = false) {
 		const coords = {
 			x: obj.x || 0,
 			y: obj.y || 0
 		};
 		const bucket = this._rootBucket.getLeafBucket(coords);
-		bucket.insertObject(obj);
+		bucket.insertObject(obj, skipResizing);
 		this._fullItemsMap[obj.id] = obj;
 		this._changesMade = true;
 	}
@@ -525,11 +525,11 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	 * any of their relevant properties (e.g. x,y, radius) might have changed.
 	 * @param obj The object to add to the set.
 	 */
-	updateObject(obj: T) {
+	updateObject(obj: T, skipResizing = false) {
 		//We use the fullItem to check which bucket it WAS in when we last saw it.
 		const oldItem = this._fullItemsMap[obj.id];
 		if (!oldItem) {
-			this.insertObject(obj);
+			this.insertObject(obj, skipResizing);
 			return;
 		}
 		const oldCoords = {
@@ -544,26 +544,26 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		const newBucket = this._rootBucket.getLeafBucket(newCoords);
 		if (oldBucket == newBucket) {
 			// no change
-			if (!newBucket.updateObject(obj)) return;
+			if (!newBucket.updateObject(obj, skipResizing)) return;
 		} else {
-			oldBucket.removeObject(obj);
+			oldBucket.removeObject(obj, skipResizing);
 			//Note: since oldBucket was a LeafBucket already, removeItem could
 			//not have possibly made newBucket no longer valid. And in any case
 			//newBucket could not have been contained in oldBucket.
-			newBucket.insertObject(obj);
+			newBucket.insertObject(obj, skipResizing);
 		}
 
 		this._fullItemsMap[obj.id] = {...obj};
 		this._changesMade = true;
 	}
 
-	removeObject(obj : T) {
+	removeObject(obj : T, skipResizing = false) {
 		const coords = {
 			x: obj.x || 0,
 			y : obj.y || 0
 		};
 		const bucket = this._rootBucket.getLeafBucket(coords);
-		if (!bucket.removeObject(obj)) {
+		if (!bucket.removeObject(obj, skipResizing)) {
 			const id = obj.id;
 			if (this._fullItemsMap[obj.id]) throw new Error(`Object ${id} was not in the expected bucket but did exist`);
 			return;
