@@ -5,6 +5,10 @@ import {
 } from '../../types.js';
 
 export type FreeMovingAgentsSimOptions = {
+	display?: {
+		/** Render debug bounds for coordinates map */
+		bounds: boolean;
+	};
 	/** Information on agents */
 	agents?: {
 		/** The number of starter agents */

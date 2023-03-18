@@ -112,6 +112,20 @@ class FreeMovingAgentsSimulator extends AgentSimulator<FreeMovingAgentsAgent, Fr
 	override get optionsConfig() : OptionsConfigMap {
 		//When you modify this method, re-run `npm run generate` to update the types and schema checking
 		return {
+			display: {
+				example: {
+					bounds: {
+						example: false,
+						description: 'Render debug bounds for coordinates map',
+						optional: true,
+						backfill: true
+					}
+				},
+				description: 'Optional display properties',
+				optional: true,
+				backfill: true,
+				advanced: true
+			},
 			agents: {
 				example: {
 					count: {
@@ -166,6 +180,10 @@ class FreeMovingAgentsRenderer extends PositionedAgentsRenderer<FreeMovingAgents
 
 	override agentDefaultMaxNodeSize() : number {
 		return 50;
+	}
+
+	override renderBounds(frame : FreeMovingAgentsSimulationFrame): boolean {
+		return frame.simOptions.display.bounds;
 	}
 
 }

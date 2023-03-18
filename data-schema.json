@@ -163,6 +163,19 @@
           },
           "type": "object"
         },
+        "display": {
+          "additionalProperties": false,
+          "properties": {
+            "bounds": {
+              "description": "Render debug bounds for coordinates map",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "bounds"
+          ],
+          "type": "object"
+        },
         "rounds": {
           "description": "The number of rounds",
           "type": "number"
