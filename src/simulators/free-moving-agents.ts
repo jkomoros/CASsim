@@ -72,8 +72,8 @@ class FreeMovingAgentsSimulator extends AgentSimulator<FreeMovingAgentsAgent, Fr
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	override generatePositions() : FreeMovingAgentsCoordinatesMap {
-		return null;
+	override generatePositions(baseFrame : FreeMovingAgentsSimulationFrame) : FreeMovingAgentsCoordinatesMap {
+		return new CoordinatesMap(baseFrame.agents, baseFrame);
 	}
 
 	override simulationComplete(frame : FreeMovingAgentsSimulationFrame) : boolean {
