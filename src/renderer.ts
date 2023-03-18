@@ -160,6 +160,7 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 				}
 
 				.debug-bounds {
+					position: absolute;
 					border: 1px solid red;
 				}
 			`
