@@ -198,6 +198,16 @@ class CoordinatesMapBucketMeta<T extends CoordinatesMapItem> {
 		}
 	}
 
+	getAllLeafBuckets() : CoordinatesMapBucketLeaf<T>[] {
+		return [
+			...this._subBuckets.upperLeft.getAllLeafBuckets(),
+			...this._subBuckets.upperRight.getAllLeafBuckets(),
+			...this._subBuckets.lowerLeft.getAllLeafBuckets(),
+			...this._subBuckets.lowerRight.getAllLeafBuckets()
+		];
+	}
+
+
 	/**
 	 * Gets all leaf buckets rooted through this bucket that intersction with
 	 * the given circle at all. Returns an empty list if the point and radius
@@ -302,6 +312,10 @@ class CoordinatesMapBucketLeaf<T extends CoordinatesMapItem> {
 
 	get count() : number {
 		return Object.keys(this._data.items).length;
+	}
+
+	getAllLeafBuckets() : CoordinatesMapBucketLeaf<T>[] {
+		return [this];
 	}
 
 	getLeafBucket(point : Coordinates) : CoordinatesMapBucketLeaf<T> {
