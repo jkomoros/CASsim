@@ -202,13 +202,16 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 	*/
 	override generateFirstFrame(baseFrame : SimulationFrame, rnd : RandomGenerator) : F {
 		//The default generator will expand this with index and simOptions.
-		const graph = this.generatePositions(baseFrame, rnd);
-		const agents = this.generateAgents(graph, baseFrame, rnd);
+		const positions = this.generatePositions(baseFrame, rnd);
+		const agents = this.generateAgents(positions, baseFrame, rnd);
+		if (positions instanceof CoordinatesMap) {
+			positions.updateAllObjects(agents);
+		}
 		const result = {
 			...baseFrame,
 			...(this.generateFirstFrameExtra(baseFrame.simOptions, rnd, baseFrame.width, baseFrame.height) || {}),
 			agents,
-			positions: graph ? graph.frameData : null
+			positions: positions ? positions.frameData : null
 		};
 		return result as F;
 	}
