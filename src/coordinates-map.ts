@@ -364,7 +364,7 @@ class CoordinatesMapBucketLeaf<T extends CoordinatesMapItem> {
 				y: item.y || 0
 			};
 			const bucket = newBucket.getLeafBucket(coords);
-			bucket.insertObject(item);
+			bucket.insertObject(item, false);
 		}
 		if (this._parentBucket) {
 			this._parentBucket.replaceSubBucket(this, newBucket);
@@ -375,13 +375,13 @@ class CoordinatesMapBucketLeaf<T extends CoordinatesMapItem> {
 
 	}
 
-	insertObject(obj : CoordinatesMapItem, skipResizing = false) {
+	insertObject(obj : CoordinatesMapItem, skipResizing : boolean) {
 		if (this._data.items[obj.id]) throw new Error('Object already existed in bucket');
 		this._data.items[obj.id] = true;
 		if (!skipResizing) this.splitIfNecessary(obj);
 	}
 
-	updateObject(obj: CoordinatesMapItem, skipResizing = false) : boolean {
+	updateObject(obj: CoordinatesMapItem, skipResizing : boolean) : boolean {
 		const existingItem = this._map.items[obj.id];
 		if (existingItem) {
 			if (coordinatesMapItemExactlyEquivalent(existingItem, obj)) return false;
@@ -395,7 +395,7 @@ class CoordinatesMapBucketLeaf<T extends CoordinatesMapItem> {
 		return true;
 	}
 
-	removeObject(obj : CoordinatesMapItem, skipResizing = false) : boolean {
+	removeObject(obj : CoordinatesMapItem, skipResizing : boolean) : boolean {
 		if (!this._data.items[obj.id]) return false;
 		delete this._data.items[obj.id];
 		if (this._parentBucket && !skipResizing) this._parentBucket.combineIfNecessary();
@@ -515,7 +515,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		this._insertObjectImpl(obj, false);
 	}
 
-	_insertObjectImpl(obj: T, skipResizing = false) {
+	_insertObjectImpl(obj: T, skipResizing : boolean) {
 		const coords = {
 			x: obj.x || 0,
 			y: obj.y || 0
@@ -535,7 +535,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		this._updateObjectImpl(obj, false);
 	}
 
-	_updateObjectImpl(obj: T, skipResizing = false) {
+	_updateObjectImpl(obj: T, skipResizing : boolean) {
 		//We use the fullItem to check which bucket it WAS in when we last saw it.
 		const oldItem = this._fullItemsMap[obj.id];
 		if (!oldItem) {
@@ -571,7 +571,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		this._removeObjectImpl(obj, false);
 	}
 
-	_removeObjectImpl(obj : T, skipResizing = false) {
+	_removeObjectImpl(obj : T, skipResizing : boolean) {
 		const coords = {
 			x: obj.x || 0,
 			y : obj.y || 0
