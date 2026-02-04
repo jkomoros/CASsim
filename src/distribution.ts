@@ -27,7 +27,7 @@ export const FIXED = 'fixed';
 
 const LEGAL_TYPES : {[name : string] : string} = {
 	[LINEAR]: 'A linear distribution between average +/- spread',
-	[NORMAL]: 'A normal distributino with mean of average and standard deviation of spread',
+	[NORMAL]: 'A normal distribution with mean of average and standard deviation of spread',
 	[MIN_MAX]: 'A linear distribution between min and max',
 	[FIXED]: 'A distribution that always returns precisely average with no variation',
 };

@@ -50,7 +50,7 @@ const circleIntersectsBounds = (center : Coordinates, radius : number, bounds : 
 	//From https://yal.cc/rectangle-circle-intersection-test/
 	const deltaX = center.x - Math.max(bounds.x, Math.min(center.x, bounds.x + bounds.width));
 	const deltaY = center.y - Math.max(bounds.y, Math.min(center.y, bounds.y + bounds.height));
-	return (deltaX * deltaX + deltaY + deltaY) < (radius * radius);
+	return (deltaX * deltaX + deltaY * deltaY) < (radius * radius);
 };
 
 const dataIsLeaf = (data : CoordinatesMapData) : data is CoordinatesMapDataLeaf => {
@@ -87,7 +87,7 @@ class CoordinatesMapBucketMeta<T extends CoordinatesMapItem> {
 	} | undefined;
 
 	/**
-	 * Note that data is owned and shuld be modified in place 
+	 * Note that data is owned and should be modified in place
 	 */
 	constructor (map : CoordinatesMap<T>, parent: CoordinatesMapBucketMeta<T> | null, data : CoordinatesMapDataMeta, bounds : CoordinatesMapBounds) {
 		this._map = map;
@@ -281,7 +281,7 @@ class CoordinatesMapBucketLeaf<T extends CoordinatesMapItem> {
 	_parentBucket : CoordinatesMapBucketMeta<T> | null;
 
 	/**
-	 * Note that data is owned and shuld be modified in place 
+	 * Note that data is owned and should be modified in place
 	 */
 	constructor (map : CoordinatesMap<T>, parent: CoordinatesMapBucketMeta<T> | null, data : CoordinatesMapDataLeaf, bounds : CoordinatesMapBounds) {
 		this._map = map;

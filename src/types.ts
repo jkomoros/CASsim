@@ -387,7 +387,7 @@ export type Modifications = Modification[];
 //TODO: tighten
 export type PlayType = 'frame' | 'round' | 'simulation';
 
-//TODO: tigthen
+//TODO: tighten
 export type DialogType = string;
 
 type DialogTypeAddFieldOption = {
