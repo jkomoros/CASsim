@@ -39,7 +39,9 @@
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@types/d3": "^7.4.0",
