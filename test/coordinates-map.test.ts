@@ -1,15 +1,26 @@
-/*eslint-env node*/
-
 import {
 	CoordinatesMap,
 	_TESTING
-} from '../../src/coordinates-map.js';
+} from '../src/coordinates-map.js';
+
+import type {
+	CoordinatesMapItem,
+	Size,
+	CoordinatesMapBounds,
+	Position,
+	CoordinatesMapData,
+	Coordinates
+} from '../src/types.js';
+
+import { describe, it, expect } from 'vitest';
 
 const circleIntersectsBounds = _TESTING.circleIntersectsBounds;
 
-import assert from 'assert';
+type TestItem = CoordinatesMapItem & {
+	otherProperty?: string;
+};
 
-const makeDefaultItems = () => {
+const makeDefaultItems = (): TestItem[] => {
 	return [
 		{
 			id: '0',
@@ -63,19 +74,19 @@ const makeDefaultItems = () => {
 	];
 };
 
-const makeDefaultFrameData = () => {
+const makeDefaultFrameData = (): CoordinatesMapData => {
 	const map = new CoordinatesMap(makeDefaultItems(), makeDefaultSize());
 	return map.frameData;
 };
 
-const makeDefaultSize = () => {
+const makeDefaultSize = (): Size => {
 	return {
 		width: 200,
 		height: 250
 	};
 };
 
-const makeBucketedMap = (defaultItems, minBucketSize = 2, maxBucketSize = 4) => {
+const makeBucketedMap = (defaultItems?: TestItem[], minBucketSize: number = 2, maxBucketSize: number = 4): CoordinatesMap => {
 	if (!defaultItems) defaultItems = makeDefaultItems();
 	const map = new CoordinatesMap([], makeDefaultSize());
 	map._minBucketSize = minBucketSize;
@@ -92,14 +103,14 @@ describe('CoordinatesMap', () => {
 		const defaultSize = makeDefaultSize();
 		const map = new CoordinatesMap(defaultItems, defaultSize);
 		const result = map.getAllObjects();
-		assert.deepStrictEqual(result, defaultItems);
+		expect(result).toEqual(defaultItems);
 	});
 
 	it('Basic getAllObjects bucketed', async () => {
 		const defaultItems = makeDefaultItems();
 		const map = makeBucketedMap();
 		const result = map.getAllObjects();
-		assert.deepStrictEqual(result, defaultItems);
+		expect(result).toEqual(defaultItems);
 	});
 
 	it('Basic bounds', async () => {
@@ -107,14 +118,14 @@ describe('CoordinatesMap', () => {
 		const defaultSize = makeDefaultSize();
 		const map = new CoordinatesMap(defaultItems, defaultSize);
 		const result = map.bounds;
-		assert.deepStrictEqual(result, {...defaultSize, x: 0, y:0, includeRight: true, includeBottom: true});
+		expect(result).toEqual({...defaultSize, x: 0, y:0, includeRight: true, includeBottom: true});
 	});
 
 	it('Basic bounds bucketed', async () => {
 		const defaultSize = makeDefaultSize();
 		const map = makeBucketedMap();
 		const result = map.bounds;
-		assert.deepStrictEqual(result, {...defaultSize, x: 0, y:0, includeRight: true, includeBottom: true});
+		expect(result).toEqual({...defaultSize, x: 0, y:0, includeRight: true, includeBottom: true});
 	});
 
 	it('Basic getObjects with large radius', async () => {
@@ -132,7 +143,7 @@ describe('CoordinatesMap', () => {
 			'5': 137.93114224133723,
 			'6': 50
 		};
-		assert.deepStrictEqual(simplifiedResult, golden);
+		expect(simplifiedResult).toEqual(golden);
 	});
 
 	it('Basic getObjects with large radius bucketed', async () => {
@@ -148,7 +159,7 @@ describe('CoordinatesMap', () => {
 			'5': 137.93114224133723,
 			'6': 50
 		};
-		assert.deepStrictEqual(simplifiedResult, golden);
+		expect(simplifiedResult).toEqual(golden);
 	});
 
 	it('Basic getObjects with smaller radius', async () => {
@@ -163,7 +174,7 @@ describe('CoordinatesMap', () => {
 			'4': 55.90169943749474,
 			'6': 50
 		};
-		assert.deepStrictEqual(simplifiedResult, golden);
+		expect(simplifiedResult).toEqual(golden);
 	});
 
 	it('Basic getObjects with smaller radius bucketed', async () => {
@@ -176,7 +187,7 @@ describe('CoordinatesMap', () => {
 			'4': 55.90169943749474,
 			'6': 50
 		};
-		assert.deepStrictEqual(simplifiedResult, golden);
+		expect(simplifiedResult).toEqual(golden);
 	});
 
 	it('Basic getObjects with an item that shouldnt work if it didnt have a radius', async () => {
@@ -188,7 +199,7 @@ describe('CoordinatesMap', () => {
 		const golden = {
 			'2': 50,
 		};
-		assert.deepStrictEqual(simplifiedResult, golden);
+		expect(simplifiedResult).toEqual(golden);
 	});
 
 	it('Basic getObjects with an item that shouldnt work if it didnt have a radius bucketed', async () => {
@@ -198,7 +209,7 @@ describe('CoordinatesMap', () => {
 		const golden = {
 			'2': 50,
 		};
-		assert.deepStrictEqual(simplifiedResult, golden);
+		expect(simplifiedResult).toEqual(golden);
 	});
 
 	it('Basic getObjects with large radius and an exclude', async () => {
@@ -215,7 +226,7 @@ describe('CoordinatesMap', () => {
 			'5': 137.93114224133723,
 			'6': 50
 		};
-		assert.deepStrictEqual(simplifiedResult, golden);
+		expect(simplifiedResult).toEqual(golden);
 	});
 
 	it('Basic getObjects with large radius and an exclude bucketed', async () => {
@@ -231,7 +242,7 @@ describe('CoordinatesMap', () => {
 			'5': 137.93114224133723,
 			'6': 50
 		};
-		assert.deepStrictEqual(simplifiedResult, golden);
+		expect(simplifiedResult).toEqual(golden);
 	});
 
 	it('Basic set an object and try to remove it from the bounds', async () => {
@@ -243,7 +254,7 @@ describe('CoordinatesMap', () => {
 			obj.x = -25;
 			map.updateObject(obj);
 		};
-		assert.throws(fn);
+		expect(fn).toThrow();
 	});
 
 	it('Basic set an object and try to remove it from the bounds', async () => {
@@ -254,7 +265,7 @@ describe('CoordinatesMap', () => {
 			obj.x = -25;
 			map.updateObject(obj);
 		};
-		assert.throws(fn);
+		expect(fn).toThrow();
 	});
 
 	it('Basic frame data round trip', async () => {
@@ -264,7 +275,7 @@ describe('CoordinatesMap', () => {
 		const data = map.frameData;
 		const newMap = new CoordinatesMap(defaultItems, defaultSize, data);
 		const result = newMap.getAllObjects();
-		assert.deepStrictEqual(result, defaultItems);
+		expect(result).toEqual(defaultItems);
 	});
 
 	it('Basic frame data round trip bucketed', async () => {
@@ -274,7 +285,7 @@ describe('CoordinatesMap', () => {
 		const data = map.frameData;
 		const newMap = new CoordinatesMap(defaultItems, defaultSize, data);
 		const result = newMap.getAllObjects();
-		assert.deepStrictEqual(result, defaultItems);
+		expect(result).toEqual(defaultItems);
 	});
 
 	it('Basic frame data boot with invalid items that dont match what was saved', async () => {
@@ -283,7 +294,7 @@ describe('CoordinatesMap', () => {
 		const fn = () => {
 			new CoordinatesMap(defaultItems, makeDefaultSize(), makeDefaultFrameData());
 		};
-		assert.throws(fn);
+		expect(fn).toThrow();
 	});
 
 	it('Basic frame data boot with out of bounds item', async () => {
@@ -293,7 +304,7 @@ describe('CoordinatesMap', () => {
 		const fn = () => {
 			new CoordinatesMap(defaultItems, makeDefaultSize());
 		};
-		assert.throws(fn);
+		expect(fn).toThrow();
 	});
 
 	it('Basic frame data boot with item on right edge', async () => {
@@ -302,7 +313,7 @@ describe('CoordinatesMap', () => {
 		const fn = () => {
 			new CoordinatesMap(defaultItems, makeDefaultSize());
 		};
-		assert.doesNotThrow(fn);
+		expect(() => fn()).not.toThrow();
 	});
 
 	it('Basic frame data boot with item on bottom edge', async () => {
@@ -311,31 +322,31 @@ describe('CoordinatesMap', () => {
 		const fn = () => {
 			new CoordinatesMap(defaultItems, makeDefaultSize());
 		};
-		assert.doesNotThrow(fn);
+		expect(() => fn()).not.toThrow();
 	});
 
 	it('Basic frame data getLeafBucket', async () => {
 		const map = new CoordinatesMap(makeDefaultItems(), makeDefaultSize());
 		const bucket = map._rootBucket.getLeafBucket({x: 25, y: 25});
-		assert.deepStrictEqual(bucket, map._rootBucket);
+		expect(bucket).toEqual(map._rootBucket);
 	});
 
 	it('Basic frame data getLeafBucket bucketed', async () => {
 		const map = makeBucketedMap();
 		const bucket = map._rootBucket.getLeafBucket({x: 25, y: 25});
-		assert.deepStrictEqual(bucket, map._rootBucket._subBuckets.upperLeft);
+		expect(bucket).toEqual(map._rootBucket._subBuckets.upperLeft);
 	});
 
 	it('Basic frame data getLeafBuckets', async () => {
 		const map = new CoordinatesMap(makeDefaultItems(), makeDefaultSize());
 		const buckets = map._rootBucket.getLeafBuckets({x: 25, y: 25}, 25);
-		assert.deepStrictEqual(buckets, [map._rootBucket]);
+		expect(buckets).toEqual([map._rootBucket]);
 	});
 
 	it('Basic frame data getLeafBuckets bucketed', async () => {
 		const map = makeBucketedMap();
 		const buckets = map._rootBucket.getLeafBuckets({x: 25, y: 25}, 25);
-		assert.deepStrictEqual(buckets, [map._rootBucket._subBuckets.upperLeft, map._rootBucket._subBuckets.lowerLeft]);
+		expect(buckets).toEqual([map._rootBucket._subBuckets.upperLeft, map._rootBucket._subBuckets.lowerLeft]);
 	});
 
 	it('Basic frame data get leafBounds bucketed', async () => {
@@ -347,7 +358,7 @@ describe('CoordinatesMap', () => {
 			map._rootBucket._subBuckets.lowerLeft.bounds,
 			map._rootBucket._subBuckets.lowerRight.bounds
 		];
-		assert.deepStrictEqual(bounds, golden);
+		expect(bounds).toEqual(golden);
 	});
 
 	it('Basic updateAllObjects works for bucketed with multiple changes since update', async () => {
@@ -359,7 +370,7 @@ describe('CoordinatesMap', () => {
 		const fn = () => {
 			map.updateAllObjects(defaultItems);
 		};
-		assert.doesNotThrow(fn);
+		expect(() => fn()).not.toThrow();
 	});
 
 	//TODO: test that getLeafBucket works within nested buckets
@@ -369,7 +380,7 @@ describe('CoordinatesMap', () => {
 		// Test for Bug 1: An item with a large radius just beyond searchRadius
 		// in another bucket should be found if its radius intersects with the search area.
 		// This tests that we search buckets within searchRadius + maxItemRadius.
-		const items = [
+		const items: CoordinatesMapItem[] = [
 			{
 				id: 'center',
 				x: 50,
@@ -383,7 +394,7 @@ describe('CoordinatesMap', () => {
 				radius: 30  // Large radius
 			}
 		];
-		const size = {width: 200, height: 200};
+		const size: Size = {width: 200, height: 200};
 		const map = new CoordinatesMap(items, size);
 
 		// Search from center with radius 50. The far item's center is at distance 70,
@@ -394,12 +405,12 @@ describe('CoordinatesMap', () => {
 
 		// Should find both items: center (distance 0) and far-with-radius (edge within range)
 		const golden = ['center', 'far-with-radius'];
-		assert.deepStrictEqual(resultIds, golden);
+		expect(resultIds).toEqual(golden);
 	});
 
 	it('Bug fix: Items with large radius near bucket boundary are found (bucketed)', async () => {
 		// Same test as above but with bucketing enabled
-		const items = [
+		const items: CoordinatesMapItem[] = [
 			{
 				id: 'center',
 				x: 50,
@@ -413,7 +424,7 @@ describe('CoordinatesMap', () => {
 				radius: 30
 			}
 		];
-		const size = {width: 200, height: 200};
+		const size: Size = {width: 200, height: 200};
 		// Create a bucketed map (small bucket sizes to force bucketing)
 		const map = new CoordinatesMap([], size);
 		map._minBucketSize = 40;
@@ -426,19 +437,19 @@ describe('CoordinatesMap', () => {
 		const resultIds = [...result.keys()].map(item => item.id).sort();
 
 		const golden = ['center', 'far-with-radius'];
-		assert.deepStrictEqual(resultIds, golden);
+		expect(resultIds).toEqual(golden);
 	});
 
 	it('Bug fix: getPosition centers radius around object coordinates', async () => {
 		// Test for Bug 2: getPosition should center the radius around the object's x,y
 		// instead of having the radius extend only down and right.
-		const item = {
+		const item: CoordinatesMapItem = {
 			id: 'test',
 			x: 100,
 			y: 100,
 			radius: 20
 		};
-		const size = {width: 200, height: 200};
+		const size: Size = {width: 200, height: 200};
 		const map = new CoordinatesMap([item], size);
 
 		const position = map.getPosition(item);
@@ -448,47 +459,47 @@ describe('CoordinatesMap', () => {
 		// y: 100 - 20 = 80
 		// width: 20 * 2 = 40
 		// height: 20 * 2 = 40
-		const golden = {
+		const golden: Position = {
 			x: 80,
 			y: 80,
 			width: 40,
 			height: 40
 		};
-		assert.deepStrictEqual(position, golden);
+		expect(position).toEqual(golden);
 	});
 
 	it('Bug fix: getPosition with zero radius', async () => {
 		// Edge case: zero radius should result in a zero-size box at the object's coordinates
-		const item = {
+		const item: CoordinatesMapItem = {
 			id: 'test',
 			x: 50,
 			y: 75,
 			radius: 0
 		};
-		const size = {width: 200, height: 200};
+		const size: Size = {width: 200, height: 200};
 		const map = new CoordinatesMap([item], size);
 
 		const position = map.getPosition(item);
 
-		const golden = {
+		const golden: Position = {
 			x: 50,
 			y: 75,
 			width: 0,
 			height: 0
 		};
-		assert.deepStrictEqual(position, golden);
+		expect(position).toEqual(golden);
 	});
 
 });
 
 describe('circleIntersectsBounds', () => {
 	it('Circle within bounds', async () => {
-		const center = {
+		const center: Coordinates = {
 			x: 50,
 			y: 50
 		};
 		const radius = 25;
-		const bounds = {
+		const bounds: CoordinatesMapBounds = {
 			x: 0,
 			y: 0,
 			width: 100,
@@ -498,16 +509,16 @@ describe('circleIntersectsBounds', () => {
 		};
 		const result = circleIntersectsBounds(center, radius, bounds);
 		const golden = true;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('Circle outside of bounds', async () => {
-		const center = {
+		const center: Coordinates = {
 			x: -50,
 			y: 50
 		};
 		const radius = 25;
-		const bounds = {
+		const bounds: CoordinatesMapBounds = {
 			x: 0,
 			y: 0,
 			width: 100,
@@ -517,16 +528,16 @@ describe('circleIntersectsBounds', () => {
 		};
 		const result = circleIntersectsBounds(center, radius, bounds);
 		const golden = false;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('Circle outside of rect above but within radius', async () => {
-		const center = {
+		const center: Coordinates = {
 			x: 50,
 			y: -10
 		};
 		const radius = 25;
-		const bounds = {
+		const bounds: CoordinatesMapBounds = {
 			x: 0,
 			y: 0,
 			width: 100,
@@ -536,16 +547,16 @@ describe('circleIntersectsBounds', () => {
 		};
 		const result = circleIntersectsBounds(center, radius, bounds);
 		const golden = true;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('Circle outside of rect left but within radius', async () => {
-		const center = {
+		const center: Coordinates = {
 			x: -10,
 			y: 50
 		};
 		const radius = 25;
-		const bounds = {
+		const bounds: CoordinatesMapBounds = {
 			x: 0,
 			y: 0,
 			width: 100,
@@ -555,16 +566,16 @@ describe('circleIntersectsBounds', () => {
 		};
 		const result = circleIntersectsBounds(center, radius, bounds);
 		const golden = true;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('Circle outside of rect bottom but within radius', async () => {
-		const center = {
+		const center: Coordinates = {
 			x: 50,
 			y: 110
 		};
 		const radius = 25;
-		const bounds = {
+		const bounds: CoordinatesMapBounds = {
 			x: 0,
 			y: 0,
 			width: 100,
@@ -574,16 +585,16 @@ describe('circleIntersectsBounds', () => {
 		};
 		const result = circleIntersectsBounds(center, radius, bounds);
 		const golden = true;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('Circle outside of rect right but within radius', async () => {
-		const center = {
+		const center: Coordinates = {
 			x: 110,
 			y: 50
 		};
 		const radius = 25;
-		const bounds = {
+		const bounds: CoordinatesMapBounds = {
 			x: 0,
 			y: 0,
 			width: 100,
@@ -593,16 +604,16 @@ describe('circleIntersectsBounds', () => {
 		};
 		const result = circleIntersectsBounds(center, radius, bounds);
 		const golden = true;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('Circle outside of rect diagonal left up but within radius', async () => {
-		const center = {
+		const center: Coordinates = {
 			x: -10,
 			y: -10
 		};
 		const radius = 25;
-		const bounds = {
+		const bounds: CoordinatesMapBounds = {
 			x: 0,
 			y: 0,
 			width: 100,
@@ -612,7 +623,7 @@ describe('circleIntersectsBounds', () => {
 		};
 		const result = circleIntersectsBounds(center, radius, bounds);
 		const golden = true;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 });

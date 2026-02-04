@@ -1,18 +1,31 @@
-/*eslint-env node*/
-
 import {
 	simulatorTypeFileContents
-} from '../../tools/types.js';
+} from '../tools/types.js';
 
-import assert from 'assert';
+import { expect } from 'vitest';
 
-const DEMO_SIMULATOR_NAME = 'demo-simulator';
-const DEMO_SIMULATOR_FILENAME = 'src/simulators/demo-simulator.js';
-const DEMO_SIMULATOR_NAME_CAMEL_CASED = 'DemoSimulator';
+const DEMO_SIMULATOR_NAME: string = 'demo-simulator';
+const DEMO_SIMULATOR_FILENAME: string = 'src/simulators/demo-simulator.js';
+const DEMO_SIMULATOR_NAME_CAMEL_CASED: string = 'DemoSimulator';
+
+type OptionConfig = {
+	example: unknown;
+	optional?: boolean;
+	description?: string;
+	options?: { value: string }[];
+	typeInfo?: {
+		typeName: string;
+		import?: string;
+		exported?: boolean;
+		extends?: { typeName: string; import: string }[];
+	};
+};
+
+type OptionsConfig = Record<string, OptionConfig>;
 
 describe('simulatorTypeFileContents', () => {
 	it('basic result', async () => {
-		const input = {
+		const input: OptionsConfig = {
 			foo: {
 				example: 3,
 				optional: true,
@@ -28,11 +41,11 @@ export type ${DEMO_SIMULATOR_NAME_CAMEL_CASED}SimOptions = {
 	foo?: number;
 	bar: boolean;
 };`;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('basic result options', async () => {
-		const input = {
+		const input: OptionsConfig = {
 			foo: {
 				example: 3,
 				optional: true,
@@ -56,11 +69,11 @@ export type ${DEMO_SIMULATOR_NAME_CAMEL_CASED}SimOptions = {
 	foo?: number;
 	bar: 'a' | 'b';
 };`;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('basic result array', async () => {
-		const input = {
+		const input: OptionsConfig = {
 			foo: {
 				example: 3,
 				optional: true,
@@ -80,11 +93,11 @@ export type ${DEMO_SIMULATOR_NAME_CAMEL_CASED}SimOptions = {
 	foo?: number;
 	bar: number[];
 };`;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('basic result array optional item', async () => {
-		const input = {
+		const input: OptionsConfig = {
 			foo: {
 				example: 3,
 				optional: true,
@@ -105,11 +118,11 @@ export type ${DEMO_SIMULATOR_NAME_CAMEL_CASED}SimOptions = {
 	foo?: number;
 	bar: (number | null)[];
 };`;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('basic result nested', async () => {
-		const input = {
+		const input: OptionsConfig = {
 			foo: {
 				example: 3,
 				optional: true,
@@ -137,11 +150,11 @@ export type ${DEMO_SIMULATOR_NAME_CAMEL_CASED}SimOptions = {
 		buz?: string;
 	};
 };`;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('basic result array nested optional item', async () => {
-		const input = {
+		const input: OptionsConfig = {
 			foo: {
 				example: 3,
 				optional: true,
@@ -168,11 +181,11 @@ export type ${DEMO_SIMULATOR_NAME_CAMEL_CASED}SimOptions = {
 		foo: number;
 	} | null)[];
 };`;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('basic result with import', async () => {
-		const input = {
+		const input: OptionsConfig = {
 			foo: {
 				example: 3,
 				optional: true,
@@ -197,11 +210,11 @@ export type ${DEMO_SIMULATOR_NAME_CAMEL_CASED}SimOptions = {
 	bar: DistributionOptions;
 };`;
 
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('basic result with two things importing same identifier', async () => {
-		const input = {
+		const input: OptionsConfig = {
 			foo: {
 				example: true,
 				optional: true,
@@ -230,11 +243,11 @@ export type ${DEMO_SIMULATOR_NAME_CAMEL_CASED}SimOptions = {
 	bar: DistributionOptions;
 };`;
 
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('basic result with 2 imports from one file', async () => {
-		const input = {
+		const input: OptionsConfig = {
 			foo: {
 				example: 3,
 				optional: true,
@@ -264,11 +277,11 @@ export type ${DEMO_SIMULATOR_NAME_CAMEL_CASED}SimOptions = {
 	bar: DistributionOptions;
 };`;
 
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('basic result extracted sub-type object', async () => {
-		const input = {
+		const input: OptionsConfig = {
 			foo: {
 				example: 3,
 				optional: true,
@@ -317,11 +330,11 @@ export type ${DEMO_SIMULATOR_NAME_CAMEL_CASED}SimOptions = {
 	foo?: number;
 	bar?: ExtractedBazBuz;
 };`;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('basic result extracted sub-type enum', async () => {
-		const input = {
+		const input: OptionsConfig = {
 			foo: {
 				example: 3,
 				optional: true,
@@ -354,11 +367,11 @@ export type ${DEMO_SIMULATOR_NAME_CAMEL_CASED}SimOptions = {
 	foo?: number;
 	bar?: ExtractedBazBuz;
 };`;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('basic result extracted sub-type array', async () => {
-		const input = {
+		const input: OptionsConfig = {
 			foo: {
 				example: 3,
 				optional: true,
@@ -412,11 +425,11 @@ export type ${DEMO_SIMULATOR_NAME_CAMEL_CASED}SimOptions = {
 	foo?: number;
 	bar?: (ExtractedBazBuz | null)[];
 };`;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('basic result double-extracted sub-type', async () => {
-		const input = {
+		const input: OptionsConfig = {
 			foo: {
 				example: 3,
 				optional: true,
@@ -470,11 +483,11 @@ export type ${DEMO_SIMULATOR_NAME_CAMEL_CASED}SimOptions = {
 	foo?: number;
 	bar?: ExtractedBazBuz;
 };`;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('basic result extracted sub-type duplicate name different definitions', async () => {
-		const input = {
+		const input: OptionsConfig = {
 			foo: {
 				example: 3,
 				optional: true,
@@ -512,12 +525,12 @@ export type ${DEMO_SIMULATOR_NAME_CAMEL_CASED}SimOptions = {
 	foo?: ExtractedBazBuz;
 	bar?: ExtractedBazBuz;
 };`;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 
 	});
 
 	it('basic result extracted sub-type duplicate name same definition', async () => {
-		const input = {
+		const input: OptionsConfig = {
 			foo: {
 				example: {
 					baz: {
@@ -564,12 +577,12 @@ export type ${DEMO_SIMULATOR_NAME_CAMEL_CASED}SimOptions = {
 	foo?: ExtractedBazBuz;
 	bar?: ExtractedBazBuz;
 };`;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 
 	});
 
 	it('basic result extracted sub-type duplicate name similar definitions', async () => {
-		const input = {
+		const input: OptionsConfig = {
 			foo: {
 				example: {
 					baz: {
@@ -617,12 +630,12 @@ export type ${DEMO_SIMULATOR_NAME_CAMEL_CASED}SimOptions = {
 	foo?: ExtractedBazBuz;
 	bar?: ExtractedBazBuz;
 };`;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 
 	});
 
 	it('basic result extracted sub-type object that extends', async () => {
-		const input = {
+		const input: OptionsConfig = {
 			foo: {
 				example: 3,
 				optional: true,
@@ -686,7 +699,7 @@ export type ${DEMO_SIMULATOR_NAME_CAMEL_CASED}SimOptions = {
 	foo?: number;
 	bar?: ExtractedBazBuz;
 };`;
-		assert.deepStrictEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 });

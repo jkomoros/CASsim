@@ -1,11 +1,9 @@
-/*eslint-env node*/
-
 import {
 	setPropertyInObject,
 	deepFreeze,
 	DELETE_SENTINEL,
 	isStep
-} from '../../src/util.js';
+} from '../src/util.js';
 
 import {
 	maySetPropertyInConfigObject,
@@ -17,69 +15,71 @@ import {
 	ensureBackfill,
 	suggestMissingShortNames,
 	optionsConfigWithDefaultedShortNames
-} from '../../src/options.js';
+} from '../src/options.js';
 
-import assert from 'assert';
+import type { OptionsConfig, OptionsConfigMap, OptionValue, OptionValueMap, ShortNameMap } from '../src/types.js';
+
+import { describe, it, expect } from 'vitest';
 
 describe('isStep', () => {
 	it('handles 1.0 / 1.0', async () => {
-		const result = isStep(1.0, 1.0);
-		const golden = true;
-		assert.deepStrictEqual(result, golden);
+		const result: boolean = isStep(1.0, 1.0);
+		const golden: boolean = true;
+		expect(result).toEqual(golden);
 	});
 
 	it('handles 1.5 / 1.0', async () => {
-		const result = isStep(1.5, 1.0);
-		const golden = false;
-		assert.deepStrictEqual(result, golden);
+		const result: boolean = isStep(1.5, 1.0);
+		const golden: boolean = false;
+		expect(result).toEqual(golden);
 	});
 
 	it('handles 1.5 / 0.5', async () => {
-		const result = isStep(1.5, 0.5);
-		const golden = true;
-		assert.deepStrictEqual(result, golden);
+		const result: boolean = isStep(1.5, 0.5);
+		const golden: boolean = true;
+		expect(result).toEqual(golden);
 	});
 
 	it('handles 0.15 / 0.05', async () => {
 		//This one requires epsilon
-		const result = isStep(0.15, 0.05);
-		const golden = true;
-		assert.deepStrictEqual(result, golden);
+		const result: boolean = isStep(0.15, 0.05);
+		const golden: boolean = true;
+		expect(result).toEqual(golden);
 	});
 });
 
 describe('setPropertyInObject', () => {
 	it('handles null object', async () => {
-		const obj = null;
-		const path = 'a.b';
-		const value = 3;
-		const result = setPropertyInObject(obj, path, value);
-		const golden = {
+		const obj: OptionValueMap | null = null;
+		const path: string = 'a.b';
+		const value: OptionValue = 3;
+		const result: OptionValueMap = setPropertyInObject(obj, path, value);
+		const golden: OptionValueMap = {
 			'a': {
 				'b': 3,
 			}
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles a single-nested object', async () => {
-		const obj = {
+		const obj: OptionValueMap = {
 			a: 1,
 			b: 2,
 		};
 		deepFreeze(obj);
-		const path = 'a';
-		const value = '3';
-		const result = setPropertyInObject(obj, path, value);
-		const golden = {
-			a: 3,
+		const path: string = 'a';
+		const value: OptionValue = '3';
+		const result: OptionValueMap = setPropertyInObject(obj, path, value);
+		const golden: OptionValueMap = {
+			a: '3', // Original test used assert.deepEqual which does type coercion
 			b: 2
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles a double-nested object', async () => {
-		const obj = {
+		const obj: OptionValueMap = {
 			a: {
 				c: 1,
 				d: 2
@@ -87,90 +87,90 @@ describe('setPropertyInObject', () => {
 			b: 2,
 		};
 		deepFreeze(obj);
-		const path = 'a.c';
-		const value = 3;
-		const result = setPropertyInObject(obj, path, value);
-		const golden = {
+		const path: string = 'a.c';
+		const value: OptionValue = 3;
+		const result: OptionValueMap = setPropertyInObject(obj, path, value);
+		const golden: OptionValueMap = {
 			a: {
 				c: 3,
 				d: 2
 			},
 			b: 2,
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('can create a new property in a double-nested object', async () => {
-		const obj = {
+		const obj: OptionValueMap = {
 			a: {
 				d: 2
 			},
 			b: 2,
 		};
 		deepFreeze(obj);
-		const path = 'a.c';
-		const value = '3';
-		const result = setPropertyInObject(obj, path, value);
-		const golden = {
+		const path: string = 'a.c';
+		const value: OptionValue = '3';
+		const result: OptionValueMap = setPropertyInObject(obj, path, value);
+		const golden: OptionValueMap = {
 			a: {
-				c: 3,
+				c: '3', // Original test used assert.deepEqual which does type coercion
 				d: 2
 			},
 			b: 2,
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('can modify an array property property in a double-nested object', async () => {
-		const obj = {
+		const obj: OptionValueMap = {
 			a: [0, 1, 2],
 			b: 2,
 		};
 		deepFreeze(obj);
-		const path = 'a.1';
-		const value = '3';
-		const result = setPropertyInObject(obj, path, value);
-		const golden = {
-			a: [0, 3, 2],
+		const path: string = 'a.1';
+		const value: OptionValue = '3';
+		const result: OptionValueMap = setPropertyInObject(obj, path, value);
+		const golden: OptionValueMap = {
+			a: [0, '3', 2], // Original test used assert.deepEqual which does type coercion
 			b: 2,
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('can create an implied object in a double-nested object', async () => {
-		const obj = {
+		const obj: OptionValueMap = {
 			b: 2,
 		};
 		deepFreeze(obj);
-		const path = 'a.c';
-		const value = '3';
-		const result = setPropertyInObject(obj, path, value);
-		const golden = {
+		const path: string = 'a.c';
+		const value: OptionValue = '3';
+		const result: OptionValueMap = setPropertyInObject(obj, path, value);
+		const golden: OptionValueMap = {
 			a: {
 				c: '3',
 			},
 			b: 2,
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('can create an implied array in a double-nested object', async () => {
-		const obj = {
+		const obj: OptionValueMap = {
 			b: 2,
 		};
 		deepFreeze(obj);
-		const path = 'a.0';
-		const value = 3;
-		const result = setPropertyInObject(obj, path, value);
-		const golden = {
+		const path: string = 'a.0';
+		const value: OptionValue = 3;
+		const result: OptionValueMap = setPropertyInObject(obj, path, value);
+		const golden: OptionValueMap = {
 			a: [3],
 			b: 2,
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('can delete a non-last proeprty in a double-nested object', async () => {
-		const obj = {
+		const obj: OptionValueMap = {
 			a: {
 				d: 2,
 				c: 3,
@@ -178,81 +178,81 @@ describe('setPropertyInObject', () => {
 			b: 2,
 		};
 		deepFreeze(obj);
-		const path = 'a.c';
+		const path: string = 'a.c';
 		const value = DELETE_SENTINEL;
-		const result = setPropertyInObject(obj, path, value);
-		const golden = {
+		const result: OptionValueMap = setPropertyInObject(obj, path, value);
+		const golden: OptionValueMap = {
 			a: {
 				d:2,
 			},
 			b: 2,
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('can delete a non-last array index in a double-nested object', async () => {
-		const obj = {
+		const obj: OptionValueMap = {
 			a: [0, 1, 2],
 			b: 2,
 		};
 		deepFreeze(obj);
-		const path = 'a.1';
+		const path: string = 'a.1';
 		const value = DELETE_SENTINEL;
-		const result = setPropertyInObject(obj, path, value);
-		const golden = {
+		const result: OptionValueMap = setPropertyInObject(obj, path, value);
+		const golden: OptionValueMap = {
 			a: [0, 2],
 			b: 2,
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('can delete the last proeprty in a double-nested object', async () => {
-		const obj = {
+		const obj: OptionValueMap = {
 			a: {
 				c: 3,
 			},
 			b: 2,
 		};
 		deepFreeze(obj);
-		const path = 'a.c';
+		const path: string = 'a.c';
 		const value = DELETE_SENTINEL;
-		const result = setPropertyInObject(obj, path, value);
-		const golden = {
+		const result: OptionValueMap = setPropertyInObject(obj, path, value);
+		const golden: OptionValueMap = {
 			a: {},
 			b: 2,
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('can delete a last array index in a double-nested object', async () => {
-		const obj = {
+		const obj: OptionValueMap = {
 			a: [0],
 			b: 2,
 		};
 		deepFreeze(obj);
-		const path = 'a.0';
+		const path: string = 'a.0';
 		const value = DELETE_SENTINEL;
-		const result = setPropertyInObject(obj, path, value);
-		const golden = {
+		const result: OptionValueMap = setPropertyInObject(obj, path, value);
+		const golden: OptionValueMap = {
 			a: [],
 			b: 2,
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('can delete a property that is an array', async () => {
-		const obj = {
+		const obj: OptionValueMap = {
 			a: [0],
 			b: 2,
 		};
 		deepFreeze(obj);
-		const path = 'a';
+		const path: string = 'a';
 		const value = DELETE_SENTINEL;
-		const result = setPropertyInObject(obj, path, value);
-		const golden = {
+		const result: OptionValueMap = setPropertyInObject(obj, path, value);
+		const golden: OptionValueMap = {
 			b: 2,
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 
@@ -260,148 +260,148 @@ describe('setPropertyInObject', () => {
 
 describe('optionsConfigValidator', () => {
 	it('handles null object', async () => {
-		const config = null;
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const config: OptionsConfigMap | null = null;
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object missing example property', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				exampleTYPO: 3,
-			}
+			} as OptionsConfig
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with incorrect description', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: 3,
 				description: 5,
-			}
+			} as OptionsConfig
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with incorrect advanced', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: 3,
 				advanced: 5,
-			}
+			} as OptionsConfig
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with incorrect optional', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: 3,
 				optional: 5,
-			}
+			} as OptionsConfig
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with incorrect default typeof', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: 3,
 				optional: true,
 				backfill: 3,
-			}
+			} as OptionsConfig
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with default true optional false', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: 3,
 				backfill: true,
-			}
+			} as OptionsConfig
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with legal default and optional', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: 3,
 				backfill: true,
 				optional: true,
 			}
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = false;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = false;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with incorrect min', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: 3,
 				min: false,
-			}
+			} as OptionsConfig
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with incorrect max', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: 3,
 				max: false,
-			}
+			} as OptionsConfig
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with max less than min', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: 3,
 				max: 5.0,
 				min: 10.0,
 			}
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with incorrect step', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: 3,
 				step: false,
-			}
+			} as OptionsConfig
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with step on array ', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: [
 					{
@@ -409,52 +409,52 @@ describe('optionsConfigValidator', () => {
 					}
 				],
 				step: 5,
-			}
+			} as OptionsConfig
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with two examples nested directly ', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					example: 3,
-				},
+				} as OptionsConfig,
 			}
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with min not on array or number', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: "foo",
 				min: 5,
-			}
+			} as OptionsConfig
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with max not on array or number', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: "foo",
 				max: 5,
-			}
+			} as OptionsConfig
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with min and max on array', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: [
 					{
@@ -465,63 +465,63 @@ describe('optionsConfigValidator', () => {
 				max: 5,
 			}
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = false;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = false;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with step not on array or number', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: "foo",
 				max: 5,
-			}
+			} as OptionsConfig
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with invalid options', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: "foo",
 				options: 5,
-			}
+			} as OptionsConfig
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with invalid zero option', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: "foo",
 				options: [],
-			}
+			} as OptionsConfig
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with invalid first option', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: "foo",
 				options: [{
 					description: 'missing value'
-				}],
-			}
+				}] as OptionsConfig[],
+			} as OptionsConfig
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with multi-level-nested object', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -532,13 +532,13 @@ describe('optionsConfigValidator', () => {
 				},
 			}
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = false;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = false;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with lots of properties example', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: 3,
 				description: '3 is an example',
@@ -557,60 +557,60 @@ describe('optionsConfigValidator', () => {
 						display: "four",
 					}
 				]
-			}
+			} as OptionsConfig
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = false;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = false;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with invalid behavior', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: 3,
 				behavior: 'invalid',
-			}
+			} as OptionsConfig
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with number example', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: 3,
 			}
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = false;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = false;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with string example', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: "foo",
 			}
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = false;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = false;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with boolean example', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: false,
 			}
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = false;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = false;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with valid array example', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: [
 					{
@@ -619,24 +619,24 @@ describe('optionsConfigValidator', () => {
 				]
 			}
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = false;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = false;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with invalid array example', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: []
-			}
+			} as OptionsConfig
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('handles basic object with valid sub-object example', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -645,13 +645,13 @@ describe('optionsConfigValidator', () => {
 				}
 			}
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = false;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = false;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('allows legal shortName', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -666,30 +666,30 @@ describe('optionsConfigValidator', () => {
 				shortName: 'f',
 			}
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = false;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = false;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('disallows non-string shortName', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
 						example: false,
 						shortName: 9,
-					},
+					} as OptionsConfig,
 				},
 				shortName: 'f',
 			}
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('disallows empty shortName', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -700,13 +700,13 @@ describe('optionsConfigValidator', () => {
 				shortName: 'f',
 			}
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('disallows duplicate shortName', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -721,13 +721,13 @@ describe('optionsConfigValidator', () => {
 				shortName: 'f',
 			}
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('disallows shortName that conflicts with long name', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -742,13 +742,13 @@ describe('optionsConfigValidator', () => {
 				shortName: 'f',
 			}
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('disallows duplicate shortName in non-example', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				bar: {
 					example: false,
@@ -760,13 +760,13 @@ describe('optionsConfigValidator', () => {
 				}
 			}
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('disallows shortName that conflicts with long name in non-example', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				bar: {
 					example: false,
@@ -778,13 +778,13 @@ describe('optionsConfigValidator', () => {
 				}
 			}
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = true;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = true;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 	it('allows duplicate shortName at different level', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -799,9 +799,9 @@ describe('optionsConfigValidator', () => {
 				shortName: 'f',
 			}
 		};
-		const result = optionsConfigValidator(config);
-		const expectedProblem = false;
-		assert.strictEqual(result != '', expectedProblem);
+		const result: string = optionsConfigValidator(config);
+		const expectedProblem: boolean = false;
+		expect(result != '').toBe(expectedProblem);
 	});
 
 });
@@ -809,16 +809,16 @@ describe('optionsConfigValidator', () => {
 describe('maySetPropertyInConfigObject', () => {
 	it('handles basic single-level object', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: 3,
 		};
-		const obj = 4;
-		const path = '';
-		const value = 4;
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = false;
+		const obj: OptionValue = 4;
+		const path: string = '';
+		const value: OptionValue = 4;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = false;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -827,16 +827,16 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object of different type', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: 3,
 		};
-		const path = '';
-		const value = 'not-a-number';
-		const obj = 4;
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = true;
+		const path: string = '';
+		const value: OptionValue = 'not-a-number';
+		const obj: OptionValue = 4;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = true;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -845,7 +845,7 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object in an allowed option', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: 3,
 			options: [
 				{
@@ -854,15 +854,15 @@ describe('maySetPropertyInConfigObject', () => {
 				{
 					value: 2,
 				}
-			]	
+			]
 		};
-		const path = '';
-		const value = 2;
-		const obj = 5;
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = false;
+		const path: string = '';
+		const value: OptionValue = 2;
+		const obj: OptionValue = 5;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = false;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -871,7 +871,7 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object in a not-allowed option', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: 3,
 			options: [
 				{
@@ -880,15 +880,15 @@ describe('maySetPropertyInConfigObject', () => {
 				{
 					value: 2,
 				}
-			]	
+			]
 		};
-		const path = '';
-		const value = 4;
-		const obj = 3;
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = true;
+		const path: string = '';
+		const value: OptionValue = 4;
+		const obj: OptionValue = 3;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = true;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -897,17 +897,17 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object that goes against min', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: 3,
 			min: 2,
 		};
-		const path = '';
-		const value = 1;
-		const obj = 3;
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = true;
+		const path: string = '';
+		const value: OptionValue = 1;
+		const obj: OptionValue = 3;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = true;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -916,17 +916,17 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object that is allowed by min', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: 3,
 			min: 2,
 		};
-		const path = '';
-		const value = 2;
-		const obj = 3;
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = false;
+		const path: string = '';
+		const value: OptionValue = 2;
+		const obj: OptionValue = 3;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = false;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -935,17 +935,17 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object that goes against max', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: 3,
 			max: 5,
 		};
-		const path = '';
-		const value = 10;
-		const obj = 3;
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = true;
+		const path: string = '';
+		const value: OptionValue = 10;
+		const obj: OptionValue = 3;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = true;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -954,17 +954,17 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object that is allowed by max', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: 3,
 			max: 5,
 		};
-		const path = '';
-		const value = 2;
-		const obj = 3;
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = false;
+		const path: string = '';
+		const value: OptionValue = 2;
+		const obj: OptionValue = 3;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = false;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -973,20 +973,20 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object set with array where value is not an array', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: [
 				{
 					example: 3,
 				}
 			],
 		};
-		const path = '';
-		const value = 4;
-		const obj = [3];
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = true;
+		const path: string = '';
+		const value: OptionValue = 4;
+		const obj: OptionValue = [3];
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = true;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -995,7 +995,7 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object set with array that is disallowed by max', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: [
 				{
 					example: 3,
@@ -1003,13 +1003,13 @@ describe('maySetPropertyInConfigObject', () => {
 			],
 			max: 2,
 		};
-		const path = '';
-		const value = [2,3,4];
-		const obj = [2,2,2];
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = true;
+		const path: string = '';
+		const value: OptionValue = [2,3,4];
+		const obj: OptionValue = [2,2,2];
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = true;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1018,7 +1018,7 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object set with array that is allowed by max', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: [
 				{
 					example: 3,
@@ -1026,13 +1026,13 @@ describe('maySetPropertyInConfigObject', () => {
 			],
 			max: 4,
 		};
-		const path = '';
-		const value = [2,3,4];
-		const obj = [2,2,2];
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = false;
+		const path: string = '';
+		const value: OptionValue = [2,3,4];
+		const obj: OptionValue = [2,2,2];
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = false;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1041,7 +1041,7 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object set with array that is disallowed by min', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: [
 				{
 					example: 3,
@@ -1049,13 +1049,13 @@ describe('maySetPropertyInConfigObject', () => {
 			],
 			min: 2,
 		};
-		const path = '';
-		const value = [2];
-		const obj = [2,2];
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = true;
+		const path: string = '';
+		const value: OptionValue = [2];
+		const obj: OptionValue = [2,2];
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = true;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1064,7 +1064,7 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object set with array that is allowed by min', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: [
 				{
 					example: 3,
@@ -1072,13 +1072,13 @@ describe('maySetPropertyInConfigObject', () => {
 			],
 			min: 2,
 		};
-		const path = '';
-		const value = [2,3,4];
-		const obj = [2,2];
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = false;
+		const path: string = '';
+		const value: OptionValue = [2,3,4];
+		const obj: OptionValue = [2,2];
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = false;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1087,20 +1087,20 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object set with array that has an illegal value', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: [
 				{
 					example: 3,
 				}
 			],
 		};
-		const path = '';
-		const value = ['a',3,4];
-		const obj = [2,2];
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = true;
+		const path: string = '';
+		const value: OptionValue = ['a',3,4];
+		const obj: OptionValue = [2,2];
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = true;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1109,7 +1109,7 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object set with array that has a null value that is allowed', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: [
 				{
 					example: 3,
@@ -1117,13 +1117,13 @@ describe('maySetPropertyInConfigObject', () => {
 				}
 			],
 		};
-		const path = '';
-		const value = [null,3,4];
-		const obj = [2, 2];
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = false;
+		const path: string = '';
+		const value: OptionValue = [null,3,4];
+		const obj: OptionValue = [2, 2];
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = false;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1132,20 +1132,20 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object set with array that has a null value that is not allowed', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: [
 				{
 					example: 3,
 				}
 			],
 		};
-		const path = '';
-		const value = [null,3,4];
-		const obj = [2, 2];
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = true;
+		const path: string = '';
+		const value: OptionValue = [null,3,4];
+		const obj: OptionValue = [2, 2];
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = true;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1154,7 +1154,7 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object set with subobject that has a null value that is allowed', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: {
@@ -1166,19 +1166,19 @@ describe('maySetPropertyInConfigObject', () => {
 				}
 			},
 		};
-		const path = '';
-		const value = {
+		const path: string = '';
+		const value: OptionValue = {
 			foo: null,
 		};
-		const obj = {
+		const obj: OptionValue = {
 			foo: {
 				bar: 3
 			}
 		};
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = false;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = false;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1187,7 +1187,7 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object set with subobject that has a missing property value that is allowed to be optional', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: {
@@ -1199,19 +1199,19 @@ describe('maySetPropertyInConfigObject', () => {
 				}
 			},
 		};
-		const path = '';
-		const value = {
+		const path: string = '';
+		const value: OptionValue = {
 			foo: null,
 		};
-		const obj = {
+		const obj: OptionValue = {
 			foo: {
 				bar: 3
 			}
 		};
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = false;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = false;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1220,7 +1220,7 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object set with subobject that has a null value that is not allowed', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: {
@@ -1232,19 +1232,19 @@ describe('maySetPropertyInConfigObject', () => {
 				}
 			},
 		};
-		const path = '';
-		const value = {
+		const path: string = '';
+		const value: OptionValue = {
 			foo: null,
 		};
-		const obj = {
+		const obj: OptionValue = {
 			foo: {
 				bar: 3
 			}
 		};
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = true;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = true;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1253,7 +1253,7 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object set with subobject', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: {
@@ -1264,21 +1264,21 @@ describe('maySetPropertyInConfigObject', () => {
 				}
 			}
 		};
-		const path = '';
-		const value = {
+		const path: string = '';
+		const value: OptionValue = {
 			foo: {
 				bar: 3,
 			}
 		};
-		const obj = {
+		const obj: OptionValue = {
 			foo: {
 				bar: 3
 			}
 		};
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = false;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = false;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1288,7 +1288,7 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object set with subobject that is invalid', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: {
@@ -1299,19 +1299,19 @@ describe('maySetPropertyInConfigObject', () => {
 				}
 			}
 		};
-		const path = '';
-		const value = {
+		const path: string = '';
+		const value: OptionValue = {
 			foo: {}
 		};
-		const obj = {
+		const obj: OptionValue = {
 			foo: {
 				bar: 3
 			}
 		};
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = true;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = true;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1320,7 +1320,7 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object set with subobject that is invalid', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: {
@@ -1331,21 +1331,21 @@ describe('maySetPropertyInConfigObject', () => {
 				}
 			}
 		};
-		const path = '';
-		const value = {
+		const path: string = '';
+		const value: OptionValue = {
 			foo: {
 				bar: 'not-a-number'
 			}
 		};
-		const obj = {
+		const obj: OptionValue = {
 			foo: {
 				bar: 3
 			}
 		};
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = true;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = true;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1354,17 +1354,17 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object that goes against step', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: 3,
 			step: 1.5,
 		};
-		const path = '';
-		const value = 1;
-		const obj = 3;
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = true;
+		const path: string = '';
+		const value: OptionValue = 1;
+		const obj: OptionValue = 3;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = true;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1373,17 +1373,17 @@ describe('maySetPropertyInConfigObject', () => {
 
 	it('handles basic single-level object that is allowed by step', async () => {
 		//this is not a valid config on its own, but it is a valid sub-leaf
-		const config = {
+		const config: OptionsConfig = {
 			example: 3,
 			min: 1.5,
 		};
-		const path = '';
-		const value = 4.5;
-		const obj = 3;
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = false;
+		const path: string = '';
+		const value: OptionValue = 4.5;
+		const obj: OptionValue = 3;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = false;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1392,25 +1392,25 @@ describe('maySetPropertyInConfigObject', () => {
 
 
 	it('handles basic single-level object on a non-leaf object', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: 3,
 			}
 		};
-		const validatorResult = optionsConfigValidator(config);
+		const validatorResult: string = optionsConfigValidator(config);
 		try {
-			assert.strictEqual(validatorResult, '');
+			expect(validatorResult).toBe('');
 		} catch(err) {
 			console.warn('Basic config not valid', validatorResult);
 			throw err;
 		}
-		const path = '';
-		const value = 4;
-		const obj = 3;
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = true;
+		const path: string = '';
+		const value: OptionValue = 4;
+		const obj: OptionValue = 3;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = true;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1418,25 +1418,25 @@ describe('maySetPropertyInConfigObject', () => {
 	});
 
 	it('handles basic stacked object', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: 3,
 			}
 		};
-		const validatorResult = optionsConfigValidator(config);
+		const validatorResult: string = optionsConfigValidator(config);
 		try {
-			assert.strictEqual(validatorResult, '');
+			expect(validatorResult).toBe('');
 		} catch(err) {
 			console.warn('Basic config not valid', validatorResult);
 			throw err;
 		}
-		const path = 'foo';
-		const value = 4;
-		const obj = 3;
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = false;
+		const path: string = 'foo';
+		const value: OptionValue = 4;
+		const obj: OptionValue = 3;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = false;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1444,27 +1444,27 @@ describe('maySetPropertyInConfigObject', () => {
 	});
 
 	it('handles basic stacked object with wrong type', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: 3,
 			}
 		};
-		const validatorResult = optionsConfigValidator(config);
+		const validatorResult: string = optionsConfigValidator(config);
 		try {
-			assert.strictEqual(validatorResult, '');
+			expect(validatorResult).toBe('');
 		} catch(err) {
 			console.warn('Basic config not valid', validatorResult);
 			throw err;
 		}
-		const path = 'foo';
-		const value = 'foo';
-		const obj = {
+		const path: string = 'foo';
+		const value: OptionValue = 'foo';
+		const obj: OptionValueMap = {
 			foo: 3
 		};
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = true;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = true;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1472,7 +1472,7 @@ describe('maySetPropertyInConfigObject', () => {
 	});
 
 	it('handles basic stacked object with example array', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: [
 					{
@@ -1481,22 +1481,22 @@ describe('maySetPropertyInConfigObject', () => {
 				],
 			}
 		};
-		const validatorResult = optionsConfigValidator(config);
+		const validatorResult: string = optionsConfigValidator(config);
 		try {
-			assert.strictEqual(validatorResult, '');
+			expect(validatorResult).toBe('');
 		} catch(err) {
 			console.warn('Basic config not valid', validatorResult);
 			throw err;
 		}
-		const path = 'foo.2';
-		const value = 3;
-		const obj = {
+		const path: string = 'foo.2';
+		const value: OptionValue = 3;
+		const obj: OptionValueMap = {
 			foo: [2, 2, 2]
 		};
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = false;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = false;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1504,7 +1504,7 @@ describe('maySetPropertyInConfigObject', () => {
 	});
 
 	it('handles basic stacked object with example object', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -1513,24 +1513,24 @@ describe('maySetPropertyInConfigObject', () => {
 				}
 			}
 		};
-		const validatorResult = optionsConfigValidator(config);
+		const validatorResult: string = optionsConfigValidator(config);
 		try {
-			assert.strictEqual(validatorResult, '');
+			expect(validatorResult).toBe('');
 		} catch(err) {
 			console.warn('Basic config not valid', validatorResult);
 			throw err;
 		}
-		const path = 'foo.bar';
-		const value = 3;
-		const obj = {
+		const path: string = 'foo.bar';
+		const value: OptionValue = 3;
+		const obj: OptionValueMap = {
 			foo: {
 				bar: 4
 			}
 		};
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = false;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = false;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1538,7 +1538,7 @@ describe('maySetPropertyInConfigObject', () => {
 	});
 
 	it('handles basic stacked object with example object with a set at a non-present value', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -1547,24 +1547,24 @@ describe('maySetPropertyInConfigObject', () => {
 				}
 			}
 		};
-		const validatorResult = optionsConfigValidator(config);
+		const validatorResult: string = optionsConfigValidator(config);
 		try {
-			assert.strictEqual(validatorResult, '');
+			expect(validatorResult).toBe('');
 		} catch(err) {
 			console.warn('Basic config not valid', validatorResult);
 			throw err;
 		}
-		const path = 'foo.baz';
-		const value = 3;
-		const obj = {
+		const path: string = 'foo.baz';
+		const value: OptionValue = 3;
+		const obj: OptionValueMap = {
 			foo: {
 				bar: 4
 			}
 		};
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = true;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = true;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1572,7 +1572,7 @@ describe('maySetPropertyInConfigObject', () => {
 	});
 
 	it('handles complex schelling-org example', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			projects: {
 				example: {
 					count: {
@@ -1596,16 +1596,16 @@ describe('maySetPropertyInConfigObject', () => {
 				example: 2,
 			}
 		};
-		const validatorResult = optionsConfigValidator(config);
+		const validatorResult: string = optionsConfigValidator(config);
 		try {
-			assert.strictEqual(validatorResult, '');
+			expect(validatorResult).toBe('');
 		} catch(err) {
 			console.warn('Basic config not valid', validatorResult);
 			throw err;
 		}
-		const path = 'projects.individuals.1';
-		const value = null;
-		const obj = {
+		const path: string = 'projects.individuals.1';
+		const value: OptionValue = null;
+		const obj: OptionValueMap = {
 			projects: {
 				count: 4,
 				individuals: [
@@ -1617,10 +1617,10 @@ describe('maySetPropertyInConfigObject', () => {
 			},
 			communication: 2
 		};
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = false;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = false;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1628,7 +1628,7 @@ describe('maySetPropertyInConfigObject', () => {
 	});
 
 	it('handles complex schelling-org example setting on previously null object', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			projects: {
 				example: {
 					count: {
@@ -1652,18 +1652,18 @@ describe('maySetPropertyInConfigObject', () => {
 				example: 2,
 			}
 		};
-		const validatorResult = optionsConfigValidator(config);
+		const validatorResult: string = optionsConfigValidator(config);
 		try {
-			assert.strictEqual(validatorResult, '');
+			expect(validatorResult).toBe('');
 		} catch(err) {
 			console.warn('Basic config not valid', validatorResult);
 			throw err;
 		}
-		const path = 'projects.individuals.0';
-		const value = {
+		const path: string = 'projects.individuals.0';
+		const value: OptionValue = {
 			value: 2
 		};
-		const obj = {
+		const obj: OptionValueMap = {
 			projects: {
 				count: 4,
 				individuals: [
@@ -1675,10 +1675,10 @@ describe('maySetPropertyInConfigObject', () => {
 			},
 			communication: 2
 		};
-		const result = maySetPropertyInConfigObject(config, obj, path, value);
-		const expectedProblem = false;
+		const result: string = maySetPropertyInConfigObject(config, obj, path, value);
+		const expectedProblem: boolean = false;
 		try {
-			assert.strictEqual(result != '', expectedProblem);
+			expect(result != '').toBe(expectedProblem);
 		} catch (err) {
 			console.warn(result);
 			throw err;
@@ -1689,76 +1689,76 @@ describe('maySetPropertyInConfigObject', () => {
 
 describe('defaultValueForConfig', () => {
 	it('handles null object', async () => {
-		const config = null;
-		const result = defaultValueForConfig(config);
-		const golden = undefined;
-		assert.deepEqual(result, golden);
+		const config: OptionsConfig | null = null;
+		const result: OptionValue = defaultValueForConfig(config);
+		const golden: OptionValue = undefined;
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic string', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: 'foo'
 		};
-		const result = defaultValueForConfig(config);
-		const golden = 'foo';
-		assert.deepEqual(result, golden);
+		const result: OptionValue = defaultValueForConfig(config);
+		const golden: OptionValue = 'foo';
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic optional string', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: 'foo',
 			optional: true,
 		};
-		const result = defaultValueForConfig(config);
-		const golden = 'foo';
-		assert.deepEqual(result, golden);
+		const result: OptionValue = defaultValueForConfig(config);
+		const golden: OptionValue = 'foo';
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic optional string with skipOptional', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: 'foo',
 			optional: true,
 		};
-		const result = defaultValueForConfig(config, true);
-		const golden = undefined;
-		assert.deepEqual(result, golden);
+		const result: OptionValue = defaultValueForConfig(config, true);
+		const golden: OptionValue = undefined;
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic number', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: 3
 		};
-		const result = defaultValueForConfig(config);
-		const golden = 3;
-		assert.deepEqual(result, golden);
+		const result: OptionValue = defaultValueForConfig(config);
+		const golden: OptionValue = 3;
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic boolean', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: false
 		};
-		const result = defaultValueForConfig(config);
-		const golden = false;
-		assert.deepEqual(result, golden);
+		const result: OptionValue = defaultValueForConfig(config);
+		const golden: OptionValue = false;
+		expect(result).toEqual(golden);
 	});
 
 	it('handles single level object', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: 3,
 				}
 			}
 		};
-		const result = defaultValueForConfig(config);
-		const golden = {
+		const result: OptionValue = defaultValueForConfig(config);
+		const golden: OptionValue = {
 			foo: 3,
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles single level array with number', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: [
@@ -1769,15 +1769,15 @@ describe('defaultValueForConfig', () => {
 				}
 			}
 		};
-		const result = defaultValueForConfig(config);
-		const golden = {
+		const result: OptionValue = defaultValueForConfig(config);
+		const golden: OptionValue = {
 			foo: [3],
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles single level array with object', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: [
@@ -1790,19 +1790,19 @@ describe('defaultValueForConfig', () => {
 				}
 			}
 		};
-		const result = defaultValueForConfig(config);
-		const golden = {
+		const result: OptionValue = defaultValueForConfig(config);
+		const golden: OptionValue = {
 			foo: [
 				{
 					bar: 3
 				}
 			],
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles multiple level object', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: {
@@ -1813,17 +1813,17 @@ describe('defaultValueForConfig', () => {
 				}
 			}
 		};
-		const result = defaultValueForConfig(config);
-		const golden = {
+		const result: OptionValue = defaultValueForConfig(config);
+		const golden: OptionValue = {
 			foo: {
 				bar: 3
 			}
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles object with one optional property', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: 3
@@ -1834,15 +1834,15 @@ describe('defaultValueForConfig', () => {
 				}
 			}
 		};
-		const result = defaultValueForConfig(config);
-		const golden = {
+		const result: OptionValue = defaultValueForConfig(config);
+		const golden: OptionValue = {
 			foo: 3
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles object with one optional property', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: 3
@@ -1857,15 +1857,15 @@ describe('defaultValueForConfig', () => {
 				}
 			}
 		};
-		const result = defaultValueForConfig(config);
-		const golden = {
+		const result: OptionValue = defaultValueForConfig(config);
+		const golden: OptionValue = {
 			foo: 3
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles object with one optional+default property', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: 3
@@ -1881,18 +1881,18 @@ describe('defaultValueForConfig', () => {
 				}
 			}
 		};
-		const result = defaultValueForConfig(config);
-		const golden = {
+		const result: OptionValue = defaultValueForConfig(config);
+		const golden: OptionValue = {
 			foo: 3,
 			bar: {
 				baz: 4
 			}
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles object with two layer optional/default property', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: 3
@@ -1910,18 +1910,18 @@ describe('defaultValueForConfig', () => {
 				}
 			}
 		};
-		const result = defaultValueForConfig(config);
-		const golden = {
+		const result: OptionValue = defaultValueForConfig(config);
+		const golden: OptionValue = {
 			foo: 3,
 			bar: {
 				baz: 4
 			}
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles object with optional array', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: [
@@ -1936,15 +1936,15 @@ describe('defaultValueForConfig', () => {
 				}
 			}
 		};
-		const result = defaultValueForConfig(config);
-		const golden = {
+		const result: OptionValue = defaultValueForConfig(config);
+		const golden: OptionValue = {
 			bar: 4
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles object with optional+default array', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: [
@@ -1960,16 +1960,16 @@ describe('defaultValueForConfig', () => {
 				}
 			}
 		};
-		const result = defaultValueForConfig(config);
-		const golden = {
+		const result: OptionValue = defaultValueForConfig(config);
+		const golden: OptionValue = {
 			foo:[3],
 			bar: 4
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles object with array with optional items', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: [
@@ -1984,16 +1984,16 @@ describe('defaultValueForConfig', () => {
 				}
 			}
 		};
-		const result = defaultValueForConfig(config);
-		const golden = {
+		const result: OptionValue = defaultValueForConfig(config);
+		const golden: OptionValue = {
 			foo: [],
 			bar: 4
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles object with array with optional+default items', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: [
@@ -2009,16 +2009,16 @@ describe('defaultValueForConfig', () => {
 				}
 			}
 		};
-		const result = defaultValueForConfig(config);
-		const golden = {
+		const result: OptionValue = defaultValueForConfig(config);
+		const golden: OptionValue = {
 			foo: [3],
 			bar: 4
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles array min size', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: [
@@ -2034,63 +2034,63 @@ describe('defaultValueForConfig', () => {
 				}
 			}
 		};
-		const result = defaultValueForConfig(config);
-		const golden = {
-			foo: [null, null],
+		const result: OptionValue = defaultValueForConfig(config);
+		const golden: OptionValue = {
+			foo: [undefined, undefined], // Original test used assert.deepEqual which treats null == undefined
 			bar: 4
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 });
 
 describe('configForPath', () => {
 	it('handles null object', async () => {
-		const config = null;
-		const result = configForPath(config, 'foo');
-		const golden = undefined;
-		assert.deepEqual(result, golden);
+		const config: OptionsConfig | null = null;
+		const result: OptionsConfig | undefined = configForPath(config, 'foo');
+		const golden: OptionsConfig | undefined = undefined;
+		expect(result).toEqual(golden);
 	});
 
 	it('handles top level get', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: 3,
 		};
-		const result = configForPath(config, '');
-		const golden = config;
-		assert.deepEqual(result, golden);
+		const result: OptionsConfig | undefined = configForPath(config, '');
+		const golden: OptionsConfig = config;
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic example object get', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: 3,
 				}
 			}
 		};
-		const result = configForPath(config, 'foo');
-		const golden = {
+		const result: OptionsConfig | undefined = configForPath(config, 'foo');
+		const golden: OptionsConfig = {
 			example: 3
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic non-example object get', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: 3,
 			}
 		};
-		const result = configForPath(config, 'foo');
-		const golden = {
+		const result: OptionsConfig | undefined = configForPath(config, 'foo');
+		const golden: OptionsConfig = {
 			example: 3
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles array get', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: [
 					{
@@ -2099,11 +2099,11 @@ describe('configForPath', () => {
 				]
 			}
 		};
-		const result = configForPath(config, 'foo.0');
-		const golden = {
+		const result: OptionsConfig | undefined = configForPath(config, 'foo.0');
+		const golden: OptionsConfig = {
 			example: 3
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 });
@@ -2111,14 +2111,14 @@ describe('configForPath', () => {
 
 describe('shortenPathWithConfig', () => {
 	it('handles null object', async () => {
-		const config = null;
-		const result = shortenPathWithConfig(config, 'foo');
-		const golden = 'foo';
-		assert.deepEqual(result, golden);
+		const config: OptionsConfig | null = null;
+		const result: string = shortenPathWithConfig(config, 'foo');
+		const golden: string = 'foo';
+		expect(result).toEqual(golden);
 	});
 
 	it('handles no op single path', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -2136,13 +2136,13 @@ describe('shortenPathWithConfig', () => {
 				}
 			},
 		};
-		const result = shortenPathWithConfig(config, 'foo');
-		const golden = 'foo';
-		assert.deepEqual(result, golden);
+		const result: string = shortenPathWithConfig(config, 'foo');
+		const golden: string = 'foo';
+		expect(result).toEqual(golden);
 	});
 
 	it('handles no op double path', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -2160,13 +2160,13 @@ describe('shortenPathWithConfig', () => {
 				}
 			},
 		};
-		const result = shortenPathWithConfig(config, 'foo.bar');
-		const golden = 'foo.bar';
-		assert.deepEqual(result, golden);
+		const result: string = shortenPathWithConfig(config, 'foo.bar');
+		const golden: string = 'foo.bar';
+		expect(result).toEqual(golden);
 	});
 
 	it('handles no op with array path', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -2184,13 +2184,13 @@ describe('shortenPathWithConfig', () => {
 				}
 			},
 		};
-		const result = shortenPathWithConfig(config, 'foo.bar.0');
-		const golden = 'foo.bar.0';
-		assert.deepEqual(result, golden);
+		const result: string = shortenPathWithConfig(config, 'foo.bar.0');
+		const golden: string = 'foo.bar.0';
+		expect(result).toEqual(golden);
 	});
 
 	it('handles no op with array sub path', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -2208,13 +2208,13 @@ describe('shortenPathWithConfig', () => {
 				}
 			},
 		};
-		const result = shortenPathWithConfig(config, 'foo.bar.0.foo');
-		const golden = 'foo.bar.0.foo';
-		assert.deepEqual(result, golden);
+		const result: string = shortenPathWithConfig(config, 'foo.bar.0.foo');
+		const golden: string = 'foo.bar.0.foo';
+		expect(result).toEqual(golden);
 	});
 
 	it('handles single level replace', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -2233,13 +2233,13 @@ describe('shortenPathWithConfig', () => {
 				shortName: 'f'
 			},
 		};
-		const result = shortenPathWithConfig(config, 'foo');
-		const golden = 'f';
-		assert.deepEqual(result, golden);
+		const result: string = shortenPathWithConfig(config, 'foo');
+		const golden: string = 'f';
+		expect(result).toEqual(golden);
 	});
 
 	it('handles double level replace', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -2259,13 +2259,13 @@ describe('shortenPathWithConfig', () => {
 				shortName: 'f'
 			},
 		};
-		const result = shortenPathWithConfig(config, 'foo.bar');
-		const golden = 'f.b';
-		assert.deepEqual(result, golden);
+		const result: string = shortenPathWithConfig(config, 'foo.bar');
+		const golden: string = 'f.b';
+		expect(result).toEqual(golden);
 	});
 
 	it('handles triple level replace with array in the middle', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -2286,22 +2286,22 @@ describe('shortenPathWithConfig', () => {
 				shortName: 'f'
 			},
 		};
-		const result = shortenPathWithConfig(config, 'foo.baz.0.foo');
-		const golden = 'f.baz.0.f';
-		assert.deepEqual(result, golden);
+		const result: string = shortenPathWithConfig(config, 'foo.baz.0.foo');
+		const golden: string = 'f.baz.0.f';
+		expect(result).toEqual(golden);
 	});
 });
 
 describe('expandPathWithConfig', () => {
 	it('handles null object', async () => {
-		const config = null;
-		const result = expandPathWithConfig(config, 'foo');
-		const golden = 'foo';
-		assert.deepEqual(result, golden);
+		const config: OptionsConfig | null = null;
+		const result: string = expandPathWithConfig(config, 'foo');
+		const golden: string = 'foo';
+		expect(result).toEqual(golden);
 	});
 
 	it('handles no op single path', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -2319,13 +2319,13 @@ describe('expandPathWithConfig', () => {
 				}
 			},
 		};
-		const result = expandPathWithConfig(config, 'foo');
-		const golden = 'foo';
-		assert.deepEqual(result, golden);
+		const result: string = expandPathWithConfig(config, 'foo');
+		const golden: string = 'foo';
+		expect(result).toEqual(golden);
 	});
 
 	it('handles no op double path', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -2343,13 +2343,13 @@ describe('expandPathWithConfig', () => {
 				}
 			},
 		};
-		const result = expandPathWithConfig(config, 'foo.bar');
-		const golden = 'foo.bar';
-		assert.deepEqual(result, golden);
+		const result: string = expandPathWithConfig(config, 'foo.bar');
+		const golden: string = 'foo.bar';
+		expect(result).toEqual(golden);
 	});
 
 	it('handles no op with array path', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -2367,13 +2367,13 @@ describe('expandPathWithConfig', () => {
 				}
 			},
 		};
-		const result = expandPathWithConfig(config, 'foo.bar.0');
-		const golden = 'foo.bar.0';
-		assert.deepEqual(result, golden);
+		const result: string = expandPathWithConfig(config, 'foo.bar.0');
+		const golden: string = 'foo.bar.0';
+		expect(result).toEqual(golden);
 	});
 
 	it('handles no op with array sub path', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -2391,13 +2391,13 @@ describe('expandPathWithConfig', () => {
 				}
 			},
 		};
-		const result = expandPathWithConfig(config, 'foo.bar.0.foo');
-		const golden = 'foo.bar.0.foo';
-		assert.deepEqual(result, golden);
+		const result: string = expandPathWithConfig(config, 'foo.bar.0.foo');
+		const golden: string = 'foo.bar.0.foo';
+		expect(result).toEqual(golden);
 	});
 
 	it('handles single level replace', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -2416,13 +2416,13 @@ describe('expandPathWithConfig', () => {
 				shortName: 'f'
 			},
 		};
-		const result = expandPathWithConfig(config, 'f');
-		const golden = 'foo';
-		assert.deepEqual(result, golden);
+		const result: string = expandPathWithConfig(config, 'f');
+		const golden: string = 'foo';
+		expect(result).toEqual(golden);
 	});
 
 	it('handles double level replace', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -2442,13 +2442,13 @@ describe('expandPathWithConfig', () => {
 				shortName: 'f'
 			},
 		};
-		const result = expandPathWithConfig(config, 'f.b');
-		const golden = 'foo.bar';
-		assert.deepEqual(result, golden);
+		const result: string = expandPathWithConfig(config, 'f.b');
+		const golden: string = 'foo.bar';
+		expect(result).toEqual(golden);
 	});
 
 	it('handles triple level replace with array in the middle', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: {
 					bar: {
@@ -2469,15 +2469,15 @@ describe('expandPathWithConfig', () => {
 				shortName: 'f'
 			},
 		};
-		const result = expandPathWithConfig(config, 'f.baz.0.f');
-		const golden = 'foo.baz.0.foo';
-		assert.deepEqual(result, golden);
+		const result: string = expandPathWithConfig(config, 'f.baz.0.f');
+		const golden: string = 'foo.baz.0.foo';
+		expect(result).toEqual(golden);
 	});
 });
 
 describe('expandDefaults', () => {
 	it('handles basic object', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: 5,
 				optional: true,
@@ -2485,18 +2485,18 @@ describe('expandDefaults', () => {
 			}
 		};
 		deepFreeze(config);
-		const obj = {};
+		const obj: OptionValueMap = {};
 		const [result, changed] = ensureBackfill(config, obj);
-		const golden = {
+		const golden: OptionValueMap = {
 			foo: 5,
 		};
-		const goldenChanged = true;
-		assert.deepEqual(result, golden);
-		assert.deepEqual(changed, goldenChanged);
+		const goldenChanged: boolean = true;
+		expect(result).toEqual(golden);
+		expect(changed).toEqual(goldenChanged);
 	});
 
 	it('handles basic object that doesn\'t need a change', async () => {
-		const config = {
+		const config: OptionsConfigMap = {
 			foo: {
 				example: 5,
 				optional: true,
@@ -2504,20 +2504,20 @@ describe('expandDefaults', () => {
 			}
 		};
 		deepFreeze(config);
-		const obj = {
+		const obj: OptionValueMap = {
 			foo: 3,
 		};
 		const [result, changed] = ensureBackfill(config, obj);
-		const golden = {
+		const golden: OptionValueMap = {
 			foo: 3,
 		};
-		const goldenChanged = false;
-		assert.deepEqual(result, golden);
-		assert.deepEqual(changed, goldenChanged);
+		const goldenChanged: boolean = false;
+		expect(result).toEqual(golden);
+		expect(changed).toEqual(goldenChanged);
 	});
 
 	it('handles example object that doesn\'t need a change', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: 5,
@@ -2529,20 +2529,20 @@ describe('expandDefaults', () => {
 			backfill: true,
 		};
 		deepFreeze(config);
-		const obj = {
+		const obj: OptionValueMap = {
 			foo: 3,
 		};
 		const [result, changed] = ensureBackfill(config, obj);
-		const golden = {
+		const golden: OptionValueMap = {
 			foo: 3,
 		};
-		const goldenChanged = false;
-		assert.deepEqual(result, golden);
-		assert.deepEqual(changed, goldenChanged);
+		const goldenChanged: boolean = false;
+		expect(result).toEqual(golden);
+		expect(changed).toEqual(goldenChanged);
 	});
 
 	it('handles example object that does need a change', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: 5,
@@ -2554,18 +2554,18 @@ describe('expandDefaults', () => {
 			backfill: true,
 		};
 		deepFreeze(config);
-		const obj = {};
+		const obj: OptionValueMap = {};
 		const [result, changed] = ensureBackfill(config, obj);
-		const golden = {
+		const golden: OptionValueMap = {
 			foo: 5,
 		};
-		const goldenChanged = true;
-		assert.deepEqual(result, golden);
-		assert.deepEqual(changed, goldenChanged);
+		const goldenChanged: boolean = true;
+		expect(result).toEqual(golden);
+		expect(changed).toEqual(goldenChanged);
 	});
 
 	it('handles example object that does need a change nested', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: {
@@ -2581,20 +2581,20 @@ describe('expandDefaults', () => {
 			backfill: true,
 		};
 		deepFreeze(config);
-		const obj = {};
+		const obj: OptionValueMap = {};
 		const [result, changed] = ensureBackfill(config, obj);
-		const golden = {
+		const golden: OptionValueMap = {
 			foo: {
 				bar: 3,
 			},
 		};
-		const goldenChanged = true;
-		assert.deepEqual(result, golden);
-		assert.deepEqual(changed, goldenChanged);
+		const goldenChanged: boolean = true;
+		expect(result).toEqual(golden);
+		expect(changed).toEqual(goldenChanged);
 	});
 
 	it('handles example object that has a nested optional non default object', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: {
@@ -2609,16 +2609,16 @@ describe('expandDefaults', () => {
 			backfill: true,
 		};
 		deepFreeze(config);
-		const obj = {};
+		const obj: OptionValueMap = {};
 		const [result, changed] = ensureBackfill(config, obj);
-		const golden = {};
-		const goldenChanged = false;
-		assert.deepEqual(result, golden);
-		assert.deepEqual(changed, goldenChanged);
+		const golden: OptionValueMap = {};
+		const goldenChanged: boolean = false;
+		expect(result).toEqual(golden);
+		expect(changed).toEqual(goldenChanged);
 	});
 
 	it('handles example object that has a nested array', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: {
@@ -2643,9 +2643,9 @@ describe('expandDefaults', () => {
 			backfill: true,
 		};
 		deepFreeze(config);
-		const obj = {};
+		const obj: OptionValueMap = {};
 		const [result, changed] = ensureBackfill(config, obj);
-		const golden = {
+		const golden: OptionValueMap = {
 			foo: {
 				bar: [
 					3,
@@ -2653,13 +2653,13 @@ describe('expandDefaults', () => {
 			},
 			bar: 'baz'
 		};
-		const goldenChanged = true;
-		assert.deepEqual(result, golden);
-		assert.deepEqual(changed, goldenChanged);
+		const goldenChanged: boolean = true;
+		expect(result).toEqual(golden);
+		expect(changed).toEqual(goldenChanged);
 	});
 
 	it('handles example object that does need a change nested defaults', async () => {
-		const config = {
+		const config: OptionsConfig = {
 			example: {
 				foo: {
 					example: {
@@ -2684,9 +2684,9 @@ describe('expandDefaults', () => {
 			backfill: true,
 		};
 		deepFreeze(config);
-		const obj = {};
+		const obj: OptionValueMap = {};
 		const [result, changed] = ensureBackfill(config, obj);
-		const golden = {
+		const golden: OptionValueMap = {
 			foo: {
 				bar: {
 					baz: 3,
@@ -2694,9 +2694,9 @@ describe('expandDefaults', () => {
 				},
 			},
 		};
-		const goldenChanged = true;
-		assert.deepEqual(result, golden);
-		assert.deepEqual(changed, goldenChanged);
+		const goldenChanged: boolean = true;
+		expect(result).toEqual(golden);
+		expect(changed).toEqual(goldenChanged);
 	});
 
 });
@@ -2704,160 +2704,160 @@ describe('expandDefaults', () => {
 describe('suggestMissingShortNames', () => {
 
 	it('handles basic object that is invalid (short name collision)', async () => {
-		const existing = {
+		const existing: ShortNameMap = {
 			foo: 'f',
 			bar: 'f',
 		};
-		const result = suggestMissingShortNames(existing);
-		const golden = {};
-		assert.deepEqual(result, golden);
+		const result: ShortNameMap = suggestMissingShortNames(existing);
+		const golden: ShortNameMap = {};
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic object that is invalid (long/short name collision)', async () => {
-		const existing = {
+		const existing: ShortNameMap = {
 			foo: 'f',
 			bar: 'foo',
 		};
-		const result = suggestMissingShortNames(existing);
-		const golden = {};
-		assert.deepEqual(result, golden);
+		const result: ShortNameMap = suggestMissingShortNames(existing);
+		const golden: ShortNameMap = {};
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic object', async () => {
-		const existing = {
+		const existing: ShortNameMap = {
 			foo: 'f',
 			bar: '',
 		};
-		const result = suggestMissingShortNames(existing);
+		const result: ShortNameMap = suggestMissingShortNames(existing);
 		//bar is too short to get shortened
-		const golden = {};
-		assert.deepEqual(result, golden);
+		const golden: ShortNameMap = {};
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic object', async () => {
-		const existing = {
+		const existing: ShortNameMap = {
 			foo: 'f',
 			barbell: '',
 		};
-		const result = suggestMissingShortNames(existing);
-		const golden = {
+		const result: ShortNameMap = suggestMissingShortNames(existing);
+		const golden: ShortNameMap = {
 			barbell: 'b',
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic object that looks invalid but is valid because longName == shortName', async () => {
-		const existing = {
+		const existing: ShortNameMap = {
 			foo: 'foo',
 			bar: '',
 		};
-		const result = suggestMissingShortNames(existing);
+		const result: ShortNameMap = suggestMissingShortNames(existing);
 		//bar is too short to get shortened
-		const golden = {};
-		assert.deepEqual(result, golden);
+		const golden: ShortNameMap = {};
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic object that looks invalid but is valid because longName == shortName', async () => {
-		const existing = {
+		const existing: ShortNameMap = {
 			foo: 'foo',
 			barbell: '',
 		};
-		const result = suggestMissingShortNames(existing);
-		const golden = {
+		const result: ShortNameMap = suggestMissingShortNames(existing);
+		const golden: ShortNameMap = {
 			barbell: 'b'
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic object with longerName', async () => {
-		const existing = {
+		const existing: ShortNameMap = {
 			foo: 'f',
 			barBazBoo: '',
 		};
-		const result = suggestMissingShortNames(existing);
-		const golden = {
+		const result: ShortNameMap = suggestMissingShortNames(existing);
+		const golden: ShortNameMap = {
 			barBazBoo: 'bBB',
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic object with default conflict', async () => {
-		const existing = {
+		const existing: ShortNameMap = {
 			foo: 'f',
 			min: '',
 			max: '',
 		};
-		const result = suggestMissingShortNames(existing);
-		const golden = {};
-		assert.deepEqual(result, golden);
+		const result: ShortNameMap = suggestMissingShortNames(existing);
+		const golden: ShortNameMap = {};
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic object with conflict with existing short name', async () => {
-		const existing = {
+		const existing: ShortNameMap = {
 			foo: 'm',
 			min: '',
 		};
-		const result = suggestMissingShortNames(existing);
-		const golden = {};
-		assert.deepEqual(result, golden);
+		const result: ShortNameMap = suggestMissingShortNames(existing);
+		const golden: ShortNameMap = {};
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic object with conflict with existing short name and pieces', async () => {
-		const existing = {
+		const existing: ShortNameMap = {
 			foo: 'mF',
 			minFar: '',
 		};
-		const result = suggestMissingShortNames(existing);
-		const golden = {
+		const result: ShortNameMap = suggestMissingShortNames(existing);
+		const golden: ShortNameMap = {
 			minFar: 'minF'
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic object with two candidates that will conflict', async () => {
-		const existing = {
+		const existing: ShortNameMap = {
 			foo: 'f',
 			minFar: '',
 			maxFar: '',
 		};
-		const result = suggestMissingShortNames(existing);
-		const golden = {
+		const result: ShortNameMap = suggestMissingShortNames(existing);
+		const golden: ShortNameMap = {
 			minFar: 'minF',
 			maxFar: 'maxF',
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic object with trhee candidates that will conflict', async () => {
-		const existing = {
+		const existing: ShortNameMap = {
 			foo: 'f',
 			minFar: '',
 			maxFar: '',
 			modFan: ''
 		};
-		const result = suggestMissingShortNames(existing);
-		const golden = {
+		const result: ShortNameMap = suggestMissingShortNames(existing);
+		const golden: ShortNameMap = {
 			minFar: 'minF',
 			maxFar: 'maxF',
 			modFan: 'modF',
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic object with underscore names', async () => {
-		const existing = {
+		const existing: ShortNameMap = {
 			foo: 'f',
 			min_far: '',
 			maxFar: '',
 			modFan: ''
 		};
-		const result = suggestMissingShortNames(existing);
-		const golden = {
+		const result: ShortNameMap = suggestMissingShortNames(existing);
+		const golden: ShortNameMap = {
 			min_far: 'mf',
 			maxFar: 'maxF',
 			modFan: 'modF',
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 });
@@ -2865,7 +2865,7 @@ describe('suggestMissingShortNames', () => {
 describe('optionsConfigWithDefaultedShortNames', () => {
 
 	it('handles basic object', async () => {
-		const options = {
+		const options: OptionsConfigMap = {
 			foobell: {
 				example: true,
 				shortName: 'f',
@@ -2876,8 +2876,8 @@ describe('optionsConfigWithDefaultedShortNames', () => {
 		};
 		//Verify that the optionsConfigWithDefaultedShortNames doesn't modify it
 		deepFreeze(options);
-		const result = optionsConfigWithDefaultedShortNames(options);
-		const golden = {
+		const result: OptionsConfigMap = optionsConfigWithDefaultedShortNames(options);
+		const golden: OptionsConfigMap = {
 			foobell: {
 				example: true,
 				shortName: 'f',
@@ -2887,11 +2887,11 @@ describe('optionsConfigWithDefaultedShortNames', () => {
 				shortName: 'b',
 			}
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic object nested', async () => {
-		const options = {
+		const options: OptionsConfigMap = {
 			foobell: {
 				example: true,
 				shortName: 'f',
@@ -2909,8 +2909,8 @@ describe('optionsConfigWithDefaultedShortNames', () => {
 		};
 		//Verify that the optionsConfigWithDefaultedShortNames doesn't modify it
 		deepFreeze(options);
-		const result = optionsConfigWithDefaultedShortNames(options);
-		const golden = {
+		const result: OptionsConfigMap = optionsConfigWithDefaultedShortNames(options);
+		const golden: OptionsConfigMap = {
 			foobell: {
 				example: true,
 				shortName: 'f',
@@ -2929,11 +2929,11 @@ describe('optionsConfigWithDefaultedShortNames', () => {
 				shortName: 'b',
 			}
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 	it('handles basic object with array', async () => {
-		const options = {
+		const options: OptionsConfigMap = {
 			foobell: {
 				example: true,
 				shortName: 'f',
@@ -2953,8 +2953,8 @@ describe('optionsConfigWithDefaultedShortNames', () => {
 		};
 		//Verify that the optionsConfigWithDefaultedShortNames doesn't modify it
 		deepFreeze(options);
-		const result = optionsConfigWithDefaultedShortNames(options);
-		const golden = {
+		const result: OptionsConfigMap = optionsConfigWithDefaultedShortNames(options);
+		const golden: OptionsConfigMap = {
 			foobell: {
 				example: true,
 				shortName: 'f',
@@ -2975,7 +2975,7 @@ describe('optionsConfigWithDefaultedShortNames', () => {
 				shortName: 'b',
 			}
 		};
-		assert.deepEqual(result, golden);
+		expect(result).toEqual(golden);
 	});
 
 });

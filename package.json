@@ -36,10 +36,10 @@
     "screenshots:png": "NODE_OPTIONS='--loader ts-node/esm' npx ts-node tools/screenshot.ts png",
     "screenshots:gif": "NODE_OPTIONS='--loader ts-node/esm' npx ts-node tools/screenshot.ts gif",
     "deploy": "npm run build && firebase deploy",
-    "test": "npm run test:options && npm run test:type-generation && npm run test:coordinates_map",
-    "test:options": "mocha -r esm test/options --timeout=10000",
-    "test:coordinates_map": "mocha -r esm test/coordinates_map --timeout=10000",
-    "test:type-generation": "mocha -r esm test/type-generation --timeout=1000"
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@types/d3": "^7.4.0",
@@ -57,27 +57,26 @@
     "reselect": "^4.0.0"
   },
   "devDependencies": {
-    "@polymer/test-fixture": "^4.0.2",
     "@rollup/plugin-commonjs": "^22.0.0",
     "@rollup/plugin-dynamic-import-vars": "^1.4.3",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@types/pngjs": "^6.0.1",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
+    "@vitest/ui": "^4.0.18",
     "@web/dev-server": "^0.1.31",
     "@web/dev-server-rollup": "^0.3.17",
     "axe-core": "^3.0.0",
     "chai": "^4.1.2",
     "del": "^3.0.0",
     "eslint": "^7.18.0",
-    "esm": "^3.2.25",
     "gifencoder": "^2.0.1",
     "glob": "^7.2.0",
+    "happy-dom": "^20.5.0",
     "image-size": "^0.9.3",
     "mocha": "^10.0.0",
     "pixelmatch": "^4.0.2",
     "pngjs": "^3.4.0",
-    "polyserve": "^0.27.0",
     "prpl-server": "^1.4.0",
     "puppeteer": "^12.0.0",
     "rollup": "^2.75.6",
@@ -89,7 +88,7 @@
     "ts-lit-plugin": "^1.2.1",
     "ts-node": "^10.9.1",
     "typescript": "^4.7.4",
-    "wct-mocha": "^1.0.0"
+    "vitest": "^4.0.18"
   },
   "ts-node": {
     "esm": true,
