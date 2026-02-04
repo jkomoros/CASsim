@@ -46,7 +46,7 @@
   "dependencies": {
     "@types/d3": "^7.4.0",
     "@webcomponents/webcomponentsjs": "^2.2.4",
-    "canvas": "^2.8.0",
+    "canvas": "^3.2.1",
     "d3": "^7.3.0",
     "esm-seedrandom": "^3.0.5",
     "firebase": "^9.6.2",
