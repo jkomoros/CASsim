@@ -211,8 +211,10 @@ export const verifyValidIndexes : AppActionCreator = () => (dispatch, getState) 
 export const updateWithSimPageExtra : AppActionCreator = (pageExtra) => (dispatch, getState) => {
 	const parts = pageExtra.split('/');
 	//The last piece is the trailing slash
-	//TODO: handle malformed URLs better
-	if (parts.length != 3) return;
+	if (parts.length != 3) {
+		console.warn('Malformed page extra URL:', pageExtra, 'Expected format: filename/simulationName/');
+		return;
+	}
 	const filename = parts[0];
 	const simulationName = parts[1];
 

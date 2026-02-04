@@ -591,9 +591,11 @@ const extractOptionsConfigForSimulator = (simulatorName : string) : OptionsConfi
 		throw new Error(simulatorName + ' failed: ' + err);
 	}
 
-	//TODO: error handle
-
-	return JSON.parse(output) as (OptionsConfig | OptionsConfigMap);
+	try {
+		return JSON.parse(output) as (OptionsConfig | OptionsConfigMap);
+	} catch (err) {
+		throw new Error('Failed to parse JSON output from ' + simulatorName + ': ' + err + '\nOutput was: ' + output);
+	}
 
 };
 
