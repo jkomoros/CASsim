@@ -384,10 +384,10 @@ export type Modification = {
 
 export type Modifications = Modification[];
 
-//TODO: tighten
+//TODO: tighten - used in index signatures, requires refactoring
 export type PlayType = 'frame' | 'round' | 'simulation';
 
-//TODO: tighten
+//TODO: tighten - used in index signatures, requires refactoring
 export type DialogType = string;
 
 type DialogTypeAddFieldOption = {
@@ -401,10 +401,10 @@ export type DialogTypeAddFieldExtras = {
     options: DialogTypeAddFieldOption[];
 }
 
-//TODO: tighten;
+//TODO: tighten - used in index signatures, requires refactoring
 export type DistributionType = string;
 
-//TODO: tighten
+//TODO: tighten - used in index signatures, requires refactoring
 export type RoundType = string;
 
 export type DistributionOptions = {
@@ -475,7 +475,7 @@ export type CoordinatesMapBounds = Position & {
     includeBottom : boolean;
 }
 
-//TODO: tighten;
+//TODO: tighten - used in index signatures, requires refactoring
 export type GraphType = string;
 
 export type GraphNodeID = string | number;
