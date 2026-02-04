@@ -92,7 +92,7 @@ class PastureDemoSimulator extends AgentSimulator<PastureDemoAgent, PastureDemoS
 
 	override defaultAgentTick(agent : PastureDemoAgent, agents : PastureDemoAgent[], graph : RectangleGraph, frame : PastureDemoSimulationFrame, rnd : RandomGenerator) : PastureDemoAgent | PastureDemoAgent[] {
 		if (rnd() < agent.deathLikelihood) return null;
-		const node = this.selectNodeToMoveTo(agent, agents, graph, frame, rnd, 1, (node : PastureDemoGraphNodeValues) => node.value);
+		const node = this.selectNodeToMoveTo(agent, agents, graph, frame, rnd, 1, ((node : PastureDemoGraphNodeValues) => node.value) as NodeScorer);
 		//Sometimes there won't be any open cells next to us.
 		if (!node) return agent;
 		graph.setNodeProperty(node, 'value', 0.0);
@@ -113,7 +113,7 @@ class PastureDemoSimulator extends AgentSimulator<PastureDemoAgent, PastureDemoS
 	override frameScorer(frame : PastureDemoSimulationFrame) : [number, number, number] {
 		const finalScore = this.simulationComplete(frame) ? 1.0 : -1;
 		const graph = new RectangleGraph(frame.positions);
-		return [finalScore, Object.keys(frame.agents).length, Object.values(graph.nodes()).map((values : PastureDemoGraphNodeValues) => values.value).reduce((prev, next) => prev + next, 0)];
+		return [finalScore, Object.keys(frame.agents).length, (Object.values(graph.nodes()) as PastureDemoGraphNodeValues[]).map(values => values.value).reduce((prev, next) => prev + next, 0)];
 	}
 
 	override scoreConfig() : [ScoreConfigItem, ScoreConfigItem, ScoreConfigItem] {

@@ -420,10 +420,11 @@ const mergeNearDuplicateTypeDefinitions = (nearDuplicateDefinitions : TypeDefini
 	}
 
 	if (demoDefinition.type == 'extracted') {
+		const extractedDefinitions = nearDuplicateDefinitions.filter((d): d is ExtractedTypeDefinition => d.type === 'extracted');
 		return {
 			...demoDefinition,
-			definition: mergeNearDuplicateTypeDefinitions(nearDuplicateDefinitions.map((definition : ExtractedTypeDefinition) => definition.definition)),
-			extends: nearDuplicateDefinitions.map(definition => definition.type == 'extracted' ? definition.extends : []).flat(),
+			definition: mergeNearDuplicateTypeDefinitions(extractedDefinitions.map(definition => definition.definition)),
+			extends: extractedDefinitions.map(definition => definition.extends).flat(),
 			description,
 			optional
 		};

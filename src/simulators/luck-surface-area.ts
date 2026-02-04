@@ -159,7 +159,7 @@ class LuckSurfaceAreaSimulator extends AgentSimulator<LuckSurfaceAreaAgent, Luck
 		const newAgent = {
 			...agent,
 		};
-		const targetNode = this.selectNodeToMoveTo(agent, agents, graph, frame, rnd, 3, (node : LuckSurfaceAreaGraphNodeValues) => node.value) as LuckSurfaceAreaGraphNodeValues;
+		const targetNode = this.selectNodeToMoveTo(agent, agents, graph, frame, rnd, 3, ((node : LuckSurfaceAreaGraphNodeValues) => node.value) as NodeScorer) as LuckSurfaceAreaGraphNodeValues;
 		if (targetNode && targetNode.value > node.value) {
 			//Move. We might not be one step away.
 			const [,path] = graph.shortestPath(node, targetNode);

@@ -125,7 +125,7 @@ export const selectCurrentSimulatorShadowedModifications = createSelector(
 );
 
 const modfifiedConfigData = (rawConfigData : RawSimulationConfig[], modifications : Modifications, simulatorsLoaded = true) : SimulationConfig[] => {
-	if (!simulatorsLoaded) return rawConfigData.map(config => ({...config, simOptions: null}));
+	if (!simulatorsLoaded) return rawConfigData.map(config => ({...config, simOptions: null as unknown as OptionValueMap}));
 	//If any of them are missing simOptions, set them to the default
 	let data = rawConfigData.map(config => configWithDefaultedSimOptions(config));
 	for (const modification of modifications) {
