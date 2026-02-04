@@ -9,7 +9,7 @@ import {
 	ActionCreator
 } from 'redux';
 
-import thunk, { ThunkAction, ThunkDispatch, ThunkMiddleware } from 'redux-thunk';
+import { thunk, type ThunkAction, type ThunkDispatch } from 'redux-thunk';
 import { lazyReducerEnhancer } from "pwa-helpers/lazy-reducer-enhancer.js";
 
 import app from "./reducers/app.js";
@@ -42,7 +42,7 @@ export const store = createStore(
 	state => state as Reducer<RootState,AnyAction>,
 	devCompose(
 		lazyReducerEnhancer(combineReducers),
-		applyMiddleware(thunk as ThunkMiddleware<RootState, AnyAction>))
+		applyMiddleware(thunk))
 );
 
 // Initially loaded reducers.
