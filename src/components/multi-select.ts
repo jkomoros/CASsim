@@ -15,20 +15,20 @@ import {
 export class MultiSelect extends LitElement {
 
 	@property({ type : Boolean })
-	disabled: boolean;
+		disabled: boolean;
 
 	//key --> {title: '', description: ''}. If key is to a string, will be intepreted where the string is the description
 	@property({ type : Object })
-	options: {[key : string]: string | {title : string, description : string}};
+		options: {[key : string]: string | {title : string, description : string}};
 
 	@property({ type : Object })
-	values: {[key : string] : true};
+		values: {[key : string] : true};
 	
 	@property({ type : String })
-	defaultText: string;
+		defaultText: string;
 	
 	@property({ type : String })
-	optionTypeText: string;
+		optionTypeText: string;
 
 	static override get styles() {
 		return [

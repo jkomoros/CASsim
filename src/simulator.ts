@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+ 
 
 import {
 	defaultValueForConfig,
@@ -33,7 +33,7 @@ export class BaseSimulator {
 
 	//Your simulator constructor will be passed no state, and shouldn't store any kind of state.
 	//The only reason it's non-static is so this class can call subClasses's overriden methods.
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
+	 
 	constructor() {
 
 	}
@@ -74,7 +74,7 @@ export class BaseSimulator {
 	}
 
 	//This is called by the default generator to generate the first frame.
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	generateFirstFrame(baseFrame : SimulationFrame, _rnd : RandomGenerator) : SimulationFrame {
 		return {
 			...baseFrame
@@ -84,14 +84,14 @@ export class BaseSimulator {
 
 	//Called before generateFrame is called, for any non-first-frames. A chance
 	//to set frame values.
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+	 
 	beforeGenerateFrame(_frame : SimulationFrame, _rnd : RandomGenerator) : void {
 
 	}
 
 	//Called after generateFrame is called, for any non-first-frames. A chance
 	//to set frame values.
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+	 
 	afterGenerateFrame(_frame : SimulationFrame, _rnd : RandomGenerator) : void {
 
 	}
@@ -100,7 +100,7 @@ export class BaseSimulator {
 	//simOptions you can inspect frame.index or frame.simOptions. It should
 	//modify frame directly, but if it changes any sub-objects it should clone
 	//them first.
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+	 
 	generateFrame(_frame : SimulationFrame, _rnd : RandomGenerator) : void {
 		//Your own logic should go here.
 	}
@@ -108,7 +108,7 @@ export class BaseSimulator {
 	//This is called by the default generator to know when to stop generating
 	//frames. frame.index and frame.simOptions can be inspected to get those
 	//values.
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	simulationComplete(_frame : SimulationFrame) : boolean {
 		//Your own termination logic should go here.
 		return true;
@@ -125,37 +125,37 @@ export class BaseSimulator {
 	//Typically your options are mostly validated based on the configuration you
 	//return from optionsConfig. This method is only necessary to override if
 	//you need additional validation not handled by that default machinery.
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	optionsValidator(_normalizedSimOptions : NormalizedSimOptions) : void {
 		return;
 	}
 
 	//The score for the frame. Typically the first number is the 'main' score,
 	//and other numbers are auxilary scores, useful for charting over time.
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	frameScorer(_frame : SimulationFrame, _simOptions : NormalizedSimOptions) : FrameScores {
 		return [0.0];
 	}
 
 	//By retuning null we will communicate that none of the scores for this
 	//simulator should be offered to be shown to a user.
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	scoreConfig(_normalizedSimOptions : NormalizedSimOptions) : ScoreConfig {
 		return [null];
 	}
 
 	//This behavior is almost always what you want and can be left alone
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	successScorer(frameScore : FrameScores, _normalizedSimOptions : NormalizedSimOptions) : FrameScore {
 		return frameScore[0];
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	frameValidator(_frame : SimulationFrame) : void {
 		return;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	maxFrameIndex(_normalizedSimOptions : NormalizedSimOptions) : number {
 		return 10000;
 	}
@@ -170,7 +170,7 @@ export class BaseSimulator {
 	//default that the basic machinery won't generate automatically, in which
 	//case you'd override this, and call super.defaultValueForPath() for the
 	//non-special cases.
-	//eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	defaultValueForPath(path : OptionsPath, _simOptions : NormalizedSimOptions) : OptionValue {
 		const result = defaultValueForConfig(configForPath(this.optionsConfig, path));
 		return result;

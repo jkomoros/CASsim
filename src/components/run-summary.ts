@@ -12,20 +12,20 @@ const NO_BORDER_COUNT_THRESHOLD = 100;
 class RunSummary extends LitElement {
 
 	@property({ type : Number })
-	selectedIndex: number;
+		selectedIndex: number;
 
 	@property({ type : Array })
-	statuses: number[];
+		statuses: number[];
 
 	//If true, then statuses beyond the selectedIndex will be rendered as indeterminate
 	@property({ type : Boolean })
-	clipFuture: boolean;
+		clipFuture: boolean;
 
 	@property({ type : Boolean })
-	centerPercentage: boolean;
+		centerPercentage: boolean;
 
 	@property({ type : Boolean })
-	compact: boolean;
+		compact: boolean;
 
 	static override get styles() {
 		return [

@@ -15,28 +15,28 @@ const DEFAULT_FONT_SIZE_PX_HEIGHT = 16;
 export class FrameVisualization extends LitElement {
 
 	@property({ type : Object })
-	simulation: Simulation;
+		simulation: Simulation;
 
 	@property({ type : Object })
-	frame: SimulationFrame;
+		frame: SimulationFrame;
 
 	@property({ type : Number })
-	width: number;
+		width: number;
 
 	@property({ type : Number })
-	height: number;
+		height: number;
 
 	@property({ type : Number })
-	scale: number;
+		scale: number;
 
 	@property({ type : Number })
-	animationLength: number;
+		animationLength: number;
 
 	@property({ type : Array })
-	runStatuses: number[];
+		runStatuses: number[];
 
 	@property({ type : Number })
-	runIndex: number;
+		runIndex: number;
 
 	static override get styles() {
 		return [

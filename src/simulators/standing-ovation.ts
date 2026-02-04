@@ -218,7 +218,7 @@ class StandingOvationRenderer extends PositionedAgentsRenderer<StandingOvationAg
 		return agent.standing ? '👏' : '😐';
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	override nodeAdditionalStyles(node : GraphNodeValues, _graph : PositionedGraph) : StyleInfo {
 		//TODO: is there a better way to do this?
 		const rectNode = node as RectangleGraphNodeValues;

@@ -18,13 +18,13 @@ import {
 export class DialogElement extends LitElement {
 
 	@property({ type : Boolean })
-	open: boolean;
+		open: boolean;
 
 	@property({ type : String })
 	override title: string;
 
 	@property({ type : Boolean })
-	mobile: boolean;
+		mobile: boolean;
 
 	static override get styles() {
 		return [
@@ -150,7 +150,7 @@ export class DialogElement extends LitElement {
 	}
 
 	//Will be called with a single argument of true if cancelled
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	_shouldClose(_canelled? : boolean) {
 		//Override point for sub classes
 		this.dispatchEvent(makeDialogShouldCloseEvent());

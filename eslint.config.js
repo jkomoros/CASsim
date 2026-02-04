@@ -59,7 +59,15 @@ export default [
 			'no-fallthrough': 'off',
 			'prefer-const': ['error', {
 				destructuring: 'all'
-			}]
+			}],
+			// Allow unused vars that start with underscore
+			'@typescript-eslint/no-unused-vars': ['error', {
+				argsIgnorePattern: '^_',
+				varsIgnorePattern: '^_'
+			}],
+			// Disable base no-redeclare for TypeScript overloads
+			'no-redeclare': 'off',
+			'@typescript-eslint/no-redeclare': 'error'
 		}
 	}
 ];

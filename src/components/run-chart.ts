@@ -45,16 +45,16 @@ const INTERMEDIATE_TICK_COUNT = 6;
 class RunChart extends LitElement {
 
 	@property({ type : Object })
-	data: ChartData;
+		data: ChartData;
 
 	@property({ type : Object })
-	configIDs: {[typ : ScoreConfigID]: true};
+		configIDs: {[typ : ScoreConfigID]: true};
 
 	@property({ type : Number })
-	runIndex: number;
+		runIndex: number;
 
 	@property({ type : Number })
-	frameIndex: number;
+		frameIndex: number;
 
 	static override get styles() {
 		return [
