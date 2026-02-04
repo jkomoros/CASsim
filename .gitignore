@@ -14,3 +14,12 @@ src/**/*.map
 tools/**/*.d.ts
 tools/**/*.map
 tools/**/*.js
+
+# OS files
+.DS_Store
+
+# Claude Code local settings
+.claude/
+
+# Firebase cache
+.firebase/
