@@ -84,7 +84,7 @@ export class PositionedGraph extends Graph {
 		Override point. Returns 1.0 by default. You might for example override
 		to return nodeValues.value.
 	*/
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	nodeSizeMultiplier(_identifier : GraphNodeIdentifier) : number {
 		return 1.0;
 	}

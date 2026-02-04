@@ -156,86 +156,86 @@ class SimView extends connect(store)(PageViewElement) {
 
 	// This is the data from the store.
 	@state()
-	_currentFrame: SimulationFrame;
+		_currentFrame: SimulationFrame;
 
 	@state()
-	_requiredSimulatorsLoaded: boolean;
+		_requiredSimulatorsLoaded: boolean;
 
 	@state()
-	_requiredSimulatorNames: SimulatorType[];
+		_requiredSimulatorNames: SimulatorType[];
 
 	@state()
-	_currentSimulation: Simulation;
+		_currentSimulation: Simulation;
 
 	@state()
-	_currentSimulationName: string;
+		_currentSimulationName: string;
 
 	@state()
-	_currentSimulationLastChanged: number;
+		_currentSimulationLastChanged: number;
 
 	@state()
-	_animationLength: number;
+		_animationLength: number;
 
 	@state()
-	_pageExtra: string;
+		_pageExtra: string;
 
 	@state()
-	_simulationIndex: number;
+		_simulationIndex: number;
 
 	@state()
-	_runIndex: number;
+		_runIndex: number;
 
 	@state()
-	_frameIndex: number;
+		_frameIndex: number;
 
 	@state()
-	_filename: string;
+		_filename: string;
 
 	@state()
-	_dialogOpen: boolean;
+		_dialogOpen: boolean;
 
 	@state()
-	_dialogType: DialogType;
+		_dialogType: DialogType;
 
 	@state()
-	_dialogExtras: {[key : string]: unknown};
+		_dialogExtras: {[key : string]: unknown};
 
 	@state()
-	_configData: PackedRawSimulationConfig;
+		_configData: PackedRawSimulationConfig;
 
 	@state()
-	_height: number;
+		_height: number;
 
 	@state()
-	_width: number;
+		_width: number;
 
 	@state()
-	_scale: number;
+		_scale: number;
 
 	@state()
-	_configurationExpanded: boolean;
+		_configurationExpanded: boolean;
 
 	@state()
-	_descriptionExpanded: boolean;
+		_descriptionExpanded: boolean;
 
 	@state()
-	_dataIsFullyLoaded: boolean;
+		_dataIsFullyLoaded: boolean;
 
 	@state()
-	_screenshotting: boolean;
+		_screenshotting: boolean;
 
 	@state()
-	_runStatuses: number[];
+		_runStatuses: number[];
 
 	@state()
-	_hashForCurrentState: string;
+		_hashForCurrentState: string;
 
 	//Note: this is calculated in this._resizeVisualzation, NOT in state
 	@state()
-	_needsMarginLeft : boolean;
+		_needsMarginLeft : boolean;
 
 	@state()
-	_resizeVisualization: boolean;
+		_resizeVisualization: boolean;
 
 	static override get styles() {
 		return [

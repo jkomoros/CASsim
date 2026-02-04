@@ -48,31 +48,31 @@ const doHide = (subConfig : OptionsConfig, parentValue : OptionValueMap, rootVal
 class OptionsControl extends LitElement {
 
 	@property({ type : String })
-	path: OptionsPath;
+		path: OptionsPath;
 
 	@property({ type : String })
-	name: string;
+		name: string;
 
 	@property({ type : Object })
-	config: OptionsConfig;
+		config: OptionsConfig;
 
 	@property({ type : Object })
-	value: OptionValue;
+		value: OptionValue;
 
 	@property({ type : Object })
-	rootValue: OptionValueMap;
+		rootValue: OptionValueMap;
 
 	@property({ type : Boolean })
-	readonly: boolean;
+		readonly: boolean;
 
 	@property({ type : Object })
-	modifiedPaths: {[path : OptionsPath] : OptionValue};
+		modifiedPaths: {[path : OptionsPath] : OptionValue};
 
 	@property({ type : Boolean })
-	disallowDelete: boolean;
+		disallowDelete: boolean;
 
 	@property({ type : Object })
-	pathExpanded: {[path : OptionsPath]: true};
+		pathExpanded: {[path : OptionsPath]: true};
 
 	static override get styles() {
 		return [

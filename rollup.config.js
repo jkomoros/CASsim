@@ -1,10 +1,15 @@
 import resolve from '@rollup/plugin-node-resolve';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 import minifyHTML from 'rollup-plugin-minify-html-literals';
 import copy from 'rollup-plugin-copy';
 import commonjs from '@rollup/plugin-commonjs';
 import summary from 'rollup-plugin-summary';
 import dynamicImportVars from '@rollup/plugin-dynamic-import-vars';
+
+// Handle both CommonJS and ES module exports
+const minifyHTMLPlugin = minifyHTML.default || minifyHTML;
+const copyPlugin = copy.default || copy;
+const summaryPlugin = summary.default || summary;
 
 export default {
 	input: 'src/components/my-app.js',
@@ -13,9 +18,9 @@ export default {
 		format: 'es',
 	},
 	plugins: [
-		minifyHTML(),
+		minifyHTMLPlugin(),
 		dynamicImportVars(),
-		copy({
+		copyPlugin({
 			targets: [
 				{ src: 'data', dest: 'build' },
 				{ src: 'images', dest: 'build' },
@@ -31,7 +36,7 @@ export default {
 			}
 		}),
 		commonjs(),
-		summary(),
+		summaryPlugin(),
 	],
 	preserveEntrySignatures: 'strict',
 };

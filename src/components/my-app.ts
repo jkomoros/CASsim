@@ -31,13 +31,13 @@ const CONTROLS_WIDTH = '18em';
 class MyApp extends connect(store)(LitElement) {
 
 	@property({ type : String })
-	appTitle: string;
+		appTitle: string;
 
 	@state()
-	_page: string;
+		_page: string;
 
 	@state()
-	_offline: boolean;
+		_offline: boolean;
 
 	static override get styles() {
 		return [

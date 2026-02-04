@@ -77,7 +77,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 
 		baseFrame will have only SimulationFrame properties, no extras.
 	*/
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	generatePositions(baseFrame : SimulationFrame, _rnd : RandomGenerator) : P {
 		const simOptions = baseFrame.simOptions as RowColOptionalSimOptions;
 		const graph = RectangleGraph.make(simOptions.rows || 5, simOptions.cols || 5, baseFrame.width, baseFrame.height);
@@ -123,7 +123,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 		baseFrame is only guaranteed to have literally SimulationFrame options,
 		nothing else.
 	*/
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	numStarterAgents(_positions : P, _baseFrame : SimulationFrame, _rnd : RandomGenerator) : number {
 		return 0;
 	}
@@ -136,7 +136,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 
 		baseFrame is only guaranteed to have exactly SimulationFrame properties.
 	*/
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	allowOverlappingAgents(_primaryAgent : A, _secondaryAgent : A, _positions : P, _baseFrame : SimulationFrame, _rnd : RandomGenerator) : boolean {
 		return false;
 	}
@@ -152,7 +152,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 		baseFrame can only be relied on to literally have SimulationFrame, not
 		necesarily any other properties.
 	*/
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	skipPlacingAgents(positions : P, _baseFrame : SimulationFrame, _rnd : RandomGenerator) : boolean {
 		return !positions;
 	}
@@ -165,7 +165,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 
 		baseFrame is only guranteed to literlaly have SimulationFrame properties, not others.
 	*/
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	generateAgents(positions : P, baseFrame : SimulationFrame, rnd : RandomGenerator) : A[] {
 		const agents = [];
 		const skipPlacingAgents = this.skipPlacingAgents(positions, baseFrame, rnd) || !(positions instanceof Graph);
@@ -192,7 +192,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 	/*
 		A place to emit extra properties in the first frame.
 	*/
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	generateFirstFrameExtra(_simOptions : SimOptions, _rnd : RandomGenerator, _simWidth : number, _simHeight : number) : {[name : string] : unknown} {
 		return {};
 	}
@@ -251,7 +251,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 
 		see agentTick for more about behavior of arguments and return values.
 	*/
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	defaultAgentTick(agent : A, _agents : A[], _positions : P, _frame : F, _rnd : RandomGenerator) : A | A[] {
 		return agent;
 	}
@@ -298,7 +298,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 		store in the frame. If no modifications you can return node as is. If
 		modifications, make a copy to modify and return that.
 	*/
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	defaultNodeTick(node : GraphNodeValues, _positions : P, _frame : F, _rnd : RandomGenerator) : GraphNodeValues {
 		return node;
 	}
@@ -306,7 +306,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 	/*
 		If true, agents will be ticked in a random order each frame.
 	*/
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	randomizeAgentTickOrder(_simOptions : SimOptions) : boolean {
 		return true;
 	}
@@ -315,7 +315,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 		An opportunity to spawn new agents in this frame. Return an array of
 		agents to spawn.
 	*/
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	spawnAgents(_agents : A[], _positions : P, _frame : F, _rnd : RandomGenerator) : A[] {
 		return [];
 	}
@@ -325,7 +325,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 		ticked. You can modify frame directly, but if you modify any sub-objects
 		you should copy them.
 	*/
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+	 
 	framePreTick(_positions : P, _frame : F, _rnd : RandomGenerator) : void {
 
 	}
@@ -335,7 +335,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 		been ticked. You can modify frame directly, but if you modify any
 		sub-objects you should copy them.
 	*/
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+	 
 	framePostTick(_positions : P, _frame : F, _rnd : RandomGenerator) : void {
 
 	}

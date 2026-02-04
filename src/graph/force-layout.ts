@@ -7,7 +7,8 @@ import {
 	forceLink,
 	forceCollide,
 	forceManyBody,
-	forceCenter
+	forceCenter,
+	type Simulation
 } from 'd3';
 
 import {
@@ -111,7 +112,7 @@ type SimulationEdgeDatum = {
 	value : number;
 };
 
-export type LayoutSimulation = d3.Simulation<SimulationNodeDatum,SimulationEdgeDatum>;
+export type LayoutSimulation = Simulation<SimulationNodeDatum,SimulationEdgeDatum>;
 
 /*
 	A ForceLayoutGraph is a PositionedGraph whose x/y properteis are set by
@@ -119,7 +120,7 @@ export type LayoutSimulation = d3.Simulation<SimulationNodeDatum,SimulationEdgeD
 */
 export class ForceLayoutGraph extends PositionedGraph {
 
-	_cachedLayoutPositions : {[id : GraphNodeID] : Coordinates}
+	_cachedLayoutPositions : {[id : GraphNodeID] : Coordinates};
 
 	/*
 		Makes an empty graph that is positioned.
@@ -220,7 +221,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 
 	//An override point, what randomLinkLikelihood will call when it has decided
 	//to create and edge from fromNode to toNode.
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	_makeRandomEdge(baseEdgeValues : Partial<GraphEdge>, _fromNode : GraphNodeValues, _toNode : GraphNodeValues) : Partial<GraphEdge> {
 		return {
 			...baseEdgeValues,
@@ -228,7 +229,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 		};
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	_makeInner(_rnd : RandomGenerator, _options : ForceLayoutGraphOptions) : void {
 		//Do nothing
 	}
@@ -239,7 +240,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 	
 		The default implementation just positions each node with a random x,y,
 	*/
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	_initialLayout(rnd : RandomGenerator, _options : ForceLayoutGraphOptions) : void {
 		const availableWidth = this.availableWidth;
 		const availableHeight = this.availableHeight;
@@ -283,7 +284,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 	/*
 		distanceForEdge should return the distance value to use for the edge. Override point for subclases.
 	*/
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	distanceForEdge(_edge : GraphEdge) : number {
 		return 1.0;
 	}
@@ -300,7 +301,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 		The margin to leave between this node and its neighbors, in units of
 		percenatage of its nodeSize. By default returns defaultNodeMargin.
 	*/
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	nodeMargin(_identifier : GraphNodeIdentifier) : number {
 		return this.defaultNodeMargin;
 	}
@@ -308,7 +309,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 	/*
 		A chance for a subclass to install more forces on the force layout simulation.
 	*/
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	installExtraForces(_simulation : LayoutSimulation) {
 		//Do nothing by default
 	}
@@ -333,11 +334,12 @@ export class ForceLayoutGraph extends PositionedGraph {
 
 		const simulation : LayoutSimulation = forceSimulation(nodes);
 
-		simulation.force('link', forceLink(edges).id((d : SimulationNodeDatum) => d.id).distance(d => d.value));
+		simulation.force('link', forceLink(edges).id((d, _i, _nodes) => (d as SimulationNodeDatum).id).distance(d => d.value));
 		//nodeSize is the diameter, we want the radius. But give a bit of buffer...
-		if (!this.noCollide) simulation.force('collide', forceCollide().radius((n : SimulationNodeDatum) => {
-			const nodeRadius = this.nodeSize(n.id) * 0.5;
-			return nodeRadius + (nodeRadius * this.nodeMargin(n.id));
+		if (!this.noCollide) simulation.force('collide', forceCollide().radius((n, _i, _nodes) => {
+			const node = n as SimulationNodeDatum;
+			const nodeRadius = this.nodeSize(node.id) * 0.5;
+			return nodeRadius + (nodeRadius * this.nodeMargin(node.id));
 		}));
 		simulation.force('charge', forceManyBody());
 		simulation.force('center', forceCenter(width / 2, height / 2));

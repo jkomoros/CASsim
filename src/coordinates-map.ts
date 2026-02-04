@@ -421,11 +421,13 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	_changesMade : boolean;
 	_minBucketSize : number;
 	_maxBucketSize : number;
+	_maxItemRadius : number;
 
 	constructor(items : T[], size: Size, data? : CoordinatesMapDataLeaf, ) {
 		//TODO: allow setting these, which might require a resize.
 		this._minBucketSize = DEFAULT_MIN_BUCKET_SIZE;
 		this._maxBucketSize = DEFAULT_MAX_BUCKET_SIZE;
+		this._maxItemRadius = 0;
 		let insertItems = false;
 		if (!items) items = [];
 		if (!data) {
@@ -444,6 +446,13 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		};
 		const fullItemsMap = Object.fromEntries(items.map(item => [item.id, {...item}]));
 		this._fullItemsMap = fullItemsMap;
+		// Calculate max radius from initial items
+		for (const item of items) {
+			const radius = item.radius || 0;
+			if (radius > this._maxItemRadius) {
+				this._maxItemRadius = radius;
+			}
+		}
 		this._rootBucket = makeCoordinatesMapBucket(this, null, data, this.bounds);
 		if (!insertItems && numLeafItems(data) != Object.keys(items).length) throw new Error('Items did not have same number of items as data passed in');
 		for (const item of items) {
@@ -499,9 +508,10 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	 */
 	getPosition(obj : T) : Position {
 		const radius = obj.radius || 0;
+		// Center the radius around the object's position
 		return {
-			x: obj.x || 0,
-			y: obj.y || 0,
+			x: (obj.x || 0) - radius,
+			y: (obj.y || 0) - radius,
 			width: radius * 2,
 			height: radius * 2
 		};
@@ -524,6 +534,11 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		bucket.insertObject(obj, skipResizing);
 		this._fullItemsMap[obj.id] = obj;
 		this._changesMade = true;
+		// Update max radius if this item has a larger radius
+		const radius = obj.radius || 0;
+		if (radius > this._maxItemRadius) {
+			this._maxItemRadius = radius;
+		}
 	}
   
 	/**
@@ -565,6 +580,11 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 
 		this._fullItemsMap[obj.id] = {...obj};
 		this._changesMade = true;
+		// Update max radius if this item has a larger radius
+		const radius = obj.radius || 0;
+		if (radius > this._maxItemRadius) {
+			this._maxItemRadius = radius;
+		}
 	}
 
 	removeObject(obj : T) {
@@ -600,10 +620,11 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		if (!exclude) exclude = [];
 		const excludeIDs = exclude.map(item => item.id);
 		const result : Map<T, number> = new Map();
-		//TODO: there is a serious bug with this; if there is an item just
-		//beyond the searchRadius so in another physical bucket, it won't be
-		//selected even if its own raidus might intersect with the search radius.
-		for (const bucket of this._rootBucket.getLeafBuckets(coord, searchRadius)) {
+		// Expand search radius to account for item radii. An item's center might be
+		// beyond searchRadius in another bucket, but its radius could still intersect
+		// with the search area, so we need to search buckets within searchRadius + maxItemRadius.
+		const effectiveSearchRadius = searchRadius + this._maxItemRadius;
+		for (const bucket of this._rootBucket.getLeafBuckets(coord, effectiveSearchRadius)) {
 			for (const id of Object.keys(bucket.items)) {
 				const item = this._fullItemsMap[id];
 				const itemCoords = {

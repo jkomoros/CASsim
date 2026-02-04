@@ -60,16 +60,16 @@ import {
 export class BaseRenderer extends LitElement {
 
 	@property({ type : Number })
-	scale : number;
+		scale : number;
 
 	@property({ type : Number })
-	height : number;
+		height : number;
 
 	@property({ type : Number })
-	width : number;
+		width : number;
 
 	@property({ type : Object })
-	frame : SimulationFrame;
+		frame : SimulationFrame;
 
 	static override get styles() {
 		return [
@@ -190,7 +190,7 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		return agent.node;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	agentOpacity(_agent : A, _positions : P) : number {
 		return 1.0;
 	}
@@ -226,7 +226,7 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		return info.direction == Math.PI || info.direction == 0.0;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	agentRotation(agent : A, _positions : P) : Angle {
 		const baseAngle = agent.angle === undefined ? ANGLE_MIN : agent.angle;
 		const emoji = this.agentEmoji(agent);
@@ -254,7 +254,7 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		return agent.width === undefined ? this.agentSize(agent) : agent.width;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	agentSizeMultiplier(_agent : A) : number {
 		return 1.0;
 	}
@@ -292,7 +292,7 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		return positions.nodePosition(nodeID);
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	nodeAdditionalStyles(_node : GraphNodeValues, _graph : PositionedGraph) : StyleInfo {
 		return {};
 	}
@@ -307,22 +307,22 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		return html`<div class='node ${node.type ? node.type : ''}' style=${styleMap(styles)}><span style='${styleMap(spanStyles)}'>${this.nodeText(node,graph)}</span></div>`;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	nodeText(node : GraphNodeValues, _graph : PositionedGraph) : string {
 		return node['emoji'] as string || '';
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	nodeTextOpacity(_node : GraphNodeValues, _graph : PositionedGraph) : number {
 		return 1.0;
 	}
  
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	nodeColorGradientPercentage(node : GraphNodeValues, _graph : PositionedGraph) : number {
 		return node['value'] as number || 0;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	renderEdges(_frame : F) : boolean {
 		return false;
 	}
@@ -351,22 +351,22 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		return html`<div class='agent ${agentType}' style=${styleMap(styles)}>${this.agentEmoji(agent)}</div>`;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	edgeColor(_edge : GraphEdge, _graph : PositionedGraph) : CSSColor {
 		return 'var(--secondary-color)';
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	edgeWidth(_edge : GraphEdge, _graph : PositionedGraph) : string {
 		return '1';
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	edgeOpacity(_edge : GraphEdge, _graph : PositionedGraph ) : string {
 		return '1.0';
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	edgeDasharray(_edge : GraphEdge, _graph : PositionedGraph) : string {
 		//Note: you might not be able to see the dasharray if edges overlap.
 		return '';
@@ -385,7 +385,7 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 	 * for debug purposes.
 	 * @returns true if the bounds of the positions shoudl be rendered
 	 */
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	renderBounds(_ : F) : boolean {
 		return false;
 	}

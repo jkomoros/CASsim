@@ -58,7 +58,7 @@ export class Graph {
 	_data : GraphData;
 	_nodeChangesMade : boolean;
 	_propertyChangesMade : boolean;
-	_cachedNodes : {[id : GraphNodeID]: GraphNodeValues}
+	_cachedNodes : {[id : GraphNodeID]: GraphNodeValues};
 
 	//data is the starter data. We will never modify data passed to us, but
 	//rather clone and set.

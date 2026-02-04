@@ -119,70 +119,70 @@ const optionsForMultiSelect = (chartData : ChartData) => {
 class SimulationControls extends connect(store)(LitElement) {
 
 	@state()
-	_showControls : boolean;
+		_showControls : boolean;
 
 	@state()
-	_warning: string;
+		_warning: string;
 
 	@state()
-	_hasModifications: boolean;
+		_hasModifications: boolean;
 
 	@state()
-	_modifiedPaths: ModificationsPathMap;
+		_modifiedPaths: ModificationsPathMap;
 
 	@state()
-	_configurationExpanded: boolean;
+		_configurationExpanded: boolean;
 
 	@state()
-	_chartExpanded: boolean;
+		_chartExpanded: boolean;
 
 	@state()
-	_chartData: ChartData;
+		_chartData: ChartData;
 
 	@state()
-	_chartSingleRun: boolean;
+		_chartSingleRun: boolean;
 
 	@state()
-	_chartConfigIDs: ChartConfigIDsMap;
+		_chartConfigIDs: ChartConfigIDsMap;
 
 	@state()
-	_currentSimulationHasChartableData: boolean;
+		_currentSimulationHasChartableData: boolean;
 
 	@state()
-	_descriptionExpanded: boolean;
+		_descriptionExpanded: boolean;
 
 	@state()
-	_filename: Filename;
+		_filename: Filename;
 
 	@state()
-	_simulationsMap: SimulationsMap;
+		_simulationsMap: SimulationsMap;
 
 	@state()
-	_simulationIndex: number;
+		_simulationIndex: number;
 
 	@state()
-	_simulationMaxRunIndex: number;
+		_simulationMaxRunIndex: number;
 	
 	@state()
-	_maxFrameIndex: number;
+		_maxFrameIndex: number;
 
 	@state()
-	_simulation: Simulation;
+		_simulation: Simulation;
 
 	@state()
-	_frameIndex: number;
+		_frameIndex: number;
 
 	@state()
-	_runIndex: number;
+		_runIndex: number;
 
 	@state()
-	_runStatuses: number[];
+		_runStatuses: number[];
 
 	@state()
-	_playing: boolean;
+		_playing: boolean;
 
 	@state()
-	_pathExpanded: {[path : OptionsPath]: true}
+		_pathExpanded: {[path : OptionsPath]: true};
 
 	static override get styles() {
 		return [

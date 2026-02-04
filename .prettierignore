@@ -1,0 +1,7 @@
+build/
+*.GENERATED.*
+node_modules/
+dist/
+*.min.js
+coverage/
+.firebase/

@@ -5,6 +5,10 @@ import {
 } from '../agent-simulator.js';
 
 import {
+	GraphExplorationEdgeScorer
+} from '../types.js';
+
+import {
 	RectangleGraph,
 	RectangleGraphEdge,
 	RectangleGraphNodeValues
@@ -131,7 +135,7 @@ class StandingOvationSimulator extends AgentSimulator<StandingOvationAgent,Stand
 		}
 
 		//Also stand if the people in front of us are standing.
-		const nodes = graph.exploreGraph(agent.node, undefined, (edge : RectangleGraphEdge) => edge.distance);
+		const nodes = graph.exploreGraph(agent.node, undefined, ((edge : RectangleGraphEdge) => edge.distance) as GraphExplorationEdgeScorer);
 		const agentsByNode = Object.fromEntries(agents.map(agent => [agent.node, agent]));
 		const falloff = agent.forwardStandingFalloff;
 		const standingThreshold = agent.standingThreshold;
@@ -214,7 +218,7 @@ class StandingOvationRenderer extends PositionedAgentsRenderer<StandingOvationAg
 		return agent.standing ? '👏' : '😐';
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	override nodeAdditionalStyles(node : GraphNodeValues, _graph : PositionedGraph) : StyleInfo {
 		//TODO: is there a better way to do this?
 		const rectNode = node as RectangleGraphNodeValues;
