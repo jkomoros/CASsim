@@ -81,7 +81,7 @@
     "pixelmatch": "^4.0.2",
     "pngjs": "^3.4.0",
     "prpl-server": "^1.4.0",
-    "puppeteer": "^12.0.0",
+    "puppeteer": "^24.36.1",
     "rollup": "^4.57.1",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-minify-html-literals": "^1.2.6",

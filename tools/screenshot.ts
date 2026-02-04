@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="./modules.d.ts" />
 
-import puppeteer from "puppeteer";
+import puppeteer, { type ElementHandle } from "puppeteer";
 import * as fs from "fs";
 import * as path from "path";
 import GIFEncoder from "gifencoder";
@@ -72,18 +72,18 @@ const generateScreenshots = async () => {
 	//Get us to the very last sim, run, frame
 	await page.evaluate('window.' + SETUP_METHOD_VARIABLE + '()');
 
-	let currentSimulationIndex = await page.evaluate('window.' + CURRENT_SIMULATION_INDEX_VARIABLE);
-	let currentRunIndex = await page.evaluate('window.' + CURRENT_RUN_INDEX_VARIABLE);
-	let currentFrameIndex = await page.evaluate('window.' + CURRENT_FRAME_INDEX_VARIABLE);
-	let currentSimulationName = await page.evaluate('window.' + CURRENT_SIMULATION_NAME_VARIABLE);
+	let currentSimulationIndex = await page.evaluate('window.' + CURRENT_SIMULATION_INDEX_VARIABLE) as number;
+	let currentRunIndex = await page.evaluate('window.' + CURRENT_RUN_INDEX_VARIABLE) as number;
+	let currentFrameIndex = await page.evaluate('window.' + CURRENT_FRAME_INDEX_VARIABLE) as number;
+	let currentSimulationName = await page.evaluate('window.' + CURRENT_SIMULATION_NAME_VARIABLE) as string;
 	//We need to know how many digits frame and run might be, so we can pad with that many 0's to verify the right ordering for gif creation.
 	//We start out with those numbers as high as they will get.
 	const runLength = currentRunIndex.toString().length;
 	const frameLength = currentFrameIndex.toString().length;
 	do {
 		console.log('Working on state #' + currentSimulationName + ' : ' + currentRunIndex + ' : ' + currentFrameIndex);
-		const ele : puppeteer.ElementHandle<Element> = await page.evaluateHandle('document.querySelector("my-app").shadowRoot.querySelector("sim-view").shadowRoot.querySelector("frame-visualization")');
-		
+		const ele = await page.evaluateHandle('document.querySelector("my-app").shadowRoot.querySelector("sim-view").shadowRoot.querySelector("frame-visualization")') as ElementHandle<Element>;
+
 		const safeSimulationName = sanitizeSimulationName(currentSimulationName);
 
 		//When this logic is updated, also change gifNameForFile
@@ -96,10 +96,10 @@ const generateScreenshots = async () => {
 		await page.evaluate('window.' + PREVIOUS_FRAME_METHOD_VARIABLE + '()');
 		//Wait for the flag to be raised high after rendering has happened
 		await page.waitForFunction('window.' + RENDER_COMPLETE_VARIABLE);
-		currentSimulationIndex = await page.evaluate('window.' + CURRENT_SIMULATION_INDEX_VARIABLE);
-		currentRunIndex = await page.evaluate('window.' + CURRENT_RUN_INDEX_VARIABLE);
-		currentFrameIndex = await page.evaluate('window.' + CURRENT_FRAME_INDEX_VARIABLE);
-		currentSimulationName = await page.evaluate('window.' + CURRENT_SIMULATION_NAME_VARIABLE);
+		currentSimulationIndex = await page.evaluate('window.' + CURRENT_SIMULATION_INDEX_VARIABLE) as number;
+		currentRunIndex = await page.evaluate('window.' + CURRENT_RUN_INDEX_VARIABLE) as number;
+		currentFrameIndex = await page.evaluate('window.' + CURRENT_FRAME_INDEX_VARIABLE) as number;
+		currentSimulationName = await page.evaluate('window.' + CURRENT_SIMULATION_NAME_VARIABLE) as string;
 	} while(currentSimulationIndex >= 0 && currentRunIndex >= 0 && currentFrameIndex >= 0);
 
 	await browser.close();
