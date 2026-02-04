@@ -365,6 +365,120 @@ describe('CoordinatesMap', () => {
 	//TODO: test that getLeafBucket works within nested buckets
 	//TODO: test that getLeafBuckets works within nested buckets
 
+	it('Bug fix: Items with large radius near bucket boundary are found', async () => {
+		// Test for Bug 1: An item with a large radius just beyond searchRadius
+		// in another bucket should be found if its radius intersects with the search area.
+		// This tests that we search buckets within searchRadius + maxItemRadius.
+		const items = [
+			{
+				id: 'center',
+				x: 50,
+				y: 50,
+				radius: 0
+			},
+			{
+				id: 'far-with-radius',
+				x: 120,
+				y: 50,
+				radius: 30  // Large radius
+			}
+		];
+		const size = {width: 200, height: 200};
+		const map = new CoordinatesMap(items, size);
+
+		// Search from center with radius 50. The far item's center is at distance 70,
+		// which is beyond searchRadius (50), but its radius (30) means its edge is at
+		// distance 40 from the center, which IS within searchRadius.
+		const result = map.getObjects(50, 50, 50);
+		const resultIds = [...result.keys()].map(item => item.id).sort();
+
+		// Should find both items: center (distance 0) and far-with-radius (edge within range)
+		const golden = ['center', 'far-with-radius'];
+		assert.deepStrictEqual(resultIds, golden);
+	});
+
+	it('Bug fix: Items with large radius near bucket boundary are found (bucketed)', async () => {
+		// Same test as above but with bucketing enabled
+		const items = [
+			{
+				id: 'center',
+				x: 50,
+				y: 50,
+				radius: 0
+			},
+			{
+				id: 'far-with-radius',
+				x: 120,
+				y: 50,
+				radius: 30
+			}
+		];
+		const size = {width: 200, height: 200};
+		// Create a bucketed map (small bucket sizes to force bucketing)
+		const map = new CoordinatesMap([], size);
+		map._minBucketSize = 40;
+		map._maxBucketSize = 4;
+		for (const item of items) {
+			map.insertObject(item);
+		}
+
+		const result = map.getObjects(50, 50, 50);
+		const resultIds = [...result.keys()].map(item => item.id).sort();
+
+		const golden = ['center', 'far-with-radius'];
+		assert.deepStrictEqual(resultIds, golden);
+	});
+
+	it('Bug fix: getPosition centers radius around object coordinates', async () => {
+		// Test for Bug 2: getPosition should center the radius around the object's x,y
+		// instead of having the radius extend only down and right.
+		const item = {
+			id: 'test',
+			x: 100,
+			y: 100,
+			radius: 20
+		};
+		const size = {width: 200, height: 200};
+		const map = new CoordinatesMap([item], size);
+
+		const position = map.getPosition(item);
+
+		// With radius 20 centered at (100, 100), the position box should be:
+		// x: 100 - 20 = 80
+		// y: 100 - 20 = 80
+		// width: 20 * 2 = 40
+		// height: 20 * 2 = 40
+		const golden = {
+			x: 80,
+			y: 80,
+			width: 40,
+			height: 40
+		};
+		assert.deepStrictEqual(position, golden);
+	});
+
+	it('Bug fix: getPosition with zero radius', async () => {
+		// Edge case: zero radius should result in a zero-size box at the object's coordinates
+		const item = {
+			id: 'test',
+			x: 50,
+			y: 75,
+			radius: 0
+		};
+		const size = {width: 200, height: 200};
+		const map = new CoordinatesMap([item], size);
+
+		const position = map.getPosition(item);
+
+		const golden = {
+			x: 50,
+			y: 75,
+			width: 0,
+			height: 0
+		};
+		assert.deepStrictEqual(position, golden);
+	});
+
 });
 
 describe('circleIntersectsBounds', () => {
