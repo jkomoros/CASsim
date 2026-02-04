@@ -400,7 +400,9 @@ const mergeNearDuplicateTypeDefinitions = (nearDuplicateDefinitions : TypeDefini
 	if (demoDefinition.type == 'array') {
 		return {
 			...demoDefinition,
-			value: mergeNearDuplicateTypeDefinitions(nearDuplicateDefinitions.map((definition : ArrayTypeDefinition) => definition.value)),
+			value: mergeNearDuplicateTypeDefinitions(nearDuplicateDefinitions
+				.filter((d): d is ArrayTypeDefinition => d.type === 'array')
+				.map(definition => definition.value)),
 			description,
 			optional
 		};
@@ -409,7 +411,9 @@ const mergeNearDuplicateTypeDefinitions = (nearDuplicateDefinitions : TypeDefini
 	if (demoDefinition.type == 'map') {
 		const merged : {[name : string] : TypeDefinition} = {};
 		for (const name of Object.keys(demoDefinition.value)) {
-			merged[name] = mergeNearDuplicateTypeDefinitions(nearDuplicateDefinitions.map((definition : MapTypeDefinition) => definition.value[name]));
+			merged[name] = mergeNearDuplicateTypeDefinitions(nearDuplicateDefinitions
+				.filter((d): d is MapTypeDefinition => d.type === 'map')
+				.map(definition => definition.value[name]));
 		}
 		return {
 			...demoDefinition,

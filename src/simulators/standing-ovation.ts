@@ -5,6 +5,10 @@ import {
 } from '../agent-simulator.js';
 
 import {
+	GraphExplorationEdgeScorer
+} from '../types.js';
+
+import {
 	RectangleGraph,
 	RectangleGraphEdge,
 	RectangleGraphNodeValues

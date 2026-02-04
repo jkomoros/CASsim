@@ -7,7 +7,7 @@ import puppeteer from "puppeteer";
 import * as fs from "fs";
 import * as path from "path";
 import GIFEncoder from "gifencoder";
-import glob from "glob";
+import { glob } from "glob";
 import { PNG } from "pngjs";
 import { promisify } from 'util';
 import {imageSize } from 'image-size';
@@ -202,14 +202,9 @@ const generateGifs = async (infos : {[name : string] : GifInfo}) => {
 	for (const [gifName, info] of Object.entries(infos)) {
 		console.log("Generating gif " + gifName + " (this could take awhile)");
 
-		const matches : string[] = await new Promise((resolve, reject) => {
-			//This order has been confirmed to be the correct order in testing, as
-			//long as numbers are padded with prefixed 0's (lexicographic ordering)
-			glob(path.join(SCREENSHOT_DIR, 'screenshot_' + gifName + '_*_*.png'), (er, matches) => {
-				if (er) reject(er);
-				resolve(matches);
-			});
-		});
+		//This order has been confirmed to be the correct order in testing, as
+		//long as numbers are padded with prefixed 0's (lexicographic ordering)
+		const matches : string[] = await glob(path.join(SCREENSHOT_DIR, 'screenshot_' + gifName + '_*_*.png'));
 
 		const normalDelay = info.delay || 0;
 		const finalFrameDelay = normalDelay * (info.extraFinalFrameCount || 0);

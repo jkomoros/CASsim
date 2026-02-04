@@ -1,7 +1,8 @@
 import {
 	Agent,
 	AgentSimulationFrame,
-	AgentSimulator
+	AgentSimulator,
+	NodeScorer
 } from '../agent-simulator.js';
 
 import {
@@ -92,7 +93,7 @@ class PastureDemoSimulator extends AgentSimulator<PastureDemoAgent, PastureDemoS
 
 	override defaultAgentTick(agent : PastureDemoAgent, agents : PastureDemoAgent[], graph : RectangleGraph, frame : PastureDemoSimulationFrame, rnd : RandomGenerator) : PastureDemoAgent | PastureDemoAgent[] {
 		if (rnd() < agent.deathLikelihood) return null;
-		const node = this.selectNodeToMoveTo(agent, agents, graph, frame, rnd, 1, ((node : PastureDemoGraphNodeValues) => node.value) as NodeScorer);
+		const node = this.selectNodeToMoveTo(agent, agents, graph, frame, rnd, 1, ((node : GraphNodeValues) => (node as PastureDemoGraphNodeValues).value) as NodeScorer);
 		//Sometimes there won't be any open cells next to us.
 		if (!node) return agent;
 		graph.setNodeProperty(node, 'value', 0.0);

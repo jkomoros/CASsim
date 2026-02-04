@@ -333,11 +333,12 @@ export class ForceLayoutGraph extends PositionedGraph {
 
 		const simulation : LayoutSimulation = forceSimulation(nodes);
 
-		simulation.force('link', forceLink(edges).id((d : SimulationNodeDatum, _i, _nodes) => d.id).distance(d => d.value));
+		simulation.force('link', forceLink(edges).id((d, _i, _nodes) => (d as SimulationNodeDatum).id).distance(d => d.value));
 		//nodeSize is the diameter, we want the radius. But give a bit of buffer...
-		if (!this.noCollide) simulation.force('collide', forceCollide().radius((n : SimulationNodeDatum, _i, _nodes) => {
-			const nodeRadius = this.nodeSize(n.id) * 0.5;
-			return nodeRadius + (nodeRadius * this.nodeMargin(n.id));
+		if (!this.noCollide) simulation.force('collide', forceCollide().radius((n, _i, _nodes) => {
+			const node = n as SimulationNodeDatum;
+			const nodeRadius = this.nodeSize(node.id) * 0.5;
+			return nodeRadius + (nodeRadius * this.nodeMargin(node.id));
 		}));
 		simulation.force('charge', forceManyBody());
 		simulation.force('center', forceCenter(width / 2, height / 2));
