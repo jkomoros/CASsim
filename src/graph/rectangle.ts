@@ -11,7 +11,7 @@ import {
 	PositionedGraph
 } from './positioned.js';
 
-export interface RectangleGraphNodeValues extends Partial<GraphNodeValues> {
+export interface RectangleGraphNodeValues extends GraphNodeValues {
 	row : number;
 	col : number;
 }
@@ -20,7 +20,7 @@ export interface RectangleGraphEdge extends GraphEdge {
 	distance : number;
 }
 
-export class RectangleGraph extends PositionedGraph {
+export class RectangleGraph extends PositionedGraph<RectangleGraphNodeValues, RectangleGraphEdge> {
 
 	_cachedNodeHeight : number;
 	_cachedNodeWidth : number;
@@ -94,8 +94,8 @@ export class RectangleGraph extends PositionedGraph {
 		if (options.rectangular) result.rectangular = true;
 		for (let r = 0; r < rows; r++) {
 			for (let c = 0; c < cols; c++) {
-				const values : RectangleGraphNodeValues = {...starterValues, row: r, col: c};
 				const identifier = RectangleGraph.identifier(r, c);
+				const values : Partial<RectangleGraphNodeValues> = {...starterValues, row: r, col: c};
 				result.setNode(identifier, values);
 				if (!options.noUp && !options.noVertical && !options.noRightAngle) {
 					if (r > 0) result.setEdge(identifier, RectangleGraph.identifier(r - 1, c), {distance: 1.0, type: 'up'});
@@ -205,8 +205,8 @@ export class RectangleGraph extends PositionedGraph {
 	}
 
 	//We return width and height directly.
-	override calculateNodePosition(identifier : GraphNodeIdentifier) {
-		const node = this.node(identifier) as RectangleGraphNodeValues;
+	override calculateNodePosition(identifier : GraphNodeIdentifier<RectangleGraphNodeValues, RectangleGraphEdge>) {
+		const node = this.node(identifier);
 		const nodeWidth = this.nodeWidth();
 		const nodeHeight = this.nodeHeight();
 		return {

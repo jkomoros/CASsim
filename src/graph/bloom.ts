@@ -68,12 +68,12 @@ const OPTIONS_CONFIG = {
 	},
 };
 
-type BloomGraphNodeValues = GraphNodeValues & {
+export type BloomGraphNodeValues = GraphNodeValues & {
 	level : number;
 	levelRadius : number;
 }
 
-type BloomGraphEdge = GraphEdge & {
+export type BloomGraphEdge = GraphEdge & {
 	level : number;
 	type : 'primary' | 'peer';
 }
@@ -81,7 +81,8 @@ type BloomGraphEdge = GraphEdge & {
 /*
 	A BloomGraph is a ForceLayoutGraph where nodes "bloom" out from a center node.
 */
-export class BloomGraph extends ForceLayoutGraph {
+// @ts-expect-error - Static method signature intentionally differs for type safety
+export class BloomGraph extends ForceLayoutGraph<BloomGraphNodeValues, BloomGraphEdge> {
 	/*
 		Makes a graph that blooms out of a key node in the center.
 
@@ -101,7 +102,7 @@ export class BloomGraph extends ForceLayoutGraph {
 			childFactor: (deafault: 1.0) - at each level, the final childCount is childCount * Math.pow(childFactor, level)
 			childLinkLikelihood: (default: 0.0) - How likely the children of each parent node are to have connections amongst themselves. 1.0 is all connected, 0.0 is no connections.
 	*/
-	static override make(availableWidth : number, availableHeight : number, rnd : RandomGenerator, options : BloomGraphOptions = {}) : BloomGraph {
+	static override make(availableWidth : number, availableHeight : number, rnd : RandomGenerator, options : BloomGraphOptions<BloomGraphNodeValues, BloomGraphEdge> = {}) : BloomGraph {
 		const result = new BloomGraph();
 		result._make(availableWidth, availableHeight, rnd, options);
 		return result;
@@ -115,15 +116,15 @@ export class BloomGraph extends ForceLayoutGraph {
 		return {...OPTIONS_CONFIG, ...ForceLayoutGraph.OPTIONS_CONFIG};
 	}
 
-	override _makeInner(rnd : RandomGenerator, options : BloomGraphOptions) : void {
+	override _makeInner(rnd : RandomGenerator, options : BloomGraphOptions<BloomGraphNodeValues, BloomGraphEdge>) : void {
 		const levels = options.levels === undefined ? 3.0 : options.levels;
 		const baseChildCount = options.childCount === undefined ? 5.0 : options.childCount;
 		const childFactor = options.childFactor === undefined ? 1.0 : options.childFactor;
 		const childLinkLikelihood = options.childLinkLikelihood === undefined ? 0.0 : options.childLinkLikelihood;
-		const nodeValues = options.nodeValues || {};
-		const edgeValues = options.edgeValues || {};
+		const nodeValues = options.nodeValues || {} as Partial<BloomGraphNodeValues>;
+		const edgeValues = options.edgeValues || {} as Partial<BloomGraphEdge>;
 
-		const keyNode = this.setNode(this.vendID(), {...nodeValues, level: 0}) as BloomGraphNodeValues;
+		const keyNode = this.setNode(this.vendID(), {...nodeValues, level: 0});
 		const nodesToProcess : BloomGraphNodeValues[] = [keyNode];
 		while (nodesToProcess.length) {
 			const node = nodesToProcess.shift();
@@ -132,7 +133,7 @@ export class BloomGraph extends ForceLayoutGraph {
 			const children = [];
 			//TODO: allow children count to differ
 			for (let i = 0; i < childCount; i++) {
-				const childNode = this.setNode(this.vendID(), {...nodeValues, level: newLevel}) as BloomGraphNodeValues;
+				const childNode = this.setNode(this.vendID(), {...nodeValues, level: newLevel});
 				this.setBidirectionalEdge(node, childNode, {...edgeValues, type: 'primary', level: newLevel});
 				if (newLevel < levels) nodesToProcess.push(childNode);
 				children.push(childNode);
@@ -148,7 +149,7 @@ export class BloomGraph extends ForceLayoutGraph {
 		}
 	}
 
-	override _initialLayout(_rnd : RandomGenerator, options : BloomGraphOptions) : void {
+	override _initialLayout(_rnd : RandomGenerator, options : BloomGraphOptions<BloomGraphNodeValues, BloomGraphEdge>) : void {
 		const levels = options.levels === undefined ? 3.0 : options.levels;
 
 		//Place nodes radially around the circle in starting positions (instead
@@ -179,20 +180,17 @@ export class BloomGraph extends ForceLayoutGraph {
 		}
 	}
 
-	override _makeRandomEdge(baseEdgeValues: Partial<GraphEdge>, fromNode : GraphNodeValues, toNode : GraphNodeValues) : Partial<GraphEdge> {
-		const fromNodeBloom = fromNode as BloomGraphNodeValues;
-		const toNodeBloom = toNode as BloomGraphNodeValues;
+	override _makeRandomEdge(baseEdgeValues: Partial<BloomGraphEdge>, fromNode : BloomGraphNodeValues, toNode : BloomGraphNodeValues) : Partial<BloomGraphEdge> {
 		return {
 			...super._makeRandomEdge(baseEdgeValues, fromNode, toNode),
-			level: Math.min(fromNodeBloom.level, toNodeBloom.level)
+			level: Math.min(fromNode.level, toNode.level)
 		};
 	}
 
-	override distanceForEdge(edge : GraphEdge) : number {
+	override distanceForEdge(edge : BloomGraphEdge) : number {
 		//TODO: shouldn't this be a property or something?
 		const baseSize = 10;
-		const edgeBloom = edge as BloomGraphEdge;
-		return baseSize * 2 * (edgeBloom.level + 1);
+		return baseSize * 2 * (edge.level + 1);
 	}
 
 	override installExtraForces(simulation : LayoutSimulation) {

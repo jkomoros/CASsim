@@ -7,6 +7,7 @@ import {
 } from '../util.js';
 
 import {
+	GraphEdge,
 	GraphEdgeID,
 	GraphNodeValues,
 	OptionsConfigMap,
@@ -81,7 +82,7 @@ const OPTIONS_CONFIG = {
 	A PreferentialAttachmentGraph is a ForceLayoutGraph that tries to mimic
 	realistic network topologies with preferential attachment.
 */
-export class PreferentialAttachmentGraph extends ForceLayoutGraph {
+export class PreferentialAttachmentGraph<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge> extends ForceLayoutGraph<N, E> {
 	/*
 		Makes a graph with preferential attachment, showing power law
 		distribution of node degree.
@@ -96,8 +97,8 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 			edgeCount: (default: 3) - How many edges, on each iteartion, we should add.
 			nodeValues: (deafult: {}) - The base values to set on nodes
 	*/
-	static override make(availableWidth : number, availableHeight : number, rnd : RandomGenerator, options : PreferentialAttachmentGraphOptions = {}) : PreferentialAttachmentGraph {
-		const result = new PreferentialAttachmentGraph();
+	static override make<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge>(availableWidth : number, availableHeight : number, rnd : RandomGenerator, options : PreferentialAttachmentGraphOptions<N, E> = {}) : PreferentialAttachmentGraph<N, E> {
+		const result = new PreferentialAttachmentGraph<N, E>();
 		result._make(availableWidth, availableHeight, rnd, options);
 		return result;
 	}
@@ -110,21 +111,21 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 		return { ...OPTIONS_CONFIG, ...ForceLayoutGraph.OPTIONS_CONFIG};
 	}
 
-	override _makeInner(rnd : RandomGenerator, options : PreferentialAttachmentGraphOptions) : void {
+	override _makeInner(rnd : RandomGenerator, options : PreferentialAttachmentGraphOptions<N, E>) : void {
 		const nodeCount = options.nodeCount || 100;
 		const iterations = options.iterations || 100;
 		const edgeCount = options.edgeCount || 3;
 		const nodeBoost = options.nodeBoost || EPSILON;
 		const distantNodeBoost = options.distantNodeBoost || 3;
-		const nodeValues = options.nodeValues || {};
-		const edgeValues = options.edgeValues || {};
+		const nodeValues = options.nodeValues || {} as Partial<N>;
+		const edgeValues = options.edgeValues || {} as Partial<E>;
 
 		for (let i = 0; i < nodeCount; i++) {
 			this.setNode(this.vendID(), {...nodeValues});
 		}
 
 		for (let i = 0; i < iterations; i++) {
-			const urn = new Urn<GraphNodeValues>(rnd);
+			const urn = new Urn<N>(rnd);
 			for (const node of Object.values(this.nodes())) {
 				const edges = this.edges(node);
 				const edgeCount = Object.keys(edges).length;
@@ -137,7 +138,7 @@ export class PreferentialAttachmentGraph extends ForceLayoutGraph {
 			const unconnectedDistance  = maxDistance + 1;
 			for (const otherID of Object.keys(this.nodes())) {
 				//Skip ourselves
-				if (ForceLayoutGraph.packID(node) == otherID) continue;
+				if (PreferentialAttachmentGraph.packID<N, E>(node) == otherID) continue;
 				const distance = distances[otherID] || unconnectedDistance;
 				const finalCount = (unconnectedDistance - distance) + distantNodeBoost;
 				edgeUrn.add(otherID, finalCount);

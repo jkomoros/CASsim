@@ -64,11 +64,11 @@ type AnyNodeTicker<A extends Agent, F extends AgentSimulationFrame<A, P>, P exte
 	[name : string] : (node : GraphNodeValues, positions : P, frame : F, rnd : RandomGenerator) => GraphNodeValues;
 }
 
-type AnyAgentTicker<A extends Agent, F extends AgentSimulationFrame<A, P>, P extends (CoordinatesMap<A> | Graph)> = {
+type AnyAgentTicker<A extends Agent, F extends AgentSimulationFrame<A, P>, P extends (CoordinatesMap<A> | Graph<any, any>)> = {
 	[name : string] : (agent : A, agents : A[], positions : P, frame : F, rnd : RandomGenerator) => A | A[];
 }
 
-export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P>, P extends (CoordinatesMap<A> | Graph)> extends BaseSimulator {
+export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P>, P extends (CoordinatesMap<A> | Graph<any, any>)> extends BaseSimulator {
 
 	/*
 		An override point for your generateFirstFrame. You should return the

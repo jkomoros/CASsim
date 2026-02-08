@@ -481,22 +481,22 @@ export type GraphType = string;
 export type GraphNodeID = string | number;
 export type GraphEdgeID = string;
 
-export type GraphNodeIdentifier = GraphNodeID | GraphNode | GraphNodeValues | GraphNodeID[];
+export type GraphNodeIdentifier<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge> = GraphNodeID | GraphNode<N, E> | N | GraphNodeID[];
 
 export type GraphNodeValues = {
     id : GraphNodeID;
     [key : string] : unknown;
 };
 
-export type GraphNodeValuesMap = {
-    [id : GraphNodeID] : GraphNodeValues
+export type GraphNodeValuesMap<N extends GraphNodeValues = GraphNodeValues> = {
+    [id : GraphNodeID] : N
 };
 
-export type GraphNode = {
+export type GraphNode<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge> = {
     id: GraphNodeID,
-    values : GraphNodeValues;
+    values : N;
     edges: {
-        [to: GraphNodeID]: GraphEdge;
+        [to: GraphNodeID]: E;
     }
 }
 
@@ -507,7 +507,7 @@ export type GraphEdge = {
     [key : string] : unknown;
 }
 
-export type GraphNodes = {[nodeID : GraphNodeID]: GraphNode};
+export type GraphNodes<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge> = {[nodeID : GraphNodeID]: GraphNode<N, E>};
 
 export type GraphProperty = number | string | boolean | Position | RowCol;
 
@@ -515,37 +515,37 @@ export type GraphPropertyName = string;
 
 export type GraphProperties = {[key : GraphPropertyName]: GraphProperty};
 
-export type GraphData = {
-    nodes : GraphNodes;
+export type GraphData<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge> = {
+    nodes : GraphNodes<N, E>;
     properties: GraphProperties;
     graphType: GraphType;
 }
 
-export type GraphNodeExplorationResult = {
-    node : GraphNodeValues,
-    path : GraphEdge[],
+export type GraphNodeExplorationResult<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge> = {
+    node : N,
+    path : E[],
     length : number;
 }
 
-export type GraphExplorationCollectionResult = {
-    [id : GraphNodeID] : GraphNodeExplorationResult;
+export type GraphExplorationCollectionResult<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge> = {
+    [id : GraphNodeID] : GraphNodeExplorationResult<N, E>;
 }
 
-export type GraphExplorationTargetResult = [distance : number, path : GraphEdge[]];
+export type GraphExplorationTargetResult<E extends GraphEdge = GraphEdge> = [distance : number, path : E[]];
 
-export type GraphExplorationResult = GraphExplorationCollectionResult | GraphExplorationTargetResult;
+export type GraphExplorationResult<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge> = GraphExplorationCollectionResult<N, E> | GraphExplorationTargetResult<E>;
 
-export type GraphExplorationNodeTester = (node : GraphNodeValues, path : GraphEdge[], length : number) => boolean;
+export type GraphExplorationNodeTester<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge> = (node : N, path : E[], length : number) => boolean;
 
-export type GraphExplorationEdgeScorer = (edge : GraphEdge) => number;
+export type GraphExplorationEdgeScorer<E extends GraphEdge = GraphEdge> = (edge : E) => number;
 
 export type OptionsOverridesMap = {
     [optionName : string] : string;
 };
 
-export type ForceLayoutGraphOptions = {
+export type ForceLayoutGraphOptions<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge> = {
     // edgeValues: (default: {}) - the starter values for an edge
-    edgeValues? : Partial<GraphEdge>;
+    edgeValues? : Partial<E>;
     // minNodeSize: (default: 10.0) - The smallest rendered nodeSize in pixels
     minNodeSize? : number;
     // maxNodeSize: (default: 10.0) - The largest rendered nodeSize in pixels
@@ -553,18 +553,18 @@ export type ForceLayoutGraphOptions = {
     // nodeMargin: (default: 0.1) - How much space should be left between this node and other nodes, in units of percentage of this node's size.
     nodeMargin? : number;
     // nodeSize: (default: () -> 1.0) - A method given nodeValues and rnd, that should return the value to set.
-    nodeSize? : (node : GraphNodeValues, rnd : RandomGenerator) => number;
+    nodeSize? : (node : N, rnd : RandomGenerator) => number;
     // noCollide: (default: false) - If true then there will be no collison forces
     noCollide? : boolean;
     // randomLinkLikelihood: (default: 0.0) - How likely two random children in the parent are to have an extra connection amongst themselves. 0.0 is no connections, 1.0 is all connections.
     randomLinkLikelihood? : number;
 }
 
-export type BloomGraphOptions = ForceLayoutGraphOptions & {
+export type BloomGraphOptions<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge> = ForceLayoutGraphOptions<N, E> & {
     // levels (default: 3.0) - how many layers from the first node to go to.
     levels? : number;
     // nodeValues: (default: {}) - the values to start each node with
-    nodeValues? : GraphNodeValues;
+    nodeValues? : N;
     // childCount: (default: 5.0) - how many children each node should have
     childCount? : number;
     // childFactor: (deafault: 1.0) - at each level, the final childCount is childCount * Math.pow(childFactor, level)
@@ -573,7 +573,7 @@ export type BloomGraphOptions = ForceLayoutGraphOptions & {
     childLinkLikelihood? : number;
 }
 
-export type PreferentialAttachmentGraphOptions = ForceLayoutGraphOptions & {
+export type PreferentialAttachmentGraphOptions<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge> = ForceLayoutGraphOptions<N, E> & {
     // nodeCount: (default: 100) - How many nodes to create
     nodeCount? : number;
     // iterations: (default: 100) - How many iterations of adding edges we should do
@@ -585,7 +585,7 @@ export type PreferentialAttachmentGraphOptions = ForceLayoutGraphOptions & {
     // edgeCount: (default: 3) - How many edges, on each iteartion, we should add.
     edgeCount? : number;
     // nodeValues: (deafult: {}) - The base values to set on nodes
-    nodeValues? : GraphNodeValues;
+    nodeValues? : N;
 }
 
 export type RectangleGraphOptions = {

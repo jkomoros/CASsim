@@ -8,7 +8,6 @@ import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 
 import {
 	dataIsGraph,
-	Graph,
 	inflateGraph
 } from './graph/graph.js';
 
@@ -115,7 +114,7 @@ export class BaseRenderer extends LitElement {
 }
 
 @customElement('positioned-agents-renderer')
-export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulationFrame<A, P>, P extends (PositionedGraph | CoordinatesMap<A>)> extends BaseRenderer {
+export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulationFrame<A, P>, P extends (PositionedGraph<any, any> | CoordinatesMap<A>)> extends BaseRenderer {
 	
 	@property({ type : Object })
 	override frame : F;
@@ -169,7 +168,7 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 	}
 	
 	//This is an override point for your renderer to tell the renderer where the positioned graph data is
-	positionsData(frame : F) : P extends Graph ? GraphData : CoordinatesMapDataLeaf {
+	positionsData(frame : F) : GraphData<any, any> | CoordinatesMapDataLeaf {
 		return frame.positions;
 	}
 

@@ -118,7 +118,7 @@ export type LayoutSimulation = Simulation<SimulationNodeDatum,SimulationEdgeDatu
 	A ForceLayoutGraph is a PositionedGraph whose x/y properteis are set by
 	running a d3 force graph simulation.
 */
-export class ForceLayoutGraph extends PositionedGraph {
+export class ForceLayoutGraph<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge> extends PositionedGraph<N, E> {
 
 	_cachedLayoutPositions : {[id : GraphNodeID] : Coordinates};
 
@@ -134,8 +134,8 @@ export class ForceLayoutGraph extends PositionedGraph {
 			noCollide: (default: false) - If true then there will be no collison forces
 			randomLinkLikelihood: (default: 0.0) - How likely two random children in the parent are to have an extra connection amongst themselves. 0.0 is no connections, 1.0 is all connections.
 	*/
-	static make(availableWidth : number, availableHeight : number, rnd : RandomGenerator, options : ForceLayoutGraphOptions) : ForceLayoutGraph {
-		const result = new ForceLayoutGraph();
+	static make<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge>(availableWidth : number, availableHeight : number, rnd : RandomGenerator, options : ForceLayoutGraphOptions<N, E>) : ForceLayoutGraph<N, E> {
+		const result = new ForceLayoutGraph<N, E>();
 		result._make(availableWidth, availableHeight, rnd, options);
 		return result;
 	}
@@ -160,7 +160,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 	/*
 		Given the values option based on optionsConfig, pass back to this to get the options values to pass to constructor.
 	*/
-	static optionsFromConfig(values : OptionValueMap, overrides : OptionsOverridesMap = {}) : ForceLayoutGraphOptions {
+	static optionsFromConfig<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge>(values : OptionValueMap, overrides : OptionsOverridesMap = {}) : ForceLayoutGraphOptions<N, E> {
 		const config = this.OPTIONS_CONFIG;
 		const reversed : {[value : string] : string} = {};
 		for (const [key, value] of Object.entries(overrides)) {
@@ -170,15 +170,15 @@ export class ForceLayoutGraph extends PositionedGraph {
 		const result = Object.fromEntries(Object.entries(values).map(entry => [reversed[entry[0]] == undefined ? entry[0] : overrides[entry[0]], entry[1]]).filter(entry => config[entry[0] as string]));
 		if (result[NODE_SIZE_PROPERTY]) {
 			const distribution = nodePercentage.distribution(result[NODE_SIZE_PROPERTY]);
-			result[NODE_SIZE_PROPERTY] = (_node : GraphNodeValues, rnd : RandomGenerator) => distribution.sample(rnd);
+			result[NODE_SIZE_PROPERTY] = (_node : N, rnd : RandomGenerator) => distribution.sample(rnd);
 		}
-		return result;
+		return result as ForceLayoutGraphOptions<N, E>;
 	}
 
 	//_make is the private method that subclasses's static make() functions
 	//should call. It will do stuff that all ForceLayoutGraphs should do, but
 	//also call this._makeInner(rnd, options) which is an override point for subclasses.
-	_make(availableWidth : number, availableHeight : number, rnd : RandomGenerator, options : ForceLayoutGraphOptions) : ForceLayoutGraph {
+	_make(availableWidth : number, availableHeight : number, rnd : RandomGenerator, options : ForceLayoutGraphOptions<N, E>) : ForceLayoutGraph<N, E> {
 		this.availableWidth = availableWidth;
 		this.availableHeight = availableHeight;
 		if (options[MIN_NODE_SIZE_PROPERTY] != undefined) this.defaultMinNodeSize = options[MIN_NODE_SIZE_PROPERTY];
@@ -230,7 +230,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 	}
 
 	 
-	_makeInner(_rnd : RandomGenerator, _options : ForceLayoutGraphOptions) : void {
+	_makeInner(_rnd : RandomGenerator, _options : ForceLayoutGraphOptions<N, E>) : void {
 		//Do nothing
 	}
 
@@ -241,7 +241,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 		The default implementation just positions each node with a random x,y,
 	*/
 	 
-	_initialLayout(rnd : RandomGenerator, _options : ForceLayoutGraphOptions) : void {
+	_initialLayout(rnd : RandomGenerator, _options : ForceLayoutGraphOptions<N, E>) : void {
 		const availableWidth = this.availableWidth;
 		const availableHeight = this.availableHeight;
 		for(const node of Object.values(this.nodes())) {
@@ -257,19 +257,19 @@ export class ForceLayoutGraph extends PositionedGraph {
 		return this.property('noCollide') as boolean || false;
 	}
 
-	override nodeSizeMultiplier(identifier : GraphNodeIdentifier) : number {
+	override nodeSizeMultiplier(identifier : GraphNodeIdentifier<N, E>) : number {
 		const node = this.node(identifier);
 		return node.size as number;
 	}
 
-	override nodeX(identifier : GraphNodeIdentifier) : number {
-		const id = ForceLayoutGraph.packID(identifier);
+	override nodeX(identifier : GraphNodeIdentifier<N, E>) : number {
+		const id = ForceLayoutGraph.packID<N, E>(identifier);
 		//layoutPositions will recalc layout if necessary
 		return this._layoutPositions[id].x;
 	}
 
-	override nodeY(identifier : GraphNodeIdentifier) : number {
-		const id = ForceLayoutGraph.packID(identifier);
+	override nodeY(identifier : GraphNodeIdentifier<N, E>) : number {
+		const id = ForceLayoutGraph.packID<N, E>(identifier);
 		//layoutPositions will recalc layout if necessary
 		return this._layoutPositions[id].y;
 	}
@@ -285,7 +285,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 		distanceForEdge should return the distance value to use for the edge. Override point for subclases.
 	*/
 	 
-	distanceForEdge(_edge : GraphEdge) : number {
+	distanceForEdge(_edge : E) : number {
 		return 1.0;
 	}
 
@@ -302,7 +302,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 		percenatage of its nodeSize. By default returns defaultNodeMargin.
 	*/
 	 
-	nodeMargin(_identifier : GraphNodeIdentifier) : number {
+	nodeMargin(_identifier : GraphNodeIdentifier<N, E>) : number {
 		return this.defaultNodeMargin;
 	}
 
@@ -317,7 +317,7 @@ export class ForceLayoutGraph extends PositionedGraph {
 	_recalcLayout() {
 
 		const nodes : SimulationNodeDatum[] = Object.values(this.nodes()).map(values => {
-			const result = {...values};
+			const result = {...values} as any;
 			const edges = this.edges(values);
 			//Fix unconnected items to wherever they are right now, so they don't go flying off the edge due to manyBody without a centering link force.
 			if (Object.keys(edges).length == 0) {

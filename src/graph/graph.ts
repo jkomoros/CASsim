@@ -28,7 +28,7 @@ import {
 	shuffleInPlace
 } from '../util.js';
 
-export const dataIsGraph = (input : object): input is GraphData => {
+export const dataIsGraph = <N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge>(input : object): input is GraphData<N, E> => {
 	return 'graphType' in input && 'properties' in input && 'nodes' in input;
 };
 
@@ -53,16 +53,16 @@ To make and configure a new graph (for example at the beginning of a
 simulation), use the make*() methods on each subclasses type.
 
 */
-export class Graph {
+export class Graph<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge> {
 
-	_data : GraphData;
+	_data : GraphData<N, E>;
 	_nodeChangesMade : boolean;
 	_propertyChangesMade : boolean;
-	_cachedNodes : {[id : GraphNodeID]: GraphNodeValues};
+	_cachedNodes : {[id : GraphNodeID]: N};
 
 	//data is the starter data. We will never modify data passed to us, but
 	//rather clone and set.
-	constructor(data? : GraphData) {
+	constructor(data? : GraphData<N, E>) {
 		if (!data) data = {nodes:{}, properties:{}, graphType: this.constructor.name};
 		this._data = data;
 		this._nodeChangesMade = false;
@@ -78,7 +78,7 @@ export class Graph {
 		When a graph type is laoded, it should call this with their constructor
 		so that inflateGraph knows how to find it.
 	*/
-	static registerGraphType(constructor : typeof Graph) {
+	static registerGraphType(constructor : typeof Graph | any) {
 		graphConstructors[constructor.name] = constructor;
 	}
 
@@ -86,7 +86,7 @@ export class Graph {
 		return ':';
 	}
 
-	static packID(identifier : GraphNodeIdentifier) : GraphNodeID {
+	static packID<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge>(identifier : GraphNodeIdentifier<N, E>) : GraphNodeID {
 		if (typeof identifier == 'string') return identifier;
 		if (typeof identifier == 'number') return identifier.toString();
 		if (Array.isArray(identifier)) {
@@ -104,9 +104,9 @@ export class Graph {
 		return ('' + packedID).split(Graph.ID_DELIMITER).map(item => isNaN(parseFloat(item)) ? item : parseFloat(item));
 	}
 
-	static packEdgeID(fromIdentifier : GraphNodeIdentifier, toIdentifier : GraphNodeIdentifier) : GraphEdgeID {
-		const fromID = Graph.packID(fromIdentifier);
-		const toID = Graph.packID(toIdentifier);
+	static packEdgeID<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge>(fromIdentifier : GraphNodeIdentifier<N, E>, toIdentifier : GraphNodeIdentifier<N, E>) : GraphEdgeID {
+		const fromID = Graph.packID<N, E>(fromIdentifier);
+		const toID = Graph.packID<N, E>(toIdentifier);
 		return fromID + Graph.ID_DELIMITER + Graph.ID_DELIMITER + toID;
 	}
 
@@ -132,7 +132,7 @@ export class Graph {
 
 	//same checks for logical equality, since you can't rely on values objects
 	//being strictly equaly if changesMade is false.
-	same(left : GraphNodeValues, right : GraphNodeValues) : boolean {
+	same(left : N, right : N) : boolean {
 		if (left == right) return true;
 		if (!left || !right) return false;
 		if (typeof left != 'object') return false;
@@ -141,19 +141,19 @@ export class Graph {
 		return left.id == right.id;
 	}
 
-	_nodeObject(identifier : GraphNodeIdentifier) : GraphNode {
-		const id = Graph.packID(identifier);
+	_nodeObject(identifier : GraphNodeIdentifier<N, E>) : GraphNode<N, E> {
+		const id = Graph.packID<N, E>(identifier);
 		return this._data.nodes[id];
 	}
 
-	get frameData() : GraphData {
+	get frameData() : GraphData<N, E> {
 		return this._data;
 	}
 
 	//Get the values stored on the node, or undefined if it doesn't exist. Note
 	//that you can only rely on value equality for nodes if changesMade is
 	//false. Instead, use Graph.same()
-	node(identifier : GraphNodeIdentifier) : GraphNodeValues {
+	node(identifier : GraphNodeIdentifier<N, E>) : N {
 		//_nodeObject will pack identifier
 		const node = this._nodeObject(identifier);
 		if (!node) return undefined;
@@ -163,27 +163,27 @@ export class Graph {
 	//Get the values stored on the edge, or undefined if that edge doesnt'
 	//exist. Note that you can only rely on value equality for edges if
 	//changesMade is false. Instead use Graph.same()
-	edge(fromIdentifier : GraphNodeIdentifier, toIdentifier : GraphNodeIdentifier) : GraphEdge {
+	edge(fromIdentifier : GraphNodeIdentifier<N, E>, toIdentifier : GraphNodeIdentifier<N, E>) : E {
 		const node = this._nodeObject(fromIdentifier);
 		if (!node) return undefined;
-		const toID = Graph.packID(toIdentifier);
+		const toID = Graph.packID<N, E>(toIdentifier);
 		return node.edges[toID];
 	}
 
 	//Returns a map of toIdentifier, and the EDGE values.
-	edges(identifier : GraphNodeIdentifier) : {[to : GraphNodeID] : GraphEdge} {
+	edges(identifier : GraphNodeIdentifier<N, E>) : {[to : GraphNodeID] : E} {
 		//_nodeObject will pack identifier
 		const node = this._nodeObject(identifier);
 		if (!node) return undefined;
 		return node.edges;
 	}
 
-	allEdges() : {[id : GraphEdgeID] : GraphEdge } {
+	allEdges() : {[id : GraphEdgeID] : E } {
 		return Object.fromEntries(TypedObject.keys(this.nodes()).map(nodeID => Object.values(this.edges(nodeID))).flat().map(edge => [edge.id, edge]));
 	}
 
 	//Returns all nodes. if filterFunc is provided, it will filter any node whose values, when passed to the filterFunc, do not return true.
-	nodes(filterFunc? : (values : GraphNodeValues) => boolean) : {[id : GraphNodeID]: GraphNodeValues} {
+	nodes(filterFunc? : (values : N) => boolean) : {[id : GraphNodeID]: N} {
 		if (filterFunc) return Object.fromEntries(Object.entries(this._data.nodes).filter(entry => filterFunc(entry[1].values)).map(entry => [entry[0], entry[1].values]));
 		if (!this._cachedNodes) {
 			this._cachedNodes = Object.fromEntries(Object.entries(this._data.nodes).map(entry => [entry[0], entry[1].values]));
@@ -220,8 +220,8 @@ export class Graph {
 
 	//Returns the values objects for all neighbors up to ply hops away from
 	//identifier.
-	neighbors(identifier : GraphNodeIdentifier, ply = 1) : GraphNodeValuesMap {
-		const includeNode : GraphExplorationNodeTester = (_nodevalues, _path, length) => length <= ply;
+	neighbors(identifier : GraphNodeIdentifier<N, E>, ply = 1) : GraphNodeValuesMap<N> {
+		const includeNode : GraphExplorationNodeTester<N, E> = (_nodevalues, _path, length) => length <= ply;
 		const result = this.exploreGraph(identifier, includeNode, () => 1);
 		return Object.fromEntries(Object.entries(result).map(entry => [entry[0], entry[1].node]));
 	}
@@ -229,7 +229,7 @@ export class Graph {
 	//Returns a map of nodeID to distance length, representing the distance from
 	//fromNode to all other nodes. Edge scorerer may be undefined, in which case
 	//each edge will count for 1. A convenience wrapper around exploreGraph.
-	distanceToOtherNodes(fromIdentifier : GraphNodeIdentifier, edgeScorer? : GraphExplorationEdgeScorer) : {[id : GraphNodeID] : number} {
+	distanceToOtherNodes(fromIdentifier : GraphNodeIdentifier<N, E>, edgeScorer? : GraphExplorationEdgeScorer<E>) : {[id : GraphNodeID] : number} {
 		const collection = this.exploreGraph(fromIdentifier, undefined, edgeScorer);
 		return Object.fromEntries(Object.entries(collection).map(entry => [entry[0], entry[1].length]));
 	}
@@ -265,12 +265,12 @@ export class Graph {
 		we visit edges of a node. If not provided, we'll visit nodes in the
 		order they're represented in the graph.
 	*/
-	exploreGraph(fromNodeIdentifier : GraphNodeIdentifier, includeNode : GraphExplorationNodeTester = () => true, edgeScorer : GraphExplorationEdgeScorer = () => 1, targetFound : GraphExplorationNodeTester = undefined, rnd : RandomGenerator = undefined) : GraphExplorationResult {
-		const fromID = Graph.packID(fromNodeIdentifier);
+	exploreGraph(fromNodeIdentifier : GraphNodeIdentifier<N, E>, includeNode : GraphExplorationNodeTester<N, E> = () => true, edgeScorer : GraphExplorationEdgeScorer<E> = () => 1, targetFound : GraphExplorationNodeTester<N, E> = undefined, rnd : RandomGenerator = undefined) : GraphExplorationResult<N, E> {
+		const fromID = Graph.packID<N, E>(fromNodeIdentifier);
 		const visitedNodes : {[id : GraphNodeID] : true} = {};
-		const collection : GraphExplorationCollectionResult = {};
+		const collection : GraphExplorationCollectionResult<N, E> = {};
 		//Each one should be {path: [...previousNodes, node], length: 1, node: node}
-		const itemsToVisit : GraphNodeExplorationResult[] = [{path: [], length: 0, node: this.node(fromID)}];
+		const itemsToVisit : GraphNodeExplorationResult<N, E>[] = [{path: [], length: 0, node: this.node(fromID)}];
 		while (itemsToVisit.length) {
 			const item = itemsToVisit.shift();
 			if (visitedNodes[item.node.id]) continue;
@@ -305,12 +305,12 @@ export class Graph {
 	//toNode. The length of each edge is given by edgeScorer, which typically
 	//returns a value like edge.distance. The default simply counts each edge as
 	//length 1. If there is no path from from to to, will return [-1 * MAX_SAFE_INTEGER, null];
-	shortestPath(fromNodeIdentifier : GraphNodeIdentifier, toNodeIdentifer : GraphNodeIdentifier, edgeScorer : GraphExplorationEdgeScorer = () => 1, rnd : RandomGenerator = Math.random) : GraphExplorationTargetResult {
+	shortestPath(fromNodeIdentifier : GraphNodeIdentifier<N, E>, toNodeIdentifer : GraphNodeIdentifier<N, E>, edgeScorer : GraphExplorationEdgeScorer<E> = () => 1, rnd : RandomGenerator = Math.random) : GraphExplorationTargetResult<E> {
 		//TODO: memoize
-		const toNodeID = Graph.packID(toNodeIdentifer);
-		const targetFound : GraphExplorationNodeTester = (nodeValues) => nodeValues.id == toNodeID;
+		const toNodeID = Graph.packID<N, E>(toNodeIdentifer);
+		const targetFound : GraphExplorationNodeTester<N, E> = (nodeValues) => nodeValues.id == toNodeID;
 		//We get a GraphExplorationTargetResult because we pass a targetFound that is not undefined
-		return this.exploreGraph(fromNodeIdentifier, undefined, edgeScorer, targetFound, rnd) as GraphExplorationTargetResult;
+		return this.exploreGraph(fromNodeIdentifier, undefined, edgeScorer, targetFound, rnd) as GraphExplorationTargetResult<E>;
 	}
 
 	_prepareForNodeModifications() : void {
@@ -321,82 +321,82 @@ export class Graph {
 		this._nodeChangesMade = true;
 	}
 
-	setNode(identifier : GraphNodeIdentifier, values : Partial<GraphNodeValues>) : GraphNodeValues {
-		const id = Graph.packID(identifier);
+	setNode(identifier : GraphNodeIdentifier<N, E>, values : Partial<N>) : N {
+		const id = Graph.packID<N, E>(identifier);
 		let node = this._nodeObject(id);
-		if (!node) node = {edges:{}, id, values: {id: id}};
+		if (!node) node = {edges:{}, id, values: {id: id} as N};
 		if (node.values == values) return node.values;
-		if (!values) values = {};
+		if (!values) values = {} as Partial<N>;
 		if (values.id != id) values.id = id;
 		node = {...node};
-		node.values = values as GraphNodeValues;
+		node.values = values as N;
 		this._prepareForNodeModifications();
 		this._data.nodes[id] = node;
 		return node.values;
 	}
 
-	setNodeProperty(identifier : GraphNodeIdentifier, property : GraphPropertyName, value : GraphProperty) : GraphNodeValues {
+	setNodeProperty(identifier : GraphNodeIdentifier<N, E>, property : GraphPropertyName, value : GraphProperty) : N {
 		let values = this.node(identifier);
-		values = values ? {...values} : {id : Graph.packID(identifier)};
+		values = values ? {...values} : {id : Graph.packID<N, E>(identifier)} as N;
 		if (values[property] === value) return values;
-		values[property] = value;
+		(values as any)[property] = value;
 		return this.setNode(identifier, values);
 	}
 
-	setNodeProperties(identifier : GraphNodeIdentifier, values : object) : void{
+	setNodeProperties(identifier : GraphNodeIdentifier<N, E>, values : object) : void{
 		for (const [key, value] of Object.entries(values)) {
 			this.setNodeProperty(identifier, key, value);
 		}
 	}
 
-	deleteNode(identifier : GraphNodeIdentifier) : void {
-		const id = Graph.packID(identifier);
+	deleteNode(identifier : GraphNodeIdentifier<N, E>) : void {
+		const id = Graph.packID<N, E>(identifier);
 		const node = this._nodeObject(id);
 		if (!node) return;
 		this._prepareForNodeModifications();
 		delete this._data.nodes[id];
 	}
 
-	setBidirectionalEdge(fromIdentifier : GraphNodeIdentifier, toIdentifier : GraphNodeIdentifier, values : object = {}) : void {
+	setBidirectionalEdge(fromIdentifier : GraphNodeIdentifier<N, E>, toIdentifier : GraphNodeIdentifier<N, E>, values : object = {}) : void {
 		this.setEdge(fromIdentifier, toIdentifier, {...values});
 		this.setEdge(toIdentifier, fromIdentifier, {...values});
 	}
 
-	setEdge(fromIdentifier : GraphNodeIdentifier, toIdentifier : GraphNodeIdentifier, values : Partial<GraphEdge> = {}) : void {
-		const fromID = Graph.packID(fromIdentifier);
-		const toID = Graph.packID(toIdentifier);
+	setEdge(fromIdentifier : GraphNodeIdentifier<N, E>, toIdentifier : GraphNodeIdentifier<N, E>, values : Partial<E> = {}) : void {
+		const fromID = Graph.packID<N, E>(fromIdentifier);
+		const toID = Graph.packID<N, E>(toIdentifier);
 		let node = this._nodeObject(fromID);
 		if (!node) {
-			this.setNode(fromID, {});
+			this.setNode(fromID, {} as Partial<N>);
 			node = this._nodeObject(fromID);
 		}
-		const edgeID = Graph.packEdgeID(fromIdentifier, toIdentifier);
+		const edgeID = Graph.packEdgeID<N, E>(fromIdentifier, toIdentifier);
 		if (values.id != edgeID) values.id = edgeID;
 		if (values.from != fromID) values.from = fromID;
 		if (values.to != toID) values.to = toID;
 		this._prepareForNodeModifications();
-		this._data.nodes[fromID] = {...node, edges:{...node.edges, [toID]: values as GraphEdge}};
+		this._data.nodes[fromID] = {...node, edges:{...node.edges, [toID]: values as E}};
 	}
 
-	setBidirectionalEdgeProperty(fromIdentifier : GraphNodeIdentifier, toIdentifier : GraphNodeIdentifier, property : string, value : unknown) : void {
+	setBidirectionalEdgeProperty(fromIdentifier : GraphNodeIdentifier<N, E>, toIdentifier : GraphNodeIdentifier<N, E>, property : string, value : unknown) : void {
 		this.setEdgeProperty(fromIdentifier, toIdentifier, property, value);
 		this.setEdgeProperty(toIdentifier, fromIdentifier, property, value);
 	}
 
-	setEdgeProperty(fromIdentifier : GraphNodeIdentifier, toIdentifier : GraphNodeIdentifier, property : string, value : unknown) : void {
-		let values : Partial<GraphEdge> = this.edge(fromIdentifier, toIdentifier);
-		values = values ? {...values} : {};
+	setEdgeProperty(fromIdentifier : GraphNodeIdentifier<N, E>, toIdentifier : GraphNodeIdentifier<N, E>, property : string, value : unknown) : void {
+		let values : Partial<E> = this.edge(fromIdentifier, toIdentifier);
+		values = values ? {...values} : {} as Partial<E>;
 		if (values[property] === value) return;
-		values[property] = value;
+		(values as any)[property] = value;
 		this.setEdge(fromIdentifier, toIdentifier, values);
 	}
 
-	setBidirectionalEdgeProperties(fromIdentifier : GraphNodeIdentifier, toIdentifier : GraphNodeIdentifier, values : {[key : string] : unknown}) : void {
+	setBidirectionalEdgeProperties(fromIdentifier : GraphNodeIdentifier<N, E>, toIdentifier : GraphNodeIdentifier<N, E>, values : {[key : string] : unknown}) : void {
 		this.setEdgeProperties(fromIdentifier, toIdentifier, values);
 		this.setEdgeProperties(toIdentifier, fromIdentifier, values);
 	}
 
-	setEdgeProperties(fromIdentifier : GraphNodeIdentifier, toIdentifier : GraphNodeIdentifier, values : {[key : string] : unknown}) : void {
+	setEdgeProperties(fromIdentifier : GraphNodeIdentifier<N, E>, toIdentifier : GraphNodeIdentifier<N, E>, values : {[key : string] : unknown}) : void {
 		for (const [key, value] of Object.entries(values)) {
 			this.setEdgeProperty(fromIdentifier, toIdentifier, key, value);
 		}
@@ -447,11 +447,11 @@ const graphConstructors: {[name : GraphType] : typeof Graph} = {
 	[Graph.name]: Graph,
 };
 
-export const inflateGraph = (graphData : GraphData) : Graph => {
+export const inflateGraph = <N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge>(graphData : GraphData<N, E>) : Graph<N, E> => {
 	if (!graphData || typeof graphData != 'object') throw new Error('graphData is not an object');
 	const typ = graphData.graphType;
 	if (typ === undefined) throw new Error('No graphType in graph data');
 	const constructor = graphConstructors[typ];
 	if (!constructor) throw new Error('Unknown graphType: ' + typ);
-	return new constructor(graphData);
+	return new constructor(graphData) as Graph<N, E>;
 };
