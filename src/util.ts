@@ -105,7 +105,7 @@ export const ANGLE_MIN : Angle = 0.0;
 export const ANGLE_MAX : Angle = Math.PI * 2;
 
 export const normalizeAngle = (angle : Angle) : Angle => {
-	while (angle > ANGLE_MAX) angle -= ANGLE_MAX;
+	while (angle >= ANGLE_MAX) angle -= ANGLE_MAX;
 	while (angle < ANGLE_MIN) angle += ANGLE_MAX;
 	return angle;
 };
@@ -122,6 +122,32 @@ export const flipAngleHorizontally = (angle : Angle) : Angle => {
 export const flipAngleVertically = (angle : Angle) : Angle => {
 	angle = normalizeAngle(angle);
 	return ANGLE_MAX - angle;
+};
+
+/**
+ * angleDiff returns the shortest angular distance from fromAngle to toAngle,
+ * accounting for wraparound. The result is in the range [-π, π], where:
+ * - Positive values indicate counter-clockwise rotation
+ * - Negative values indicate clockwise rotation
+ *
+ * Example:
+ * - angleDiff(0, π/2) = π/2 (90° counter-clockwise)
+ * - angleDiff(0, 3π/2) = -π/2 (90° clockwise, the shorter path)
+ * - angleDiff(π/4, 7π/4) = -π/2 (not 3π/2)
+ */
+export const angleDiff = (fromAngle : Angle, toAngle : Angle) : Angle => {
+	fromAngle = normalizeAngle(fromAngle);
+	toAngle = normalizeAngle(toAngle);
+	let diff = toAngle - fromAngle;
+	// Normalize to [-π, π] to get the shortest path
+	// When exactly at ±π, we prefer the positive (counter-clockwise) direction
+	const epsilon = 1e-10;
+	if (diff > Math.PI) {
+		diff -= ANGLE_MAX;
+	} else if (diff < -Math.PI + epsilon) {
+		diff += ANGLE_MAX;
+	}
+	return diff;
 };
 
 /**
