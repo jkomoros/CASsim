@@ -22,9 +22,9 @@ const GRAPH_TYPE_PROPERTY = 'graphType';
 
 //When adding new graph types, make sure they have a .name and .description
 //static getter.
-export const GRAPH_TYPES : {[typ : GraphType] : any} = {
-	[BloomGraph.name]: BloomGraph,
-	[PreferentialAttachmentGraph.name]: PreferentialAttachmentGraph,
+export const GRAPH_TYPES : {[typ : GraphType] : typeof ForceLayoutGraph<any, any>} = {
+	[BloomGraph.name]: BloomGraph as typeof ForceLayoutGraph<any, any>,
+	[PreferentialAttachmentGraph.name]: PreferentialAttachmentGraph as typeof ForceLayoutGraph<any, any>,
 };
 
 const ALL_GRAPH_TYPES = [...Object.keys(GRAPH_TYPES)];

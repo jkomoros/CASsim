@@ -78,7 +78,8 @@ export class Graph<N extends GraphNodeValues = GraphNodeValues, E extends GraphE
 		When a graph type is laoded, it should call this with their constructor
 		so that inflateGraph knows how to find it.
 	*/
-	static registerGraphType(constructor : typeof Graph | any) {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	static registerGraphType(constructor : any) {
 		graphConstructors[constructor.name] = constructor;
 	}
 
@@ -339,7 +340,7 @@ export class Graph<N extends GraphNodeValues = GraphNodeValues, E extends GraphE
 		let values = this.node(identifier);
 		values = values ? {...values} : {id : Graph.packID<N, E>(identifier)} as N;
 		if (values[property] === value) return values;
-		(values as any)[property] = value;
+		(values as Record<string, unknown>)[property] = value;
 		return this.setNode(identifier, values);
 	}
 
@@ -387,7 +388,7 @@ export class Graph<N extends GraphNodeValues = GraphNodeValues, E extends GraphE
 		let values : Partial<E> = this.edge(fromIdentifier, toIdentifier);
 		values = values ? {...values} : {} as Partial<E>;
 		if (values[property] === value) return;
-		(values as any)[property] = value;
+		(values as Record<string, unknown>)[property] = value;
 		this.setEdge(fromIdentifier, toIdentifier, values);
 	}
 

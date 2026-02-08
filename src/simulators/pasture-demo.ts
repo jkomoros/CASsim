@@ -11,7 +11,9 @@ import {
 } from '../emojis.js';
 
 import {
-	RectangleGraph
+	RectangleGraph,
+	RectangleGraphNodeValues,
+	RectangleGraphEdge
 }from '../graph/rectangle.js';
 
 import {
@@ -19,8 +21,8 @@ import {
 } from '../graph/graph.js';
 
 import {
+	GraphData,
 	GraphNodeID,
-	GraphNodeValues,
 	OptionsConfigMap,
 	RandomGenerator,
 	ScoreConfigItem,
@@ -48,7 +50,7 @@ interface PastureDemoSimulationFrame extends AgentSimulationFrame<PastureDemoAge
 	simOptions: PastureDemoSimOptions;
 }
 
-interface PastureDemoGraphNodeValues extends GraphNodeValues {
+interface PastureDemoGraphNodeValues extends RectangleGraphNodeValues {
 	value: number;
 	growthRate: number;
 	emoji: string;
@@ -78,7 +80,7 @@ class PastureDemoSimulator extends AgentSimulator<PastureDemoAgent, PastureDemoS
 
 	override generatePositions(baseFrame : SimulationFrame) : RectangleGraph {
 		const simOptions = baseFrame.simOptions as PastureDemoSimOptions;
-		const starterValues : PastureDemoGraphNodeValues =  {id: '', value:0.0, growthRate: simOptions.growthRate, emoji:'🌿'};
+		const starterValues = {value:0.0, growthRate: simOptions.growthRate, emoji:'🌿'} as unknown as RectangleGraphNodeValues;
 		return RectangleGraph.make(simOptions.rows, simOptions.cols, baseFrame.width, baseFrame.height, {starterValues, nodeMargin: 0.1, diagonal:true});
 	}
 
@@ -93,10 +95,10 @@ class PastureDemoSimulator extends AgentSimulator<PastureDemoAgent, PastureDemoS
 
 	override defaultAgentTick(agent : PastureDemoAgent, agents : PastureDemoAgent[], graph : RectangleGraph, frame : PastureDemoSimulationFrame, rnd : RandomGenerator) : PastureDemoAgent | PastureDemoAgent[] {
 		if (rnd() < agent.deathLikelihood) return null;
-		const node = this.selectNodeToMoveTo(agent, agents, graph, frame, rnd, 1, ((node : any) => (node as PastureDemoGraphNodeValues).value) as NodeScorer);
+		const node = this.selectNodeToMoveTo(agent, agents, graph, frame, rnd, 1, (node => (node as PastureDemoGraphNodeValues).value) as NodeScorer) as RectangleGraphNodeValues;
 		//Sometimes there won't be any open cells next to us.
 		if (!node) return agent;
-		graph.setNodeProperty(node as any, 'value', 0.0);
+		graph.setNodeProperty(node, 'value', 0.0);
 		const newAgent = {...agent, node : node.id};
 		if (rnd() < agent.spawnLikelihood) {
 			//Spawn a new agent
@@ -113,8 +115,8 @@ class PastureDemoSimulator extends AgentSimulator<PastureDemoAgent, PastureDemoS
 
 	override frameScorer(frame : PastureDemoSimulationFrame) : [number, number, number] {
 		const finalScore = this.simulationComplete(frame) ? 1.0 : -1;
-		const graph = new RectangleGraph(frame.positions as any);
-		return [finalScore, Object.keys(frame.agents).length, (Object.values(graph.nodes()) as any as PastureDemoGraphNodeValues[]).map(values => values.value).reduce((prev, next) => prev + next, 0)];
+		const graph = new RectangleGraph(frame.positions as GraphData<RectangleGraphNodeValues, RectangleGraphEdge>);
+		return [finalScore, Object.keys(frame.agents).length, (Object.values(graph.nodes()) as PastureDemoGraphNodeValues[]).map(values => values.value).reduce((prev, next) => prev + next, 0)];
 	}
 
 	override scoreConfig() : [ScoreConfigItem, ScoreConfigItem, ScoreConfigItem] {
