@@ -3,6 +3,7 @@ import { BaseRenderer } from './renderer.js';
 import { Simulation } from './simulation.js';
 import {
 	Angle,
+	ChartData,
 	MovingObject,
 	OptionsPath,
 	OptionValue,
@@ -285,3 +286,72 @@ export const memoizedRenderer = (simulation : Simulation, frameVisualizer : Fram
 export const hash = (s : string) : number => s.split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a;},0);
 
 export const stringHash = (s : string) : string => Math.abs(hash(s)).toString(16);
+
+/**
+ * Converts ChartData to CSV format
+ * Returns a string with headers and data rows
+ */
+export const chartDataToCSV = (chartData : ChartData) : string => {
+	if (!chartData || Object.keys(chartData).length === 0) {
+		return '';
+	}
+
+	// Get all score config IDs (columns)
+	const scoreIDs = Object.keys(chartData);
+
+	// Determine the maximum frame count across all runs
+	let maxFrames = 0;
+	for (const items of Object.values(chartData)) {
+		for (const item of items) {
+			maxFrames = Math.max(maxFrames, item.data.length);
+		}
+	}
+
+	// Build CSV header
+	const headers = ['Frame'];
+	for (const scoreID of scoreIDs) {
+		const items = chartData[scoreID];
+		if (items.length === 1) {
+			// Single run: just use the title or ID
+			headers.push(items[0].config.title || items[0].config.id);
+		} else {
+			// Multiple runs: append run number
+			for (let runIdx = 0; runIdx < items.length; runIdx++) {
+				headers.push(`${items[runIdx].config.title || items[runIdx].config.id} - Run ${runIdx}`);
+			}
+		}
+	}
+
+	// Build CSV rows
+	const rows = [headers.join(',')];
+	for (let frameIdx = 0; frameIdx < maxFrames; frameIdx++) {
+		const row = [frameIdx.toString()];
+		for (const scoreID of scoreIDs) {
+			const items = chartData[scoreID];
+			for (const item of items) {
+				const value = frameIdx < item.data.length ? item.data[frameIdx] : '';
+				row.push(value.toString());
+			}
+		}
+		rows.push(row.join(','));
+	}
+
+	return rows.join('\n');
+};
+
+/**
+ * Triggers a download of CSV data
+ */
+export const downloadCSV = (csvContent : string, filename : string) : void => {
+	const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+	const link = document.createElement('a');
+	const url = URL.createObjectURL(blob);
+
+	link.setAttribute('href', url);
+	link.setAttribute('download', filename);
+	link.style.visibility = 'hidden';
+	document.body.appendChild(link);
+	link.click();
+	document.body.removeChild(link);
+	URL.revokeObjectURL(url);
+};

@@ -63,7 +63,8 @@ import {
 	INFO_ICON,
 	SETTINGS_ICON,
 	UNDO_ICON,
-	AREA_CHART_ICON
+	AREA_CHART_ICON,
+	DOWNLOAD_ICON
 } from "./my-icons.js";
 
 import { ButtonSharedStyles } from "./button-shared-styles.js";
@@ -83,6 +84,11 @@ import {
 	Simulation,
 	SimulationsMap
 } from '../simulation.js';
+
+import {
+	chartDataToCSV,
+	downloadCSV
+} from '../util.js';
 
 import './run-summary.js';
 import './run-chart.js';
@@ -299,8 +305,9 @@ class SimulationControls extends connect(store)(LitElement) {
 							<summary><label><button class='small'>${AREA_CHART_ICON}</button> Chart</label></summary>
 							<run-chart .data=${this._chartData} .configIDs=${this._chartConfigIDs} .runIndex=${this._runIndex} .frameIndex=${this._frameIndex}></run-chart>
 							<div class='row'>
-								<input id='singleRun' type='checkbox' .checked=${this._chartSingleRun || this._runStatuses.length == 1} .disabled=${this._runStatuses.length == 1} @change=${this._handleChartSingleRunUpdated}><label for='singleRun'>Current run only</label>	
+								<input id='singleRun' type='checkbox' .checked=${this._chartSingleRun || this._runStatuses.length == 1} .disabled=${this._runStatuses.length == 1} @change=${this._handleChartSingleRunUpdated}><label for='singleRun'>Current run only</label>
 								<multi-select id='configID' .defaultText=${'All Data'} .disabled=${Object.keys(this._chartData).length == 1} @change=${this._handleChartConfigIDsUpdated} .values=${this._chartConfigIDs} .options=${optionsForMultiSelect(this._chartData)}></multi-select>
+								<button class='small' @click=${this._handleDownloadCSV} title='Download chart data as CSV'>${DOWNLOAD_ICON}</button>
 							</div>
 						</details>
 					` : ''}
@@ -365,6 +372,15 @@ class SimulationControls extends connect(store)(LitElement) {
 		const ele = e.composedPath()[0];
 		if (!(ele instanceof HTMLInputElement)) throw new Error('Not checkbox input');
 		store.dispatch(updateChartSingleRun(ele.checked));
+	}
+
+	_handleDownloadCSV() {
+		const csvContent = chartDataToCSV(this._chartData);
+		if (!csvContent) {
+			return;
+		}
+		const filename = `${this._filename || 'simulation'}_data.csv`;
+		downloadCSV(csvContent, filename);
 	}
 
 	_handleRemoveModificationsClicked() {
