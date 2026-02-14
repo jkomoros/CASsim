@@ -27,7 +27,8 @@ import {
 	selectCurrentSimulationHasChartableData,
 	selectCurrentSimulationChartData,
 	selectChartSingleRun,
-	selectChartConfigIDs
+	selectChartConfigIDs,
+	selectRunStatusesVisible
 } from "../selectors.js";
 
 import {
@@ -353,8 +354,11 @@ class SimulationControls extends connect(store)(LitElement) {
 		this._maxFrameIndex = run ? run.maxFrameIndex : Number.MAX_SAFE_INTEGER;
 
 		this._simulation = selectCurrentSimulation(state);
-		this._runStatuses = selectCurrentSimulationRunStatuses(state);
-		
+		const statusesVisible = selectRunStatusesVisible(state);
+		this._runStatuses = statusesVisible
+			? selectCurrentSimulationRunStatuses(state)
+			: [];
+
 	}
 
 	_handleClearWarningClicked() {

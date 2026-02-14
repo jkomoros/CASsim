@@ -31,6 +31,9 @@ import {
 	UPDATE_WARNING,
 	UPDATE_CHART_SINGLE_RUN,
 	UPDATE_CHART_CONFIG_IDS,
+	START_PROGRESSIVE_GENERATION,
+	CANCEL_PROGRESSIVE_GENERATION,
+	PROGRESSIVE_GENERATION_TICK,
 
 	DIALOG_TYPE_JSON,
 	DEFAULT_FILE_NAME,
@@ -45,6 +48,10 @@ import {
 import {
 	DEFAULT_SENTINEL
 } from "../util.js";
+
+import {
+	cancelIdleCallback
+} from "../simulation.js";
 
 const INITIAL_STATE : DataState = {
 	filename: DEFAULT_FILE_NAME,
@@ -83,6 +90,8 @@ const INITIAL_STATE : DataState = {
 	dialogOpen: false,
 	dialogType: DIALOG_TYPE_JSON,
 	dialogExtras: {},
+	progressiveGenerationHandle: null,
+	progressiveGenerationCancelled: false,
 };
 
 const data = (state : DataState = INITIAL_STATE, action : AnyAction) : DataState => {
@@ -247,6 +256,25 @@ const data = (state : DataState = INITIAL_STATE, action : AnyAction) : DataState
 		return {
 			...state,
 			chartConfigIDs: action.ids
+		};
+	case START_PROGRESSIVE_GENERATION:
+		return {
+			...state,
+			progressiveGenerationCancelled: false
+		};
+	case CANCEL_PROGRESSIVE_GENERATION:
+		if (state.progressiveGenerationHandle !== null) {
+			cancelIdleCallback(state.progressiveGenerationHandle);
+		}
+		return {
+			...state,
+			progressiveGenerationHandle: null,
+			progressiveGenerationCancelled: true
+		};
+	case PROGRESSIVE_GENERATION_TICK:
+		return {
+			...state,
+			simulationLastChanged: Date.now()
 		};
 	default:
 		return state;

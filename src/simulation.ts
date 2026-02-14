@@ -12,6 +12,19 @@ import {
 	DELETE_SENTINEL
 } from './util.js';
 
+// Polyfill for requestIdleCallback
+const requestIdleCallback = window.requestIdleCallback ||
+	function(cb: (deadline: {timeRemaining: () => number}) => void) {
+		return window.setTimeout(() => {
+			cb({timeRemaining: () => 50});
+		}, 1) as unknown as number;
+	};
+
+export const cancelIdleCallback = window.cancelIdleCallback ||
+	function(handle: number) {
+		clearTimeout(handle);
+	};
+
 import {
 	configObjectIsValid,
 	optionsConfigValidator,
@@ -572,6 +585,65 @@ export class Simulation {
 		if (!this._runs.some(run => !run.complete)) return false;
 		this._runs.forEach(run => run.run());
 		this._activated = true;
+		return true;
+	}
+
+	//Progressive generation: generates current run immediately, others in background
+	//Returns true if progressive generation was started
+	activateProgressive(currentRunIndex: number, onProgress?: () => void): boolean {
+		if (!this.config.autoGenerate) return false;
+		if (this._activated) return false;
+		if (!this._runs.some(run => !run.complete)) return false;
+
+		// Tier 1: Current run immediate (synchronous)
+		if (currentRunIndex >= 0 && currentRunIndex < this._runs.length) {
+			const currentRun = this._runs[currentRunIndex];
+			if (!currentRun.complete) {
+				currentRun.run();
+			}
+		}
+
+		// Tier 2: Other runs progressive (asynchronous)
+		const incompleteRuns = this._runs
+			.map((run, index) => ({run, index}))
+			.filter(({index}) => index !== currentRunIndex)
+			.filter(({run}) => !run.complete);
+
+		if (incompleteRuns.length === 0) {
+			this._activated = true;
+			return true;
+		}
+
+		const generateChunk = (remainingRuns: typeof incompleteRuns): void => {
+			if (remainingRuns.length === 0) {
+				this._activated = true;
+				if (onProgress) onProgress();
+				return;
+			}
+
+			const {run} = remainingRuns[0];
+			const remaining = remainingRuns.slice(1);
+
+			requestIdleCallback((deadline) => {
+				const maxFrames = 10; // 10 frames per idle chunk
+				let framesGenerated = 0;
+
+				while (deadline.timeRemaining() > 0 && framesGenerated < maxFrames && !run.complete) {
+					run._ensureFrameDataUpTo(run._frames.length);
+					framesGenerated++;
+				}
+
+				if (onProgress) onProgress();
+
+				if (!run.complete) {
+					generateChunk(remainingRuns); // More frames in this run
+				} else {
+					generateChunk(remaining); // Move to next run
+				}
+			});
+		};
+
+		generateChunk(incompleteRuns);
 		return true;
 	}
 

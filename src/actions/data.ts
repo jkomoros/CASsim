@@ -26,6 +26,9 @@ export const UPDATE_HASH = 'UPDATE_HASH';
 export const UPDATE_WARNING = 'UPDATE_WARNING';
 export const UPDATE_CHART_SINGLE_RUN = 'UPDATE_CHART_SINGLE_RUN';
 export const UPDATE_CHART_CONFIG_IDS = 'UPDATE_CHART_CONFIG_IDS';
+export const START_PROGRESSIVE_GENERATION = 'START_PROGRESSIVE_GENERATION';
+export const CANCEL_PROGRESSIVE_GENERATION = 'CANCEL_PROGRESSIVE_GENERATION';
+export const PROGRESSIVE_GENERATION_TICK = 'PROGRESSIVE_GENERATION_TICK';
 
 export const DIALOG_TYPE_JSON = 'json';
 export const DIALOG_TYPE_ADD_FIELD = 'add-field';
@@ -470,6 +473,9 @@ export const updateRunIndex : AppActionCreator  = (index) => (dispatch, getState
 };
 
 export const updateCurrentSimulationOptions : AppActionCreator = (path, value) => (dispatch, getState) => {
+	// Cancel any ongoing progressive generation when parameters change
+	dispatch(cancelProgressiveGeneration());
+
 	const state = getState();
 	const simulation = selectCurrentSimulation(state);
 	const valueOrDefault = value == DEFAULT_SENTINEL ? simulation.defaultValueForOptionsPath(path) : value;
@@ -620,6 +626,18 @@ export const simulationChanged = () => {
 		type: SIMULATION_CHANGED
 	};
 };
+
+export const startProgressiveGeneration = () : AnyAction => ({
+	type: START_PROGRESSIVE_GENERATION
+});
+
+export const cancelProgressiveGeneration = () : AnyAction => ({
+	type: CANCEL_PROGRESSIVE_GENERATION
+});
+
+export const progressiveGenerationTick = () : AnyAction => ({
+	type: PROGRESSIVE_GENERATION_TICK
+});
 
 export const canonicalizeHash : AppActionCreator = () => (dispatch, getState) => {
 	const state = getState();

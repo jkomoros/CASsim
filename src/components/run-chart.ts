@@ -56,6 +56,12 @@ class RunChart extends LitElement {
 	@property({ type : Number })
 		frameIndex: number;
 
+	private _cachedMinX = 0;
+	private _cachedMaxX = 1;
+	private _cachedMinY = 0;
+	private _cachedMaxY = 1;
+	private _lastDataHash = '';
+
 	static override get styles() {
 		return [
 			SharedStyles,
@@ -126,60 +132,85 @@ class RunChart extends LitElement {
 		return configIDs;
 	}
 
-	get _minX() {
-		//The run with the longest number of frameValues, or 1.
-		let min = 0;
-		const enabledConfigIDs = this._enabledConfigIDs;
-		for (const [id, runs] of Object.entries(this.data)) {
-			if (!enabledConfigIDs[id]) continue;
-			for (const run of runs) {
-				const value = run.data.length - 1;
-				if (value < min) min = value;
-			}
+	private _needsRecalc(): boolean {
+		const hash = JSON.stringify({
+			data: Object.keys(this.data || {}),
+			configIDs: this.configIDs,
+			dataLengths: Object.values(this.data || {}).map(runs => runs.map(r => r.data.length))
+		});
+		if (hash !== this._lastDataHash) {
+			this._lastDataHash = hash;
+			return true;
 		}
-		return min;
+		return false;
+	}
+
+	get _minX() {
+		if (this._needsRecalc()) {
+			//The run with the longest number of frameValues, or 1.
+			let min = 0;
+			const enabledConfigIDs = this._enabledConfigIDs;
+			for (const [id, runs] of Object.entries(this.data || {})) {
+				if (!enabledConfigIDs[id]) continue;
+				for (const run of runs) {
+					const value = run.data.length - 1;
+					if (value < min) min = value;
+				}
+			}
+			this._cachedMinX = min;
+		}
+		return this._cachedMinX;
 	}
 
 	get _minY() {
-		//The highest value seen in the entire data run, or 1
-		let min = 0;
-		const enabledConfigIDs = this._enabledConfigIDs;
-		for (const [id, runs] of Object.entries(this.data)) {
-			if (!enabledConfigIDs[id]) continue;
-			for (const run of runs) {
-				const value = run.data.reduce((prev, next) => Math.min(prev, next));
-				if (value < min) min = value;
+		if (this._needsRecalc()) {
+			//The highest value seen in the entire data run, or 1
+			let min = 0;
+			const enabledConfigIDs = this._enabledConfigIDs;
+			for (const [id, runs] of Object.entries(this.data || {})) {
+				if (!enabledConfigIDs[id]) continue;
+				for (const run of runs) {
+					const value = run.data.reduce((prev, next) => Math.min(prev, next));
+					if (value < min) min = value;
+				}
 			}
+			this._cachedMinY = min;
 		}
-		return min;
+		return this._cachedMinY;
 	}
 
 	get _maxX() {
-		//The run with the longest number of frameValues, or 1.
-		let max = 1;
-		const enabledConfigIDs = this._enabledConfigIDs;
-		for (const [id, runs] of Object.entries(this.data)) {
-			if (!enabledConfigIDs[id]) continue;
-			for (const run of runs) {
-				const value = run.data.length - 1;
-				if (value > max) max = value;
+		if (this._needsRecalc()) {
+			//The run with the longest number of frameValues, or 1.
+			let max = 1;
+			const enabledConfigIDs = this._enabledConfigIDs;
+			for (const [id, runs] of Object.entries(this.data || {})) {
+				if (!enabledConfigIDs[id]) continue;
+				for (const run of runs) {
+					const value = run.data.length - 1;
+					if (value > max) max = value;
+				}
 			}
+			this._cachedMaxX = max;
 		}
-		return max;
+		return this._cachedMaxX;
 	}
 
 	get _maxY() {
-		//The highest value seen in the entire data run, or 1
-		let max = 1;
-		const enabledConfigIDs = this._enabledConfigIDs;
-		for (const [id, runs] of Object.entries(this.data)) {
-			if (!enabledConfigIDs[id]) continue;
-			for (const run of runs) {
-				const value = run.data.reduce((prev, next) => Math.max(prev, next));
-				if (value > max) max = value;
+		if (this._needsRecalc()) {
+			//The highest value seen in the entire data run, or 1
+			let max = 1;
+			const enabledConfigIDs = this._enabledConfigIDs;
+			for (const [id, runs] of Object.entries(this.data || {})) {
+				if (!enabledConfigIDs[id]) continue;
+				for (const run of runs) {
+					const value = run.data.reduce((prev, next) => Math.max(prev, next));
+					if (value > max) max = value;
+				}
 			}
+			this._cachedMaxY = max;
 		}
-		return max;
+		return this._cachedMaxY;
 	}
 
 	//max - min

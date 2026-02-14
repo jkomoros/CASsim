@@ -219,6 +219,15 @@ export const selectCurrentSimulationHasChartableData = createSelector(
 	(sim) => sim ? (sim.scoreConfig || []).some(obj => obj) : false
 );
 
+export const selectRunStatusesVisible = createSelector(
+	selectShowControls,
+	selectCurrentSimulation,
+	(showControls, sim) => {
+		if (showControls) return true;
+		return sim ? sim.displayStatus : false;
+	}
+);
+
 export const selectCurrentSimulationRunStatuses = createSelector(
 	selectCurrentSimulation,
 	selectSimulationLastChanged,

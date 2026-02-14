@@ -21,7 +21,9 @@ import {
 	enableScreenshotting,
 	canonicalizeHash,
 	updateHash,
-	fetchNeededSimulators
+	fetchNeededSimulators,
+	startProgressiveGeneration,
+	progressiveGenerationTick
 } from "../actions/data.js";
 
 import {
@@ -57,6 +59,7 @@ import {
 	selectRequiredSimulatorNames,
 	selectFrameDelay,
 	selectHashForCurrentState,
+	selectRunStatusesVisible,
 } from "../selectors.js";
 
 import {
@@ -373,7 +376,10 @@ class SimView extends connect(store)(PageViewElement) {
 		this._descriptionExpanded = selectDescriptionExpanded(state);
 		this._resizeVisualization = selectResizeVisualization(state);
 		this._dataIsFullyLoaded = selectDataIsFullyLoaded(state);
-		this._runStatuses = selectCurrentSimulationRunStatuses(state);
+		const statusesVisible = selectRunStatusesVisible(state);
+		this._runStatuses = statusesVisible
+			? selectCurrentSimulationRunStatuses(state)
+			: [];
 		this._hashForCurrentState = selectHashForCurrentState(state);
 		this._currentSimulationLastChanged = this._currentSimulation ? this._currentSimulation.lastChanged : 0;
 
@@ -469,8 +475,13 @@ class SimView extends connect(store)(PageViewElement) {
 			window[CURRENT_SIMULATION_NAME_VARIABLE] = this._currentSimulationName;
 		}
 		if (changedProps.has('_currentSimulation') && this._currentSimulation) {
-			//Activate, which might generate mroe state in the simulation that needs to be rendered
-			if(this._currentSimulation.activate()) store.dispatch(simulationChanged());
+			//Activate, which might generate more state in the simulation that needs to be rendered
+			if (this._currentSimulation.activateProgressive(
+				this._runIndex,
+				() => store.dispatch(progressiveGenerationTick())
+			)) {
+				store.dispatch(startProgressiveGeneration());
+			}
 		}
 		if (changedProps.has('_currentSimulationLastChanged')) {
 			//If we notice the simulation seems to have changed since last time we saw it, update the

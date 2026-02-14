@@ -694,6 +694,8 @@ export type DataState = {
 	dialogOpen : boolean,
 	dialogType : DialogType,
 	dialogExtras: {[key : string] : unknown},
+	progressiveGenerationHandle: number | null,
+	progressiveGenerationCancelled: boolean,
 }
 
 export type RootState = {
