@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit';
 import { SharedStyles } from "./shared-styles.js";
 import { customElement, property } from 'lit/decorators.js';
 import { makeRunClickedEvent } from '../events.js';
+import { RunStatus } from '../types.js';
 
 //This number is the point at which compact versions of runSummary should have no-border.
 //These numbers are tied to the border size below, as well as the var(--controls-width);
@@ -15,7 +16,7 @@ class RunSummary extends LitElement {
 		selectedIndex: number;
 
 	@property({ type : Array })
-		statuses: number[];
+		statuses: RunStatus[];
 
 	//If true, then statuses beyond the selectedIndex will be rendered as indeterminate
 	@property({ type : Boolean })

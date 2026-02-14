@@ -48,6 +48,7 @@ import {
 	ChartData,
 	SimulationConfig,
 	SimulationConfigName,
+	RunStatus,
 	SimulationFrame,
 	Modifications,
 	OptionValue,
@@ -147,8 +148,8 @@ export const setSimulationPropertyInConfig = (config : SimulationConfig, path : 
 
 export class SimulationCollection {
 
-	_nameIndex : {[name : SimulationConfigName] : Simulation };
-	_simulations : Simulation[];
+	readonly _nameIndex : {[name : SimulationConfigName] : Simulation };
+	readonly _simulations : readonly Simulation[];
 
 	constructor(configs : SimulationConfig[], unmodifiedConfigs : RawSimulationConfig[]) {
 		if (!configs) configs = [];
@@ -185,15 +186,15 @@ export class SimulationCollection {
 		return this._nameIndex;
 	}
 
-	get simulations() : Simulation[] {
+	get simulations() : readonly Simulation[] {
 		return this._simulations;
 	}
 }
 
 export class SimulationRun {
 
-	_simulation : Simulation;
-	_index : number;
+	readonly _simulation : Simulation;
+	readonly _index : number;
 	_frames : SimulationFrame[];
 	_scoreData : ChartData;
 	_successScores : number[];
@@ -269,7 +270,7 @@ export class SimulationRun {
 	//Returns 0.0 for complete failure, 1.0 for complete success, inbetween for
 	//inbetween, and negative value if indeterminate (e.g. it is not yet
 	//complete or the simulator doesn't implement a frameScorer)
-	get finalStatus() : number {
+	get finalStatus() : RunStatus {
 		// Return cached value if available
 		if (this._cachedFinalStatus !== null) {
 			return this._cachedFinalStatus;
@@ -337,17 +338,17 @@ export class SimulationRun {
 
 export class Simulation {
 
-	_simulator : BaseSimulator;
+	readonly _simulator : BaseSimulator;
 
-	_unmodifiedConfig : RawSimulationConfig;
+	readonly _unmodifiedConfig : RawSimulationConfig;
 
 	_config : SimulationConfig;
 
 	_rawConfig : SimulationConfig;
 
-	_altName : string;
+	readonly _altName : string;
 
-	_seed : string;
+	readonly _seed : string;
 
 	_fingerprint : string;
 

@@ -204,21 +204,29 @@ export type SimulationConfig = WithRequiredProperty<RawSimulationConfig, 'simOpt
 export type ScoreConfigID = string;
 
 export interface ScoreConfigItem {
-    id : ScoreConfigID;
-    title? : string;
-    description? : string;
-    color? : CSSColor;
+    readonly id : ScoreConfigID;
+    readonly title? : string;
+    readonly description? : string;
+    readonly color? : CSSColor;
 }
 
 export type ScoreConfig = null | ScoreConfigItem[];
 
-export type ChartDataItem = {data: number[], config: ScoreConfigItem};
+export type ChartDataItem = {data: number[], readonly config: ScoreConfigItem};
 
 export type ChartData = {[id : ScoreConfigID]: ChartDataItem[]}
 
 export type FrameScore = number;
 
 export type FrameScores = FrameScore[];
+
+/**
+ * RunStatus represents the final status of a simulation run.
+ * Values range from 0.0 (complete failure) to 1.0 (complete success).
+ * Negative values (typically -1.0) indicate indeterminate status
+ * (e.g., run not yet complete or simulator doesn't implement frameScorer).
+ */
+export type RunStatus = number;
 
 //A dotted string like 'A.B' that is a concantenation of property names to index
 //into.
@@ -254,11 +262,11 @@ export type URLArgsMap = {
 }
 
 export interface SimulationFrame {
-    index : number;
-    simOptions : NormalizedSimOptions;
-    runIndex : number;
-    width : number;
-    height : number;
+    readonly index : number;
+    readonly simOptions : NormalizedSimOptions;
+    readonly runIndex : number;
+    readonly width : number;
+    readonly height : number;
 }
 
 export type Fingerprint = string;
@@ -384,11 +392,9 @@ export type Modification = {
 
 export type Modifications = Modification[];
 
-//TODO: tighten - used in index signatures, requires refactoring
 export type PlayType = 'frame' | 'round' | 'simulation';
 
-//TODO: tighten - used in index signatures, requires refactoring
-export type DialogType = string;
+export type DialogType = 'json' | 'add-field';
 
 type DialogTypeAddFieldOption = {
     path: OptionsPath,
@@ -401,11 +407,9 @@ export type DialogTypeAddFieldExtras = {
     options: DialogTypeAddFieldOption[];
 }
 
-//TODO: tighten - used in index signatures, requires refactoring
-export type DistributionType = string;
+export type DistributionType = 'linear' | 'normal' | 'min-max' | 'fixed';
 
-//TODO: tighten - used in index signatures, requires refactoring
-export type RoundType = string;
+export type RoundType = '' | 'round' | 'floor';
 
 export type DistributionOptions = {
 	// - types: an array of allowed distribution types (e.g. LINEAR, MIN_MAX). If not provided, all distribution types are allowed, unless onlyDistribution set.
@@ -636,13 +640,13 @@ export type RectangleGraphOptions = {
 }
 
 export type Coordinates = {
-    x : number;
-    y : number;
+    readonly x : number;
+    readonly y : number;
 }
 
 export type Size = {
-    width : number;
-    height : number;
+    readonly width : number;
+    readonly height : number;
 }
 
 export type Position = Coordinates & Size;

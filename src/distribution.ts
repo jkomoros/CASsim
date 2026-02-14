@@ -4,6 +4,7 @@ import {
 
 import {
 	DistributionOptions,
+	DistributionType,
 	OptionsConfig,
 	OptionsConfigMap,
 	OptionValueMap,
@@ -149,7 +150,7 @@ class Distribution {
 }
 
 const EXAMPLE_OPTIONS : DistributionOptions = {
-	types: [...Object.keys(LEGAL_TYPES)],
+	types: [...Object.keys(LEGAL_TYPES)] as DistributionType[],
 	distribution: LINEAR,
 	onlyDistribution: null,
 	average: 0.5,

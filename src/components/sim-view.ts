@@ -127,7 +127,8 @@ import {
 	PackedRawSimulationConfig,
 	RootState,
 	SimulationFrame,
-	SimulatorType
+	SimulatorType,
+	RunStatus
 } from '../types.js';
 
 import {
@@ -228,7 +229,7 @@ class SimView extends connect(store)(PageViewElement) {
 		_screenshotting: boolean;
 
 	@state()
-		_runStatuses: number[];
+		_runStatuses: RunStatus[];
 
 	@state()
 		_hashForCurrentState: string;

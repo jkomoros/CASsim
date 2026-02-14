@@ -36,8 +36,14 @@ import {
 	RootState,
 	URLArgsMap,
 	SimulatorType,
-	RawSimulationConfig
+	RawSimulationConfig,
+	RunStatus,
+	DialogType
 } from './types.js';
+
+import {
+	DIALOG_TYPE_JSON
+} from './actions/data.js';
 
 const selectRawConfigData = (state : RootState) => state.data ? state.data.data : [];
 const selectModifications = (state : RootState) => state.data ? state.data.modifications : [];
@@ -66,7 +72,7 @@ export const selectChartSingleRun = (state : RootState) => state.data ? state.da
 export const selectChartConfigIDs = (state : RootState) => state.data ? state.data.chartConfigIDs : {};
 
 export const selectDialogOpen = (state : RootState) => state.data ? state.data.dialogOpen : false;
-export const selectDialogType = (state : RootState) => state.data ? state.data.dialogType : '';
+export const selectDialogType = (state : RootState) : DialogType => state.data ? state.data.dialogType : DIALOG_TYPE_JSON;
 export const selectDialogExtras = (state : RootState) => state.data ? state.data.dialogExtras : {};
 
 export const selectPage = (state : RootState) => state.app ? state.app.page : '';
@@ -231,7 +237,7 @@ export const selectRunStatusesVisible = createSelector(
 export const selectCurrentSimulationRunStatuses = createSelector(
 	selectCurrentSimulation,
 	selectSimulationLastChanged,
-	(sim) => sim ? sim.runs.map(run => run.finalStatus) : []
+	(sim) : RunStatus[] => sim ? sim.runs.map(run => run.finalStatus) : []
 );
 
 export const selectCurrentSimulationRun = createSelector(

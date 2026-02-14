@@ -78,7 +78,8 @@ import {
 	ModificationsPathMap,
 	OptionsPath,
 	RootState,
-	KNOWN_DATA_FILES
+	KNOWN_DATA_FILES,
+	RunStatus
 } from '../types.js';
 
 import {
@@ -186,7 +187,7 @@ class SimulationControls extends connect(store)(LitElement) {
 		_runIndex: number;
 
 	@state()
-		_runStatuses: number[];
+		_runStatuses: RunStatus[];
 
 	@state()
 		_playing: boolean;

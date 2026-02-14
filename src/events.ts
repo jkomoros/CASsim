@@ -9,30 +9,43 @@ import {
 	OptionValue
 } from './types.js';
 
-export type DialogShouldCloseEvent = CustomEvent<null>;
+// Typed event classes
+export class DialogShouldCloseEvent extends CustomEvent<null> {
+	constructor() {
+		super('dialog-should-close', { composed: true, detail: null });
+	}
+}
 
 export const makeDialogShouldCloseEvent = () : DialogShouldCloseEvent => {
-	return new CustomEvent('dialog-should-close', {composed: true, detail: null});
+	return new DialogShouldCloseEvent();
 };
 
 type MultiSelectedChangedEventDetail = {
 	[key : string] : true;
 };
 
-export type MultiSelectChangedEvent = CustomEvent<MultiSelectedChangedEventDetail>;
+export class MultiSelectChangedEvent extends CustomEvent<MultiSelectedChangedEventDetail> {
+	constructor(changed: MultiSelectedChangedEventDetail) {
+		super('changed', { composed: true, detail: changed });
+	}
+}
 
 export const makeMultiSelectChangedEvent = (changed : {[key : string] : true}) : MultiSelectChangedEvent => {
-	return new CustomEvent('changed', {composed: true, detail: changed});
+	return new MultiSelectChangedEvent(changed);
 };
 
 type UndoClickedEventDetail = {
 	path: OptionsPath
 }
 
-export type UndoClickedEvent = CustomEvent<UndoClickedEventDetail>;
+export class UndoClickedEvent extends CustomEvent<UndoClickedEventDetail> {
+	constructor(path: OptionsPath) {
+		super('undo-clicked', { composed: true, detail: { path } });
+	}
+}
 
 export const makeUndoClickedEvent = (path : OptionsPath): UndoClickedEvent => {
-	return new CustomEvent('undo-clicked', {composed: true, detail: {path}});
+	return new UndoClickedEvent(path);
 };
 
 type OptionChangedEventDetail = {
@@ -40,20 +53,28 @@ type OptionChangedEventDetail = {
 	value: OptionValue
 };
 
-export type OptionChangedEvent = CustomEvent<OptionChangedEventDetail>;
+export class OptionChangedEvent extends CustomEvent<OptionChangedEventDetail> {
+	constructor(path: OptionsPath, value: OptionValue) {
+		super('option-changed', { composed: true, detail: { path, value } });
+	}
+}
 
 export const makeOptionChangedEvent = (path : OptionsPath, value: OptionValue) : OptionChangedEvent => {
-	return new CustomEvent('option-changed', {composed: true, detail: {path, value}});
+	return new OptionChangedEvent(path, value);
 };
 
 type RunClickedEventDetail = {
 	index: number;
 };
 
-export type RunClickedEvent = CustomEvent<RunClickedEventDetail>;
+export class RunClickedEvent extends CustomEvent<RunClickedEventDetail> {
+	constructor(index: number) {
+		super('run-clicked', { composed: true, detail: { index } });
+	}
+}
 
 export const makeRunClickedEvent = (index: number) : RunClickedEvent => {
-	return new CustomEvent('run-clicked', {composed: true, detail: {index}});
+	return new RunClickedEvent(index);
 };
 
 type PathToggledEventDetail = {
@@ -61,10 +82,14 @@ type PathToggledEventDetail = {
 	open: boolean;
 };
 
-export type PathToggledEvent = CustomEvent<PathToggledEventDetail>;
+export class PathToggledEvent extends CustomEvent<PathToggledEventDetail> {
+	constructor(path: OptionsPath, open: boolean) {
+		super('path-toggled', { composed: true, detail: { path, open } });
+	}
+}
 
 export const makePathToggledEvent = (path : OptionsPath, open: boolean) : PathToggledEvent => {
-	return new CustomEvent('path-toggled', {composed: true, detail: {path, open}});
+	return new PathToggledEvent(path, open);
 };
 
 type AddFieldDialogEventDetail = {
@@ -74,8 +99,25 @@ type AddFieldDialogEventDetail = {
 
 type OpenDialogEventDetail = AddFieldDialogEventDetail;
 
-export type OpenDialogEvent = CustomEvent<OpenDialogEventDetail>;
+export class OpenDialogEvent extends CustomEvent<OpenDialogEventDetail> {
+	constructor(type: DialogType, extras: DialogTypeAddFieldExtras) {
+		super('open-dialog', { composed: true, detail: { type, extras } });
+	}
+}
 
 export const makeOpenDialogAddFieldEvent = (extras: DialogTypeAddFieldExtras) : OpenDialogEvent => {
-	return new CustomEvent('open-dialog', {composed: true, detail: {type: DIALOG_TYPE_ADD_FIELD, extras}});
+	return new OpenDialogEvent(DIALOG_TYPE_ADD_FIELD, extras);
 };
+
+// Global event map for type-safe event handling
+declare global {
+	interface HTMLElementEventMap {
+		'dialog-should-close': DialogShouldCloseEvent;
+		'changed': MultiSelectChangedEvent;
+		'undo-clicked': UndoClickedEvent;
+		'option-changed': OptionChangedEvent;
+		'run-clicked': RunClickedEvent;
+		'path-toggled': PathToggledEvent;
+		'open-dialog': OpenDialogEvent;
+	}
+}
