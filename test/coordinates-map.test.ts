@@ -346,7 +346,9 @@ describe('CoordinatesMap', () => {
 	it('Basic frame data getLeafBuckets bucketed', async () => {
 		const map = makeBucketedMap();
 		const buckets = map._rootBucket.getLeafBuckets({x: 25, y: 25}, 25);
-		expect(buckets).toEqual([map._rootBucket._subBuckets.upperLeft, map._rootBucket._subBuckets.lowerLeft]);
+		// After fixing the math bug in circleIntersectsBounds (b3fc7cb),
+		// a circle at (25,25) r=25 only intersects upperLeft quadrant
+		expect(buckets).toEqual([map._rootBucket._subBuckets.upperLeft]);
 	});
 
 	it('Basic frame data get leafBounds bucketed', async () => {
