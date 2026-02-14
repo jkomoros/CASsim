@@ -187,6 +187,7 @@ export class SimulationRun {
 	_simulatorMaxFrameIndex : number;
 	_maxFrameIndex : number;
 	_lastChanged : number;
+	_cachedFinalStatus : number | null;
 
 	constructor(simulation : Simulation, index : number) {
 		this._simulation = simulation;
@@ -197,6 +198,7 @@ export class SimulationRun {
 		this._simulatorMaxFrameIndex = this._simulation.maxFrameIndex;
 		this._maxFrameIndex = Number.MAX_SAFE_INTEGER;
 		this._lastChanged = Date.now();
+		this._cachedFinalStatus = null;
 	}
 
 	get simulation() : Simulation {
@@ -240,6 +242,8 @@ export class SimulationRun {
 
 	_changed() : void {
 		this._lastChanged = Date.now();
+		// Invalidate cached values when state changes
+		this._cachedFinalStatus = null;
 	}
 
 	//Whether this has been run to completion (the state of all frames up to the
@@ -253,8 +257,17 @@ export class SimulationRun {
 	//inbetween, and negative value if indeterminate (e.g. it is not yet
 	//complete or the simulator doesn't implement a frameScorer)
 	get finalStatus() : number {
+		// Return cached value if available
+		if (this._cachedFinalStatus !== null) {
+			return this._cachedFinalStatus;
+		}
+
 		if (!this.complete) return -1.0;
-		return this.successScore(this.maxFrameIndex);
+
+		const status = this.successScore(this.maxFrameIndex);
+		// Cache the result since this run is complete
+		this._cachedFinalStatus = status;
+		return status;
 	}
 
 	//This returns the max valid frame index with the tighest known limit. It
@@ -341,6 +354,9 @@ export class Simulation {
 
 	_activated : boolean;
 
+	_cachedScoreData : ChartData | null;
+	_cachedScoreDataTimestamp : number;
+
 	constructor(config : SimulationConfig, index : number, unmodifiedConfig? : RawSimulationConfig) {
 
 		const name = config.name;
@@ -388,6 +404,8 @@ export class Simulation {
 		this._colors = Object.fromEntries(Object.entries(this._config.colors || {}).map(entry => [entry[0], color(entry[1])]));
 		this._lastChanged = Date.now();
 		this._activated = false;
+		this._cachedScoreData = null;
+		this._cachedScoreDataTimestamp = 0;
 		const runCount = config.runs || DEFAULT_RUNS;
 		for (let i = 0; i < runCount; i++) {
 			const run = new SimulationRun(this, i);
@@ -408,7 +426,12 @@ export class Simulation {
 	}
 
 	get scoreData() : ChartData {
-		//TODO memoize somehow
+		// Check if cache is valid (not stale)
+		const currentTimestamp = this.lastChanged;
+		if (this._cachedScoreData !== null && this._cachedScoreDataTimestamp >= currentTimestamp) {
+			return this._cachedScoreData;
+		}
+
 		const result : ChartData = {};
 		for (const run of this._runs) {
 			const data = run.scoreData;
@@ -417,6 +440,10 @@ export class Simulation {
 				result[key] = [...result[key], ...value];
 			}
 		}
+
+		// Cache the aggregated result with timestamp
+		this._cachedScoreData = result;
+		this._cachedScoreDataTimestamp = currentTimestamp;
 		return result;
 	}
 

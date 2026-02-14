@@ -92,11 +92,18 @@ class RunSummary extends LitElement {
 		const statuses = this.clipFuture ? this.statuses.map((value, index) => index <= this.selectedIndex ? value : -1) : this.statuses;
 		const successCount = statuses.map(value => value == 1.0 ? 1.0 : 0.0).reduce((prev: number, curr: number): number => prev + curr, 0);
 		const denominator = statuses.map(value => value < 0.0 ? 0 : 1).reduce((prev: number, curr: number): number => prev + curr, 0);
-		const successPercentage = '' + Math.floor(100 * successCount / (denominator || 1)) + '%';
+		const completeCount = statuses.filter(value => value >= 0.0).length;
+		const totalCount = statuses.length;
+
+		// Show progress if some runs are still calculating
+		const isCalculating = completeCount < totalCount;
+		const displayText = isCalculating
+			? `${completeCount}/${totalCount}`
+			: '' + Math.floor(100 * successCount / (denominator || 1)) + '%';
 
 		return html`
 				<div class='statuses ${this.centerPercentage ? 'center-percentage' : ''} ${statuses.length > (this.compact ? NO_BORDER_COMPACT_COUNT_THRESHOLD : NO_BORDER_COUNT_THRESHOLD) ? 'no-border' : ''}'>
-					<span>${successPercentage}</span>
+					<span title='${isCalculating ? 'Calculating: ' + completeCount + ' of ' + totalCount + ' runs complete' : successCount + ' of ' + denominator + ' runs succeeded'}'>${displayText}</span>
 					<div class='output'>${statuses.map((status, index) => html`<div class='status ${this.selectedIndex == index ? 'selected' : ''} ${status < 0 ? 'indeterminate' : (status == 1.0 ? 'success' : 'failure')}' @click=${this._handleStatusClicked} data-index=${index}></div>`)}</div>
 				</div>
 		`;

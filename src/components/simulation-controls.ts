@@ -124,6 +124,9 @@ const optionsForMultiSelect = (chartData : ChartData) => {
 @customElement('simulation-controls')
 class SimulationControls extends connect(store)(LitElement) {
 
+	// Debounce handle for parameter changes
+	private _optionChangeDebounceHandle : number | null = null;
+
 	@state()
 		_showControls : boolean;
 
@@ -458,7 +461,28 @@ class SimulationControls extends connect(store)(LitElement) {
 	}
 
 	_handleOptionChanged(e : OptionChangedEvent) {
-		store.dispatch(updateCurrentSimulationOptions(e.detail.path, e.detail.value));
+		const { path, value } = e.detail;
+
+		// Clear any pending debounced update
+		if (this._optionChangeDebounceHandle !== null) {
+			window.clearTimeout(this._optionChangeDebounceHandle);
+		}
+
+		// Debounce parameter changes to avoid triggering expensive recalculations
+		// while user is still typing/adjusting values
+		this._optionChangeDebounceHandle = window.setTimeout(() => {
+			store.dispatch(updateCurrentSimulationOptions(path, value));
+			this._optionChangeDebounceHandle = null;
+		}, 300);
+	}
+
+	override disconnectedCallback() {
+		super.disconnectedCallback();
+		// Clean up pending timeout when component is removed
+		if (this._optionChangeDebounceHandle !== null) {
+			window.clearTimeout(this._optionChangeDebounceHandle);
+			this._optionChangeDebounceHandle = null;
+		}
 	}
 
 	_handleOpenDialog(e : OpenDialogEvent) {
