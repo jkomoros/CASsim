@@ -315,8 +315,8 @@ class SimView extends connect(store)(PageViewElement) {
 	_handleAgentClicked(e : AgentClickedEvent) {
 		const agentID = e.detail.agentID;
 		// If there's exactly one interaction type, auto-apply it on click
+		// without selecting (the panel would be redundant)
 		if (agentID && this._interactionsConfig.length === 1) {
-			store.dispatch(selectAgent(agentID));
 			store.dispatch(applyInteraction({
 				type: this._interactionsConfig[0].type,
 				agentID,

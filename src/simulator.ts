@@ -82,7 +82,9 @@ export class BaseSimulator {
 				width: simWidth,
 				height: simHeight
 			};
-			return this.generateFirstFrame(firstFrame, rnd);
+			const frame = this.generateFirstFrame(firstFrame, rnd);
+			this.applyInteractions(interactions, frame);
+			return frame;
 		}
 		if (this.simulationComplete(previousFrame)) return null;
 		//Note: frame is only a shallow copy, so sub-generators will need to clone sub options.
