@@ -308,8 +308,8 @@ export class DistributionConfig {
 
 	_validateOptions(normalizedOptions : DistributionOptions) {
 		for (const [key, value] of Object.entries(normalizedOptions) as [keyof DistributionOptions, unknown][]) {
-			if (EXAMPLE_OPTIONS[key] === undefined) throw new Error('Unexpected option: ' + key);
-			if (typeof value != typeof EXAMPLE_OPTIONS[key]) throw new Error(key + ' must be a ' + typeof EXAMPLE_OPTIONS[key]);
+			if (!(key in EXAMPLE_OPTIONS)) throw new Error('Unexpected option: ' + key);
+			if (EXAMPLE_OPTIONS[key] !== undefined && typeof value != typeof EXAMPLE_OPTIONS[key]) throw new Error(key + ' must be a ' + typeof EXAMPLE_OPTIONS[key]);
 			if (Array.isArray(EXAMPLE_OPTIONS[key]) != Array.isArray(value)) throw new Error(key + ' must ' + (Array.isArray(EXAMPLE_OPTIONS[key]) ? '' : 'not') + ' be an Array');
 		}
 		if (normalizedOptions.min! > normalizedOptions.max!) throw new Error('min was greater than max');

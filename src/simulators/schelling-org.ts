@@ -22,6 +22,7 @@ import {
 	OptionValue,
 	OptionValueMap,
 	RandomGenerator,
+	ScoreConfigItem,
 	SimulatorType,
 	GraphData
 } from '../types.js';
@@ -553,6 +554,15 @@ class SchellingOrgSimulator extends BaseSimulator {
 			if (individual.beliefs.length != numProjects) throw new Error('Collaborator ' + i + ' had beliefs provided but they didn\'t match the number of projects');
 		}
 		return;
+	}
+
+	override scoreConfig() : [ScoreConfigItem] {
+		return [
+			{
+				id: '',
+				description: '',
+			},
+		];
 	}
 
 	override frameScorer(frame : SchellingOrgSimulationFrame, simOptions : SchellingOrgSimOptions) : number[] {
