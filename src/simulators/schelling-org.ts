@@ -175,31 +175,31 @@ class SchellingOrgSimulator extends BaseSimulator {
 	}
 
 	_firstFrameGenerator(simOptions : SchellingOrgSimOptions, rnd : RandomGenerator, runIndex :number, simWidth : number, simHeight : number) : SchellingOrgSimulationFrame {
-		const projectsCount = simOptions.projects.count;
-		const collaboratorsCount = simOptions.collaborators.count;
-		const projectExtraValue = simOptions.projects.maxExtraValue;
-		const projectErrorValue = simOptions.projects.maxErrorValue;
-		const projectTwiddleValueAmount = simOptions.projects.twiddleValueAmount;
-		const communicationValue = simOptions.communication;
+		const projectsCount = simOptions.projects!.count;
+		const collaboratorsCount = simOptions.collaborators!.count;
+		const projectExtraValue = simOptions.projects!.maxExtraValue!;
+		const projectErrorValue = simOptions.projects!.maxErrorValue!;
+		const projectTwiddleValueAmount = simOptions.projects!.twiddleValueAmount!;
+		const communicationValue = simOptions.communication!;
 		const displayValue = simOptions.display;
 		const northStarValue = simOptions.northStar ? deepCopy(simOptions.northStar) : undefined;
-		const collaboratorEpsilonValue = simOptions.collaborators.epsilon;
-		let individualProjectOverrides = simOptions.projects.individuals;
-		let individualCollaboratorOverrides = simOptions.collaborators.individuals;
-		const randomCollaboratorIndividualValues = simOptions.collaborators.randomIndividual;
-		const randomProjectIndividualValues = simOptions.projects.randomIndividual;
-		const avgConnectionLikelihood = simOptions.collaborators.avgConnectionLikelihood;
-		const connectionLikelihoodSpread = simOptions.collaborators.connectionLikelihoodSpread;
-		const defaultCompellingValue = simOptions.collaborators.compelling;
-		const broadcastLikelihood = simOptions.collaborators.broadcastLikelihood;
-		const communicationStrategy = simOptions.collaborators.communicationStrategy;
+		const collaboratorEpsilonValue = simOptions.collaborators!.epsilon!;
+		let individualProjectOverrides = simOptions.projects!.individuals;
+		let individualCollaboratorOverrides = simOptions.collaborators!.individuals;
+		const randomCollaboratorIndividualValues = simOptions.collaborators!.randomIndividual;
+		const randomProjectIndividualValues = simOptions.projects!.randomIndividual;
+		const avgConnectionLikelihood = simOptions.collaborators!.avgConnectionLikelihood!;
+		const connectionLikelihoodSpread = simOptions.collaborators!.connectionLikelihoodSpread!;
+		const defaultCompellingValue = simOptions.collaborators!.compelling!;
+		const broadcastLikelihood = simOptions.collaborators!.broadcastLikelihood!;
+		const communicationStrategy = simOptions.collaborators!.communicationStrategy!;
 		//This might be undefined if not provided
-		const optimismValue = simOptions.collaborators.optimism;
-		const believabilityValue = simOptions.northStar ? simOptions.northStar.believability : 1.0;
+		const optimismValue = simOptions.collaborators!.optimism;
+		const believabilityValue = simOptions.northStar ? simOptions.northStar.believability! : 1.0;
 
 		if (northStarValue && northStarValue.offsetType != OFFSET_TYPE_MANUAL) {
-			const minOffset = northStarValue.minOffset;
-			const maxOffset = northStarValue.maxOffset;
+			const minOffset = northStarValue.minOffset!;
+			const maxOffset = northStarValue.maxOffset!;
 			if (northStarValue.offsetType == OFFSET_TYPE_RANDOM) {
 				northStarValue.offset = (maxOffset - minOffset) * rnd() + minOffset;
 			} else {
@@ -223,16 +223,16 @@ class SchellingOrgSimulator extends BaseSimulator {
 		for (let i = 0; i < projectsCount; i++) {
 
 			//Default of no northStar bias
-			let northStarBias;
+			let northStarBias : number | undefined;
 			if (northStarValue) {
 				//There is a north star. Conceptually we'll calulate the bias to
 				//be a triangle centered on north star offset, trailing off
 				//linearly on either side of offset by spread. And the lowest
 				//and highest values at the extremes are given by strength,
 				//where strength of 1.0 will have the extremes be 0.0..1.0
-				const northStarOffset = northStarValue.offset;
-				const northStarSpread = northStarValue.spread;
-				const northStarStrength = northStarValue.strength;
+				const northStarOffset = northStarValue.offset!;
+				const northStarSpread = northStarValue.spread!;
+				const northStarStrength = northStarValue.strength!;
 				const minNorthStarBias = 0.5 - (0.5 * northStarStrength);
 				const maxNorthStarBias = 0.5 + (0.5 * northStarStrength);
 				const projectXOffset = projectX(i, projectsCount);
@@ -261,7 +261,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				maxExtraValue: projectExtraValue,
 				maxErrorValue: projectErrorValue,
 				twiddleValueAmount: projectTwiddleValueAmount,
-				northStarBias
+				northStarBias: northStarBias!
 			});
 		}
 
@@ -271,13 +271,13 @@ class SchellingOrgSimulator extends BaseSimulator {
 			individualProjectOverrides[index] = randomProjectIndividualValues;
 		}
 
-		projects = projects.map((item, index) => individualProjectOverrides[index] ? {...item, ...individualProjectOverrides[index]} : item);
+		projects = projects.map((item, index) => individualProjectOverrides?.[index] ? {...item, ...individualProjectOverrides[index]!} : item);
 
 		//Assign final value/error values now that we know each one's extra/error
 		for (let i = 0; i < projectsCount; i++) {
 			if (projects[i].value === undefined) projects[i].value = 1.0 + (rnd() * projects[i].maxExtraValue);
 			if (projects[i].error === undefined) projects[i].error = 0.0 + (rnd() * projects[i].maxErrorValue);
-			projects[i].value += (rnd() * projects[i].twiddleValueAmount * 2) - projects[i].twiddleValueAmount;
+			projects[i].value! += (rnd() * projects[i].twiddleValueAmount * 2) - projects[i].twiddleValueAmount;
 		}
 
 		const emojiValues = Object.values(PROFESSIONAL_PEOPLE_EMOJIS);
@@ -293,7 +293,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 				compelling: defaultCompellingValue,
 				avgConnectionLikelihood,
 				connectionLikelihoodSpread,
-				optimism: optimismValue,
+				optimism: optimismValue!,
 				communicationStrategy,
 				believes: rnd() < believabilityValue
 			});
@@ -306,7 +306,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 		}
 
 		//Override individuals' values
-		collaborators = collaborators.map((item, index) => individualCollaboratorOverrides[index] ? {...item, ...individualCollaboratorOverrides[index]} : item);
+		collaborators = collaborators.map((item, index) => individualCollaboratorOverrides?.[index] ? {...item, ...individualCollaboratorOverrides[index]!} : item);
 
 		if (northStarValue) northStarValue.believability = collaborators.filter(collaborator => collaborator.believes).length / collaboratorsCount;
 
@@ -330,7 +330,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 					bias = (northStarBias + optimismBias) / 2;
 				}
 
-				personalBeliefs[j] = randomValueWithBias(rnd, project.value - project.error, project.value + project.error, bias);
+				personalBeliefs[j] = randomValueWithBias(rnd, project.value! - project.error!, project.value! + project.error!, bias);
 			}
 			collaborators[i].beliefs = personalBeliefs;
 		}
@@ -361,15 +361,15 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 		return {
 			index: 0,
-			simOptions,
+			simOptions: simOptions as unknown as OptionValueMap,
 			runIndex,
 			width: simWidth,
 			height: simHeight,
 			agents: [],
-			positions: null,
-			display: displayValue,
+			positions: {} as GraphData,
+			display: displayValue!,
 			lastCommunicatedProject: -1,
-			northStar: northStarValue,
+			northStar: northStarValue!,
 			communication: communicationValue,
 			connections,
 			collaborators,
@@ -378,8 +378,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 	}
 
 	_selectFinalProject(frame : SchellingOrgSimulationFrame, simOptions : SchellingOrgSimOptions, rnd : RandomGenerator) : SchellingOrgSimulationFrame {
-		const collaboratorsCount = simOptions.collaborators.count;
-		const projectsCount = simOptions.projects.count;
+		const collaboratorsCount = simOptions.collaborators!.count;
+		const projectsCount = simOptions.projects!.count;
 		const projects = [...frame.projects];
 		const collaborators = [...frame.collaborators];
 		//Go through each collaborator and pick a project for them.
@@ -392,7 +392,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 			//We do this within the loop because later each collaborator will have their own beliefs.
 			let maxProjectValue = 0.0;
 			let maxProjects : number[] = [];
-			for (const [projectIndex, projectBelief] of collaborator.beliefs.entries()) {
+			for (const [projectIndex, projectBelief] of collaborator.beliefs!.entries()) {
 				if (Math.abs(projectBelief - maxProjectValue) < collaborators[i].epsilon) {
 					//Effectively equal
 					maxProjects.push(projectIndex);
@@ -445,8 +445,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 		}
 		const connectionIndex = urn.pick();
 
-		const primaryConnection = connections[connectionIndex];
-		
+		const primaryConnection = connections[connectionIndex!];
+
 		const collaborators = [...frame.collaborators];
 
 		const doBroadcast = rnd() <= collaborators[primaryConnection.i].broadcastLikelihood;
@@ -464,8 +464,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 		if (communicationStrategy !== COMMUNICATION_STRATEGY_RANDOM) {
 			let extremeValue = communicationStrategy == COMMUNICATION_STRATEGY_MIN ? Number.MAX_SAFE_INTEGER : -1 * Number.MAX_SAFE_INTEGER;
 			for (const connection of connectionsToSend) {
-				const senderBeliefs = collaborators[connection.i].beliefs;
-				const recieverBeliefs = collaborators[connection.j].beliefs;
+				const senderBeliefs = collaborators[connection.i].beliefs!;
+				const recieverBeliefs = collaborators[connection.j].beliefs!;
 				for (let i = 0; i < senderBeliefs.length; i++) {
 					const senderProjectBelief = senderBeliefs[i];
 					const receiverProjectBelief = recieverBeliefs[i];
@@ -499,8 +499,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 		for (const connection of connectionsToSend) {
 			connection.active = true;
 
-			const senderBeliefs = collaborators[connection.i].beliefs;
-			const recieverBeliefs = collaborators[connection.j].beliefs;
+			const senderBeliefs = collaborators[connection.i].beliefs!;
+			const recieverBeliefs = collaborators[connection.j].beliefs!;
 
 			const senderProjectBelief = senderBeliefs[projectIndex];
 			const receiverProjectBelief = recieverBeliefs[projectIndex];
@@ -522,8 +522,8 @@ class SchellingOrgSimulator extends BaseSimulator {
 		};
 	}
 
-	override generator(frameIndex : number, previousFrame : SchellingOrgSimulationFrame, simOptions : SchellingOrgSimOptions, rnd : RandomGenerator, runIndex : number, simWidth : number, simHeight : number) : SchellingOrgSimulationFrame {
-		const communicationRounds = simOptions.communication;
+	override generator(frameIndex : number, previousFrame : SchellingOrgSimulationFrame, simOptions : SchellingOrgSimOptions, rnd : RandomGenerator, runIndex : number, simWidth : number, simHeight : number) : SchellingOrgSimulationFrame | null {
+		const communicationRounds = simOptions.communication!;
 		if (frameIndex > communicationRounds) return null;
 		let frame = previousFrame || this._firstFrameGenerator(simOptions, rnd, runIndex, simWidth, simHeight);
 		frame = {...frame, index: frameIndex};
@@ -534,9 +534,9 @@ class SchellingOrgSimulator extends BaseSimulator {
 
 	override optionsValidator(normalizedSimOptions : SchellingOrgSimOptions) : void {
 		//Our validations are mainly served by the config in optionsConfig.
-		const individuals = normalizedSimOptions.collaborators.individuals;
+		const individuals = normalizedSimOptions.collaborators!.individuals;
 		if (!individuals) return;
-		const numProjects = normalizedSimOptions.projects.count;
+		const numProjects = normalizedSimOptions.projects!.count;
 		for (const [i, individual] of individuals.entries()) {
 			if (!individual) continue;
 			if (!individual.beliefs) continue;
@@ -546,7 +546,7 @@ class SchellingOrgSimulator extends BaseSimulator {
 	}
 
 	override frameScorer(frame : SchellingOrgSimulationFrame, simOptions : SchellingOrgSimOptions) : number[] {
-		const communicationRounds = simOptions.communication;
+		const communicationRounds = simOptions.communication!;
 		//If we aren't done yet signal indeterminate.
 		if (frame.index < communicationRounds) return [-1];
 		for (const project of frame.projects) {

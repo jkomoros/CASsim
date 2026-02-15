@@ -53,7 +53,7 @@ export class BaseSimulator {
 	//so generateFrame can retrieve those from the frame if necessary. The
 	//behavior of this function is typically a good starting point to use for
 	//your own method.
-	generator(frameIndex : number, previousFrame : SimulationFrame, simOptions : NormalizedSimOptions, rnd : RandomGenerator, runIndex : number, simWidth : number, simHeight : number) : SimulationFrame {
+	generator(frameIndex : number, previousFrame : SimulationFrame | null, simOptions : NormalizedSimOptions, rnd : RandomGenerator, runIndex : number, simWidth : number, simHeight : number) : SimulationFrame | null {
 		if (!previousFrame) {
 			const firstFrame = {
 				index: frameIndex,

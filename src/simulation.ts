@@ -219,7 +219,7 @@ export class SimulationRun {
 		return this._simulation;
 	}
 
-	frame(frameIndex : number) : SimulationFrame {
+	frame(frameIndex : number) : SimulationFrame | null {
 		this._ensureFrameDataUpTo(frameIndex);
 		if (frameIndex >= this._frames.length) return null;
 		return this._frames[frameIndex];
@@ -305,7 +305,7 @@ export class SimulationRun {
 			if (!result) {
 				//We foudn the last valid frame, keep track of where it is.
 				this._maxFrameIndex = this._frames.length - 1;
-				return null;
+				return;
 			}
 			try {
 				this._simulation.simulator.frameValidator(result);
@@ -328,7 +328,7 @@ export class SimulationRun {
 	}
 
 	//Will only be called when all lower frames exist
-	_calculateFrameAt(frameIndex : number) : SimulationFrame {
+	_calculateFrameAt(frameIndex : number) : SimulationFrame | null {
 		const previousFrame = frameIndex == 0 ? null : this._frames[frameIndex - 1];
 		const rnd = makeSeededRandom('' + this._simulation.seed + this._index + frameIndex);
 		const sim = this._simulation.simulator;
@@ -378,13 +378,14 @@ export class Simulation {
 			if (typeof name != 'string') throw new Error('Name was provided but not a string');
 			if (!name.match(/^[0-9a-zA-Z-_]+$/)) throw new Error('Name had invalid characters in it');
 		}
-		this._simulator = SIMULATORS[config.sim];
-		if (!this._simulator) {
+		const simulator = SIMULATORS[config.sim];
+		if (!simulator) {
 			throw new Error('Unknown simulator name: ' + config.sim);
 		}
+		this._simulator = simulator;
 		const configCopy = deepCopy(config);
-		const rawSimOptions = configCopy.simOptions || this._simulator.defaultValueForPath('', null);
-		const [updatedSimOptionsConfig] = ensureBackfill(optionsConfigWithDefaultedShortNames(this._simulator.optionsConfig), rawSimOptions);
+		const rawSimOptions = configCopy.simOptions || this._simulator.defaultValueForPath('', {} as OptionValueMap);
+		const [updatedSimOptionsConfig] = ensureBackfill(optionsConfigWithDefaultedShortNames(this._simulator.optionsConfig), rawSimOptions as OptionValueMap);
 		configCopy.simOptions = this._simulator.normalizeOptions(updatedSimOptionsConfig as OptionValueMap);
 		try {
 			this._simulator.optionsValidator(configCopy.simOptions);
@@ -392,7 +393,7 @@ export class Simulation {
 			throw new Error('Sim problems: ' + err);
 		}
 		deepFreeze(unmodifiedConfig);
-		this._unmodifiedConfig = unmodifiedConfig;
+		this._unmodifiedConfig = unmodifiedConfig || configCopy;
 		deepFreeze(configCopy);
 		this._config = configCopy;
 		deepFreeze(config);
@@ -534,8 +535,10 @@ export class Simulation {
 		return this.rawDescription || this.title;
 	}
 
-	get simOptions() {
-		return this.config[SIM_OPTIONS_PROPERTY];
+	get simOptions() : OptionValueMap {
+		const options = this.config[SIM_OPTIONS_PROPERTY];
+		if (!options) throw new Error('simOptions should have been normalized to non-null in constructor');
+		return options;
 	}
 
 	get seed() : string {

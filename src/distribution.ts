@@ -1,8 +1,4 @@
 import {
-	TypedObject
-} from './typed-object.js';
-
-import {
 	DistributionOptions,
 	DistributionType,
 	OptionsConfig,
@@ -153,7 +149,7 @@ class Distribution {
 const EXAMPLE_OPTIONS : DistributionOptions = {
 	types: [...Object.keys(LEGAL_TYPES)] as DistributionType[],
 	distribution: LINEAR,
-	onlyDistribution: null,
+	onlyDistribution: undefined,
 	average: 0.5,
 	spread: 0.0,
 	min: 0.0,
@@ -194,12 +190,12 @@ export class DistributionConfig {
 			...EXAMPLE_OPTIONS,
 			...options,
 		};
-		normalizedOptions.types = options.types || (options.onlyDistribution ? [options.onlyDistribution] : EXAMPLE_OPTIONS.types);
-		normalizedOptions.distribution = options.onlyDistribution || options.distribution || normalizedOptions.types[0];
+		normalizedOptions.types = options.types || (options.onlyDistribution ? [options.onlyDistribution] : EXAMPLE_OPTIONS.types!);
+		normalizedOptions.distribution = options.onlyDistribution || options.distribution || normalizedOptions.types![0];
 		normalizedOptions.shortName = options.shortName || '';
 		normalizedOptions.description = options.description === undefined ? 'A value with a ' + normalizedOptions.distribution + ' distribution' : options.description;
-		normalizedOptions.min = options.min === undefined ? normalizedOptions.limitMin : options.min;
-		normalizedOptions.max = options.max === undefined ? normalizedOptions.limitMax : options.max;
+		normalizedOptions.min = options.min === undefined ? normalizedOptions.limitMin! : options.min;
+		normalizedOptions.max = options.max === undefined ? normalizedOptions.limitMax! : options.max;
 
 		//Validate
 		this._validateOptions(normalizedOptions);
@@ -215,12 +211,12 @@ export class DistributionConfig {
 
 		const example : OptionsConfigMap = {};
 
-		const includedTypes = Object.fromEntries(this._options.types.map(type => [type, true]));
+		const includedTypes = Object.fromEntries(this._options.types!.map(type => [type, true]));
 
 		if (includedTypes[LINEAR] || includedTypes[NORMAL] || includedTypes[FIXED]) {
 			const includesOtherTypes = includedTypes[MIN_MAX];
-			const disableAverage = this._options.types.length == 1 && this._options.distribution == MIN_MAX;
-			const disableSpread = this._options.types.length == 1 && (this._options.distribution == MIN_MAX || this._options.distribution == FIXED);
+			const disableAverage = this._options.types!.length == 1 && this._options.distribution == MIN_MAX;
+			const disableSpread = this._options.types!.length == 1 && (this._options.distribution == MIN_MAX || this._options.distribution == FIXED);
 			example.average = {
 				example: this._options.average,
 				min: this._options.limitMin,
@@ -229,7 +225,7 @@ export class DistributionConfig {
 				backfill: includesOtherTypes,
 				optional: includesOtherTypes,
 				default: includesOtherTypes,
-				hide: values => disableAverage || (values.distribution && values.distribution == MIN_MAX),
+				hide: values => disableAverage || !!(values.distribution && values.distribution == MIN_MAX),
 				shortName: 'a',
 				description: 'The average value for ' + this._options.name + '.' + (includesOtherTypes ? ' Only for types ' + LINEAR + ', ' + FIXED + ', and ' + NORMAL : '')
 			};
@@ -239,7 +235,7 @@ export class DistributionConfig {
 				max: this._options.limitMax,
 				step: this._options.step,
 				shortName: 's',
-				hide: values => disableSpread || (values.distribution && (values.distribution == MIN_MAX || values.distribution == FIXED)),
+				hide: values => disableSpread || !!(values.distribution && (values.distribution == MIN_MAX || values.distribution == FIXED)),
 				optional:true,
 				backfill: true,
 				default: true,
@@ -249,7 +245,7 @@ export class DistributionConfig {
 
 		if (includedTypes[MIN_MAX]) {
 			const includesOtherTypes = Object.keys(includedTypes).length > 1;
-			const hide = (values : OptionValueMap) : boolean => values.distribution && values.distribution != MIN_MAX;
+			const hide = (values : OptionValueMap) : boolean => !!(values.distribution && values.distribution != MIN_MAX);
 			example.min = {
 				example: this._options.min,
 				min: this._options.limitMin,
@@ -277,7 +273,7 @@ export class DistributionConfig {
 			};
 		}
 
-		if (this._options.types.length > 1) {
+		if (this._options.types!.length > 1) {
 			example.distribution = {
 				example: this._options.distribution,
 				backfill: true,
@@ -285,7 +281,7 @@ export class DistributionConfig {
 				default: true,
 				shortName: 'd',
 				description: 'The type of distribution for ' + this._options.name,
-				options: this._options.types.map(type => ({value: type, description: LEGAL_TYPES[type]}))
+				options: this._options.types!.map(type => ({value: type, description: LEGAL_TYPES[type]}))
 			};
 		}
 
@@ -311,21 +307,21 @@ export class DistributionConfig {
 	}
 
 	_validateOptions(normalizedOptions : DistributionOptions) {
-		for (const [key, value] of TypedObject.entries(normalizedOptions)) {
+		for (const [key, value] of Object.entries(normalizedOptions) as [keyof DistributionOptions, unknown][]) {
 			if (EXAMPLE_OPTIONS[key] === undefined) throw new Error('Unexpected option: ' + key);
 			if (typeof value != typeof EXAMPLE_OPTIONS[key]) throw new Error(key + ' must be a ' + typeof EXAMPLE_OPTIONS[key]);
 			if (Array.isArray(EXAMPLE_OPTIONS[key]) != Array.isArray(value)) throw new Error(key + ' must ' + (Array.isArray(EXAMPLE_OPTIONS[key]) ? '' : 'not') + ' be an Array');
 		}
-		if (normalizedOptions.min > normalizedOptions.max) throw new Error('min was greater than max');
-		if (normalizedOptions.limitMin > normalizedOptions.limitMax) throw new Error('limitMin was greater than limitMax');
+		if (normalizedOptions.min! > normalizedOptions.max!) throw new Error('min was greater than max');
+		if (normalizedOptions.limitMin! > normalizedOptions.limitMax!) throw new Error('limitMin was greater than limitMax');
 		if (!Object.keys(LEGAL_ROUND_TYPES).some(type => normalizedOptions.round === type)) throw new Error('round was not a legal value: \'' + normalizedOptions.round + '\'. Legal values are: ' + Object.keys(LEGAL_ROUND_TYPES).map(str => "'" + str + "'").join(', '));
 		const seenTypes : {[name : string] : true} = {};
-		for (const type of normalizedOptions.types) {
+		for (const type of normalizedOptions.types!) {
 			if (!LEGAL_TYPES[type]) throw new Error(type + ' is not a legal type');
 			if (seenTypes[type]) throw new Error(type + ' was duplicated in the list');
 			seenTypes[type] = true;
 		}
-		if (!normalizedOptions.types.some(type => type == normalizedOptions.distribution)) throw new Error(normalizedOptions.distribution + ' was set as type but was not in types');
+		if (!normalizedOptions.types!.some(type => type == normalizedOptions.distribution)) throw new Error(normalizedOptions.distribution + ' was set as type but was not in types');
 	}
 }
 
