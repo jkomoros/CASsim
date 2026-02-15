@@ -34,6 +34,7 @@ import {
 	START_PROGRESSIVE_GENERATION,
 	CANCEL_PROGRESSIVE_GENERATION,
 	PROGRESSIVE_GENERATION_TICK,
+	SELECT_AGENT,
 
 	DIALOG_TYPE_JSON,
 	DEFAULT_FILE_NAME,
@@ -92,6 +93,7 @@ const INITIAL_STATE : DataState = {
 	dialogExtras: {},
 	progressiveGenerationHandle: null,
 	progressiveGenerationCancelled: false,
+	selectedAgentID: null,
 };
 
 const data = (state : DataState = INITIAL_STATE, action : AnyAction) : DataState => {
@@ -112,11 +114,13 @@ const data = (state : DataState = INITIAL_STATE, action : AnyAction) : DataState
 		return {
 			...state,
 			simulationIndex: action.index,
+			selectedAgentID: null,
 		};
 	case UPDATE_RUN_INDEX:
 		return {
 			...state,
 			runIndex: action.index,
+			selectedAgentID: null,
 		};
 	case UPDATE_FRAME_INDEX:
 		return {
@@ -275,6 +279,11 @@ const data = (state : DataState = INITIAL_STATE, action : AnyAction) : DataState
 		return {
 			...state,
 			simulationLastChanged: Date.now()
+		};
+	case SELECT_AGENT:
+		return {
+			...state,
+			selectedAgentID: action.agentID
 		};
 	default:
 		return state;

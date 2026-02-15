@@ -109,6 +109,18 @@ export const makeOpenDialogAddFieldEvent = (extras: DialogTypeAddFieldExtras) : 
 	return new OpenDialogEvent(DIALOG_TYPE_ADD_FIELD, extras);
 };
 
+type AgentClickedEventDetail = {
+	agentID: string | null;
+	x: number;
+	y: number;
+};
+
+export class AgentClickedEvent extends CustomEvent<AgentClickedEventDetail> {
+	constructor(agentID: string | null, x: number, y: number) {
+		super('agent-clicked', { composed: true, bubbles: true, detail: { agentID, x, y } });
+	}
+}
+
 // Global event map for type-safe event handling
 declare global {
 	interface HTMLElementEventMap {
@@ -119,5 +131,6 @@ declare global {
 		'run-clicked': RunClickedEvent;
 		'path-toggled': PathToggledEvent;
 		'open-dialog': OpenDialogEvent;
+		'agent-clicked': AgentClickedEvent;
 	}
 }

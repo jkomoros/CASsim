@@ -23,7 +23,9 @@ import {
 	updateHash,
 	fetchNeededSimulators,
 	startProgressiveGeneration,
-	progressiveGenerationTick
+	progressiveGenerationTick,
+	selectAgent,
+	applyInteraction,
 } from "../actions/data.js";
 
 import {
@@ -60,6 +62,7 @@ import {
 	selectFrameDelay,
 	selectHashForCurrentState,
 	selectRunStatusesVisible,
+	selectSelectedAgentID,
 } from "../selectors.js";
 
 import {
@@ -107,6 +110,7 @@ window[SETUP_METHOD_VARIABLE] = () => {
 import "./frame-visualization.js";
 import "./simulation-controls.js";
 import "./dialog-element.js";
+import "./interaction-panel.js";
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from "./shared-styles.js";
@@ -124,12 +128,17 @@ import {
 import {
 	DialogType,
 	DialogTypeAddFieldExtras,
+	InteractionDefinition,
 	PackedRawSimulationConfig,
 	RootState,
 	SimulationFrame,
 	SimulatorType,
 	RunStatus
 } from '../types.js';
+
+import {
+	AgentClickedEvent
+} from '../events.js';
 
 import {
 	Simulation
@@ -237,6 +246,12 @@ class SimView extends connect(store)(PageViewElement) {
 	@state()
 		_hashForCurrentState: string = '';
 
+	@state()
+		_selectedAgentID : string | null = null;
+
+	@state()
+		_interactionsConfig : InteractionDefinition[] = [];
+
 	//Note: this is calculated in this._resizeVisualzation, NOT in state
 	@state()
 		_needsMarginLeft : boolean = false;
@@ -297,6 +312,30 @@ class SimView extends connect(store)(PageViewElement) {
 		store.dispatch(updateHash(window.location.hash, true));
 	}
 
+	_handleAgentClicked(e : AgentClickedEvent) {
+		const agentID = e.detail.agentID;
+		// If there's exactly one interaction type, auto-apply it on click
+		if (agentID && this._interactionsConfig.length === 1) {
+			store.dispatch(selectAgent(agentID));
+			store.dispatch(applyInteraction({
+				type: this._interactionsConfig[0].type,
+				agentID,
+				x: e.detail.x,
+				y: e.detail.y,
+			}));
+			return;
+		}
+		store.dispatch(selectAgent(agentID));
+	}
+
+	_handleInteractionSelected(e : CustomEvent<{type: string}>) {
+		if (!this._selectedAgentID) return;
+		store.dispatch(applyInteraction({
+			type: e.detail.type,
+			agentID: this._selectedAgentID,
+		}));
+	}
+
 	_handleKeyDown(e : KeyboardEvent) {
 		//We have to hook this to issue content editable commands when we're
 		//active. But most of the time we don't want to do anything.
@@ -316,6 +355,21 @@ class SimView extends connect(store)(PageViewElement) {
 		} else if (e.key == ' ') {
 			store.dispatch(togglePlaying());
 			e.preventDefault();
+		} else if (e.key == 'Escape') {
+			if (this._selectedAgentID) {
+				store.dispatch(selectAgent(null));
+				e.preventDefault();
+			}
+		} else if (this._selectedAgentID && this._interactionsConfig.length > 0) {
+			// Check for interaction keyboard shortcuts
+			const interaction = this._interactionsConfig.find(i => i.shortcut === e.key);
+			if (interaction) {
+				store.dispatch(applyInteraction({
+					type: interaction.type,
+					agentID: this._selectedAgentID,
+				}));
+				e.preventDefault();
+			}
 		}
 
 	}
@@ -323,13 +377,15 @@ class SimView extends connect(store)(PageViewElement) {
 	override render() : TemplateResult {
 		const colors = this._currentSimulation ? Object.entries(this._currentSimulation.colors || {}).map(entry => '--' + entry[0] + '-color: ' + entry[1].hex + ';').join(' ') : '';
 		const includeRunStatuses = this._currentSimulation && (this._screenshotting ? this._currentSimulation.screenshotDisplayStatus : this._currentSimulation.displayStatus);
+		const interactive = this._interactionsConfig.length > 0;
 		return html`
 			<dialog-element .open=${this._dialogOpen} .title=${this._dialogTitle()} @dialog-should-close=${this._handleDialogShouldClose}>
 				${this._dialogInner()}
 			</dialog-element>
 			<simulation-controls></simulation-controls>
 			<div class='container ${this._needsMarginLeft ? 'needs-margin-left' : ''}' style='${colors}'>
-				<frame-visualization .simulation=${this._currentSimulation} .frame=${this._currentFrame} .width=${this._width} .height=${this._height} .scale=${this._scale} .runStatuses=${includeRunStatuses ? this._runStatuses : null} .runIndex=${this._runIndex} .animationLength=${this._animationLength}></frame-visualization>
+				<frame-visualization .simulation=${this._currentSimulation} .frame=${this._currentFrame} .width=${this._width} .height=${this._height} .scale=${this._scale} .runStatuses=${includeRunStatuses ? this._runStatuses : null} .runIndex=${this._runIndex} .animationLength=${this._animationLength} .selectedAgentID=${this._selectedAgentID} .interactive=${interactive} @agent-clicked=${this._handleAgentClicked}></frame-visualization>
+				${interactive && this._selectedAgentID ? html`<interaction-panel .interactions=${this._interactionsConfig} .selectedAgentID=${this._selectedAgentID} @interaction-selected=${this._handleInteractionSelected}></interaction-panel>` : ''}
 			</div>
 		`;
 	}
@@ -385,6 +441,8 @@ class SimView extends connect(store)(PageViewElement) {
 			? selectCurrentSimulationRunStatuses(state)
 			: [];
 		this._hashForCurrentState = selectHashForCurrentState(state);
+		this._selectedAgentID = selectSelectedAgentID(state);
+		this._interactionsConfig = this._currentSimulation ? this._currentSimulation.simulator.interactionsConfig() : [];
 		this._currentSimulationLastChanged = this._currentSimulation ? this._currentSimulation.lastChanged : 0;
 
 		this.updateComplete.then(() => {

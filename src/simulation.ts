@@ -43,6 +43,7 @@ import {
 } from './color.js';
 
 import {
+	Interaction,
 	OptionsPath,
 	ScoreConfig,
 	ChartData,
@@ -202,6 +203,7 @@ export class SimulationRun {
 	_maxFrameIndex : number;
 	_lastChanged : number;
 	_cachedFinalStatus : number | null;
+	_interactions : { [frameIndex: number]: Interaction[] };
 
 	constructor(simulation : Simulation, index : number) {
 		this._simulation = simulation;
@@ -213,6 +215,7 @@ export class SimulationRun {
 		this._maxFrameIndex = Number.MAX_SAFE_INTEGER;
 		this._lastChanged = Date.now();
 		this._cachedFinalStatus = null;
+		this._interactions = {};
 	}
 
 	get simulation() : Simulation {
@@ -258,6 +261,28 @@ export class SimulationRun {
 		this._lastChanged = Date.now();
 		// Invalidate cached values when state changes
 		this._cachedFinalStatus = null;
+	}
+
+	addInteraction(frameIndex : number, interaction : Interaction) : void {
+		if (!this._interactions[frameIndex]) {
+			this._interactions[frameIndex] = [];
+		}
+		this._interactions[frameIndex].push(interaction);
+		this._invalidateFromFrame(frameIndex);
+	}
+
+	_invalidateFromFrame(frameIndex : number) : void {
+		// Truncate cached frames from frameIndex onward
+		this._frames.length = frameIndex;
+		// Truncate score data arrays to match
+		for (const key of Object.keys(this._scoreData)) {
+			this._scoreData[key][0].data.length = frameIndex;
+		}
+		this._successScores.length = frameIndex;
+		// Reset completion state
+		this._maxFrameIndex = Number.MAX_SAFE_INTEGER;
+		this._cachedFinalStatus = null;
+		this._changed();
 	}
 
 	//Whether this has been run to completion (the state of all frames up to the
@@ -332,7 +357,8 @@ export class SimulationRun {
 		const previousFrame = frameIndex == 0 ? null : this._frames[frameIndex - 1];
 		const rnd = makeSeededRandom('' + this._simulation.seed + this._index + frameIndex);
 		const sim = this._simulation.simulator;
-		return sim.generator(frameIndex, previousFrame, this._simulation.simOptions, rnd, this._index, this._simulation.width, this._simulation.height);
+		const interactions = this._interactions[frameIndex];
+		return sim.generator(frameIndex, previousFrame, this._simulation.simOptions, rnd, this._index, this._simulation.width, this._simulation.height, interactions);
 	}
 }
 

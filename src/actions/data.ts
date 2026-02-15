@@ -29,6 +29,7 @@ export const UPDATE_CHART_CONFIG_IDS = 'UPDATE_CHART_CONFIG_IDS';
 export const START_PROGRESSIVE_GENERATION = 'START_PROGRESSIVE_GENERATION';
 export const CANCEL_PROGRESSIVE_GENERATION = 'CANCEL_PROGRESSIVE_GENERATION';
 export const PROGRESSIVE_GENERATION_TICK = 'PROGRESSIVE_GENERATION_TICK';
+export const SELECT_AGENT = 'SELECT_AGENT';
 
 export const DIALOG_TYPE_JSON = 'json';
 export const DIALOG_TYPE_ADD_FIELD = 'add-field';
@@ -119,6 +120,7 @@ import {
 	DialogType,
 	DialogTypeAddFieldExtras,
 	Filename,
+	Interaction,
 	Modifications,
 	OptionsPath,
 	PlayType,
@@ -739,4 +741,22 @@ export const updateChartConfigIDs = (ids : ChartConfigIDsMap) : AnyAction => {
 		type: UPDATE_CHART_CONFIG_IDS,
 		ids,
 	};
+};
+
+export const selectAgent = (agentID : string | null) : AnyAction => {
+	return {
+		type: SELECT_AGENT,
+		agentID
+	};
+};
+
+export const applyInteraction : AppActionCreator = (interaction : Interaction) => (dispatch, getState) => {
+	const state = getState();
+	const run = selectCurrentSimulationRun(state);
+	const frameIndex = selectFrameIndex(state);
+	if (!run) return;
+	// Cancel any in-flight progressive generation to avoid race conditions
+	dispatch(cancelProgressiveGeneration());
+	run.addInteraction(frameIndex, interaction);
+	dispatch({ type: SIMULATION_CHANGED, changed: Date.now() });
 };

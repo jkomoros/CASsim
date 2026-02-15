@@ -261,6 +261,25 @@ export type URLArgsMap = {
     o? : string;
 }
 
+// What a simulator declares it supports
+export interface InteractionDefinition {
+    readonly type: string;
+    readonly label: string;
+    readonly description?: string;
+    // Keyboard shortcut when agent is selected, e.g. 't'
+    readonly shortcut?: string;
+}
+
+// A recorded user interaction
+export interface Interaction {
+    readonly type: string;
+    // The agent that was interacted with. Empty string if this is a positional interaction.
+    readonly agentID: string;
+    // Click coordinates in simulation-space (0..width, 0..height). Present for positional interactions.
+    readonly x?: number;
+    readonly y?: number;
+}
+
 export interface SimulationFrame {
     readonly index : number;
     readonly simOptions : NormalizedSimOptions;
@@ -700,6 +719,7 @@ export type DataState = {
 	dialogExtras: {[key : string] : unknown},
 	progressiveGenerationHandle: number | null,
 	progressiveGenerationCancelled: boolean,
+	selectedAgentID: string | null,
 }
 
 export type RootState = {

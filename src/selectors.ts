@@ -62,7 +62,7 @@ export const selectShowControls = (state : RootState) => state.data ? state.data
 const selectRawConfigurationExpanded = (state : RootState) => state.data ? state.data.configurationExpanded : false;
 const selectRawDescriptionExpanded = (state : RootState) => state.data ? state.data.descriptionExpanded : false;
 const selectRawChartExpanded = (state : RootState) => state.data ? state.data.chartExpanded : false;
-const selectSimulationLastChanged = (state : RootState) => state.data ? state.data.simulationLastChanged : 0;
+export const selectSimulationLastChanged = (state : RootState) => state.data ? state.data.simulationLastChanged : 0;
 export const selectPathExpanded = (state : RootState) => state.data ? state.data.pathExpanded : {};
 export const selectScale = (state : RootState) => state.data ? state.data.scale : 1.0;
 export const selectLoadedSimulators = (state : RootState) => state.data ? state.data.loadedSimulators : {};
@@ -264,11 +264,16 @@ export const selectCurrentSimulationChartData = createSelector(
 export const selectCurrentFrame = createSelector(
 	selectCurrentSimulationRun,
 	selectFrameIndex,
+	//Force recalculation when frames are invalidated by interactions
+	selectSimulationLastChanged,
 	(run, frameIndex) => {
 		if (!run) return null;
 		return run.frame(frameIndex);
 	}
 );
+
+export const selectSelectedAgentID = (state : RootState) : string | null =>
+	state.data?.selectedAgentID ?? null;
 
 export const selectHashForCurrentState = createSelector(
 	selectURLDiffHash,
