@@ -29,7 +29,7 @@ export class PositionedGraph<N extends GraphNodeValues = GraphNodeValues, E exte
 	}
 
 	get availableWidth() : number {
-		return this.property('availableWidth') as number || 0;
+		return this.property('availableWidth') as number ?? 0;
 	}
 
 	set availableHeight(val : number) {
@@ -37,7 +37,7 @@ export class PositionedGraph<N extends GraphNodeValues = GraphNodeValues, E exte
 	}
 
 	get availableHeight() : number {
-		return this.property('availableHeight') as number || 0;
+		return this.property('availableHeight') as number ?? 0;
 	}
 
 	get nodeRoundness() : number {
@@ -104,7 +104,7 @@ export class PositionedGraph<N extends GraphNodeValues = GraphNodeValues, E exte
 	}
 
 	get defaultMaxNodeSize() : number {
-		return this.property('defaultMaxNodeSize') as number || 10;
+		return this.property('defaultMaxNodeSize') as number ?? 10;
 	}
 
 	set defaultMaxNodeSize(val : number) {
@@ -112,7 +112,7 @@ export class PositionedGraph<N extends GraphNodeValues = GraphNodeValues, E exte
 	}
 
 	get defaultMinNodeSize() : number {
-		return this.property('defaultMinNodeSize') as number || 10;
+		return this.property('defaultMinNodeSize') as number ?? 10;
 	}
 
 	set defaultMinNodeSize(val : number) {

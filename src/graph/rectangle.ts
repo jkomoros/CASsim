@@ -138,7 +138,7 @@ export class RectangleGraph extends PositionedGraph<RectangleGraphNodeValues, Re
 
 	//By default, the nodes are square, but if this is true they will be rectangular.
 	get rectangular() : boolean {
-		return this.property('rectangular') as boolean || false;
+		return this.property('rectangular') as boolean ?? false;
 	}
 
 	set rectangular(val : boolean) {
