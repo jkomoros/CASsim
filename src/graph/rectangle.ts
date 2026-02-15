@@ -129,7 +129,7 @@ export class RectangleGraph extends PositionedGraph<RectangleGraphNodeValues, Re
 	}
 
 	get nodeMargin() : number | RowCol {
-		return this.property('nodeMargin') as number || 0;
+		return this.property('nodeMargin') as number ?? 0;
 	}
 
 	set nodeMargin(val : number | RowCol) {

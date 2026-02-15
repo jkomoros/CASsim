@@ -41,7 +41,7 @@ export class PositionedGraph<N extends GraphNodeValues = GraphNodeValues, E exte
 	}
 
 	get nodeRoundness() : number {
-		return this.property('nodeRoundness') as number || 0.0;
+		return this.property('nodeRoundness') as number ?? 0.0;
 	}
 
 	set nodeRoundness(val : number) {

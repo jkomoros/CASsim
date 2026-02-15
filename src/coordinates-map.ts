@@ -612,7 +612,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	getObjects(x : number, y : number, searchRadius: number, exclude? : T[]) : Map<T, number>
 	getObjects(xOrObj : number | T, yOrSearchRadius: number, searchRadius?: number, exclude? : T[]) : Map<T, number> {
 		if (typeof xOrObj != 'number') {
-			return this.getObjects(xOrObj.x || 0, xOrObj.y || 0, yOrSearchRadius, [xOrObj]);
+			return this.getObjects(xOrObj.x ?? 0, xOrObj.y ?? 0, yOrSearchRadius, [xOrObj]);
 		}
 		const x = xOrObj;
 		const y = yOrSearchRadius;

@@ -177,6 +177,10 @@ class SchellingOrgSimulator extends BaseSimulator {
 	}
 
 	_firstFrameGenerator(simOptions : SchellingOrgSimOptions, rnd : RandomGenerator, runIndex :number, simWidth : number, simHeight : number) : SchellingOrgSimulationFrame {
+		// Validate required simOptions properties
+		if (!simOptions.projects || !simOptions.collaborators) {
+			throw new Error('SchellingOrg simulation requires projects and collaborators configuration');
+		}
 		const projectsCount = simOptions.projects!.count;
 		const collaboratorsCount = simOptions.collaborators!.count;
 		const projectExtraValue = simOptions.projects!.maxExtraValue!;

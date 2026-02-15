@@ -291,7 +291,7 @@ export class ForceLayoutGraph<N extends GraphNodeValues = GraphNodeValues, E ext
 	}
 
 	get defaultNodeMargin() : number {
-		return this.property('defaultNodeMargin') as number || 0;
+		return this.property('defaultNodeMargin') as number ?? 0;
 	}
 
 	set defaultNodeMargin(val : number) {
