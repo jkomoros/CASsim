@@ -9,7 +9,7 @@
       "inlineSources": true,
       "rootDir": ".",
       "strict": true,
-      "strictNullChecks": false,
+      "strictNullChecks": true,
       "strictPropertyInitialization": false,
       "noUnusedLocals": true,
       "useDefineForClassFields": false,

@@ -79,12 +79,12 @@ class CoordinatesMapBucketMeta<T extends CoordinatesMapItem> {
 	_data : CoordinatesMapDataMeta;
 	_bounds : CoordinatesMapBounds;
 	_parentBucket : CoordinatesMapBucketMeta<T> | null;
-	_subBuckets : {
+	_subBuckets! : {
 		upperLeft: CoordinatesMapBucket<T>,
 		upperRight: CoordinatesMapBucket<T>,
 		lowerLeft: CoordinatesMapBucket<T>,
 		lowerRight: CoordinatesMapBucket<T>
-	} | undefined;
+	};
 
 	/**
 	 * Note that data is owned and should be modified in place
@@ -343,7 +343,7 @@ class CoordinatesMapBucketLeaf<T extends CoordinatesMapItem> {
 
 	//TODO: do comprehensive tests for multi-layered objects.
 
-	splitIfNecessary(lastInsertedObject : CoordinatesMapItem) : CoordinatesMapBucketMeta<T> | null {
+	splitIfNecessary(lastInsertedObject : CoordinatesMapItem | null) : CoordinatesMapBucketMeta<T> | null {
 		const itemCount = Object.keys(this._data.items).length;
 		if (itemCount <= this._map._maxBucketSize) return null;
 		const items = this._data.items;
@@ -358,7 +358,7 @@ class CoordinatesMapBucketLeaf<T extends CoordinatesMapItem> {
 			let item : CoordinatesMapItem= this._map._fullItemsMap[id];
 			//In the case where an item was just inserted and not yet in full
 			//items map, item might be empty.
-			if (!item && lastInsertedObject.id == id) item = lastInsertedObject;
+			if (!item && lastInsertedObject && lastInsertedObject.id == id) item = lastInsertedObject;
 			const coords = {
 				x: item.x || 0,
 				y: item.y || 0
@@ -421,7 +421,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	_changesMade : boolean;
 	_minBucketSize : number;
 	_maxBucketSize : number;
-	_maxItemRadius : number;
+	_maxItemRadius! : number;
 
 	constructor(items : T[], size: Size, data? : CoordinatesMapDataLeaf, ) {
 		//TODO: allow setting these, which might require a resize.
@@ -612,12 +612,13 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 	getObjects(x : number, y : number, searchRadius: number, exclude? : T[]) : Map<T, number>
 	getObjects(xOrObj : number | T, yOrSearchRadius: number, searchRadius?: number, exclude? : T[]) : Map<T, number> {
 		if (typeof xOrObj != 'number') {
-			return this.getObjects(xOrObj.x, xOrObj.y, searchRadius, [xOrObj]);
+			return this.getObjects(xOrObj.x, xOrObj.y, yOrSearchRadius, [xOrObj]);
 		}
 		const x = xOrObj;
 		const y = yOrSearchRadius;
 		const coord = {x, y};
 		if (!exclude) exclude = [];
+		if (searchRadius === undefined) throw new Error('searchRadius is required');
 		const excludeIDs = exclude.map(item => item.id);
 		const result : Map<T, number> = new Map();
 		// Expand search radius to account for item radii. An item's center might be
@@ -674,6 +675,7 @@ export class CoordinatesMap<T extends CoordinatesMapItem>{
 		const itemsToProcess = this._rootBucket.getAllLeafBuckets().map(bucket => bucket._parentBucket);
 		while (itemsToProcess.length) {
 			const item = itemsToProcess.shift();
+			if (!item) continue;
 			if (seenItems.has(item)) continue;
 			seenItems.set(item, true);
 			//TODO: reason about this and verify it won't try to

@@ -108,30 +108,31 @@ class Distribution {
 
 	sample(rnd : RandomGenerator = Math.random) : number {
 		//TODO: do different things based on type;
-		let max = this._options.limitMax;
-		let min = this._options.limitMin;
+		// Options are normalized by DistributionConfig, so all required properties are present
+		let max = this._options.limitMax!;
+		let min = this._options.limitMin!;
 		switch (this._options.distribution) {
 		case MIN_MAX:
-			max = this._options.max;
-			min = this._options.min;
+			max = this._options.max!;
+			min = this._options.min!;
 			break;
 		case LINEAR:
 		default:
-			max = this._options.average + this._options.spread;
-			min = this._options.average - this._options.spread;
+			max = this._options.average! + this._options.spread!;
+			min = this._options.average! - this._options.spread!;
 			break;
 		}
 
-		let value = this._options.average;
+		let value = this._options.average!;
 		if (this._options.distribution == NORMAL) {
-			value = gaussianRandom(this._options.average, this._options.spread, rnd);
+			value = gaussianRandom(this._options.average!, this._options.spread!, rnd);
 		}
 		if (this._options.distribution != FIXED) {
 			value = (max - min) * rnd() + min;
 		}
 
-		if (value < this._options.limitMin) value = this._options.limitMin;
-		if (value > this._options.limitMax) value = this._options.limitMax;
+		if (value < this._options.limitMin!) value = this._options.limitMin!;
+		if (value > this._options.limitMax!) value = this._options.limitMax!;
 
 		switch(this._options.round) {
 		case ROUND_TYPE_ROUND:
