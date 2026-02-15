@@ -207,7 +207,7 @@ export class SimulationRun {
 		this._simulation = simulation;
 		this._index = index;
 		this._frames = [];
-		this._scoreData = Object.fromEntries(this._simulation.scoreConfig.filter(config => config && config.id).map(config => config.title ? config : {...config, title:idToTitle(config.id)}).map(config => [config.id, [{data: [] as number[], config: config}]]));
+		this._scoreData = Object.fromEntries(this._simulation.scoreConfig.filter(config => config && config.id != null).map(config => config.title ? config : {...config, title:idToTitle(config.id)}).map(config => [config.id, [{data: [] as number[], config: config}]]));
 		this._successScores = [];
 		this._simulatorMaxFrameIndex = this._simulation.maxFrameIndex;
 		this._maxFrameIndex = Number.MAX_SAFE_INTEGER;
@@ -412,13 +412,14 @@ export class Simulation {
 		this._index = index;
 		this._maxFrameIndex = this._simulator.maxFrameIndex(this.simOptions);
 		const scoreConfig = this._simulator.scoreConfig(this.simOptions);
-		if (scoreConfig === null) throw new Error('scoreConfig returned null');
-		deepFreeze(scoreConfig);
+		if (scoreConfig !== null) deepFreeze(scoreConfig);
 		this._scoreConfig = scoreConfig;
-		if (!Array.isArray(this._scoreConfig)) throw new Error('scoreConfig must return an array');
-		for (const [index, config] of this._scoreConfig.entries()) {
-			if (!config) continue;
-			if (!config.id) throw new Error('scoreConfig #' + index + ' is missing id, a requried property');
+		if (this._scoreConfig !== null) {
+			if (!Array.isArray(this._scoreConfig)) throw new Error('scoreConfig must return an array');
+			for (const [index, config] of this._scoreConfig.entries()) {
+				if (!config) continue;
+				if (config.id == null) throw new Error('scoreConfig #' + index + ' is missing id, a required property');
+			}
 		}
 		this._colors = Object.fromEntries(Object.entries(this._config.colors || {}).map(entry => [entry[0], color(entry[1])]));
 		this._lastChanged = Date.now();
@@ -570,8 +571,7 @@ export class Simulation {
 	}
 
 	get scoreConfig() : ScoreConfigItem[] {
-		if (!this._scoreConfig) throw new Error('scoreConfig should have been validated as non-null in constructor');
-		return this._scoreConfig;
+		return this._scoreConfig || [];
 	}
 
 	get unmodifiedConfig() : RawSimulationConfig {
