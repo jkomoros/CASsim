@@ -75,11 +75,11 @@ const numLeafItems = (data : CoordinatesMapData) : number => {
 
 class CoordinatesMapBucketMeta<T extends CoordinatesMapItem> {
 
-	_map : CoordinatesMap<T>;
-	_data : CoordinatesMapDataMeta;
-	_bounds : CoordinatesMapBounds;
-	_parentBucket : CoordinatesMapBucketMeta<T> | null;
-	_subBuckets! : {
+	_map!: CoordinatesMap<T>;
+	_data!: CoordinatesMapDataMeta;
+	_bounds!: CoordinatesMapBounds;
+	_parentBucket!: CoordinatesMapBucketMeta<T> | null;
+	_subBuckets!: {
 		upperLeft: CoordinatesMapBucket<T>,
 		upperRight: CoordinatesMapBucket<T>,
 		lowerLeft: CoordinatesMapBucket<T>,
@@ -275,10 +275,10 @@ class CoordinatesMapBucketMeta<T extends CoordinatesMapItem> {
 
 class CoordinatesMapBucketLeaf<T extends CoordinatesMapItem> {
 
-	_map : CoordinatesMap<T>;
-	_data : CoordinatesMapDataLeaf;
-	_bounds : CoordinatesMapBounds;
-	_parentBucket : CoordinatesMapBucketMeta<T> | null;
+	_map!: CoordinatesMap<T>;
+	_data!: CoordinatesMapDataLeaf;
+	_bounds!: CoordinatesMapBounds;
+	_parentBucket!: CoordinatesMapBucketMeta<T> | null;
 
 	/**
 	 * Note that data is owned and should be modified in place
@@ -415,13 +415,13 @@ const DEFAULT_MAX_BUCKET_SIZE = 16;
 
 export class CoordinatesMap<T extends CoordinatesMapItem>{
 
-	_rootBucket : CoordinatesMapBucket<T>;
-	_fullItemsMap : {[id : CoordinatesMapID] : T};
-	_bounds : CoordinatesMapBounds;
-	_changesMade : boolean;
-	_minBucketSize : number;
-	_maxBucketSize : number;
-	_maxItemRadius! : number;
+	_rootBucket!: CoordinatesMapBucket<T>;
+	_fullItemsMap!: {[id : CoordinatesMapID] : T};
+	_bounds!: CoordinatesMapBounds;
+	_changesMade!: boolean;
+	_minBucketSize!: number;
+	_maxBucketSize!: number;
+	_maxItemRadius!: number;
 
 	constructor(items : T[], size: Size, data? : CoordinatesMapDataLeaf, ) {
 		//TODO: allow setting these, which might require a resize.

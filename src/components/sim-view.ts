@@ -163,86 +163,86 @@ class SimView extends connect(store)(PageViewElement) {
 
 	// This is the data from the store.
 	@state()
-		_currentFrame: SimulationFrame | null;
+		_currentFrame: SimulationFrame | null = null;
 
 	@state()
-		_requiredSimulatorsLoaded: boolean;
+		_requiredSimulatorsLoaded: boolean = false;
 
 	@state()
-		_requiredSimulatorNames: SimulatorType[];
+		_requiredSimulatorNames: SimulatorType[] = [];
 
 	@state()
-		_currentSimulation: Simulation | null;
+		_currentSimulation: Simulation | null = null;
 
 	@state()
-		_currentSimulationName: string;
+		_currentSimulationName: string = '';
 
 	@state()
-		_currentSimulationLastChanged: number;
+		_currentSimulationLastChanged: number = 0;
 
 	@state()
-		_animationLength: number;
+		_animationLength: number = 0;
 
 	@state()
-		_pageExtra: string;
+		_pageExtra: string = '';
 
 	@state()
-		_simulationIndex: number;
+		_simulationIndex: number = 0;
 
 	@state()
-		_runIndex: number;
+		_runIndex: number = 0;
 
 	@state()
-		_frameIndex: number;
+		_frameIndex: number = 0;
 
 	@state()
-		_filename: string;
+		_filename: string = '';
 
 	@state()
-		_dialogOpen: boolean;
+		_dialogOpen: boolean = false;
 
 	@state()
-		_dialogType: DialogType;
+		_dialogType: DialogType = DIALOG_TYPE_JSON;
 
 	@state()
-		_dialogExtras: {[key : string]: unknown};
+		_dialogExtras: {[key : string]: unknown} = {};
 
 	@state()
-		_configData: PackedRawSimulationConfig;
+		_configData: PackedRawSimulationConfig = { version: 0, configs: [] };
 
 	@state()
-		_height: number;
+		_height: number = 0;
 
 	@state()
-		_width: number;
+		_width: number = 0;
 
 	@state()
-		_scale: number;
+		_scale: number = 1.0;
 
 	@state()
-		_configurationExpanded: boolean;
+		_configurationExpanded: boolean = false;
 
 	@state()
-		_descriptionExpanded: boolean;
+		_descriptionExpanded: boolean = false;
 
 	@state()
-		_dataIsFullyLoaded: boolean;
+		_dataIsFullyLoaded: boolean = false;
 
 	@state()
-		_screenshotting: boolean;
+		_screenshotting: boolean = false;
 
 	@state()
-		_runStatuses: RunStatus[];
+		_runStatuses: RunStatus[] = [];
 
 	@state()
-		_hashForCurrentState: string;
+		_hashForCurrentState: string = '';
 
 	//Note: this is calculated in this._resizeVisualzation, NOT in state
 	@state()
-		_needsMarginLeft : boolean;
+		_needsMarginLeft : boolean = false;
 
 	@state()
-		_resizeVisualization: boolean;
+		_resizeVisualization: boolean = false;
 
 	static override get styles() {
 		return [

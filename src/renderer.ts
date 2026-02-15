@@ -59,16 +59,16 @@ import {
 export class BaseRenderer extends LitElement {
 
 	@property({ type : Number })
-		scale : number;
+		scale!: number;
 
 	@property({ type : Number })
-		height : number;
+		height!: number;
 
 	@property({ type : Number })
-		width : number;
+		width!: number;
 
 	@property({ type : Object })
-		frame : SimulationFrame;
+		frame!: SimulationFrame;
 
 	static override get styles() {
 		return [
@@ -117,7 +117,7 @@ export class BaseRenderer extends LitElement {
 export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulationFrame<A, P>, P extends (PositionedGraph<any, any> | CoordinatesMap<A>)> extends BaseRenderer {
 	
 	@property({ type : Object })
-	override frame : F;
+	override frame!: F;
 
 	static override get styles() {
 		return [

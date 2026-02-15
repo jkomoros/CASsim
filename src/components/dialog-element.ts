@@ -18,13 +18,13 @@ import {
 export class DialogElement extends LitElement {
 
 	@property({ type : Boolean })
-		open: boolean;
+		open: boolean = false;
 
 	@property({ type : String })
-	override title: string;
+	override title: string = '';
 
 	@property({ type : Boolean })
-		mobile: boolean;
+		mobile: boolean = false;
 
 	static override get styles() {
 		return [

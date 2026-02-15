@@ -22,9 +22,9 @@ export interface RectangleGraphEdge extends GraphEdge {
 
 export class RectangleGraph extends PositionedGraph<RectangleGraphNodeValues, RectangleGraphEdge> {
 
-	_cachedNodeHeight : number;
-	_cachedNodeWidth : number;
-	_cachedNodeSize : number;
+	_cachedNodeHeight!: number;
+	_cachedNodeWidth!: number;
+	_cachedNodeSize!: number;
 
 	static identifier(row : number, col : number) : RowCol {
 		return [row, col];

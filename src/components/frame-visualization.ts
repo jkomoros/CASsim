@@ -15,28 +15,28 @@ const DEFAULT_FONT_SIZE_PX_HEIGHT = 16;
 export class FrameVisualization extends LitElement {
 
 	@property({ type : Object })
-		simulation: Simulation;
+		simulation: Simulation | undefined = undefined;
 
 	@property({ type : Object })
-		frame: SimulationFrame;
+		frame: SimulationFrame | undefined = undefined;
 
 	@property({ type : Number })
-		width: number;
+		width: number = 0;
 
 	@property({ type : Number })
-		height: number;
+		height: number = 0;
 
 	@property({ type : Number })
-		scale: number;
+		scale: number = 1.0;
 
 	@property({ type : Number })
-		animationLength: number;
+		animationLength: number = 0;
 
 	@property({ type : Array })
-		runStatuses: number[];
+		runStatuses: number[] = [];
 
 	@property({ type : Number })
-		runIndex: number;
+		runIndex: number = 0;
 
 	static override get styles() {
 		return [
@@ -113,6 +113,7 @@ export class FrameVisualization extends LitElement {
 	}
 
 	_renderer(scale : number ) : HTMLElement | TemplateResult {
+		if (!this.simulation || !this.frame) return html`<div class='message'><div><div><em>Loading...</em></div><div><span>If this message doesn't go away soon, check the console for errors.</span></div></div></div>`;
 		const ele = memoizedRenderer(this.simulation, this);
 		if (!ele) return html`<div class='message'><div><div><em>Loading...</em></div><div><span>If this message doesn't go away soon, check the console for errors.</span></div></div></div>`;
 		ele.frame = this.frame;

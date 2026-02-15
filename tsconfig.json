@@ -10,7 +10,7 @@
       "rootDir": ".",
       "strict": true,
       "strictNullChecks": true,
-      "strictPropertyInitialization": false,
+      "strictPropertyInitialization": true,
       "noUnusedLocals": true,
       "useDefineForClassFields": false,
       "noUnusedParameters": true,

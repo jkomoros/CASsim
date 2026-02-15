@@ -1242,7 +1242,7 @@ const COLLABORATOR_CIRCLE_FACTOR = 7;
 class SchellingOrgRenderer extends BaseRenderer {
 
 	@property({ type: Object })
-	override frame: SchellingOrgSimulationFrame;
+	override frame!: SchellingOrgSimulationFrame;
 
 	static override get styles() {
 		return [

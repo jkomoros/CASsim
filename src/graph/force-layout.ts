@@ -120,7 +120,7 @@ export type LayoutSimulation = Simulation<SimulationNodeDatum,SimulationEdgeDatu
 */
 export class ForceLayoutGraph<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge> extends PositionedGraph<N, E> {
 
-	_cachedLayoutPositions : {[id : GraphNodeID] : Coordinates};
+	_cachedLayoutPositions!: {[id : GraphNodeID] : Coordinates};
 
 	/*
 		Makes an empty graph that is positioned.

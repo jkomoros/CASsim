@@ -130,70 +130,70 @@ class SimulationControls extends connect(store)(LitElement) {
 	private _optionChangeDebounceHandle : number | null = null;
 
 	@state()
-		_showControls : boolean;
+		_showControls : boolean = false;
 
 	@state()
-		_warning: string;
+		_warning: string = '';
 
 	@state()
-		_hasModifications: boolean;
+		_hasModifications: boolean = false;
 
 	@state()
-		_modifiedPaths: ModificationsPathMap;
+		_modifiedPaths: ModificationsPathMap = {};
 
 	@state()
-		_configurationExpanded: boolean;
+		_configurationExpanded: boolean = false;
 
 	@state()
-		_chartExpanded: boolean;
+		_chartExpanded: boolean = false;
 
 	@state()
-		_chartData: ChartData;
+		_chartData: ChartData = {};
 
 	@state()
-		_chartSingleRun: boolean;
+		_chartSingleRun: boolean = false;
 
 	@state()
-		_chartConfigIDs: ChartConfigIDsMap;
+		_chartConfigIDs: ChartConfigIDsMap = {};
 
 	@state()
-		_currentSimulationHasChartableData: boolean;
+		_currentSimulationHasChartableData: boolean = false;
 
 	@state()
-		_descriptionExpanded: boolean;
+		_descriptionExpanded: boolean = false;
 
 	@state()
-		_filename: Filename;
+		_filename: Filename = '';
 
 	@state()
-		_simulationsMap: SimulationsMap;
+		_simulationsMap: SimulationsMap = {};
 
 	@state()
-		_simulationIndex: number;
+		_simulationIndex: number = 0;
 
 	@state()
-		_simulationMaxRunIndex: number;
-	
-	@state()
-		_maxFrameIndex: number;
+		_simulationMaxRunIndex: number = 0;
 
 	@state()
-		_simulation: Simulation | null;
+		_maxFrameIndex: number = 0;
 
 	@state()
-		_frameIndex: number;
+		_simulation: Simulation | null = null;
 
 	@state()
-		_runIndex: number;
+		_frameIndex: number = 0;
 
 	@state()
-		_runStatuses: RunStatus[];
+		_runIndex: number = 0;
 
 	@state()
-		_playing: boolean;
+		_runStatuses: RunStatus[] = [];
 
 	@state()
-		_pathExpanded: {[path : OptionsPath]: true};
+		_playing: boolean = false;
+
+	@state()
+		_pathExpanded: {[path : OptionsPath]: true} = {};
 
 	static override get styles() {
 		return [
