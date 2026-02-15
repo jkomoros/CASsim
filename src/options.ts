@@ -392,12 +392,12 @@ export const defaultValueForConfig = (optionsConfig : OptionsConfig, skipOptiona
 	if (typeof example == 'object') {
 		if (Array.isArray(example)) {
 			if (optionsConfig[MIN_PROPERTY_NAME] == undefined) return [defaultValueForConfig(example[0], true)].filter(item => item !== undefined);
-			const arr : (OptionValue | undefined)[] = [];
+			const arr : OptionValue[] = [];
 			const count = optionsConfig[MIN_PROPERTY_NAME] ?? 1;
 			for (let i = 0; i < count; i++) {
 				arr.push(defaultValueForConfig(example[0], true));
 			}
-			return arr.filter(item => item !== undefined) as OptionValue[];
+			return arr;
 		}
 		return Object.fromEntries(Object.entries(example).filter(entry => !((entry[1][OPTIONAL_PROPERTY_NAME] ?? false) && !(entry[1][DEFAULT_PROPERTY_NAME] ?? false))).map(entry => [entry[0], defaultValueForConfig(entry[1], true)]).filter(entry => entry[1] !== undefined));
 	}
@@ -413,7 +413,7 @@ export const shortenPathWithConfig = (optionsConfig : OptionsConfig | undefined,
 	const config = configForPath(optionsConfig, firstPart);
 	const shortName = shortNameForOptionsLeaf(config);
 	const firstPartResult = shortName || firstPart;
-	if (!restParts || !config) return firstPartResult;
+	if (!restParts) return firstPartResult;
 	return firstPartResult + '.' + shortenPathWithConfig(config, restParts);
 };
 
@@ -440,7 +440,7 @@ export const expandPathWithConfig = (optionsConfig : OptionsConfig | undefined, 
 			break;
 		}
 	}
-	if (!restParts || !config) return firstPartResult;
+	if (!restParts) return firstPartResult;
 	return firstPartResult + '.' + expandPathWithConfig(config, restParts);
 };
 
