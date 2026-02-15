@@ -138,7 +138,7 @@ export class Graph<N extends GraphNodeValues = GraphNodeValues, E extends GraphE
 		if (!left || !right) return false;
 		if (typeof left != 'object') return false;
 		if (typeof right != 'object') return false;
-		if (!left.id || !right.id) return false;
+		if (left.id == null || right.id == null) return false;
 		return left.id == right.id;
 	}
 

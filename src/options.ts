@@ -453,7 +453,7 @@ export const configForPath = (optionsConfig : OptionsConfig | undefined, path : 
 	const optionsConfigMap = optionsConfig as OptionsConfigMap;
 	if (optionsConfigMap[firstPart]) return configForPath(optionsConfigMap[firstPart], restParts);
 	const example = optionsConfig.example;
-	if (!example) return undefined;
+	if (example == null) return undefined;
 	//It's not legal to select into a thing that's not an OptionsConfig.
 	if (typeof example != 'object') return undefined;
 	if (Array.isArray(example)) return configForPath(example[0], restParts);
