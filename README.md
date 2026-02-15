@@ -52,7 +52,7 @@ Then run `npm install canvas` and `npm install`
 
 Run `npm run start` from command line.
 
-Visit http://localhost:8081
+Visit http://localhost:3119
 
 Arrow keys left or right to move forward or backward in state. Spacebar toggles play/pause.
 

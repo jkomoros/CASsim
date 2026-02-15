@@ -11,7 +11,7 @@
     "start": "npm run serve",
     "start:bisect": "npm install && npm run build:clean && npm run start",
     "start:clean": "npm install && npm run build:clean && npm run generate && npm run start",
-    "serve": "tsc --watch --preserveWatchOutput & wds --node-resolve --port=8081",
+    "serve": "tsc --watch --preserveWatchOutput & wds --node-resolve --port=3119",
     "build": "npm run build:pre && npm run build:post",
     "build:full": "npm run build:pre && npm run generate && npm run build:typescript && npm run build:post",
     "build:pre": "npm run build:clean && npm run generate:before-build && npm run build:typescript",
