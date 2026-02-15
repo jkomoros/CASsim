@@ -65,7 +65,7 @@ type AnyNodeTicker<A extends Agent, F extends AgentSimulationFrame<A, P>, P exte
 }
 
 type AnyAgentTicker<A extends Agent, F extends AgentSimulationFrame<A, P>, P extends (CoordinatesMap<A> | Graph<any, any>)> = {
-	[name : string] : (agent : A, agents : A[], positions : P, frame : F, rnd : RandomGenerator) => A | A[];
+	[name : string] : (agent : A, agents : A[], positions : P, frame : F, rnd : RandomGenerator) => A | A[] | null;
 }
 
 export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P>, P extends (CoordinatesMap<A> | Graph<any, any>)> extends BaseSimulator {
@@ -78,7 +78,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 		baseFrame will have only SimulationFrame properties, no extras.
 	*/
 	 
-	generatePositions(baseFrame : SimulationFrame, _rnd : RandomGenerator) : P {
+	generatePositions(baseFrame : SimulationFrame, _rnd : RandomGenerator) : P | null {
 		const simOptions = baseFrame.simOptions as RowColOptionalSimOptions;
 		const graph = RectangleGraph.make(simOptions.rows || 5, simOptions.cols || 5, baseFrame.width, baseFrame.height);
 		//Returning as never allows us to keep the desired type signature, and
@@ -203,7 +203,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 	override generateFirstFrame(baseFrame : SimulationFrame, rnd : RandomGenerator) : F {
 		//The default generator will expand this with index and simOptions.
 		const positions = this.generatePositions(baseFrame, rnd);
-		const agents = this.generateAgents(positions, baseFrame, rnd);
+		const agents = this.generateAgents(positions!, baseFrame, rnd);
 		if (positions instanceof CoordinatesMap) {
 			positions.updateAllObjects(agents);
 		}
@@ -235,7 +235,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 		original agent (or null) and the remaining items are new agents that
 		should be spawned. The newly spawned agents won't be ticked this frame.
 	*/
-	agentTick(agent : A, agents : A[], positions : P, frame : F, rnd : RandomGenerator) : A | A[] {
+	agentTick(agent : A, agents : A[], positions : P, frame : F, rnd : RandomGenerator) : A | A[] | null {
 		const typ = agent.type || '';
 		const typeMethod = typ + 'AgentTick';
 		const thisTicker = (this as unknown) as AnyAgentTicker<A,F,P>;
@@ -252,7 +252,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 		see agentTick for more about behavior of arguments and return values.
 	*/
 	 
-	defaultAgentTick(agent : A, _agents : A[], _positions : P, _frame : F, _rnd : RandomGenerator) : A | A[] {
+	defaultAgentTick(agent : A, _agents : A[], _positions : P, _frame : F, _rnd : RandomGenerator) : A | A[] | null {
 		return agent;
 	}
 
@@ -286,7 +286,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 		const urn = new Urn<GraphNodeValues>(rnd);
 		for (const neighbor of Object.values(neighborsMap)) {
 			const [length, shortestPath] = positions.shortestPath(agent.node!, neighbor, edgeScorer);
-			const score = nodeScorer(neighbor, length, shortestPath);
+			const score = nodeScorer(neighbor, length, shortestPath || []);
 			urn.add(neighbor, score);
 		}
 		return urn.pick();
@@ -344,7 +344,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 		Ticks all agents, and all nodes.
 	*/
 	override generateFrame(frame : F, rnd : RandomGenerator) : void {
-		const positions = frame.positions ? (dataIsGraph(frame.positions) ? inflateGraph(frame.positions) as P : CoordinatesMap.fromFrameData(frame.positions, frame, frame.agents) as P): null;
+		const positions = frame.positions ? (dataIsGraph(frame.positions) ? inflateGraph(frame.positions) as P : CoordinatesMap.fromFrameData(frame.positions, frame, frame.agents) as P): null as unknown as P;
 		const newAgents = [...frame.agents];
 		const agentIterationOrder = [...frame.agents.keys()];
 		this.framePreTick(positions, frame, rnd);
@@ -354,8 +354,8 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 		for (const index of agentIterationOrder) {
 			const agent = frame.agents[index];
 			const result = this.agentTick(agent, newAgents, positions, frame, rnd);
-			const newAgent = Array.isArray(result) ? result[0] : result;
-			newAgents[index] = newAgent;
+			const newAgent : A | null = Array.isArray(result) ? result[0] : result;
+			newAgents[index] = newAgent!;
 			if (Array.isArray(result)) {
 				//We push any newly spawned agents onto the end of newAgents.
 				//They won't be ticked this frame, because we already selected

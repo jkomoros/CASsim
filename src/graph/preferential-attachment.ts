@@ -128,10 +128,12 @@ export class PreferentialAttachmentGraph<N extends GraphNodeValues = GraphNodeVa
 			const urn = new Urn<N>(rnd);
 			for (const node of Object.values(this.nodes())) {
 				const edges = this.edges(node);
+				if (!edges) continue;
 				const edgeCount = Object.keys(edges).length;
 				urn.add(node, edgeCount + nodeBoost);
 			}
 			const node = urn.pick();
+			if (!node) continue;
 			const edgeUrn = new Urn<GraphEdgeID>(rnd);
 			const distances = this.distanceToOtherNodes(node);
 			const maxDistance = Math.max(0, ...Object.values(distances));
@@ -145,6 +147,7 @@ export class PreferentialAttachmentGraph<N extends GraphNodeValues = GraphNodeVa
 			}
 			for (let j = 0; j < edgeCount; j++) {
 				const otherID = edgeUrn.pick();
+				if (!otherID) continue;
 				this.setBidirectionalEdge(node, otherID, {...edgeValues});
 			}
 		}
@@ -153,6 +156,7 @@ export class PreferentialAttachmentGraph<N extends GraphNodeValues = GraphNodeVa
 			const edgeCounts : {[id : string] : number} = {};
 			for (const node of Object.keys(this.nodes())) {
 				const edges = this.edges(node);
+				if (!edges) continue;
 				const count = Object.keys(edges).length;
 				edgeCounts[count] = (edgeCounts[count] || 0) + 1;
 			}

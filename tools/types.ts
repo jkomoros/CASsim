@@ -379,14 +379,14 @@ const mergeNearDuplicateTypeDefinitions = (nearDuplicateDefinitions : TypeDefini
 	//idenfitied by combineNearDuplicateTypeDefinitions
 
 	//Handle the base cases
-	if (nearDuplicateDefinitions.length == 0) return null;
+	if (nearDuplicateDefinitions.length == 0) throw new Error('Cannot merge empty definitions array');
 	if (nearDuplicateDefinitions.length == 1) return nearDuplicateDefinitions[0];
 
 	//The type definitions are known to have effectively the same shape, modulo optional / description
 	const demoDefinition = nearDuplicateDefinitions[0];
 
 	//Even if there is no description for any and it gets set to 'undefined' that is fine
-	const description = nearDuplicateDefinitions.map(definition => definition.description || '').filter(description => description)[0];
+	const description = nearDuplicateDefinitions.map(definition => definition.description || '').filter(description => description)[0] as string | undefined;
 	const optional = nearDuplicateDefinitions.map(definition => definition.optional).some(optional => optional);
 
 	if (demoDefinition.type == 'simple' || demoDefinition.type == 'import') {
@@ -476,7 +476,7 @@ const renderTypeDefinition = (definition : TypeDefinition, indent = '') : string
 	return _exhaustiveCheck;
 };
 
-const typeScriptTypeForMap = (configMap : OptionsConfigMap, optional = false, description : string = undefined ) : TypeDefinition => {
+const typeScriptTypeForMap = (configMap : OptionsConfigMap, optional = false, description? : string ) : TypeDefinition => {
 
 	const result : MapTypeDefinition = {
 		type: 'map',
@@ -491,7 +491,7 @@ const typeScriptTypeForMap = (configMap : OptionsConfigMap, optional = false, de
 	return result;
 };
 
-const simpleTypeDefinition = (value : string, optional = false, description : string = undefined) : SimpleTypeDefinition => {
+const simpleTypeDefinition = (value : string, optional = false, description? : string) : SimpleTypeDefinition => {
 	return {
 		type: 'simple',
 		value,
@@ -500,7 +500,7 @@ const simpleTypeDefinition = (value : string, optional = false, description : st
 	};
 };
 
-const typescriptTypeForOptionsConfig = (config : OptionsConfig | OptionsConfigMap, optional = false, description : string = undefined ) : TypeDefinition => {
+const typescriptTypeForOptionsConfig = (config : OptionsConfig | OptionsConfigMap, optional = false, description? : string ) : TypeDefinition => {
 	if (!configIsConfig(config)) {
 		//Is a config map
 		return typeScriptTypeForMap(config, optional, description);

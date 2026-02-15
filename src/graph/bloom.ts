@@ -128,6 +128,7 @@ export class BloomGraph extends ForceLayoutGraph<BloomGraphNodeValues, BloomGrap
 		const nodesToProcess : BloomGraphNodeValues[] = [keyNode];
 		while (nodesToProcess.length) {
 			const node = nodesToProcess.shift();
+			if (!node) continue;
 			const newLevel = node.level + 1;
 			const childCount = Math.round(baseChildCount * Math.pow(childFactor, node.level));
 			const children = [];

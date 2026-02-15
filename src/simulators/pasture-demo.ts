@@ -80,20 +80,20 @@ class PastureDemoSimulator extends AgentSimulator<PastureDemoAgent, PastureDemoS
 
 	override generatePositions(baseFrame : SimulationFrame) : RectangleGraph {
 		const simOptions = baseFrame.simOptions as PastureDemoSimOptions;
-		const starterValues = {value:0.0, growthRate: simOptions.growthRate, emoji:'🌿'} as unknown as RectangleGraphNodeValues;
-		return RectangleGraph.make(simOptions.rows, simOptions.cols, baseFrame.width, baseFrame.height, {starterValues, nodeMargin: 0.1, diagonal:true});
+		const starterValues = {value:0.0, growthRate: simOptions.growthRate!, emoji:'🌿'} as unknown as RectangleGraphNodeValues;
+		return RectangleGraph.make(simOptions.rows!, simOptions.cols!, baseFrame.width, baseFrame.height, {starterValues, nodeMargin: 0.1, diagonal:true});
 	}
 
 	override numStarterAgents(_graph : Graph, baseFrame : SimulationFrame) : number {
 		const simOptions = baseFrame.simOptions as PastureDemoSimOptions;
-		return simOptions.agents;
+		return simOptions.agents!;
 	}
 
 	override simulationComplete(frame : PastureDemoSimulationFrame) : boolean {
-		return frame.index >= frame.simOptions.rounds;
+		return frame.index >= frame.simOptions.rounds!;
 	}
 
-	override defaultAgentTick(agent : PastureDemoAgent, agents : PastureDemoAgent[], graph : RectangleGraph, frame : PastureDemoSimulationFrame, rnd : RandomGenerator) : PastureDemoAgent | PastureDemoAgent[] {
+	override defaultAgentTick(agent : PastureDemoAgent, agents : PastureDemoAgent[], graph : RectangleGraph, frame : PastureDemoSimulationFrame, rnd : RandomGenerator) : PastureDemoAgent | PastureDemoAgent[] | null {
 		if (rnd() < agent.deathLikelihood) return null;
 		const node = this.selectNodeToMoveTo(agent, agents, graph, frame, rnd, 1, (node => (node as PastureDemoGraphNodeValues).value) as NodeScorer) as RectangleGraphNodeValues;
 		//Sometimes there won't be any open cells next to us.
@@ -121,7 +121,10 @@ class PastureDemoSimulator extends AgentSimulator<PastureDemoAgent, PastureDemoS
 
 	override scoreConfig() : [ScoreConfigItem, ScoreConfigItem, ScoreConfigItem] {
 		return [
-			null,
+			{
+				id: '',
+				description: '',
+			},
 			{
 				id:'agent-count',
 				description: 'Number of total active agents in the simulation',

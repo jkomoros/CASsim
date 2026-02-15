@@ -42,12 +42,12 @@ class StubSimulator extends AgentSimulator<StubAgent, StubSimulationFrame, Graph
 	//We use the default generator, which will call generateFirstFrame,
 	//simulationComplete, and generateFrame.
 
-	override generatePositions() : Graph {
+	override generatePositions() : Graph | null {
 		return null;
 	}
 
 	override simulationComplete(frame : StubSimulationFrame) : boolean {
-		return frame.index >= frame.simOptions.rounds;
+		return frame.index >= frame.simOptions.rounds!;
 	}
 	
 	override get optionsConfig() : OptionsConfigMap {

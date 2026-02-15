@@ -20,8 +20,10 @@ import {
 	OptionsConfigMap,
 	OptionsPath,
 	OptionValue,
+	OptionValueMap,
 	RandomGenerator,
-	SimulatorType
+	SimulatorType,
+	GraphData
 } from '../types.js';
 
 import {
@@ -445,7 +447,11 @@ class SchellingOrgSimulator extends BaseSimulator {
 		}
 		const connectionIndex = urn.pick();
 
-		const primaryConnection = connections[connectionIndex!];
+		if (connectionIndex === undefined) {
+			throw new Error('No connection was picked from urn');
+		}
+
+		const primaryConnection = connections[connectionIndex];
 
 		const collaborators = [...frame.collaborators];
 
@@ -1390,7 +1396,7 @@ class SchellingOrgRenderer extends BaseRenderer {
 		const projectPosition = this._projectPosition(0);
 		const collaboratorsInCircle = this._communication;
 		return svg`
-			<path class='debug' d='M 0,${projectPosition[1]} H ${this.width}'></path>
+			<path class='debug' d='M 0,${projectPosition ? projectPosition[1] : 0} H ${this.width}'></path>
 			${collaboratorsInCircle ? 
 		svg`<circle class='debug' cx='${this.width / 2}' cy='${this._collaboratorVerticalLine()}' r='${this._collaboratorCircleRadius()}'></circle>` : 
 		svg`<path class='debug' d='M 0, ${collaboratorPosition[1]} H ${this.width}'></path>`}
@@ -1446,9 +1452,10 @@ class SchellingOrgRenderer extends BaseRenderer {
 		const y = position[1];
 
 		const projectPosition = this._projectPosition(collaborator.project!);
+		const hasValidProjectPosition = projectPosition !== null;
 
 		return svg`
-		${projectPosition && !this._disableSelection ? svg`<path class='selected-project' d='M ${projectPosition[0]},${projectPosition[1]} L ${x}, ${y}'></path>` : ''}
+		${hasValidProjectPosition && !this._disableSelection ? svg`<path class='selected-project' d='M ${projectPosition[0]},${projectPosition[1]} L ${x}, ${y}'></path>` : ''}
 		<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width * 0.8}' class='${collaborator.believes ? 'believer' : 'non-believer'}'>${collaborator.emoji}</text>
 		${this._communication ? '' : svg`<path class='wall' d='M ${x + width},${y - width / 2} L ${x + width},${y + width /2}' stroke-width='${width / 10}'></path>`}`;
 	}
@@ -1500,7 +1507,7 @@ class SchellingOrgRenderer extends BaseRenderer {
 		const markStartX = errorStartX - (width / 12);
 		const markEndX = errorEndX;
 		//Deliberately not at center
-		const markCenterY = position[1] - (height / 3);
+		const markCenterY = position![1] - (height / 3);
 		const markStartY = markCenterY - (height / 12);
 		const markEndY = markCenterY + (height / 18);
 

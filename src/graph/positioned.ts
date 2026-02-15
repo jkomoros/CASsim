@@ -29,7 +29,7 @@ export class PositionedGraph<N extends GraphNodeValues = GraphNodeValues, E exte
 	}
 
 	get availableWidth() : number {
-		return this.property('availableWidth') as number;
+		return this.property('availableWidth') as number || 0;
 	}
 
 	set availableHeight(val : number) {
@@ -37,7 +37,7 @@ export class PositionedGraph<N extends GraphNodeValues = GraphNodeValues, E exte
 	}
 
 	get availableHeight() : number {
-		return this.property('availableHeight') as number;
+		return this.property('availableHeight') as number || 0;
 	}
 
 	get nodeRoundness() : number {
@@ -60,6 +60,7 @@ export class PositionedGraph<N extends GraphNodeValues = GraphNodeValues, E exte
 	/// 2 by default
 	nodeX(identifier : GraphNodeIdentifier<N, E>) : number {
 		const node = this.node(identifier);
+		if (!node) return this.availableWidth / 2;
 		return node.x === undefined ? this.availableWidth / 2 : node.x as number;
 	}
 
@@ -67,18 +68,21 @@ export class PositionedGraph<N extends GraphNodeValues = GraphNodeValues, E exte
 	//this.availableHeight / 2 by default
 	nodeY(identifier : GraphNodeIdentifier<N, E>) : number {
 		const node = this.node(identifier);
+		if (!node) return this.availableHeight / 2;
 		return node.y === undefined ? this.availableHeight / 2 : node.y as number;
 	}
 
 	//Override point. returns node.height or this.nodeSize() by default
 	nodeHeight(identifier : GraphNodeIdentifier<N, E>) : number {
 		const node = this.node(identifier);
+		if (!node) return this.nodeSize(identifier);
 		return node.height === undefined ? this.nodeSize(identifier) : node.height as number;
 	}
 
 	//Override point. returns node.width or this.nodeSize() by default
 	nodeWidth(identifier : GraphNodeIdentifier<N, E>) : number {
 		const node = this.node(identifier);
+		if (!node) return this.nodeSize(identifier);
 		return node.width === undefined ? this.nodeSize(identifier) : node.width as number;
 	}
 

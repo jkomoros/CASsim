@@ -170,7 +170,7 @@ export const selectURLDiffHash = createSelector(
 	selectModifications,
 	selectSimulationCollection,
 	selectSimulationIndex,
-	(modifications, simulationCollection, simIndex) => packModificationsForURL(modifications, simulationCollection, simIndex)
+	(modifications, simulationCollection, simIndex) => simulationCollection ? packModificationsForURL(modifications, simulationCollection, simIndex) : ''
 );
 
 export const selectSimulationsMap = createSelector(

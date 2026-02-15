@@ -98,7 +98,7 @@ class StandingOvationSimulator extends AgentSimulator<StandingOvationAgent,Stand
 
 	override numStarterAgents(graph: Graph, baseFrame : SimulationFrame) : number {
 		const simOptions = baseFrame.simOptions as StandingOvationSimOptions;
-		return Math.floor(Object.keys(graph.nodes()).length * simOptions.filledSeatProportion);
+		return Math.floor(Object.keys(graph.nodes()).length * simOptions.filledSeatProportion!);
 	}
 
 	override simulationComplete(frame : StandingOvationSimulationFrame) : boolean {
@@ -135,7 +135,7 @@ class StandingOvationSimulator extends AgentSimulator<StandingOvationAgent,Stand
 		}
 
 		//Also stand if the people in front of us are standing.
-		const nodes = graph.exploreGraph(agent.node, undefined, ((edge : RectangleGraphEdge) => edge.distance) as GraphExplorationEdgeScorer);
+		const nodes = graph.exploreGraph(agent.node!, undefined, ((edge : RectangleGraphEdge) => edge.distance) as GraphExplorationEdgeScorer);
 		const agentsByNode = Object.fromEntries(agents.map(agent => [agent.node, agent]));
 		const falloff = agent.forwardStandingFalloff;
 		const standingThreshold = agent.standingThreshold;
@@ -159,7 +159,10 @@ class StandingOvationSimulator extends AgentSimulator<StandingOvationAgent,Stand
 
 	override scoreConfig() : [ScoreConfigItem, ScoreConfigItem] {
 		return [
-			null,
+			{
+				id: '',
+				description: '',
+			},
 			{
 				id: 'proportion-standing',
 				description: 'The proportion of agents who are currently standing',

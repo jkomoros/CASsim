@@ -172,8 +172,9 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		return frame.positions;
 	}
 
-	_positions() : P {
-		return this.frame.positions ? (dataIsGraph(this.frame.positions) ? inflateGraph(this.frame.positions) as P : CoordinatesMap.fromFrameData(this.frame.positions, this.frame, this.frame.agents) as P): null;
+	_positions() : P | null {
+		if (!this.frame.positions) return null;
+		return (dataIsGraph(this.frame.positions) ? inflateGraph(this.frame.positions) : CoordinatesMap.fromFrameData(this.frame.positions, this.frame, this.frame.agents)) as P;
 	}
 
 	//This is an override point for your renderer, to tell the renderer where the information on each agent is.
@@ -185,12 +186,12 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		return agent.emoji || '🧑‍⚕️';
 	}
 
-	agentNodeID(agent : A) : GraphNodeID {
+	agentNodeID(agent : A) : GraphNodeID | undefined {
 		return agent.node;
 	}
 
-	 
-	agentOpacity(_agent : A, _positions : P) : number {
+
+	agentOpacity(_agent : A, _positions : P | null) : number {
 		return 1.0;
 	}
 
@@ -225,8 +226,8 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		return info.direction == Math.PI || info.direction == 0.0;
 	}
 
-	 
-	agentRotation(agent : A, _positions : P) : Angle {
+
+	agentRotation(agent : A, _positions : P | null) : Angle {
 		const baseAngle = agent.angle === undefined ? ANGLE_MIN : agent.angle;
 		const emoji = this.agentEmoji(agent);
 		const emojiAngle = this.emojiRotation(emoji);
@@ -270,7 +271,7 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		return (this.agentDefaultMaxNodeSize() - this.agentDefaultMinNodeSize()) * this.agentSizeMultiplier(agent) + this.agentDefaultMinNodeSize();
 	}
 
-	agentPosition(agent : A, positions : P) : Position {
+	agentPosition(agent : A, positions : P | null) : Position {
 		if (!positions) {
 			return {
 				x: this.agentX(agent),
@@ -288,6 +289,14 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 			};
 		}
 		const nodeID = this.agentNodeID(agent);
+		if (nodeID === undefined) {
+			return {
+				x: this.agentX(agent),
+				y: this.agentY(agent),
+				width: this.agentWidth(agent),
+				height: this.agentHeight(agent),
+			};
+		}
 		return positions.nodePosition(nodeID);
 	}
 
@@ -334,7 +343,7 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		return color;
 	}
 
-	renderAgent(agent : A, positions : P) : TemplateResult {
+	renderAgent(agent : A, positions : P | null) : TemplateResult {
 		let styles = this._positionStyles(this.agentPosition(agent, positions));
 		const rotation = normalizeAngle(this.agentRotation(agent, positions));
 		let transform = 'rotate(' + String(rotation) + 'rad)';
@@ -428,7 +437,7 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		};
 		return html`
 			<div class='nodes' style=${styleMap(styles)}>
-				${Object.values((graph ? graph.nodes() : {})).map(node => this.renderNode(node, graph))}
+				${graph ? Object.values(graph.nodes()).map(node => this.renderNode(node, graph)) : ''}
 				${repeat(Object.values(this.agentData(this.frame)), agent => agent.id, agent => this.renderAgent(agent, positions))}
 				${coordinatesMap && this.renderBounds(this.frame) ? coordinatesMap.leafBounds.map(bounds => svg`<div class='debug-bounds' style=${styleMap(this._stylesForBounds(bounds, this.scale))}></div>`): ``}
 				${graph && this.renderEdges(this.frame) ?

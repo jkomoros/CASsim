@@ -495,7 +495,7 @@ export const updateCurrentSimulationOptions : AppActionCreator = (path, value) =
 	});
 	//If the thing we just modified was advanced, then make sure hte advanced zippy in the PARENT is expanded.
 	const config = configForPath(simulation.optionsConfig, path);
-	if (configIsAdvanced(config)) {
+	if (config && configIsAdvanced(config)) {
 		const parts = path.split('.');
 		parts.pop();
 		dispatch(updatePathExpanded(parts.join('.'), true));

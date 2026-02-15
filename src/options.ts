@@ -47,6 +47,7 @@ import {
 	OptionsConfig,
 	OptionsConfigMap,
 	OptionsConfigInput,
+	OptionsConfigExample,
 	OptionValue,
 	SimulationConfig,
 	OptionConfigBehavior,
@@ -80,7 +81,7 @@ type OptionConfigWithRoot = OptionsConfig & {
 };
 
 export const configIsAdvanced = (config : OptionsConfig) : boolean => {
-	return config && config.advanced;
+	return config && (config.advanced ?? false);
 };
 
 //Returns a string describing the problem, or '' if no problem
@@ -92,7 +93,7 @@ export const optionsConfigValidator = (config : OptionsConfigMap) : string => {
 	});
 };
 
-const shortNameForOptionsLeaf = (leaf : OptionsConfigInput) : string => {
+const shortNameForOptionsLeaf = (leaf : OptionsConfigInput | undefined) : string => {
 	if (!leaf || typeof leaf != 'object') return '';
 	//Only read out shortName on objects that are actually leafs
 	if (!configIsConfig(leaf)) return '';
@@ -101,7 +102,7 @@ const shortNameForOptionsLeaf = (leaf : OptionsConfigInput) : string => {
 
 export const isRoot = (config : OptionsConfig) : boolean => {
 	const configWithRoot = config as OptionConfigWithRoot;
-	return configWithRoot[IS_ROOT_PROPERTY_NAME];
+	return configWithRoot[IS_ROOT_PROPERTY_NAME] ?? false;
 };
 
 const optionsLeafValidator = (config : OptionsConfigInput) : string => {
@@ -148,11 +149,11 @@ const optionsLeafValidator = (config : OptionsConfigInput) : string => {
 			//shortNames also may not conflict with any non-short name
 			const shortNameMap = Object.fromEntries(Object.keys(example).map(key => [key, true]));
 			for (const [key, value] of Object.entries(example)) {
-				const problem = optionsLeafValidator(value);
+				const problem = optionsLeafValidator(value as OptionsConfigInput);
 				if (problem) {
 					return "example's sub-object of " + key + " didn't validate: " + problem;
 				}
-				const shortName = shortNameForOptionsLeaf(value);
+				const shortName = shortNameForOptionsLeaf(value as OptionsConfigInput);
 				if (shortName) {
 					if (shortNameMap[shortName]) {
 						return "found duplicate shortName peer: " + shortName;
@@ -243,7 +244,7 @@ export const configObjectIsValid = (optionsConfig : OptionsConfig, value : Optio
 	}
 
 	if (example == undefined) return 'No example provided';
-	if (value == null && !optionsConfig[OPTIONAL_PROPERTY_NAME]) return 'value was null but ' + OPTIONAL_PROPERTY_NAME + ' was not set';
+	if (value == null && !(optionsConfig[OPTIONAL_PROPERTY_NAME] ?? false)) return 'value was null but ' + OPTIONAL_PROPERTY_NAME + ' was not set';
 	//Base case. optionsConfig should be an optionLeaf.
 	if (value != null && typeof example != typeof value) return 'Example was of type ' + typeof optionsConfig[EXAMPLE_PROPERTY_NAME] + ' but value was of type ' + typeof value;
 	if (value && Array.isArray(example) != Array.isArray(value)) return 'Example was an array but value was not or vice versa';
@@ -307,7 +308,7 @@ export const maySetPropertyInConfigObject = (optionsConfig : OptionsConfig, obj 
 //modifications have to be made. It returns an array: the object, and a boolean
 //for whether changes were made. Note that when setting defaults, it uses
 //defaultValueForConfig and does NOT use simulator.defaultValueForPath.
-export const ensureBackfill = (optionsConfig : OptionsConfig, obj : OptionValue) : [OptionValue, boolean] => {
+export const ensureBackfill = (optionsConfig : OptionsConfig, obj : OptionValue | undefined) : [OptionValue | undefined, boolean] => {
 	if (!optionsConfig) return [obj, false];
 	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
 	if (example == undefined) {
@@ -322,14 +323,16 @@ export const ensureBackfill = (optionsConfig : OptionsConfig, obj : OptionValue)
 		const objMap = obj as OptionValueMap;
 		for (const [key, value] of Object.entries(optionsConfigMap)) {
 			const [newValue, changed] = ensureBackfill(value, objMap[key]);
-			result[key] = newValue;
+			if (newValue !== undefined) {
+				result[key] = newValue;
+			}
 			if (changed) changesMade = true;
 		}
 		return changesMade ? [result, true] : [obj, false];
 	}
 	if (typeof example == 'object') {
 		if (!obj) {
-			if (!optionsConfig[BACKFILL_PROPERTY_NAME]) return [obj, false];
+			if (!(optionsConfig[BACKFILL_PROPERTY_NAME] ?? false)) return [obj, false];
 			let defaulted = defaultValueForConfig(optionsConfig);
 			[defaulted] = ensureBackfill(optionsConfig, defaulted);
 			return [defaulted, true];
@@ -339,14 +342,16 @@ export const ensureBackfill = (optionsConfig : OptionsConfig, obj : OptionValue)
 			if (!Array.isArray(obj)) return [obj, false];
 			const results = obj.map(item => ensureBackfill(example[0], item));
 			const changesMade = results.some(arr => arr[1]);
-			return changesMade ? [results.map(arr => arr[0]), true] : [obj, false];
+			return changesMade ? [results.map(arr => arr[0]).filter(val => val !== undefined) as OptionValue[], true] : [obj, false];
 		}
 		const result : OptionValueMap = {};
 		const objMap = obj as OptionValueMap;
 		let changesMade = false;
 		for (const [key, value] of Object.entries(example)) {
 			const [newValue, changed] = ensureBackfill(value, objMap[key]);
-			result[key] = newValue;
+			if (newValue !== undefined) {
+				result[key] = newValue;
+			}
 			if (changed) changesMade = true;
 		}
 		return changesMade ? [result, true] : [obj, false];
@@ -354,7 +359,7 @@ export const ensureBackfill = (optionsConfig : OptionsConfig, obj : OptionValue)
 	//If the value is already provided, no need to do anything
 	if (obj !== undefined) return [obj, false];
 	//Base case
-	if (!optionsConfig[BACKFILL_PROPERTY_NAME]) return [obj, false];
+	if (!(optionsConfig[BACKFILL_PROPERTY_NAME] ?? false)) return [obj, false];
 	let defaulted = defaultValueForConfig(optionsConfig);
 	[defaulted] = ensureBackfill(optionsConfig, defaulted);
 	return [defaulted, true];
@@ -364,7 +369,7 @@ export const ensureBackfill = (optionsConfig : OptionsConfig, obj : OptionValue)
 //recurse into subObjects will have skipOptional true. This leads to behavior
 //where the top-level item requested will be returned even if optional (which is
 //useful for e.g. getting an optional value to add)
-export const defaultValueForConfig = (optionsConfig : OptionsConfig, skipOptional? : boolean) : OptionValue => {
+export const defaultValueForConfig = (optionsConfig : OptionsConfig, skipOptional? : boolean) : OptionValue | undefined => {
 	if (!optionsConfig) return undefined;
 	const example = optionsConfig[EXAMPLE_PROPERTY_NAME];
 	if (example == undefined) {
@@ -372,7 +377,7 @@ export const defaultValueForConfig = (optionsConfig : OptionsConfig, skipOptiona
 		return Object.fromEntries(Object.entries(optionsConfigMap).filter(entry => {
 			const value = entry[1];
 			//Value must be an OptionsConfig.
-			return !(value.optional && !value.default);
+			return !((value.optional ?? false) && !(value.default ?? false));
 		}).map(entry => {
 			const key = entry[0];
 			const value = entry[1];
@@ -383,24 +388,24 @@ export const defaultValueForConfig = (optionsConfig : OptionsConfig, skipOptiona
 			return [key, defaultValueForConfig(value, true)];
 		}).filter(entry => entry[1] !== undefined));
 	}
-	if (skipOptional && optionsConfig[OPTIONAL_PROPERTY_NAME] && !optionsConfig[DEFAULT_PROPERTY_NAME]) return undefined;
+	if (skipOptional && (optionsConfig[OPTIONAL_PROPERTY_NAME] ?? false) && !(optionsConfig[DEFAULT_PROPERTY_NAME] ?? false)) return undefined;
 	if (typeof example == 'object') {
 		if (Array.isArray(example)) {
 			if (optionsConfig[MIN_PROPERTY_NAME] == undefined) return [defaultValueForConfig(example[0], true)].filter(item => item !== undefined);
-			const arr = [];
-			const count = optionsConfig[MIN_PROPERTY_NAME] || 1;
+			const arr : (OptionValue | undefined)[] = [];
+			const count = optionsConfig[MIN_PROPERTY_NAME] ?? 1;
 			for (let i = 0; i < count; i++) {
 				arr.push(defaultValueForConfig(example[0], true));
 			}
-			return arr;
+			return arr.filter(item => item !== undefined) as OptionValue[];
 		}
-		return Object.fromEntries(Object.entries(example).filter(entry => !(entry[1][OPTIONAL_PROPERTY_NAME] && !entry[1][DEFAULT_PROPERTY_NAME])).map(entry => [entry[0], defaultValueForConfig(entry[1], true)]).filter(entry => entry[1] !== undefined));
+		return Object.fromEntries(Object.entries(example).filter(entry => !((entry[1][OPTIONAL_PROPERTY_NAME] ?? false) && !(entry[1][DEFAULT_PROPERTY_NAME] ?? false))).map(entry => [entry[0], defaultValueForConfig(entry[1], true)]).filter(entry => entry[1] !== undefined));
 	}
 	return example;
 };
 
 //Returns a path like path, but with and valid shortNames replacing long names
-export const shortenPathWithConfig = (optionsConfig : OptionsConfig, path : OptionsPath) : ShortenedOptionsPath => {
+export const shortenPathWithConfig = (optionsConfig : OptionsConfig | undefined, path : OptionsPath) : ShortenedOptionsPath => {
 	const parts = path.split('.');
 	const firstPart = parts[0];
 	const restParts = parts.slice(1).join('.');
@@ -408,12 +413,12 @@ export const shortenPathWithConfig = (optionsConfig : OptionsConfig, path : Opti
 	const config = configForPath(optionsConfig, firstPart);
 	const shortName = shortNameForOptionsLeaf(config);
 	const firstPartResult = shortName || firstPart;
-	if (!restParts) return firstPartResult;
+	if (!restParts || !config) return firstPartResult;
 	return firstPartResult + '.' + shortenPathWithConfig(config, restParts);
 };
 
 //returns a path like shortPath, but with all shortNames expanded to long names
-export const expandPathWithConfig = (optionsConfig : OptionsConfig, shortPath : ShortenedOptionsPath) : OptionsPath => {
+export const expandPathWithConfig = (optionsConfig : OptionsConfig | undefined, shortPath : ShortenedOptionsPath) : OptionsPath => {
 	const parts = shortPath.split('.');
 	const firstPart = parts[0];
 	const restParts = parts.slice(1).join('.');
@@ -431,15 +436,15 @@ export const expandPathWithConfig = (optionsConfig : OptionsConfig, shortPath : 
 			if (shortName != firstPart) continue;
 			//Found it!
 			firstPartResult = key;
-			config = value;
+			config = value as OptionsConfig;
 			break;
 		}
 	}
-	if (!restParts) return firstPartResult;
+	if (!restParts || !config) return firstPartResult;
 	return firstPartResult + '.' + expandPathWithConfig(config, restParts);
 };
 
-export const configForPath = (optionsConfig : OptionsConfig, path : OptionsPath) : OptionsConfig => {
+export const configForPath = (optionsConfig : OptionsConfig | undefined, path : OptionsPath) : OptionsConfig | undefined => {
 	const parts = path.split('.');
 	const firstPart = parts[0];
 	const restParts = parts.slice(1).join('.');
@@ -452,7 +457,8 @@ export const configForPath = (optionsConfig : OptionsConfig, path : OptionsPath)
 	//It's not legal to select into a thing that's not an OptionsConfig.
 	if (typeof example != 'object') return undefined;
 	if (Array.isArray(example)) return configForPath(example[0], restParts);
-	return configForPath(example[firstPart], restParts);
+	const exampleMap = example as OptionsConfigMap;
+	return configForPath(exampleMap[firstPart], restParts);
 };
 
 export const optionsConfigWithDefaultedShortNames = (optionsConfig : OptionsConfigMap) : OptionsConfigMap => {
@@ -461,7 +467,7 @@ export const optionsConfigWithDefaultedShortNames = (optionsConfig : OptionsConf
 
 //Given an optionsConfig, it returns an object that is like it, but with any
 //missing shortNames in it or its children replaced.
-const optionsConfigWithDefaultedShortNamesInner = (optionsConfig : OptionsConfigInput) : OptionsConfigInput => {
+const optionsConfigWithDefaultedShortNamesInner = (optionsConfig : OptionsConfigInput | undefined) : OptionsConfigInput | undefined => {
 	if (!optionsConfig) return optionsConfig;
 	if (typeof optionsConfig != 'object') return optionsConfig;
 	//We know this is a single item if it's a valid optionsConfig so we can assert optionsConfig.map will have precisely one item
@@ -471,16 +477,16 @@ const optionsConfigWithDefaultedShortNamesInner = (optionsConfig : OptionsConfig
 
 	let result : OptionsConfig | OptionsConfigMap = {...optionsConfig};
 	if (configIsConfig(optionsConfig)) {
-		result.example = optionsConfigWithDefaultedShortNamesInner(result.example);
+		result.example = optionsConfigWithDefaultedShortNamesInner(result.example) as OptionsConfigExample;
 	} else {
 		const innerResult = result as OptionsConfigMap;
 		for (const [key, value] of Object.entries(optionsConfig)) {
-			innerResult[key] = optionsConfigWithDefaultedShortNamesInner(value) as OptionsConfigMap;
+			innerResult[key] = optionsConfigWithDefaultedShortNamesInner(value) as OptionsConfig;
 		}
 	}
 
 	const existing : ShortNameMap = {};
-	const subItemsEntries = configIsConfig(optionsConfig) ? Object.entries(result.example) : Object.entries(result);
+	const subItemsEntries = configIsConfig(optionsConfig) ? Object.entries(result.example ?? {}) : Object.entries(result);
 	for (const [key, val] of subItemsEntries) {
 		let shortName = '';
 		if (!val) continue;
@@ -493,16 +499,25 @@ const optionsConfigWithDefaultedShortNamesInner = (optionsConfig : OptionsConfig
 	const suggestions = suggestMissingShortNames(existing);
 	if (Object.keys(suggestions).length) {
 		if (configIsConfig(result)) {
-			if (typeof result.example == 'object') result.example = {...result.example};
+			if (typeof result.example == 'object' && result.example) result.example = {...result.example};
 			const innerResult = result;
 			Object.entries(suggestions).forEach(entry => {
 				if (typeof innerResult.example != 'object' || !innerResult.example || Array.isArray(innerResult.example)) return;
-				innerResult.example[entry[0]] = {...innerResult.example[entry[0]], shortName: entry[1]};	
+				const exampleMap = innerResult.example as OptionsConfigMap;
+				const existingConfig = exampleMap[entry[0]];
+				if (existingConfig) {
+					exampleMap[entry[0]] = {...existingConfig, shortName: entry[1]};
+				}
 			});
 		} else {
 			result = {...result};
 			const innerResult = result as OptionsConfigMap;
-			Object.entries(suggestions).forEach(entry => innerResult[entry[0]] = {...innerResult[entry[0]], shortName: entry[1]});
+			Object.entries(suggestions).forEach(entry => {
+				const existingConfig = innerResult[entry[0]];
+				if (existingConfig) {
+					innerResult[entry[0]] = {...existingConfig, shortName: entry[1]};
+				}
+			});
 		}
 	}
 	return result;
@@ -665,7 +680,10 @@ export const packModificationsForURL = (modifications : Modifications = [], simC
 		let simPiece = '';
 		if (simIndex != currentSimIndex) simPiece = '' + simIndex + '@';
 		const simulation = simCollection.simulations[simIndex];
-		if (!simulation) return '';
+		if (!simulation) {
+			console.warn('Simulation at index', simIndex, 'not found in collection');
+			continue;
+		}
 		//The simulator could change partway through, which would make the shortNames change.
 		let diffedSimulation = simulation.cloneWithConfig(configWithDefaultedSimOptions(simulation.unmodifiedConfig));
 		const keyValuePairs = [];
@@ -743,6 +761,10 @@ export const unpackModificationsFromURL = (url : URLDiffHash, simCollection : Si
 		const keyValuesPart = versionParts[versionParts.length - 1];
 		const simulationIndex = versionParts.length == 2 ? parseInt(versionParts[0]) : currentSimIndex;
 		const simulation = simCollection ? simCollection.simulations[simulationIndex] : null;
+		if (!simulation) {
+			warning = 'Simulation at index ' + simulationIndex + ' not found in collection';
+			continue;
+		}
 		//The simulator might change in the middle, so we'l lhave to clone copies...
 		let diffedSimulation = simulation.cloneWithConfig(configWithDefaultedSimOptions(simulation.unmodifiedConfig));
 		const keyValuesParts = keyValuesPart.split(',');
@@ -759,7 +781,7 @@ export const unpackModificationsFromURL = (url : URLDiffHash, simCollection : Si
 				continue;
 			}
 			let [key, rawValue] = part.split(':');
-			let value : string | boolean | number | {DELETE: boolean} | {default:boolean} = rawValue;
+			let value : string | boolean | number | null | undefined | {DELETE: boolean} | {default:boolean} = rawValue;
 			if (value == 'd') value = DEFAULT_SENTINEL;
 			if (value == 'x') value = DELETE_SENTINEL;
 			if (value == 'n') value = null;
@@ -784,14 +806,14 @@ export const unpackModificationsFromURL = (url : URLDiffHash, simCollection : Si
 			}
 
 			if (key == SIM_PROPERTY_SHORT_NAME) {
-				diffedSimulation = diffedSimulation.cloneWithModification(SIM_PROPERTY, value);
+				diffedSimulation = diffedSimulation.cloneWithModification(SIM_PROPERTY, value as OptionValue);
 				simulatorIndex++;
 				if (simulatorFingerprints[simulatorIndex] != diffedSimulation.simulator.fingerprint.slice(0, simulatorFingerprints[simulatorIndex].length)) warning = 'The simulator #' + simulatorIndex + ' has been updated since the diff was saved. The behavior of the diff might not work.';
 			}
 			//expand short names
 			key = expandPathWithConfig(diffedSimulation.optionsConfig, key);
 
-			modifications.push({simulationIndex, path:key, value});
+			modifications.push({simulationIndex, path:key, value: value as OptionValue});
 		}
 	}
 	return [modifications, warning];

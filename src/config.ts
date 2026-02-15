@@ -56,11 +56,13 @@ const extendConfig = (config : PackedRawSimulationConfigItem, configsByName: {[n
 	if (!configsByName[extend]) throw new Error(EXTEND_PROPERTY + ' poitns to unknown config name: ' + extend);
 	const base = extendConfig(configsByName[extend], configsByName, {...pathNames, [extend]: true}) as RawSimulationConfigWithBaseOrExtended;
 	//The base should drop the extend property and also hidden (base configs often set base=true, but we should ignore that)
-	const filteredBase : RawSimulationConfig = Object.fromEntries([...TypedObject.entries(base)].filter(entry => entry[0] != BASE_PROPERTY && entry[0] != EXTEND_PROPERTY));
+	const filteredBaseEntries = [...TypedObject.entries(base)].filter(entry => entry != null && entry[0] != BASE_PROPERTY && entry[0] != EXTEND_PROPERTY) as [string, unknown][];
+	const filteredBase : RawSimulationConfig = Object.fromEntries(filteredBaseEntries) as unknown as RawSimulationConfig;
 	//Also drop our own values's extend property, because the extension has
 	//already been done and downstream things don't know to expect the extend
 	//property.
-	const filteredConfig = Object.fromEntries(Object.entries(config).filter(entry => entry[0] != EXTEND_PROPERTY));
+	const filteredConfigEntries = Object.entries(config).filter(entry => entry != null && entry[0] != EXTEND_PROPERTY) as [string, unknown][];
+	const filteredConfig = Object.fromEntries(filteredConfigEntries);
 	return {...filteredBase, ...filteredConfig};
 };
 
@@ -69,7 +71,10 @@ const expandDependencies = (rawConfigs : PackedRawSimulationConfigItem[]) : RawS
 	rawConfigs = deepCopy(rawConfigs);
 	const configByName : {[name : string] : PackedRawSimulationConfigItem} = {};
 	for (const config of rawConfigs) {
-		configByName[config[NAME_PROPERTY]] = config;
+		const name = config[NAME_PROPERTY];
+		if (name) {
+			configByName[name] = config;
+		}
 	}
 	return rawConfigs.map(config => extendConfig(config, configByName)).filter(config => config && !(config as RawSimulationConfigBase)[BASE_PROPERTY]);
 };

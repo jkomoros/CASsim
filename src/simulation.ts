@@ -659,9 +659,15 @@ export class Simulation {
 	defaultValueForOptionsPath(path : OptionsPath) : OptionValue {
 		const parts = path.split('.');
 		if (parts[0] == SIM_OPTIONS_PROPERTY) {
-			return this._simulator.defaultValueForPath(parts.slice(1).join('.'), this.simOptions);
+			const result = this._simulator.defaultValueForPath(parts.slice(1).join('.'), this.simOptions);
+			if (result === undefined) throw new Error('defaultValueForPath returned undefined for path: ' + path);
+			return result;
 		}
-		return defaultValueForConfig(configForPath(this.optionsConfig, path));
+		const config = configForPath(this.optionsConfig, path);
+		if (config === undefined) throw new Error('configForPath returned undefined for path: ' + path);
+		const defaultValue = defaultValueForConfig(config);
+		if (defaultValue === undefined) throw new Error('defaultValueForConfig returned undefined for path: ' + path);
+		return defaultValue;
 	}
 
 	get extraFinalFrameCount() : number {
@@ -669,7 +675,7 @@ export class Simulation {
 	}
 
 	get optionsConfig() : OptionsConfig {
-		if (this._optionConfig) return this._optionConfig;
+		if (this._optionConfig) return this._optionConfig as OptionsConfig;
 		const simOptionsConfig = optionsConfigWithDefaultedShortNames(this._simulator.optionsConfig);
 		const problem = optionsConfigValidator(simOptionsConfig);
 		if (problem) {

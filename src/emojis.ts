@@ -55,7 +55,7 @@ export const filteredEmojiSet = (include : (info : KnownEmojiInfo) => boolean, e
 export const noAlternatesEmojiSet = (set : KnownEmojiSet) : KnownEmojiSet => {
 	const seenItems : {[name in KnownEmojiName]+?: true} = {};
 	const result : KnownEmojiSet = {};
-	for (const [key, value] of TypedObject.entries(set)) {
+	for (const [key, value] of TypedObject.entries(set) as [KnownEmojiName, KnownEmojiInfo][]) {
 		if (value.alternateOf) {
 			if (seenItems[value.alternateOf]) continue;
 			result[key] = value;
@@ -75,13 +75,13 @@ const makeEmojiSet = (infos : KnownEmojiInfos) : KnownEmojiSet => Object.fromEnt
 
 export const EMOJIS = makeEmojiSet(RAW_EMOJIS);
 
-export const PROFESSIONAL_PEOPLE_EMOJIS = filteredEmojiSet(info => info.person?.professional && !info.person?.gender && !info.person?.skinTone && info.person?.frame == 'torso');
+export const PROFESSIONAL_PEOPLE_EMOJIS = filteredEmojiSet(info => !!info.person?.professional && !info.person?.gender && !info.person?.skinTone && info.person?.frame == 'torso');
 
 export const PEOPLE_EMOJI : EmojiSet = {
 	...PROFESSIONAL_PEOPLE_EMOJIS
 };
 
-export const GRAZING_FARM_ANIMALS_EMOJIS = filteredEmojiSet(info => info.animal?.grazes && info.animal?.habitat == 'farm');
+export const GRAZING_FARM_ANIMALS_EMOJIS = filteredEmojiSet(info => !!info.animal?.grazes && info.animal?.habitat == 'farm');
 
 export const UPWARDS_INSECTS_EMOJIS  = filteredEmojiSet(info => info.animal?.kind == 'insect' && info.direction == ROTATION_UP);
 

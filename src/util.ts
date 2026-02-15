@@ -170,6 +170,8 @@ export function newPosition(previousXOrMovingObject: number | MovingObject, prev
 		previousX = previousXOrMovingObject;
 		if (typeof previousYOrSize != 'number') throw new Error('unexpected overload');
 		previousY = previousYOrSize;
+		if (angle === undefined) throw new Error('angle is required');
+		if (speed === undefined) throw new Error('speed is required');
 	} else {
 		const movingObject = previousXOrMovingObject;
 		previousX = movingObject.x;
@@ -230,7 +232,6 @@ const setPropertyInObjectInner = <T extends OptionValueMap | OptionValue[] | Sim
 	let firstPart : number | string = pathParts[0];
 	let obj : OptionValue[] | OptionValueMap | SimulationConfig = objIn;
 	if (obj === undefined || obj === null) {
-		if (path == '') return undefined;
 		//Create an array or an object based on if they key is a number
 		obj = isNaN(parseInt(firstPart)) ? {} : [];
 	}
@@ -269,7 +270,7 @@ export const parseHash = (hash : string) : {[arg : string] : string} => {
 
 const memoizedRendererMaps : {[name in SimulatorType] +? : WeakMap<FrameVisualization, BaseRenderer>} = {};
 
-export const memoizedRenderer = (simulation : Simulation, frameVisualizer : FrameVisualization) : BaseRenderer => {
+export const memoizedRenderer = (simulation : Simulation, frameVisualizer : FrameVisualization) : BaseRenderer | null => {
 	if (!simulation) return null;
 	const simulatorName = simulation.simulatorName;
 	if (!memoizedRendererMaps[simulatorName]) {
@@ -279,7 +280,7 @@ export const memoizedRenderer = (simulation : Simulation, frameVisualizer : Fram
 	if (!map.has(frameVisualizer)) {
 		map.set(frameVisualizer, simulation.simulator.renderer());
 	}
-	return map.get(frameVisualizer);
+	return map.get(frameVisualizer) ?? null;
 };
 
 //From https://blog.trannhat.xyz/generate-a-hash-from-string-in-javascript/

@@ -58,7 +58,7 @@ export class Graph<N extends GraphNodeValues = GraphNodeValues, E extends GraphE
 	_data : GraphData<N, E>;
 	_nodeChangesMade : boolean;
 	_propertyChangesMade : boolean;
-	_cachedNodes : {[id : GraphNodeID]: N};
+	_cachedNodes : {[id : GraphNodeID]: N} | null;
 
 	//data is the starter data. We will never modify data passed to us, but
 	//rather clone and set.
@@ -142,7 +142,7 @@ export class Graph<N extends GraphNodeValues = GraphNodeValues, E extends GraphE
 		return left.id == right.id;
 	}
 
-	_nodeObject(identifier : GraphNodeIdentifier<N, E>) : GraphNode<N, E> {
+	_nodeObject(identifier : GraphNodeIdentifier<N, E>) : GraphNode<N, E> | undefined {
 		const id = Graph.packID<N, E>(identifier);
 		return this._data.nodes[id];
 	}
@@ -154,7 +154,7 @@ export class Graph<N extends GraphNodeValues = GraphNodeValues, E extends GraphE
 	//Get the values stored on the node, or undefined if it doesn't exist. Note
 	//that you can only rely on value equality for nodes if changesMade is
 	//false. Instead, use Graph.same()
-	node(identifier : GraphNodeIdentifier<N, E>) : N {
+	node(identifier : GraphNodeIdentifier<N, E>) : N | undefined {
 		//_nodeObject will pack identifier
 		const node = this._nodeObject(identifier);
 		if (!node) return undefined;
@@ -164,7 +164,7 @@ export class Graph<N extends GraphNodeValues = GraphNodeValues, E extends GraphE
 	//Get the values stored on the edge, or undefined if that edge doesnt'
 	//exist. Note that you can only rely on value equality for edges if
 	//changesMade is false. Instead use Graph.same()
-	edge(fromIdentifier : GraphNodeIdentifier<N, E>, toIdentifier : GraphNodeIdentifier<N, E>) : E {
+	edge(fromIdentifier : GraphNodeIdentifier<N, E>, toIdentifier : GraphNodeIdentifier<N, E>) : E | undefined {
 		const node = this._nodeObject(fromIdentifier);
 		if (!node) return undefined;
 		const toID = Graph.packID<N, E>(toIdentifier);
@@ -172,7 +172,7 @@ export class Graph<N extends GraphNodeValues = GraphNodeValues, E extends GraphE
 	}
 
 	//Returns a map of toIdentifier, and the EDGE values.
-	edges(identifier : GraphNodeIdentifier<N, E>) : {[to : GraphNodeID] : E} {
+	edges(identifier : GraphNodeIdentifier<N, E>) : {[to : GraphNodeID] : E} | undefined {
 		//_nodeObject will pack identifier
 		const node = this._nodeObject(identifier);
 		if (!node) return undefined;
@@ -180,7 +180,10 @@ export class Graph<N extends GraphNodeValues = GraphNodeValues, E extends GraphE
 	}
 
 	allEdges() : {[id : GraphEdgeID] : E } {
-		return Object.fromEntries(TypedObject.keys(this.nodes()).map(nodeID => Object.values(this.edges(nodeID))).flat().map(edge => [edge.id, edge]));
+		return Object.fromEntries(TypedObject.keys(this.nodes()).map(nodeID => {
+			const edges = this.edges(nodeID);
+			return edges ? Object.values(edges) : [];
+		}).flat().map(edge => [edge.id, edge]));
 	}
 
 	//Returns all nodes. if filterFunc is provided, it will filter any node whose values, when passed to the filterFunc, do not return true.
@@ -196,7 +199,7 @@ export class Graph<N extends GraphNodeValues = GraphNodeValues, E extends GraphE
 		return {...this._data.properties};
 	}
 
-	property(name : GraphPropertyName) : GraphProperty {
+	property(name : GraphPropertyName) : GraphProperty | undefined {
 		return this._data.properties[name];
 	}
 
@@ -231,7 +234,7 @@ export class Graph<N extends GraphNodeValues = GraphNodeValues, E extends GraphE
 	//fromNode to all other nodes. Edge scorerer may be undefined, in which case
 	//each edge will count for 1. A convenience wrapper around exploreGraph.
 	distanceToOtherNodes(fromIdentifier : GraphNodeIdentifier<N, E>, edgeScorer? : GraphExplorationEdgeScorer<E>) : {[id : GraphNodeID] : number} {
-		const collection = this.exploreGraph(fromIdentifier, undefined, edgeScorer);
+		const collection = this.exploreGraph(fromIdentifier, undefined, edgeScorer || (() => 1));
 		return Object.fromEntries(Object.entries(collection).map(entry => [entry[0], entry[1].length]));
 	}
 
@@ -266,22 +269,27 @@ export class Graph<N extends GraphNodeValues = GraphNodeValues, E extends GraphE
 		we visit edges of a node. If not provided, we'll visit nodes in the
 		order they're represented in the graph.
 	*/
-	exploreGraph(fromNodeIdentifier : GraphNodeIdentifier<N, E>, includeNode : GraphExplorationNodeTester<N, E> = () => true, edgeScorer : GraphExplorationEdgeScorer<E> = () => 1, targetFound : GraphExplorationNodeTester<N, E> = undefined, rnd : RandomGenerator = undefined) : GraphExplorationResult<N, E> {
+	exploreGraph(fromNodeIdentifier : GraphNodeIdentifier<N, E>, includeNode : GraphExplorationNodeTester<N, E> = () => true, edgeScorer : GraphExplorationEdgeScorer<E> = () => 1, targetFound? : GraphExplorationNodeTester<N, E>, rnd? : RandomGenerator) : GraphExplorationResult<N, E> {
 		const fromID = Graph.packID<N, E>(fromNodeIdentifier);
 		const visitedNodes : {[id : GraphNodeID] : true} = {};
 		const collection : GraphExplorationCollectionResult<N, E> = {};
 		//Each one should be {path: [...previousNodes, node], length: 1, node: node}
-		const itemsToVisit : GraphNodeExplorationResult<N, E>[] = [{path: [], length: 0, node: this.node(fromID)}];
+		const fromNode = this.node(fromID);
+		if (!fromNode) return targetFound ? [-1 * Number.MAX_SAFE_INTEGER, null] : collection;
+		const itemsToVisit : GraphNodeExplorationResult<N, E>[] = [{path: [], length: 0, node: fromNode}];
 		while (itemsToVisit.length) {
 			const item = itemsToVisit.shift();
+			if (!item) continue;
 			if (visitedNodes[item.node.id]) continue;
 			visitedNodes[item.node.id] = true;
 			const edges = this.edges(item.node);
+			if (!edges) continue;
 			//Since we only return one path, we should visit equivalent items in a random order.
-			const edgeKeys = rnd ? Object.keys(edges) : shuffleInPlace(Object.keys(edges), rnd);
+			const edgeKeys = rnd ? shuffleInPlace(Object.keys(edges), rnd) : Object.keys(edges);
 			for (const edgeToID of edgeKeys) {
 				if (visitedNodes[edgeToID]) continue;
 				const toNode = this.node(edgeToID);
+				if (!toNode) continue;
 				const edge = edges[edgeToID];
 				const path = [...item.path, edge];
 				const length = item.length + edgeScorer(edge);
@@ -311,7 +319,7 @@ export class Graph<N extends GraphNodeValues = GraphNodeValues, E extends GraphE
 		const toNodeID = Graph.packID<N, E>(toNodeIdentifer);
 		const targetFound : GraphExplorationNodeTester<N, E> = (nodeValues) => nodeValues.id == toNodeID;
 		//We get a GraphExplorationTargetResult because we pass a targetFound that is not undefined
-		return this.exploreGraph(fromNodeIdentifier, undefined, edgeScorer, targetFound, rnd) as GraphExplorationTargetResult<E>;
+		return this.exploreGraph(fromNodeIdentifier, () => true, edgeScorer, targetFound, rnd) as GraphExplorationTargetResult<E>;
 	}
 
 	_prepareForNodeModifications() : void {
@@ -370,13 +378,15 @@ export class Graph<N extends GraphNodeValues = GraphNodeValues, E extends GraphE
 		if (!node) {
 			this.setNode(fromID, {} as Partial<N>);
 			node = this._nodeObject(fromID);
+			if (!node) throw new Error('Failed to create node');
 		}
 		const edgeID = Graph.packEdgeID<N, E>(fromIdentifier, toIdentifier);
-		if (values.id != edgeID) values.id = edgeID;
-		if (values.from != fromID) values.from = fromID;
-		if (values.to != toID) values.to = toID;
+		const edgeValues = values as Record<string, unknown>;
+		if (edgeValues.id != edgeID) edgeValues.id = edgeID;
+		if (edgeValues.from != fromID) edgeValues.from = fromID;
+		if (edgeValues.to != toID) edgeValues.to = toID;
 		this._prepareForNodeModifications();
-		this._data.nodes[fromID] = {...node, edges:{...node.edges, [toID]: values as E}};
+		this._data.nodes[fromID] = {...node, edges:{...node.edges, [toID]: edgeValues as E}};
 	}
 
 	setBidirectionalEdgeProperty(fromIdentifier : GraphNodeIdentifier<N, E>, toIdentifier : GraphNodeIdentifier<N, E>, property : string, value : unknown) : void {
@@ -385,8 +395,8 @@ export class Graph<N extends GraphNodeValues = GraphNodeValues, E extends GraphE
 	}
 
 	setEdgeProperty(fromIdentifier : GraphNodeIdentifier<N, E>, toIdentifier : GraphNodeIdentifier<N, E>, property : string, value : unknown) : void {
-		let values : Partial<E> = this.edge(fromIdentifier, toIdentifier);
-		values = values ? {...values} : {} as Partial<E>;
+		const edgeValue = this.edge(fromIdentifier, toIdentifier);
+		let values : Partial<E> = edgeValue ? {...edgeValue} : {} as Partial<E>;
 		if (values[property] === value) return;
 		(values as Record<string, unknown>)[property] = value;
 		this.setEdge(fromIdentifier, toIdentifier, values);
@@ -421,19 +431,20 @@ export class Graph<N extends GraphNodeValues = GraphNodeValues, E extends GraphE
 		this._data.nodes[fromID] = {...node, edges: newEdges};
 	}
 
-	lastNodeID() : GraphNodeID {
+	lastNodeID() : GraphNodeID | undefined {
 		const keys = Object.keys(this._data.nodes);
 		return keys[keys.length - 1];
 	}
 
-	lastNodeIdentifier() : GraphNodeIdentifier {
-		return Graph.unpackID(this.lastNodeID());
+	lastNodeIdentifier() : GraphNodeIdentifier | undefined {
+		const lastID = this.lastNodeID();
+		return lastID !== undefined ? Graph.unpackID(lastID) : undefined;
 	}
 
 	//Returns a stream of unique ids, by maintaining a counter.
 	vendID() : GraphNodeID {
-		let lastID = this.property('lastVendedID') as number;
-		if (lastID == undefined) lastID = -1;
+		let lastID = this.property('lastVendedID') as number | undefined;
+		if (lastID === undefined) lastID = -1;
 		lastID++;
 		while(this.node(lastID)) {
 			lastID++;

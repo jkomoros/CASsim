@@ -129,7 +129,7 @@ export class RectangleGraph extends PositionedGraph<RectangleGraphNodeValues, Re
 	}
 
 	get nodeMargin() : number | RowCol {
-		return this.property('nodeMargin') as number;
+		return this.property('nodeMargin') as number || 0;
 	}
 
 	set nodeMargin(val : number | RowCol) {
@@ -138,7 +138,7 @@ export class RectangleGraph extends PositionedGraph<RectangleGraphNodeValues, Re
 
 	//By default, the nodes are square, but if this is true they will be rectangular.
 	get rectangular() : boolean {
-		return this.property('rectangular') as boolean;
+		return this.property('rectangular') as boolean || false;
 	}
 
 	set rectangular(val : boolean) {
@@ -207,6 +207,7 @@ export class RectangleGraph extends PositionedGraph<RectangleGraphNodeValues, Re
 	//We return width and height directly.
 	override calculateNodePosition(identifier : GraphNodeIdentifier<RectangleGraphNodeValues, RectangleGraphEdge>) {
 		const node = this.node(identifier);
+		if (!node) throw new Error('Node not found: ' + identifier);
 		const nodeWidth = this.nodeWidth();
 		const nodeHeight = this.nodeHeight();
 		return {

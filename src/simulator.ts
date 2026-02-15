@@ -139,9 +139,9 @@ export class BaseSimulator {
 
 	//By retuning null we will communicate that none of the scores for this
 	//simulator should be offered to be shown to a user.
-	 
+
 	scoreConfig(_normalizedSimOptions : NormalizedSimOptions) : ScoreConfig {
-		return [null];
+		return null;
 	}
 
 	//This behavior is almost always what you want and can be left alone
@@ -170,10 +170,13 @@ export class BaseSimulator {
 	//default that the basic machinery won't generate automatically, in which
 	//case you'd override this, and call super.defaultValueForPath() for the
 	//non-special cases.
-	 
+
 	defaultValueForPath(path : OptionsPath, _simOptions : NormalizedSimOptions) : OptionValue {
-		const result = defaultValueForConfig(configForPath(this.optionsConfig, path));
-		return result;
+		const config = configForPath(this.optionsConfig, path);
+		if (config === undefined) throw new Error('configForPath returned undefined for path: ' + path);
+		const defaultValue = defaultValueForConfig(config);
+		if (defaultValue === undefined) throw new Error('defaultValueForConfig returned undefined for path: ' + path);
+		return defaultValue;
 	}
 
 	get version() : number {

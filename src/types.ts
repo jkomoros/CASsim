@@ -535,7 +535,7 @@ export type GraphExplorationCollectionResult<N extends GraphNodeValues = GraphNo
     [id : GraphNodeID] : GraphNodeExplorationResult<N, E>;
 }
 
-export type GraphExplorationTargetResult<E extends GraphEdge = GraphEdge> = [distance : number, path : E[]];
+export type GraphExplorationTargetResult<E extends GraphEdge = GraphEdge> = [distance : number, path : E[] | null];
 
 export type GraphExplorationResult<N extends GraphNodeValues = GraphNodeValues, E extends GraphEdge = GraphEdge> = GraphExplorationCollectionResult<N, E> | GraphExplorationTargetResult<E>;
 

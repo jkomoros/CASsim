@@ -259,6 +259,7 @@ export class ForceLayoutGraph<N extends GraphNodeValues = GraphNodeValues, E ext
 
 	override nodeSizeMultiplier(identifier : GraphNodeIdentifier<N, E>) : number {
 		const node = this.node(identifier);
+		if (!node) return 1.0;
 		return node.size as number;
 	}
 
@@ -290,7 +291,7 @@ export class ForceLayoutGraph<N extends GraphNodeValues = GraphNodeValues, E ext
 	}
 
 	get defaultNodeMargin() : number {
-		return this.property('defaultNodeMargin') as number;
+		return this.property('defaultNodeMargin') as number || 0;
 	}
 
 	set defaultNodeMargin(val : number) {
@@ -320,7 +321,7 @@ export class ForceLayoutGraph<N extends GraphNodeValues = GraphNodeValues, E ext
 			const result = {...values} as Record<string, unknown>;
 			const edges = this.edges(values);
 			//Fix unconnected items to wherever they are right now, so they don't go flying off the edge due to manyBody without a centering link force.
-			if (Object.keys(edges).length == 0) {
+			if (!edges || Object.keys(edges).length == 0) {
 				result.fx = result.x;
 				result.fy = result.y;
 			}
@@ -334,7 +335,7 @@ export class ForceLayoutGraph<N extends GraphNodeValues = GraphNodeValues, E ext
 
 		const simulation : LayoutSimulation = forceSimulation(nodes);
 
-		simulation.force('link', forceLink(edges).id((d, _i, _nodes) => (d as SimulationNodeDatum).id).distance(d => d.value));
+		simulation.force('link', forceLink<SimulationNodeDatum, SimulationEdgeDatum>(edges).id((d) => d.id).distance(d => d.value));
 		//nodeSize is the diameter, we want the radius. But give a bit of buffer...
 		if (!this.noCollide) simulation.force('collide', forceCollide().radius((n, _i, _nodes) => {
 			const node = n as SimulationNodeDatum;
@@ -350,7 +351,7 @@ export class ForceLayoutGraph<N extends GraphNodeValues = GraphNodeValues, E ext
 
 		const result : {[id : GraphNodeID] : Coordinates} = {};
 		for (const node of nodes) {
-			result[node.id] = {x:node.x, y: node.y};
+			result[node.id] = {x: node.x ?? 0, y: node.y ?? 0};
 		}
 
 		return result;

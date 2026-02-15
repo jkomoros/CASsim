@@ -6,7 +6,8 @@ import {
 
 import {
 	Angle,
-	EmojiInfo
+	EmojiInfo,
+	KnownEmojiName
 } from "../src/types.js";
 
 const ROTATION_TYPES = [
@@ -113,7 +114,7 @@ const generateEmojis = () => {
 					const newInfo = {...info, person: {...info.person}};
 					newInfo.name = info.name + (hairName ? '-' + hairName + '-hair' : '') + (skinToneName ? '-' + skinToneName + '-skin' : '') + (genderName ? '-' + genderName : '');
 					//TODO: should the skin tones for non-neutral gender use the default skin tone of their gender as the base?
-					newInfo.alternateOf = info.name;
+					newInfo.alternateOf = info.name as KnownEmojiName;
 					/*
 						There are two types of gendered emoji:
 						1) BaseEmoji + {SkinTone}? + ZWJ + {MaleSign, FemaleSign}
@@ -142,9 +143,9 @@ const generateEmojis = () => {
 						newInfo.emoji = info.emoji + skinToneSymbol + (genderSymbol.sign ? ZERO_WIDTH_JOINER + genderSymbol.sign : '');
 					}
 					
-					if (genderName) newInfo.person.gender = genderName;
-					if (skinToneName) newInfo.person.skinTone = skinToneName;
-					if (hairName) newInfo.person.hair = hairName;
+					if (genderName) newInfo.person.gender = genderName as 'female' | 'male';
+					if (skinToneName) newInfo.person.skinTone = skinToneName as 'dark' | 'medium-dark' | 'medium' | 'medium-light' | 'light';
+					if (hairName) newInfo.person.hair = hairName as 'red' | 'white' | 'curly' | 'bald';
 					result.push(newInfo);
 				}
 			}
