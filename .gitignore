@@ -23,3 +23,6 @@ tools/**/*.js
 
 # Firebase cache
 .firebase/
+
+# Playwright MCP browser profile
+.playwright-mcp/

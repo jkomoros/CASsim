@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "type": "stdio",
+      "command": "/Users/jkomoros/.nvm/versions/node/v20.20.0/bin/playwright-mcp",
+      "args": ["--user-data-dir", "./.playwright-mcp"]
+    }
+  }
+}
