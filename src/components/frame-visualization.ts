@@ -130,11 +130,6 @@ export class FrameVisualization extends LitElement {
 		if (ele instanceof PositionedAgentsRenderer) {
 			ele.selectedAgentID = this.selectedAgentID;
 			ele.interactive = this.interactive;
-			if (this.interactive) {
-				ele.setAttribute('interactive', '');
-			} else {
-				ele.removeAttribute('interactive');
-			}
 		}
 		return ele;
 	}

@@ -126,7 +126,7 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 	@property({ type : String })
 		selectedAgentID : string | null = null;
 
-	@property({ type : Boolean })
+	@property({ type : Boolean, reflect: true })
 		interactive : boolean = false;
 
 	static override get styles() {
