@@ -172,12 +172,12 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 		const baseAvailableNodes = skipPlacingAgents ? {} : {...positions.nodes()};
 		const agentCount = this.numStarterAgents(positions, baseFrame, rnd);
 		for (let i = 0; i < agentCount; i++) {
-			const agent = this.generateAgent(null, agents, positions, baseFrame, rnd);
+			const agent = this.generateAgent(null as unknown as A, agents, positions, baseFrame, rnd);
 			if (!skipPlacingAgents) {
 				const availableNodes = {...baseAvailableNodes};
 				for (const existingAgent of agents) {
 					if (this.allowAgentToOverlapWith(existingAgent, agent, positions, baseFrame, rnd)) continue;
-					delete availableNodes[existingAgent.node];
+					if (existingAgent.node) delete availableNodes[existingAgent.node];
 				}
 				const nodeList = Object.keys(availableNodes);
 				if (nodeList.length <= 0) throw new Error('There are no new unocuppied nodes for new agents to occupy');
@@ -274,9 +274,9 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 	//should return a float. edgeScorer is passed to graph.shortestPath and may
 	//be undefined. All candidates will be put in an urn with their floats as
 	//their probability of being picked.
-	selectNodeToMoveTo(agent : A, agents : A[], positions : P, frame : F, rnd : RandomGenerator, ply = 1, nodeScorer : NodeScorer = () => 1.0, edgeScorer? : GraphExplorationEdgeScorer) : GraphNodeValues {
-		if (!(positions instanceof Graph)) return null;
-		const neighborsMap = positions.neighbors(agent.node, ply);
+	selectNodeToMoveTo(agent : A, agents : A[], positions : P, frame : F, rnd : RandomGenerator, ply = 1, nodeScorer : NodeScorer = () => 1.0, edgeScorer? : GraphExplorationEdgeScorer) : GraphNodeValues | undefined {
+		if (!(positions instanceof Graph)) return undefined;
+		const neighborsMap = positions.neighbors(agent.node!, ply);
 		//Agents might have nulls for agents who have already died this tick.
 		const agentsByNode = Object.fromEntries(agents.filter(agent => agent).map(agent => [agent.node, agent]));
 		for (const neighbor of Object.keys(neighborsMap)) {
@@ -285,7 +285,7 @@ export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P
 		}
 		const urn = new Urn<GraphNodeValues>(rnd);
 		for (const neighbor of Object.values(neighborsMap)) {
-			const [length, shortestPath] = positions.shortestPath(agent.node, neighbor, edgeScorer);
+			const [length, shortestPath] = positions.shortestPath(agent.node!, neighbor, edgeScorer);
 			const score = nodeScorer(neighbor, length, shortestPath);
 			urn.add(neighbor, score);
 		}

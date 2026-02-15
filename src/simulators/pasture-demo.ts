@@ -73,8 +73,8 @@ class PastureDemoSimulator extends AgentSimulator<PastureDemoAgent, PastureDemoS
 			node: '',
 			emoji: emoji.emoji,
 			type: emoji.name,
-			deathLikelihood: simOptions.deathLikelihood,
-			spawnLikelihood: simOptions.spawnLikelihood,
+			deathLikelihood: simOptions.deathLikelihood!,
+			spawnLikelihood: simOptions.spawnLikelihood!,
 		};
 	}
 

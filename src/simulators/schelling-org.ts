@@ -590,15 +590,15 @@ class SchellingOrgSimulator extends BaseSimulator {
 	override defaultValueForPath(path : OptionsPath, simOptions : SchellingOrgSimOptions) : OptionValue {
 		const parts = path.split('.');
 		if (parts.length == 4 && parts[3] == 'beliefs'){
-			const base = super.defaultValueForPath(path, simOptions) as OptionValue[];
-			const length = simOptions.projects.count;
+			const base = super.defaultValueForPath(path, simOptions as unknown as OptionValueMap) as OptionValue[];
+			const length = simOptions.projects!.count;
 			const result = [];
 			for (let i = 0; i < length; i++) {
 				result.push(base[0]);
 			}
 			return result;
 		}
-		return super.defaultValueForPath(path, simOptions);
+		return super.defaultValueForPath(path, simOptions as unknown as OptionValueMap);
 	}
 	
 	override get optionsConfig() : OptionsConfigMap {
@@ -1381,7 +1381,7 @@ class SchellingOrgRenderer extends BaseRenderer {
 
 	_northStarWidth() {
 		if (!this._northStar) return 0;
-		return this._projectWidth() * this._northStar.strength;
+		return this._projectWidth() * this._northStar.strength!;
 	}
 
 	_debugRender() {
@@ -1401,7 +1401,7 @@ class SchellingOrgRenderer extends BaseRenderer {
 		const northStar = this._northStar;
 		if (!northStar) return '';
 		const width = this._northStarWidth();
-		const x = this.width * northStar.offset;
+		const x = this.width * northStar.offset!;
 		const y = (this.height / 40) + (width / 2);
 		return svg`<text x=${x} y=${y} text-anchor='middle' dominant-baseline='middle' font-size='${width}' opacity='${northStar.believability}'>${northStar.emoji}</text>`;
 	}
@@ -1445,7 +1445,7 @@ class SchellingOrgRenderer extends BaseRenderer {
 		const x = position[0];
 		const y = position[1];
 
-		const projectPosition = this._projectPosition(collaborator.project);
+		const projectPosition = this._projectPosition(collaborator.project!);
 
 		return svg`
 		${projectPosition && !this._disableSelection ? svg`<path class='selected-project' d='M ${projectPosition[0]},${projectPosition[1]} L ${x}, ${y}'></path>` : ''}
@@ -1458,7 +1458,7 @@ class SchellingOrgRenderer extends BaseRenderer {
 	}
 
 	//Returns the x, y of the bottom center of the project bar
-	_projectPosition(index : number) : [number, number] {
+	_projectPosition(index : number) : [number, number] | null {
 		if (index == undefined) return null;
 		const x = projectX(index, this.frame.projects.length, this.width);
 		const y = this.height / 3;
@@ -1469,7 +1469,7 @@ class SchellingOrgRenderer extends BaseRenderer {
 
 		const width = this._projectWidth();
 		//Size is so the largest bar goes to the top of the area, or smaller if under 2.0 total size
-		const maxVerticalRelativeSize = Math.max(Math.max(...this._projects.map(project => project.value + project.error)), 2.0);
+		const maxVerticalRelativeSize = Math.max(Math.max(...this._projects.map(project => project.value! + project.error!)), 2.0);
 
 		//Spread it across the size avaialble; this.height/3 - some padding to not go all the way to the top
 		let projectAvailableHeight = this.height / 3;
@@ -1478,21 +1478,21 @@ class SchellingOrgRenderer extends BaseRenderer {
 		projectAvailableHeight -= this._northStarWidth();
 
 		const verticalScaleFactor = projectAvailableHeight / maxVerticalRelativeSize;
-		const height = project.value * verticalScaleFactor;
+		const height = project.value! * verticalScaleFactor;
 		const position = this._projectPosition(project.index);
 
-		const x = position[0] - (width / 2);
-		const y = position[1] - (height);
+		const x = position![0] - (width / 2);
+		const y = position![1] - (height);
 
 		const ERROR_BAR_CAP_WIDTH = 8;
 
 		const hasError = project.error != 0.0;
-		const errorStartX = position[0] - (width / ERROR_BAR_CAP_WIDTH);
-		const errorEndX = position[0] + (width / ERROR_BAR_CAP_WIDTH);
-		const beliefStartX = position[0] - (width / ERROR_BAR_CAP_WIDTH / 2);
+		const errorStartX = position![0] - (width / ERROR_BAR_CAP_WIDTH);
+		const errorEndX = position![0] + (width / ERROR_BAR_CAP_WIDTH);
+		const beliefStartX = position![0] - (width / ERROR_BAR_CAP_WIDTH / 2);
 		const beliefWidth = width / ERROR_BAR_CAP_WIDTH;
-		const errorStartY = y - (project.error * verticalScaleFactor);
-		const errorEndY = y + (project.error * verticalScaleFactor);
+		const errorStartY = y - (project.error! * verticalScaleFactor);
+		const errorEndY = y + (project.error! * verticalScaleFactor);
 
 		const errorStrokeWidth = width / 40;
 
@@ -1511,8 +1511,8 @@ class SchellingOrgRenderer extends BaseRenderer {
 
 		return svg`<rect class='project ${project.selected ? 'selected' : 'not-selected'}' x=${x} y=${y} width=${width} height=${height}></rect>
 					${marked ?  svg`<path class='mark' d='M ${markStartX}, ${markStartY} L ${markEndX}, ${markEndY}' stroke-width=${errorStrokeWidth}></path>` : ''}
-					${hasError ? svg`<path class='error' d='M ${errorStartX}, ${errorStartY} H ${errorEndX} M ${position[0]}, ${errorStartY} V ${errorEndY} M ${errorStartX}, ${errorEndY} H ${errorEndX}' stroke-width=${errorStrokeWidth}></path>
-						${this._renderBeliefTicks ? html`${this._collaborators.map(collaborator => svg`<path class='belief ${isCurrentProject ? (senderIndex == collaborator.index ? 'sender' : (receiverIndexes[collaborator.index] ? 'receiver' : '')) : ''}' d='M ${beliefStartX},${position[1] - verticalScaleFactor * collaborator.beliefs[project.index]} h ${beliefWidth}' stroke-width='${errorStrokeWidth / 2}'></path>`)}` : ''}
+					${hasError ? svg`<path class='error' d='M ${errorStartX}, ${errorStartY} H ${errorEndX} M ${position![0]}, ${errorStartY} V ${errorEndY} M ${errorStartX}, ${errorEndY} H ${errorEndX}' stroke-width=${errorStrokeWidth}></path>
+						${this._renderBeliefTicks ? html`${this._collaborators.map(collaborator => svg`<path class='belief ${isCurrentProject ? (senderIndex == collaborator.index ? 'sender' : (receiverIndexes[collaborator.index] ? 'receiver' : '')) : ''}' d='M ${beliefStartX},${position![1] - verticalScaleFactor * collaborator.beliefs![project.index]} h ${beliefWidth}' stroke-width='${errorStrokeWidth / 2}'></path>`)}` : ''}
 					` : ''}`;
 	}
 

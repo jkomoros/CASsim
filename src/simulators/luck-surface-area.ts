@@ -102,8 +102,8 @@ class LuckSurfaceAreaSimulator extends AgentSimulator<LuckSurfaceAreaAgent, Luck
 
 	override generatePositions(baseFrame : SimulationFrame, rnd : RandomGenerator) : PositionedGraph {
 		const simOptions = baseFrame.simOptions as LuckSurfaceAreaSimOptions;
-		const oS = simOptions.opportunities.structure;
-		const oV = simOptions.opportunities.value;
+		const oS = simOptions.opportunities!.structure!;
+		const oV = simOptions.opportunities!.value!;
 
 		const [graphType, graphOptions] = graphOptionsFromConfig(oS);
 
@@ -111,7 +111,7 @@ class LuckSurfaceAreaSimulator extends AgentSimulator<LuckSurfaceAreaAgent, Luck
 			...graphOptions,
 			nodeValues: {
 				value: 0.0,
-				valueFalloff: oV.falloff,
+				valueFalloff: oV.falloff!,
 			},
 		};
 
@@ -124,21 +124,21 @@ class LuckSurfaceAreaSimulator extends AgentSimulator<LuckSurfaceAreaAgent, Luck
 		return {
 			...this.baseAgent(rnd),
 			//Your own properties would go here in your own generateAgent
-			strength: starterStrength.distribution(simOptions.agents.starterStrength).sample(rnd),
+			strength: starterStrength.distribution(simOptions.agents!.starterStrength).sample(rnd),
 			type: emoji.name,
 			emoji: emoji.emoji,
-			value: starterValue.distribution(simOptions.agents.starterValue).sample(rnd),
-			cost: cost.distribution(simOptions.agents.cost).sample(rnd),
+			value: starterValue.distribution(simOptions.agents!.starterValue).sample(rnd),
+			cost: cost.distribution(simOptions.agents!.cost).sample(rnd),
 		};
 	}
 
 	override framePreTick(graph : Graph, frame : LuckSurfaceAreaSimulationFrame, rnd : RandomGenerator) : void {
-		if (rnd() < frame.simOptions.opportunities.value.likelihood) {
+		if (rnd() < frame.simOptions.opportunities!.value!.likelihood!) {
 			const urn = new Urn<LuckSurfaceAreaGraphNodeValues>(rnd);
 			for (const node of Object.values(graph.nodes()) as LuckSurfaceAreaGraphNodeValues[]) {
 				urn.add(node, node.size);
 			}
-			const node = urn.pick();
+			const node = urn.pick()!;
 			graph.setNodeProperty(node, 'value', 1.0);
 		}
 	}
@@ -155,8 +155,8 @@ class LuckSurfaceAreaSimulator extends AgentSimulator<LuckSurfaceAreaAgent, Luck
 		return true;
 	}
 
-	override defaultAgentTick(agent : LuckSurfaceAreaAgent, agents : LuckSurfaceAreaAgent[], graph : PositionedGraph, frame : LuckSurfaceAreaSimulationFrame, rnd : RandomGenerator) : LuckSurfaceAreaAgent {
-		const node = graph.node(agent.node) as LuckSurfaceAreaGraphNodeValues;
+	override defaultAgentTick(agent : LuckSurfaceAreaAgent, agents : LuckSurfaceAreaAgent[], graph : PositionedGraph, frame : LuckSurfaceAreaSimulationFrame, rnd : RandomGenerator) : LuckSurfaceAreaAgent | null {
+		const node = graph.node(agent.node!) as LuckSurfaceAreaGraphNodeValues;
 		const newAgent = {
 			...agent,
 		};
@@ -167,7 +167,7 @@ class LuckSurfaceAreaSimulator extends AgentSimulator<LuckSurfaceAreaAgent, Luck
 			if (path) {
 				newAgent.node = path[0].to;
 			}
-			
+
 		} else {
 			//Don't move.
 
@@ -187,11 +187,11 @@ class LuckSurfaceAreaSimulator extends AgentSimulator<LuckSurfaceAreaAgent, Luck
 
 	override numStarterAgents(_graph : Graph, baseFrame : SimulationFrame) : number {
 		const simOptions = baseFrame.simOptions as LuckSurfaceAreaSimOptions;
-		return simOptions.agents.count;
+		return simOptions.agents!.count!;
 	}
 
 	override simulationComplete(frame : LuckSurfaceAreaSimulationFrame) : boolean {
-		return frame.index >= frame.simOptions.rounds;
+		return frame.index >= frame.simOptions.rounds!;
 	}
 
 	override frameScorer(frame : LuckSurfaceAreaSimulationFrame) : [number, number] {
@@ -201,7 +201,10 @@ class LuckSurfaceAreaSimulator extends AgentSimulator<LuckSurfaceAreaAgent, Luck
 
 	override scoreConfig() : [ScoreConfigItem, ScoreConfigItem] {
 		return [
-			null,
+			{
+				id: '',
+				description: '',
+			},
 			{
 				id:'agent-count',
 				description: 'The count of all active agents',

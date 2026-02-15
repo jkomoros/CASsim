@@ -169,7 +169,7 @@ export const fetchNeededSimulators : AppActionCreator = () => (dispatch, getStat
 				//The module might be a proper, uncompiled module, or might be a
 				//mangled, built module. Extract the default export in either
 				//case.
-				let simulator : BaseSimulator = null;
+				let simulator : BaseSimulator | null = null;
 				for (const [key, descriptor] of Object.entries(Object.getOwnPropertyDescriptors(mod))) {
 					if (key == 'default' || (key.endsWith('Default') && key.startsWith('$'))) {
 						simulator = descriptor.value;
@@ -478,6 +478,7 @@ export const updateCurrentSimulationOptions : AppActionCreator = (path, value) =
 
 	const state = getState();
 	const simulation = selectCurrentSimulation(state);
+	if (!simulation) return;
 	const valueOrDefault = value == DEFAULT_SENTINEL ? simulation.defaultValueForOptionsPath(path) : value;
 	//If it's default, we want the state to store that it was the default
 	//value... but we still need to test that the default value is legal (it
@@ -652,7 +653,7 @@ const ingestHash : AppActionCreator = (hash) => (dispatch, getState) => {
 	for (const [key, value] of Object.entries(pieces)) {
 		switch (key) {
 		case DIFF_URL_KEY:
-			const [mods, warning] = unpackModificationsFromURL(value, selectSimulationCollection(state), selectSimulationIndex(state));
+			const [mods, warning] = unpackModificationsFromURL(value, selectSimulationCollection(state)!, selectSimulationIndex(state));
 			if (warning) dispatch(updateWarning(warning));
 			dispatch(replaceModifications(mods));
 			break;

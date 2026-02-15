@@ -116,8 +116,8 @@ const optionsForMultiSelect = (chartData : ChartData) => {
 		if (!value.length) continue;
 		const config = value[0].config;
 		result[key] = {
-			title: config.title,
-			description: config.description,
+			title: config.title || '',
+			description: config.description || '',
 		};
 	}
 	return result;
@@ -178,7 +178,7 @@ class SimulationControls extends connect(store)(LitElement) {
 		_maxFrameIndex: number;
 
 	@state()
-		_simulation: Simulation;
+		_simulation: Simulation | null;
 
 	@state()
 		_frameIndex: number;

@@ -386,14 +386,16 @@ export class Simulation {
 		const configCopy = deepCopy(config);
 		const rawSimOptions = configCopy.simOptions || this._simulator.defaultValueForPath('', {} as OptionValueMap);
 		const [updatedSimOptionsConfig] = ensureBackfill(optionsConfigWithDefaultedShortNames(this._simulator.optionsConfig), rawSimOptions as OptionValueMap);
-		configCopy.simOptions = this._simulator.normalizeOptions(updatedSimOptionsConfig as OptionValueMap);
+		const normalizedSimOptions = this._simulator.normalizeOptions(updatedSimOptionsConfig as OptionValueMap);
+		configCopy.simOptions = normalizedSimOptions as typeof configCopy.simOptions;
 		try {
-			this._simulator.optionsValidator(configCopy.simOptions);
+			this._simulator.optionsValidator(normalizedSimOptions);
 		} catch (err) {
 			throw new Error('Sim problems: ' + err);
 		}
-		deepFreeze(unmodifiedConfig);
-		this._unmodifiedConfig = unmodifiedConfig || configCopy;
+		const finalUnmodifiedConfig = (unmodifiedConfig || configCopy) as RawSimulationConfig;
+		deepFreeze(finalUnmodifiedConfig);
+		this._unmodifiedConfig = finalUnmodifiedConfig;
 		deepFreeze(configCopy);
 		this._config = configCopy;
 		deepFreeze(config);
@@ -409,8 +411,10 @@ export class Simulation {
 		this._optionConfig = null;
 		this._index = index;
 		this._maxFrameIndex = this._simulator.maxFrameIndex(this.simOptions);
-		this._scoreConfig = this._simulator.scoreConfig(this.simOptions);
-		deepFreeze(this._scoreConfig);
+		const scoreConfig = this._simulator.scoreConfig(this.simOptions);
+		if (scoreConfig === null) throw new Error('scoreConfig returned null');
+		deepFreeze(scoreConfig);
+		this._scoreConfig = scoreConfig;
 		if (!Array.isArray(this._scoreConfig)) throw new Error('scoreConfig must return an array');
 		for (const [index, config] of this._scoreConfig.entries()) {
 			if (!config) continue;
@@ -538,7 +542,7 @@ export class Simulation {
 	get simOptions() : OptionValueMap {
 		const options = this.config[SIM_OPTIONS_PROPERTY];
 		if (!options) throw new Error('simOptions should have been normalized to non-null in constructor');
-		return options;
+		return options as OptionValueMap;
 	}
 
 	get seed() : string {
@@ -566,6 +570,7 @@ export class Simulation {
 	}
 
 	get scoreConfig() : ScoreConfigItem[] {
+		if (!this._scoreConfig) throw new Error('scoreConfig should have been validated as non-null in constructor');
 		return this._scoreConfig;
 	}
 

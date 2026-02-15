@@ -77,23 +77,23 @@ class FreeMovingAgentsSimulator extends AgentSimulator<FreeMovingAgentsAgent, Fr
 	}
 
 	override simulationComplete(frame : FreeMovingAgentsSimulationFrame) : boolean {
-		return frame.index >= frame.simOptions.rounds;
+		return frame.index >= frame.simOptions.rounds!;
 	}
 
 	override numStarterAgents(_graph : FreeMovingAgentsCoordinatesMap, baseFrame : SimulationFrame) : number {
 		const simOptions = baseFrame.simOptions as FreeMovingAgentsSimOptions;
-		return simOptions.agents.count;
+		return simOptions.agents!.count!;
 	}
 
 	override generateAgent(_parentAgent : FreeMovingAgentsAgent, _otherAgents : FreeMovingAgentsAgent[], _graph : FreeMovingAgentsCoordinatesMap, baseFrame : SimulationFrame, rnd : RandomGenerator) : FreeMovingAgentsAgent {
 		const simOptions = baseFrame.simOptions as FreeMovingAgentsSimOptions;
 		return {
 			...this.baseAgent(rnd),
-			emoji: simOptions.agents.emoji,
+			emoji: simOptions.agents!.emoji!,
 			x: baseFrame.width * rnd(),
 			y: baseFrame.height * rnd(),
 			angle: randomAngle(rnd),
-			speed: agentSpeed.distribution(simOptions.agents.speed).sample(rnd),
+			speed: agentSpeed.distribution(simOptions.agents!.speed).sample(rnd),
 		};
 	}
 
@@ -183,7 +183,7 @@ class FreeMovingAgentsRenderer extends PositionedAgentsRenderer<FreeMovingAgents
 	}
 
 	override renderBounds(frame : FreeMovingAgentsSimulationFrame): boolean {
-		return frame.simOptions.display.bounds;
+		return frame.simOptions.display?.bounds ?? false;
 	}
 
 }

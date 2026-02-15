@@ -148,7 +148,10 @@ const fetchData = async(filename : string) => {
 		res = await fetch(path);
 	} catch (err) {
 		console.warn('Couldn\'t fetch ' + path + ': ' + err);
+		return;
 	}
+
+	if (!res) return;
 
 	const blob = await res.json();
 
@@ -160,7 +163,7 @@ class SimView extends connect(store)(PageViewElement) {
 
 	// This is the data from the store.
 	@state()
-		_currentFrame: SimulationFrame;
+		_currentFrame: SimulationFrame | null;
 
 	@state()
 		_requiredSimulatorsLoaded: boolean;
@@ -169,7 +172,7 @@ class SimView extends connect(store)(PageViewElement) {
 		_requiredSimulatorNames: SimulatorType[];
 
 	@state()
-		_currentSimulation: Simulation;
+		_currentSimulation: Simulation | null;
 
 	@state()
 		_currentSimulationName: string;
@@ -398,6 +401,8 @@ class SimView extends connect(store)(PageViewElement) {
 			return;
 		}
 
+		if (!this.shadowRoot) return;
+
 		const pageRect = this.getBoundingClientRect();
 		const configurationOptionsEle = this.shadowRoot.querySelector('simulation-controls');
 		if (!configurationOptionsEle) {
@@ -433,6 +438,8 @@ class SimView extends connect(store)(PageViewElement) {
 	}
 
 	_handleAddFieldButtonClicked() {
+		if (!this.shadowRoot) return;
+
 		const eles = this.shadowRoot.querySelectorAll('input[type=radio]');
 		let selectedEle = null;
 		for (const ele of eles) {
@@ -443,7 +450,7 @@ class SimView extends connect(store)(PageViewElement) {
 			}
 		}
 		if (selectedEle){
-			store.dispatch(updateCurrentSimulationOptions(selectedEle.dataset.path, DEFAULT_SENTINEL));
+			store.dispatch(updateCurrentSimulationOptions(selectedEle.dataset.path || '', DEFAULT_SENTINEL));
 		}
 		store.dispatch(closeDialog());
 	}

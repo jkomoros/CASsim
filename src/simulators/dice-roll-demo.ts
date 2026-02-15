@@ -54,7 +54,7 @@ class DiceRollDemoSimulator extends BaseSimulator {
 
 	override generateFrame(frame : DiceRollSimulationFrame, rnd : RandomGenerator) : void {
 		//We want numbers 1 .. frame.die (inclusive)
-		const newRoll = Math.floor(rnd() * frame.simOptions.die) + 1;
+		const newRoll = Math.floor(rnd() * frame.simOptions.die!) + 1;
 		frame.lastRoll = newRoll;
 		if (newRoll == frame.simOptions.bust) {
 			frame.score = 0;
@@ -62,7 +62,7 @@ class DiceRollDemoSimulator extends BaseSimulator {
 			return;
 		}
 		frame.score += newRoll;
-		if (frame.score >= frame.simOptions.targetScore) {
+		if (frame.score >= frame.simOptions.targetScore!) {
 			frame.success = true;
 		}
 	}
@@ -74,7 +74,10 @@ class DiceRollDemoSimulator extends BaseSimulator {
 
 	override scoreConfig() : [ScoreConfigItem, ScoreConfigItem] {
 		return [
-			null,
+			{
+				id: '',
+				description: '',
+			},
 			{
 				id: 'score',
 				description: 'The total accumulated score so far',
