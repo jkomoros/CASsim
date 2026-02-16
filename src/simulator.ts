@@ -13,6 +13,8 @@ import {
 	Fingerprint,
 	FrameScore,
 	FrameScores,
+	Interaction,
+	InteractionDefinition,
 	NormalizedSimOptions,
 	OptionsConfigMap,
 	OptionsPath,
@@ -42,6 +44,24 @@ export class BaseSimulator {
 		return '';
 	}
 
+	//What interactions this simulator supports. Returns [] by default.
+	interactionsConfig() : InteractionDefinition[] {
+		return [];
+	}
+
+	//Apply a single interaction to a mutable frame. No-op by default.
+	applyInteraction(_interaction : Interaction, _frame : SimulationFrame) : void {
+	}
+
+	//Helper for simulators that override generator() directly.
+	//Protected so subclasses can call it at the appropriate point.
+	protected applyInteractions(interactions : readonly Interaction[] | undefined, frame : SimulationFrame) : void {
+		if (!interactions) return;
+		for (const interaction of interactions) {
+			this.applyInteraction(interaction, frame);
+		}
+	}
+
 	//The default generator will call this.generateFirstFrame(simOptions, rnd)
 	//for the first frame, then for every subsequent frame call
 	//generateFrame(frame, rnd) (you can modify the top-level properties of
@@ -53,7 +73,7 @@ export class BaseSimulator {
 	//so generateFrame can retrieve those from the frame if necessary. The
 	//behavior of this function is typically a good starting point to use for
 	//your own method.
-	generator(frameIndex : number, previousFrame : SimulationFrame | null, simOptions : NormalizedSimOptions, rnd : RandomGenerator, runIndex : number, simWidth : number, simHeight : number) : SimulationFrame | null {
+	generator(frameIndex : number, previousFrame : SimulationFrame | null, simOptions : NormalizedSimOptions, rnd : RandomGenerator, runIndex : number, simWidth : number, simHeight : number, interactions? : readonly Interaction[]) : SimulationFrame | null {
 		if (!previousFrame) {
 			const firstFrame = {
 				index: frameIndex,
@@ -62,11 +82,14 @@ export class BaseSimulator {
 				width: simWidth,
 				height: simHeight
 			};
-			return this.generateFirstFrame(firstFrame, rnd);
+			const frame = this.generateFirstFrame(firstFrame, rnd);
+			this.applyInteractions(interactions, frame);
+			return frame;
 		}
 		if (this.simulationComplete(previousFrame)) return null;
 		//Note: frame is only a shallow copy, so sub-generators will need to clone sub options.
 		const frame = {...previousFrame, index: frameIndex};
+		this.applyInteractions(interactions, frame);
 		this.beforeGenerateFrame(frame,rnd);
 		this.generateFrame(frame, rnd);
 		this.afterGenerateFrame(frame, rnd);

@@ -34,6 +34,10 @@ import {
 } from './types.js';
 
 import {
+	AgentClickedEvent
+} from './events.js';
+
+import {
 	Agent,
 	AgentSimulationFrame
 } from './agent-simulator.js';
@@ -115,9 +119,15 @@ export class BaseRenderer extends LitElement {
 
 @customElement('positioned-agents-renderer')
 export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulationFrame<A, P>, P extends (PositionedGraph<any, any> | CoordinatesMap<A>)> extends BaseRenderer {
-	
+
 	@property({ type : Object })
 	override frame!: F;
+
+	@property({ type : String })
+		selectedAgentID : string | null = null;
+
+	@property({ type : Boolean, reflect: true })
+		interactive : boolean = false;
 
 	static override get styles() {
 		return [
@@ -151,6 +161,16 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 					justify-content: center;
 					/* TODO: do the animations in a way that won't make Paul Lewis cry */
 					transition: left var(--animation-delay), top var(--animation-delay);
+				}
+
+				:host([interactive]) .agent {
+					cursor: pointer;
+				}
+
+				.agent.selected {
+					outline: 2px solid var(--app-primary-color, #51b9a3);
+					outline-offset: 1px;
+					border-radius: 50%;
 				}
 
 				svg {
@@ -356,7 +376,8 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 			'transform': transform
 		};
 		const agentType = agent['type'] || '';
-		return html`<div class='agent ${agentType}' style=${styleMap(styles)}>${this.agentEmoji(agent)}</div>`;
+		const selected = this.selectedAgentID === agent.id;
+		return html`<div class='agent ${agentType} ${selected ? 'selected' : ''}' data-agent-id=${agent.id} style=${styleMap(styles)}>${this.agentEmoji(agent)}</div>`;
 	}
 
 	 
@@ -423,6 +444,26 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 		};
 	}
 
+	_handleNodesClick(e : MouseEvent) : void {
+		if (!this.interactive) return;
+		// Walk up from the click target to find an agent div with data-agent-id
+		let agentID : string | null = null;
+		let target = e.target as HTMLElement | null;
+		while (target && target !== e.currentTarget) {
+			if (target.dataset && target.dataset.agentId) {
+				agentID = target.dataset.agentId;
+				break;
+			}
+			target = target.parentElement;
+		}
+		// Calculate simulation-space coordinates from click position
+		const nodesDiv = e.currentTarget as HTMLElement;
+		const rect = nodesDiv.getBoundingClientRect();
+		const x = (e.clientX - rect.left) / this.scale;
+		const y = (e.clientY - rect.top) / this.scale;
+		this.dispatchEvent(new AgentClickedEvent(agentID, x, y));
+	}
+
 	override innerRender() : TemplateResult {
 		const positions = this._positions();
 		const graph = positions instanceof PositionedGraph ? positions : null;
@@ -436,7 +477,7 @@ export class PositionedAgentsRenderer<A extends Agent, F extends AgentSimulation
 			'width': '' + width * this.scale + 'px',
 		};
 		return html`
-			<div class='nodes' style=${styleMap(styles)}>
+			<div class='nodes' style=${styleMap(styles)} @click=${this._handleNodesClick}>
 				${graph ? Object.values(graph.nodes()).map(node => this.renderNode(node, graph)) : ''}
 				${repeat(Object.values(this.agentData(this.frame)), agent => agent.id, agent => this.renderAgent(agent, positions))}
 				${coordinatesMap && this.renderBounds(this.frame) ? coordinatesMap.leafBounds.map(bounds => svg`<div class='debug-bounds' style=${styleMap(this._stylesForBounds(bounds, this.scale))}></div>`): ``}

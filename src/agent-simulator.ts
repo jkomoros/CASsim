@@ -29,6 +29,7 @@ import {
 	GraphExplorationEdgeScorer,
 	GraphNodeID,
 	GraphNodeValues,
+	Interaction,
 	RandomGenerator,
 	SimOptions,
 	SimulationFrame
@@ -69,6 +70,17 @@ type AnyAgentTicker<A extends Agent, F extends AgentSimulationFrame<A, P>, P ext
 }
 
 export class AgentSimulator<A extends Agent, F extends AgentSimulationFrame<A, P>, P extends (CoordinatesMap<A> | Graph<any, any>)> extends BaseSimulator {
+
+	//Validates agentID exists and dispatches to typed method.
+	override applyInteraction(interaction : Interaction, frame : SimulationFrame) : void {
+		if (!interaction.agentID) return;
+		this.applyAgentInteraction(interaction, frame as F);
+	}
+
+	//Override point for concrete agent simulators. Frame is typed as F.
+	applyAgentInteraction(_interaction : Interaction, _frame : F) : void {
+		// No-op by default
+	}
 
 	/*
 		An override point for your generateFirstFrame. You should return the

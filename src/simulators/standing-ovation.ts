@@ -24,6 +24,8 @@ import {
 
 import {
 	GraphNodeValues,
+	Interaction,
+	InteractionDefinition,
 	OptionsConfigMap,
 	RandomGenerator,
 	ScoreConfigItem,
@@ -66,6 +68,30 @@ class StandingOvationSimulator extends AgentSimulator<StandingOvationAgent,Stand
 
 	override get name() : SimulatorType {
 		return SIMULATOR_NAME;
+	}
+
+	override interactionsConfig() : InteractionDefinition[] {
+		return [{
+			type: 'toggle-standing',
+			label: 'Toggle standing',
+			description: 'Toggle whether this person is standing or sitting',
+			shortcut: 't',
+		}];
+	}
+
+	override applyAgentInteraction(interaction : Interaction, frame : StandingOvationSimulationFrame) : void {
+		if (interaction.type !== 'toggle-standing') return;
+
+		const agentIndex = frame.agents.findIndex(a => a.id === interaction.agentID);
+		if (agentIndex < 0) return;
+
+		// Clone agents array (frame.agents references the frozen previous frame's array)
+		// then clone the target agent
+		frame.agents = [...frame.agents];
+		frame.agents[agentIndex] = {
+			...frame.agents[agentIndex],
+			standing: !frame.agents[agentIndex].standing,
+		};
 	}
 
 	//We use the default generator, which will call generateFirstFrame,

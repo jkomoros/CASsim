@@ -4,6 +4,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { Simulation } from '../simulation.js';
 import { SimulationFrame } from '../types.js';
+import { PositionedAgentsRenderer } from '../renderer.js';
 import './run-summary.js';
 
 const DEFAULT_FONT_SIZE_PX_HEIGHT = 16;
@@ -37,6 +38,12 @@ export class FrameVisualization extends LitElement {
 
 	@property({ type : Number })
 		runIndex: number = 0;
+
+	@property({ type : String })
+		selectedAgentID: string | null = null;
+
+	@property({ type : Boolean })
+		interactive: boolean = false;
 
 	static override get styles() {
 		return [
@@ -120,6 +127,10 @@ export class FrameVisualization extends LitElement {
 		ele.width = this.width;
 		ele.height = this.height;
 		ele.scale = scale;
+		if (ele instanceof PositionedAgentsRenderer) {
+			ele.selectedAgentID = this.selectedAgentID;
+			ele.interactive = this.interactive;
+		}
 		return ele;
 	}
 }

@@ -109,6 +109,40 @@ export const makeOpenDialogAddFieldEvent = (extras: DialogTypeAddFieldExtras) : 
 	return new OpenDialogEvent(DIALOG_TYPE_ADD_FIELD, extras);
 };
 
+type AgentClickedEventDetail = {
+	agentID: string | null;
+	x: number;
+	y: number;
+};
+
+export class AgentClickedEvent extends CustomEvent<AgentClickedEventDetail> {
+	constructor(agentID: string | null, x: number, y: number) {
+		super('agent-clicked', { composed: true, bubbles: true, detail: { agentID, x, y } });
+	}
+}
+
+type InteractionSelectedEventDetail = {
+	type: string;
+};
+
+export class InteractionSelectedEvent extends CustomEvent<InteractionSelectedEventDetail> {
+	constructor(type: string) {
+		super('interaction-selected', { composed: true, bubbles: true, detail: { type } });
+	}
+}
+
+export class UndoInteractionEvent extends CustomEvent<null> {
+	constructor() {
+		super('undo-interaction', { composed: true, bubbles: true, detail: null });
+	}
+}
+
+export class RedoInteractionEvent extends CustomEvent<null> {
+	constructor() {
+		super('redo-interaction', { composed: true, bubbles: true, detail: null });
+	}
+}
+
 // Global event map for type-safe event handling
 declare global {
 	interface HTMLElementEventMap {
@@ -119,5 +153,9 @@ declare global {
 		'run-clicked': RunClickedEvent;
 		'path-toggled': PathToggledEvent;
 		'open-dialog': OpenDialogEvent;
+		'agent-clicked': AgentClickedEvent;
+		'interaction-selected': InteractionSelectedEvent;
+		'undo-interaction': UndoInteractionEvent;
+		'redo-interaction': RedoInteractionEvent;
 	}
 }

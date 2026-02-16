@@ -43,6 +43,7 @@ import {
 } from './color.js';
 
 import {
+	Interaction,
 	OptionsPath,
 	ScoreConfig,
 	ChartData,
@@ -63,6 +64,11 @@ import {
 	OptionsConfig,
 	OptionsConfigMap
 } from './types.js';
+
+type InteractionEntry = {
+	frameIndex: number;
+	interaction: Interaction;
+};
 
 import {
 	BaseSimulator
@@ -202,6 +208,9 @@ export class SimulationRun {
 	_maxFrameIndex : number;
 	_lastChanged : number;
 	_cachedFinalStatus : number | null;
+	_interactions : { [frameIndex: number]: Interaction[] };
+	_undoStack : InteractionEntry[];
+	_redoStack : InteractionEntry[];
 
 	constructor(simulation : Simulation, index : number) {
 		this._simulation = simulation;
@@ -213,6 +222,9 @@ export class SimulationRun {
 		this._maxFrameIndex = Number.MAX_SAFE_INTEGER;
 		this._lastChanged = Date.now();
 		this._cachedFinalStatus = null;
+		this._interactions = {};
+		this._undoStack = [];
+		this._redoStack = [];
 	}
 
 	get simulation() : Simulation {
@@ -258,6 +270,61 @@ export class SimulationRun {
 		this._lastChanged = Date.now();
 		// Invalidate cached values when state changes
 		this._cachedFinalStatus = null;
+	}
+
+	addInteraction(frameIndex : number, interaction : Interaction) : void {
+		if (!this._interactions[frameIndex]) {
+			this._interactions[frameIndex] = [];
+		}
+		this._interactions[frameIndex].push(interaction);
+		this._undoStack.push({ frameIndex, interaction });
+		this._redoStack.length = 0;
+		this._invalidateFromFrame(frameIndex);
+	}
+
+	undoInteraction() : void {
+		const entry = this._undoStack.pop();
+		if (!entry) return;
+		const arr = this._interactions[entry.frameIndex];
+		if (arr) {
+			const idx = arr.lastIndexOf(entry.interaction);
+			if (idx >= 0) arr.splice(idx, 1);
+			if (arr.length === 0) delete this._interactions[entry.frameIndex];
+		}
+		this._redoStack.push(entry);
+		this._invalidateFromFrame(entry.frameIndex);
+	}
+
+	redoInteraction() : void {
+		const entry = this._redoStack.pop();
+		if (!entry) return;
+		if (!this._interactions[entry.frameIndex]) {
+			this._interactions[entry.frameIndex] = [];
+		}
+		this._interactions[entry.frameIndex].push(entry.interaction);
+		this._undoStack.push(entry);
+		this._invalidateFromFrame(entry.frameIndex);
+	}
+
+	get canUndo() : boolean {
+		return this._undoStack.length > 0;
+	}
+
+	get canRedo() : boolean {
+		return this._redoStack.length > 0;
+	}
+
+	_invalidateFromFrame(frameIndex : number) : void {
+		// Truncate cached frames from frameIndex onward
+		this._frames.length = frameIndex;
+		// Truncate score data arrays to match
+		for (const key of Object.keys(this._scoreData)) {
+			this._scoreData[key][0].data.length = frameIndex;
+		}
+		this._successScores.length = frameIndex;
+		// Reset completion state
+		this._maxFrameIndex = Number.MAX_SAFE_INTEGER;
+		this._changed();
 	}
 
 	//Whether this has been run to completion (the state of all frames up to the
@@ -332,7 +399,8 @@ export class SimulationRun {
 		const previousFrame = frameIndex == 0 ? null : this._frames[frameIndex - 1];
 		const rnd = makeSeededRandom('' + this._simulation.seed + this._index + frameIndex);
 		const sim = this._simulation.simulator;
-		return sim.generator(frameIndex, previousFrame, this._simulation.simOptions, rnd, this._index, this._simulation.width, this._simulation.height);
+		const interactions = this._interactions[frameIndex];
+		return sim.generator(frameIndex, previousFrame, this._simulation.simOptions, rnd, this._index, this._simulation.width, this._simulation.height, interactions);
 	}
 }
 
