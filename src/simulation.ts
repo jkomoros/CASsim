@@ -65,6 +65,11 @@ import {
 	OptionsConfigMap
 } from './types.js';
 
+type InteractionEntry = {
+	frameIndex: number;
+	interaction: Interaction;
+};
+
 import {
 	BaseSimulator
 } from './simulator.js';
@@ -204,6 +209,8 @@ export class SimulationRun {
 	_lastChanged : number;
 	_cachedFinalStatus : number | null;
 	_interactions : { [frameIndex: number]: Interaction[] };
+	_undoStack : InteractionEntry[];
+	_redoStack : InteractionEntry[];
 
 	constructor(simulation : Simulation, index : number) {
 		this._simulation = simulation;
@@ -216,6 +223,8 @@ export class SimulationRun {
 		this._lastChanged = Date.now();
 		this._cachedFinalStatus = null;
 		this._interactions = {};
+		this._undoStack = [];
+		this._redoStack = [];
 	}
 
 	get simulation() : Simulation {
@@ -268,7 +277,41 @@ export class SimulationRun {
 			this._interactions[frameIndex] = [];
 		}
 		this._interactions[frameIndex].push(interaction);
+		this._undoStack.push({ frameIndex, interaction });
+		this._redoStack.length = 0;
 		this._invalidateFromFrame(frameIndex);
+	}
+
+	undoInteraction() : void {
+		const entry = this._undoStack.pop();
+		if (!entry) return;
+		const arr = this._interactions[entry.frameIndex];
+		if (arr) {
+			const idx = arr.lastIndexOf(entry.interaction);
+			if (idx >= 0) arr.splice(idx, 1);
+			if (arr.length === 0) delete this._interactions[entry.frameIndex];
+		}
+		this._redoStack.push(entry);
+		this._invalidateFromFrame(entry.frameIndex);
+	}
+
+	redoInteraction() : void {
+		const entry = this._redoStack.pop();
+		if (!entry) return;
+		if (!this._interactions[entry.frameIndex]) {
+			this._interactions[entry.frameIndex] = [];
+		}
+		this._interactions[entry.frameIndex].push(entry.interaction);
+		this._undoStack.push(entry);
+		this._invalidateFromFrame(entry.frameIndex);
+	}
+
+	get canUndo() : boolean {
+		return this._undoStack.length > 0;
+	}
+
+	get canRedo() : boolean {
+		return this._redoStack.length > 0;
 	}
 
 	_invalidateFromFrame(frameIndex : number) : void {

@@ -4,6 +4,8 @@ import { BaseSimulator } from '../src/simulator.js';
 
 import StandingOvationSimulator from '../src/simulators/standing-ovation.js';
 
+import { SimulationRun } from '../src/simulation.js';
+
 import { makeSeededRandom } from '../src/random.js';
 
 import type {
@@ -293,5 +295,131 @@ describe('Generator interaction timing', () => {
 		expect(applyEntries).toHaveLength(2);
 		const lastApplyIdx = sim.log.lastIndexOf(applyEntries[applyEntries.length - 1]);
 		expect(lastApplyIdx).toBeLessThan(generateIdx);
+	});
+});
+
+// -- SimulationRun undo/redo tests --------------------------------------------
+
+describe('SimulationRun undo/redo', () => {
+
+	// Minimal mock simulation to construct a SimulationRun
+	const makeMockSimulation = () => ({
+		scoreConfig: [],
+		maxFrameIndex: 100,
+		seed: 'test',
+		simulator: new BaseSimulator(),
+		simOptions: {},
+		width: 800,
+		height: 450,
+	});
+
+	const makeRun = () => {
+		const sim = makeMockSimulation();
+		return new SimulationRun(sim as never, 0);
+	};
+
+	it('starts with canUndo and canRedo both false', () => {
+		const run = makeRun();
+		expect(run.canUndo).toBe(false);
+		expect(run.canRedo).toBe(false);
+	});
+
+	it('canUndo is true after addInteraction', () => {
+		const run = makeRun();
+		run.addInteraction(0, { type: 'test', agentID: 'a1' });
+		expect(run.canUndo).toBe(true);
+		expect(run.canRedo).toBe(false);
+	});
+
+	it('undoInteraction reverses addInteraction', () => {
+		const run = makeRun();
+		run.addInteraction(0, { type: 'test', agentID: 'a1' });
+		run.undoInteraction();
+		expect(run.canUndo).toBe(false);
+		expect(run.canRedo).toBe(true);
+		// The interaction should have been removed
+		expect(run._interactions[0]).toBeUndefined();
+	});
+
+	it('redoInteraction restores undone interaction', () => {
+		const run = makeRun();
+		const interaction: Interaction = { type: 'test', agentID: 'a1' };
+		run.addInteraction(0, interaction);
+		run.undoInteraction();
+		run.redoInteraction();
+		expect(run.canUndo).toBe(true);
+		expect(run.canRedo).toBe(false);
+		expect(run._interactions[0]).toHaveLength(1);
+		expect(run._interactions[0][0]).toBe(interaction);
+	});
+
+	it('addInteraction clears the redo stack', () => {
+		const run = makeRun();
+		run.addInteraction(0, { type: 'test1', agentID: 'a1' });
+		run.undoInteraction();
+		expect(run.canRedo).toBe(true);
+		run.addInteraction(0, { type: 'test2', agentID: 'a2' });
+		expect(run.canRedo).toBe(false);
+	});
+
+	it('undoInteraction is a no-op when stack is empty', () => {
+		const run = makeRun();
+		// Should not throw
+		run.undoInteraction();
+		expect(run.canUndo).toBe(false);
+		expect(run.canRedo).toBe(false);
+	});
+
+	it('redoInteraction is a no-op when stack is empty', () => {
+		const run = makeRun();
+		// Should not throw
+		run.redoInteraction();
+		expect(run.canUndo).toBe(false);
+		expect(run.canRedo).toBe(false);
+	});
+
+	it('multiple undo/redo cycles work correctly', () => {
+		const run = makeRun();
+		const i1: Interaction = { type: 'a', agentID: 'a1' };
+		const i2: Interaction = { type: 'b', agentID: 'a2' };
+		run.addInteraction(0, i1);
+		run.addInteraction(1, i2);
+
+		// Undo i2
+		run.undoInteraction();
+		expect(run._interactions[1]).toBeUndefined();
+		expect(run._interactions[0]).toHaveLength(1);
+
+		// Undo i1
+		run.undoInteraction();
+		expect(run._interactions[0]).toBeUndefined();
+
+		// Redo i1
+		run.redoInteraction();
+		expect(run._interactions[0]).toHaveLength(1);
+		expect(run._interactions[0][0]).toBe(i1);
+
+		// Redo i2
+		run.redoInteraction();
+		expect(run._interactions[1]).toHaveLength(1);
+		expect(run._interactions[1][0]).toBe(i2);
+	});
+
+	it('invalidates frames on undo', () => {
+		const run = makeRun();
+		run.addInteraction(5, { type: 'test', agentID: 'a1' });
+		const changedAfterAdd = run.lastChanged;
+		// Small delay to ensure timestamp changes
+		run.undoInteraction();
+		expect(run.lastChanged).toBeGreaterThanOrEqual(changedAfterAdd);
+	});
+
+	it('invalidates frames on redo', () => {
+		const run = makeRun();
+		run.addInteraction(5, { type: 'test', agentID: 'a1' });
+		run.undoInteraction();
+		const changedAfterUndo = run.lastChanged;
+		run.redoInteraction();
+		expect(run.lastChanged).toBeGreaterThanOrEqual(changedAfterUndo);
 	});
 });

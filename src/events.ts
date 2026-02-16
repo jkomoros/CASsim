@@ -131,6 +131,18 @@ export class InteractionSelectedEvent extends CustomEvent<InteractionSelectedEve
 	}
 }
 
+export class UndoInteractionEvent extends CustomEvent<null> {
+	constructor() {
+		super('undo-interaction', { composed: true, bubbles: true, detail: null });
+	}
+}
+
+export class RedoInteractionEvent extends CustomEvent<null> {
+	constructor() {
+		super('redo-interaction', { composed: true, bubbles: true, detail: null });
+	}
+}
+
 // Global event map for type-safe event handling
 declare global {
 	interface HTMLElementEventMap {
@@ -143,5 +155,7 @@ declare global {
 		'open-dialog': OpenDialogEvent;
 		'agent-clicked': AgentClickedEvent;
 		'interaction-selected': InteractionSelectedEvent;
+		'undo-interaction': UndoInteractionEvent;
+		'redo-interaction': RedoInteractionEvent;
 	}
 }

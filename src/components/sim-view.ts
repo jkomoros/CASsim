@@ -26,6 +26,8 @@ import {
 	progressiveGenerationTick,
 	selectAgent,
 	applyInteraction,
+	undoInteraction,
+	redoInteraction,
 } from "../actions/data.js";
 
 import {
@@ -63,6 +65,7 @@ import {
 	selectHashForCurrentState,
 	selectRunStatusesVisible,
 	selectSelectedAgentID,
+	selectCurrentSimulationRun,
 } from "../selectors.js";
 
 import {
@@ -252,6 +255,12 @@ class SimView extends connect(store)(PageViewElement) {
 	@state()
 		_interactionsConfig : InteractionDefinition[] = [];
 
+	@state()
+		_canUndo = false;
+
+	@state()
+		_canRedo = false;
+
 	//Note: this is calculated in this._resizeVisualzation, NOT in state
 	@state()
 		_needsMarginLeft : boolean = false;
@@ -336,6 +345,14 @@ class SimView extends connect(store)(PageViewElement) {
 		}));
 	}
 
+	_handleUndoInteraction() {
+		store.dispatch(undoInteraction());
+	}
+
+	_handleRedoInteraction() {
+		store.dispatch(redoInteraction());
+	}
+
 	_handleKeyDown(e : KeyboardEvent) {
 		//We have to hook this to issue content editable commands when we're
 		//active. But most of the time we don't want to do anything.
@@ -354,6 +371,12 @@ class SimView extends connect(store)(PageViewElement) {
 			store.dispatch(prevFrameIndex());
 		} else if (e.key == ' ') {
 			store.dispatch(togglePlaying());
+			e.preventDefault();
+		} else if (e.key == 'z' && (e.ctrlKey || e.metaKey) && !e.shiftKey && this._interactionsConfig.length > 0) {
+			store.dispatch(undoInteraction());
+			e.preventDefault();
+		} else if (((e.key == 'z' && (e.ctrlKey || e.metaKey) && e.shiftKey) || (e.key == 'y' && (e.ctrlKey || e.metaKey))) && this._interactionsConfig.length > 0) {
+			store.dispatch(redoInteraction());
 			e.preventDefault();
 		} else if (e.key == 'Escape') {
 			if (this._selectedAgentID) {
@@ -385,7 +408,7 @@ class SimView extends connect(store)(PageViewElement) {
 			<simulation-controls></simulation-controls>
 			<div class='container ${this._needsMarginLeft ? 'needs-margin-left' : ''}' style='${colors}'>
 				<frame-visualization .simulation=${this._currentSimulation} .frame=${this._currentFrame} .width=${this._width} .height=${this._height} .scale=${this._scale} .runStatuses=${includeRunStatuses ? this._runStatuses : null} .runIndex=${this._runIndex} .animationLength=${this._animationLength} .selectedAgentID=${this._selectedAgentID} .interactive=${interactive} @agent-clicked=${this._handleAgentClicked}></frame-visualization>
-				${interactive && this._selectedAgentID ? html`<interaction-panel .interactions=${this._interactionsConfig} .selectedAgentID=${this._selectedAgentID} @interaction-selected=${this._handleInteractionSelected}></interaction-panel>` : ''}
+				${interactive && (this._selectedAgentID || this._canUndo || this._canRedo) ? html`<interaction-panel .interactions=${this._interactionsConfig} .selectedAgentID=${this._selectedAgentID} .canUndo=${this._canUndo} .canRedo=${this._canRedo} @interaction-selected=${this._handleInteractionSelected} @undo-interaction=${this._handleUndoInteraction} @redo-interaction=${this._handleRedoInteraction}></interaction-panel>` : ''}
 			</div>
 		`;
 	}
@@ -443,6 +466,9 @@ class SimView extends connect(store)(PageViewElement) {
 		this._hashForCurrentState = selectHashForCurrentState(state);
 		this._selectedAgentID = selectSelectedAgentID(state);
 		this._interactionsConfig = this._currentSimulation ? this._currentSimulation.simulator.interactionsConfig() : [];
+		const currentRun = selectCurrentSimulationRun(state);
+		this._canUndo = currentRun ? currentRun.canUndo : false;
+		this._canRedo = currentRun ? currentRun.canRedo : false;
 		this._currentSimulationLastChanged = this._currentSimulation ? this._currentSimulation.lastChanged : 0;
 
 		this.updateComplete.then(() => {

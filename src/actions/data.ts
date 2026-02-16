@@ -760,3 +760,22 @@ export const applyInteraction : AppActionCreator = (interaction : Interaction) =
 	run.addInteraction(frameIndex, interaction);
 	dispatch({ type: SIMULATION_CHANGED, changed: Date.now() });
 };
+
+export const undoInteraction : AppActionCreator = () => (dispatch, getState) => {
+	const state = getState();
+	const run = selectCurrentSimulationRun(state);
+	if (!run || !run.canUndo) return;
+	dispatch(cancelProgressiveGeneration());
+	dispatch(updatePlaying(false));
+	run.undoInteraction();
+	dispatch({ type: SIMULATION_CHANGED, changed: Date.now() });
+};
+
+export const redoInteraction : AppActionCreator = () => (dispatch, getState) => {
+	const state = getState();
+	const run = selectCurrentSimulationRun(state);
+	if (!run || !run.canRedo) return;
+	dispatch(cancelProgressiveGeneration());
+	run.redoInteraction();
+	dispatch({ type: SIMULATION_CHANGED, changed: Date.now() });
+};
