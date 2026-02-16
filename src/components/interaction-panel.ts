@@ -3,17 +3,9 @@ import { customElement, property } from 'lit/decorators.js';
 
 import { InteractionDefinition } from '../types.js';
 
+import { InteractionSelectedEvent } from '../events.js';
+
 import { ButtonSharedStyles } from './button-shared-styles.js';
-
-type InteractionSelectedEventDetail = {
-	type: string;
-};
-
-class InteractionSelectedEvent extends CustomEvent<InteractionSelectedEventDetail> {
-	constructor(type: string) {
-		super('interaction-selected', { composed: true, bubbles: true, detail: { type } });
-	}
-}
 
 @customElement('interaction-panel')
 export class InteractionPanel extends LitElement {
@@ -86,7 +78,5 @@ declare global {
 	interface HTMLElementTagNameMap {
 		'interaction-panel': InteractionPanel;
 	}
-	interface HTMLElementEventMap {
-		'interaction-selected': InteractionSelectedEvent;
-	}
 }
+

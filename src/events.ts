@@ -121,6 +121,16 @@ export class AgentClickedEvent extends CustomEvent<AgentClickedEventDetail> {
 	}
 }
 
+type InteractionSelectedEventDetail = {
+	type: string;
+};
+
+export class InteractionSelectedEvent extends CustomEvent<InteractionSelectedEventDetail> {
+	constructor(type: string) {
+		super('interaction-selected', { composed: true, bubbles: true, detail: { type } });
+	}
+}
+
 // Global event map for type-safe event handling
 declare global {
 	interface HTMLElementEventMap {
@@ -132,5 +142,6 @@ declare global {
 		'path-toggled': PathToggledEvent;
 		'open-dialog': OpenDialogEvent;
 		'agent-clicked': AgentClickedEvent;
+		'interaction-selected': InteractionSelectedEvent;
 	}
 }

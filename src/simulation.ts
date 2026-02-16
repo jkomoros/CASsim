@@ -281,7 +281,6 @@ export class SimulationRun {
 		this._successScores.length = frameIndex;
 		// Reset completion state
 		this._maxFrameIndex = Number.MAX_SAFE_INTEGER;
-		this._cachedFinalStatus = null;
 		this._changed();
 	}
 

@@ -273,7 +273,7 @@ export interface InteractionDefinition {
 // A recorded user interaction
 export interface Interaction {
     readonly type: string;
-    // The agent that was interacted with. Empty string if this is a positional interaction.
+    // The agent that was interacted with.
     readonly agentID: string;
     // Click coordinates in simulation-space (0..width, 0..height). Present for positional interactions.
     readonly x?: number;
