@@ -35,6 +35,10 @@ import {
 	StubSimOptions
 } from './simulators/types/stub.GENERATED.js';
 
+import {
+	WildflowerMeadowSimOptions
+} from './simulators/types/wildflower-meadow.GENERATED.js';
+
 interface DiceRollDemoSimulationConfigExtra {
 	sim: 'dice-roll-demo';
 	simOptions: DiceRollDemoSimOptions | null;
@@ -84,4 +88,11 @@ interface StubSimulationConfigExtra {
 
 type StubRawSimulationConfig = (RawSimulationConfigBase & StubSimulationConfigExtra) | (RawSimulationConfigExtended & StubSimulationConfigExtra);
 		
-export type RawSimulationConfig = DiceRollDemoRawSimulationConfig | FreeMovingAgentsRawSimulationConfig | LuckSurfaceAreaRawSimulationConfig | PastureDemoRawSimulationConfig | SchellingOrgRawSimulationConfig | StandingOvationRawSimulationConfig | StubRawSimulationConfig;
+interface WildflowerMeadowSimulationConfigExtra {
+	sim: 'wildflower-meadow';
+	simOptions: WildflowerMeadowSimOptions | null;
+}
+
+type WildflowerMeadowRawSimulationConfig = (RawSimulationConfigBase & WildflowerMeadowSimulationConfigExtra) | (RawSimulationConfigExtended & WildflowerMeadowSimulationConfigExtra);
+		
+export type RawSimulationConfig = DiceRollDemoRawSimulationConfig | FreeMovingAgentsRawSimulationConfig | LuckSurfaceAreaRawSimulationConfig | PastureDemoRawSimulationConfig | SchellingOrgRawSimulationConfig | StandingOvationRawSimulationConfig | StubRawSimulationConfig | WildflowerMeadowRawSimulationConfig;

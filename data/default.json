@@ -87,6 +87,17 @@
 			"extend": "base",
 			"sim": "free-moving-agents",
 			"simOptions": null
+		},
+		{
+			"name": "wildflower-meadow-demo",
+			"description": "Plant wildflowers to push back invasive evergreens. Click to plant seeds or pull invaders.",
+			"extend": "base",
+			"frameDelay": 750,
+			"runs": 1,
+			"autoGenerate": false,
+			"autoPlay": false,
+			"sim": "wildflower-meadow",
+			"simOptions": null
 		}
 	]
 }
