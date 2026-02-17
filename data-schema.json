@@ -123,6 +123,12 @@
       "type": "object"
     },
     "DistributionType": {
+      "enum": [
+        "linear",
+        "normal",
+        "min-max",
+        "fixed"
+      ],
       "type": "string"
     },
     "FreeMovingAgentsSimOptions": {
@@ -165,15 +171,13 @@
         },
         "display": {
           "additionalProperties": false,
+          "description": "Optional display properties",
           "properties": {
             "bounds": {
               "description": "Render debug bounds for coordinates map",
               "type": "boolean"
             }
           },
-          "required": [
-            "bounds"
-          ],
           "type": "object"
         },
         "rounds": {
@@ -421,1019 +425,1132 @@
     "RawSimulationConfig": {
       "anyOf": [
         {
-          "anyOf": [
-            {
-              "additionalProperties": false,
-              "properties": {
-                "autoGenerate": {
-                  "type": "boolean"
-                },
-                "autoPlay": {
-                  "type": "boolean"
-                },
-                "base": {
-                  "const": true,
-                  "type": "boolean"
-                },
-                "colors": {
-                  "$ref": "#/definitions/ColorsMap"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "display": {
-                  "$ref": "#/definitions/SimulationConfigDisplay"
-                },
-                "extraFinalFrameCount": {
-                  "type": "number"
-                },
-                "frameDelay": {
-                  "type": "number"
-                },
-                "height": {
-                  "type": "number"
-                },
-                "name": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "repeat": {
-                  "type": "boolean"
-                },
-                "runs": {
-                  "type": "number"
-                },
-                "seed": {
-                  "type": "string"
-                },
-                "sim": {
-                  "const": "dice-roll-demo",
-                  "type": "string"
-                },
-                "simOptions": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/definitions/DiceRollDemoSimOptions"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "title": {
-                  "type": "string"
-                },
-                "width": {
-                  "type": "number"
-                }
-              },
-              "required": [
-                "base",
-                "sim",
-                "simOptions"
-              ],
-              "type": "object"
+          "additionalProperties": false,
+          "properties": {
+            "autoGenerate": {
+              "type": "boolean"
             },
-            {
-              "additionalProperties": false,
-              "properties": {
-                "autoGenerate": {
-                  "type": "boolean"
+            "autoPlay": {
+              "type": "boolean"
+            },
+            "base": {
+              "const": true,
+              "type": "boolean"
+            },
+            "colors": {
+              "$ref": "#/definitions/ColorsMap"
+            },
+            "description": {
+              "type": "string"
+            },
+            "display": {
+              "$ref": "#/definitions/SimulationConfigDisplay"
+            },
+            "extraFinalFrameCount": {
+              "type": "number"
+            },
+            "frameDelay": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "name": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "repeat": {
+              "type": "boolean"
+            },
+            "runs": {
+              "type": "number"
+            },
+            "seed": {
+              "type": "string"
+            },
+            "sim": {
+              "const": "dice-roll-demo",
+              "type": "string"
+            },
+            "simOptions": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/DiceRollDemoSimOptions"
                 },
-                "autoPlay": {
-                  "type": "boolean"
-                },
-                "colors": {
-                  "$ref": "#/definitions/ColorsMap"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "display": {
-                  "$ref": "#/definitions/SimulationConfigDisplay"
-                },
-                "extend": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "extraFinalFrameCount": {
-                  "type": "number"
-                },
-                "frameDelay": {
-                  "type": "number"
-                },
-                "height": {
-                  "type": "number"
-                },
-                "name": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "repeat": {
-                  "type": "boolean"
-                },
-                "runs": {
-                  "type": "number"
-                },
-                "seed": {
-                  "type": "string"
-                },
-                "sim": {
-                  "const": "dice-roll-demo",
-                  "type": "string"
-                },
-                "simOptions": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/definitions/DiceRollDemoSimOptions"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "title": {
-                  "type": "string"
-                },
-                "width": {
-                  "type": "number"
+                {
+                  "type": "null"
                 }
-              },
-              "required": [
-                "extend",
-                "sim",
-                "simOptions"
-              ],
-              "type": "object"
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
             }
-          ]
+          },
+          "required": [
+            "base",
+            "sim",
+            "simOptions"
+          ],
+          "type": "object"
         },
         {
-          "anyOf": [
-            {
-              "additionalProperties": false,
-              "properties": {
-                "autoGenerate": {
-                  "type": "boolean"
-                },
-                "autoPlay": {
-                  "type": "boolean"
-                },
-                "base": {
-                  "const": true,
-                  "type": "boolean"
-                },
-                "colors": {
-                  "$ref": "#/definitions/ColorsMap"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "display": {
-                  "$ref": "#/definitions/SimulationConfigDisplay"
-                },
-                "extraFinalFrameCount": {
-                  "type": "number"
-                },
-                "frameDelay": {
-                  "type": "number"
-                },
-                "height": {
-                  "type": "number"
-                },
-                "name": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "repeat": {
-                  "type": "boolean"
-                },
-                "runs": {
-                  "type": "number"
-                },
-                "seed": {
-                  "type": "string"
-                },
-                "sim": {
-                  "const": "free-moving-agents",
-                  "type": "string"
-                },
-                "simOptions": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/definitions/FreeMovingAgentsSimOptions"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "title": {
-                  "type": "string"
-                },
-                "width": {
-                  "type": "number"
-                }
-              },
-              "required": [
-                "base",
-                "sim",
-                "simOptions"
-              ],
-              "type": "object"
+          "additionalProperties": false,
+          "properties": {
+            "autoGenerate": {
+              "type": "boolean"
             },
-            {
-              "additionalProperties": false,
-              "properties": {
-                "autoGenerate": {
-                  "type": "boolean"
+            "autoPlay": {
+              "type": "boolean"
+            },
+            "colors": {
+              "$ref": "#/definitions/ColorsMap"
+            },
+            "description": {
+              "type": "string"
+            },
+            "display": {
+              "$ref": "#/definitions/SimulationConfigDisplay"
+            },
+            "extend": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "extraFinalFrameCount": {
+              "type": "number"
+            },
+            "frameDelay": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "name": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "repeat": {
+              "type": "boolean"
+            },
+            "runs": {
+              "type": "number"
+            },
+            "seed": {
+              "type": "string"
+            },
+            "sim": {
+              "const": "dice-roll-demo",
+              "type": "string"
+            },
+            "simOptions": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/DiceRollDemoSimOptions"
                 },
-                "autoPlay": {
-                  "type": "boolean"
-                },
-                "colors": {
-                  "$ref": "#/definitions/ColorsMap"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "display": {
-                  "$ref": "#/definitions/SimulationConfigDisplay"
-                },
-                "extend": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "extraFinalFrameCount": {
-                  "type": "number"
-                },
-                "frameDelay": {
-                  "type": "number"
-                },
-                "height": {
-                  "type": "number"
-                },
-                "name": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "repeat": {
-                  "type": "boolean"
-                },
-                "runs": {
-                  "type": "number"
-                },
-                "seed": {
-                  "type": "string"
-                },
-                "sim": {
-                  "const": "free-moving-agents",
-                  "type": "string"
-                },
-                "simOptions": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/definitions/FreeMovingAgentsSimOptions"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "title": {
-                  "type": "string"
-                },
-                "width": {
-                  "type": "number"
+                {
+                  "type": "null"
                 }
-              },
-              "required": [
-                "extend",
-                "sim",
-                "simOptions"
-              ],
-              "type": "object"
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
             }
-          ]
+          },
+          "required": [
+            "extend",
+            "sim",
+            "simOptions"
+          ],
+          "type": "object"
         },
         {
-          "anyOf": [
-            {
-              "additionalProperties": false,
-              "properties": {
-                "autoGenerate": {
-                  "type": "boolean"
-                },
-                "autoPlay": {
-                  "type": "boolean"
-                },
-                "base": {
-                  "const": true,
-                  "type": "boolean"
-                },
-                "colors": {
-                  "$ref": "#/definitions/ColorsMap"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "display": {
-                  "$ref": "#/definitions/SimulationConfigDisplay"
-                },
-                "extraFinalFrameCount": {
-                  "type": "number"
-                },
-                "frameDelay": {
-                  "type": "number"
-                },
-                "height": {
-                  "type": "number"
-                },
-                "name": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "repeat": {
-                  "type": "boolean"
-                },
-                "runs": {
-                  "type": "number"
-                },
-                "seed": {
-                  "type": "string"
-                },
-                "sim": {
-                  "const": "luck-surface-area",
-                  "type": "string"
-                },
-                "simOptions": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/definitions/LuckSurfaceAreaSimOptions"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "title": {
-                  "type": "string"
-                },
-                "width": {
-                  "type": "number"
-                }
-              },
-              "required": [
-                "base",
-                "sim",
-                "simOptions"
-              ],
-              "type": "object"
+          "additionalProperties": false,
+          "properties": {
+            "autoGenerate": {
+              "type": "boolean"
             },
-            {
-              "additionalProperties": false,
-              "properties": {
-                "autoGenerate": {
-                  "type": "boolean"
+            "autoPlay": {
+              "type": "boolean"
+            },
+            "base": {
+              "const": true,
+              "type": "boolean"
+            },
+            "colors": {
+              "$ref": "#/definitions/ColorsMap"
+            },
+            "description": {
+              "type": "string"
+            },
+            "display": {
+              "$ref": "#/definitions/SimulationConfigDisplay"
+            },
+            "extraFinalFrameCount": {
+              "type": "number"
+            },
+            "frameDelay": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "name": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "repeat": {
+              "type": "boolean"
+            },
+            "runs": {
+              "type": "number"
+            },
+            "seed": {
+              "type": "string"
+            },
+            "sim": {
+              "const": "free-moving-agents",
+              "type": "string"
+            },
+            "simOptions": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/FreeMovingAgentsSimOptions"
                 },
-                "autoPlay": {
-                  "type": "boolean"
-                },
-                "colors": {
-                  "$ref": "#/definitions/ColorsMap"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "display": {
-                  "$ref": "#/definitions/SimulationConfigDisplay"
-                },
-                "extend": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "extraFinalFrameCount": {
-                  "type": "number"
-                },
-                "frameDelay": {
-                  "type": "number"
-                },
-                "height": {
-                  "type": "number"
-                },
-                "name": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "repeat": {
-                  "type": "boolean"
-                },
-                "runs": {
-                  "type": "number"
-                },
-                "seed": {
-                  "type": "string"
-                },
-                "sim": {
-                  "const": "luck-surface-area",
-                  "type": "string"
-                },
-                "simOptions": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/definitions/LuckSurfaceAreaSimOptions"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "title": {
-                  "type": "string"
-                },
-                "width": {
-                  "type": "number"
+                {
+                  "type": "null"
                 }
-              },
-              "required": [
-                "extend",
-                "sim",
-                "simOptions"
-              ],
-              "type": "object"
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
             }
-          ]
+          },
+          "required": [
+            "base",
+            "sim",
+            "simOptions"
+          ],
+          "type": "object"
         },
         {
-          "anyOf": [
-            {
-              "additionalProperties": false,
-              "properties": {
-                "autoGenerate": {
-                  "type": "boolean"
-                },
-                "autoPlay": {
-                  "type": "boolean"
-                },
-                "base": {
-                  "const": true,
-                  "type": "boolean"
-                },
-                "colors": {
-                  "$ref": "#/definitions/ColorsMap"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "display": {
-                  "$ref": "#/definitions/SimulationConfigDisplay"
-                },
-                "extraFinalFrameCount": {
-                  "type": "number"
-                },
-                "frameDelay": {
-                  "type": "number"
-                },
-                "height": {
-                  "type": "number"
-                },
-                "name": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "repeat": {
-                  "type": "boolean"
-                },
-                "runs": {
-                  "type": "number"
-                },
-                "seed": {
-                  "type": "string"
-                },
-                "sim": {
-                  "const": "pasture-demo",
-                  "type": "string"
-                },
-                "simOptions": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/definitions/PastureDemoSimOptions"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "title": {
-                  "type": "string"
-                },
-                "width": {
-                  "type": "number"
-                }
-              },
-              "required": [
-                "base",
-                "sim",
-                "simOptions"
-              ],
-              "type": "object"
+          "additionalProperties": false,
+          "properties": {
+            "autoGenerate": {
+              "type": "boolean"
             },
-            {
-              "additionalProperties": false,
-              "properties": {
-                "autoGenerate": {
-                  "type": "boolean"
+            "autoPlay": {
+              "type": "boolean"
+            },
+            "colors": {
+              "$ref": "#/definitions/ColorsMap"
+            },
+            "description": {
+              "type": "string"
+            },
+            "display": {
+              "$ref": "#/definitions/SimulationConfigDisplay"
+            },
+            "extend": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "extraFinalFrameCount": {
+              "type": "number"
+            },
+            "frameDelay": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "name": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "repeat": {
+              "type": "boolean"
+            },
+            "runs": {
+              "type": "number"
+            },
+            "seed": {
+              "type": "string"
+            },
+            "sim": {
+              "const": "free-moving-agents",
+              "type": "string"
+            },
+            "simOptions": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/FreeMovingAgentsSimOptions"
                 },
-                "autoPlay": {
-                  "type": "boolean"
-                },
-                "colors": {
-                  "$ref": "#/definitions/ColorsMap"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "display": {
-                  "$ref": "#/definitions/SimulationConfigDisplay"
-                },
-                "extend": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "extraFinalFrameCount": {
-                  "type": "number"
-                },
-                "frameDelay": {
-                  "type": "number"
-                },
-                "height": {
-                  "type": "number"
-                },
-                "name": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "repeat": {
-                  "type": "boolean"
-                },
-                "runs": {
-                  "type": "number"
-                },
-                "seed": {
-                  "type": "string"
-                },
-                "sim": {
-                  "const": "pasture-demo",
-                  "type": "string"
-                },
-                "simOptions": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/definitions/PastureDemoSimOptions"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "title": {
-                  "type": "string"
-                },
-                "width": {
-                  "type": "number"
+                {
+                  "type": "null"
                 }
-              },
-              "required": [
-                "extend",
-                "sim",
-                "simOptions"
-              ],
-              "type": "object"
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
             }
-          ]
+          },
+          "required": [
+            "extend",
+            "sim",
+            "simOptions"
+          ],
+          "type": "object"
         },
         {
-          "anyOf": [
-            {
-              "additionalProperties": false,
-              "properties": {
-                "autoGenerate": {
-                  "type": "boolean"
-                },
-                "autoPlay": {
-                  "type": "boolean"
-                },
-                "base": {
-                  "const": true,
-                  "type": "boolean"
-                },
-                "colors": {
-                  "$ref": "#/definitions/ColorsMap"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "display": {
-                  "$ref": "#/definitions/SimulationConfigDisplay"
-                },
-                "extraFinalFrameCount": {
-                  "type": "number"
-                },
-                "frameDelay": {
-                  "type": "number"
-                },
-                "height": {
-                  "type": "number"
-                },
-                "name": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "repeat": {
-                  "type": "boolean"
-                },
-                "runs": {
-                  "type": "number"
-                },
-                "seed": {
-                  "type": "string"
-                },
-                "sim": {
-                  "const": "schelling-org",
-                  "type": "string"
-                },
-                "simOptions": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/definitions/SchellingOrgSimOptions"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "title": {
-                  "type": "string"
-                },
-                "width": {
-                  "type": "number"
-                }
-              },
-              "required": [
-                "base",
-                "sim",
-                "simOptions"
-              ],
-              "type": "object"
+          "additionalProperties": false,
+          "properties": {
+            "autoGenerate": {
+              "type": "boolean"
             },
-            {
-              "additionalProperties": false,
-              "properties": {
-                "autoGenerate": {
-                  "type": "boolean"
+            "autoPlay": {
+              "type": "boolean"
+            },
+            "base": {
+              "const": true,
+              "type": "boolean"
+            },
+            "colors": {
+              "$ref": "#/definitions/ColorsMap"
+            },
+            "description": {
+              "type": "string"
+            },
+            "display": {
+              "$ref": "#/definitions/SimulationConfigDisplay"
+            },
+            "extraFinalFrameCount": {
+              "type": "number"
+            },
+            "frameDelay": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "name": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "repeat": {
+              "type": "boolean"
+            },
+            "runs": {
+              "type": "number"
+            },
+            "seed": {
+              "type": "string"
+            },
+            "sim": {
+              "const": "luck-surface-area",
+              "type": "string"
+            },
+            "simOptions": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/LuckSurfaceAreaSimOptions"
                 },
-                "autoPlay": {
-                  "type": "boolean"
-                },
-                "colors": {
-                  "$ref": "#/definitions/ColorsMap"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "display": {
-                  "$ref": "#/definitions/SimulationConfigDisplay"
-                },
-                "extend": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "extraFinalFrameCount": {
-                  "type": "number"
-                },
-                "frameDelay": {
-                  "type": "number"
-                },
-                "height": {
-                  "type": "number"
-                },
-                "name": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "repeat": {
-                  "type": "boolean"
-                },
-                "runs": {
-                  "type": "number"
-                },
-                "seed": {
-                  "type": "string"
-                },
-                "sim": {
-                  "const": "schelling-org",
-                  "type": "string"
-                },
-                "simOptions": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/definitions/SchellingOrgSimOptions"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "title": {
-                  "type": "string"
-                },
-                "width": {
-                  "type": "number"
+                {
+                  "type": "null"
                 }
-              },
-              "required": [
-                "extend",
-                "sim",
-                "simOptions"
-              ],
-              "type": "object"
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
             }
-          ]
+          },
+          "required": [
+            "base",
+            "sim",
+            "simOptions"
+          ],
+          "type": "object"
         },
         {
-          "anyOf": [
-            {
-              "additionalProperties": false,
-              "properties": {
-                "autoGenerate": {
-                  "type": "boolean"
-                },
-                "autoPlay": {
-                  "type": "boolean"
-                },
-                "base": {
-                  "const": true,
-                  "type": "boolean"
-                },
-                "colors": {
-                  "$ref": "#/definitions/ColorsMap"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "display": {
-                  "$ref": "#/definitions/SimulationConfigDisplay"
-                },
-                "extraFinalFrameCount": {
-                  "type": "number"
-                },
-                "frameDelay": {
-                  "type": "number"
-                },
-                "height": {
-                  "type": "number"
-                },
-                "name": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "repeat": {
-                  "type": "boolean"
-                },
-                "runs": {
-                  "type": "number"
-                },
-                "seed": {
-                  "type": "string"
-                },
-                "sim": {
-                  "const": "standing-ovation",
-                  "type": "string"
-                },
-                "simOptions": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/definitions/StandingOvationSimOptions"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "title": {
-                  "type": "string"
-                },
-                "width": {
-                  "type": "number"
-                }
-              },
-              "required": [
-                "base",
-                "sim",
-                "simOptions"
-              ],
-              "type": "object"
+          "additionalProperties": false,
+          "properties": {
+            "autoGenerate": {
+              "type": "boolean"
             },
-            {
-              "additionalProperties": false,
-              "properties": {
-                "autoGenerate": {
-                  "type": "boolean"
+            "autoPlay": {
+              "type": "boolean"
+            },
+            "colors": {
+              "$ref": "#/definitions/ColorsMap"
+            },
+            "description": {
+              "type": "string"
+            },
+            "display": {
+              "$ref": "#/definitions/SimulationConfigDisplay"
+            },
+            "extend": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "extraFinalFrameCount": {
+              "type": "number"
+            },
+            "frameDelay": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "name": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "repeat": {
+              "type": "boolean"
+            },
+            "runs": {
+              "type": "number"
+            },
+            "seed": {
+              "type": "string"
+            },
+            "sim": {
+              "const": "luck-surface-area",
+              "type": "string"
+            },
+            "simOptions": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/LuckSurfaceAreaSimOptions"
                 },
-                "autoPlay": {
-                  "type": "boolean"
-                },
-                "colors": {
-                  "$ref": "#/definitions/ColorsMap"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "display": {
-                  "$ref": "#/definitions/SimulationConfigDisplay"
-                },
-                "extend": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "extraFinalFrameCount": {
-                  "type": "number"
-                },
-                "frameDelay": {
-                  "type": "number"
-                },
-                "height": {
-                  "type": "number"
-                },
-                "name": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "repeat": {
-                  "type": "boolean"
-                },
-                "runs": {
-                  "type": "number"
-                },
-                "seed": {
-                  "type": "string"
-                },
-                "sim": {
-                  "const": "standing-ovation",
-                  "type": "string"
-                },
-                "simOptions": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/definitions/StandingOvationSimOptions"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "title": {
-                  "type": "string"
-                },
-                "width": {
-                  "type": "number"
+                {
+                  "type": "null"
                 }
-              },
-              "required": [
-                "extend",
-                "sim",
-                "simOptions"
-              ],
-              "type": "object"
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
             }
-          ]
+          },
+          "required": [
+            "extend",
+            "sim",
+            "simOptions"
+          ],
+          "type": "object"
         },
         {
-          "anyOf": [
-            {
-              "additionalProperties": false,
-              "properties": {
-                "autoGenerate": {
-                  "type": "boolean"
-                },
-                "autoPlay": {
-                  "type": "boolean"
-                },
-                "base": {
-                  "const": true,
-                  "type": "boolean"
-                },
-                "colors": {
-                  "$ref": "#/definitions/ColorsMap"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "display": {
-                  "$ref": "#/definitions/SimulationConfigDisplay"
-                },
-                "extraFinalFrameCount": {
-                  "type": "number"
-                },
-                "frameDelay": {
-                  "type": "number"
-                },
-                "height": {
-                  "type": "number"
-                },
-                "name": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "repeat": {
-                  "type": "boolean"
-                },
-                "runs": {
-                  "type": "number"
-                },
-                "seed": {
-                  "type": "string"
-                },
-                "sim": {
-                  "const": "stub",
-                  "type": "string"
-                },
-                "simOptions": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/definitions/StubSimOptions"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "title": {
-                  "type": "string"
-                },
-                "width": {
-                  "type": "number"
-                }
-              },
-              "required": [
-                "base",
-                "sim",
-                "simOptions"
-              ],
-              "type": "object"
+          "additionalProperties": false,
+          "properties": {
+            "autoGenerate": {
+              "type": "boolean"
             },
-            {
-              "additionalProperties": false,
-              "properties": {
-                "autoGenerate": {
-                  "type": "boolean"
+            "autoPlay": {
+              "type": "boolean"
+            },
+            "base": {
+              "const": true,
+              "type": "boolean"
+            },
+            "colors": {
+              "$ref": "#/definitions/ColorsMap"
+            },
+            "description": {
+              "type": "string"
+            },
+            "display": {
+              "$ref": "#/definitions/SimulationConfigDisplay"
+            },
+            "extraFinalFrameCount": {
+              "type": "number"
+            },
+            "frameDelay": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "name": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "repeat": {
+              "type": "boolean"
+            },
+            "runs": {
+              "type": "number"
+            },
+            "seed": {
+              "type": "string"
+            },
+            "sim": {
+              "const": "pasture-demo",
+              "type": "string"
+            },
+            "simOptions": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/PastureDemoSimOptions"
                 },
-                "autoPlay": {
-                  "type": "boolean"
-                },
-                "colors": {
-                  "$ref": "#/definitions/ColorsMap"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "display": {
-                  "$ref": "#/definitions/SimulationConfigDisplay"
-                },
-                "extend": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "extraFinalFrameCount": {
-                  "type": "number"
-                },
-                "frameDelay": {
-                  "type": "number"
-                },
-                "height": {
-                  "type": "number"
-                },
-                "name": {
-                  "$ref": "#/definitions/SimulationConfigName"
-                },
-                "repeat": {
-                  "type": "boolean"
-                },
-                "runs": {
-                  "type": "number"
-                },
-                "seed": {
-                  "type": "string"
-                },
-                "sim": {
-                  "const": "stub",
-                  "type": "string"
-                },
-                "simOptions": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/definitions/StubSimOptions"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "title": {
-                  "type": "string"
-                },
-                "width": {
-                  "type": "number"
+                {
+                  "type": "null"
                 }
-              },
-              "required": [
-                "extend",
-                "sim",
-                "simOptions"
-              ],
-              "type": "object"
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
             }
-          ]
+          },
+          "required": [
+            "base",
+            "sim",
+            "simOptions"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "autoGenerate": {
+              "type": "boolean"
+            },
+            "autoPlay": {
+              "type": "boolean"
+            },
+            "colors": {
+              "$ref": "#/definitions/ColorsMap"
+            },
+            "description": {
+              "type": "string"
+            },
+            "display": {
+              "$ref": "#/definitions/SimulationConfigDisplay"
+            },
+            "extend": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "extraFinalFrameCount": {
+              "type": "number"
+            },
+            "frameDelay": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "name": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "repeat": {
+              "type": "boolean"
+            },
+            "runs": {
+              "type": "number"
+            },
+            "seed": {
+              "type": "string"
+            },
+            "sim": {
+              "const": "pasture-demo",
+              "type": "string"
+            },
+            "simOptions": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/PastureDemoSimOptions"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "extend",
+            "sim",
+            "simOptions"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "autoGenerate": {
+              "type": "boolean"
+            },
+            "autoPlay": {
+              "type": "boolean"
+            },
+            "base": {
+              "const": true,
+              "type": "boolean"
+            },
+            "colors": {
+              "$ref": "#/definitions/ColorsMap"
+            },
+            "description": {
+              "type": "string"
+            },
+            "display": {
+              "$ref": "#/definitions/SimulationConfigDisplay"
+            },
+            "extraFinalFrameCount": {
+              "type": "number"
+            },
+            "frameDelay": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "name": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "repeat": {
+              "type": "boolean"
+            },
+            "runs": {
+              "type": "number"
+            },
+            "seed": {
+              "type": "string"
+            },
+            "sim": {
+              "const": "schelling-org",
+              "type": "string"
+            },
+            "simOptions": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/SchellingOrgSimOptions"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "base",
+            "sim",
+            "simOptions"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "autoGenerate": {
+              "type": "boolean"
+            },
+            "autoPlay": {
+              "type": "boolean"
+            },
+            "colors": {
+              "$ref": "#/definitions/ColorsMap"
+            },
+            "description": {
+              "type": "string"
+            },
+            "display": {
+              "$ref": "#/definitions/SimulationConfigDisplay"
+            },
+            "extend": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "extraFinalFrameCount": {
+              "type": "number"
+            },
+            "frameDelay": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "name": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "repeat": {
+              "type": "boolean"
+            },
+            "runs": {
+              "type": "number"
+            },
+            "seed": {
+              "type": "string"
+            },
+            "sim": {
+              "const": "schelling-org",
+              "type": "string"
+            },
+            "simOptions": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/SchellingOrgSimOptions"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "extend",
+            "sim",
+            "simOptions"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "autoGenerate": {
+              "type": "boolean"
+            },
+            "autoPlay": {
+              "type": "boolean"
+            },
+            "base": {
+              "const": true,
+              "type": "boolean"
+            },
+            "colors": {
+              "$ref": "#/definitions/ColorsMap"
+            },
+            "description": {
+              "type": "string"
+            },
+            "display": {
+              "$ref": "#/definitions/SimulationConfigDisplay"
+            },
+            "extraFinalFrameCount": {
+              "type": "number"
+            },
+            "frameDelay": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "name": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "repeat": {
+              "type": "boolean"
+            },
+            "runs": {
+              "type": "number"
+            },
+            "seed": {
+              "type": "string"
+            },
+            "sim": {
+              "const": "standing-ovation",
+              "type": "string"
+            },
+            "simOptions": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/StandingOvationSimOptions"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "base",
+            "sim",
+            "simOptions"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "autoGenerate": {
+              "type": "boolean"
+            },
+            "autoPlay": {
+              "type": "boolean"
+            },
+            "colors": {
+              "$ref": "#/definitions/ColorsMap"
+            },
+            "description": {
+              "type": "string"
+            },
+            "display": {
+              "$ref": "#/definitions/SimulationConfigDisplay"
+            },
+            "extend": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "extraFinalFrameCount": {
+              "type": "number"
+            },
+            "frameDelay": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "name": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "repeat": {
+              "type": "boolean"
+            },
+            "runs": {
+              "type": "number"
+            },
+            "seed": {
+              "type": "string"
+            },
+            "sim": {
+              "const": "standing-ovation",
+              "type": "string"
+            },
+            "simOptions": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/StandingOvationSimOptions"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "extend",
+            "sim",
+            "simOptions"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "autoGenerate": {
+              "type": "boolean"
+            },
+            "autoPlay": {
+              "type": "boolean"
+            },
+            "base": {
+              "const": true,
+              "type": "boolean"
+            },
+            "colors": {
+              "$ref": "#/definitions/ColorsMap"
+            },
+            "description": {
+              "type": "string"
+            },
+            "display": {
+              "$ref": "#/definitions/SimulationConfigDisplay"
+            },
+            "extraFinalFrameCount": {
+              "type": "number"
+            },
+            "frameDelay": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "name": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "repeat": {
+              "type": "boolean"
+            },
+            "runs": {
+              "type": "number"
+            },
+            "seed": {
+              "type": "string"
+            },
+            "sim": {
+              "const": "stub",
+              "type": "string"
+            },
+            "simOptions": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/StubSimOptions"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "base",
+            "sim",
+            "simOptions"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "autoGenerate": {
+              "type": "boolean"
+            },
+            "autoPlay": {
+              "type": "boolean"
+            },
+            "colors": {
+              "$ref": "#/definitions/ColorsMap"
+            },
+            "description": {
+              "type": "string"
+            },
+            "display": {
+              "$ref": "#/definitions/SimulationConfigDisplay"
+            },
+            "extend": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "extraFinalFrameCount": {
+              "type": "number"
+            },
+            "frameDelay": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "name": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "repeat": {
+              "type": "boolean"
+            },
+            "runs": {
+              "type": "number"
+            },
+            "seed": {
+              "type": "string"
+            },
+            "sim": {
+              "const": "stub",
+              "type": "string"
+            },
+            "simOptions": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/StubSimOptions"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "extend",
+            "sim",
+            "simOptions"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "autoGenerate": {
+              "type": "boolean"
+            },
+            "autoPlay": {
+              "type": "boolean"
+            },
+            "base": {
+              "const": true,
+              "type": "boolean"
+            },
+            "colors": {
+              "$ref": "#/definitions/ColorsMap"
+            },
+            "description": {
+              "type": "string"
+            },
+            "display": {
+              "$ref": "#/definitions/SimulationConfigDisplay"
+            },
+            "extraFinalFrameCount": {
+              "type": "number"
+            },
+            "frameDelay": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "name": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "repeat": {
+              "type": "boolean"
+            },
+            "runs": {
+              "type": "number"
+            },
+            "seed": {
+              "type": "string"
+            },
+            "sim": {
+              "const": "wildflower-meadow",
+              "type": "string"
+            },
+            "simOptions": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/WildflowerMeadowSimOptions"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "base",
+            "sim",
+            "simOptions"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "autoGenerate": {
+              "type": "boolean"
+            },
+            "autoPlay": {
+              "type": "boolean"
+            },
+            "colors": {
+              "$ref": "#/definitions/ColorsMap"
+            },
+            "description": {
+              "type": "string"
+            },
+            "display": {
+              "$ref": "#/definitions/SimulationConfigDisplay"
+            },
+            "extend": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "extraFinalFrameCount": {
+              "type": "number"
+            },
+            "frameDelay": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "name": {
+              "$ref": "#/definitions/SimulationConfigName"
+            },
+            "repeat": {
+              "type": "boolean"
+            },
+            "runs": {
+              "type": "number"
+            },
+            "seed": {
+              "type": "string"
+            },
+            "sim": {
+              "const": "wildflower-meadow",
+              "type": "string"
+            },
+            "simOptions": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/WildflowerMeadowSimOptions"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "extend",
+            "sim",
+            "simOptions"
+          ],
+          "type": "object"
         }
       ]
     },
@@ -1493,6 +1610,11 @@
       "type": "object"
     },
     "RoundType": {
+      "enum": [
+        "",
+        "round",
+        "floor"
+      ],
       "type": "string"
     },
     "SchellingOrgSimOptions": {
@@ -1844,6 +1966,60 @@
         }
       },
       "type": "object"
+    },
+    "WildflowerMeadowSimOptions": {
+      "additionalProperties": false,
+      "properties": {
+        "basePollination": {
+          "description": "Probability per adjacent blooming neighbor to seed bare/fertile cells",
+          "type": "number"
+        },
+        "bloomDuration": {
+          "description": "Frames a flower stays blooming",
+          "type": "number"
+        },
+        "cols": {
+          "description": "Number of columns in the meadow",
+          "type": "number"
+        },
+        "growGrowthTime": {
+          "description": "Frames as growing before blooming",
+          "type": "number"
+        },
+        "rows": {
+          "description": "Number of rows in the meadow",
+          "type": "number"
+        },
+        "seedGrowthTime": {
+          "description": "Frames as seed before growing",
+          "type": "number"
+        },
+        "weedSpawnRate": {
+          "description": "Probability per frame for edge bare/fertile cells to spawn a weed",
+          "type": "number"
+        },
+        "weedSpreadRate": {
+          "description": "Probability per adjacent weed neighbor to convert bare/fertile/wilting cells",
+          "type": "number"
+        },
+        "wiltDuration": {
+          "description": "Frames wilting before becoming fertile soil",
+          "type": "number"
+        }
+      },
+      "required": [
+        "rows",
+        "cols",
+        "weedSpawnRate",
+        "weedSpreadRate",
+        "basePollination",
+        "bloomDuration",
+        "seedGrowthTime",
+        "growGrowthTime",
+        "wiltDuration"
+      ],
+      "type": "object"
     }
   }
 }
+

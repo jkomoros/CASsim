@@ -12,15 +12,15 @@ import {
 	DELETE_SENTINEL
 } from './util.js';
 
-// Polyfill for requestIdleCallback
-const requestIdleCallback = window.requestIdleCallback ||
+// Polyfill for requestIdleCallback (guarded for Node.js environments)
+const requestIdleCallback = (typeof window !== 'undefined' && window.requestIdleCallback) ||
 	function(cb: (deadline: {timeRemaining: () => number}) => void) {
-		return window.setTimeout(() => {
+		return setTimeout(() => {
 			cb({timeRemaining: () => 50});
 		}, 1) as unknown as number;
 	};
 
-export const cancelIdleCallback = window.cancelIdleCallback ||
+export const cancelIdleCallback = (typeof window !== 'undefined' && window.cancelIdleCallback) ||
 	function(handle: number) {
 		clearTimeout(handle);
 	};

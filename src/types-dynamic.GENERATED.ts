@@ -7,7 +7,7 @@ export const KNOWN_DATA_FILES = [
 	'schelling-org'
 ];
 
-export type SimulatorType = '' | 'dice-roll-demo' | 'free-moving-agents' | 'luck-surface-area' | 'pasture-demo' | 'schelling-org' | 'standing-ovation' | 'stub';
+export type SimulatorType = '' | 'dice-roll-demo' | 'free-moving-agents' | 'luck-surface-area' | 'pasture-demo' | 'schelling-org' | 'standing-ovation' | 'stub' | 'wildflower-meadow';
 
 export const KNOWN_SIMULATOR_TYPES : SimulatorType[] = [
 	'dice-roll-demo',
@@ -16,5 +16,6 @@ export const KNOWN_SIMULATOR_TYPES : SimulatorType[] = [
 	'pasture-demo',
 	'schelling-org',
 	'standing-ovation',
-	'stub'
+	'stub',
+	'wildflower-meadow'
 ];
