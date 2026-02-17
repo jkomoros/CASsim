@@ -14,9 +14,9 @@ import type {
 const DEFAULT_SIM_OPTIONS = {
 	rows: 10,
 	cols: 15,
-	weedSpawnRate: 0.02,
-	weedSpreadRate: 0.15,
-	basePollination: 0.05,
+	weedSpawnRate: 0.005,
+	weedSpreadRate: 0.03,
+	basePollination: 0.08,
 	bloomDuration: 6,
 	seedGrowthTime: 2,
 	growGrowthTime: 3,

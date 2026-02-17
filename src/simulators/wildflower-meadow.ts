@@ -16,6 +16,7 @@ import {
 import {
 	Interaction,
 	InteractionDefinition,
+	NormalizedSimOptions,
 	OptionsConfigMap,
 	RandomGenerator,
 	ScoreConfigItem,
@@ -216,6 +217,11 @@ class WildflowerMeadowSimulator extends AgentSimulator<MeadowAgent, MeadowSimula
 		return false;
 	}
 
+	override maxFrameIndex(_normalizedSimOptions: NormalizedSimOptions): number {
+		// Interactive sandbox with slow frame delay — 500 frames is ~6 minutes of play
+		return 500;
+	}
+
 	override frameScorer(frame: MeadowSimulationFrame): [number, number] {
 		const totalCells = frame.agents.length;
 		const bloomingCount = frame.agents.filter(a => a.state === 'blooming').length;
@@ -249,21 +255,21 @@ class WildflowerMeadowSimulator extends AgentSimulator<MeadowAgent, MeadowSimula
 				description: 'Number of columns in the meadow',
 			},
 			weedSpawnRate: {
-				example: 0.02,
+				example: 0.005,
 				min: 0.0,
 				max: 1.0,
-				step: 0.01,
+				step: 0.001,
 				description: 'Probability per frame for edge bare/fertile cells to spawn a weed',
 			},
 			weedSpreadRate: {
-				example: 0.15,
+				example: 0.03,
 				min: 0.0,
 				max: 1.0,
 				step: 0.01,
 				description: 'Probability per adjacent weed neighbor to convert bare/fertile/wilting cells',
 			},
 			basePollination: {
-				example: 0.05,
+				example: 0.08,
 				min: 0.0,
 				max: 1.0,
 				step: 0.01,
