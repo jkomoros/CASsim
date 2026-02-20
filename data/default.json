@@ -83,7 +83,7 @@
 		},
 		{
 			"name": "free-moving-agents-demo",
-			"description": "A demo of the free-moving-agents simulator",
+			"description": "Bugs forage for food on an open field, seeking nearby flowers and eating them",
 			"extend": "base",
 			"sim": "free-moving-agents",
 			"simOptions": null
