@@ -18,6 +18,27 @@ export type FreeMovingAgentsSimOptions = {
 		speed?: DistributionOptions;
 		/** What emoji to use for the agents */
 		emoji?: '🐞' | '🕷️' | '🦋' | '🪲' | '🪳' | '🪰' | '🪱' | '🐜' | '🐛' | '🐝' | '🦗' | '🦟' | '🐌' | '🦂';
+		/** How far agents can detect food */
+		sightRadius?: number;
+		/** How close agents must be to eat food */
+		eatRadius?: number;
+		/** How many frames agents pause while eating */
+		eatDuration?: number;
+		/** Maximum angle change per tick when seeking food (radians) */
+		turnRate?: number;
+		/** Maximum random angle change per tick when wandering (radians) */
+		wanderTurnRate?: number;
+	};
+	/** Configuration for food items on the map */
+	food?: {
+		/** Probability per frame of spawning a new food item */
+		spawnRate?: number;
+		/** Maximum number of food items on the map */
+		maxCount?: number;
+		/** What emoji to use for food */
+		emoji?: '🌸' | '🌼' | '🌺' | '🌻' | '🌷' | '🍎' | '🍄';
+		/** How many frames food lasts before expiring (0 = never) */
+		lifespan?: number;
 	};
 	/** The number of rounds */
 	rounds?: number;

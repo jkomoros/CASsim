@@ -142,6 +142,14 @@
               "description": "The number of starter agents",
               "type": "number"
             },
+            "eatDuration": {
+              "description": "How many frames agents pause while eating",
+              "type": "number"
+            },
+            "eatRadius": {
+              "description": "How close agents must be to eat food",
+              "type": "number"
+            },
             "emoji": {
               "description": "What emoji to use for the agents",
               "enum": [
@@ -162,9 +170,21 @@
               ],
               "type": "string"
             },
+            "sightRadius": {
+              "description": "How far agents can detect food",
+              "type": "number"
+            },
             "speed": {
               "$ref": "#/definitions/DistributionOptions",
               "description": "The starter strength of agents that start at the beginning"
+            },
+            "turnRate": {
+              "description": "Maximum angle change per tick when seeking food (radians)",
+              "type": "number"
+            },
+            "wanderTurnRate": {
+              "description": "Maximum random angle change per tick when wandering (radians)",
+              "type": "number"
             }
           },
           "type": "object"
@@ -176,6 +196,38 @@
             "bounds": {
               "description": "Render debug bounds for coordinates map",
               "type": "boolean"
+            }
+          },
+          "type": "object"
+        },
+        "food": {
+          "additionalProperties": false,
+          "description": "Configuration for food items on the map",
+          "properties": {
+            "emoji": {
+              "description": "What emoji to use for food",
+              "enum": [
+                "🌸",
+                "🌼",
+                "🌺",
+                "🌻",
+                "🌷",
+                "🍎",
+                "🍄"
+              ],
+              "type": "string"
+            },
+            "lifespan": {
+              "description": "How many frames food lasts before expiring (0 = never)",
+              "type": "number"
+            },
+            "maxCount": {
+              "description": "Maximum number of food items on the map",
+              "type": "number"
+            },
+            "spawnRate": {
+              "description": "Probability per frame of spawning a new food item",
+              "type": "number"
             }
           },
           "type": "object"
